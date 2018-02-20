@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use \App\Models\Sosmed\Groupunit;
+use \App\Models\Sosmed\Sosmed;
 
-class GroupunitController extends Controller
+class SosmedController extends Controller
 {
     public function index(){
-        $group=Groupunit::all();
+        $var=Sosmed::all();
 
-        return $group;
+        return $var;
     }
 
     public function store(Request $request){
@@ -30,8 +30,8 @@ class GroupunitController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $group=new Groupunit;
-            $group->group_name=$request->input('name');
+            $var=new Sosmed;
+            $var->sosmed_name=$request->input('name');
 
             if($request->hasFile('file')){
                 if (!is_dir('uploads/logo/group/')) {
@@ -43,10 +43,10 @@ class GroupunitController extends Controller
                 $destinationPath='uploads/logo/group/';
                 $file->move($destinationPath,$filename);
 
-                $group->logo=$filename;
+                $var->logo=$filename;
             }
 
-            $simpan=$group->save();
+            $simpan=$var->save();
 
             if($simpan){
                 $data=array(
@@ -67,15 +67,15 @@ class GroupunitController extends Controller
     }
 
     public function edit($id){
-        $group=Groupunit::find($id);
+        $var=Sosmed::find($id);
 
-        return $group;
+        return $var;
     }
 
     public function show($id){
-        $group=Groupunit::findOrFail($id);
+        $var=Sosmed::findOrFail($id);
 
-        return $group;
+        return $var;
     }
 
     public function update(Request $request,$id){
@@ -92,8 +92,8 @@ class GroupunitController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $group=Groupunit::find($id);
-            $group->group_name=$request->input('name');
+            $var=Sosmed::find($id);
+            $var->sosmed_name=$request->input('name');
 
             if($request->hasFile('file')){
                 if (!is_dir('uploads/logo/group/')) {
@@ -105,15 +105,15 @@ class GroupunitController extends Controller
                 $destinationPath='uploads/logo/group/';
                 $file->move($destinationPath,$filename);
                 
-                $group->logo=$filename;
+                $var->logo=$filename;
             }
 
-            $simpan=$group->save();
+            $simpan=$var->save();
 
             if($simpan){
                 $data=array(
                     'success'=>true,
-                    'pesan'=>'Data berhasil disimpan',
+                    'pesan'=>'Data berhasil update',
                     'error'=>''
                 );
             }else{
@@ -129,9 +129,9 @@ class GroupunitController extends Controller
     }
 
     public function destroy($id){
-        $group=Groupunit::find($id);
+        $var=Sosmed::find($id);
 
-        $hapus=$group->delete();
+        $hapus=$var->delete();
 
         if($hapus){
             $data=array(
