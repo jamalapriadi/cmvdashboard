@@ -33,6 +33,19 @@ class GroupunitController extends Controller
             $group=new Groupunit;
             $group->group_name=$request->input('name');
 
+            if($request->hasFile('file')){
+                if (!is_dir('uploads/logo/group/')) {
+                    mkdir('uploads/logo/group/', 0777, TRUE);
+                }
+
+                $file=$request->file('file');
+                $filename=str_random(5).'-'.$file->getClientOriginalName();
+                $destinationPath='uploads/logo/group/';
+                $file->move($destinationPath,$filename);
+
+                $group->logo=$filename;
+            }
+
             $simpan=$group->save();
 
             if($simpan){
@@ -81,6 +94,19 @@ class GroupunitController extends Controller
         }else{
             $group=Groupunit::find($id);
             $group->group_name=$request->input('name');
+
+            if($request->hasFile('file')){
+                if (!is_dir('uploads/logo/group/')) {
+                    mkdir('uploads/logo/group/', 0777, TRUE);
+                }
+
+                $file=$request->file('file');
+                $filename=str_random(5).'-'.$file->getClientOriginalName();
+                $destinationPath='uploads/logo/group/';
+                $file->move($destinationPath,$filename);
+                
+                $group->logo=$filename;
+            }
 
             $simpan=$group->save();
 
