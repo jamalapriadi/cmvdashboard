@@ -20,7 +20,7 @@ class Unitsosmed extends Model
     }
 
     public function programunit(){
-    	return $this->belongsTo('\App\Models\Sosmed\Programunit','business_program_unit')
+    	return $this->belongsTo('\App\Models\Sosmed\Programunit','id')
     		->select(
     			[
     				'id',
@@ -30,7 +30,7 @@ class Unitsosmed extends Model
     }
 
     public function businessunit(){
-    	return $this->belongsTo('\App\Models\Sosmed\Businessunit','business_program_unit')
+    	return $this->belongsTo('\App\Models\Sosmed\Businessunit','id')
     		->select(
     			[
     				'id',

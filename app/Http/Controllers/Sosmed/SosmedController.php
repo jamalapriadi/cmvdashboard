@@ -34,13 +34,13 @@ class SosmedController extends Controller
             $var->sosmed_name=$request->input('name');
 
             if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
+                if (!is_dir('uploads/logo/sosmed/')) {
+                    mkdir('uploads/logo/sosmed/', 0777, TRUE);
                 }
 
                 $file=$request->file('file');
                 $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
+                $destinationPath='uploads/logo/sosmed/';
                 $file->move($destinationPath,$filename);
 
                 $var->logo=$filename;
@@ -96,13 +96,13 @@ class SosmedController extends Controller
             $var->sosmed_name=$request->input('name');
 
             if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
+                if (!is_dir('uploads/logo/sosmed/')) {
+                    mkdir('uploads/logo/sosmed/', 0777, TRUE);
                 }
 
                 $file=$request->file('file');
                 $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
+                $destinationPath='uploads/logo/sosmed/';
                 $file->move($destinationPath,$filename);
                 
                 $var->logo=$filename;

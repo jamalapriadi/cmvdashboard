@@ -36,13 +36,13 @@ class BusinessunitController extends Controller
             $var->unit_name=$request->input('name');
 
             if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
+                if (!is_dir('uploads/logo/bu/')) {
+                    mkdir('uploads/logo/bu/', 0777, TRUE);
                 }
 
                 $file=$request->file('file');
                 $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
+                $destinationPath='uploads/logo/bu/';
                 $file->move($destinationPath,$filename);
 
                 $var->logo=$filename;
@@ -100,13 +100,13 @@ class BusinessunitController extends Controller
             $var->unit_name=$request->input('name');
 
             if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
+                if (!is_dir('uploads/logo/bu/')) {
+                    mkdir('uploads/logo/bu/', 0777, TRUE);
                 }
 
                 $file=$request->file('file');
                 $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
+                $destinationPath='uploads/logo/bu/';
                 $file->move($destinationPath,$filename);
                 
                 $var->logo=$filename;
