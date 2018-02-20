@@ -18,3 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('group-unit','Sosmed\GroupunitController');
+Route::resource('business-unit','Sosmed\BusinessunitController');
+Route::resource('program-unit','Sosmed\ProgramunitController');
+Route::resource('sosmed','Sosmed\SosmedController');
+Route::resource('unit-sosmed','Sosmed\UnitsosmedController');
+Route::resource('unit-sosmed-follower','Sosmed\UnitsosmedfollowerController');

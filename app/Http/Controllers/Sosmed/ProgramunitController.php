@@ -6,18 +6,19 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use \App\Models\Sosmed\Groupunit;
+use \App\Models\Sosmed\Programunit;
 
-class GroupunitController extends Controller
+class ProgramunitController extends Controller
 {
     public function index(){
-        $group=Groupunit::all();
+        $var=Programunit::with('businessunit')->get();
 
-        return $group;
+        return $var;
     }
 
     public function store(Request $request){
         $rules=[
+            'bu'=>'required',
             'name'=>'required'
         ];
 
@@ -30,23 +31,11 @@ class GroupunitController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $group=new Groupunit;
-            $group->group_name=$request->input('name');
+            $var=new Programunit;
+            $var->business_unit_id=$request->input('bu');
+            $var->program_name=$request->input('name');
 
-            if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
-                }
-
-                $file=$request->file('file');
-                $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
-                $file->move($destinationPath,$filename);
-
-                $group->logo=$filename;
-            }
-
-            $simpan=$group->save();
+            $simpan=$var->save();
 
             if($simpan){
                 $data=array(
@@ -67,19 +56,20 @@ class GroupunitController extends Controller
     }
 
     public function edit($id){
-        $group=Groupunit::find($id);
+        $var=Programunit::find($id);
 
-        return $group;
+        return $var;
     }
 
     public function show($id){
-        $group=Groupunit::findOrFail($id);
+        $var=Programunit::findOrFail($id);
 
-        return $group;
+        return $var;
     }
 
     public function update(Request $request,$id){
         $rules=[
+            'bu'=>'required',
             'name'=>'required'
         ];
 
@@ -92,28 +82,16 @@ class GroupunitController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $group=Groupunit::find($id);
-            $group->group_name=$request->input('name');
+            $var=Programunit::find($id);
+            $var->business_unit_id=$request->input('bu');
+            $var->program_name=$request->input('name');
 
-            if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
-                }
-
-                $file=$request->file('file');
-                $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
-                $file->move($destinationPath,$filename);
-                
-                $group->logo=$filename;
-            }
-
-            $simpan=$group->save();
+            $simpan=$var->save();
 
             if($simpan){
                 $data=array(
                     'success'=>true,
-                    'pesan'=>'Data berhasil disimpan',
+                    'pesan'=>'Data berhasil update',
                     'error'=>''
                 );
             }else{
@@ -129,9 +107,9 @@ class GroupunitController extends Controller
     }
 
     public function destroy($id){
-        $group=Groupunit::find($id);
+        $var=Programunit::find($id);
 
-        $hapus=$group->delete();
+        $hapus=$var->delete();
 
         if($hapus){
             $data=array(

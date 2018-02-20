@@ -6,19 +6,21 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use \App\Models\Sosmed\Groupunit;
+use \App\Models\Sosmed\Unitsosmedfollower;
 
-class GroupunitController extends Controller
+class UnitsosmedfollowerController extends Controller
 {
     public function index(){
-        $group=Groupunit::all();
+        $var=Unitsosmedfollower::with('unitsosmed')->get();
 
-        return $group;
+        return $var;
     }
 
     public function store(Request $request){
         $rules=[
-            'name'=>'required'
+            'unit'=>'required',
+            'tanggal'=>'required',
+            'follower'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -30,23 +32,12 @@ class GroupunitController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $group=new Groupunit;
-            $group->group_name=$request->input('name');
+            $var=new Unitsosmedfollower;
+            $var->unit_sosmed_id=$request->input('unit');
+            $var->tanggal=$request->input('tanggal');
+            $var->follower=$request->input('follower');
 
-            if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
-                }
-
-                $file=$request->file('file');
-                $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
-                $file->move($destinationPath,$filename);
-
-                $group->logo=$filename;
-            }
-
-            $simpan=$group->save();
+            $simpan=$var->save();
 
             if($simpan){
                 $data=array(
@@ -67,20 +58,22 @@ class GroupunitController extends Controller
     }
 
     public function edit($id){
-        $group=Groupunit::find($id);
+        $var=Unitsosmedfollower::find($id);
 
-        return $group;
+        return $var;
     }
 
     public function show($id){
-        $group=Groupunit::findOrFail($id);
+        $var=Unitsosmedfollower::findOrFail($id);
 
-        return $group;
+        return $var;
     }
 
     public function update(Request $request,$id){
         $rules=[
-            'name'=>'required'
+            'unit'=>'required',
+            'tanggal'=>'required',
+            'follower'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -92,28 +85,17 @@ class GroupunitController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $group=Groupunit::find($id);
-            $group->group_name=$request->input('name');
+            $var=Unitsosmedfollower::find($id);
+            $var->unit_sosmed_id=$request->input('unit');
+            $var->tanggal=$request->input('tanggal');
+            $var->follower=$request->input('follower');
 
-            if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
-                }
-
-                $file=$request->file('file');
-                $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
-                $file->move($destinationPath,$filename);
-                
-                $group->logo=$filename;
-            }
-
-            $simpan=$group->save();
+            $simpan=$var->save();
 
             if($simpan){
                 $data=array(
                     'success'=>true,
-                    'pesan'=>'Data berhasil disimpan',
+                    'pesan'=>'Data berhasil update',
                     'error'=>''
                 );
             }else{
@@ -129,9 +111,9 @@ class GroupunitController extends Controller
     }
 
     public function destroy($id){
-        $group=Groupunit::find($id);
+        $var=Unitsosmedfollower::find($id);
 
-        $hapus=$group->delete();
+        $hapus=$var->delete();
 
         if($hapus){
             $data=array(

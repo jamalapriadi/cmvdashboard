@@ -6,19 +6,21 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use \App\Models\Sosmed\Groupunit;
+use \App\Models\Sosmed\Unitsosmed;
 
-class GroupunitController extends Controller
+class UnitsosmedController extends Controller
 {
     public function index(){
-        $group=Groupunit::all();
+        $var=Unitsosmed::with('sosmed','programunit','businessunit')->get();
 
-        return $group;
+        return $var;
     }
 
     public function store(Request $request){
         $rules=[
-            'name'=>'required'
+            'type'=>'required',
+            'program_unit'=>'required',
+            'name_sosmed'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -30,23 +32,12 @@ class GroupunitController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $group=new Groupunit;
-            $group->group_name=$request->input('name');
+            $var=new Unitsosmed;
+            $var->type_sosmed=$request->input('type');
+            $var->business_program_unit=$request->input('program_unit');
+            $var->unit_sosmed_name=$request->input('name_sosmed');
 
-            if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
-                }
-
-                $file=$request->file('file');
-                $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
-                $file->move($destinationPath,$filename);
-
-                $group->logo=$filename;
-            }
-
-            $simpan=$group->save();
+            $simpan=$var->save();
 
             if($simpan){
                 $data=array(
@@ -67,20 +58,22 @@ class GroupunitController extends Controller
     }
 
     public function edit($id){
-        $group=Groupunit::find($id);
+        $var=Unitsosmed::find($id);
 
-        return $group;
+        return $var;
     }
 
     public function show($id){
-        $group=Groupunit::findOrFail($id);
+        $var=Unitsosmed::findOrFail($id);
 
-        return $group;
+        return $var;
     }
 
     public function update(Request $request,$id){
         $rules=[
-            'name'=>'required'
+            'type'=>'required',
+            'program_unit'=>'required',
+            'name_sosmed'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -92,28 +85,17 @@ class GroupunitController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $group=Groupunit::find($id);
-            $group->group_name=$request->input('name');
+            $var=Unitsosmed::find($id);
+            $var->type_sosmed=$request->input('type');
+            $var->business_program_unit=$request->input('program_unit');
+            $var->unit_sosmed_name=$request->input('name_sosmed');
 
-            if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
-                }
-
-                $file=$request->file('file');
-                $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
-                $file->move($destinationPath,$filename);
-                
-                $group->logo=$filename;
-            }
-
-            $simpan=$group->save();
+            $simpan=$var->save();
 
             if($simpan){
                 $data=array(
                     'success'=>true,
-                    'pesan'=>'Data berhasil disimpan',
+                    'pesan'=>'Data berhasil update',
                     'error'=>''
                 );
             }else{
@@ -129,9 +111,9 @@ class GroupunitController extends Controller
     }
 
     public function destroy($id){
-        $group=Groupunit::find($id);
+        $var=Unitsosmed::find($id);
 
-        $hapus=$group->delete();
+        $hapus=$var->delete();
 
         if($hapus){
             $data=array(
