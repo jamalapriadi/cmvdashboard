@@ -11,7 +11,7 @@ use \App\Models\Sosmed\Groupunit;
 class GroupunitController extends Controller
 {
     public function index(){
-        $group=Groupunit::all();
+        $group=Groupunit::paginate(10);
 
         return $group;
     }
@@ -148,5 +148,11 @@ class GroupunitController extends Controller
         }
 
         return $data;
+    }
+
+    public function list_group(Request $request){
+        $group=Groupunit::select('id','group_name')->get();
+
+        return $group;
     }
 }

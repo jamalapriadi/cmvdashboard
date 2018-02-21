@@ -11,7 +11,7 @@ use \App\Models\Sosmed\Businessunit;
 class BusinessunitController extends Controller
 {
     public function index(){
-        $var=Businessunit::with('groupunit')->get();
+        $var=Businessunit::with('groupunit')->paginate(10);
 
         return $var;
     }
@@ -36,13 +36,13 @@ class BusinessunitController extends Controller
             $var->unit_name=$request->input('name');
 
             if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
+                if (!is_dir('uploads/logo/bu/')) {
+                    mkdir('uploads/logo/bu/', 0777, TRUE);
                 }
 
                 $file=$request->file('file');
                 $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
+                $destinationPath='uploads/logo/bu/';
                 $file->move($destinationPath,$filename);
 
                 $var->logo=$filename;
@@ -100,13 +100,13 @@ class BusinessunitController extends Controller
             $var->unit_name=$request->input('name');
 
             if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
+                if (!is_dir('uploads/logo/bu/')) {
+                    mkdir('uploads/logo/bu/', 0777, TRUE);
                 }
 
                 $file=$request->file('file');
                 $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
+                $destinationPath='uploads/logo/bu/';
                 $file->move($destinationPath,$filename);
                 
                 $var->logo=$filename;
@@ -152,5 +152,11 @@ class BusinessunitController extends Controller
         }
 
         return $data;
+    }
+
+    public function list_unit(){
+        $var=Businessunit::select('id','unit_name')->get();
+
+        return $var;
     }
 }

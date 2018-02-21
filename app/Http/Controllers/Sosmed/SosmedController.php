@@ -11,7 +11,7 @@ use \App\Models\Sosmed\Sosmed;
 class SosmedController extends Controller
 {
     public function index(){
-        $var=Sosmed::all();
+        $var=Sosmed::paginate(10);
 
         return $var;
     }
@@ -34,13 +34,13 @@ class SosmedController extends Controller
             $var->sosmed_name=$request->input('name');
 
             if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
+                if (!is_dir('uploads/logo/sosmed/')) {
+                    mkdir('uploads/logo/sosmed/', 0777, TRUE);
                 }
 
                 $file=$request->file('file');
                 $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
+                $destinationPath='uploads/logo/sosmed/';
                 $file->move($destinationPath,$filename);
 
                 $var->logo=$filename;
@@ -96,13 +96,13 @@ class SosmedController extends Controller
             $var->sosmed_name=$request->input('name');
 
             if($request->hasFile('file')){
-                if (!is_dir('uploads/logo/group/')) {
-                    mkdir('uploads/logo/group/', 0777, TRUE);
+                if (!is_dir('uploads/logo/sosmed/')) {
+                    mkdir('uploads/logo/sosmed/', 0777, TRUE);
                 }
 
                 $file=$request->file('file');
                 $filename=str_random(5).'-'.$file->getClientOriginalName();
-                $destinationPath='uploads/logo/group/';
+                $destinationPath='uploads/logo/sosmed/';
                 $file->move($destinationPath,$filename);
                 
                 $var->logo=$filename;
@@ -148,5 +148,12 @@ class SosmedController extends Controller
         }
 
         return $data;
+    }
+
+    public function list_sosmed(Request $request){
+        $var=Sosmed::select('id','sosmed_name')
+            ->get();
+
+        return $var;
     }
 }

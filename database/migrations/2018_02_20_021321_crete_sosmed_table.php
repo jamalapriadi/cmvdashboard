@@ -25,6 +25,7 @@ class CreteSosmedTable extends Migration
         Schema::create('business_unit', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('group_unit_id',191)->nullable();
+            $table->string('unit_name',191)->nullable();
             $table->string('logo',191)->nullable();
             $table->string('insert_user',191)->nullable();
             $table->string('update_user',191)->nullable();

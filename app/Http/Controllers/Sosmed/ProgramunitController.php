@@ -11,7 +11,7 @@ use \App\Models\Sosmed\Programunit;
 class ProgramunitController extends Controller
 {
     public function index(){
-        $var=Programunit::with('businessunit')->get();
+        $var=Programunit::with('businessunit')->paginate(10);
 
         return $var;
     }
