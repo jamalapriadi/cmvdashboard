@@ -2,10 +2,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Edit Group</div>
+                <div class="card">
+                    <div class="card-header">Edit Group</div>
 
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div v-if="message" class="alert alert-success">
                             {{ message }}
                         </div>
@@ -63,10 +63,6 @@
             save(e) {
                 axios.put(`/sosmed/group-unit/${this.$route.params.id}`, this.state)
                     .then(response => {
-                        this.state = {
-                            name: ''
-                        }
-
                         this.errors = {'name' : response.data.error[0] };
 
                         if ( response.data.success = true) {

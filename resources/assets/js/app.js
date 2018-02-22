@@ -54,7 +54,8 @@ const routes=[
     {path:'/sosmed/:id',name:'sosmedEdit',component:require('./components/sosmed/Edit.vue')},
 
     {path:'/program-unit',name:'sosmedProgramUnit',component:require('./components/program/Index.vue')},
-    {path:'/add-new-program-unit',name:'programUnitAdd',component:require('./components/program/Add.vue')}
+    {path:'/add-new-program-unit',name:'programUnitAdd',component:require('./components/program/Add.vue')},
+    {path:'/program-unit/:id',name:'programEdit',component:require('./components/program/Edit.vue')}
 ]
 
 const router= new VueRouter({routes});

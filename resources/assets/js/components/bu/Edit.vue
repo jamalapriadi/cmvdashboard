@@ -76,10 +76,6 @@
             save(e) {
                 axios.put(`/sosmed/business-unit/${this.$route.params.id}`, this.state)
                     .then(response => {
-                        this.state = {
-                            name: ''
-                        }
-
                         this.errors = {'name' : response.data.error[0] };
 
                         if ( response.data.success = true) {

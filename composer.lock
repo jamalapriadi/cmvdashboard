@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "82cedb753347d067855afcea6569b6c4",
+    "content-hash": "30f3b5af7def3b4ddc50baa3b7313735",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -2241,6 +2241,70 @@
             "time": "2018-01-20T00:28:24+00:00"
         },
         {
+            "name": "spatie/laravel-permission",
+            "version": "2.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-permission.git",
+                "reference": "4d47ef1644ed451f1ea99d1c44443a3ad9bacfd4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/4d47ef1644ed451f1ea99d1c44443a3ad9bacfd4",
+                "reference": "4d47ef1644ed451f1ea99d1c44443a3ad9bacfd4",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/auth": "~5.3.0|~5.4.0|~5.5.0|~5.6.0",
+                "illuminate/container": "~5.3.0|~5.4.0|~5.5.0|~5.6.0",
+                "illuminate/contracts": "~5.3.0|~5.4.0|~5.5.0|~5.6.0",
+                "illuminate/database": "~5.4.0|~5.5.0|~5.6.0",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.3.0|~3.4.2|^3.5.0",
+                "phpunit/phpunit": "^5.7|6.2|^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Permission\\PermissionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Permission\\": "src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Permission handling for Laravel 5.4 and up",
+            "homepage": "https://github.com/spatie/laravel-permission",
+            "keywords": [
+                "acl",
+                "laravel",
+                "permission",
+                "security",
+                "spatie"
+            ],
+            "time": "2018-02-07T16:53:52+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v6.0.2",
             "source": {
@@ -3566,6 +3630,56 @@
                 "laravel"
             ],
             "time": "2018-02-16T08:22:10+00:00"
+        },
+        {
+            "name": "yaroslavmolchan/rbac",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YaroslavMolchan/rbac.git",
+                "reference": "c46416e79d075811eaecbccf1e03ede0b6521346"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YaroslavMolchan/rbac/zipball/c46416e79d075811eaecbccf1e03ede0b6521346",
+                "reference": "c46416e79d075811eaecbccf1e03ede0b6521346",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.3",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "YaroslavMolchan\\Rbac\\RbacServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YaroslavMolchan\\Rbac\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yaroslav Molchan",
+                    "email": "yaroslav.molchan@gmail.com",
+                    "homepage": "https://molchan.me"
+                }
+            ],
+            "description": "Simple RBAC/ACL for Laravel 5.5 and more with caching and permission groups.",
+            "keywords": [
+                "acl",
+                "laravel",
+                "rbac"
+            ],
+            "time": "2017-09-27T11:51:59+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",

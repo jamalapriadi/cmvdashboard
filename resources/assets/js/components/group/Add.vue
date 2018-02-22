@@ -2,10 +2,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Add New Group</div>
+                <div class="card">
+                    <div class="card-header">Add New Group</div>
 
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div v-if="message" class="alert alert-success">
                             {{ message }}
                         </div>

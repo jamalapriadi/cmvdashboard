@@ -28,7 +28,7 @@
                                 <legend>Sosial Media</legend>
                                 <div class="form-group" v-for="(s,index) in sosmed">
                                     <label class="control-label">{{ s.sosmed_name }} Account</label>
-                                    <input class="form-control"  v-model="state.sosmed[s.id]" :placeholder="s.sosmed_name">
+                                    <input class="form-control"  v-model="state.sosmed[s.id]" :placeholder="s.name">
                                 </div>
                             </fieldset>
 
@@ -52,6 +52,7 @@
     export default {
         data() {
             return {
+                notFound: false,
                 errors: [],
                 unit: [],
                 message:'',
@@ -59,14 +60,30 @@
                 state: {
                     group:'',
                     name: '',
-                    sosmed: {}
+                    sosmed: {},
+                    listsosmed: []
                 }
             }
         },
 
         mounted() {
             this.listUnit();
-            this.listSosmed();
+
+            const url = `/sosmed/program-unit/${this.$route.params.id}`;
+
+            axios.get(url)
+                .then(response => {
+                    this.group = response.data;
+                    this.notFound = false;
+                    this.state.name = response.data.program.program_name;
+                    this.state.unit = response.data.program.business_unit_id;
+                    this.sosmed = response.data.sosmed;
+                }).catch(error => {
+                    if(error.response.status == 404){
+                        this.notFound = true;
+                        this.message = error.response.data.message;
+                    }
+                })
         },
 
         methods: {

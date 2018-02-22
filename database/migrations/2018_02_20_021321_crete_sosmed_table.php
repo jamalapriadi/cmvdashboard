@@ -54,6 +54,7 @@ class CreteSosmedTable extends Migration
             $table->increments('id')->unsigned();
             $table->enum('type_sosmed',['corporate','program'])->nullable();
             $table->integer('business_program_unit')->unsigned()->nullable();
+            $table->integer('sosmed_id')->unsigned()->nullable();
             $table->string('unit_sosmed_name',191)->nullable();
             $table->string('insert_user',191)->nullable();
             $table->string('update_user',191)->nullable();

@@ -2,14 +2,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Group</div>
+                <div class="card">
+                    <div class="card-header">Group</div>
 
-                    <div class="panel-body">
+                    <div class="card-body">
                         <router-link to="/add-new-group" class="btn btn-primary">
 			                Add New Group
 		                </router-link>
-                        <hr>
+                        <br><br>
 
                         <div class="row">
                             <div class="col-lg-3">

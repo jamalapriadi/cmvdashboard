@@ -2,10 +2,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Sosial Media</div>
+                <div class="card">
+                    <div class="card-header">Sosial Media</div>
 
-                    <div class="panel-body">
+                    <div class="card-body">
                         <router-link to="/add-new-sosial-media" class="btn btn-primary">
                             <i class="icon-plus"></i> Add New Sosial Media
                         </router-link>
