@@ -11,9 +11,9 @@ use \App\Models\Sosmed\Sosmed;
 class SosmedController extends Controller
 {
     public function index(){
-        $var=Sosmed::paginate(10);
+        $var=Sosmed::select('id','sosmed_name');
 
-        return $var;
+        return \Datatables::of($var)->make(true);
     }
 
     public function store(Request $request){

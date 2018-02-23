@@ -179,7 +179,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
-        Yajra\DataTables\ButtonsServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 
     ],
@@ -233,7 +232,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Datatables' => Yajra\DataTables\Facades\DataTables::class
 
     ],
 

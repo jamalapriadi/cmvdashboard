@@ -11,9 +11,9 @@ use \App\Models\Sosmed\Programunit;
 class ProgramunitController extends Controller
 {
     public function index(){
-        $var=Programunit::with('businessunit')->paginate(10);
+        $var=Programunit::with('businessunit');
 
-        return $var;
+        return \Datatables::of($var)->make(true);
     }
 
     public function store(Request $request){

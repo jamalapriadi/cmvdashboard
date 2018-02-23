@@ -11,9 +11,9 @@ use \App\Models\Sosmed\Unitsosmed;
 class UnitsosmedController extends Controller
 {
     public function index(){
-        $var=Unitsosmed::with('sosmed','programunit','businessunit')->get();
+        $var=Unitsosmed::with('sosmed','programunit','businessunit');
 
-        return $var;
+        return \Datatable::of($var)->make(true);
     }
 
     public function store(Request $request){

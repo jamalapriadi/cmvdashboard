@@ -26,41 +26,16 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function import_data(Request $request){
-        $rules=[
-            'file'=>'required'
-        ];
+    public function official_and_program(Request $request){
+        $group=\App\Models\Sosmed\Groupunit::with(
+            [
+                'unit',
+                'unit.sosmed',
+                'unit.sosmed.sosmed',
+                'unit.sosmed.followers',
+            ]
+        )->get();
 
-        $validasi=\Validator::make($request->all(),$rules);
-
-        if($validasi->fails()){
-            $data=array(
-                'success'=>false,
-                'pesan'=>"Validasi gagal",
-                'error'=>$validasi->errors()->all()
-            );
-        }else{
-            $file=$request->file('file');
-
-            $excels=\Excel::selectSheets('default')->load($file,function($reader){})->get();
-
-            return (($excels->first())->keys())->toArray();
-            
-            $pesan=array();
-            foreach($excels as $key=>$val){
-                $pesan=array(
-                    'key'=>$key,
-                    'val'=>$val
-                );
-            }
-
-            $data=array(
-                'success'=>true,
-                'pesan'=>$pesan,
-                'error'=>''
-            );
-        }
-
-        return $data;
+        return $group;
     }
 }

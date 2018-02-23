@@ -11,9 +11,9 @@ use \App\Models\Sosmed\Businessunit;
 class BusinessunitController extends Controller
 {
     public function index(){
-        $var=Businessunit::with('groupunit')->paginate(10);
+        $var=Businessunit::with('groupunit');
 
-        return $var;
+        return \Datatables::of($var)->make(true);
     }
 
     public function store(Request $request){

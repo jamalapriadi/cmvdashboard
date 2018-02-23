@@ -11,9 +11,11 @@ use \App\Models\Sosmed\Groupunit;
 class GroupunitController extends Controller
 {
     public function index(){
-        $group=Groupunit::paginate(10);
+        $group=Groupunit::select('id','group_name','insert_user',
+            'created_at','updated_at');
 
-        return $group;
+        return \Datatables::of($group)
+            ->make(true);
     }
 
     public function store(Request $request){

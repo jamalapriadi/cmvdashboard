@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('import-data','HomeController@import_data');
 
 Route::group(['prefix'=>'sosmed'],function(){
+    Route::get('official-and-program-account-all-tv','HomeController@official_and_program');
+    
     Route::resource('group-unit','Sosmed\GroupunitController');
     Route::get('list-group','Sosmed\GroupunitController@list_group');
     Route::resource('business-unit','Sosmed\BusinessunitController');
