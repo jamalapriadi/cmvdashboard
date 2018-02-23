@@ -19,3 +19,15 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('import-data','HomeController@import_data');
+
+Route::group(['prefix'=>'sosmed'],function(){
+    Route::resource('group-unit','Sosmed\GroupunitController');
+    Route::get('list-group','Sosmed\GroupunitController@list_group');
+    Route::resource('business-unit','Sosmed\BusinessunitController');
+    Route::get('list-unit','Sosmed\BusinessunitController@list_unit');
+    Route::resource('program-unit','Sosmed\ProgramunitController');
+    Route::resource('sosmed','Sosmed\SosmedController');
+    Route::get('list-sosmed','Sosmed\SosmedController@list_sosmed');
+    Route::resource('unit-sosmed','Sosmed\UnitsosmedController');
+    Route::resource('unit-sosmed-follower','Sosmed\UnitsosmedfollowerController');
+});

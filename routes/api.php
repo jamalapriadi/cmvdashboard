@@ -16,3 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix'=>'sosmed','middleware'=>'auth:api'],function(){
+    Route::resource('group-unit','Sosmed\GroupunitController');
+    Route::resource('business-unit','Sosmed\BusinessunitController');
+    Route::resource('program-unit','Sosmed\ProgramunitController');
+    Route::resource('sosmed','Sosmed\SosmedController');
+    Route::resource('unit-sosmed','Sosmed\UnitsosmedController');
+    Route::resource('unit-sosmed-follower','Sosmed\UnitsosmedfollowerController');
+});
