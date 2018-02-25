@@ -24,33 +24,21 @@ class CreteSosmedTable extends Migration
 
         Schema::create('business_unit', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('group_unit_id',191)->nullable();
+            $table->integer('group_unit_id')->nullable();
             $table->string('unit_name',191)->nullable();
             $table->string('logo',191)->nullable();
             $table->string('insert_user',191)->nullable();
             $table->string('update_user',191)->nullable();
             $table->timestamps();
-
-            $table->foreign('group_unit_id')
-                ->references('id')
-                ->on('group_unit')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
         });
 
         Schema::create('program_unit', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('business_unit_id',191)->nullable();
+            $table->integer('business_unit_id')->unsigned()->nullable();
             $table->string('program_name',191)->nullable();
             $table->string('insert_user',191)->nullable();
             $table->string('update_user',191)->nullable();
             $table->timestamps();
-
-            $table->foreign('business_unit_id')
-                ->references('id')
-                ->on('business_unit')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
         });
 
         Schema::create('sosmed', function (Blueprint $table) {
@@ -72,12 +60,6 @@ class CreteSosmedTable extends Migration
             $table->string('insert_user',191)->nullable();
             $table->string('update_user',191)->nullable();
             $table->timestamps();
-
-            $table->foreign('sosmed_id')
-                ->references('id')
-                ->on('sosmed')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
         });
 
         Schema::create('unit_sosmed_follower', function (Blueprint $table) {
@@ -88,12 +70,6 @@ class CreteSosmedTable extends Migration
             $table->string('insert_user',191)->nullable();
             $table->string('update_user',191)->nullable();
             $table->timestamps();
-
-            $table->foreign('unit_sosmed_id')
-                ->references('id')
-                ->on('unit_sosmed')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
         });
 
         Schema::create('unit_sosmed_target',function(Blueprint $table){
@@ -102,15 +78,9 @@ class CreteSosmedTable extends Migration
             $table->year('tahun')->nullable();
             $table->float('target')->nullable();
             $table->timestamps();
-
-            $table->foreign('unit_sosmed_id')
-                ->references('id')
-                ->on('unit_sosmed')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
         });
 
-        Schema::table('unit_sosmed', function (Blueprint $table) {
+        Schema::table('unit_sosmed', function ($table) {
             $table->foreign('target_use')
                 ->references('id')
                 ->on('unit_sosmed_target')

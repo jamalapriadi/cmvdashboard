@@ -11,9 +11,20 @@ use \App\Models\Sosmed\Sosmed;
 class SosmedController extends Controller
 {
     public function index(){
-        $var=Sosmed::select('id','sosmed_name');
+        \DB::statement(\DB::raw('set @rownum=0'));
 
-        return \Datatables::of($var)->make(true);
+        $var=Sosmed::select('id','sosmed_name',\DB::raw('@rownum := @rownum + 1 AS no'));
+
+        return \Datatables::of($var)
+            ->addColumn('action',function($query){
+                $html="<div class='btn-group' data-toggle='buttons'>";
+                $html.="<a href='#' class='btn btn-sm btn-warning edit' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
+                $html.="<a href='#' class='btn btn-sm btn-danger hapus' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
+                $html.="</div>";
+
+                return $html;
+            })
+            ->make(true);
     }
 
     public function store(Request $request){

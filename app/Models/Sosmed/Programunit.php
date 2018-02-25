@@ -19,9 +19,24 @@ class Programunit extends Model
     		);
 	}
 	
+	// public function sosmed(){
+	// 	return $this->belongsToMany('App\Models\Sosmed\Sosmed','unit_sosmed','business_program_unit','sosmed_id')
+	// 		->withPivot('id','type_sosmed','unit_sosmed_name')
+	// 		->where('type_sosmed','program');
+	// }
+
 	public function sosmed(){
-		return $this->belongsToMany('App\Models\Sosmed\Sosmed','unit_sosmed','business_program_unit','sosmed_id')
-			->withPivot('id','type_sosmed','unit_sosmed_name')
-			->where('type_sosmed','program');
+		return $this->hasMany('App\Models\Sosmed\Unitsosmed','business_program_unit')
+			->where('type_sosmed','program')
+			->select(
+				[
+					'id',
+					'type_sosmed',
+					'business_program_unit',
+					'sosmed_id',
+					'unit_sosmed_name',
+					'target_use'
+				]
+			);
 	}
 }

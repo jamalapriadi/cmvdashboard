@@ -11,9 +11,23 @@ use \App\Models\Sosmed\Businessunit;
 class BusinessunitController extends Controller
 {
     public function index(){
-        $var=Businessunit::with('groupunit');
+        \DB::statement(\DB::raw('set @rownum=0'));
 
-        return \Datatables::of($var)->make(true);
+        $var=Businessunit::with('groupunit')
+            ->select('id','group_unit_id','unit_name',
+            \DB::raw('@rownum := @rownum + 1 AS no'));
+
+        return \Datatables::of($var)
+            ->addColumn('action',function($query){
+                $html="<div class='btn-group' data-toggle='buttons'>";
+                $html.="<a href='#' class='btn btn-sm btn-success sosmed' kode='".$query->id."' title='Edit'><i class='fa fa-chart-line'></i></a>";
+                $html.="<a href='#' class='btn btn-sm btn-warning edit' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
+                $html.="<a href='#' class='btn btn-sm btn-danger hapus' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
+                $html.="</div>";
+
+                return $html;
+            })
+            ->make(true);
     }
 
     public function store(Request $request){
@@ -51,6 +65,20 @@ class BusinessunitController extends Controller
             $simpan=$var->save();
 
             if($simpan){
+
+                if($request->has('sosmed')){
+                    $sosmed=$request->input('sosmed');
+
+                    foreach($sosmed as $key=>$val){
+                        $s=new \App\Models\Sosmed\Unitsosmed;
+                        $s->type_sosmed="corporate";
+                        $s->business_program_unit=$var->id;
+                        $s->sosmed_id=$key;
+                        $s->unit_sosmed_name=$val;
+                        $s->save();
+                    }
+                }
+
                 $data=array(
                     'success'=>true,
                     'pesan'=>'Data berhasil disimpan',
@@ -69,15 +97,17 @@ class BusinessunitController extends Controller
     }
 
     public function edit($id){
-        $var=Businessunit::find($id);
+        $var=Businessunit::with('sosmed')->find($id);
 
         return $var;
     }
 
     public function show($id){
-        $var=Businessunit::findOrFail($id);
+        $var=Businessunit::with('sosmed')->findOrFail($id);
+        $group=\App\Models\Sosmed\Groupunit::all();
+        $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
 
-        return $var;
+        return array('unit'=>$var,'group'=>$group,'sosmed'=>$sosmed);
     }
 
     public function update(Request $request,$id){
@@ -115,6 +145,32 @@ class BusinessunitController extends Controller
             $simpan=$var->save();
 
             if($simpan){
+
+                if($request->has('sosmed')){
+                    $sosmed=$request->input('sosmed');
+
+                    foreach($sosmed as $key=>$val){
+                        $ceksosmed=\App\Models\Sosmed\Unitsosmed::where('sosmed_id',$val)
+                            ->where('business_program_unit',$var->id)
+                            ->first();
+                        
+                        if(count($ceksosmed)>0){
+                            $s=\App\Models\Sosmed\Unitsosmed::find($ceksosmed->id);
+                            $s->type_sosmed="corporate";
+                            $s->unit_sosmed_name=$val;
+                            $s->save();
+                        }else{
+                            $s=new \App\Models\Sosmed\Unitsosmed;
+                            $s->type_sosmed="corporate";
+                            $s->business_program_unit=$var->id;
+                            $s->sosmed_id=$key;
+                            $s->unit_sosmed_name=$val;
+                            $s->save();
+                        }
+                    }
+                }
+
+
                 $data=array(
                     'success'=>true,
                     'pesan'=>'Data berhasil diupdate',
@@ -138,6 +194,10 @@ class BusinessunitController extends Controller
         $hapus=$var->delete();
 
         if($hapus){
+            $s=\App\Models\Sosmed\Unitsosmed::where('type_sosmed','corporate')
+                ->where('business_program_unit',$id)
+                ->delete();
+                
             $data=array(
                 'success'=>true,
                 'pesan'=>'Data berhasil dihapus',

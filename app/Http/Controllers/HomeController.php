@@ -26,6 +26,34 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function sosmed_group(){
+        return view('sosmed.group');
+    }
+
+    public function sosmed_unit(){
+        return view('sosmed.unit');
+    }
+
+    public function sosmed_media(){
+        return view('sosmed.media');
+    }
+
+    public function sosmed_program(){
+        return view('sosmed.program');
+    }
+
+    public function sosmed_summary_program($id){
+        return view('sosmed.summary_program')
+            ->with('id',$id);
+    }
+
+    public function sosmed_input_report_harian(){
+        $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
+
+        return view('sosmed.input_report_harian')
+            ->with('sosmed',$sosmed);
+    }
+
     public function official_and_program(Request $request){
         $group=\App\Models\Sosmed\Groupunit::with(
             [

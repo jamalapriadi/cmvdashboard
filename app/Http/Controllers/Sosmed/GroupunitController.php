@@ -11,10 +11,22 @@ use \App\Models\Sosmed\Groupunit;
 class GroupunitController extends Controller
 {
     public function index(){
+        \DB::statement(\DB::raw('set @rownum=0'));
+
         $group=Groupunit::select('id','group_name','insert_user',
-            'created_at','updated_at');
+            'created_at','updated_at',
+            \DB::raw('@rownum := @rownum + 1 AS no'));
 
         return \Datatables::of($group)
+            ->addColumn('action',function($query){
+                $html="<div class='btn-group' data-toggle='buttons'>";
+                $html.="<a href='#' class='btn btn-sm btn-success' kode='".$query->id."' title='Edit'><i class='fa fa-chart-line'></i></a>";
+                $html.="<a href='#' class='btn btn-sm btn-warning edit' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
+                $html.="<a href='#' class='btn btn-sm btn-danger hapus' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
+                $html.="</div>";
+
+                return $html;
+            })
             ->make(true);
     }
 
@@ -153,8 +165,26 @@ class GroupunitController extends Controller
     }
 
     public function list_group(Request $request){
-        $group=Groupunit::select('id','group_name')->get();
+        $group=array();
+        $sosmed=array();
+        $unit=array();
 
-        return $group;
+        if($request->has('group')){
+            $group=Groupunit::select('id','group_name')->get();
+        }
+        
+        if($request->has('sosmed')){
+            $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
+        }
+
+        if($request->has('unit')){
+            $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name')->get();
+        }
+
+        return array(
+            'group'=>$group,
+            'sosmed'=>$sosmed,
+            'unit'=>$unit
+        );
     }
 }

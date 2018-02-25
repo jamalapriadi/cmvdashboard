@@ -22,4 +22,12 @@ class Unitsosmed extends Model
 	public function followers(){
 		return $this->hasMany('App\Models\Sosmed\Unitsosmedfollower','unit_sosmed_id');
 	}
+
+	public function target(){
+		return $this->hasOne('App\Models\Sosmed\Unitsosmedtarget','id','target_use');
+	}
+
+	public function alltarget(){
+		return $this->hasMany('App\Models\Sosmed\Unitsosmedtarget','id','target_use');
+	}
 }
