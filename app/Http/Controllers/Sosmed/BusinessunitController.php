@@ -19,8 +19,8 @@ class BusinessunitController extends Controller
 
         return \Datatables::of($var)
             ->addColumn('action',function($query){
-                $html="<div class='btn-group' data-toggle='buttons'>";
-                $html.="<a href='#' class='btn btn-sm btn-success sosmed' kode='".$query->id."' title='Edit'><i class='fa fa-chart-line'></i></a>";
+                $html="<div class='btn-group'>";
+                $html.="<a href='".\URL::to('sosmed/business-unit/'.$query->id.'/summary')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Summary'><i class='icon-stats-dots'></i></a>";
                 $html.="<a href='#' class='btn btn-sm btn-warning edit' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
                 $html.="<a href='#' class='btn btn-sm btn-danger hapus' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
                 $html.="</div>";

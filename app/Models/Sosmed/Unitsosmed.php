@@ -30,4 +30,20 @@ class Unitsosmed extends Model
 	public function alltarget(){
 		return $this->hasMany('App\Models\Sosmed\Unitsosmedtarget','id','target_use');
 	}
+
+	public function program(){
+		return $this->belongsTo('App\Models\Sosmed\Programunit','business_program_unit');
+	}
+
+	public function businessunit(){
+		return $this->belongsTo('App\Models\Sosmed\Businessunit','business_program_unit')
+			->select(
+				[
+					'id',
+					'group_unit_id',
+					'unit_name',
+					'logo'
+				]
+			);
+	}
 }

@@ -186,8 +186,20 @@ class ProgramunitController extends Controller
         return $data;
     }
 
-    public function target($id){
-        $program=Programunit::with('sosmed','sosmed.sosmed','sosmed.target')->find($id);
+    public function target(Request $request,$id){
+        if($request->has('type')){
+            $type=$request->input('type');
+            switch($type){
+                case 'corporate':
+                        $program=\App\Models\Sosmed\Businessunit::with('sosmed','sosmed.sosmed','sosmed.target')->find($id);
+                    break;
+                case 'program':
+                        $program=Programunit::with('sosmed','sosmed.sosmed','sosmed.target')->find($id);
+                    break;
+            }
+        }else{
+            $program=Programunit::with('sosmed','sosmed.sosmed','sosmed.target')->find($id);
+        }
 
         return $program;
     }
@@ -310,11 +322,16 @@ class ProgramunitController extends Controller
         return $unit;
     }
 
+    public function list_sosmed_by_unit(Request $request,$id){
+        $unit=\App\Models\Sosmed\Businessunit::with('sosmed','sosmed.sosmed')->find($id);
+
+        return $unit;
+    }
+
     public function save_daily_report(Request $request){
         $rules=[
             'tanggal'=>'required',
             'type'=>'required',
-            'program'=>'required',
             'unit'=>'required',
             'sosmed'=>'required'
         ];
@@ -366,40 +383,81 @@ class ProgramunitController extends Controller
     }
 
     public function daily_report(){
-        $daily=\App\Models\Sosmed\Programunit::with('businessunit','sosmed','sosmed.sosmed','sosmed.followers')
-            ->whereHas('sosmed.followers')
-            ->get();
-
-        $data=array();
-        foreach($daily as $key=>$val){
-            $data[]=array(
-                'tanggal'=>'2018-02-28',
-                'unit'=>$val->businessunit->unit_name,
-                'program'=>$val->program_name,
-                'sosmed'=>array(
-                    array(
-                        'name'=>'facebook',
-                        'follower'=>100
-                    ),
-                    array(
-                        'name'=>'twitter',
-                        'follower'=>200
-                    ),
-                    array(
-                        'name'=>'ig',
-                        'follower'=>60
-                    )
-                )
-            );
-        }
-
-        return $data;
+        $daily=\App\Models\Sosmed\Unitsosmedfollower::with(
+            [
+                'unitsosmed',
+                'unitsosmed.businessunit',
+                'unitsosmed.sosmed',
+                'unitsosmed.program',
+                'unitsosmed.program.businessunit'
+            ]
+        )->get();
 
         return $daily;
     }
 
-    public function all_target($id){
-        $program=Programunit::with('sosmed','sosmed.sosmed','sosmed.alltarget')->find($id);
+    public function daily_report_by_id($id){
+        $daily=\App\Models\Sosmed\Unitsosmedfollower::with(
+            [
+                'unitsosmed',
+                'unitsosmed.businessunit',
+                'unitsosmed.sosmed',
+                'unitsosmed.program',
+                'unitsosmed.program.businessunit'
+            ]
+        )->find($id);
+
+        return $daily;
+    }
+
+    public function daily_report_update(Request $request,$id){
+        $rules=[
+            'tanggal'=>'required',
+            'type'=>'required',
+            'follower'=>'required',
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'error'=>$validasi->errors()->all()
+            );
+        }else{
+            $new=\App\Models\Sosmed\Unitsosmedfollower::find($id);
+            $new->tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
+            $new->follower=$request->input('follower');
+            $new->update_user=\Auth::user()->id;
+            $new->save();
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil disimpan',
+                'error'=>''
+            );
+            
+        }
+
+        return $data;
+    }
+
+    public function all_target(Request $request,$id){
+        if($request->has('type')){
+            $type=$request->input('type');
+            switch($type){
+                case 'corporate':
+                        $program=\App\Models\Sosmed\Businessunit::with('sosmed','sosmed.sosmed','sosmed.target')->find($id);
+                    break;
+
+                case 'program':
+                        $program=Programunit::with('sosmed','sosmed.sosmed','sosmed.alltarget')->find($id);
+                    break;
+            }
+        }else{
+            $program=Programunit::with('sosmed','sosmed.sosmed','sosmed.alltarget')->find($id);
+        }
 
         $data=array();
         $targetsosmed=array();

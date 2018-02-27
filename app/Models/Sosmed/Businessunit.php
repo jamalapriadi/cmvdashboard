@@ -26,6 +26,10 @@ class Businessunit extends Model
 	// 		->select(['sosmed.id','sosmed_name']);
 	// }
 
+	public function program(){
+		return $this->hasMany('App\Models\Sosmed\Programunit','business_unit_id');
+	}
+
 	public function sosmed(){
 		return $this->hasMany('App\Models\Sosmed\Unitsosmed','business_program_unit')
 			->where('type_sosmed','corporate')
@@ -35,7 +39,8 @@ class Businessunit extends Model
 					'type_sosmed',
 					'business_program_unit',
 					'sosmed_id',
-					'unit_sosmed_name'
+					'unit_sosmed_name',
+					'target_use'
 				]
 			);
 	}

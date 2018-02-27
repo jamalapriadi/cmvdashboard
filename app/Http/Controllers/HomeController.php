@@ -23,7 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+
+        return view('sosmed.dashboard')
+            ->with('group',$group);
     }
 
     public function sosmed_group(){
@@ -44,6 +47,11 @@ class HomeController extends Controller
 
     public function sosmed_summary_program($id){
         return view('sosmed.summary_program')
+            ->with('id',$id);
+    }
+
+    public function sosmed_summary_bu($id){
+        return view('sosmed.summary_bu')
             ->with('id',$id);
     }
 

@@ -13,8 +13,10 @@ class Unitsosmedfollower extends Model
     		->select(
     			[
     				'id',
-    				'type_sosmed',
-    				'unit_sosmed_name'
+					'type_sosmed',
+					'business_program_unit',
+					'unit_sosmed_name',
+					'sosmed_id'
     			]
     		);
     }

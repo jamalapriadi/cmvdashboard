@@ -82,7 +82,7 @@
                         {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
                         {data: 'groupunit.group_name', name: 'groupunit.group_name',title:'Group Name',width:'20%'},
                         {data: 'unit_name', name: 'unit_name',title:'Unit Name'},
-                        {data: 'action', name: 'action',title:'Action',searchable:false,width:'22%'}
+                        {data: 'action', name: 'action',title:'Action',searchable:false,width:'25%'}
                     ],
                     buttons: [
                         'copy', 'excel', 'pdf'
