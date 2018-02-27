@@ -61,6 +61,7 @@ Route::group(['prefix'=>'sosmed'],function(){
             Route::get('target-vs-achievement','Sosmed\ReportController@target_vs_achievement');
             Route::get('official-account-all-tv','Sosmed\ReportController@official_account_all_tv');
             Route::get('sosmed-official-and-program','Sosmed\ReportController@sosmed_official_and_program');
+            Route::get('official-and-program','Sosmed\ReportController@official_and_program');
         });
     });
 });

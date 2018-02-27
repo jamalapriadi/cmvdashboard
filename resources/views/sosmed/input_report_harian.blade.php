@@ -24,6 +24,7 @@
         background-color: #d8dfe5;
         color:#222;
     }
+    .daterangepicker{z-index:1151 !important;}
 </style>
 @stop
 
@@ -37,7 +38,9 @@
             </a>
             <hr>
             <!-- <table class="table table-striped datatable-colvis-basic"></table> -->
-            <div id="showReport"></div>
+            <div class="table-responsive">
+                <div id="showReport"></div>
+            </div>
         </div>
     </div>
 
@@ -45,9 +48,25 @@
 @stop
 
 @push('extra-script')
+    <script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/datepicker.min.js')}}"></script>
+	<script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/effects.min.js')}}"></script>
+	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/notifications/jgrowl.min.js')}}"></script>
+	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/ui/moment/moment.min.js')}}"></script>
+	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/daterangepicker.js')}}"></script>
+	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/anytime.min.js')}}"></script>
+	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.js')}}"></script>
+	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.date.js')}}"></script>
+	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.time.js')}}"></script>
+	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/legacy.js')}}"></script>
     <script>
         $(function(){
             var kode="";
+
+            $('.daterange-single').daterangepicker({ 
+                singleDatePicker: true,
+                selectMonths: true,
+                selectYears: true
+            });
 
             // Setting datatable defaults
             $.extend( $.fn.dataTable.defaults, {
@@ -210,8 +229,7 @@
                         $("#showForm").empty().html(el);
                     },
                     success:function(result){
-                        el+='<div id="pesan"></div>'+
-                            '<div class="form-group">'+
+                        el+='<div class="form-group">'+
                                 '<label class="control-label">Type</label>'+
                                 "<select name='type' id='type' class='form-control'>"+
                                     '<option value="program">Program</option>'+
@@ -220,7 +238,10 @@
                             '</div>'+
                             '<div class="form-group">'+
                                 '<label class="control-label">Tanggal</label>'+
-                                "<input class='form-control' type='date' name='tanggal'>"+
+                                '<div class="input-group">'+
+                                    '<span class="input-group-addon"><i class="icon-calendar5"></i></span>'+
+                                    '<input type="text" id="tanggal" name="tanggal" class="form-control daterange-single">'+
+                                '</div>'+
                             '</div>'+
                             '<div class="form-group">'+
                                 '<label class="control-label text-semibold">Business Unit</label>'+
@@ -243,9 +264,18 @@
 
                             '<hr>'+
 
-                            '<div id="showSosmed"></div>';
+                            '<div id="showSosmed"></div>'+
+
+                            
+                            '<div id="pesan"></div>';
 
                         $("#showForm").empty().html(el);
+
+                        $('.daterange-single').daterangepicker({ 
+                            singleDatePicker: true,
+                            selectMonths: true,
+                            selectYears: true
+                        });
                     },
                     error:function(){
                         $("#showForm").empty().html("<div class='alert alert-danger'>Data Failed to load</div>");
@@ -325,11 +355,11 @@
                                     var el="";
                                     if(result.sosmed.length>0){
                                         el+='<fieldset>'+
-                                            '<legend>Sosial Media Official</legend>';
+                                            '<legend>Sosial Media Follower</legend>';
                                             $.each(result.sosmed,function(c,d){
                                                 el+='<div class="form-group">'+
                                                     '<label class="control-label">'+d.sosmed.sosmed_name+' # '+d.unit_sosmed_name+'</label>'+
-                                                    '<input class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed.sosmed_name+'">'+
+                                                    '<input class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed.sosmed_name+'" required>'+
                                                 '</div>';
                                             })
                                         el+='</fieldset>';
@@ -367,7 +397,7 @@
                     },
                     success:function(result){
                         el+='<fieldset>'+
-                            '<legend>Sosial Media Official</legend>';
+                            '<legend>Sosial Media Follower</legend>';
                             $.each(result,function(c,d){
                                 el+='<div class="form-group">'+
                                     '<label class="control-label">'+d.sosmed.sosmed_name+' # '+d.unit_sosmed_name+'</label>'+
@@ -403,9 +433,22 @@
                         success : function (data) {
 
                             if(data.success==true){
+                                new PNotify({
+                                    title: 'Good Job!',
+                                    text: data.pesan,
+                                    addclass: 'alert-styled-right',
+                                    type: 'success'
+                                });
                                 $('#pesan').empty().html('<div class="alert alert-success">&nbsp;'+data.pesan+"</div>");
                                 $("#modal_default").modal("hide");
                             }else{
+                                new PNotify({
+                                    title: 'Error!',
+                                    text: data.pesan,
+                                    addclass: 'alert-styled-right',
+                                    type: 'error'
+                                });
+
                                 $("#pesan").empty().html("<div class='alert alert-danger'>"+data.pesan+"</div>");
                             }
                         },

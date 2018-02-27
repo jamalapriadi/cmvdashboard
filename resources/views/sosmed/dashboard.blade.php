@@ -21,6 +21,7 @@
                     <li class="active"><a href="#highlight-tab1" data-toggle="tab">TARGET VS ACHIEVEMENT</a></li>
                     <li><a href="#highlighted-tab2" data-toggle="tab">OFFICIAL ACCOUNT ALL TV</a></li>
                     <li><a href="#highlighted-tab3" data-toggle="tab">SOSMED OFFICIAL AND PROGRAM</a></li>
+                    <li><a href="#highlighted-tab4" data-toggle="tab">OFFICIAL AND PROGRAM</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -99,11 +100,77 @@
                     </div>
 
                     <div class="tab-pane" id="highlighted-tab3">
-                        <div id="sosmedOfficialAndProgram"></div>
+                        <form id="formsosmedOfficialAndProgram" onsubmit="return false">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Group</label>
+                                        <select name="form-control" id="group3" name="group" class="form-control">
+                                            <option value="">--Select Group--</option>
+                                            @foreach($group as $row)
+                                                <option value="{{$row->id}}">{{$row->group_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Periode</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                            <input type="text" name="tanggal" id="tanggal3" class="form-control daterange-single">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button class='btn btn-primary' style="margin-top:25px;">
+                                        <i class="icon-filter4"></i> &nbsp;
+                                        Filter 
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+
+                        <div class="table-responsive">
+                            <div id="sosmedOfficialAndProgram"></div>
+                        </div>
                     </div>
 
                     <div class="tab-pane" id="highlighted-tab4">
-                        Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
+                        <form id="formofficialAndProgram" onsubmit="return false">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Group</label>
+                                        <select name="form-control" id="group4" name="group" class="form-control">
+                                            @foreach($group as $row)
+                                                <option value="{{$row->id}}">{{$row->group_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Periode</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                            <input type="text" name="tanggal" id="tanggal4" class="form-control daterange-single">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button class='btn btn-primary' style="margin-top:25px;">
+                                        <i class="icon-filter4"></i> &nbsp;
+                                        Filter 
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="table-responsive">
+                            <div id="officialAndProgram"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -391,41 +458,121 @@
                         el+="<table class='table table-striped'>"+
                             "<thead>"+
                                 "<tr>"+
-                                    "<th rowspan='2'>Channel</th>"+
-                                    "<th>Twitter</th>"+
-                                    "<th>Facebook</th>"+
-                                    "<th>Instagram</th>"+
+                                    '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>'+
+                                    "<th class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
+                                    "<th style='background:#5054ab;color:white'>Facebook</th>"+
+                                    "<th style='background:#a200b2;color:white'>Instagram</th>"+
                                 "</tr>"+
                                 "<tr>"+
-                                    "<th>"+result.tanggal+"</th>"+
-                                    "<th>"+result.tanggal+"</th>"+
-                                    "<th>"+result.tanggal+"</th>"+
+                                    "<th class='text-center' style='background:#008ef6;color:white'>"+result.tanggal+"</th>"+
+                                    "<th style='background:#5054ab;color:white'>"+result.tanggal+"</th>"+
+                                    "<th style='background:#a200b2;color:white'>"+result.tanggal+"</th>"+
                                 "</tr>"+
                             "</thead>"+
-                            "<tbody>";
-                                $.each(result.group,function(a,b){
-                                    for(a=0;a<result.sum.length;a++){
-                                        
-                                        if(result.sum[a].group_unit_id==b.id){
-                                            el+="<tr>"+
-                                            "<td>"+result.sum[a].unit_name+"</td>"+
-                                            "<td>"+result.sum[a].twitter+"</td>"+
-                                            "<td>"+result.sum[a].facebook+"</td>"+
-                                            "<td>"+result.sum[a].instagram+"</td>"+
-                                            "</tr>";
-                                        }
-                                    }
-                                    el+="<tr>"+
+                            "<tbody style='color:#222'>";
+                                $.each(result.data,function(a,b){
+                                    $.each(b.unit,function(c,d){
+                                        el+="<tr>"+
+                                            "<td>"+d.unit_name+"</td>"+
+                                            "<td>"+d.jumlah_twitter+"</td>"+
+                                            "<td>"+d.jumlah_facebook+"</td>"+
+                                            "<td>"+d.jumlah_instagram+"</td>"+
+                                        "</tr>";
+                                    });
+
+                                    el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
                                         "<td>"+b.group_name+"</td>"+
-                                        "<td></td>"+
-                                        "<td></td>"+
-                                        "<td></td>"+
+                                        "<td>"+b.total.tw+"</td>"+
+                                        "<td>"+b.total.fb+"</td>"+
+                                        "<td>"+b.total.ig+"</td>"+
                                     "</tr>";
                                 })
                             "</tbody>"+
                         "</table>";
 
                         $("#sosmedOfficialAndProgram").empty().html(el);
+                    },
+                    error:function(){
+
+                    }
+                })
+            }
+
+            function officialAndProgram(){
+                var group=$("#group4 option:selected").val();
+                var tanggal=$("#tanggal4").val();
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/report/official-and-program')}}",
+                    type:"GET",
+                    data:"group="+group+"&tanggal="+tanggal,
+                    beforeSend:function(){
+                        $("#officialAndProgram").empty().html("<div class='alert alert-info'>Please Wait . . . </div>");
+                    },
+                    success:function(result){
+                        var el="";
+                        el+="<table class='table table-striped table-bordered'>"+
+                            "<thead>"+
+                                "<tr>"+ 
+                                    '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">General Name</th>'+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            '<tbody style="color:#222">';
+                                $.each(result,function(a,b){
+                                    el+="<tr>"+
+                                        "<td>"+b.unit_name+" Official</td>";
+                                        if(b.official.length>0){
+                                            $.each(b.official,function(c,d){
+                                                el+="<td>";
+                                                    if(d.total!=null){
+                                                        el+=d.total;
+                                                    }else{
+                                                        el+="-";
+                                                    }
+
+                                                el+="</td>";
+                                            })
+
+                                        }else{
+                                            el+="<td>-</td>"+
+                                            "<td>-</td>"+
+                                            "<td>-</td>";
+                                        }
+                                    "</tr>";
+                                    $.each(b.program,function(c,d){
+                                        el+="<tr>"+
+                                            "<td>"+d.program_name+"</td>";
+                                            if(d.sosmed.length>0){
+                                                $.each(d.sosmed,function(g,h){
+                                                    el+="<td>";
+                                                        if(h.total!=null){
+                                                            el+=h.total;
+                                                        }else{
+                                                            el+="-";
+                                                        }
+                                                    el+="</td>";
+                                                })
+                                            }else{
+                                                el+="<td>-</td>"+
+                                                    "<td>-</td>"+
+                                                    "<td>-</td>";
+                                            }
+                                    });
+                                    
+                                    el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
+                                        "<td>Total</td>"+
+                                        "<td>"+b.total.tw+"</td>"+
+                                        "<td>"+b.total.fb+"</td>"+
+                                        "<td>"+b.total.ig+"</td>";
+                                })
+                            el+="</tbody>"+
+                        "</table>";
+
+                        $("#officialAndProgram").empty().html(el);
+
                     },
                     error:function(){
 
@@ -592,9 +739,74 @@
                 }else console.log("invalid form");
             })
 
+            $(document).on("submit","#formsosmedOfficialAndProgram",function(e){
+                var group=$("#group3 option:selected").val();
+                var tanggal=$("#tanggal3").val();
+
+                var el="";
+                if($("#formsosmedOfficialAndProgram")[0].checkValidity()) {
+                    //updateAllMessageForms();
+                    e.preventDefault();
+                    $.ajax({
+                        url:"{{URL::to('sosmed/data/report/sosmed-official-and-program')}}",
+                        type:"GET",
+                        data:"group="+group+"&tanggal="+tanggal,
+                        beforeSend:function(){
+                            $("#sosmedOfficialAndProgram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                        },
+                        success:function(result){
+                            el+="<table class='table table-striped'>"+
+                                "<thead>"+
+                                    "<tr>"+
+                                        '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>'+
+                                        "<th class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
+                                        "<th style='background:#5054ab;color:white'>Facebook</th>"+
+                                        "<th style='background:#a200b2;color:white'>Instagram</th>"+
+                                    "</tr>"+
+                                    "<tr>"+
+                                        "<th class='text-center' style='background:#008ef6;color:white'>"+result.tanggal+"</th>"+
+                                        "<th style='background:#5054ab;color:white'>"+result.tanggal+"</th>"+
+                                        "<th style='background:#a200b2;color:white'>"+result.tanggal+"</th>"+
+                                    "</tr>"+
+                                "</thead>"+
+                                "<tbody style='color:#222'>";
+                                    $.each(result.data,function(a,b){
+                                        $.each(b.unit,function(c,d){
+                                            el+="<tr>"+
+                                                "<td>"+d.unit_name+"</td>"+
+                                                "<td>"+d.jumlah_twitter+"</td>"+
+                                                "<td>"+d.jumlah_facebook+"</td>"+
+                                                "<td>"+d.jumlah_instagram+"</td>"+
+                                            "</tr>";
+                                        });
+
+                                        el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
+                                            "<td>"+b.group_name+"</td>"+
+                                            "<td>"+b.total.tw+"</td>"+
+                                            "<td>"+b.total.fb+"</td>"+
+                                            "<td>"+b.total.ig+"</td>"+
+                                        "</tr>";
+                                    })
+                                "</tbody>"+
+                            "</table>";
+
+                            $("#sosmedOfficialAndProgram").empty().html(el);
+                        },
+                        error:function(){
+
+                        }
+                    })
+                }else console.log("invalid form");
+            })
+
+            $(document).on("submit","#formofficialAndProgram",function(e){
+                officialAndProgram();
+            });
+
             targetVsAchievement();
             officialAccountAllTv();
             sosmedOfficialAndProgram();
+            officialAndProgram();
         })
     </script>
 @endpush

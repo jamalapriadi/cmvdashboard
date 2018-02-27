@@ -1,13 +1,15 @@
 <div class="sidebar">
     <div class="brand">
-        <a href="index.html"><img src="klorofil/img/logo.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+        <a href="{{URL::to('home')}}">
+            <img src="{{URL::asset('klorofil/img/logo.png')}}" alt="Klorofil Logo" class="img-responsive logo">
+        </a>
     </div>
     <div class="sidebar-scroll">
         <nav>
             <ul class="nav">
-                <li class="{{ Request::path() == 'home' ? 'active' : '' }}"><a href="{{URL::to('home')}}"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
+                <li><a href="{{URL::to('home')}}" class="{{ Request::path() == 'home' ? 'active' : '' }}"><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
                 <li>
-                    <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Master</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="icon-books"></i> <span>Master</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subPages" class="collapse ">
                         <ul class="nav">
                             <li><a href="{{URL::to('sosmed/group')}}" class="{{ Request::path() == 'sosmed/group' ? 'active' : '' }}">Group</a></li>
@@ -17,7 +19,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="{{ Request::path() == 'sosmed/input-report-harian' ? 'active' : '' }}"><a href="{{URL::to('sosmed/input-report-harian')}}"><i class="lnr lnr-pencil"></i> <span>Input Report</span></a></li>
+                <li><a href="{{URL::to('sosmed/input-report-harian')}}" class="{{ Request::path() == 'sosmed/input-report-harian' ? 'active' : '' }}"><i class="lnr lnr-location"></i> <span>Input Report</span></a></li>
             </ul>
         </nav>
     </div>
