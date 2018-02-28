@@ -28,4 +28,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function unitsosmed(){
+        return $this->belongsTo('App\Models\Sosmed\Businessunit','unit');
+    }
 }

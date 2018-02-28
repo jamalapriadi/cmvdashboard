@@ -28,9 +28,19 @@ Route::group(['prefix'=>'sosmed'],function(){
     Route::get('program/{id}/summary','HomeController@sosmed_summary_program');
     Route::get('business-unit/{id}/summary','HomeController@sosmed_summary_bu');
     Route::get('input-report-harian','HomeController@sosmed_input_report_harian');
+    Route::get('add-new-report-harian','HomeController@add_new_report_harian');
+
+    Route::get('role','HomeController@role');
+    Route::get('role/{id}/permission','HomeController@permission');
+    Route::get('user','HomeController@user');
+    Route::get('user/{id}/role','HomeController@user_role');
 
     Route::group(['prefix'=>'data'],function(){
         Route::get('official-and-program-account-all-tv','HomeController@official_and_program');
+
+        Route::resource('users','User\UserController');
+        Route::resource('roles','User\RoleController');
+        Route::resource('permissions','User\PermissionController');
     
         Route::resource('group-unit','Sosmed\GroupunitController');
         Route::get('list-group','Sosmed\GroupunitController@list_group');
@@ -51,7 +61,7 @@ Route::group(['prefix'=>'sosmed'],function(){
         Route::get('list-sosmed-by-program','Sosmed\ProgramunitController@list_sosmed_by_id');
         Route::get('list-sosmed-by-unit/{id}','Sosmed\ProgramunitController@list_sosmed_by_unit');
         Route::post('save-daily-report','Sosmed\ProgramunitController@save_daily_report');
-
+        Route::post('cek-save-daily-report','Sosmed\ProgramunitController@cek_daily_report');
 
         Route::get('daily-report','Sosmed\ProgramunitController@daily_report');
         Route::get('daily-report/{id}','Sosmed\ProgramunitController@daily_report_by_id');

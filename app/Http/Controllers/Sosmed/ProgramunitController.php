@@ -10,13 +10,18 @@ use \App\Models\Sosmed\Programunit;
 
 class ProgramunitController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         \DB::statement(\DB::raw('set @rownum=0'));
         $var=Programunit::with('businessunit')
             ->select('id','business_unit_id','program_name',
             \DB::raw('@rownum := @rownum + 1 AS no'));
 
         return \Datatables::of($var)
+            ->filter(function($query) use($request){
+                if($request->has('unit') && $request->input('unit')!=null){
+                    $query->where('business_unit_id',$request->input('unit'));
+                }
+            })
             ->addColumn('action',function($query){
                 $html="<div class='btn-group'>";
                 $html.="<a href='".\URL::to('sosmed/program/'.$query->id.'/summary')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Summary'><i class='icon-stats-dots'></i></a>";
@@ -326,6 +331,78 @@ class ProgramunitController extends Controller
         $unit=\App\Models\Sosmed\Businessunit::with('sosmed','sosmed.sosmed')->find($id);
 
         return $unit;
+    }
+
+    public function cek_daily_report(Request $request){
+        $rules=[
+            'tanggal'=>'required',
+            'type'=>'required',
+            'unit'=>'required',
+            'sosmed'=>'required'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'error'=>$validasi->errors()->all()
+            );
+        }else{
+            $list=array();
+            $sosmed=$request->input('sosmed');
+            foreach($sosmed as $key=>$val){
+                array_push($list,$key);
+            }
+
+            $cekfollower=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',date('Y-m-d',strtotime($request->input('tanggal'))))
+                ->whereIn('unit_sosmed_id',$list)
+                ->get();
+
+            if(count($cekfollower)>0){
+                $data=array(
+                    'success'=>false,
+                    'pesan'=>'Anda sudah pernah memasukan data ini',
+                    'error'=>''
+                );
+            }else{
+                $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+                $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+
+                $datasekarang=array();
+                $official=array();
+                foreach($sosmed as $k=>$v){
+                    $official[]=array(
+                        'unit_sosmed_id'=>$k,
+                        'sosmed_name'=>$request->input('official')[$k]
+                    );
+
+                    $datasekarang[]=array(
+                        'unit_sosmed_id'=>$k,
+                        'tanggal'=>date('Y-m-d',strtotime($request->input('tanggal'))),
+                        'follower'=>$v
+                    );
+                }
+
+                $datakemarin=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',$kemarin)
+                    ->whereIn('unit_sosmed_id',$list)
+                    ->get();
+
+                $data=array(
+                    'success'=>true,
+                    'pesan'=>'Silahkan cek dulu data anda',
+                    'datakemarin'=>$datakemarin,
+                    'datasekarang'=>$datasekarang,
+                    'tanggal_sekarang'=>$sekarang,
+                    'tanggal_kemarin'=>$kemarin,
+                    'official'=>$official
+                );
+            }
+            
+        }
+
+        return $data;   
     }
 
     public function save_daily_report(Request $request){

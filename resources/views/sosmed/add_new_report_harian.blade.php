@@ -30,16 +30,62 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">Daily Report</div>
+        <div class="panel-heading">Add New Daily Report</div>
         <div class="panel-body">
-            <a class="btn btn-primary" href="{{URL::to('sosmed/add-new-report-harian')}}">
-                <i class="icon-add"></i> &nbsp;
-                Add New Report
-            </a>
-            <hr>
-            <!-- <table class="table table-striped datatable-colvis-basic"></table> -->
-            <div class="table-responsive">
-                <div id="showReport"></div>
+            <div id="showForm">
+                <form id="form" onsubmit="return false;">
+                    <div class="form-group">
+                        <label class="control-label">Type</label>
+                        <select name='type' id='type' class='form-control'>
+                            <option value="program">Program</option>
+                            <option value="corporate">Corporate</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Tanggal</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                            <input type="text" id="tanggal" name="tanggal" class="form-control daterange-single">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label text-semibold">Business Unit</label>
+                        <select name="unit" id="unit" class="form-control">
+                            <option value="" disabled selected>--Select Business Unit--</option>
+                            @foreach($bu as $row)
+                                <option value="{{$row->id}}">{{$row->unit_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div id="showProgram">
+                        <div class="form-group">
+                            <label class="control-label">Program</label>
+                            <select name="program" id="program" class="form-control">
+                                <option value=''>--Select Program--</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div id="showSosmed"></div>
+                    
+                    <br>
+                    <div id="pesan"></div>
+
+                    <hr>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary">
+                            <i class="icon-floppy-disk"></i> Save
+                        </button>
+
+                        <a href="{{URL::to('sosmed/input-report-harian')}}" class="btn btn-default">
+                            Back
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -67,132 +113,6 @@
                 selectMonths: true,
                 selectYears: true
             });
-
-            // Setting datatable defaults
-            $.extend( $.fn.dataTable.defaults, {
-                autoWidth: false,
-                columnDefs: [{ 
-                    orderable: false,
-                    width: '100px',
-                    targets: [ 2 ]
-                }],
-                dom: '<"datatable-header"fCl><"datatable-scroll"t><"datatable-footer"ip>',
-                language: {
-                    search: '<span>Filter:</span> _INPUT_',
-                    lengthMenu: '<span>Show:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
-                },
-                drawCallback: function () {
-                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-                    $.uniform.update();
-                },
-                preDrawCallback: function() {
-                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
-                }
-            });
-
-            function showData(){
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/daily-report')}}",
-                    type:"GET",
-                    beforeSend:function(){
-
-                    },
-                    success:function(result){
-                        var el="";
-                        el+="<table class='table table-striped' id='tabeldaily'>"+
-                            "<thead>"+
-                                "<tr>"+
-                                    "<th width='5%'>No.</th>"+
-                                    "<th>Unit</th>"+
-                                    "<th>Program Name</th>"+
-                                    "<th>Sosial Media Name</th>"+
-                                    "<th>Official Account</th>"+
-                                    "<th>Tanggal</th>"+
-                                    "<th>Follower</th>"+
-                                    "<th></th>"+
-                                "</tr>"+
-                            "</thead>"+
-                            "<tbody>";
-                                var no=0;
-                                $.each(result,function(a,b){
-                                    no++;
-                                    el+="<tr>"+
-                                        "<td>"+no+"</td>"+
-                                        "<td>";
-                                            if(b.unitsosmed.type_sosmed=="corporate"){
-                                                if(b.unitsosmed.businessunit!=null){
-                                                    el+=b.unitsosmed.businessunit.unit_name;
-                                                }else{
-                                                    el+='-';
-                                                }
-                                            }else if(b.unitsosmed.type_sosmed=="program"){
-                                                if(b.unitsosmed.program!=null){
-                                                    el+=b.unitsosmed.program.businessunit.unit_name;
-                                                }else{
-                                                    el+='-';
-                                                }
-                                            }
-                                        el+="</td>"+
-                                        "<td>";
-                                            if(b.unitsosmed.program!=null){
-                                                el+=b.unitsosmed.program.program_name;
-                                            }else{
-                                                el+="-";
-                                            }
-                                        el+="</td>"+
-                                        "<td>"+b.unitsosmed.sosmed.sosmed_name+"</td>"+
-                                        "<td>"+b.unitsosmed.unit_sosmed_name+"</td>"+
-                                        "<td>"+b.tanggal+"</td>"+
-                                        "<td>";
-                                            if(b.follower!=null){
-                                                el+=b.follower;
-                                            }else{
-                                                el+='<label class="label label-danger">Set Follower</label>';
-                                            }
-                                        el+="</td>"+
-                                        "<td><a class='btn btn-warning editfollower' kode='"+b.id+"'><i class='icon-pencil4'></i></a></td>"+
-                                    "</tr>";
-                                })
-                            el+="</tbody>"+
-                        "</table>";
-
-                        $("#showReport").empty().html(el);
-
-                        $("#tabeldaily").DataTable({
-                            buttons: [
-                                'copy', 'excel', 'pdf'
-                            ],
-                            colVis: {
-                                buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
-                                align: "right",
-                                overlayFade: 200,
-                                showAll: "Show all",
-                                showNone: "Hide all"
-                            },
-                            bDestroy: true
-                        })
-
-                        // Launch Uniform styling for checkboxes
-                        $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
-                            $('.ColVis_collection input').uniform();
-                        });
-
-
-                        // Add placeholder to the datatable filter option
-                        $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
-
-
-                        // Enable Select2 select for the length option
-                        $('.dataTables_length select').select2({
-                            minimumResultsForSearch: "-1"
-                        }); 
-                    },
-                    error:function(){
-
-                    }
-                })
-            }
 
             $(document).on("click","#tambah",function(){
                 var el="";
@@ -401,7 +321,8 @@
                             $.each(result,function(c,d){
                                 el+='<div class="form-group">'+
                                     '<label class="control-label">'+d.sosmed.sosmed_name+' # '+d.unit_sosmed_name+'</label>'+
-                                    '<input class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed.sosmed_name+'">'+
+                                    '<input type="hidden" class="form-control" name="official['+d.id+']" placeholder="'+d.sosmed.sosmed_name+'" value="'+d.sosmed.sosmed_name+'">'+
+                                    '<input type="number" min="0" class="form-control" name="sosmed['+d.id+']" placeholder="'+d.sosmed.sosmed_name+'" required>'+
                                 '</div>';
                             })
                         el+='</fieldset>';
@@ -412,9 +333,108 @@
 
                     }
                 })
-            })
+            });
 
             $(document).on("submit","#form",function(e){
+                var data = new FormData(this);
+                if($("#form")[0].checkValidity()) {
+                    //updateAllMessageForms();
+                    e.preventDefault();
+                    $.ajax({
+                        url         : "{{URL::to('sosmed/data/cek-save-daily-report')}}",
+                        type        : 'post',
+                        data        : data,
+                        dataType    : 'JSON',
+                        contentType : false,
+                        cache       : false,
+                        processData : false,
+                        beforeSend  : function (){
+                            $('#pesan').empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        },
+                        success : function (data) {
+                            if(data.success==true){
+                                /* tampilkan data konfirmasi */
+                                var el="";
+                                el+="<div class='table-responsive'>"+
+                                    "<table class='table table-striped'>"+
+                                        "<thead>"+
+                                            "<tr>"+
+                                                '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Official Account</th>'+
+                                                "<th colspan='3' class='text-center' class='text-center' style='background:#222;color:white'>Tanggal</th>"+
+                                                '<th rowspan="2" width="5%" style="background:#ef2f49;color:white" class="align-middle text-white">Actions</th>'+
+                                            "</tr>"+
+                                            "<tr>"+
+                                                "<th class='text-center' style='background:#008ef6;color:white'>"+data.tanggal_kemarin+"</td>"+
+                                                "<th class='text-center' style='background:#008ef6;color:white'>"+data.tanggal_sekarang+"</td>"+
+                                                "<th width='20%' class='text-center' style='background:#008ef6;color:white'>GROWTH FROM YESTERDAY</th>"+
+                                            "</tr>"+
+                                        "</thead>"+
+                                        "<tbody>";
+                                            $.each(data.official,function(a,b){
+                                                var kemarin=0;
+                                                var sekarang=0;
+
+                                                if(data.datakemarin.length>0){
+                                                    for(a=0;a<data.datakemarin.length;a++){
+                                                        if(data.datakemarin[a].unit_sosmed_id==b.unit_sosmed_id && data.datakemarin[a].tanggal==data.tanggal_kemarin){
+                                                            kemarin=data.datakemarin[a].follower;
+                                                        }
+                                                    }
+                                                }
+
+                                                if(data.datasekarang.length>0){
+                                                    for(a=0;a<data.datasekarang.length;a++){
+                                                        if(data.datasekarang[a].unit_sosmed_id==b.unit_sosmed_id && data.datasekarang[a].tanggal==data.tanggal_sekarang){
+                                                            sekarang=data.datasekarang[a].follower;
+                                                        }
+                                                    }
+                                                }
+
+                                                growth=sekarang/kemarin-1;
+
+                                                el+="<tr>"+
+                                                    "<td>"+b.sosmed_name+"</td>"+
+                                                    "<td>"+kemarin+"</td>"+
+                                                    "<td>"+sekarang+"</td>"+
+                                                    "<td>";
+                                                        if(growth>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+Math.round(growth)+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(growth)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(growth)+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+="</td>"+
+                                                    "<td><a class='btn btn-sm btn-warning'><i class='icon-pencil4'></i></a></td>"+
+                                                "</tr>";
+                                            })
+                                        el+="</tbody>"+
+                                    "</table>"+
+                                "</div>";
+                                
+                                $("#showForm").empty().html(el);
+                                /* end tampilkan data konfirmasi */
+                            }else{
+                                new PNotify({
+                                    title: 'Error!',
+                                    text: data.pesan,
+                                    addclass: 'alert-styled-right',
+                                    type: 'error'
+                                });
+
+                                $("#pesan").empty().html("<div class='alert alert-danger'>"+data.pesan+"</div>");
+                            }
+                        },
+                        error   :function() {  
+                            $('#pesan').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                        }
+                    });
+                }else console.log("invalid form");
+            });
+
+            $(document).on("submit","#form2",function(e){
                 var data = new FormData(this);
                 if($("#form")[0].checkValidity()) {
                     //updateAllMessageForms();
@@ -599,8 +619,6 @@
                     });
                 }else console.log("invalid form");
             });
-
-            showData();
         })
     </script>
 @endpush

@@ -214,8 +214,14 @@ class BusinessunitController extends Controller
         return $data;
     }
 
-    public function list_unit(){
-        $var=Businessunit::select('id','unit_name')->get();
+    public function list_unit(Request $request){
+        $var=Businessunit::select('id','unit_name');
+
+        if($request->has('group')){
+            $var=$var->where('group_unit_id',$request->input('group'));
+        }
+
+        $var=$var->get();
 
         return $var;
     }
