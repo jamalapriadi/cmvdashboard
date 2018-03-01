@@ -19,6 +19,15 @@
                         </ul>
                     </div>
                 </li>
+                <li>
+                    <a href="#subUser" data-toggle="collapse" class="collapsed"><i class="icon-users"></i> <span>Users</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <div id="subUser" class="collapse ">
+                        <ul class="nav">
+                            <li><a href="{{URL::to('sosmed/user')}}" class="{{ Request::path() == 'sosmed/user' ? 'active' : '' }}">User</a></li>
+                            <li><a href="{{URL::to('sosmed/role')}}" class="{{ Request::path() == 'sosmed/role' ? 'active' : '' }}">Role</a></li>
+                        </ul>
+                    </div>
+                </li>
                 <li><a href="{{URL::to('sosmed/input-report-harian')}}" class="{{ Request::path() == 'sosmed/input-report-harian' ? 'active' : '' }}"><i class="lnr lnr-location"></i> <span>Input Report</span></a></li>
             </ul>
         </nav>

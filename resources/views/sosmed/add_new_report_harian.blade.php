@@ -30,17 +30,11 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">Daily Report</div>
+        <div class="panel-heading">Add New Daily Report</div>
         <div class="panel-body">
-            <a class="btn btn-primary" href="{{URL::to('sosmed/add-new-report-harian')}}">
-                <i class="icon-add"></i> &nbsp;
-                Add New Report
-            </a>
-            <hr>
-            <!-- <table class="table table-striped datatable-colvis-basic"></table> -->
-            <div class="table-responsive">
-                <div id="showReport"></div>
-            </div>
+            <div id="pesansukses"></div>
+            <div id="showKonfirmasi"></div>
+            <div id="showForm"></div>
         </div>
     </div>
 
@@ -61,151 +55,13 @@
     <script>
         $(function(){
             var kode="";
+            var data;
 
             $('.daterange-single').daterangepicker({ 
                 singleDatePicker: true,
                 selectMonths: true,
                 selectYears: true
             });
-
-            // Setting datatable defaults
-            $.extend( $.fn.dataTable.defaults, {
-                autoWidth: false,
-                columnDefs: [{ 
-                    orderable: false,
-                    width: '100px',
-                    targets: [ 2 ]
-                }],
-                dom: '<"datatable-header"fCl><"datatable-scroll"t><"datatable-footer"ip>',
-                language: {
-                    search: '<span>Filter:</span> _INPUT_',
-                    lengthMenu: '<span>Show:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
-                },
-                drawCallback: function () {
-                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-                    $.uniform.update();
-                },
-                preDrawCallback: function() {
-                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
-                }
-            });
-
-            function addKoma(nStr)
-            {
-                nStr += '';
-                x = nStr.split('.');
-                x1 = x[0];
-                x2 = x.length > 1 ? '.' + x[1] : '';
-                var rgx = /(\d+)(\d{3})/;
-                while (rgx.test(x1)) {
-                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
-                }
-                return x1 + x2;
-            }
-
-            function showData(){
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/daily-report')}}",
-                    type:"GET",
-                    beforeSend:function(){
-                        $("#showReport").empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
-                    },
-                    success:function(result){
-                        var el="";
-                        el+="<table class='table table-striped' id='tabeldaily'>"+
-                            "<thead>"+
-                                "<tr>"+
-                                    "<th width='5%'>No.</th>"+
-                                    "<th>Unit</th>"+
-                                    "<th>Program Name</th>"+
-                                    "<th>Sosial Media Name</th>"+
-                                    "<th>Official Account</th>"+
-                                    "<th>Tanggal</th>"+
-                                    "<th>Follower</th>"+
-                                    "<th></th>"+
-                                "</tr>"+
-                            "</thead>"+
-                            "<tbody>";
-                                var no=0;
-                                $.each(result,function(a,b){
-                                    no++;
-                                    el+="<tr>"+
-                                        "<td>"+no+"</td>"+
-                                        "<td>";
-                                            if(b.unitsosmed.type_sosmed=="corporate"){
-                                                if(b.unitsosmed.businessunit!=null){
-                                                    el+=b.unitsosmed.businessunit.unit_name;
-                                                }else{
-                                                    el+='-';
-                                                }
-                                            }else if(b.unitsosmed.type_sosmed=="program"){
-                                                if(b.unitsosmed.program!=null){
-                                                    el+=b.unitsosmed.program.businessunit.unit_name;
-                                                }else{
-                                                    el+='-';
-                                                }
-                                            }
-                                        el+="</td>"+
-                                        "<td>";
-                                            if(b.unitsosmed.program!=null){
-                                                el+=b.unitsosmed.program.program_name;
-                                            }else{
-                                                el+="-";
-                                            }
-                                        el+="</td>"+
-                                        "<td>"+b.unitsosmed.sosmed.sosmed_name+"</td>"+
-                                        "<td>"+b.unitsosmed.unit_sosmed_name+"</td>"+
-                                        "<td>"+b.tanggal+"</td>"+
-                                        "<td>";
-                                            if(b.follower!=null){
-                                                el+=addKoma(b.follower);
-                                            }else{
-                                                el+='<label class="label label-danger">Set Follower</label>';
-                                            }
-                                        el+="</td>"+
-                                        "<td><a class='btn btn-warning editfollower' kode='"+b.id+"'><i class='icon-pencil4'></i></a></td>"+
-                                    "</tr>";
-                                })
-                            el+="</tbody>"+
-                        "</table>";
-
-                        $("#showReport").empty().html(el);
-
-                        $("#tabeldaily").DataTable({
-                            buttons: [
-                                'copy', 'excel', 'pdf'
-                            ],
-                            colVis: {
-                                buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
-                                align: "right",
-                                overlayFade: 200,
-                                showAll: "Show all",
-                                showNone: "Hide all"
-                            },
-                            bDestroy: true
-                        })
-
-                        // Launch Uniform styling for checkboxes
-                        $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
-                            $('.ColVis_collection input').uniform();
-                        });
-
-
-                        // Add placeholder to the datatable filter option
-                        $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
-
-
-                        // Enable Select2 select for the length option
-                        $('.dataTables_length select').select2({
-                            minimumResultsForSearch: "-1"
-                        }); 
-                    },
-                    error:function(){
-
-                    }
-                })
-            }
 
             $(document).on("click","#tambah",function(){
                 var el="";
@@ -295,6 +151,89 @@
                     }
                 })
             });
+
+            function showForm(){
+                var el="";
+                $("#showKonfirmasi").hide();
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/list-group')}}",
+                    type:"GET",
+                    data:"unit=unit&sosmed=sosmed",
+                    beforeSend:function(){
+                        $("#showForm").empty().html("<div class='alert alert-info'>Please Wait....</div>");
+                    },
+                    success:function(result){
+                        var kembali="{{URL::to('sosmed/input-report-harian')}}";
+
+                        el+='<form id="form" onsubmit="return false;">'+
+                            '<div class="form-group">'+
+                                '<label class="control-label">Type</label>'+
+                                "<select name='type' id='type' class='form-control'>"+
+                                    '<option value="program">Program</option>'+
+                                    '<option value="corporate">Corporate</option>'+
+                                '</select>'+
+                            '</div>'+
+                            '<div class="form-group">'+
+                                '<label class="control-label">Tanggal</label>'+
+                                '<div class="input-group">'+
+                                    '<span class="input-group-addon"><i class="icon-calendar5"></i></span>'+
+                                    '<input type="text" id="tanggal" name="tanggal" class="form-control daterange-single">'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Business Unit</label>'+
+                                '<select name="unit" id="unit" class="form-control">'+
+                                    '<option value="">--Select Business Unit--</option>';
+                                    $.each(result.unit,function(a,b){
+                                        el+="<option value='"+b.id+"'>"+b.unit_name+"</option>";
+                                    })
+                                el+='</select>'+
+                            '</div>'+
+                            '<div id="showProgram">'+
+                                '<div class="form-group">'+
+                                    '<label class="control-label">Program</label>'+
+                                    '<select name="program" id="program" class="form-control">'+
+                                        "<option value=''>--Select Program--</option>";
+
+                                    el+="</select>"+
+                                '</div>'+
+                            '</div>'+
+
+                            '<br>'+
+
+                            '<div id="showSosmed"></div>'+
+                            '<div id="pesan"></div>'+
+
+                            '<hr>'+
+
+                            '<div class="form-group">'+
+                                '<button class="btn btn-primary">'+
+                                    '<i class="icon-floppy-disk"></i> Save'+
+                                '</button>'+
+
+                                '<a href="'+kembali+'" class="btn btn-default">'+
+                                    'Back'+
+                                '</a>'+
+                            '</div>'+
+
+                        '</form>';
+
+                        $("#showForm").empty().html(el);
+
+                        $("#showForm").show();
+
+                        $('.daterange-single').daterangepicker({ 
+                            singleDatePicker: true,
+                            selectMonths: true,
+                            selectYears: true
+                        });
+                    },
+                    error:function(){
+                        $("#showForm").empty().html("<div class='alert alert-danger'>Data Failed to load</div>");
+                    }
+                })
+            }
 
             $(document).on("change","#type",function(){
                 var type=$("#type option:selected").val();
@@ -414,7 +353,8 @@
                             $.each(result,function(c,d){
                                 el+='<div class="form-group">'+
                                     '<label class="control-label">'+d.sosmed.sosmed_name+' # '+d.unit_sosmed_name+'</label>'+
-                                    '<input class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed.sosmed_name+'">'+
+                                    '<input type="hidden" class="form-control" name="official['+d.id+']" placeholder="'+d.sosmed.sosmed_name+'" value="'+d.sosmed.sosmed_name+'">'+
+                                    '<input type="number" min="0" class="form-control" name="sosmed['+d.id+']" placeholder="'+d.sosmed.sosmed_name+'" required>'+
                                 '</div>';
                             })
                         el+='</fieldset>';
@@ -425,15 +365,15 @@
 
                     }
                 })
-            })
+            });
 
             $(document).on("submit","#form",function(e){
-                var data = new FormData(this);
+                data = new FormData(this);
                 if($("#form")[0].checkValidity()) {
                     //updateAllMessageForms();
                     e.preventDefault();
                     $.ajax({
-                        url         : "{{URL::to('sosmed/data/save-daily-report')}}",
+                        url         : "{{URL::to('sosmed/data/cek-save-daily-report')}}",
                         type        : 'post',
                         data        : data,
                         dataType    : 'JSON',
@@ -441,19 +381,86 @@
                         cache       : false,
                         processData : false,
                         beforeSend  : function (){
+                            $("#pesansukses").empty();
                             $('#pesan').empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
                         },
                         success : function (data) {
-
                             if(data.success==true){
-                                new PNotify({
-                                    title: 'Good Job!',
-                                    text: data.pesan,
-                                    addclass: 'alert-styled-right',
-                                    type: 'success'
-                                });
-                                $('#pesan').empty().html('<div class="alert alert-success">&nbsp;'+data.pesan+"</div>");
-                                $("#modal_default").modal("hide");
+                                /* tampilkan data konfirmasi */
+                                $("#pesan").empty();
+                                var el="";
+                                el+='<div class="alert alert-info alert-bordered alert-rounded">'+
+                                    '<button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>'+
+                                    '<span class="text-semibold">Heads up!</span> This alert needs your attention, but its not super important.'+
+                                '</div>'+
+                                "<div class='table-responsive'>"+
+                                    "<table class='table table-striped'>"+
+                                        "<thead>"+
+                                            "<tr>"+
+                                                '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Official Account</th>'+
+                                                "<th colspan='3' class='text-center' class='text-center' style='background:#222;color:white'>Tanggal</th>"+
+                                            "</tr>"+
+                                            "<tr>"+
+                                                "<th class='text-center' style='background:#008ef6;color:white'>"+data.tanggal_kemarin+"</td>"+
+                                                "<th class='text-center' style='background:#008ef6;color:white'>"+data.tanggal_sekarang+"</td>"+
+                                                "<th class='text-center' style='background:#008ef6;color:white'>Additional Follower</td>"+
+                                            "</tr>"+
+                                        "</thead>"+
+                                        "<tbody>";
+                                            $.each(data.official,function(a,b){
+                                                var kemarin=0;
+                                                var sekarang=0;
+
+                                                if(data.datakemarin.length>0){
+                                                    for(a=0;a<data.datakemarin.length;a++){
+                                                        if(data.datakemarin[a].unit_sosmed_id==b.unit_sosmed_id && data.datakemarin[a].tanggal==data.tanggal_kemarin){
+                                                            kemarin=data.datakemarin[a].follower;
+                                                        }
+                                                    }
+                                                }
+
+                                                if(data.datasekarang.length>0){
+                                                    for(a=0;a<data.datasekarang.length;a++){
+                                                        if(data.datasekarang[a].unit_sosmed_id==b.unit_sosmed_id && data.datasekarang[a].tanggal==data.tanggal_sekarang){
+                                                            sekarang=data.datasekarang[a].follower;
+                                                        }
+                                                    }
+                                                }
+
+                                                growth=sekarang/kemarin-1;
+
+                                                el+="<tr>"+
+                                                    "<td>"+b.sosmed_name+"</td>"+
+                                                    "<td>"+kemarin+"</td>"+
+                                                    "<td>"+sekarang+"</td>"+
+                                                    "<td>";
+                                                        if(growth>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+Math.round(growth)+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(growth)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(growth)+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+="</td>"+
+                                                "</tr>";
+                                            })
+                                        el+="</tbody>"+
+                                    "</table>"+
+                                "</div>"+
+
+                                "<div class='well'>"+
+                                    "<div class='form-group'>"+
+                                        "<a class='btn btn-primary' id='konfirmasi'><i class='icon-file-check2'></i> Konfirmasi</>"+
+                                        "<a class='btn btn-default' id='kembali'><i class='icon-backward2'></i> Back</a>"+
+                                    "</div>"+
+                                "</div>";
+                                
+                                $("#showForm").hide();
+                                $("#showKonfirmasi").empty().html(el);
+                                $("#showKonfirmasi").show();
+                                /* end tampilkan data konfirmasi */
                             }else{
                                 new PNotify({
                                     title: 'Error!',
@@ -471,6 +478,48 @@
                     });
                 }else console.log("invalid form");
             });
+
+            $(document).on("click","#kembali",function(){
+                $("#showForm").show();
+                $("#showKonfirmasi").hide();
+            });
+
+            $(document).on("click","#konfirmasi",function(e){
+                if($("#form")[0].checkValidity()) {
+                    e.preventDefault();
+                    $.ajax({
+                        url         : "{{URL::to('sosmed/data/save-daily-report')}}",
+                        type        : 'post',
+                        data        : data,
+                        dataType    : 'JSON',
+                        contentType : false,
+                        cache       : false,
+                        processData : false,
+                        beforeSend  : function (){
+                            $("#pesansukses").empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                            $('#pesan').empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        },
+                        success : function (data) {
+                            if(data.success==true){
+                                showForm();
+                                $('#pesansukses').empty().html('<div class="alert alert-success">&nbsp;'+data.pesan+"</div>");
+                            }else{
+                                new PNotify({
+                                    title: 'Error!',
+                                    text: data.pesan,
+                                    addclass: 'alert-styled-right',
+                                    type: 'error'
+                                });
+
+                                $("#pesansukses").empty().html("<div class='alert alert-danger'>"+data.pesan+"</div>");
+                            }
+                        },
+                        error   :function() {  
+                            $('#pesansukses').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                        }
+                    });
+                }else console.log("invalid form");
+            })
 
             $(document).on("click",".editfollower",function(){
                 kode=$(this).attr("kode");
@@ -613,7 +662,7 @@
                 }else console.log("invalid form");
             });
 
-            showData();
+            showForm();
         })
     </script>
 @endpush

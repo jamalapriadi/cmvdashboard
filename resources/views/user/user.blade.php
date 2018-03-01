@@ -1,78 +1,14 @@
 @extends('layouts.sosmed')
 
-@section('extra-style')
-<style>
-    fieldset{
-        border: 1px solid #ddd !important;
-        margin: 0;
-        xmin-width: 0;
-        padding: 10px;       
-        position: relative;
-        border-radius:4px;
-        background-color:#f5f5f5;
-        padding-left:10px!important;
-    }	
-
-    legend{
-        font-size:14px;
-        font-weight:bold;
-        margin-bottom: 0px; 
-        width: 35%; 
-        border: 1px solid #ddd;
-        border-radius: 4px; 
-        padding: 5px 5px 5px 10px; 
-        background-color: #d8dfe5;
-        color:#222;
-    }
-</style>
-@stop
-
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">Program</div>
+        <div class="panel-heading">Data User</div>
         <div class="panel-body">
             <a class="btn btn-primary" id="tambah">
                 <i class="icon-add"></i> &nbsp;
-                Add New Program
+                Add New User
             </a>
-            <br><br>
-
-            <fieldset>
-                <legend>Filter</legend>
-                <div class="row" style="padding-left:10px;">
-                    <form id="formSearch" onsubmit="return false;">
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <label for="" class="control-label">Group</label>
-                                <select name="searchgroup" id="searchgroup" class="form-control">
-                                    <option value="" disabled selected>--Select Group--</option>
-                                    @foreach($group as $row)
-                                        <option value="{{$row->id}}">{{$row->group_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <label for="" class="control-label">Unit</label>
-                                <select name="searchunit" id="searchunit" class="form-control">
-                                    <option value="" disabled selected>--Select Unit--</option>
-                                    @foreach($unit as $row)
-                                        <option value="{{$row->id}}" kode="{{$row->group_unit_id}}">{{$row->unit_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <button class="btn btn-primary" style="margin-top:25px">
-                                <i class="icon-filter4"></i> Filter
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </fieldset>
-            
+            <hr>
             <table class="table table-striped datatable-colvis-basic"></table>
         </div>
     </div>
@@ -109,25 +45,18 @@
             });
 
             function showData(){
-                var f={
-                    group:$("#searchgroup option:selected").val(),
-                    unit:$("#searchunit option:selected").val()
-                }
-                
                 $('.datatable-colvis-basic').DataTable({
                     processing: true,
                     serverSide: true,
                     autoWidth: true,
                     destroy: true,
-                    ajax:{
-                        url:"{{URL::to('sosmed/data/program-unit')}}",
-                        data:f
-                    },
+                    ajax: "{{URL::to('sosmed/data/users')}}",
                     columns: [
                         {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
-                        {data: 'businessunit.unit_name', name: 'businessunit.unit_name',title:'Unit Name', width:'15%'},
-                        {data: 'program_name', name: 'program_name',title:'Program Name',width:'30%'},
-                        {data: 'action', name: 'action',title:'Action',searchable:false,width:'17%'}
+                        {data: 'name', name: 'name',title:'Name',width:'30%'},
+                        {data: 'email', name: 'email',title:'Email'},
+                        {data: 'unitsosmed.unit_name', name: 'unitsosmed.unit_name',title:'Unit',width:'10%'},
+                        {data: 'action', name: 'action',title:'Action',searchable:false,width:'25%'}
                     ],
                     buttons: [
                         'copy', 'excel', 'pdf'
@@ -164,7 +93,7 @@
                 $.ajax({
                     url:"{{URL::to('sosmed/data/list-group')}}",
                     type:"GET",
-                    data:"unit=unit&sosmed=sosmed",
+                    data:"unit=unit",
                     beforeSend:function(){
                         el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
                             '<div class="modal-dialog">'+
@@ -172,7 +101,7 @@
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
                                             '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
-                                            '<h5 class="modal-title" id="modal-title">Add New Program</h5>'+
+                                            '<h5 class="modal-title" id="modal-title">Add New User</h5>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -197,27 +126,28 @@
                             '<div class="form-group">'+
                                 '<label class="control-label text-semibold">Business Unit</label>'+
                                 '<select name="unit" class="form-control">'+
-                                    '<option value="">--Select Business Unit--</option>';
+                                    '<option value="" disabled selected>--Select Business Unit--</option>';
                                     $.each(result.unit,function(a,b){
                                         el+="<option value='"+b.id+"'>"+b.unit_name+"</option>";
                                     })
                                 el+='</select>'+
                             '</div>'+
                             '<div class="form-group">'+
-                                '<label class="control-label text-semibold">Program Name</label>'+
-                                '<input class="form-control" name="name" id="name" placeholder="Program Name" required>'+
+                                '<label class="control-label text-semibold">Name</label>'+
+                                '<input class="form-control" name="name" id="name" placeholder="Name" required>'+
                             '</div>'+
-
-                            '<hr>'+
-                            '<fieldset>'+
-                                '<legend>Sosial Media Official</legend>';
-                                $.each(result.sosmed,function(a,b){
-                                    el+='<div class="form-group">'+
-                                        '<label class="control-label">'+b.sosmed_name+'</label>'+
-                                        '<input class="form-control" name="sosmed['+b.id+']" class="form-control" placeholder="'+b.sosmed_name+'">'+
-                                    '</div>';
-                                })
-                            el+='</fieldset>';
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Email</label>'+
+                                '<input class="form-control" type="email" name="email" id="email" placeholder="Email" required>'+
+                            '</div>'+
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Password</label>'+
+                                '<input class="form-control" type="password" name="password" id="password" placeholder="Password" required>'+
+                            '</div>'+
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Password Confirm</label>'+
+                                '<input class="form-control" type="password" name="password_confirm" id="password_confirm" placeholder="Password Confirm" required>'+
+                            '</div>';
 
                         $("#showForm").empty().html(el);
                     },
@@ -233,7 +163,7 @@
                     //updateAllMessageForms();
                     e.preventDefault();
                     $.ajax({
-                        url         : "{{URL::to('sosmed/data/program-unit')}}",
+                        url         : "{{URL::to('sosmed/data/users')}}",
                         type        : 'post',
                         data        : data,
                         dataType    : 'JSON',
@@ -265,7 +195,7 @@
                 var el="";
 
                 $.ajax({
-                    url:"{{URL::to('sosmed/data/program-unit')}}/"+kode,
+                    url:"{{URL::to('sosmed/data/users')}}/"+kode,
                     type:"GET",
                     beforeSend:function(){
                         el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
@@ -274,7 +204,7 @@
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
                                             '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
-                                            '<h5 class="modal-title" id="modal-title">Edit Program Unit</h5>'+
+                                            '<h5 class="modal-title" id="modal-title">Edit Sosial Media</h5>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -283,7 +213,7 @@
 
                                         '<div class="modal-footer">'+
                                             '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
-                                            '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
+                                            '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"> <span class="ladda-label">Save</span> </button>'+
                                         '</div>'+
                                     '</div>'+
                                 '</form>'+
@@ -306,40 +236,16 @@
                                 el+='</select>'+
                             '</div>'+
                             '<div class="form-group">'+
-                                '<label class="control-label text-semibold">Program Name</label>'+
-                                '<input class="form-control" name="name" id="name" value="'+result.program.program_name+'" placeholder="Program Name" required>'+
+                                '<label class="control-label text-semibold">Name</label>'+
+                                '<input class="form-control" name="name" id="name" placeholder="Name" value="'+result.user.name+'" required>'+
                             '</div>'+
-
-                            '<hr>'+
-                            '<fieldset>'+
-                                '<legend>Sosial Media Official</legend>';
-                                $.each(result.sosmed,function(c,d){
-                                    if(result.program.sosmed.length>0){
-                                        var isi="";
-
-                                        for(a=0; a<result.program.sosmed.length;a++){
-                                            if(result.program.sosmed[a].sosmed_id==d.id){
-                                                isi=result.program.sosmed[a].unit_sosmed_name;
-                                            }
-                                        }
-                                        
-
-                                        el+='<div class="form-group">'+
-                                            '<label class="control-label">'+d.sosmed_name+'</label>'+
-                                            '<input class="form-control" name="sosmed['+d.id+']" value="'+isi+'" class="form-control" placeholder="'+d.sosmed_name+'">'+
-                                        '</div>';
-                                    }else{
-                                        el+='<div class="form-group">'+
-                                            '<label class="control-label">'+d.sosmed_name+'</label>'+
-                                            '<input class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed_name+'">'+
-                                        '</div>';
-                                    }
-                                })
-                            el+='</fieldset>';
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Email</label>'+
+                                '<input class="form-control" type="email" name="email" id="email" value="'+result.user.email+'" placeholder="Email" required>'+
+                            '</div>';
 
                         $("#showForm").empty().html(el);
-
-                        $("#unit").val(result.program.business_unit_id);
+                        $("#unit").val(result.user.unit);
                     },
                     error:function(){
                         $("#showForm").empty().html("<div class='alert alert-danger'>Data Failed to load</div>");
@@ -354,7 +260,7 @@
                     //updateAllMessageForms();
                     e.preventDefault();
                     $.ajax({
-                        url			: "{{URL::to('sosmed/data/program-unit')}}/"+kode,
+                        url			: "{{URL::to('sosmed/data/users')}}/"+kode,
                         type		: 'post',
                         data		: data,
                         dataType	: 'JSON',
@@ -409,7 +315,7 @@
                 function(isConfirm){
                     if (isConfirm) {
                         $.ajax({
-                            url:"{{URL::to('sosmed/data/program-unit')}}/"+kode,
+                            url:"{{URL::to('sosmed/data/users')}}/"+kode,
                             type:"DELETE",
                             success:function(result){
                                 if(result.success=true){
@@ -425,46 +331,6 @@
                     }
                 });
             });
-
-            $(document).on("change","#searchgroup",function(){
-                var group=$("#searchgroup option:selected").val();
-
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/list-unit')}}",
-                    type:"GET",
-                    data:"group="+group,
-                    beforeSend:function(){
-                        $("#searchunit").empty();
-                    },
-                    success:function(result){
-                        $('#searchunit').append($('<option>', { 
-                            value: '',
-                            text : '--Select Unit--'
-                        }));
-
-                        $.each(result,function(a,b){
-                            $('#searchunit').append($('<option>', { 
-                                value: b.id,
-                                text : b.unit_name
-                            }));
-                        })
-                    },
-                    error:function(){
-                        
-                    }
-                })
-            })
-
-            $(document).on("change","#searchunit",function(){
-                var unit=$("#searchunit option:selected").val();
-                var group=$("#searchunit option:selected").attr("kode");
-
-                $("#searchgroup").val(group);
-            })
-
-            $(document).on("submit","#formSearch",function(){
-                showData();
-            })
 
             showData();
         })
