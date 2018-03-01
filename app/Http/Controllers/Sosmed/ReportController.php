@@ -354,4 +354,172 @@ class ReportController extends Controller
 
         
     }
+
+    /* rank */
+    public function rank_of_official_account_all_group(Request $request){
+        if($request->has('tanggal')){
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }else{
+            $sekarang=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }
+
+
+        $group=\DB::select("select a.id, a.group_name,d.tanggal,
+            sum(if(c.sosmed_id=1 and d.tanggal='$kemarin',d.follower,0)) as tw_kemarin,
+            sum(if(c.sosmed_id=2 and d.tanggal='$kemarin',d.follower,0)) as fb_kemarin,
+            sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0)) as ig_kemarin,
+            sum(if(c.sosmed_id=1 and d.tanggal='$sekarang',d.follower,0)) as tw_sekarang,
+            sum(if(c.sosmed_id=2 and d.tanggal='$sekarang',d.follower,0)) as fb_sekarang,
+            sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) as ig_sekarang
+            FROM group_unit a 
+            left join business_unit b on b.group_unit_id=a.id
+            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
+            left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
+            group by a.id");
+
+        $data=array();
+
+        $arrTw=array();
+        $arrFb=array();
+        $arrIg=array();
+        foreach($group as $k){
+            array_push($arrTw,$k->tw_sekarang);
+            array_push($arrFb,$k->fb_sekarang);
+            array_push($arrIg,$k->ig_sekarang);
+        }
+        $rankTw=$arrTw;
+        $rankFb=$arrFb;
+        $rankIg=$arrIg;
+
+        rsort($rankTw);
+        rsort($rankFb);
+        rsort($rankIg);
+
+        $rankTw=array_flip($rankTw);
+        $rankFb=array_flip($rankFb);
+        $rankIg=array_flip($rankIg);
+
+        foreach($group as $row){
+            if($row->tw_kemarin>0){
+                $growth_twitter=$row->tw_sekarang/$row->tw_kemarin-1;
+            }else{
+                $growth_twitter=-1;
+            }
+
+            if($row->fb_kemarin>0){
+                $growth_fb=$row->fb_sekarang/$row->fb_kemarin-1;
+            }else{
+                $growth_fb=-1;
+            }
+
+            if($row->ig_kemarin>0){
+                $growth_ig=$row->ig_sekarang/$row->ig_kemarin-1;
+            }else{
+                $growth_ig=-1;
+            }
+
+            $data[]=array(
+                'id'=>$row->id,
+                'group_name'=>$row->group_name,
+                'follower'=>array(
+                    'growth_twitter'=>round($growth_twitter)." %",
+                    'tw_sekarang'=>$row->tw_sekarang,
+                    'rank_tw'=>($rankTw[$row->tw_sekarang] + 1),
+                    'growth_fb'=>round($growth_fb)." %",
+                    'fb_sekarang'=>$row->fb_sekarang,
+                    'rank_fb'=>($rankFb[$row->fb_sekarang] + 1),
+                    'growth_ig'=>round($growth_ig)." %",
+                    'ig_sekarang'=>$row->ig_sekarang,
+                    'rank_ig'=>($rankIg[$row->ig_sekarang] + 1)
+                )
+            );
+        }
+
+        return $data;
+    }
+
+    public function rank_of_official_account_all_tv(Request $request){
+        if($request->has('tanggal')){
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }else{
+            $sekarang=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }
+
+
+        $group=\DB::select("select b.id, b.unit_name,d.tanggal,
+            sum(if(c.sosmed_id=1 and d.tanggal='$kemarin',d.follower,0)) as tw_kemarin,
+            sum(if(c.sosmed_id=2 and d.tanggal='$kemarin',d.follower,0)) as fb_kemarin,
+            sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0)) as ig_kemarin,
+            sum(if(c.sosmed_id=1 and d.tanggal='$sekarang',d.follower,0)) as tw_sekarang,
+            sum(if(c.sosmed_id=2 and d.tanggal='$sekarang',d.follower,0)) as fb_sekarang,
+            sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) as ig_sekarang
+            FROM business_unit b
+            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
+            left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
+            group by b.id");
+
+        $data=array();
+
+        $arrTw=array();
+        $arrFb=array();
+        $arrIg=array();
+        foreach($group as $k){
+            array_push($arrTw,$k->tw_sekarang);
+            array_push($arrFb,$k->fb_sekarang);
+            array_push($arrIg,$k->ig_sekarang);
+        }
+        $rankTw=$arrTw;
+        $rankFb=$arrFb;
+        $rankIg=$arrIg;
+
+        rsort($rankTw);
+        rsort($rankFb);
+        rsort($rankIg);
+
+        $rankTw=array_flip($rankTw);
+        $rankFb=array_flip($rankFb);
+        $rankIg=array_flip($rankIg);
+
+        foreach($group as $row){
+            if($row->tw_kemarin>0){
+                $growth_twitter=$row->tw_sekarang/$row->tw_kemarin-1;
+            }else{
+                $growth_twitter=-1;
+            }
+
+            if($row->fb_kemarin>0){
+                $growth_fb=$row->fb_sekarang/$row->fb_kemarin-1;
+            }else{
+                $growth_fb=-1;
+            }
+
+            if($row->ig_kemarin>0){
+                $growth_ig=$row->ig_sekarang/$row->ig_kemarin-1;
+            }else{
+                $growth_ig=-1;
+            }
+
+            $data[]=array(
+                'id'=>$row->id,
+                'unit_name'=>$row->unit_name,
+                'follower'=>array(
+                    'growth_twitter'=>round($growth_twitter)." %",
+                    'tw_sekarang'=>$row->tw_sekarang,
+                    'rank_tw'=>($rankTw[$row->tw_sekarang] + 1),
+                    'growth_fb'=>round($growth_fb)." %",
+                    'fb_sekarang'=>$row->fb_sekarang,
+                    'rank_fb'=>($rankFb[$row->fb_sekarang] + 1),
+                    'growth_ig'=>round($growth_ig)." %",
+                    'ig_sekarang'=>$row->ig_sekarang,
+                    'rank_ig'=>($rankIg[$row->ig_sekarang] + 1)
+                )
+            );
+        }
+
+        return $data;
+    }
 }

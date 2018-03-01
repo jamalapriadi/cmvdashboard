@@ -91,12 +91,25 @@
                 }
             });
 
+            function addKoma(nStr)
+            {
+                nStr += '';
+                x = nStr.split('.');
+                x1 = x[0];
+                x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return x1 + x2;
+            }
+
             function showData(){
                 $.ajax({
                     url:"{{URL::to('sosmed/data/daily-report')}}",
                     type:"GET",
                     beforeSend:function(){
-
+                        $("#showReport").empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
                     },
                     success:function(result){
                         var el="";
@@ -146,7 +159,7 @@
                                         "<td>"+b.tanggal+"</td>"+
                                         "<td>";
                                             if(b.follower!=null){
-                                                el+=b.follower;
+                                                el+=addKoma(b.follower);
                                             }else{
                                                 el+='<label class="label label-danger">Set Follower</label>';
                                             }

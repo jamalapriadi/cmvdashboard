@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('import-data','HomeController@import_data');
 
 Route::group(['prefix'=>'sosmed'],function(){
+    Route::get('rangking','HomeController@sosmed_rangking');
     Route::get('group','HomeController@sosmed_group');
     Route::get('businness-unit','HomeController@sosmed_unit');
     Route::get('sosial-media','HomeController@sosmed_media');
@@ -72,6 +73,9 @@ Route::group(['prefix'=>'sosmed'],function(){
             Route::get('official-account-all-tv','Sosmed\ReportController@official_account_all_tv');
             Route::get('sosmed-official-and-program','Sosmed\ReportController@sosmed_official_and_program');
             Route::get('official-and-program','Sosmed\ReportController@official_and_program');
+
+            Route::get('rank-of-official-account-all-group','Sosmed\ReportController@rank_of_official_account_all_group');
+            Route::get('rank-of-official-account-all-tv','Sosmed\ReportController@rank_of_official_account_all_tv');
         });
     });
 });

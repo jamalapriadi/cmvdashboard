@@ -96,6 +96,10 @@ class HomeController extends Controller
             ->with('bu',$bu);
     }
 
+    public function sosmed_rangking(){
+        return view('sosmed.rangking');
+    }
+
     public function official_and_program(Request $request){
         $group=\App\Models\Sosmed\Groupunit::with(
             [

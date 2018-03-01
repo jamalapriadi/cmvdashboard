@@ -212,6 +212,19 @@
                 selectYears: true
             });
 
+            function addKoma(nStr)
+            {
+                nStr += '';
+                x = nStr.split('.');
+                x1 = x[0];
+                x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return x1 + x2;
+            }
+
             function targetVsAchievement(){
                 var group=$("#group option:selected").val();
                 var tanggal=$("#tanggal").val();
@@ -251,7 +264,7 @@
                                                 var ach=0;
                                                 el+="<td class='text-center'>";
                                                     if(d.followers.length>0){
-                                                        el+=d.followers[0].follower;
+                                                        el+=addKoma(d.followers[0].follower);
                                                         tanggal=d.followers[0].follower;
                                                     }else{
                                                         el+="-";
@@ -259,7 +272,7 @@
                                                 el+="</td>"+
                                                 "<td class='text-center'>";
                                                     if(d.target!=null){
-                                                        el+=d.target.target;
+                                                        el+=addKoma(d.target.target);
                                                         target=d.target.target;
                                                     }else{
                                                         el+="-";
@@ -267,7 +280,7 @@
                                                 el+="</td>"+
                                                 "<td class='text-center'>";
                                                     if(d.followers.length>0){
-                                                        el+=Math.round(tanggal/target*100)+" %";
+                                                        el+=(tanggal/target*100).toFixed(2)+" %";
                                                     }else{
                                                         el+="-";
                                                     }
@@ -318,14 +331,14 @@
                                             "<td>"+d.unit_name+"</td>";
                                             if(d.sosmed.length>0){
                                                 $.each(d.sosmed,function(e,f){
-                                                    el+="<td>"+f.followers.kemarin+"</td>"+
-                                                        "<td>"+f.followers.sekarang+"</td>"+
+                                                    el+="<td>"+addKoma(f.followers.kemarin)+"</td>"+
+                                                        "<td>"+addKoma(f.followers.sekarang)+"</td>"+
                                                         "<td>";
                                                             if(f.followers.growth>0){
                                                                 el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+f.followers.growth+" % </a>";
                                                             }else{
                                                                 if(!isNaN(f.followers.growth)){
-                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(f.followers.growth)+" % </a>";
+                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+f.followers.growth.toFixed(2)+" % </a>";
                                                                 }else{
                                                                     el+="-";
                                                                 }
@@ -350,43 +363,43 @@
                                         "<td>"+b.group_name+"</td>"
                                         for(c=0;c<result.summary.length;c++){
                                             if(result.summary[c].id==b.id){
-                                                el+="<td>"+result.summary[c].kemarin_twitter+"</td>"+
-                                                    "<td>"+result.summary[c].sekarang_twitter+"</td>"+
+                                                el+="<td>"+addKoma(result.summary[c].kemarin_twitter)+"</td>"+
+                                                    "<td>"+addKoma(result.summary[c].sekarang_twitter)+"</td>"+
                                                     "<td>";
                                                         var ghtwitter=result.summary[c].sekarang_twitter/result.summary[c].kemarin_twitter-1;
                                                         if(ghtwitter>0){
                                                             el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghtwitter+" % </a>";
                                                         }else{
                                                             if(!isNaN(ghtwitter)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(ghtwitter)+" % </a>";
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghtwitter.toFixed(2)+" % </a>";
                                                             }else{
                                                                 el+="-";
                                                             }
                                                         }
                                                     el+="</td>"+
-                                                    "<td>"+result.summary[c].kemarin_facebook+"</td>"+
-                                                    "<td>"+result.summary[c].sekarang_facebook+"</td>"+
+                                                    "<td>"+addKoma(result.summary[c].kemarin_facebook)+"</td>"+
+                                                    "<td>"+addKoma(result.summary[c].sekarang_facebook)+"</td>"+
                                                     "<td>";
                                                         var ghfacebook=result.summary[c].sekarang_facebook/result.summary[c].kemarin_facebook-1;
                                                         if(ghfacebook>0){
                                                             el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghfacebook+" % </a>";
                                                         }else{
                                                             if(!isNaN(ghfacebook)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(ghfacebook)+" % </a>";
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghfacebook.toFixed(2)+" % </a>";
                                                             }else{
                                                                 el+="-";
                                                             }
                                                         }
                                                     el+="</td>"+
-                                                    "<td>"+result.summary[c].kemarin_instagram+"</td>"+
-                                                    "<td>"+result.summary[c].sekarang_instagram+"</td>"+
+                                                    "<td>"+addKoma(result.summary[c].kemarin_instagram)+"</td>"+
+                                                    "<td>"+addKoma(result.summary[c].sekarang_instagram)+"</td>"+
                                                     "<td>";
                                                         var ghinstagram=result.summary[c].sekarang_instagram/result.summary[c].kemarin_instagram-1;
                                                         if(ghinstagram>0){
                                                             el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghinstagram+" % </a>";
                                                         }else{
                                                             if(!isNaN(ghinstagram)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(ghinstagram)+" % </a>";
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghinstagram.toFixed(2)+" % </a>";
                                                             }else{
                                                                 el+="-";
                                                             }
@@ -448,17 +461,17 @@
                                     $.each(b.unit,function(c,d){
                                         el+="<tr>"+
                                             "<td>"+d.unit_name+"</td>"+
-                                            "<td>"+d.total.tw+"</td>"+
-                                            "<td>"+d.total.fb+"</td>"+
-                                            "<td>"+d.total.ig+"</td>"+
+                                            "<td>"+addKoma(d.total.tw)+"</td>"+
+                                            "<td>"+addKoma(d.total.fb)+"</td>"+
+                                            "<td>"+addKoma(d.total.ig)+"</td>"+
                                         "</tr>";
                                     });
 
                                     el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
-                                        "<td>"+b.group_name+"</td>"+
-                                        "<td>"+b.total.tw+"</td>"+
-                                        "<td>"+b.total.fb+"</td>"+
-                                        "<td>"+b.total.ig+"</td>"+
+                                        "<td>"+addKoma(b.group_name)+"</td>"+
+                                        "<td>"+addKoma(b.total.tw)+"</td>"+
+                                        "<td>"+addKoma(b.total.fb)+"</td>"+
+                                        "<td>"+addKoma(b.total.ig)+"</td>"+
                                     "</tr>";
                                 })
                             "</tbody>"+
@@ -502,7 +515,7 @@
                                         if(b.sosmed.length>0){
                                             $.each(b.sosmed,function(c,d){
                                                 if(d.followers.length>0){
-                                                    el+="<td>"+d.followers[0].follower+"</td>";
+                                                    el+="<td>"+addKoma(d.followers[0].follower)+"</td>";
                                                 }else{
                                                     el+="<td>-</td>";
                                                 }
@@ -521,7 +534,7 @@
                                                 if(f.sosmed.length>0){
                                                     $.each(f.sosmed,function(g,h){
                                                         if(h.followers.length>0){
-                                                            el+="<td>"+h.followers[0].follower+"</td>";
+                                                            el+="<td>"+addKoma(h.followers[0].follower)+"</td>";
                                                         }else{
                                                             el+="<td>-</td>";
                                                         }
@@ -538,9 +551,9 @@
                                         "<td>Total</td>";
                                         for(z=0;z<result.summary.length>0;z++){
                                             if(result.summary[z].id==b.id){
-                                                el+="<td>"+result.summary[z].total_twitter+"</td>"+
-                                                "<td>"+result.summary[z].total_fb+"</td>"+
-                                                "<td>"+result.summary[z].total_ig+"</td>";
+                                                el+="<td>"+addKoma(result.summary[z].total_twitter)+"</td>"+
+                                                "<td>"+addKoma(result.summary[z].total_fb)+"</td>"+
+                                                "<td>"+addKoma(result.summary[z].total_ig)+"</td>";
                                             }
                                         }
                                 })
@@ -599,14 +612,14 @@
                                             "<td>"+d.unit_name+"</td>";
                                             if(d.sosmed.length>0){
                                                 $.each(d.sosmed,function(e,f){
-                                                    el+="<td>"+f.followers.kemarin+"</td>"+
-                                                        "<td>"+f.followers.sekarang+"</td>"+
+                                                    el+="<td>"+addKoma(f.followers.kemarin)+"</td>"+
+                                                        "<td>"+addKoma(f.followers.sekarang)+"</td>"+
                                                         "<td>";
                                                             if(f.followers.growth>0){
-                                                                el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+f.followers.growth+" % </a>";
+                                                                el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+f.followers.growth.toFixed(2)+" % </a>";
                                                             }else{
                                                                 if(!isNaN(f.followers.growth)){
-                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+f.followers.growth+" % </a>";
+                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+f.followers.growth.toFixed(2)+" % </a>";
                                                                 }else{
                                                                     el+="-";
                                                                 }
@@ -631,43 +644,43 @@
                                         "<td>"+b.group_name+"</td>"
                                         for(c=0;c<result.summary.length;c++){
                                             if(result.summary[c].id==b.id){
-                                                el+="<td>"+result.summary[c].kemarin_twitter+"</td>"+
-                                                    "<td>"+result.summary[c].sekarang_twitter+"</td>"+
+                                                el+="<td>"+addKoma(result.summary[c].kemarin_twitter)+"</td>"+
+                                                    "<td>"+addKoma(result.summary[c].sekarang_twitter)+"</td>"+
                                                     "<td>";
                                                         var ghtwitter=result.summary[c].sekarang_twitter/result.summary[c].kemarin_twitter-1;
                                                         if(ghtwitter>0){
-                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghtwitter+" % </a>";
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghtwitter.toFixed(2)+" % </a>";
                                                         }else{
                                                             if(!isNaN(ghtwitter)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghtwitter+" % </a>";
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghtwitter.toFixed(2)+" % </a>";
                                                             }else{
                                                                 el+="-";
                                                             }
                                                         }
                                                     el+="</td>"+
-                                                    "<td>"+result.summary[c].kemarin_facebook+"</td>"+
-                                                    "<td>"+result.summary[c].sekarang_facebook+"</td>"+
+                                                    "<td>"+addKoma(result.summary[c].kemarin_facebook)+"</td>"+
+                                                    "<td>"+addKoma(result.summary[c].sekarang_facebook)+"</td>"+
                                                     "<td>";
                                                         var ghfacebook=result.summary[c].sekarang_facebook/result.summary[c].kemarin_facebook-1;
                                                         if(ghfacebook>0){
-                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghfacebook+" % </a>";
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghfacebook.toFixed(2)+" % </a>";
                                                         }else{
                                                             if(!isNaN(ghfacebook)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghfacebook+" % </a>";
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghfacebook.toFixed(2)+" % </a>";
                                                             }else{
                                                                 el+="-";
                                                             }
                                                         }
                                                     el+="</td>"+
-                                                    "<td>"+result.summary[c].kemarin_instagram+"</td>"+
-                                                    "<td>"+result.summary[c].sekarang_instagram+"</td>"+
+                                                    "<td>"+addKoma(result.summary[c].kemarin_instagram)+"</td>"+
+                                                    "<td>"+addKoma(result.summary[c].sekarang_instagram)+"</td>"+
                                                     "<td>";
                                                         var ghinstagram=result.summary[c].sekarang_instagram/result.summary[c].kemarin_instagram-1;
                                                         if(ghinstagram>0){
-                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghinstagram+" % </a>";
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghinstagram.toFixed(2)+" % </a>";
                                                         }else{
                                                             if(!isNaN(ghinstagram)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghinstagram+" % </a>";
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghinstagram.toFixed(2)+" % </a>";
                                                             }else{
                                                                 el+="-";
                                                             }
@@ -718,69 +731,42 @@
                             $("#sosmedOfficialAndProgram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
                         },
                         success:function(result){
-                            el+="<table class='table table-striped table-bordered'>"+
+                            el+="<table class='table table-striped'>"+
                                 "<thead>"+
-                                    "<tr>"+ 
-                                        '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">General Name</th>'+
-                                        "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
-                                        "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>"+
-                                        "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>"+
+                                    "<tr>"+
+                                        '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>'+
+                                        "<th class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
+                                        "<th style='background:#5054ab;color:white'>Facebook</th>"+
+                                        "<th style='background:#a200b2;color:white'>Instagram</th>"+
+                                    "</tr>"+
+                                    "<tr>"+
+                                        "<th class='text-center' style='background:#008ef6;color:white'>"+result.tanggal+"</th>"+
+                                        "<th style='background:#5054ab;color:white'>"+result.tanggal+"</th>"+
+                                        "<th style='background:#a200b2;color:white'>"+result.tanggal+"</th>"+
                                     "</tr>"+
                                 "</thead>"+
-                                '<tbody style="color:#222">';
-                                    $.each(result.unit,function(a,b){
-                                        /* official */
-                                        el+="<tr>"+
-                                            "<td>"+b.unit_name+" Official</td>";
-                                            if(b.sosmed.length>0){
-                                                $.each(b.sosmed,function(c,d){
-                                                    if(d.followers.length>0){
-                                                        el+="<td>"+d.followers[0].follower+"</td>";
-                                                    }else{
-                                                        el+="<td>-</td>";
-                                                    }
-                                                })
-                                            }else{
-                                                el+="<td>-</td>"+
-                                                "<td>-</td>"+
-                                                "<td>-</td>";
-                                            }
-                                        el+="</tr>";
+                                "<tbody style='color:#222'>";
+                                    $.each(result.data,function(a,b){
+                                        $.each(b.unit,function(c,d){
+                                            el+="<tr>"+
+                                                "<td>"+d.unit_name+"</td>"+
+                                                "<td>"+addKoma(d.total.tw)+"</td>"+
+                                                "<td>"+addKoma(d.total.fb)+"</td>"+
+                                                "<td>"+addKoma(d.total.ig)+"</td>"+
+                                            "</tr>";
+                                        });
 
-                                        if(b.program.length>0){
-                                            $.each(b.program,function(e,f){
-                                                el+="<tr>"+
-                                                    "<td>"+f.program_name+"</td>";
-                                                    if(f.sosmed.length>0){
-                                                        $.each(f.sosmed,function(g,h){
-                                                            if(h.followers.length>0){
-                                                                el+="<td>"+h.followers[0].follower+"</td>";
-                                                            }else{
-                                                                el+="<td>-</td>";
-                                                            }
-                                                        })
-                                                    }else{
-                                                        el+="<td></td>"+
-                                                        "<td></td>"+
-                                                        "<td></td>";
-                                                    }
-                                            })
-                                        }
-                                                
                                         el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
-                                            "<td>Total</td>";
-                                            for(z=0;z<result.summary.length>0;z++){
-                                                if(result.summary[z].id==b.id){
-                                                    el+="<td>"+result.summary[z].total_twitter+"</td>"+
-                                                    "<td>"+result.summary[z].total_fb+"</td>"+
-                                                    "<td>"+result.summary[z].total_ig+"</td>";
-                                                }
-                                            }
+                                            "<td>"+b.group_name+"</td>"+
+                                            "<td>"+addKoma(b.total.tw)+"</td>"+
+                                            "<td>"+addKoma(b.total.fb)+"</td>"+
+                                            "<td>"+addKoma(b.total.ig)+"</td>"+
+                                        "</tr>";
                                     })
-                                el+="</tbody>"+
+                                "</tbody>"+
                             "</table>";
 
-                            $("#officialAndProgram").empty().html(el);
+                            $("#sosmedOfficialAndProgram").empty().html(el);
                         },
                         error:function(){
 
