@@ -318,110 +318,84 @@
                                             "<td>"+d.unit_name+"</td>";
                                             if(d.sosmed.length>0){
                                                 $.each(d.sosmed,function(e,f){
-                                                    if(f.followers.length>0){
-                                                        var sekarang=0;
-                                                        var kemarin=0;
-                                                        var growth=0;
-
-                                                        for(a=0;a<f.followers.length;a++){
-                                                            if(f.followers[a].tanggal==result.sekarang){
-                                                                sekarang=f.followers[a].follower;
-                                                            }else if(f.followers[a].tanggal=result.kemarin){
-                                                                kemarin=f.followers[a].follower;
-                                                            }
-                                                        }
-
-                                                        growth=sekarang/kemarin-1;
-
-                                                        el+="<td>"+kemarin+"</td>"+
-                                                            "<td>"+sekarang+"</td>"+
-                                                            "<td>";
-                                                            if(growth>0){
-                                                                el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+Math.round(growth)+" % </a>";
+                                                    el+="<td>"+f.followers.kemarin+"</td>"+
+                                                        "<td>"+f.followers.sekarang+"</td>"+
+                                                        "<td>";
+                                                            if(f.followers.growth>0){
+                                                                el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+f.followers.growth+" % </a>";
                                                             }else{
-                                                                if(!isNaN(growth)){
-                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(growth)+" % </a>";
+                                                                if(!isNaN(f.followers.growth)){
+                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(f.followers.growth)+" % </a>";
                                                                 }else{
                                                                     el+="-";
                                                                 }
                                                             }
-                                                            el+="</td>";
-                                                    }else{
-                                                        el+="<td>-</td>"+
-                                                            "<td>-</td>"+
-                                                            "<td>-</td>";
-                                                    }
+                                                        el+="</td>";
                                                 })
                                             }else{
-                                                el+="<td>-</td>"+
-                                                "<td>-</td>"+
-                                                "<td>-</td>"+
-                                                "<td>-</td>"+
-                                                "<td>-</td>"+
-                                                "<td>-</td>"+
-                                                "<td>-</td>"+
-                                                "<td>-</td>"+
-                                                "<td>-</td>";
+                                                el+="<td></td>"+
+                                                "<td></td>"+
+                                                "<td></td>"+
+                                                "<td></td>"+
+                                                "<td></td>"+
+                                                "<td></td>"+
+                                                "<td></td>"+
+                                                "<td></td>"+
+                                                "<td></td>";
                                             }
                                         el+="</tr>";
-                                    })
+                                    });
+
                                     el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
-                                        "<td>"+b.group_name+"</td>";
-                                        if(result.summary.length>0){
-                                            $.each(result.sosmed,function(f,g){
-                                                var sumsekarang=0;
-                                                var sumkemarin=0;
-                                                var sumgrowth=0;
-                                                for(j=0;j<result.summary.length;j++){
-                                                    if(result.summary[j].group_id==b.id && result.summary[j].tanggal==result.sekarang && result.summary[j].sos_id==g.id){
-                                                        sumsekarang=result.summary[j].jumlah;
-                                                    }
-
-                                                    if(result.summary[j].group_id==b.id && result.summary[j].tanggal==result.kemarin && result.summary[j].sos_id==g.id){
-                                                        sumkemarin=result.summary[j].jumlah;
-                                                    }
-                                                }
-                                                sumgrowth=sumsekarang/sumkemarin-1;
-
-                                                el+="<td>";
-                                                    if(sumkemarin>0){
-                                                        el+=sumkemarin;
-                                                    }else{
-                                                        el+="-";
-                                                    }
-                                                el+="</td>"+
-                                                "<td>";
-                                                    if(sumsekarang>0){
-                                                        el+=sumsekarang;
-                                                    }else{
-                                                        el+="-";
-                                                    }
-                                                el+="</td>"+
-                                                "<td>";
-                                                    if(sumgrowth>0){
-                                                        el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+Math.round(sumgrowth)+" % </a>";
-                                                    }else{
-                                                        if(!isNaN(sumgrowth)){
-                                                            el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(sumgrowth)+" % </a>";
+                                        "<td>"+b.group_name+"</td>"
+                                        for(c=0;c<result.summary.length;c++){
+                                            if(result.summary[c].id==b.id){
+                                                el+="<td>"+result.summary[c].kemarin_twitter+"</td>"+
+                                                    "<td>"+result.summary[c].sekarang_twitter+"</td>"+
+                                                    "<td>";
+                                                        var ghtwitter=result.summary[c].sekarang_twitter/result.summary[c].kemarin_twitter-1;
+                                                        if(ghtwitter>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghtwitter+" % </a>";
                                                         }else{
-                                                            el+="-";
+                                                            if(!isNaN(ghtwitter)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(ghtwitter)+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
                                                         }
-                                                    }
-                                                el+="</td>";
-                                            })
-                                        }else{
-                                            el+="<td></td>"+
-                                            "<td></td>"+
-                                            "<td></td>"+
-                                            "<td></td>"+
-                                            "<td></td>"+
-                                            "<td></td>"+
-                                            "<td></td>"+
-                                            "<td></td>"+
-                                            "<td></td>";
+                                                    el+="</td>"+
+                                                    "<td>"+result.summary[c].kemarin_facebook+"</td>"+
+                                                    "<td>"+result.summary[c].sekarang_facebook+"</td>"+
+                                                    "<td>";
+                                                        var ghfacebook=result.summary[c].sekarang_facebook/result.summary[c].kemarin_facebook-1;
+                                                        if(ghfacebook>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghfacebook+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(ghfacebook)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(ghfacebook)+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+="</td>"+
+                                                    "<td>"+result.summary[c].kemarin_instagram+"</td>"+
+                                                    "<td>"+result.summary[c].sekarang_instagram+"</td>"+
+                                                    "<td>";
+                                                        var ghinstagram=result.summary[c].sekarang_instagram/result.summary[c].kemarin_instagram-1;
+                                                        if(ghinstagram>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghinstagram+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(ghinstagram)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(ghinstagram)+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+="</td>";
+                                            }
                                         }
-                                    el+="</tr>";
-                                })                        
+                                    "</tr>";
+                                })                       
                             el+='</tbody>'+
                             //'<tfoot>'+
                             //    "<tr>"+
@@ -474,9 +448,9 @@
                                     $.each(b.unit,function(c,d){
                                         el+="<tr>"+
                                             "<td>"+d.unit_name+"</td>"+
-                                            "<td>"+d.jumlah_twitter+"</td>"+
-                                            "<td>"+d.jumlah_facebook+"</td>"+
-                                            "<td>"+d.jumlah_instagram+"</td>"+
+                                            "<td>"+d.total.tw+"</td>"+
+                                            "<td>"+d.total.fb+"</td>"+
+                                            "<td>"+d.total.ig+"</td>"+
                                         "</tr>";
                                     });
 
@@ -521,52 +495,54 @@
                                 "</tr>"+
                             "</thead>"+
                             '<tbody style="color:#222">';
-                                $.each(result,function(a,b){
+                                $.each(result.unit,function(a,b){
+                                    /* official */
                                     el+="<tr>"+
                                         "<td>"+b.unit_name+" Official</td>";
-                                        if(b.official.length>0){
-                                            $.each(b.official,function(c,d){
-                                                el+="<td>";
-                                                    if(d.total!=null){
-                                                        el+=d.total;
-                                                    }else{
-                                                        el+="-";
-                                                    }
-
-                                                el+="</td>";
+                                        if(b.sosmed.length>0){
+                                            $.each(b.sosmed,function(c,d){
+                                                if(d.followers.length>0){
+                                                    el+="<td>"+d.followers[0].follower+"</td>";
+                                                }else{
+                                                    el+="<td>-</td>";
+                                                }
                                             })
-
                                         }else{
                                             el+="<td>-</td>"+
                                             "<td>-</td>"+
                                             "<td>-</td>";
                                         }
-                                    "</tr>";
-                                    $.each(b.program,function(c,d){
-                                        el+="<tr>"+
-                                            "<td>"+d.program_name+"</td>";
-                                            if(d.sosmed.length>0){
-                                                $.each(d.sosmed,function(g,h){
-                                                    el+="<td>";
-                                                        if(h.total!=null){
-                                                            el+=h.total;
+                                    el+="</tr>";
+
+                                    if(b.program.length>0){
+                                        $.each(b.program,function(e,f){
+                                            el+="<tr>"+
+                                                "<td>"+f.program_name+"</td>";
+                                                if(f.sosmed.length>0){
+                                                    $.each(f.sosmed,function(g,h){
+                                                        if(h.followers.length>0){
+                                                            el+="<td>"+h.followers[0].follower+"</td>";
                                                         }else{
-                                                            el+="-";
+                                                            el+="<td>-</td>";
                                                         }
-                                                    el+="</td>";
-                                                })
-                                            }else{
-                                                el+="<td>-</td>"+
-                                                    "<td>-</td>"+
-                                                    "<td>-</td>";
-                                            }
-                                    });
-                                    
+                                                    })
+                                                }else{
+                                                    el+="<td></td>"+
+                                                    "<td></td>"+
+                                                    "<td></td>";
+                                                }
+                                        })
+                                    }
+                                            
                                     el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
-                                        "<td>Total</td>"+
-                                        "<td>"+b.total.tw+"</td>"+
-                                        "<td>"+b.total.fb+"</td>"+
-                                        "<td>"+b.total.ig+"</td>";
+                                        "<td>Total</td>";
+                                        for(z=0;z<result.summary.length>0;z++){
+                                            if(result.summary[z].id==b.id){
+                                                el+="<td>"+result.summary[z].total_twitter+"</td>"+
+                                                "<td>"+result.summary[z].total_fb+"</td>"+
+                                                "<td>"+result.summary[z].total_ig+"</td>";
+                                            }
+                                        }
                                 })
                             el+="</tbody>"+
                         "</table>";
@@ -600,119 +576,42 @@
                             $("#divofficialAccountAllTv").empty().html("<div class='alert alert-info'>Please Wait...</div>");
                         },
                         success:function(result){
-                            el+='<table class="table table-striped table-bordered">'+
-                                '<thead>'+
-                                    '<tr>'+
-                                        '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>';
-                                        $.each(result.sosmed,function(a,b){
-                                            el+="<th colspan='3' class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+b.sosmed_name+"</th>";
-                                        })
-                                    el+='</tr>'+
-                                    '<tr>';
-                                        $.each(result.sosmed,function(a,b){
-                                            el+="<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+result.kemarin+"</th>"+
-                                            "<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+result.sekarang+"</th>"+
-                                            "<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>GROWTH FROM YESTERDAY</th>";
-                                        })
-                                    el+='</tr>'+
-                                '</thead>'+
-                                '<tbody style="color:#222">';
-                                    $.each(result.unit,function(a,b){
-                                        $.each(b.unit,function(c,d){
-                                            el+="<tr>"+
-                                                "<td>"+d.unit_name+"</td>";
-                                                if(d.sosmed.length>0){
-                                                    $.each(d.sosmed,function(e,f){
-                                                        if(f.followers.length>0){
-                                                            var sekarang=0;
-                                                            var kemarin=0;
-                                                            var growth=0;
-
-                                                            for(a=0;a<f.followers.length;a++){
-                                                                if(f.followers[a].tanggal==result.sekarang){
-                                                                    sekarang=f.followers[a].follower;
-                                                                }else if(f.followers[a].tanggal=result.kemarin){
-                                                                    kemarin=f.followers[a].follower;
-                                                                }
-                                                            }
-
-                                                            growth=sekarang/kemarin-1;
-
-                                                            el+="<td>"+kemarin+"</td>"+
-                                                                "<td>"+sekarang+"</td>"+
-                                                                "<td>";
-                                                                if(growth>0){
-                                                                    el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+Math.round(growth)+" % </a>";
-                                                                }else{
-                                                                    if(!isNaN(growth)){
-                                                                        el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(growth)+" % </a>";
-                                                                    }else{
-                                                                        el+="-";
-                                                                    }
-                                                                }
-                                                                el+="</td>";
-                                                        }else{
-                                                            el+="<td>-</td>"+
-                                                                "<td>-</td>"+
-                                                                "<td>-</td>";
-                                                        }
-                                                    })
-                                                }else{
-                                                    el+="<td>-</td>"+
-                                                    "<td>-</td>"+
-                                                    "<td>-</td>"+
-                                                    "<td>-</td>"+
-                                                    "<td>-</td>"+
-                                                    "<td>-</td>"+
-                                                    "<td>-</td>"+
-                                                    "<td>-</td>"+
-                                                    "<td>-</td>";
-                                                }
-                                            el+="</tr>";
-                                        })
-                                        el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
-                                            "<td>"+b.group_name+"</td>";
-                                            if(result.summary.length>0){
-                                                $.each(result.sosmed,function(f,g){
-                                                    var sumsekarang=0;
-                                                    var sumkemarin=0;
-                                                    var sumgrowth=0;
-                                                    for(j=0;j<result.summary.length;j++){
-                                                        if(result.summary[j].group_id==b.id && result.summary[j].tanggal==result.sekarang && result.summary[j].sos_id==g.id){
-                                                            sumsekarang=result.summary[j].jumlah;
-                                                        }
-
-                                                        if(result.summary[j].group_id==b.id && result.summary[j].tanggal==result.kemarin && result.summary[j].sos_id==g.id){
-                                                            sumkemarin=result.summary[j].jumlah;
-                                                        }
-                                                    }
-                                                    sumgrowth=sumsekarang/sumkemarin-1;
-
-                                                    el+="<td>";
-                                                        if(sumkemarin>0){
-                                                            el+=sumkemarin;
-                                                        }else{
-                                                            el+="-";
-                                                        }
-                                                    el+="</td>"+
-                                                    "<td>";
-                                                        if(sumsekarang>0){
-                                                            el+=sumsekarang;
-                                                        }else{
-                                                            el+="-";
-                                                        }
-                                                    el+="</td>"+
-                                                    "<td>";
-                                                        if(sumgrowth>0){
-                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+Math.round(sumgrowth)+" % </a>";
-                                                        }else{
-                                                            if(!isNaN(sumgrowth)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(sumgrowth)+" % </a>";
+                        el+='<table class="table table-striped table-bordered">'+
+                            '<thead>'+
+                                '<tr>'+
+                                    '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>';
+                                    $.each(result.sosmed,function(a,b){
+                                        el+="<th colspan='3' class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+b.sosmed_name+"</th>";
+                                    })
+                                el+='</tr>'+
+                                '<tr>';
+                                    $.each(result.sosmed,function(a,b){
+                                        el+="<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+result.kemarin+"</th>"+
+                                        "<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+result.sekarang+"</th>"+
+                                        "<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>GROWTH FROM YESTERDAY</th>";
+                                    })
+                                el+='</tr>'+
+                            '</thead>'+
+                            '<tbody style="color:#222">';
+                                $.each(result.unit,function(a,b){
+                                    $.each(b.unit,function(c,d){
+                                        el+="<tr>"+
+                                            "<td>"+d.unit_name+"</td>";
+                                            if(d.sosmed.length>0){
+                                                $.each(d.sosmed,function(e,f){
+                                                    el+="<td>"+f.followers.kemarin+"</td>"+
+                                                        "<td>"+f.followers.sekarang+"</td>"+
+                                                        "<td>";
+                                                            if(f.followers.growth>0){
+                                                                el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+f.followers.growth+" % </a>";
                                                             }else{
-                                                                el+="-";
+                                                                if(!isNaN(f.followers.growth)){
+                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+f.followers.growth+" % </a>";
+                                                                }else{
+                                                                    el+="-";
+                                                                }
                                                             }
-                                                        }
-                                                    el+="</td>";
+                                                        el+="</td>";
                                                 })
                                             }else{
                                                 el+="<td></td>"+
@@ -726,12 +625,76 @@
                                                 "<td></td>";
                                             }
                                         el+="</tr>";
-                                    })                        
-                                el+='</tbody>'+
-                            '</table>';
+                                    });
 
-                            $("#divofficialAccountAllTv").empty().html(el);
-                        },
+                                    el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
+                                        "<td>"+b.group_name+"</td>"
+                                        for(c=0;c<result.summary.length;c++){
+                                            if(result.summary[c].id==b.id){
+                                                el+="<td>"+result.summary[c].kemarin_twitter+"</td>"+
+                                                    "<td>"+result.summary[c].sekarang_twitter+"</td>"+
+                                                    "<td>";
+                                                        var ghtwitter=result.summary[c].sekarang_twitter/result.summary[c].kemarin_twitter-1;
+                                                        if(ghtwitter>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghtwitter+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(ghtwitter)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghtwitter+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+="</td>"+
+                                                    "<td>"+result.summary[c].kemarin_facebook+"</td>"+
+                                                    "<td>"+result.summary[c].sekarang_facebook+"</td>"+
+                                                    "<td>";
+                                                        var ghfacebook=result.summary[c].sekarang_facebook/result.summary[c].kemarin_facebook-1;
+                                                        if(ghfacebook>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghfacebook+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(ghfacebook)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghfacebook+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+="</td>"+
+                                                    "<td>"+result.summary[c].kemarin_instagram+"</td>"+
+                                                    "<td>"+result.summary[c].sekarang_instagram+"</td>"+
+                                                    "<td>";
+                                                        var ghinstagram=result.summary[c].sekarang_instagram/result.summary[c].kemarin_instagram-1;
+                                                        if(ghinstagram>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghinstagram+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(ghinstagram)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghinstagram+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+="</td>";
+                                            }
+                                        }
+                                    "</tr>";
+                                })                       
+                            el+='</tbody>'+
+                            //'<tfoot>'+
+                            //    "<tr>"+
+                                //    '<th style="background:#419F51;color:white" class="align-middle text-white">Nilai Rata - Rata</th>'+
+                                //    "<th></th>"+
+                                //    "<th></th>"+
+                                //    "<th></th>"+
+                                //    "<th></th>"+
+                                //    "<th></th>"+
+                                //    "<th></th>"+
+                                //    "<th></th>"+
+                                //    "<th></th>"+
+                                //    "<th></th>"+
+                            //"</tfoot>"+
+                        '</table>';
+
+                        $("#divofficialAccountAllTv").empty().html(el);
+                    },
                         error:function(){
 
                         }
@@ -755,42 +718,69 @@
                             $("#sosmedOfficialAndProgram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
                         },
                         success:function(result){
-                            el+="<table class='table table-striped'>"+
+                            el+="<table class='table table-striped table-bordered'>"+
                                 "<thead>"+
-                                    "<tr>"+
-                                        '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>'+
-                                        "<th class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
-                                        "<th style='background:#5054ab;color:white'>Facebook</th>"+
-                                        "<th style='background:#a200b2;color:white'>Instagram</th>"+
-                                    "</tr>"+
-                                    "<tr>"+
-                                        "<th class='text-center' style='background:#008ef6;color:white'>"+result.tanggal+"</th>"+
-                                        "<th style='background:#5054ab;color:white'>"+result.tanggal+"</th>"+
-                                        "<th style='background:#a200b2;color:white'>"+result.tanggal+"</th>"+
+                                    "<tr>"+ 
+                                        '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">General Name</th>'+
+                                        "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
+                                        "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>"+
+                                        "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>"+
                                     "</tr>"+
                                 "</thead>"+
-                                "<tbody style='color:#222'>";
-                                    $.each(result.data,function(a,b){
-                                        $.each(b.unit,function(c,d){
-                                            el+="<tr>"+
-                                                "<td>"+d.unit_name+"</td>"+
-                                                "<td>"+d.jumlah_twitter+"</td>"+
-                                                "<td>"+d.jumlah_facebook+"</td>"+
-                                                "<td>"+d.jumlah_instagram+"</td>"+
-                                            "</tr>";
-                                        });
+                                '<tbody style="color:#222">';
+                                    $.each(result.unit,function(a,b){
+                                        /* official */
+                                        el+="<tr>"+
+                                            "<td>"+b.unit_name+" Official</td>";
+                                            if(b.sosmed.length>0){
+                                                $.each(b.sosmed,function(c,d){
+                                                    if(d.followers.length>0){
+                                                        el+="<td>"+d.followers[0].follower+"</td>";
+                                                    }else{
+                                                        el+="<td>-</td>";
+                                                    }
+                                                })
+                                            }else{
+                                                el+="<td>-</td>"+
+                                                "<td>-</td>"+
+                                                "<td>-</td>";
+                                            }
+                                        el+="</tr>";
 
+                                        if(b.program.length>0){
+                                            $.each(b.program,function(e,f){
+                                                el+="<tr>"+
+                                                    "<td>"+f.program_name+"</td>";
+                                                    if(f.sosmed.length>0){
+                                                        $.each(f.sosmed,function(g,h){
+                                                            if(h.followers.length>0){
+                                                                el+="<td>"+h.followers[0].follower+"</td>";
+                                                            }else{
+                                                                el+="<td>-</td>";
+                                                            }
+                                                        })
+                                                    }else{
+                                                        el+="<td></td>"+
+                                                        "<td></td>"+
+                                                        "<td></td>";
+                                                    }
+                                            })
+                                        }
+                                                
                                         el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
-                                            "<td>"+b.group_name+"</td>"+
-                                            "<td>"+b.total.tw+"</td>"+
-                                            "<td>"+b.total.fb+"</td>"+
-                                            "<td>"+b.total.ig+"</td>"+
-                                        "</tr>";
+                                            "<td>Total</td>";
+                                            for(z=0;z<result.summary.length>0;z++){
+                                                if(result.summary[z].id==b.id){
+                                                    el+="<td>"+result.summary[z].total_twitter+"</td>"+
+                                                    "<td>"+result.summary[z].total_fb+"</td>"+
+                                                    "<td>"+result.summary[z].total_ig+"</td>";
+                                                }
+                                            }
                                     })
-                                "</tbody>"+
+                                el+="</tbody>"+
                             "</table>";
 
-                            $("#sosmedOfficialAndProgram").empty().html(el);
+                            $("#officialAndProgram").empty().html(el);
                         },
                         error:function(){
 

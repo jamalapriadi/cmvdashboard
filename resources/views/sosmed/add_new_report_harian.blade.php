@@ -32,61 +32,9 @@
     <div class="panel panel-default">
         <div class="panel-heading">Add New Daily Report</div>
         <div class="panel-body">
-            <div id="showForm">
-                <form id="form" onsubmit="return false;">
-                    <div class="form-group">
-                        <label class="control-label">Type</label>
-                        <select name='type' id='type' class='form-control'>
-                            <option value="program">Program</option>
-                            <option value="corporate">Corporate</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Tanggal</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                            <input type="text" id="tanggal" name="tanggal" class="form-control daterange-single">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label text-semibold">Business Unit</label>
-                        <select name="unit" id="unit" class="form-control">
-                            <option value="" disabled selected>--Select Business Unit--</option>
-                            @foreach($bu as $row)
-                                <option value="{{$row->id}}">{{$row->unit_name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div id="showProgram">
-                        <div class="form-group">
-                            <label class="control-label">Program</label>
-                            <select name="program" id="program" class="form-control">
-                                <option value=''>--Select Program--</option>
-
-                            </select>
-                        </div>
-                    </div>
-
-                    <br>
-
-                    <div id="showSosmed"></div>
-                    
-                    <br>
-                    <div id="pesan"></div>
-
-                    <hr>
-
-                    <div class="form-group">
-                        <button class="btn btn-primary">
-                            <i class="icon-floppy-disk"></i> Save
-                        </button>
-
-                        <a href="{{URL::to('sosmed/input-report-harian')}}" class="btn btn-default">
-                            Back
-                        </a>
-                    </div>
-                </form>
-            </div>
+            <div id="pesansukses"></div>
+            <div id="showKonfirmasi"></div>
+            <div id="showForm"></div>
         </div>
     </div>
 
@@ -107,6 +55,7 @@
     <script>
         $(function(){
             var kode="";
+            var data;
 
             $('.daterange-single').daterangepicker({ 
                 singleDatePicker: true,
@@ -202,6 +151,89 @@
                     }
                 })
             });
+
+            function showForm(){
+                var el="";
+                $("#showKonfirmasi").hide();
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/list-group')}}",
+                    type:"GET",
+                    data:"unit=unit&sosmed=sosmed",
+                    beforeSend:function(){
+                        $("#showForm").empty().html("<div class='alert alert-info'>Please Wait....</div>");
+                    },
+                    success:function(result){
+                        var kembali="{{URL::to('sosmed/input-report-harian')}}";
+
+                        el+='<form id="form" onsubmit="return false;">'+
+                            '<div class="form-group">'+
+                                '<label class="control-label">Type</label>'+
+                                "<select name='type' id='type' class='form-control'>"+
+                                    '<option value="program">Program</option>'+
+                                    '<option value="corporate">Corporate</option>'+
+                                '</select>'+
+                            '</div>'+
+                            '<div class="form-group">'+
+                                '<label class="control-label">Tanggal</label>'+
+                                '<div class="input-group">'+
+                                    '<span class="input-group-addon"><i class="icon-calendar5"></i></span>'+
+                                    '<input type="text" id="tanggal" name="tanggal" class="form-control daterange-single">'+
+                                '</div>'+
+                            '</div>'+
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Business Unit</label>'+
+                                '<select name="unit" id="unit" class="form-control">'+
+                                    '<option value="">--Select Business Unit--</option>';
+                                    $.each(result.unit,function(a,b){
+                                        el+="<option value='"+b.id+"'>"+b.unit_name+"</option>";
+                                    })
+                                el+='</select>'+
+                            '</div>'+
+                            '<div id="showProgram">'+
+                                '<div class="form-group">'+
+                                    '<label class="control-label">Program</label>'+
+                                    '<select name="program" id="program" class="form-control">'+
+                                        "<option value=''>--Select Program--</option>";
+
+                                    el+="</select>"+
+                                '</div>'+
+                            '</div>'+
+
+                            '<br>'+
+
+                            '<div id="showSosmed"></div>'+
+                            '<div id="pesan"></div>'+
+
+                            '<hr>'+
+
+                            '<div class="form-group">'+
+                                '<button class="btn btn-primary">'+
+                                    '<i class="icon-floppy-disk"></i> Save'+
+                                '</button>'+
+
+                                '<a href="'+kembali+'" class="btn btn-default">'+
+                                    'Back'+
+                                '</a>'+
+                            '</div>'+
+
+                        '</form>';
+
+                        $("#showForm").empty().html(el);
+
+                        $("#showForm").show();
+
+                        $('.daterange-single').daterangepicker({ 
+                            singleDatePicker: true,
+                            selectMonths: true,
+                            selectYears: true
+                        });
+                    },
+                    error:function(){
+                        $("#showForm").empty().html("<div class='alert alert-danger'>Data Failed to load</div>");
+                    }
+                })
+            }
 
             $(document).on("change","#type",function(){
                 var type=$("#type option:selected").val();
@@ -336,7 +368,7 @@
             });
 
             $(document).on("submit","#form",function(e){
-                var data = new FormData(this);
+                data = new FormData(this);
                 if($("#form")[0].checkValidity()) {
                     //updateAllMessageForms();
                     e.preventDefault();
@@ -349,24 +381,29 @@
                         cache       : false,
                         processData : false,
                         beforeSend  : function (){
+                            $("#pesansukses").empty();
                             $('#pesan').empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
                         },
                         success : function (data) {
                             if(data.success==true){
                                 /* tampilkan data konfirmasi */
+                                $("#pesan").empty();
                                 var el="";
-                                el+="<div class='table-responsive'>"+
+                                el+='<div class="alert alert-info alert-bordered alert-rounded">'+
+                                    '<button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>'+
+                                    '<span class="text-semibold">Heads up!</span> This alert needs your attention, but its not super important.'+
+                                '</div>'+
+                                "<div class='table-responsive'>"+
                                     "<table class='table table-striped'>"+
                                         "<thead>"+
                                             "<tr>"+
                                                 '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Official Account</th>'+
                                                 "<th colspan='3' class='text-center' class='text-center' style='background:#222;color:white'>Tanggal</th>"+
-                                                '<th rowspan="2" width="5%" style="background:#ef2f49;color:white" class="align-middle text-white">Actions</th>'+
                                             "</tr>"+
                                             "<tr>"+
                                                 "<th class='text-center' style='background:#008ef6;color:white'>"+data.tanggal_kemarin+"</td>"+
                                                 "<th class='text-center' style='background:#008ef6;color:white'>"+data.tanggal_sekarang+"</td>"+
-                                                "<th width='20%' class='text-center' style='background:#008ef6;color:white'>GROWTH FROM YESTERDAY</th>"+
+                                                "<th class='text-center' style='background:#008ef6;color:white'>Additional Follower</td>"+
                                             "</tr>"+
                                         "</thead>"+
                                         "<tbody>";
@@ -407,14 +444,22 @@
                                                             }
                                                         }
                                                     el+="</td>"+
-                                                    "<td><a class='btn btn-sm btn-warning'><i class='icon-pencil4'></i></a></td>"+
                                                 "</tr>";
                                             })
                                         el+="</tbody>"+
                                     "</table>"+
+                                "</div>"+
+
+                                "<div class='well'>"+
+                                    "<div class='form-group'>"+
+                                        "<a class='btn btn-primary' id='konfirmasi'><i class='icon-file-check2'></i> Konfirmasi</>"+
+                                        "<a class='btn btn-default' id='kembali'><i class='icon-backward2'></i> Back</a>"+
+                                    "</div>"+
                                 "</div>";
                                 
-                                $("#showForm").empty().html(el);
+                                $("#showForm").hide();
+                                $("#showKonfirmasi").empty().html(el);
+                                $("#showKonfirmasi").show();
                                 /* end tampilkan data konfirmasi */
                             }else{
                                 new PNotify({
@@ -434,10 +479,13 @@
                 }else console.log("invalid form");
             });
 
-            $(document).on("submit","#form2",function(e){
-                var data = new FormData(this);
+            $(document).on("click","#kembali",function(){
+                $("#showForm").show();
+                $("#showKonfirmasi").hide();
+            });
+
+            $(document).on("click","#konfirmasi",function(e){
                 if($("#form")[0].checkValidity()) {
-                    //updateAllMessageForms();
                     e.preventDefault();
                     $.ajax({
                         url         : "{{URL::to('sosmed/data/save-daily-report')}}",
@@ -448,19 +496,13 @@
                         cache       : false,
                         processData : false,
                         beforeSend  : function (){
+                            $("#pesansukses").empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
                             $('#pesan').empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
                         },
                         success : function (data) {
-
                             if(data.success==true){
-                                new PNotify({
-                                    title: 'Good Job!',
-                                    text: data.pesan,
-                                    addclass: 'alert-styled-right',
-                                    type: 'success'
-                                });
-                                $('#pesan').empty().html('<div class="alert alert-success">&nbsp;'+data.pesan+"</div>");
-                                $("#modal_default").modal("hide");
+                                showForm();
+                                $('#pesansukses').empty().html('<div class="alert alert-success">&nbsp;'+data.pesan+"</div>");
                             }else{
                                 new PNotify({
                                     title: 'Error!',
@@ -469,15 +511,15 @@
                                     type: 'error'
                                 });
 
-                                $("#pesan").empty().html("<div class='alert alert-danger'>"+data.pesan+"</div>");
+                                $("#pesansukses").empty().html("<div class='alert alert-danger'>"+data.pesan+"</div>");
                             }
                         },
                         error   :function() {  
-                            $('#pesan').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                            $('#pesansukses').html('<div class="alert alert-danger">Your request not Sent...</div>');
                         }
                     });
                 }else console.log("invalid form");
-            });
+            })
 
             $(document).on("click",".editfollower",function(){
                 kode=$(this).attr("kode");
@@ -619,6 +661,8 @@
                     });
                 }else console.log("invalid form");
             });
+
+            showForm();
         })
     </script>
 @endpush
