@@ -42,7 +42,13 @@ class HomeController extends Controller
     }
 
     public function user(){
-        return view('user.user');
+        $user=\App\User::find(\Auth::user()->id);
+
+        if($user->can('Read User')){
+            return view('user.user');
+        }else{
+            return view('errors.403');
+        }
     }
 
     public function user_role(){

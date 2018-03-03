@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
+    public function summary_program_by_id($id){
+        $program=\App\Models\Sosmed\Programunit::with(
+            [
+                'sosmed',
+                'sosmed.sosmed',
+                'sosmed.followers'
+            ]
+        )->find($id);
+
+        return $program;
+    }
+
     public function target_vs_achievement(Request $request){
         $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
 

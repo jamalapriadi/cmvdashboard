@@ -14,7 +14,7 @@ class Unitsosmed extends Model
 			->select(
 				[
 					'id',
-					'sosmed_name'
+					'sosmed_name',
 				]
 			);
 	}

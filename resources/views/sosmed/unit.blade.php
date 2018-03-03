@@ -82,6 +82,7 @@
                         {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
                         {data: 'groupunit.group_name', name: 'groupunit.group_name',title:'Group Name',width:'20%'},
                         {data: 'unit_name', name: 'unit_name',title:'Unit Name'},
+                        {data: 'jumsosmed', name: 'jumsosmed',title:'Jumlah Sosmed',width:'20%'},
                         {data: 'action', name: 'action',title:'Action',searchable:false,width:'25%'}
                     ],
                     buttons: [
@@ -380,6 +381,107 @@
                     }
                 });
             });
+
+            $(document).on("click",".editsosmed",function(){
+                kode=$(this).attr("kode");
+                var el="";
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/list-sosmed-by-program')}}/"+kode,
+                    type:"GET",
+                    data:"type=corporate",
+                    beforeSend:function(){
+                        el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                            '<div class="modal-dialog">'+
+                                '<form id="form" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                                    '<div class="modal-content">'+
+                                        '<div class="modal-header bg-primary">'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                            '<h5 class="modal-title" id="modal-title">Last Activity</h5>'+
+                                        '</div>'+
+
+                                        '<div class="modal-body">'+
+                                            '<div id="showForm"></div>'+
+                                        '</div>'+
+
+                                        '<div class="modal-footer">'+
+                                            '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                            '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</form>'+
+                            '</div>'+
+                        '</div>';
+
+                        $("#divModal").empty().html(el);
+                        $("#modal_default").modal("show");
+                        $("#showForm").empty().html(el);
+                    },
+                    success:function(result){
+                        el+="<table class='table table-striped'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    "<th rowspan='2'>Account</th>"+
+                                    "<th rowspan='2'>Official Account</th>"+
+                                    "<th rowspan='2'>Total Activity ( 1 Week )</th>"+
+                                    "<th rowspan='2'>Action</th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody>";
+                                $.each(result.unit.sosmed,function(a,b){
+                                    el+="<tr>"+
+                                        "<td>"+b.sosmed.sosmed_name+"</td>"+
+                                        "<td>"+b.unit_sosmed_name+"</td>"+
+                                        "<td class='text-center'>"+b.followers.length+"</td>"+
+                                        "<td><a class='btn btn-sm btn-danger hapusosmed' sosmedid='"+b.id+"'><i class='icon-trash'></i></td>"+
+                                    "</tr>";
+                                })
+                            el+="</tbody>"+
+                        "</table>";
+
+                        $("#showForm").empty().html(el);
+                    },
+                    error:function(){
+
+                    }
+                })
+            })
+
+            $(document).on("click",".hapusosmed",function(){
+                var sosmedid=$(this).attr("sosmedid");
+                var parentrow=$(this).closest ('tr');
+
+                swal({
+                    title: "Are you sure?",
+                    text: "You will delete data!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        $.ajax({
+                            url:"{{URL::to('sosmed/data/unit-sosmed')}}/"+sosmedid,
+                            type:"DELETE",
+                            success:function(result){
+                                if(result.success=true){
+                                    swal("Deleted!", result.pesan, "success");
+                                    parentrow.remove ();
+                                    showData();
+                                }else{
+                                    swal("Error!", result.pesan, "error");
+                                }
+                            }
+                        })
+                    } else {
+                        swal("Cancelled", "Your data is safe :)", "error");
+                    }
+                });
+            })
 
             showData();
         })

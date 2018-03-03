@@ -148,4 +148,67 @@ class UserController extends Controller
 
         return $data;
     }
+
+    public function list_role(Request $request){
+        $user=User::with('roles')->find(\Auth::user()->id);
+
+        return $user;
+    }
+
+    public function save_role_user(Request $request){
+        $rules=['permission'=>'required'];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi gagal',
+                'error'=>''
+            );
+        }else{
+            $user=User::find(\Auth::user()->id);
+
+            $permission=$request->input('permission');
+            foreach($permission as $key=>$val){
+                $user->givePermissionTo($val);
+            }
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Permission berhasil disimpan',
+                'error'=>''
+            );
+        }
+
+        return $data;
+    }
+
+    public function hapus_role_user(Request $request){
+        $rules=['permission'=>'required'];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'error'=>''
+            );
+        }else{
+            $user=User::find(\Auth::user()->id);
+
+            $permission=$request->input('permission');
+
+            $user->revokePermissionTo($permission);
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil dihapus',
+                'error'=>''
+            );
+        }
+        
+        return $data;
+    }
 }

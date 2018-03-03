@@ -113,6 +113,8 @@ class UnitsosmedController extends Controller
     public function destroy($id){
         $var=Unitsosmed::find($id);
 
+        $fl=\App\Models\Sosmed\Unitsosmedfollower::where('unit_sosmed_id',$id)->delete();
+
         $hapus=$var->delete();
 
         if($hapus){

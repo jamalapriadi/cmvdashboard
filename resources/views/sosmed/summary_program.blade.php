@@ -34,6 +34,16 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Recent Activity
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="divModal"></div>
 @stop
 

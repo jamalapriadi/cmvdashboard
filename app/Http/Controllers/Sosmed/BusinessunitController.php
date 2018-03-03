@@ -13,11 +13,23 @@ class BusinessunitController extends Controller
     public function index(){
         \DB::statement(\DB::raw('set @rownum=0'));
 
-        $var=Businessunit::with('groupunit')
+        $var=Businessunit::with('groupunit','sosmed')
             ->select('id','group_unit_id','unit_name',
             \DB::raw('@rownum := @rownum + 1 AS no'));
 
         return \Datatables::of($var)
+            ->addColumn('jumsosmed',function($q){
+                $jumsosmed=count($q->sosmed);
+                if($jumsosmed>=4){
+                    return "<label class='label label-danger editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+                }else if($jumsosmed>=3){
+                    return "<label class='label label-success editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+                }else if($jumsosmed>=2){
+                    return "<label class='label label-warning editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+                }else{
+                    return "<label class='label label-info editsosmed' kode='".$q->id."'>".count($q->sosmed)." Jumlah Sosmed</label>";
+                }
+            })
             ->addColumn('action',function($query){
                 $html="<div class='btn-group'>";
                 $html.="<a href='".\URL::to('sosmed/business-unit/'.$query->id.'/summary')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Summary'><i class='icon-stats-dots'></i></a>";
@@ -27,6 +39,7 @@ class BusinessunitController extends Controller
 
                 return $html;
             })
+            ->rawColumns(['jumsosmed','action'])
             ->make(true);
     }
 
@@ -150,8 +163,9 @@ class BusinessunitController extends Controller
                     $sosmed=$request->input('sosmed');
 
                     foreach($sosmed as $key=>$val){
-                        $ceksosmed=\App\Models\Sosmed\Unitsosmed::where('sosmed_id',$val)
-                            ->where('business_program_unit',$var->id)
+                        $ceksosmed=\App\Models\Sosmed\Unitsosmed::where('sosmed_id',$key)
+                            ->where('business_program_unit',$id)
+                            ->where('type_sosmed','corporate')
                             ->first();
                         
                         if(count($ceksosmed)>0){
@@ -215,7 +229,7 @@ class BusinessunitController extends Controller
     }
 
     public function list_unit(Request $request){
-        $var=Businessunit::select('id','unit_name');
+        $var=Businessunit::select('id','unit_name','group_unit_id');
 
         if($request->has('group')){
             $var=$var->where('group_unit_id',$request->input('group'));

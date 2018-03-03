@@ -4146,3 +4146,313 @@ select.selectpicker {
     width: 100%;
   }
 }
+
+/* ------------------------------------------------------------------------------
+ *
+ *  # Uniform form inputs plugin
+ *
+ *  Styles for uniform.min.js - form components styling
+ *
+ *  Version: 1.0
+ *  Latest update: Mar 10, 2015
+ *
+ * ---------------------------------------------------------------------------- */
+ .checker {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.checker,
+.checker span,
+.checker input {
+  width: 18px;
+  height: 18px;
+}
+.checker span {
+  color: #455a64;
+  border: 2px solid #607d8b;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+}
+.checker span:after {
+  content: "\e600";
+  font-family: 'icomoon';
+  display: none;
+  font-size: 16px;
+  line-height: 1;
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.checker span.checked:after {
+  display: block;
+}
+.checker input[type=checkbox],
+.choice input[type=radio] {
+  border: none;
+  background: none;
+  display: -moz-inline-box;
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+  cursor: pointer;
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  z-index: 2;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.checkbox .checker,
+.checkbox-inline .checker {
+  position: absolute;
+  top: 1px;
+  left: 0;
+}
+.form-horizontal .checkbox .checker,
+.form-horizontal .checkbox-inline .checker {
+  top: 9px;
+}
+.checkbox-right .checker {
+  left: auto;
+  right: 0;
+}
+.checker.active span:after,
+.checkbox > label:active .checker span:after,
+.checkbox-inline:active .checker span:after {
+  display: block;
+  opacity: 0.75;
+  filter: alpha(opacity=75);
+}
+.checker.disabled {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+.checker.disabled,
+.checker.disabled input[type=checkbox] {
+  cursor: not-allowed;
+}
+.checkbox > label:active .checker.disabled span:after,
+.checkbox-inline:active .checker.disabled span:after {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.checkbox > label:active .checker.disabled span.checked:after,
+.checkbox-inline:active .checker.disabled span.checked:after {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.checker[class*=border-] span {
+  border-color: inherit;
+  color: inherit;
+}
+.dropdown-menu > .active:not(.disabled) .checker span,
+.dropdown-menu[class*=bg-] .checker span,
+.navbar-inverse .navbar-form .checker span,
+.sidebar:not(.sidebar-default) .checkbox .checker span {
+  border-color: #fff;
+  color: #fff;
+}
+.choice {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  vertical-align: middle;
+  border-radius: 100%;
+}
+.choice,
+.choice span,
+.choice input {
+  width: 18px;
+  height: 18px;
+}
+.choice span {
+  border: 2px solid #607d8b;
+  display: -moz-inline-box;
+  display: inline-block;
+  border-radius: 100%;
+  text-align: center;
+  position: relative;
+}
+.choice span:after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  border: 4px solid;
+  border-color: inherit;
+  width: 0;
+  height: 0;
+  border-radius: 100%;
+  display: none;
+}
+.choice span.checked:after {
+  display: block;
+}
+.radio .choice,
+.radio-inline .choice {
+  position: absolute;
+  top: 1px;
+  left: 0;
+}
+.form-horizontal .radio .choice,
+.form-horizontal .radio-inline .choice {
+  top: 9px;
+}
+.radio-right .choice {
+  left: auto;
+  right: 0;
+}
+.choice.active span:after,
+.radio > label:active .choice span:after,
+.radio-inline:active .choice span:after {
+  display: block;
+  opacity: 0.75;
+  filter: alpha(opacity=75);
+}
+.choice.disabled {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+.choice.disabled,
+.choice.disabled input[type=radio] {
+  cursor: not-allowed;
+}
+.radio > label:active .choice.disabled span:after,
+.radio-inline:active .choice.disabled span:after {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.radio > label:active .choice.disabled span.checked:after,
+.radio-inline:active .choice.disabled span.checked:after {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+.choice[class*=border-] span {
+  border-color: inherit;
+}
+.choice[class*=border-] span:after {
+  border-color: inherit;
+}
+.dropdown-menu > .active .choice span,
+.dropdown-menu[class*=bg-] .choice span,
+.navbar-inverse .navbar-form .choice span,
+.sidebar:not(.sidebar-default) .checkbox .choice span {
+  border-color: #fff;
+}
+.uploader {
+  width: 100%;
+  position: relative;
+  display: -moz-inline-box;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 4px;
+}
+.uploader .filename {
+  color: #999999;
+  height: 36px;
+  padding: 7px 12px;
+  padding-right: 45px;
+  cursor: pointer;
+  width: 100%;
+  float: left;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
+  border: 1px solid #dddddd;
+  background-color: #fff;
+  border-radius: 3px;
+  text-align: left;
+}
+.uploader .action {
+  position: absolute;
+  color: #333333;
+  top: 0;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  z-index: 1;
+  border: 1px solid #dddddd;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.uploader .action > i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -8px;
+  margin-left: -8px;
+}
+.uploader[class*=bg-] .action {
+  background-color: inherit;
+  border-color: inherit;
+  color: inherit;
+}
+.uploader input[type=file] {
+  width: 100%;
+  margin-top: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 36px;
+  border: 0;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.uploader.disabled .action {
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+.uploader.disabled .filename {
+  background-color: #fafafa;
+  cursor: not-allowed;
+}
+.uploader-lg input[type=file],
+.uploader-lg .action,
+.uploader-lg .filename {
+  height: 40px;
+}
+.uploader-lg .action {
+  width: 40px;
+}
+.uploader-lg .filename {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  padding-right: 50px;
+}
+.uploader-sm input[type=file],
+.uploader-sm .action,
+.uploader-sm .filename {
+  height: 34px;
+}
+.uploader-sm .action {
+  width: 34px;
+}
+.uploader-sm .filename {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 42.5px;
+}
+.uploader-xs input[type=file],
+.uploader-xs .action,
+.uploader-xs .filename {
+  height: 32px;
+}
+.uploader-xs .action {
+  width: 32px;
+}
+.uploader-xs .filename {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 42.5px;
+}
