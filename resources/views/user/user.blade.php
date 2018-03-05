@@ -4,10 +4,12 @@
     <div class="panel panel-default">
         <div class="panel-heading">Data User</div>
         <div class="panel-body">
-            <a class="btn btn-primary" id="tambah">
-                <i class="icon-add"></i> &nbsp;
-                Add New User
-            </a>
+            @if(auth()->user()->can('Create User'))
+                <a class="btn btn-primary" id="tambah">
+                    <i class="icon-add"></i> &nbsp;
+                    Add New User
+                </a>
+            @endif
             <hr>
             <table class="table table-striped datatable-colvis-basic"></table>
         </div>

@@ -42,7 +42,7 @@ Route::group(['prefix'=>'sosmed'],function(){
         Route::resource('users','User\UserController');
         Route::resource('roles','User\RoleController');
         Route::resource('permissions','User\PermissionController');
-        Route::get('list-role-with-permission','User\RoleController@list_role_with_permission');
+        Route::get('list-role-with-permission/{id}','User\RoleController@list_role_with_permission');
         Route::get('list-role-user','User\UserController@list_role');
         Route::post('save-role-user','User\UserController@save_role_user');
         Route::post('hapus-role-user','User\UserController@hapus_role_user');
@@ -81,6 +81,9 @@ Route::group(['prefix'=>'sosmed'],function(){
 
             Route::get('rank-of-official-account-all-group','Sosmed\ReportController@rank_of_official_account_all_group');
             Route::get('rank-of-official-account-all-tv','Sosmed\ReportController@rank_of_official_account_all_tv');
+            Route::get('rank-growth-from-yesterday-official-account-all-tv','Sosmed\ReportController@rank_growth_from_yesterday_all_tv');
+            Route::get('rank-growth-from-yesterday-official-group','Sosmed\ReportController@rank_growth_from_yesterday_group');
+            Route::get('rank-overall-account-all-tv-by-total-followers','Sosmed\ReportController@rank_overall_account_all_tv_by_total_followers');
 
             Route::get('summary-program-by-id/{id}','Sosmed\ReportController@summary_program_by_id');
         });

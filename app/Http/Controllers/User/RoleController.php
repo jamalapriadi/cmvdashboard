@@ -115,8 +115,8 @@ class RoleController extends Controller
         return $data;
     }
 
-    public function list_role_with_permission(){
-        $user=\App\User::with('permissions')->find(\Auth::user()->id);
+    public function list_role_with_permission($id){
+        $user=\App\User::with('permissions')->find($id);
         $role=Role::with('permissions')->get();
 
         return array(

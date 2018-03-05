@@ -20,9 +20,18 @@ class GroupunitController extends Controller
         return \Datatables::of($group)
             ->addColumn('action',function($query){
                 $html="<div class='btn-group' data-toggle='buttons'>";
-                $html.="<a href='#' class='btn btn-sm btn-success' kode='".$query->id."' title='Summary'><i class='icon-stats-dots'></i></a>";
-                $html.="<a href='#' class='btn btn-sm btn-warning edit' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
-                $html.="<a href='#' class='btn btn-sm btn-danger hapus' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
+                if(auth()->user()->can('Summary Group')){
+                    $html.="<a href='#' class='btn btn-sm btn-success' kode='".$query->id."' title='Summary'><i class='icon-stats-dots'></i></a>";
+                }
+
+                if(auth()->user()->can('Edit Group')){
+                    $html.="<a href='#' class='btn btn-sm btn-warning edit' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
+                }
+                
+                if(auth()->user()->can('Delete Group')){
+                    $html.="<a href='#' class='btn btn-sm btn-danger hapus' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
+                }
+                
                 $html.="</div>";
 
                 return $html;

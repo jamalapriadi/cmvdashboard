@@ -31,11 +31,13 @@
     <div class="panel panel-default">
         <div class="panel-heading">Program</div>
         <div class="panel-body">
+            @if(auth()->user()->can('Add Program'))
             <a class="btn btn-primary" id="tambah">
                 <i class="icon-add"></i> &nbsp;
                 Add New Program
             </a>
             <br><br>
+            @endif
 
             <fieldset>
                 <legend>Filter</legend>

@@ -6,6 +6,7 @@
             List Role 
         </div>
         <div class="panel-body">
+            <div id="pesan"></div>
             <div id="divRole"></div>
         </div>
     </div>
@@ -14,9 +15,11 @@
 @push('extra-script')
     <script>
         $(function(){
+            var id="{{$id}}";
+
             function showRole(){
                 $.ajax({
-                    url:"{{URL::to('sosmed/data/list-role-with-permission')}}",
+                    url:"{{URL::to('sosmed/data/list-role-with-permission')}}/"+id,
                     type:"GET",
                     beforeSend:function(){
                         $("#divRole").empty().html("<div class='alert alert-info'>Please Wait. . . </div>");
@@ -24,7 +27,6 @@
                     success:function(result){
                         var el="";
                         el+='<form id="formRoleUser" onsubmit="return false;">'+
-                        '<div id="pesan"></div>'+
                         '<table class="table table-striped">'+
                             '<thead>'+
                                 '<tr>'+
@@ -80,6 +82,8 @@
 
             $(document).on("submit","#formRoleUser",function(e){
                 var data = new FormData(this);
+                data.append("user",id);
+                
                 if($("#formRoleUser")[0].checkValidity()) {
                     //updateAllMessageForms();
                     e.preventDefault();
@@ -97,6 +101,7 @@
                         success : function (data) {
                             if(data.success==true){
                                 $("#pesan").empty().html('<div class="alert alert-success">'+data.pesan+'</div>');
+                                showRole();
                             }else{
                                 $("#pesan").empty().html('<div class="alert alert-danger">'+data.pesan+'</div>');
                             }
@@ -110,6 +115,7 @@
 
             $(document).on("click",".unrole",function(){
                 var rolename=$(this).attr("rolename");
+                var checkbox=$(this);
 
                 swal({
                     title: "Are you sure?",
@@ -127,18 +133,24 @@
                         $.ajax({
                             url:"{{URL::to('sosmed/data/hapus-role-user')}}",
                             type:"POST",
-                            data:"permission="+rolename,
+                            data:"permission="+rolename+"&user="+id,
                             beforeSend:function(){
-
+                                $("#pesan").empty();
                             },
                             success:function(result){
-                                console.log(result);
+                                if(result.success==true){
+                                    showRole();
+                                    swal("Deleted!", result.pesan, "success");
+                                }else{
+                                    swal("Error!", result.pesan, "error");
+                                }
                             },
                             error:function(){
 
                             }
                         })
                     } else {
+                        checkbox.prop('checked', true); 
                         swal("Cancelled", "Your data is safe :)", "error");
                     }
                 });

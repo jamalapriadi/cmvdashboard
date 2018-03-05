@@ -31,11 +31,13 @@
     <div class="panel panel-default">
         <div class="panel-heading">Bussiness Unit</div>
         <div class="panel-body">
+            @if(auth()->user()->can('Add Unit'))
             <a class="btn btn-primary" id="tambah">
                 <i class="icon-add"></i> &nbsp;
                 Add New Business Unit
             </a>
             <hr>
+            @endif
             <table class="table table-striped datatable-colvis-basic"></table>
         </div>
     </div>
