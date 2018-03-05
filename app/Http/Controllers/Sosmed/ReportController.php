@@ -817,4 +817,88 @@ class ReportController extends Controller
 
         return $data;
     }
+
+    public function rank_of_overall_all_group_by_follower(Request $request){
+        if($request->has('tanggal')){
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }else{
+            $sekarang=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }
+
+        $summary=\DB::select("select a.id,a.group_name,  
+            sum(if(e.tanggal='$kemarin' and c.sosmed_id=1,e.follower,0)) as kemarin_tw,
+            sum(if(e.tanggal='$sekarang' and c.sosmed_id=1,e.follower,0)) as sekarang_tw,
+            (sum(if(e.tanggal='$sekarang' and c.sosmed_id=1,e.follower,0)) / sum(if(e.tanggal='$kemarin' and c.sosmed_id=1,e.follower,0)) - 1) as growth_tw,
+            (sum(if(e.tanggal='$sekarang' and c.sosmed_id=1,e.follower,0)) - sum(if(e.tanggal='$kemarin' and c.sosmed_id=1,e.follower,0))) as num_growth_tw,
+            sum(if(e.tanggal='$kemarin' and c.sosmed_id=2,e.follower,0)) as kemarin_fb,
+            sum(if(e.tanggal='$sekarang' and c.sosmed_id=2,e.follower,0)) as sekarang_fb,
+            (sum(if(e.tanggal='$sekarang' and c.sosmed_id=2,e.follower,0)) / sum(if(e.tanggal='$kemarin' and c.sosmed_id=2,e.follower,0)) - 1) as growth_fb,
+            (sum(if(e.tanggal='$sekarang' and c.sosmed_id=2,e.follower,0)) - sum(if(e.tanggal='$kemarin' and c.sosmed_id=2,e.follower,0))) as num_growth_fb,
+            sum(if(e.tanggal='$kemarin' and c.sosmed_id=3,e.follower,0)) as kemarin_ig,
+            sum(if(e.tanggal='$sekarang' and c.sosmed_id=3,e.follower,0)) as sekarang_ig,
+            (sum(if(e.tanggal='$sekarang' and c.sosmed_id=3,e.follower,0)) / sum(if(e.tanggal='$kemarin' and c.sosmed_id=3,e.follower,0)) - 1) as growth_ig,
+            (sum(if(e.tanggal='$sekarang' and c.sosmed_id=3,e.follower,0)) - sum(if(e.tanggal='$kemarin' and c.sosmed_id=3,e.follower,0))) as num_growth_ig
+            from group_unit a 
+            left join business_unit b on b.group_unit_id=a.id
+            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
+            left join sosmed d on d.id=c.sosmed_id
+            left join unit_sosmed_follower e on e.unit_sosmed_id=c.id and e.tanggal between '$kemarin' and '$sekarang'
+            group by a.id");   
+
+        $arrTw=array();
+        $arrFb=array();
+        $arrIg=array();
+        foreach($summary as $k){
+            array_push($arrTw,$k->sekarang_tw);
+            array_push($arrFb,$k->sekarang_fb);
+            array_push($arrIg,$k->sekarang_ig);
+        }
+        $rankTw=$arrTw;
+        $rankFb=$arrFb;
+        $rankIg=$arrIg;
+
+        rsort($rankTw);
+        rsort($rankFb);
+        rsort($rankIg);
+
+        $rankTw=array_flip($rankTw);
+        $rankFb=array_flip($rankFb);
+        $rankIg=array_flip($rankIg);
+
+
+        $data=array();
+
+        foreach($summary as $key=>$val){
+            $follower=array(
+                'tw'=>array(
+                    'growth'=>$val->growth_tw,
+                    'num_of_growth'=>$val->num_growth_tw,
+                    'total'=>$val->sekarang_tw,
+                    'rank'=>($rankTw[$val->sekarang_tw] + 1)
+                ),
+                'fb'=>array(
+                    'growth'=>$val->growth_fb,
+                    'num_of_growth'=>$val->num_growth_fb,
+                    'total'=>$val->sekarang_fb,
+                    'rank'=>($rankFb[$val->sekarang_fb] + 1)
+                ),
+                'ig'=>array(
+                    'growth'=>$val->growth_ig,
+                    'num_of_growth'=>$val->num_growth_ig,
+                    'total'=>$val->sekarang_ig,
+                    'rank'=>($rankIg[$val->sekarang_ig] + 1)
+                )
+            );
+
+            $data[]=array(
+                'id'=>$val->id,
+                'group_name'=>$val->group_name,
+                'followers'=>$follower
+            );
+        }
+
+        return $data;
+    }
 }

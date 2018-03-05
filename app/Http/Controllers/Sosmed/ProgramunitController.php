@@ -538,7 +538,7 @@ class ProgramunitController extends Controller
 
         }else{
             $sekarang=date('Y-m-d');
-            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+            $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
         }
         $daily=\App\Models\Sosmed\Unitsosmedfollower::with(
             [
