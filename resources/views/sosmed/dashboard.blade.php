@@ -21,7 +21,8 @@
                     <li class="active"><a href="#highlight-tab1" data-toggle="tab">TARGET VS ACHIEVEMENT</a></li>
                     <li><a href="#highlighted-tab2" data-toggle="tab">OFFICIAL ACCOUNT ALL TV</a></li>
                     <li><a href="#highlighted-tab3" data-toggle="tab">SOSMED OFFICIAL AND PROGRAM</a></li>
-                    <li><a href="#highlighted-tab4" data-toggle="tab">OFFICIAL AND PROGRAM</a></li>
+                    <li><a href="#highlighted-tab4" data-toggle="tab">DETAIL OFFICIAL AND PROGRAM</a></li>
+                    
                 </ul>
 
                 <div class="tab-content">
@@ -210,7 +211,9 @@
                 </div>
 
                 <div class="panel-body">
-                    <div id="rangAllAccountGroup"></div>
+                    <div class="table-responsive">
+                        <div id="rangAllAccountGroup"></div>
+                    </div>
                 </div>
             </div>
 
@@ -220,7 +223,9 @@
                 </div>
 
                 <div class="panel-body">
-                    <div id="rangAllAccountTv"></div>
+                    <div class="table-responsive">
+                        <div id="rangAllAccountTv"></div>
+                    </div>
                 </div>
             </div>
 
@@ -230,7 +235,9 @@
                 </div>
 
                 <div class="panel-body">
-                    <div id="growthAllAccountTv"></div>
+                    <div class="table-responsive">
+                        <div id="growthAllAccountTv"></div>
+                    </div>
                 </div>
             </div>
 
@@ -240,7 +247,9 @@
                 </div>
 
                 <div class="panel-body">
-                    <div id="growthAllGrowthTv"></div>
+                    <div class="table-responsive">
+                        <div id="growthAllGrowthTv"></div>
+                    </div>
                 </div>
             </div>
 
@@ -250,7 +259,9 @@
                 </div>
 
                 <div class="panel-body">
-                    <div id="rankOfOverallAccountAllTv"></div>
+                    <div class="table-responsive">
+                        <div id="rankOfOverallAccountAllTv"></div>
+                    </div>
                 </div>
             </div>
 
@@ -260,7 +271,9 @@
                 </div>
 
                 <div class="panel-body">
-                    <div id="rankOfOverallGroup"></div>
+                    <div class="table-responsive">
+                        <div id="rankOfOverallGroup"></div>
+                    </div>
                 </div>
             </div>
 
@@ -270,7 +283,9 @@
                 </div>
 
                 <div class="panel-body">
-                    <div id="rankOfOverallAccountByFollower"></div>
+                    <div class="table-responsive">
+                        <div id="rankOfOverallAccountByFollower"></div>
+                    </div>
                 </div>
             </div>
 
@@ -280,11 +295,92 @@
                 </div>
 
                 <div class="panel-body">
-                    <div id="rankOfOverallAsGroup"></div>
+                    <div class="table-responsive">
+                        <div id="rankOfOverallAsGroup"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background:red;height:10px;width:100%"></div>
+
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title text-center">RANK OF OFFICIAL ACCOUNT  <span style="color:red"> AMONG 4TV BY TOTAL FOLLOWERS</span></h6>
+                </div>
+
+                <div class="panel-body">
+                    <form id="formrankOfficialAccountAmong4Tv" onsubmit="return false">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="control-label">Group</label>
+                                    <select name="form-control" id="group6" name="group" class="form-control">
+                                        @foreach($group as $row)
+                                            <option value="{{$row->id}}">{{$row->group_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="control-label">Periode</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <input type="text" name="tanggal" id="tanggal6" class="form-control daterange-single">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <button class='btn btn-primary' style="margin-top:25px;">
+                                    <i class="icon-filter4"></i> &nbsp;
+                                    Filter 
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="table-responsive">
+                        <div id="rankOfficialAccountAmong4Tv"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title text-center">RANK OF GROWTH FROM YESTERDAY <span style="color:red"> OFFICIAL ACCOUNT AMONG 4 TV BY % GROWTH</span></h6>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <div id="rankOfficialAccountAmong4TvFromYesterday"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title text-center">RANK OF OVERALL ACCOUNT AMONG 4 TV <span style="color:red"> BY % GROWTH</span></h6>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <div id="rankOverallAmong4Tv"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h6 class="panel-title text-center">RANK OF OVERALL ACCOUNT AMONG 4 TV <span style="color:red"> BY % GROWTH FROM YESTERDAY</span></h6>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <div id="rankOverallAmong4TvYesterday"></div>
+                    </div>
                 </div>
             </div>
     </div>
 </div>
+
+<div id="divModal"></div>
 @endsection
 
 
@@ -1157,27 +1253,27 @@
                                         "<td>"+b.unit_name+"</td>"+
                                         "<td>";
                                             if(b.followers.tw.growth!=null){
-                                                el+=b.followers.tw.growth;
+                                                el+=b.followers.tw.growth+" %";
                                             }else{
-                                                el+=0;
+                                                el+=0+" %";
                                             }
                                         el+="</td>"+
                                         "<td>"+addKoma(b.followers.tw.total)+"</td>"+
                                         "<td>"+b.followers.tw.rank+"</td>"+
                                         "<td>";
                                             if(b.followers.fb.growth!=null){
-                                                el+=b.followers.fb.growth;
+                                                el+=b.followers.fb.growth+" %";
                                             }else{
-                                                el+=0;
+                                                el+=0+" %";
                                             }
                                         el+="</td>"+
                                         "<td>"+addKoma(b.followers.fb.total)+"</td>"+
                                         "<td>"+b.followers.fb.rank+"</td>"+
                                         "<td>";
                                             if(b.followers.ig.growth!=null){
-                                                el+=b.followers.ig.growth;
+                                                el+=b.followers.ig.growth+" %";
                                             }else{
-                                                el+=0;
+                                                el+=0+" %";
                                             }
                                         el+="</td>"+
                                         "<td>"+addKoma(b.followers.ig.total)+"</td>"+
@@ -1215,27 +1311,27 @@
                                         "<td>"+b.followers.tw.num_of_growth+"</td>"+
                                         "<td>";
                                             if(b.followers.tw.growth!=null){
-                                                ep+=b.followers.tw.growth;
+                                                ep+=b.followers.tw.growth+" %";
                                             }else{
-                                                ep+=0;
+                                                ep+=0+" %";
                                             }
                                         ep+="</td>"+
                                         "<td>"+b.followers.tw.rank+"</td>"+
                                         "<td>"+b.followers.fb.num_of_growth+"</td>"+
                                         "<td>";
                                             if(b.followers.fb.growth!=null){
-                                                ep+=b.followers.fb.growth;
+                                                ep+=b.followers.fb.growth+" %";
                                             }else{
-                                                ep+=0;
+                                                ep+=0+" %";
                                             }
                                         ep+="</td>"+
                                         "<td>"+b.followers.fb.rank+"</td>"+
                                         "<td>"+b.followers.ig.num_of_growth+"</td>"+
                                         "<td>";
                                             if(b.followers.ig.growth!=null){
-                                                ep+=b.followers.ig.growth;
+                                                ep+=b.followers.ig.growth+" %";
                                             }else{
-                                                ep+=0;
+                                                ep+=0+" %";
                                             }
                                         ep+="</td>"+
                                         "<td>"+b.followers.ig.rank+"</td>"+
@@ -1290,27 +1386,27 @@
                                         "<td>"+b.group_name+"</td>"+
                                         "<td>";
                                             if(b.followers.tw.growth!=null){
-                                                el+=b.followers.tw.growth;
+                                                el+=b.followers.tw.growth+" %";
                                             }else{
-                                                el+=0;
+                                                el+=0+" %";
                                             }
                                         el+="</td>"+
                                         "<td>"+addKoma(b.followers.tw.total)+"</td>"+
                                         "<td>"+b.followers.tw.rank+"</td>"+
                                         "<td>";
                                             if(b.followers.fb.growth!=null){
-                                                el+=b.followers.fb.growth;
+                                                el+=b.followers.fb.growth+" %";
                                             }else{
-                                                el+=0;
+                                                el+=0+" %";
                                             }
                                         el+="</td>"+
                                         "<td>"+addKoma(b.followers.fb.total)+"</td>"+
                                         "<td>"+b.followers.fb.rank+"</td>"+
                                         "<td>";
                                             if(b.followers.ig.growth!=null){
-                                                el+=b.followers.ig.growth;
+                                                el+=b.followers.ig.growth+" %";
                                             }else{
-                                                el+=0;
+                                                el+=0+" %";
                                             }
                                         el+="</td>"+
                                         "<td>"+addKoma(b.followers.ig.total)+"</td>"+
@@ -1349,27 +1445,27 @@
                                         "<td>"+b.followers.tw.num_of_growth+"</td>"+
                                         "<td>";
                                             if(b.followers.tw.growth!=null){
-                                                ep+=b.followers.tw.growth;
+                                                ep+=b.followers.tw.growth+" %";
                                             }else{
-                                                ep+=0;
+                                                ep+=0+" %";
                                             }
                                         ep+="</td>"+
                                         "<td>"+b.followers.tw.rank+"</td>"+
                                         "<td>"+b.followers.fb.num_of_growth+"</td>"+
                                         "<td>";
                                             if(b.followers.fb.growth!=null){
-                                                ep+=b.followers.fb.growth;
+                                                ep+=b.followers.fb.growth+" %";
                                             }else{
-                                                ep+=0;
+                                                ep+=0+" %";
                                             }
                                         ep+="</td>"+
                                         "<td>"+b.followers.fb.rank+"</td>"+
                                         "<td>"+b.followers.ig.num_of_growth+"</td>"+
                                         "<td>";
                                             if(b.followers.ig.growth!=null){
-                                                ep+=b.followers.ig.growth;
+                                                ep+=b.followers.ig.growth+" %";
                                             }else{
-                                                ep+=0;
+                                                ep+=0+" %";
                                             }
                                         ep+="</td>"+
                                         "<td>"+b.followers.ig.rank+"</td>"+
@@ -1379,6 +1475,277 @@
                         "</table>";
                         
                         $("#rankOfOverallAsGroup").empty().html(ep);
+                    },
+                    error:function(){
+
+                    }
+                })
+            }
+
+            function rankOfficialAccountAmong4Tv(){
+                var group=$("#group6").val();
+                var tanggal=$("#tanggal6").val();
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/report/rank-of-official-account-among-4tv')}}",
+                    type:"GET",
+                    data:"group="+group+"&tanggal="+tanggal,
+                    beforeSend:function(){
+                        $("#rankOfficialAccountAmong4Tv").empty().html("<div class='alert alert-info'>Please Wait. . . .</div>");
+                    },
+                    success:function(result){
+                        var el="";
+                        var ep="";
+                        el+="<table class='table table-striped'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">CHANNEL</th>'+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>TWITTER</th>"+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>FACEBOOK</th>"+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>INSTAGRAM</th>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>TOTAL</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>RANK</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>TOTAL</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>RANK</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>TOTAL</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>RANK</th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody style='color:#222'>";
+                                $.each(result,function(a,b){
+                                    el+="<tr>"+
+                                        "<td>"+b.unit_name+"</td>"+
+                                        "<td>";
+                                            if(b.followers.tw.growth!=null){
+                                                el+=b.followers.tw.growth+" %";
+                                            }else{
+                                                el+=0+" %";
+                                            }
+                                        el+="</td>"+
+                                        "<td>"+addKoma(b.followers.tw.total)+"</td>"+
+                                        "<td>"+b.followers.tw.rank+"</td>"+
+                                        "<td>";
+                                            if(b.followers.fb.growth!=null){
+                                                el+=b.followers.fb.growth+" %";
+                                            }else{
+                                                el+=0+" %";
+                                            }
+                                        el+="</td>"+
+                                        "<td>"+addKoma(b.followers.fb.total)+"</td>"+
+                                        "<td>"+b.followers.fb.rank+"</td>"+
+                                        "<td>";
+                                            if(b.followers.ig.growth!=null){
+                                                el+=b.followers.ig.growth+" %";
+                                            }else{
+                                                el+=0+" %";
+                                            }
+                                        el+="</td>"+
+                                        "<td>"+addKoma(b.followers.ig.total)+"</td>"+
+                                        "<td>"+b.followers.ig.rank+"</td>"+
+                                    "</tr>";
+                                })
+                            el+="</tbody>"+
+                        "</table>";
+
+                        $("#rankOfficialAccountAmong4Tv").empty().html(el);
+                        
+                        ep+="<table class='table table-striped'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">CHANNEL</th>'+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>TWITTER</th>"+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>FACEBOOK</th>"+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>INSTAGRAM</th>"+
+                                "</tr>"+
+                                "<tr>"+
+                                "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>Num Of Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>RANK</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>Num Of Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>RANK</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>Num Of Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>RANK</th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody style='color:#222'>";
+                                $.each(result,function(a,b){
+                                    ep+="<tr>"+
+                                        "<td>"+b.unit_name+"</td>"+
+                                        "<td>"+addKoma(b.followers.tw.num_of_growth)+"</td>"+
+                                        "<td>";
+                                            if(b.followers.tw.growth!=null){
+                                                ep+=b.followers.tw.growth+" %";
+                                            }else{
+                                                ep+=0+" %";
+                                            }
+                                        ep+="</td>"+
+                                        "<td>"+b.followers.tw.rank+"</td>"+
+                                        "<td>"+addKoma(b.followers.fb.num_of_growth)+"</td>"+
+                                        "<td>";
+                                            if(b.followers.fb.growth!=null){
+                                                ep+=b.followers.fb.growth+" %";
+                                            }else{
+                                                ep+=0+" %";
+                                            }
+                                        ep+="</td>"+
+                                        "<td>"+b.followers.fb.rank+"</td>"+
+                                        "<td>"+addKoma(b.followers.ig.num_of_growth)+"</td>"+
+                                        "<td>";
+                                            if(b.followers.ig.growth!=null){
+                                                ep+=b.followers.ig.growth+" %";
+                                            }else{
+                                                ep+=0+" %";
+                                            }
+                                        ep+="</td>"+
+                                        "<td>"+b.followers.ig.rank+"</td>"+
+                                    "</tr>";
+                                })
+                            ep+="</tbody>"+
+                        "</table>";
+
+                        $("#rankOfficialAccountAmong4TvFromYesterday").empty().html(ep);
+                    },
+                    error:function(){
+
+                    }
+                })
+            }
+
+            function rankOverallAmong4Tv(){
+                var group=$("#group6").val();
+                var tanggal=$("#tanggal6").val();
+
+                var el="";
+                var ep="";
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/report/rank-overall-account-all-tv-by-total-followers')}}",
+                    type:"GET",
+                    data:"tanggal="+tanggal+"&group="+group,
+                    beforeSend:function(){
+                        $("#rankOverallAmong4Tv").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                        $("#rankOverallAmong4TvYesterday").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        el+="<table class='table table-striped'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">CHANNEL</th>'+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>TWITTER</th>"+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>FACEBOOK</th>"+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>INSTAGRAM</th>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>TOTAL</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>RANK</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>TOTAL</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>RANK</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>TOTAL</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>RANK</th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody style='color:#222'>";
+                                $.each(result,function(a,b){
+                                    el+="<tr>"+
+                                        "<td>"+b.unit_name+"</td>"+
+                                        "<td>";
+                                            if(b.followers.tw.growth!=null){
+                                                el+=b.followers.tw.growth+" %";
+                                            }else{
+                                                el+=0+" %";
+                                            }
+                                        el+="</td>"+
+                                        "<td>"+addKoma(b.followers.tw.total)+"</td>"+
+                                        "<td>"+b.followers.tw.rank+"</td>"+
+                                        "<td>";
+                                            if(b.followers.fb.growth!=null){
+                                                el+=b.followers.fb.growth+" %";
+                                            }else{
+                                                el+=0+" %";
+                                            }
+                                        el+="</td>"+
+                                        "<td>"+addKoma(b.followers.fb.total)+"</td>"+
+                                        "<td>"+b.followers.fb.rank+"</td>"+
+                                        "<td>";
+                                            if(b.followers.ig.growth!=null){
+                                                el+=b.followers.ig.growth+" %";
+                                            }else{
+                                                el+=0+" %";
+                                            }
+                                        el+="</td>"+
+                                        "<td>"+addKoma(b.followers.ig.total)+"</td>"+
+                                        "<td>"+b.followers.ig.rank+"</td>"+
+                                    "</tr>";
+                                })
+                            el+="</tbody>"+
+                        "</table>";
+                        $("#rankOverallAmong4Tv").empty().html(el);
+
+                        ep+="<table class='table table-striped'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">CHANNEL</th>'+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>TWITTER</th>"+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>FACEBOOK</th>"+
+                                    "<th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>INSTAGRAM</th>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>TOTAL</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>RANK</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>TOTAL</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>RANK</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>% Growth</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>TOTAL</th>"+
+                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>RANK</th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody style='color:#222'>";
+                                $.each(result,function(a,b){
+                                    ep+="<tr>"+
+                                        "<td>"+b.unit_name+"</td>"+
+                                        "<td>"+b.followers.tw.num_of_growth+"</td>"+
+                                        "<td>";
+                                            if(b.followers.tw.growth!=null){
+                                                ep+=b.followers.tw.growth+" %";
+                                            }else{
+                                                ep+=0+" %";
+                                            }
+                                        ep+="</td>"+
+                                        "<td>"+b.followers.tw.rank+"</td>"+
+                                        "<td>"+b.followers.fb.num_of_growth+"</td>"+
+                                        "<td>";
+                                            if(b.followers.fb.growth!=null){
+                                                ep+=b.followers.fb.growth+" %";
+                                            }else{
+                                                ep+=0+" %";
+                                            }
+                                        ep+="</td>"+
+                                        "<td>"+b.followers.fb.rank+"</td>"+
+                                        "<td>"+b.followers.ig.num_of_growth+"</td>"+
+                                        "<td>";
+                                            if(b.followers.ig.growth!=null){
+                                                ep+=b.followers.ig.growth+" %";
+                                            }else{
+                                                ep+=0+" %";
+                                            }
+                                        ep+="</td>"+
+                                        "<td>"+b.followers.ig.rank+"</td>"+
+                                    "</tr>";
+                                })
+                            ep+="</tbody>"+
+                        "</table>";
+                        $("#rankOverallAmong4TvYesterday").empty().html(ep);
                     },
                     error:function(){
 
@@ -1396,6 +1763,11 @@
                 rankOfOverallGroup();    
             })
 
+            $(document).on("submit","#formrankOfficialAccountAmong4Tv",function(){
+                rankOfficialAccountAmong4Tv();    
+                rankOverallAmong4Tv();
+            })
+
             targetVsAchievement();
             officialAccountAllTv();
             sosmedOfficialAndProgram();
@@ -1408,7 +1780,53 @@
             growthAllGroupTv();
             rankOfOverallAccountAllTv();
             rankOfOverallGroup();
+            rankOfficialAccountAmong4Tv();
+            rankOverallAmong4Tv();
             /* end rangking show */
+
+            $(document).on("click","#exportpdf",function(){
+                var el="";
+                el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                    '<div class="modal-dialog">'+
+                        '<form id="formExportPdf" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                            '<div class="modal-content">'+
+                                '<div class="modal-header bg-primary">'+
+                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                    '<h5 class="modal-title" id="modal-title">Export PDF</h5>'+
+                                '</div>'+
+
+                                '<div class="modal-body">'+
+                                    '<div id="pesan"></div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Date</label>'+
+                                        '<input class="form-control" name="tanggal" id="tanggal" placeholder="Date" required>'+
+                                    '</div>'+
+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Compare Date</label>'+
+                                        '<input class="form-control" name="compare" id="compare" placeholder="Compare Date" required>'+
+                                    '</div>'+
+                                '</div>'+
+
+                                '<div class="modal-footer">'+
+                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                    '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner" > <span class="ladda-label"><i class="icon-file-pdf"></i> Export File</span> </button>'+
+                                '</div>'+
+                            '</div>'+
+                        '</form>'+
+                    '</div>'+
+                '</div>';
+
+                $("#divModal").empty().html(el);
+                $("#modal_default").modal("show");
+            })
+
+            $(document).on("submit","#formExportPdf",function(e){
+                var data = new FormData(this);
+                if($("#formExportPdf")[0].checkValidity()) {
+
+                }else console.log("invalid form");
+            })
         })
     </script>
 @endpush

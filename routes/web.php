@@ -85,6 +85,7 @@ Route::group(['prefix'=>'sosmed'],function(){
             Route::get('rank-growth-from-yesterday-official-group','Sosmed\ReportController@rank_growth_from_yesterday_group');
             Route::get('rank-overall-account-all-tv-by-total-followers','Sosmed\ReportController@rank_overall_account_all_tv_by_total_followers');
             Route::get('rank-of-overall-all-group-by-followers','Sosmed\ReportController@rank_of_overall_all_group_by_follower');
+            Route::get('rank-of-official-account-among-4tv','Sosmed\ReportController@rank_of_official_account_among_4tv');
 
             Route::get('summary-program-by-id/{id}','Sosmed\ReportController@summary_program_by_id');
         });
