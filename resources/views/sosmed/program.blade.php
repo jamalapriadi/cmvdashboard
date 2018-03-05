@@ -31,11 +31,13 @@
     <div class="panel panel-default">
         <div class="panel-heading">Program</div>
         <div class="panel-body">
+            @if(auth()->user()->can('Add Program'))
             <a class="btn btn-primary" id="tambah">
                 <i class="icon-add"></i> &nbsp;
                 Add New Program
             </a>
             <br><br>
+            @endif
 
             <fieldset>
                 <legend>Filter</legend>
@@ -45,7 +47,7 @@
                             <div class="form-group">
                                 <label for="" class="control-label">Group</label>
                                 <select name="searchgroup" id="searchgroup" class="form-control">
-                                    <option value="" disabled selected>--Select Group--</option>
+                                    <option value="" selected>--Select Group--</option>
                                     @foreach($group as $row)
                                         <option value="{{$row->id}}">{{$row->group_name}}</option>
                                     @endforeach
@@ -54,14 +56,16 @@
                         </div>
 
                         <div class="col-lg-3">
-                            <div class="form-group">
-                                <label for="" class="control-label">Unit</label>
-                                <select name="searchunit" id="searchunit" class="form-control">
-                                    <option value="" disabled selected>--Select Unit--</option>
-                                    @foreach($unit as $row)
-                                        <option value="{{$row->id}}" kode="{{$row->group_unit_id}}">{{$row->unit_name}}</option>
-                                    @endforeach
-                                </select>
+                            <div id="divsearchunit">
+                                <div class="form-group">
+                                    <label for="" class="control-label">Unit</label>
+                                    <select name="searchunit" id="searchunit" class="form-control">
+                                        <option value="" disabled selected>--Select Unit--</option>
+                                        @foreach($unit as $row)
+                                            <option value="{{$row->id}}" data-group="{{$row->group_unit_id}}">{{$row->unit_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-3">
@@ -127,7 +131,8 @@
                         {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
                         {data: 'businessunit.unit_name', name: 'businessunit.unit_name',title:'Unit Name', width:'15%'},
                         {data: 'program_name', name: 'program_name',title:'Program Name',width:'30%'},
-                        {data: 'action', name: 'action',title:'Action',searchable:false,width:'17%'}
+                        {data: 'jumsosmed', name: 'jumsosmed',title:'Jumlah Sosmed',width:'20%'},
+                        {data: 'action', name: 'action',title:'Action',searchable:false,width:'20%'}
                     ],
                     buttons: [
                         'copy', 'excel', 'pdf'
@@ -434,20 +439,35 @@
                     type:"GET",
                     data:"group="+group,
                     beforeSend:function(){
-                        $("#searchunit").empty();
+                        $("#divsearchunit").empty().html("<div class='alert alert-info'>Please Wait . . .</div>");
                     },
                     success:function(result){
-                        $('#searchunit').append($('<option>', { 
-                            value: '',
-                            text : '--Select Unit--'
-                        }));
+                        var el="";
+                        if(result.length>0){
+                            el+="<div class='form-group'>"+
+                                "<label class='control-label'>Unit</label>"+
+                                '<select name="searchunit" id="searchunit" class="form-control">'+
+                                '<option value="" selected>--Select Unit--</option>';
+                                $.each(result,function(a,b){
+                                    el+="<option value='"+b.id+"' data-group='"+b.group_unit_id+"'>"+b.unit_name+"</option>";
+                                })
+                            el+="</select>"+
+                            '</div>';
+                        }else{
+                            var unit=@json($unit);
 
-                        $.each(result,function(a,b){
-                            $('#searchunit').append($('<option>', { 
-                                value: b.id,
-                                text : b.unit_name
-                            }));
-                        })
+                            el+="<div class='form-group'>"+
+                                "<label class='control-label'>Unit</label>"+
+                                '<select name="searchunit" id="searchunit" class="form-control">'+
+                                '<option value="" selected>--Select Unit--</option>';
+                                $.each(unit,function(a,b){
+                                    el+="<option value='"+b.id+"' data-group='"+b.group_unit_id+"'>"+b.unit_name+"</option>";
+                                })
+                            el+="</select>"+
+                            '</div>';
+                        }
+
+                        $("#divsearchunit").empty().html(el);
                     },
                     error:function(){
                         
@@ -457,13 +477,115 @@
 
             $(document).on("change","#searchunit",function(){
                 var unit=$("#searchunit option:selected").val();
-                var group=$("#searchunit option:selected").attr("kode");
+                var selected=$(this).find('option:selected');
+                var group=selected.data("group");
 
                 $("#searchgroup").val(group);
             })
 
             $(document).on("submit","#formSearch",function(){
                 showData();
+            })
+
+            $(document).on("click",".editsosmed",function(){
+                kode=$(this).attr("kode");
+                var el="";
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/list-sosmed-by-program')}}/"+kode,
+                    type:"GET",
+                    data:"type=program",
+                    beforeSend:function(){
+                        el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                            '<div class="modal-dialog">'+
+                                '<form id="form" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                                    '<div class="modal-content">'+
+                                        '<div class="modal-header bg-primary">'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                            '<h5 class="modal-title" id="modal-title">Last Activity</h5>'+
+                                        '</div>'+
+
+                                        '<div class="modal-body">'+
+                                            '<div id="showForm"></div>'+
+                                        '</div>'+
+
+                                        '<div class="modal-footer">'+
+                                            '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                            '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</form>'+
+                            '</div>'+
+                        '</div>';
+
+                        $("#divModal").empty().html(el);
+                        $("#modal_default").modal("show");
+                        $("#showForm").empty().html(el);
+                    },
+                    success:function(result){
+                        el+="<table class='table table-striped'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    "<th rowspan='2'>Account</th>"+
+                                    "<th rowspan='2'>Official Account</th>"+
+                                    "<th rowspan='2'>Total Activity ( 1 Week )</th>"+
+                                    "<th rowspan='2'>Action</th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody>";
+                                $.each(result.unit.sosmed,function(a,b){
+                                    el+="<tr>"+
+                                        "<td>"+b.sosmed.sosmed_name+"</td>"+
+                                        "<td>"+b.unit_sosmed_name+"</td>"+
+                                        "<td class='text-center'>"+b.followers.length+"</td>"+
+                                        "<td><a class='btn btn-sm btn-danger hapusosmed' sosmedid='"+b.id+"'><i class='icon-trash'></i></td>"+
+                                    "</tr>";
+                                })
+                            el+="</tbody>"+
+                        "</table>";
+
+                        $("#showForm").empty().html(el);
+                    },
+                    error:function(){
+
+                    }
+                })
+            })
+
+            $(document).on("click",".hapusosmed",function(){
+                var sosmedid=$(this).attr("sosmedid");
+                var parentrow=$(this).closest ('tr');
+
+                swal({
+                    title: "Are you sure?",
+                    text: "You will delete data!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        $.ajax({
+                            url:"{{URL::to('sosmed/data/unit-sosmed')}}/"+sosmedid,
+                            type:"DELETE",
+                            success:function(result){
+                                if(result.success=true){
+                                    swal("Deleted!", result.pesan, "success");
+                                    parentrow.remove ();
+                                    showData();
+                                }else{
+                                    swal("Error!", result.pesan, "error");
+                                }
+                            }
+                        })
+                    } else {
+                        swal("Cancelled", "Your data is safe :)", "error");
+                    }
+                });
             })
 
             showData();

@@ -4,11 +4,13 @@
     <div class="panel panel-default">
         <div class="panel-heading">Data Group</div>
         <div class="panel-body">
+            @if(auth()->user()->can('Add Group'))
             <a class="btn btn-primary" id="tambah">
                 <i class="icon-add"></i> &nbsp;
                 Add New Group
             </a>
             <hr>
+            @endif
             <table class="table table-striped datatable-colvis-basic"></table>
         </div>
     </div>

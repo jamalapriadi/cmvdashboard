@@ -30,13 +30,55 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">Daily Report</div>
+        <div class="panel-heading">
+            Daily Report
+        </div>
         <div class="panel-body">
+            <div class="row">
+                <form onsubmit="return false;">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="control-label">Group</label>
+                            <select class="form-control" name="group">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="control-label">Unit</label>
+                            <select class="form-control" name="group">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="control-label">Program</label>
+                            <select class="form-control" name="group">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="control-label">Periode</label>
+                            <input class="form-control" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-flat">
+        <div class="panel-heading">
             <a class="btn btn-primary" href="{{URL::to('sosmed/add-new-report-harian')}}">
                 <i class="icon-add"></i> &nbsp;
                 Add New Report
             </a>
-            <hr>
+        </div>
+        <div class="panel-body">
             <!-- <table class="table table-striped datatable-colvis-basic"></table> -->
             <div class="table-responsive">
                 <div id="showReport"></div>
@@ -133,25 +175,41 @@
                                     el+="<tr>"+
                                         "<td>"+no+"</td>"+
                                         "<td>";
-                                            if(b.unitsosmed.type_sosmed=="corporate"){
-                                                if(b.unitsosmed.businessunit!=null){
-                                                    el+=b.unitsosmed.businessunit.unit_name;
-                                                }else{
-                                                    el+='-';
+                                            if(b.unitsosmed!=null){
+                                                if(b.unitsosmed.type_sosmed=="corporate"){
+                                                    if(b.unitsosmed.businessunit!=null){
+                                                        el+=b.unitsosmed.businessunit.unit_name;
+                                                    }else{
+                                                        el+='-';
+                                                    }
+                                                }else if(b.unitsosmed.type_sosmed=="program"){
+                                                    if(b.unitsosmed.program!=null){
+                                                        el+=b.unitsosmed.program.businessunit.unit_name;
+                                                    }else{
+                                                        el+='-';
+                                                    }
                                                 }
-                                            }else if(b.unitsosmed.type_sosmed=="program"){
-                                                if(b.unitsosmed.program!=null){
-                                                    el+=b.unitsosmed.program.businessunit.unit_name;
-                                                }else{
-                                                    el+='-';
-                                                }
+                                            }else{
+                                                el+="<label class='label label-alert'>Salah</label>";
                                             }
                                         el+="</td>"+
                                         "<td>";
-                                            if(b.unitsosmed.program!=null){
-                                                el+=b.unitsosmed.program.program_name;
+                                            if(b.unitsosmed!=null){
+                                                if(b.unitsosmed.type_sosmed=="corporate"){
+                                                    if(b.unitsosmed.businessunit!=null){
+                                                        el+=b.unitsosmed.businessunit.unit_name;
+                                                    }else{
+                                                        el+='-';
+                                                    }
+                                                }else if(b.unitsosmed.type_sosmed=="program"){
+                                                    if(b.unitsosmed.program!=null){
+                                                        el+=b.unitsosmed.program.program_name;
+                                                    }else{
+                                                        el+='-';
+                                                    }
+                                                }
                                             }else{
-                                                el+="-";
+                                                el+="<label class='label label-alert'>Salah</label>";
                                             }
                                         el+="</td>"+
                                         "<td>"+b.unitsosmed.sosmed.sosmed_name+"</td>"+

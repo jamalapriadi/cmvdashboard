@@ -76,7 +76,18 @@ class CreteSosmedTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('unit_sosmed_id')->unsigned()->nullable();
             $table->year('tahun')->nullable();
-            $table->float('target')->nullable();
+            $table->integer('target')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('unit_sosmed_activity',function(Blueprint $table){
+            $table->increments('id')->unsigned();
+            $table->integer('unit_sosmed_follower_id')->unsigned();
+            $table->string('description',191);
+            $table->date('tanggal');
+            $table->integer('follower');
+            $table->integer('insert_user')->unsigned();
+            $table->integer('update_user')->unsigned();
             $table->timestamps();
         });
 

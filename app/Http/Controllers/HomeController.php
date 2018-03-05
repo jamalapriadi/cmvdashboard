@@ -42,11 +42,16 @@ class HomeController extends Controller
     }
 
     public function user(){
-        return view('user.user');
+        if(auth()->user()->can('Read User')){
+            return view('user.user');
+        }else{
+            return view('errors.403');
+        }
     }
 
-    public function user_role(){
-        return view('user.user_role');
+    public function user_role($id){
+        return view('user.user_role')
+            ->with('id',$id);
     }
 
     public function sosmed_group(){

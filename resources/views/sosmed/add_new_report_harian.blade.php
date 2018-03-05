@@ -311,7 +311,8 @@
                                             $.each(result.sosmed,function(c,d){
                                                 el+='<div class="form-group">'+
                                                     '<label class="control-label">'+d.sosmed.sosmed_name+' # '+d.unit_sosmed_name+'</label>'+
-                                                    '<input class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed.sosmed_name+'" required>'+
+                                                    '<input type="hidden" class="form-control" name="official['+d.id+']" placeholder="'+d.sosmed.sosmed_name+'" value="'+d.unit_sosmed_name+'">'+
+                                                    '<input type="number" class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed.sosmed_name+'" required>'+
                                                 '</div>';
                                             })
                                         el+='</fieldset>';

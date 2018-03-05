@@ -13,6 +13,7 @@ class ProgramunitController extends Controller
     public function index(Request $request){
         \DB::statement(\DB::raw('set @rownum=0'));
         $var=Programunit::with('businessunit')
+            ->with('sosmed')
             ->select('id','business_unit_id','program_name',
             \DB::raw('@rownum := @rownum + 1 AS no'));
 
@@ -21,16 +22,50 @@ class ProgramunitController extends Controller
                 if($request->has('unit') && $request->input('unit')!=null){
                     $query->where('business_unit_id',$request->input('unit'));
                 }
+
+                if($request->has('group') && $request->input('group')!=null){
+                    $group=$request->input('group');
+
+                    $query->whereHas('businessunit',function($q) use($group){
+                        $q->where('group_unit_id',$group);
+                    });
+                }
+            })
+            ->addColumn('jumsosmed',function($q){
+                $jumsosmed=count($q->sosmed);
+                if(auth()->user()->can('Update Sosmed Program')){
+                    if($jumsosmed>=4){
+                        return "<label class='label label-danger editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+                    }else if($jumsosmed>=3){
+                        return "<label class='label label-success editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+                    }else if($jumsosmed>=2){
+                        return "<label class='label label-warning editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+                    }else{
+                        return "<label class='label label-info editsosmed' kode='".$q->id."'>".count($q->sosmed)." Jumlah Sosmed</label>";
+                    }
+                }else{
+                    return "<label class='label label-default' disabled>".$jumsosmed." Jumlah Sosmed</label>";
+                }
             })
             ->addColumn('action',function($query){
                 $html="<div class='btn-group'>";
-                $html.="<a href='".\URL::to('sosmed/program/'.$query->id.'/summary')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Summary'><i class='icon-stats-dots'></i></a>";
-                $html.="<a href='#' class='btn btn-sm btn-warning edit' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
-                $html.="<a href='#' class='btn btn-sm btn-danger hapus' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
+                if(auth()->user()->can('Summary Program')){
+                    $html.="<a href='".\URL::to('sosmed/program/'.$query->id.'/summary')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Summary'><i class='icon-stats-dots'></i></a>";
+                }
+
+                if(auth()->user()->can('Edit Program')){
+                    $html.="<a href='#' class='btn btn-sm btn-warning edit' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
+                }
+
+                if(auth()->user()->can('Delete Program')){
+                    $html.="<a href='#' class='btn btn-sm btn-danger hapus' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
+                }
+
                 $html.="</div>";
 
                 return $html;
             })
+            ->rawColumns(['jumsosmed','action'])
             ->make(true);
     }
 
@@ -126,10 +161,11 @@ class ProgramunitController extends Controller
                 
                 if($request->has('sosmed')){
                     $sosmed=$request->input('sosmed');
-
+                    $tes=array();
                     foreach($sosmed as $key=>$val){
-                        $ceksosmed=\App\Models\Sosmed\Unitsosmed::where('sosmed_id',$val)
-                            ->where('business_program_unit',$var->id)
+                        $ceksosmed=\App\Models\Sosmed\Unitsosmed::where('sosmed_id',$key)
+                            ->where('business_program_unit',$id)
+                            ->where('type_sosmed','program')
                             ->first();
                         
                         if(count($ceksosmed)>0){
@@ -140,7 +176,7 @@ class ProgramunitController extends Controller
                         }else{
                             $s=new \App\Models\Sosmed\Unitsosmed;
                             $s->type_sosmed="program";
-                            $s->business_program_unit=$var->id;
+                            $s->business_program_unit=$id;
                             $s->sosmed_id=$key;
                             $s->unit_sosmed_name=$val;
                             $s->save();
@@ -333,6 +369,44 @@ class ProgramunitController extends Controller
         return $unit;
     }
 
+    public function list_sosmed_by_program(Request $request,$id){
+        $sekarang=date('Y-m-d');
+        $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
+
+        $type=$request->input('type');
+
+        switch($type){
+            case 'program':
+                    $unit=\App\Models\Sosmed\Programunit::with(
+                        [
+                            'sosmed',
+                            'sosmed.sosmed',
+                            'sosmed.followers'=>function($q) use($sekarang,$kemarin){
+                                $q->whereBetween('tanggal',[$kemarin,$sekarang]);
+                            }
+                        ]
+                    )->find($id);
+                break;
+            case 'corporate':
+                    $unit=\App\Models\Sosmed\Businessunit::with(
+                        [
+                            'sosmed',
+                            'sosmed.sosmed',
+                            'sosmed.followers'=>function($q) use($sekarang,$kemarin){
+                                $q->whereBetween('tanggal',[$kemarin,$sekarang]);
+                            }
+                        ]
+                    )->find($id);
+                break;
+        }
+
+        return array(
+            'unit'=>$unit,
+            'kemarin'=>$kemarin,
+            'sekarang'=>$sekarang
+        );
+    }
+
     public function cek_daily_report(Request $request){
         $rules=[
             'tanggal'=>'required',
@@ -459,7 +533,13 @@ class ProgramunitController extends Controller
         return $data;
     }
 
-    public function daily_report(){
+    public function daily_report(Request $request){
+        if($request->has('periode')){
+
+        }else{
+            $sekarang=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }
         $daily=\App\Models\Sosmed\Unitsosmedfollower::with(
             [
                 'unitsosmed',
@@ -468,7 +548,10 @@ class ProgramunitController extends Controller
                 'unitsosmed.program',
                 'unitsosmed.program.businessunit'
             ]
-        )->get();
+        )->whereHas('unitsosmed')
+        ->whereBetween('tanggal',[$kemarin,$sekarang]);
+
+        $daily=$daily->get();
 
         return $daily;
     }

@@ -4,11 +4,13 @@
     <div class="panel panel-default">
         <div class="panel-heading">Sosial Media</div>
         <div class="panel-body">
+            @if(auth()->user()->can('Add Sosmed'))
             <a class="btn btn-primary" id="tambah">
                 <i class="icon-add"></i> &nbsp;
                 Add New Sosial Media
             </a>
             <hr>
+            @endif
             <table class="table table-striped datatable-colvis-basic"></table>
         </div>
     </div>
