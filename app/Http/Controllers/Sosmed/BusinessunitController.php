@@ -253,4 +253,14 @@ class BusinessunitController extends Controller
 
         return $var;
     }
+
+    public function import(Request $request){
+        $var = \App\Models\Sosmed\Businessunit::select('id','group_unit_id','unit_name')->get();
+
+        return \Excel::create('unit',function($excel) use($var){
+            $excel->sheet('sheet1',function($sheet) use($var){
+                $sheet->fromArray($var);
+            });
+        })->export('xlsx');
+    }
 }

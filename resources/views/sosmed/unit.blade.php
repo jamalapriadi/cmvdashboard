@@ -36,7 +36,6 @@
                 <i class="icon-add"></i> &nbsp;
                 Add New Business Unit
             </a>
-            <hr>
             @endif
             <table class="table table-striped datatable-colvis-basic"></table>
         </div>

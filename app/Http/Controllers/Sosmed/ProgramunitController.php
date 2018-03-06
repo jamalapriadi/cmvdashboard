@@ -796,4 +796,53 @@ class ProgramunitController extends Controller
 
         return array('program'=>$program,'result'=>$data);
     }
+
+    public function import(Request $request){
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+
+        $unit=\App\Models\Sosmed\Businessunit::select('id','group_unit_id','unit_name')->get();
+
+        $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
+
+        $var = \App\Models\Sosmed\Programunit::select('id','business_unit_id','program_name')
+            ->get();
+
+        $unitsosmed=\App\Models\Sosmed\Unitsosmed::select('id','type_sosmed','business_program_unit','sosmed_id','unit_sosmed_name','target_use')
+            ->get();
+
+        $unitfollower=\App\Models\Sosmed\Unitsosmedfollower::select('id','unit_sosmed_id','tanggal','follower')->get();
+
+        $unittarget=\App\Models\Sosmed\Unitsosmedtarget::select('id','unit_sosmed_id','tahun','target')->get();
+
+        return \Excel::create('backup'.date('Y-m-d H:i:s'),function($excel) use($var,$unitsosmed,$group,$unit,$sosmed,$unitfollower,$unittarget){
+            $excel->sheet('group',function($sheet) use($group){
+                $sheet->fromArray($group);
+            });
+
+            $excel->sheet('unit',function($sheet) use($unit){
+                $sheet->fromArray($unit);
+            });
+
+            $excel->sheet('sosmed',function($sheet) use($sosmed){
+                $sheet->fromArray($sosmed);
+            });
+
+            $excel->sheet('program',function($sheet) use($var){
+                $sheet->fromArray($var);
+            });
+
+            $excel->sheet('unit_sosmed',function($sheet) use($unitsosmed){
+                $sheet->fromArray($unitsosmed);
+            });
+
+            $excel->sheet('unit_sosmedfollower',function($sheet) use($unitfollower){
+                $sheet->fromArray($unitfollower);
+            });
+
+            $excel->sheet('unit_sosmedtarget',function($sheet) use($unittarget){
+                $sheet->fromArray($unittarget);
+            });
+
+        })->export('xlsx');
+    }
 }

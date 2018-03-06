@@ -56,6 +56,11 @@
                 @if(auth()->user()->can('Input Report'))
                     <li><a href="{{URL::to('sosmed/input-report-harian')}}" class="{{ Request::path() == 'sosmed/input-report-harian' ? 'active' : '' }}"><i class="lnr lnr-location"></i> <span>Input Report</span></a></li>
                 @endif
+
+                <li><a href="{{URL::to('sosmed/data/backup-excel')}}">
+                        <i class="icon-file-excel"></i> Backup Data
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

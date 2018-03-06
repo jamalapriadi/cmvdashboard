@@ -74,6 +74,8 @@ Route::group(['prefix'=>'sosmed'],function(){
         Route::put('daily-report/{id}','Sosmed\ProgramunitController@daily_report_update');
         Route::delete('daily-report/{id}','Sosmed\ProgramunitController@daily_report_destroy');
 
+        Route::get('backup-excel','Sosmed\ProgramunitController@import');
+
         Route::group(['prefix'=>'report'],function(){
             Route::get('target-vs-achievement','Sosmed\ReportController@target_vs_achievement');
             Route::get('official-account-all-tv','Sosmed\ReportController@official_account_all_tv');

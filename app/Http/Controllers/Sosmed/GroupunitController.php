@@ -196,4 +196,14 @@ class GroupunitController extends Controller
             'unit'=>$unit
         );
     }
+
+    public function import(Request $request){
+        $var = \App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+
+        return \Excel::create('group',function($excel) use($var){
+            $excel->sheet('sheet1',function($sheet) use($var){
+                $sheet->fromArray($var);
+            });
+        })->export('xlsx');
+    }
 }
