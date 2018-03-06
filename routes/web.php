@@ -72,6 +72,7 @@ Route::group(['prefix'=>'sosmed'],function(){
         Route::get('daily-report','Sosmed\ProgramunitController@daily_report');
         Route::get('daily-report/{id}','Sosmed\ProgramunitController@daily_report_by_id');
         Route::put('daily-report/{id}','Sosmed\ProgramunitController@daily_report_update');
+        Route::delete('daily-report/{id}','Sosmed\ProgramunitController@daily_report_destroy');
 
         Route::group(['prefix'=>'report'],function(){
             Route::get('target-vs-achievement','Sosmed\ReportController@target_vs_achievement');

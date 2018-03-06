@@ -35,35 +35,60 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <form onsubmit="return false;">
-                    <div class="col-lg-3">
+                <form id="formSearch" onsubmit="return false;">
+                    <div style="float:left;margin-right:3px; width:160px">
                         <div class="form-group">
-                            <label class="control-label">Group</label>
-                            <select class="form-control" name="group">
-                                <option value=""></option>
+                            <label for="" class="control-label">Group</label>
+                            <select name="searchgroup" id="searchgroup" class="form-control">
+                                <option value="" selected>--Select Group--</option>
+                                @foreach($group as $row)
+                                    <option value="{{$row->id}}">{{$row->group_name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div style="float:left;margin-right:3px; width:160px">
+                        <div id="divsearchunit">
+                            <div class="form-group">
+                                <label for="" class="control-label">Unit</label>
+                                <select name="searchunit" id="searchunit" class="form-control">
+                                    <option value="" disabled selected>--Select Unit--</option>
+                                    @foreach($unit as $row)
+                                        <option value="{{$row->id}}" data-group="{{$row->group_unit_id}}">{{$row->unit_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="float:left;margin-right:3px; width:160px">
                         <div class="form-group">
-                            <label class="control-label">Unit</label>
-                            <select class="form-control" name="group">
-                                <option value=""></option>
+                            <label for="" class="control-label">Type</label>
+                            <select name="searchtype" id="searchtype" class="form-control">
+                                <option value="" selected>--Select Type--</option>
+                                <option value="program">Program</option>
+                                <option value="corporate">Corporate</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label class="control-label">Program</label>
-                            <select class="form-control" name="group">
-                                <option value=""></option>
-                            </select>
+                    <div style="float:left;margin-right:3px; width:160px">
+                        <div id="divsearchprogram">
+
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div style="float:left;margin-right:3px; width:180px">
                         <div class="form-group">
                             <label class="control-label">Periode</label>
-                            <input class="form-control" />
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                                <input type="text" name="searchperiode" id="searchperiode" class="form-control daterange-basic" value="{{date('m/d/Y',strtotime($kemarin))}} - {{date('m/d/Y',strtotime($sekarang))}}"> 
+                            </div>
+                        </div>
+                    </div>
+                    <div style="float:left;margin-right:3px; width:160px">
+                        <div class="form-group">
+                            <button class="btn btn-primary" style="margin-top:25px;">
+                                <i class="icon-filter4"></i> Filter 
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -72,16 +97,18 @@
     </div>
 
     <div class="panel panel-flat">
+        @if(auth()->user()->can('Add Daily Report'))
         <div class="panel-heading">
             <a class="btn btn-primary" href="{{URL::to('sosmed/add-new-report-harian')}}">
                 <i class="icon-add"></i> &nbsp;
                 Add New Report
             </a>
         </div>
+        @endif
         <div class="panel-body">
             <!-- <table class="table table-striped datatable-colvis-basic"></table> -->
             <div class="table-responsive">
-                <div id="showReport"></div>
+                <table class='table table-striped datatable-colvis-basic'></table>
             </div>
         </div>
     </div>
@@ -108,6 +135,12 @@
                 singleDatePicker: true,
                 selectMonths: true,
                 selectYears: true
+            });
+
+            $('.daterange-basic').daterangepicker({
+                applyClass: 'bg-slate-600',
+                cancelClass: 'btn-default',
+                opens: 'left'
             });
 
             // Setting datatable defaults
@@ -147,122 +180,49 @@
             }
 
             function showData(){
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/daily-report')}}",
-                    type:"GET",
-                    beforeSend:function(){
-                        $("#showReport").empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                $('.datatable-colvis-basic').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    autoWidth: true,
+                    destroy: true,
+                    ajax: "{{URL::to('sosmed/data/daily-report')}}",
+                    columns: [
+                        {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
+                        {data: 'unit', name: 'unit',title:'Unit Name',width:'18%'},
+                        {data: 'program', name: 'program',title:'Program Name'},
+                        {data: 'unitsosmed.sosmed.sosmed_name', name: 'unitsosmed.sosmed.sosmed_name',title:'Sosmed Name'},
+                        {data: 'unitsosmed.unit_sosmed_name', name: 'unitsosmed.unit_sosmed_name',title:'Account Name'},
+                        {data: 'tanggal', name: 'tanggal',title:'Tanggal'},
+                        {data: 'follow', name: 'follow',title:'Follower'},
+                        {data: 'action', name: 'action',title:'Action',searchable:false,width:'22%'}
+                    ],
+                    buttons: [
+                        'copy', 'excel', 'pdf'
+                    ],
+                    colVis: {
+                        buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
+                        align: "right",
+                        overlayFade: 200,
+                        showAll: "Show all",
+                        showNone: "Hide all"
                     },
-                    success:function(result){
-                        var el="";
-                        el+="<table class='table table-striped' id='tabeldaily'>"+
-                            "<thead>"+
-                                "<tr>"+
-                                    "<th width='5%'>No.</th>"+
-                                    "<th>Unit</th>"+
-                                    "<th>Program Name</th>"+
-                                    "<th>Sosial Media Name</th>"+
-                                    "<th>Official Account</th>"+
-                                    "<th>Tanggal</th>"+
-                                    "<th>Follower</th>"+
-                                    "<th></th>"+
-                                "</tr>"+
-                            "</thead>"+
-                            "<tbody>";
-                                var no=0;
-                                $.each(result,function(a,b){
-                                    no++;
-                                    el+="<tr>"+
-                                        "<td>"+no+"</td>"+
-                                        "<td>";
-                                            if(b.unitsosmed!=null){
-                                                if(b.unitsosmed.type_sosmed=="corporate"){
-                                                    if(b.unitsosmed.businessunit!=null){
-                                                        el+=b.unitsosmed.businessunit.unit_name;
-                                                    }else{
-                                                        el+='-';
-                                                    }
-                                                }else if(b.unitsosmed.type_sosmed=="program"){
-                                                    if(b.unitsosmed.program!=null){
-                                                        el+=b.unitsosmed.program.businessunit.unit_name;
-                                                    }else{
-                                                        el+='-';
-                                                    }
-                                                }
-                                            }else{
-                                                el+="<label class='label label-alert'>Salah</label>";
-                                            }
-                                        el+="</td>"+
-                                        "<td>";
-                                            if(b.unitsosmed!=null){
-                                                if(b.unitsosmed.type_sosmed=="corporate"){
-                                                    if(b.unitsosmed.businessunit!=null){
-                                                        el+=b.unitsosmed.businessunit.unit_name;
-                                                    }else{
-                                                        el+='-';
-                                                    }
-                                                }else if(b.unitsosmed.type_sosmed=="program"){
-                                                    if(b.unitsosmed.program!=null){
-                                                        el+=b.unitsosmed.program.program_name;
-                                                    }else{
-                                                        el+='-';
-                                                    }
-                                                }
-                                            }else{
-                                                el+="<label class='label label-alert'>Salah</label>";
-                                            }
-                                        el+="</td>"+
-                                        "<td>"+b.unitsosmed.sosmed.sosmed_name+"</td>"+
-                                        "<td>"+b.unitsosmed.unit_sosmed_name+"</td>"+
-                                        "<td>"+b.tanggal+"</td>"+
-                                        "<td>";
-                                            if(b.follower!=null){
-                                                el+=addKoma(b.follower);
-                                            }else{
-                                                el+='<label class="label label-danger">Set Follower</label>';
-                                            }
-                                        el+="</td>"+
-                                        "<td><a class='btn btn-warning editfollower' kode='"+b.id+"'><i class='icon-pencil4'></i></a></td>"+
-                                    "</tr>";
-                                })
-                            el+="</tbody>"+
-                        "</table>";
+                    bDestroy: true
+                }); 
 
-                        $("#showReport").empty().html(el);
-
-                        $("#tabeldaily").DataTable({
-                            buttons: [
-                                'copy', 'excel', 'pdf'
-                            ],
-                            colVis: {
-                                buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
-                                align: "right",
-                                overlayFade: 200,
-                                showAll: "Show all",
-                                showNone: "Hide all"
-                            },
-                            bDestroy: true
-                        })
-
-                        // Launch Uniform styling for checkboxes
-                        $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
-                            $('.ColVis_collection input').uniform();
-                        });
+                // Launch Uniform styling for checkboxes
+                $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
+                    $('.ColVis_collection input').uniform();
+                });
 
 
-                        // Add placeholder to the datatable filter option
-                        $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
+                // Add placeholder to the datatable filter option
+                $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
 
 
-                        // Enable Select2 select for the length option
-                        $('.dataTables_length select').select2({
-                            minimumResultsForSearch: "-1"
-                        }); 
-                    },
-                    error:function(){
-
-                    }
-                })
+                // Enable Select2 select for the length option
+                $('.dataTables_length select').select2({
+                    minimumResultsForSearch: "-1"
+                });
             }
 
             $(document).on("click","#tambah",function(){
@@ -626,6 +586,40 @@
                 })
             });
 
+            $(document).on("click",".hapusfollower",function(){
+                kode=$(this).attr("kode");
+
+                swal({
+                    title: "Are you sure?",
+                    text: "You will delete data!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+                        $.ajax({
+                            url:"{{URL::to('sosmed/data/daily-report')}}/"+kode,
+                            type:"DELETE",
+                            success:function(result){
+                                if(result.success=true){
+                                    swal("Deleted!", result.pesan, "success");
+                                    showData();
+                                }else{
+                                    swal("Error!", result.pesan, "error");
+                                }
+                            }
+                        })
+                    } else {
+                        swal("Cancelled", "Your data is safe :)", "error");
+                    }
+                });
+            })
+
             $(document).on("submit","#formUpdateDaily",function(e){
                 var data = new FormData(this);
                 data.append("_method","PUT");
@@ -670,6 +664,162 @@
                     });
                 }else console.log("invalid form");
             });
+
+            $(document).on("change","#searchgroup",function(){
+                var group=$("#searchgroup option:selected").val();
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/list-unit')}}",
+                    type:"GET",
+                    data:"group="+group,
+                    beforeSend:function(){
+                        $("#divsearchunit").empty().html("<div class='alert alert-info'>Please Wait . . .</div>");
+                    },
+                    success:function(result){
+                        var el="";
+                        if(result.length>0){
+                            el+="<div class='form-group'>"+
+                                "<label class='control-label'>Unit</label>"+
+                                '<select name="searchunit" id="searchunit" class="form-control">'+
+                                '<option value="" selected>--Select Unit--</option>';
+                                $.each(result,function(a,b){
+                                    el+="<option value='"+b.id+"' data-group='"+b.group_unit_id+"'>"+b.unit_name+"</option>";
+                                })
+                            el+="</select>"+
+                            '</div>';
+                        }else{
+                            var unit=@json($unit);
+
+                            el+="<div class='form-group'>"+
+                                "<label class='control-label'>Unit</label>"+
+                                '<select name="searchunit" id="searchunit" class="form-control">'+
+                                '<option value="" selected>--Select Unit--</option>';
+                                $.each(unit,function(a,b){
+                                    el+="<option value='"+b.id+"' data-group='"+b.group_unit_id+"'>"+b.unit_name+"</option>";
+                                })
+                            el+="</select>"+
+                            '</div>';
+                        }
+
+                        $("#divsearchunit").empty().html(el);
+                    },
+                    error:function(){
+                        
+                    }
+                })
+            })
+
+            $(document).on("change","#searchunit",function(){
+                var unit=$("#searchunit option:selected").val();
+                var selected=$(this).find('option:selected');
+                var group=selected.data("group");
+
+                $("#searchgroup").val(group);
+            })
+
+            $(document).on("change","#searchtype",function(){
+                var type=$("#searchtype option:selected").val();
+                var unit=$("#searchunit option:selected").val();
+
+                switch(type){
+                    case 'program':
+                            $.ajax({
+                                url:"{{URL::to('sosmed/data/list-program-by-unit')}}/"+unit,
+                                type:"GET",
+                                data:"unit="+unit,
+                                beforeSend:function(){
+                                    $("#divsearchprogram").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                                },
+                                success:function(result){   
+                                    var el="";
+                                    el+="<div class='form-group'>"+
+                                        "<label class='control-label'>Program</label>"+
+                                        "<select class='form-control' name='searchprogram' id='searchprogram'>"+
+                                            '<option value="" selected>--Select Program--</option>';
+                                            $.each(result,function(a,b){
+                                                el+="<option value='"+b.id+"'>"+b.program_name+"</option>";
+                                            })
+                                        el+="</select>"+
+                                    "</div>";
+
+                                    $("#divsearchprogram").empty().html(el);
+                                },
+                                error:function(){
+
+                                }
+                            })
+                        break;
+                    case 'corporate':
+                            $("#divsearchprogram").empty();
+                        break;
+                    default:
+                            $("#divsearchprogram").empty();
+                        break;
+                }
+            })
+
+            $(document).on("submit","#formSearch",function(e){
+                var formData={
+                    type:$("#searchtype option:selected").val(),
+                    group:$("#searchgroup option:selected").val(),
+                    unit:$("#searchunit option:selected").val(),
+                    program:$("#searchprogram option:selected").val(),
+                    periode:$("#searchperiode").val()
+                }
+
+                if($("#formSearch")[0].checkValidity()) {
+                    //updateAllMessageForms();
+                    e.preventDefault();
+                    
+                    $('.datatable-colvis-basic').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        autoWidth: true,
+                        destroy: true,
+                        ajax: {
+                            url:"{{URL::to('sosmed/data/daily-report')}}",
+                            data:formData
+                        },
+                        columns: [
+                            {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
+                            {data: 'unit', name: 'unit',title:'Unit Name',width:'18%'},
+                            {data: 'program', name: 'program',title:'Program Name'},
+                            {data: 'unitsosmed.sosmed.sosmed_name', name: 'unitsosmed.sosmed.sosmed_name',title:'Sosmed Name'},
+                            {data: 'unitsosmed.unit_sosmed_name', name: 'unitsosmed.unit_sosmed_name',title:'Account Name'},
+                            {data: 'tanggal', name: 'tanggal',title:'Tanggal'},
+                            {data: 'follow', name: 'follow',title:'Follower'},
+                            {data: 'action', name: 'action',title:'Action',searchable:false,width:'22%'}
+                        ],
+                        buttons: [
+                            'copy', 'excel', 'pdf'
+                        ],
+                        colVis: {
+                            buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
+                            align: "right",
+                            overlayFade: 200,
+                            showAll: "Show all",
+                            showNone: "Hide all"
+                        },
+                        bDestroy: true
+                    }); 
+
+                    // Launch Uniform styling for checkboxes
+                    $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
+                        $('.ColVis_collection input').uniform();
+                    });
+
+
+                    // Add placeholder to the datatable filter option
+                    $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
+
+
+                    // Enable Select2 select for the length option
+                    $('.dataTables_length select').select2({
+                        minimumResultsForSearch: "-1"
+                    });
+
+                }else console.log("invalid form");
+            })
 
             showData();
         })

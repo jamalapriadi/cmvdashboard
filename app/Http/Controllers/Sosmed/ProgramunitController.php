@@ -518,6 +518,7 @@ class ProgramunitController extends Controller
                     $new->tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
                     $new->unit_sosmed_id=$k;
                     $new->follower=$v;
+                    $new->insert_user=\Auth::user()->email;
                     $new->save();
                 }
 
@@ -535,11 +536,16 @@ class ProgramunitController extends Controller
 
     public function daily_report(Request $request){
         if($request->has('periode')){
-
+            $pecah=explode("-", $request->input('periode'));
+            $kemarin=date('Y-m-d',strtotime($pecah[0]));
+            $sekarang=date('Y-m-d',strtotime($pecah[1]));
         }else{
             $sekarang=date('Y-m-d');
             $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
         }
+
+        \DB::statement(\DB::raw('set @rownum=0'));
+
         $daily=\App\Models\Sosmed\Unitsosmedfollower::with(
             [
                 'unitsosmed',
@@ -549,11 +555,108 @@ class ProgramunitController extends Controller
                 'unitsosmed.program.businessunit'
             ]
         )->whereHas('unitsosmed')
+        ->select('id','unit_sosmed_id','tanggal',
+        'follower','insert_user','update_user',\DB::raw('@rownum := @rownum + 1 AS no'))
         ->whereBetween('tanggal',[$kemarin,$sekarang]);
 
-        $daily=$daily->get();
+        if($request->has('type') && $request->input('type')!=null){
+            $type=$request->input('type');
 
-        return $daily;
+            switch($type){
+                case 'corporate':
+                        if($request->has('unit') && $request->input('unit')!=null){
+                            $unit=$request->input('unit');
+
+                            $daily=$daily->whereHas('unitsosmed.businessunit',function($w) use($unit){
+                                $w->where('id',$unit);
+                            });
+                        }
+                    break;
+                case 'program':
+                        if($request->has('program') && $request->input('program')!=null){
+                            $program=$request->input('program');
+
+                            $daily=$daily->whereHas('unitsosmed.program',function($r) use($program){
+                                $r->where('id',$program);
+                            });
+                        }
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
+        return \DataTables::of($daily)
+            ->addColumn('unit',function($q){
+                if($q->unitsosmed!=null){
+                    if($q->unitsosmed->type_sosmed=="corporate"){
+                        if($q->unitsosmed->businessunit!=null){
+                            $html=$q->unitsosmed->businessunit->unit_name;
+                        }else{
+                            $html='-';
+                        }
+                    }else if($q->unitsosmed->type_sosmed="program"){
+                        if($q->unitsosmed->program!=null){
+                            $html=$q->unitsosmed->program->businessunit->unit_name;
+                        }else{
+                            $html='-';
+                        }
+                    }else{
+                        $html="<label class='label label-alert'>Type Sosmed Not Found</label>";
+                    }
+                }else{
+                    $html="<label class='label label-alert'>Unit Sosmed Not Found</label>";
+                }
+
+                return $html;
+            })
+            ->addColumn('program',function($q){
+                if($q->unitsosmed!=null){
+                    if($q->unitsosmed->type_sosmed=="corporate"){
+                        if($q->unitsosmed->businessunit!=null){
+                            $html=$q->unitsosmed->businessunit->unit_name;
+                        }else{
+                            $html='-';
+                        }
+                    }else if($q->unitsosmed->type_sosmed=="program"){
+                        if($q->unitsosmed->program!=null){
+                            $html=$q->unitsosmed->program->program_name;
+                        }else{
+                            $html='-';
+                        }
+                    }
+                }else{
+                    $html="<label class='label label-alert'>Salah</label>";
+                }
+
+                return $html;
+            })
+            ->addColumn('follow',function($q){
+                if($q->follower!=null){
+                    $html=number_format($q->follower,2);
+                }else{
+                    $html='<label class="label label-danger">Set Follower</label>';
+                }
+
+                return $html;
+            })
+            ->addColumn('action',function($query){
+                $html="<div class='btn-group' data-toggle='buttons'>";
+                if(auth()->user()->can('Edit Daily Report')){
+                    $html.="<a href='#' class='btn btn-sm btn-warning editfollower' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
+                }
+                
+                if(auth()->user()->can('Delete Daily Report')){
+                    $html.="<a href='#' class='btn btn-sm btn-danger hapusfollower' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
+                }
+                
+                $html.="</div>";
+
+                return $html;
+            })
+            ->rawColumns(['unit','program','follower','action','follow'])
+            ->make(true);
     }
 
     public function daily_report_by_id($id){
@@ -586,10 +689,21 @@ class ProgramunitController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
+            $old=\App\Models\Sosmed\Unitsosmedfollower::find($id);
             $new=\App\Models\Sosmed\Unitsosmedfollower::find($id);
             $new->tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
             $new->follower=$request->input('follower');
-            $new->update_user=\Auth::user()->id;
+            $new->update_user=\Auth::user()->email;
+
+            $update=new \App\Models\Sosmed\Unitsosmedactivity;
+            $update->on_page="Daily Report";
+            $update->relasi_id=$id;
+            $update->description=\Auth::user()->name." Mengupdate Data Follower";
+            $update->tanggal=$old->tanggal;
+            $update->follower=$old->follower;
+            $update->insert_user=\Auth::user()->email;
+            $update->save();
+
             $new->save();
 
             $data=array(
@@ -598,6 +712,28 @@ class ProgramunitController extends Controller
                 'error'=>''
             );
             
+        }
+
+        return $data;
+    }
+
+    public function daily_report_destroy($id){
+        $new=\App\Models\Sosmed\Unitsosmedfollower::find($id);
+
+        $hapus=$new->delete();
+
+        if($hapus){
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil dihapus',
+                'error'=>''
+            );
+        }else{
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Data gagal berhasil dihapus',
+                'error'=>''
+            );
         }
 
         return $data;
