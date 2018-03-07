@@ -566,32 +566,12 @@ class ProgramunitController extends Controller
             $daily=$daily->where('insert_user',\Auth::user()->email);
         }
 
-        if($request->has('type') && $request->input('type')!=null){
-            $type=$request->input('type');
+        if($request->has('unit') && $request->input('unit')!=null){
+            $unit=$request->input('unit');
 
-            switch($type){
-                case 'corporate':
-                        if($request->has('unit') && $request->input('unit')!=null){
-                            $unit=$request->input('unit');
-
-                            $daily=$daily->whereHas('unitsosmed.businessunit',function($w) use($unit){
-                                $w->where('id',$unit);
-                            });
-                        }
-                    break;
-                case 'program':
-                        if($request->has('program') && $request->input('program')!=null){
-                            $program=$request->input('program');
-
-                            $daily=$daily->whereHas('unitsosmed.program',function($r) use($program){
-                                $r->where('id',$program);
-                            });
-                        }
-                    break;
-                default:
-
-                    break;
-            }
+            $daily=$daily->whereHas('unitsosmed.program.businessunit',function($r) use($unit){
+                $r->where('id',$unit);
+            });
         }
 
         return \DataTables::of($daily)

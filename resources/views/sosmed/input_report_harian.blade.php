@@ -52,22 +52,12 @@
                             <div class="form-group">
                                 <label for="" class="control-label">Unit</label>
                                 <select name="searchunit" id="searchunit" class="form-control">
-                                    <option value="" disabled selected>--Select Unit--</option>
+                                    <option value="all" disabled selected>--Select Unit--</option>
                                     @foreach($unit as $row)
                                         <option value="{{$row->id}}" data-group="{{$row->group_unit_id}}">{{$row->unit_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                    </div>
-                    <div style="float:left;margin-right:3px; width:160px">
-                        <div class="form-group">
-                            <label for="" class="control-label">Type</label>
-                            <select name="searchtype" id="searchtype" class="form-control">
-                                <option value="" selected>--Select Type--</option>
-                                <option value="program">Program</option>
-                                <option value="corporate">Corporate</option>
-                            </select>
                         </div>
                     </div>
                     <div style="float:left;margin-right:3px; width:160px">
@@ -776,7 +766,6 @@
 
             $(document).on("submit","#formSearch",function(e){
                 var formData={
-                    type:$("#searchtype option:selected").val(),
                     group:$("#searchgroup option:selected").val(),
                     unit:$("#searchunit option:selected").val(),
                     program:$("#searchprogram option:selected").val(),
