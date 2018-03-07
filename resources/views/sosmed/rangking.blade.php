@@ -34,52 +34,54 @@
                 </div>
             </form>
 
-            <ul>
-                <ol>1. Official Account All TV By Total Followers
-                    <hr>
+            <h3>Report Highlights as of {{date('H')}} day ( {{date('d M Y')}}) compred to ( {{date('d M Y')}} )</h3>
+            <hr>
+
+            <dd>
+                <dl>1. Official Account All TV By Total Followers
+                    <ul>
+                        <li>Twitter #1 Metro
+                            <ul>
+                                <li>1. Metro</li>
+                            </ul>
+                        </li>
+                        <li>Facebook #1 Metro</li>
+                        <li>Instagram #1 Metro</li>
+                    </ul>
+                    <br>
+                </dl>
+                <dl>2. Group Official Account by Total Followers
                     <ul>
                         <li>Twitter #1 Metro</li>
                         <li>Facebook #1 Metro</li>
                         <li>Instagram #1 Metro</li>
                     </ul>
                     <br>
-                </ol>
-                <ol>2. Group Official Account by Total Followers
-                    <hr>
+                </dl>
+                <dl>3. Group Overall Accounts ( Official + Program ) by Total Followers
                     <ul>
                         <li>Twitter #1 Metro</li>
                         <li>Facebook #1 Metro</li>
                         <li>Instagram #1 Metro</li>
                     </ul>
                     <br>
-                </ol>
-                <ol>3. Group Overall Accounts ( Official + Program ) by Total Followers
-                    <hr>
+                </dl>
+                <dl>4. Program Accounts ALL TV by Additional Followers from yesterday
                     <ul>
                         <li>Twitter #1 Metro</li>
                         <li>Facebook #1 Metro</li>
                         <li>Instagram #1 Metro</li>
                     </ul>
                     <br>
-                </ol>
-                <ol>4. Program Accounts ALL TV by Additional Followers from yesterday
-                    <hr>
+                </dl>
+                <dl>5. 4TV's Followers Achievement below 50%
                     <ul>
                         <li>Twitter #1 Metro</li>
                         <li>Facebook #1 Metro</li>
                         <li>Instagram #1 Metro</li>
                     </ul>
                     <br>
-                </ol>
-                <ol>5. 4TV's Followers Achievement below 50%
-                    <hr>
-                    <ul>
-                        <li>Twitter #1 Metro</li>
-                        <li>Facebook #1 Metro</li>
-                        <li>Instagram #1 Metro</li>
-                    </ul>
-                    <br>
-                </ol>
+                </dl>
             </ul>
             
         </div>

@@ -103,6 +103,11 @@
                 <i class="icon-add"></i> &nbsp;
                 Add New Report
             </a>
+
+            <a class="btn btn-success" id="import">
+                <i class="icon-import"></i> &nbsp;
+                Import File
+            </a>
         </div>
         @endif
         <div class="panel-body">
@@ -180,7 +185,7 @@
             }
 
             function showData(){
-                $('.datatable-colvis-basic').DataTable({
+                var table=$('.datatable-colvis-basic').DataTable({
                     processing: true,
                     serverSide: true,
                     autoWidth: true,
@@ -194,6 +199,9 @@
                         {data: 'unitsosmed.unit_sosmed_name', name: 'unitsosmed.unit_sosmed_name',title:'Account Name'},
                         {data: 'tanggal', name: 'tanggal',title:'Tanggal'},
                         {data: 'follow', name: 'follow',title:'Follower'},
+                        {data: 'insert_user', name: 'insert_user',title:'Insert User',visible:false},
+                        {data: 'created_at', name: 'created_at',title:'Created At',visible:false},
+                        {data: 'updated_at', name: 'updated_at',title:'Updated At',visible:false},
                         {data: 'action', name: 'action',title:'Action',searchable:false,width:'22%'}
                     ],
                     buttons: [
@@ -216,13 +224,21 @@
 
 
                 // Add placeholder to the datatable filter option
-                $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
+                $('.dataTables_filter input[type=search]').attr('placeholder', 'Type and Enter...');
 
 
                 // Enable Select2 select for the length option
                 $('.dataTables_length select').select2({
                     minimumResultsForSearch: "-1"
-                });
+                }); 
+
+                $('.dataTables_filter input[type=search]').unbind().keyup(function(e) {
+				    var value = $(this).val();
+
+				    if (e.keyCode == 13) {
+				    	table.search(value).draw();
+				    }
+				});
             }
 
             $(document).on("click","#tambah",function(){
@@ -771,7 +787,7 @@
                     //updateAllMessageForms();
                     e.preventDefault();
                     
-                    $('.datatable-colvis-basic').DataTable({
+                    var table=$('.datatable-colvis-basic').DataTable({
                         processing: true,
                         serverSide: true,
                         autoWidth: true,
@@ -788,6 +804,9 @@
                             {data: 'unitsosmed.unit_sosmed_name', name: 'unitsosmed.unit_sosmed_name',title:'Account Name'},
                             {data: 'tanggal', name: 'tanggal',title:'Tanggal'},
                             {data: 'follow', name: 'follow',title:'Follower'},
+                            {data: 'insert_user', name: 'insert_user',title:'Insert User',visible:false},
+                            {data: 'created_at', name: 'created_at',title:'Created At',visible:false},
+                            {data: 'updated_at', name: 'updated_at',title:'Updated At',visible:false},
                             {data: 'action', name: 'action',title:'Action',searchable:false,width:'22%'}
                         ],
                         buttons: [
@@ -810,14 +829,102 @@
 
 
                     // Add placeholder to the datatable filter option
-                    $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
+                    $('.dataTables_filter input[type=search]').attr('placeholder', 'Type and Enter...');
 
 
                     // Enable Select2 select for the length option
                     $('.dataTables_length select').select2({
                         minimumResultsForSearch: "-1"
+                    }); 
+
+                    $('.dataTables_filter input[type=search]').unbind().keyup(function(e) {
+                        var value = $(this).val();
+
+                        if (e.keyCode == 13) {
+                            table.search(value).draw();
+                        }
                     });
 
+                }else console.log("invalid form");
+            })
+
+            $(document).on("click","#import",function(){
+                var sample="{{URL::to('sosmed/data/sample-daily-report')}}";
+
+                var el="";
+                el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                    '<div class="modal-dialog">'+
+                        '<form id="formImport" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                            '<div class="modal-content">'+
+                                '<div class="modal-header bg-primary">'+
+                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                    '<h5 class="modal-title" id="modal-title">Import Data Followers</h5>'+
+                                '</div>'+
+
+                                '<div class="modal-body">'+
+                                    '<div id="pesan"></div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">File</label>'+
+                                        '<input type="file" class="form-control" name="file" id="file" placeholder="File" required>'+
+                                    '</div>'+
+
+                                    "<p><small>You can download 'Format DB Daily Report' if you want to upload data to make sure that your data will upload has appropriate with format</small> <a href='"+sample+"'><label class='label label-success'>Click to Download Format DB Daily Report</label></a>"+
+                                '</div>'+
+
+                                '<div class="modal-footer">'+
+                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                    '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"> <span class="ladda-label">Upload</span> </button>'+
+                                '</div>'+
+                            '</div>'+
+                        '</form>'+
+                    '</div>'+
+                '</div>';
+
+                $("#divModal").empty().html(el);
+                $("#modal_default").modal("show");
+            })
+
+            $(document).on("submit","#formImport",function(e){
+                var data = new FormData(this);
+                if($("#formImport")[0].checkValidity()) {
+                    //updateAllMessageForms();
+                    e.preventDefault();
+                    $.ajax({
+                        url			: "{{URL::to('sosmed/data/import-daily-report')}}",
+                        type		: 'post',
+                        data		: data,
+                        dataType	: 'JSON',
+                        contentType	: false,
+                        cache		: false,
+                        processData	: false,
+                        beforeSend	: function (){
+                            $('#pesan').empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        },
+                        success	: function (result) {
+                            if(result.success==true){
+                                $('#pesan').empty().html('&nbsp;'+result.pesan);
+                                new PNotify({
+                                    title: 'Info notice',
+                                    text: result.pesan,
+                                    addclass: 'alert-styled-left',
+                                    type: 'info'
+                                });
+                                $("#modal_default").modal("hide");
+                                showData();
+                            }else{
+                                $('#pesan').empty().html("<pre>"+result.error+"</pre><br>");
+                                new PNotify({
+                                    title: 'Info notice',
+                                    text: result.pesan,
+                                    addclass: 'alert-styled-left',
+                                    type: 'error'
+                                });
+                            }
+                        },
+                        error	:function() {  
+                            $('#pesan').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                        }
+                    });
                 }else console.log("invalid form");
             })
 

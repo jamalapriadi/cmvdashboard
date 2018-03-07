@@ -73,6 +73,8 @@ Route::group(['prefix'=>'sosmed'],function(){
         Route::get('daily-report/{id}','Sosmed\ProgramunitController@daily_report_by_id');
         Route::put('daily-report/{id}','Sosmed\ProgramunitController@daily_report_update');
         Route::delete('daily-report/{id}','Sosmed\ProgramunitController@daily_report_destroy');
+        Route::post('import-daily-report','Sosmed\ProgramunitController@daily_report_import');
+        Route::get('sample-daily-report','Sosmed\ProgramunitController@daily_report_sample');
 
         Route::get('backup-excel','Sosmed\ProgramunitController@import');
 

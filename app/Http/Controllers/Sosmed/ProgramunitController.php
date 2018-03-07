@@ -556,8 +556,15 @@ class ProgramunitController extends Controller
             ]
         )->whereHas('unitsosmed')
         ->select('id','unit_sosmed_id','tanggal',
-        'follower','insert_user','update_user',\DB::raw('@rownum := @rownum + 1 AS no'))
+        'follower','insert_user','update_user','created_at','updated_at',
+        \DB::raw('@rownum := @rownum + 1 AS no'))
         ->whereBetween('tanggal',[$kemarin,$sekarang]);
+
+        if(auth()->user()->can('All Daily Report')){
+            
+        }else{
+            $daily=$daily->where('insert_user',\Auth::user()->email);
+        }
 
         if($request->has('type') && $request->input('type')!=null){
             $type=$request->input('type');
@@ -732,6 +739,74 @@ class ProgramunitController extends Controller
             $data=array(
                 'success'=>false,
                 'pesan'=>'Data gagal berhasil dihapus',
+                'error'=>''
+            );
+        }
+
+        return $data;
+    }
+
+    public function daily_report_sample(Request $request){
+        $unitsosmed=\App\Models\Sosmed\Unitsosmed::select('id','type_sosmed','business_program_unit','sosmed_id','unit_sosmed_name','target_use')
+            ->get();
+
+        $unitfollower=\App\Models\Sosmed\Unitsosmedfollower::select('id','unit_sosmed_id','tanggal','follower')->limit(5)->get();
+
+        return \Excel::create('daily report'.date('Y-m-d H:i:s'),function($excel) use($unitsosmed,$unitfollower){
+            $excel->sheet('sheet1',function($sheet) use($unitfollower){
+                $sheet->fromArray($unitfollower);
+            });
+
+            $excel->sheet('unit_sosmed',function($sheet) use($unitsosmed){
+                $sheet->fromArray($unitsosmed);
+            });
+            
+
+        })->export('xlsx');
+    }
+
+    public function daily_report_import(Request $request){
+        $rules=['file'=>'required'];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi Error',
+                'error'=>$validasi->errors()->all()
+            );
+        }else{
+            $file=$request->file('file');
+
+            $excels=\Excel::selectSheets('sheet1')->load($file,function($reader){})->get();
+
+            $list=array();
+            foreach($excels as $key=>$val){
+                array_push($list,$val['unit_sosmed_id']);
+            }
+
+            $pesan=array();
+            foreach($excels as $k=>$v){
+                $cekfollower=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',date('Y-m-d',strtotime($v['tanggal'])))
+                    ->where('unit_sosmed_id',$val['unit_sosmed_id'])
+                    ->get();
+                
+                if(count($cekfollower)>0){
+                    continue;
+                }
+
+                $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                $new->tanggal=date('Y-m-d',strtotime($v['tanggal']));
+                $new->unit_sosmed_id=$v['unit_sosmed_id'];
+                $new->follower=$v['follower'];
+                $new->insert_user=\Auth::user()->email;
+                $new->save();
+            }
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>$pesan,
                 'error'=>''
             );
         }
