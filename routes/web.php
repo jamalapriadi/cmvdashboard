@@ -93,6 +93,9 @@ Route::group(['prefix'=>'sosmed'],function(){
             Route::get('rank-of-official-account-among-4tv','Sosmed\ReportController@rank_of_official_account_among_4tv');
 
             Route::get('summary-program-by-id/{id}','Sosmed\ReportController@summary_program_by_id');
+
+            Route::get('pdf-rank-for-sosical-media-all-tv','Sosmed\ReportController@pdf_rank_for_social_media_all_tv');
+            Route::geT('pdf-sosmed-daily-report','Sosmed\ReportController@pdf_sosmed_daily_report');
         });
     });
 });
