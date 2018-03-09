@@ -1183,6 +1183,63 @@ class ReportController extends Controller
             ) as terjadi
             group by terjadi.group_id,terjadi.id");
 
+        /* official and program mnc group */
+        $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name')
+            ->with(
+            [
+                'sosmed'=>function($q){
+                    $q->select(
+                        'id',
+                        'business_program_unit',
+                        'type_sosmed',
+                        'sosmed_id',
+                        'unit_sosmed_name'
+                    );
+                },
+                'sosmed.followers'=>function($q) use($sekarang){
+                    $q->where('tanggal',$sekarang)
+                        ->select('unit_sosmed_id','follower');
+                },
+                'program'=>function($q){
+                    $q->select('id','business_unit_id','program_name');
+                },
+                'program.sosmed'=>function($q) use($sekarang){
+                    
+                },
+                'program.sosmed.followers'=>function($q) use($sekarang){
+                    $q->where('tanggal',$sekarang)
+                        ->select('id','unit_sosmed_id','tanggal','follower');
+                }
+            ]
+        )->where('group_unit_id',$group);
+        $unit=$unit->get();
+        $data['officialAndProgram']=$unit;
+
+        $data['summaryOfficialAndProgram']=\DB::select("select terjadi.id, terjadi.unit_name,sum(terjadi.tw) as total_twitter,
+            sum(terjadi.fb) as total_fb,
+            sum(terjadi.ig) as total_ig from (
+                select a.id, a.unit_name,c.unit_sosmed_name ,d.tanggal,  
+            sum(if(c.sosmed_id=1,d.follower,0)) as tw,
+            sum(if(c.sosmed_id=2,d.follower,0)) as fb,
+            sum(if(c.sosmed_id=3,d.follower,0)) as ig
+            from 
+            business_unit a 
+            left join program_unit b on b.business_unit_id=a.id
+            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
+            left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal='$sekarang'
+            group by a.id
+            union all 
+            select a.id, a.unit_name,b.unit_sosmed_name ,c.tanggal,  
+            sum(if(b.sosmed_id=1,c.follower,0)) as tw,
+            sum(if(b.sosmed_id=2,c.follower,0)) as fb,
+            sum(if(b.sosmed_id=3,c.follower,0)) as ig
+            from 
+            business_unit a 
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+            group by a.id ) as terjadi
+            group by terjadi.id");
+
         $pdf = \PDF::loadView('sosmed.pdf.sosmed_daily_report', $data)
             ->setPaper('a4', 'landscape')->setWarnings(false);
 

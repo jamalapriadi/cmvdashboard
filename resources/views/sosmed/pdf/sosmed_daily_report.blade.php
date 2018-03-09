@@ -231,6 +231,73 @@
     <div class="page-break"></div>
 
     <h3 class="text-center">OFFICIAL & PROGRAM MNC GROUP</h3>
+    <br>
+    <table class='table table-striped table-bordered'>
+        <thead>
+            <tr> 
+                <th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">General Name</th>
+                <th class='text-center' style='background:#008ef6;color:white'>Twitter</th>
+                <th class='text-center' style='background:#5054ab;color:white'>Facebook</th>
+                <th class='text-center' style='background:#a200b2;color:white'>Instagram</th>
+            </tr>
+            <tr>
+                <th class='text-center' style='background:#008ef6;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#5054ab;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#a200b2;color:white'>{{$sekarang}}</th>
+            </tr>
+        </thead>
+        <tbody style="color:#222">';
+            @foreach($officialAndProgram as $a=>$b)
+                <tr>
+                    <td>{{$b->unit_name}} Official</td>
+                    @if(count($b->sosmed)>0)
+                        @foreach($b->sosmed as $c=>$d)
+                            @if(count($d->followers)>0){
+                                <td>{{number_format($d->followers[0]->follower)}}</td>
+                            @else
+                                <td>-</td>
+                            @endif
+                        @endforeach
+                    @else 
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    @endif
+                </tr>
+                @if(count($b->program)>0)
+                    @foreach($b->program as $e=>$f)
+                        <tr>
+                            <td>{{$f->program_name}}</td>
+                            @if(count($f->sosmed)>0)
+                                @foreach($f->sosmed as $g=>$h)
+                                    @if(count($h->followers)>0)
+                                        <td>{{number_format($h->followers[0]->follower)}}</td>
+                                    @else 
+                                        <td>-</td>
+                                    @endif
+                                @endforeach
+                            @else
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            @endif
+                        </tr>
+                    @endforeach
+                @endif
+                            
+                <tr style='background:#f2eff2;color:#222;font-weight:700'>
+                    <td>Total</td>
+                    @for($z=0; $z<count($summaryOfficialAndProgram);$z++)
+                        @if($summaryOfficialAndProgram[$z]->id==$b->id)
+                            <td>{{number_format($summaryOfficialAndProgram[$z]->total_twitter)}}</td>
+                            <td>{{number_format($summaryOfficialAndProgram[$z]->total_fb)}}</td>
+                            <td>{{number_format($summaryOfficialAndProgram[$z]->total_ig)}}</td>
+                        @endif
+                    @endfor
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
     <div class="page-break"></div>
 
     <h3 class="text-center">ATTACHMENT
