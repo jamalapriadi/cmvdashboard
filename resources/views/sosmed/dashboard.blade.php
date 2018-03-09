@@ -444,55 +444,42 @@
                         el+='<table class="table table-striped table-bordered">'+
                             '<thead>'+
                                 '<tr>'+
-                                    '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>';
-                                    $.each(result.sosmed,function(a,b){
-                                        el+="<th colspan='3' class='text-center' style='background:"+result.header[a]+";color:white'>"+b.sosmed_name+"</th>";
-                                    })
-                                el+='</tr>'+
-                                '<tr>';
-                                    $.each(result.sosmed,function(a,b){
-                                        el+="<th class='text-center' style='background:"+result.header[a]+";color:white'>"+result.tanggal+"</th>"+
-                                        "<th class='text-center' style='background:"+result.header[a]+";color:white'>Target</th>"+
-                                        "<th class='text-center' style='background:"+result.header[a]+";color:white'>ACH</th>";
-                                    })
-                                el+='</tr>'+
-                            '</thead>'+
+                                    '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>'+
+                                    "<th colspan='3' class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
+                                    "<th colspan='3' class='text-center' style='background:#5054ab;color:white'>Facebook</th>"+
+                                    "<th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<th class='text-center' style='background:#008ef6;color:white'>"+result.sekarang+"</th>"+
+                                    "<th class='text-center' style='background:#008ef6;color:white'>Target</th>"+
+                                    "<th class='text-center' style='background:#008ef6;color:white'>ACH</th>"+
+
+                                    "<th class='text-center' style='background:#5054ab;color:white'>"+result.sekarang+"</th>"+
+                                    "<th class='text-center' style='background:#5054ab;color:white'>Target</th>"+
+                                    "<th class='text-center' style='background:#5054ab;color:white'>ACH</th>"+
+
+                                    "<th class='text-center' style='background:#a200b2;color:white'>"+result.sekarang+"</th>"+
+                                    "<th class='text-center' style='background:#a200b2;color:white'>Target</th>"+
+                                    "<th class='text-center' style='background:#a200b2;color:white'>ACH</th>"+
+                                "</tr>"+
+                            "</thead>"+
                             '<tbody style="color:#222">';
-                                    $.each(result.unit,function(a,b){
-                                        el+="<tr>"+
-                                            '<td>'+b.unit_name+'</td>';
-                                            $.each(b.sosmed,function(c,d){
-                                                var target=0;
-                                                var tanggal=0;
-                                                var ach=0;
-                                                el+="<td class='text-center'>";
-                                                    if(d.followers.length>0){
-                                                        el+=addKoma(d.followers[0].follower);
-                                                        tanggal=d.followers[0].follower;
-                                                    }else{
-                                                        el+="-";
-                                                    }
-                                                el+="</td>"+
-                                                "<td class='text-center'>";
-                                                    if(d.target!=null){
-                                                        el+=addKoma(d.target.target);
-                                                        target=d.target.target;
-                                                    }else{
-                                                        el+="-";
-                                                    }
-                                                el+="</td>"+
-                                                "<td class='text-center'>";
-                                                    if(d.followers.length>0){
-                                                        el+=(tanggal/target*100).toFixed(2)+" %";
-                                                    }else{
-                                                        el+="-";
-                                                    }
-                                                el+="</td>";
-                                            })
-                                        el+='</tr>';
-                                    })
-                            el+='</tbody>'+
-                        '</table>';
+                                $.each(result.target,function(a,b){
+                                    el+="<tr>"+
+                                        "<td>"+b.unit_name+"</td>"+
+                                        "<td>"+addKoma(b.follower_tw)+"</td>"+
+                                        "<td>"+addKoma(b.target_tw)+"</td>"+
+                                        "<td>"+b.acv_tw+" %</td>"+
+                                        "<td>"+addKoma(b.follower_fb)+"</td>"+
+                                        "<td>"+addKoma(b.target_fb)+"</td>"+
+                                        "<td>"+b.acv_fb+" %</td>"+
+                                        "<td>"+addKoma(b.follower_ig)+"</td>"+
+                                        "<td>"+addKoma(b.target_ig)+"</td>"+
+                                        "<td>"+b.acv_ig+" %</td>"+
+                                    "</tr>";
+                                })
+                            el+="</tbody>"
+                        "</table>";
 
                         $("#divTargetVsAchievement").empty().html(el);
                     },

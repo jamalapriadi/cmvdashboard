@@ -22,7 +22,7 @@
         }
 
         th, td {
-            padding: 10px;
+            padding: 7px;
         }
 
         .text-center{
@@ -101,14 +101,14 @@
                 ?>
                 <tr>
                     <th>{{$row->group_name}}</th>
-                    <th>{{$row->growth_tw}} %</th>
-                    <th>{{$row->tw_sekarang}}</th>
+                    <th>{{round($row->growth_tw,2)}} %</th>
+                    <th>{{number_format($row->tw_sekarang)}}</th>
                     <th style="background:{{$colorTw}}">{{($rankTw[$row->tw_sekarang] + 1)}}</th>
-                    <th>{{$row->growth_fb}} %</th>
-                    <th>{{$row->fb_sekarang}}</th>
+                    <th>{{round($row->growth_fb,2)}} %</th>
+                    <th>{{number_format($row->fb_sekarang)}}</th>
                     <th style="background:{{$colorFb}}">{{($rankFb[$row->fb_sekarang] + 1)}}</th>
-                    <th>{{$row->growth_ig}} %</th>
-                    <th>{{$row->ig_sekarang}}</th>
+                    <th>{{round($row->growth_ig,2)}} %</th>
+                    <th>{{number_format($row->ig_sekarang)}}</th>
                     <th style="background:{{$colorIg}}">{{($rankIg[$row->ig_sekarang] + 1)}}</th>
                 </tr>
             @endforeach
@@ -182,14 +182,14 @@
                 ?>
                 <tr>
                     <th>{{$row->unit_name}}</th>
-                    <th>{{$row->growth_tw}} %</th>
-                    <th>{{$row->tw_sekarang}}</th>
+                    <th>{{round($row->growth_tw,2)}} %</th>
+                    <th>{{number_format($row->tw_sekarang)}}</th>
                     <th style="background:{{$colorTw}}">{{($rankTw2[$row->tw_sekarang] + 1)}}</th>
-                    <th>{{$row->growth_fb}} %</th>
-                    <th>{{$row->fb_sekarang}}</th>
+                    <th>{{round($row->growth_fb,2)}} %</th>
+                    <th>{{number_format($row->fb_sekarang)}}</th>
                     <th style="background:{{$colorFb}}">{{($rankFb2[$row->fb_sekarang] + 1)}}</th>
-                    <th>{{$row->growth_ig}} %</th>
-                    <th>{{$row->ig_sekarang}}</th>
+                    <th>{{round($row->growth_ig,2)}} %</th>
+                    <th>{{number_format($row->ig_sekarang)}}</th>
                     <th style="background:{{$colorIg}}">{{($rankIg2[$row->ig_sekarang] + 1)}}</th>
                 </tr>
             @endforeach
@@ -264,14 +264,14 @@
                 ?>
                 <tr>
                     <th>{{$row->group_name}}</th>
-                    <th>{{$row->num_of_growth_tw}}</th>
-                    <th>{{$row->growth_tw}} %</th>
+                    <th>{{number_format($row->num_of_growth_tw)}}</th>
+                    <th>{{round($row->growth_tw,2)}} %</th>
                     <th style="background:{{$colorTw}}">{{($rankTw3[$row->num_of_growth_tw] + 1)}}</th>
-                    <th>{{$row->num_of_growth_fb}}</th>
-                    <th>{{$row->growth_fb}} %</th>
+                    <th>{{number_format($row->num_of_growth_fb)}}</th>
+                    <th>{{round($row->growth_fb,2)}} %</th>
                     <th style="background:{{$colorFb}}">{{($rankFb3[$row->num_of_growth_fb] + 1)}}</th>
-                    <th>{{$row->num_of_growth_ig}}</th>
-                    <th>{{$row->growth_ig}} %</th>
+                    <th>{{number_format($row->num_of_growth_ig)}}</th>
+                    <th>{{round($row->growth_ig,2)}} %</th>
                     <th style="background:{{$colorIg}}">{{($rankIg3[$row->num_of_growth_ig] + 1)}}</th>
                 </tr>
             @endforeach
@@ -313,14 +313,14 @@
                 <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Istagram</th>
             </tr>
             <tr>
+                <th class='text-center' style='background:#008ef6;color:white'>Num Of Growth</th>
                 <th class='text-center' style='background:#008ef6;color:white'>% Growth</th>
-                <th class='text-center' style='background:#008ef6;color:white'>TOTAL</th>
                 <th class='text-center' style='background:#008ef6;color:white'>RANK</th>
+                <th class='text-center' style='background:#5054ab;color:white'>Num Of Growth</th>
                 <th class='text-center' style='background:#5054ab;color:white'>% Growth</th>
-                <th class='text-center' style='background:#5054ab;color:white'>TOTAL</th>
                 <th class='text-center' style='background:#5054ab;color:white'>RANK</th>
+                <th class='text-center' style='background:#a200b2;color:white'>Num Of Growth</th>
                 <th class='text-center' style='background:#a200b2;color:white'>% Growth</th>
-                <th class='text-center' style='background:#a200b2;color:white'>TOTAL</th>
                 <th class='text-center' style='background:#a200b2;color:white'>RANK</th>
             </tr>
         </thead>
@@ -345,14 +345,14 @@
                 ?>
                 <tr>
                     <th>{{$row->unit_name}}</th>
-                    <th>{{$row->num_of_growth_tw}}</th>
-                    <th>{{$row->growth_tw}} %</th>
+                    <th>{{number_format($row->num_of_growth_tw)}}</th>
+                    <th>{{round($row->growth_tw,2)}} %</th>
                     <th style="background:{{$colorTw}}">{{($rankTw4[$row->num_of_growth_tw] + 1)}}</th>
-                    <th>{{$row->num_of_growth_fb}}</th>
-                    <th>{{$row->growth_fb}} %</th>
+                    <th>{{number_format($row->num_of_growth_fb)}}</th>
+                    <th>{{round($row->growth_fb,2)}} %</th>
                     <th style="background:{{$colorFb}}">{{($rankFb4[$row->num_of_growth_fb] + 1)}}</th>
-                    <th>{{$row->num_of_growth_ig}}</th>
-                    <th>{{$row->growth_ig}} %</th>
+                    <th>{{number_format($row->num_of_growth_ig)}}</th>
+                    <th>{{round($row->growth_ig,2)}} %</th>
                     <th style="background:{{$colorIg}}">{{($rankIg4[$row->num_of_growth_ig] + 1)}}</th>
                 </tr>
             @endforeach
@@ -424,14 +424,14 @@
                 ?>
                 <tr>
                     <th>{{$row->group_name}}</th>
-                    <th>{{$row->total_growth_tw}} %</th>
-                    <th>{{$row->total_tw_sekarang}}</th>
+                    <th>{{round($row->total_growth_tw,2)}} %</th>
+                    <th>{{number_format($row->total_tw_sekarang)}}</th>
                     <th style="background:{{$colorTw}}">{{($rankTw5[$row->total_tw_sekarang] + 1)}}</th>
-                    <th>{{$row->total_growth_fb}} %</th>
-                    <th>{{$row->total_fb_sekarang}}</th>
+                    <th>{{round($row->total_growth_fb,2)}} %</th>
+                    <th>{{number_format($row->total_fb_sekarang)}}</th>
                     <th style="background:{{$colorFb}}">{{($rankFb5[$row->total_fb_sekarang] + 1)}}</th>
-                    <th>{{$row->total_growth_ig}} %</th>
-                    <th>{{$row->total_ig_sekarang}}</th>
+                    <th>{{round($row->total_growth_ig,2)}} %</th>
+                    <th>{{number_format($row->total_ig_sekarang)}}</th>
                     <th style="background:{{$colorIg}}">{{($rankIg5[$row->total_ig_sekarang] + 1)}}</th>
                 </tr>
             @endforeach
@@ -503,14 +503,14 @@
                 ?>
                 <tr>
                     <th>{{$row->unit_name}}</th>
-                    <th>{{$row->total_growth_tw}} %</th>
-                    <th>{{$row->total_tw_sekarang}}</th>
+                    <th>{{round($row->total_growth_tw,2)}} %</th>
+                    <th>{{number_format($row->total_tw_sekarang)}}</th>
                     <th style="background:{{$colorTw}}">{{($rankTw6[$row->total_tw_sekarang] + 1)}}</th>
-                    <th>{{$row->total_growth_fb}} %</th>
-                    <th>{{$row->total_fb_sekarang}}</th>
+                    <th>{{round($row->total_growth_fb,2)}} %</th>
+                    <th>{{number_format($row->total_fb_sekarang)}}</th>
                     <th style="background:{{$colorFb}}">{{($rankFb6[$row->total_fb_sekarang] + 1)}}</th>
-                    <th>{{$row->total_growth_ig}} %</th>
-                    <th>{{$row->total_ig_sekarang}}</th>
+                    <th>{{round($row->total_growth_ig,2)}} %</th>
+                    <th>{{number_format($row->total_ig_sekarang)}}</th>
                     <th style="background:{{$colorIg}}">{{($rankIg6[$row->total_ig_sekarang] + 1)}}</th>
                 </tr>
             @endforeach
@@ -550,14 +550,14 @@
                 <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Istagram</th>
             </tr>
             <tr>
+                <th class='text-center' style='background:#008ef6;color:white'>Nom Of Growth</th>
                 <th class='text-center' style='background:#008ef6;color:white'>% Growth</th>
-                <th class='text-center' style='background:#008ef6;color:white'>TOTAL</th>
                 <th class='text-center' style='background:#008ef6;color:white'>RANK</th>
+                <th class='text-center' style='background:#5054ab;color:white'>Nom Of Growth</th>
                 <th class='text-center' style='background:#5054ab;color:white'>% Growth</th>
-                <th class='text-center' style='background:#5054ab;color:white'>TOTAL</th>
                 <th class='text-center' style='background:#5054ab;color:white'>RANK</th>
+                <th class='text-center' style='background:#a200b2;color:white'>Nom Of Growth</th>
                 <th class='text-center' style='background:#a200b2;color:white'>% Growth</th>
-                <th class='text-center' style='background:#a200b2;color:white'>TOTAL</th>
                 <th class='text-center' style='background:#a200b2;color:white'>RANK</th>
             </tr>
         </thead>
@@ -582,14 +582,14 @@
                 ?>
                 <tr>
                     <th>{{$row->group_name}}</th>
-                    <th>{{$row->total_num_of_growth_tw}}</th>
-                    <th>{{$row->total_growth_tw}} %</th>
+                    <th>{{number_format($row->total_num_of_growth_tw)}}</th>
+                    <th>{{round($row->total_growth_tw,2)}} %</th>
                     <th style="background:{{$colorTw}}">{{($rankTw7[$row->total_num_of_growth_tw] + 1)}}</th>
-                    <th>{{$row->total_num_of_growth_fb}}</th>
-                    <th>{{$row->total_growth_fb}} %</th>
+                    <th>{{number_format($row->total_num_of_growth_fb)}}</th>
+                    <th>{{round($row->total_growth_fb,2)}} %</th>
                     <th style="background:{{$colorFb}}">{{($rankFb7[$row->total_num_of_growth_fb] + 1)}}</th>
-                    <th>{{$row->total_num_of_growth_ig}}</th>
-                    <th>{{$row->total_growth_ig}} %</th>
+                    <th>{{number_format($row->total_num_of_growth_ig)}}</th>
+                    <th>{{round($row->total_growth_ig,2)}} %</th>
                     <th style="background:{{$colorIg}}">{{($rankIg7[$row->total_num_of_growth_ig] + 1)}}</th>
                 </tr>
             @endforeach
@@ -629,14 +629,14 @@
                 <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Istagram</th>
             </tr>
             <tr>
+                <th class='text-center' style='background:#008ef6;color:white'>Num Of Growth</th>
                 <th class='text-center' style='background:#008ef6;color:white'>% Growth</th>
-                <th class='text-center' style='background:#008ef6;color:white'>TOTAL</th>
                 <th class='text-center' style='background:#008ef6;color:white'>RANK</th>
+                <th class='text-center' style='background:#5054ab;color:white'>Num Of Growth</th>
                 <th class='text-center' style='background:#5054ab;color:white'>% Growth</th>
-                <th class='text-center' style='background:#5054ab;color:white'>TOTAL</th>
                 <th class='text-center' style='background:#5054ab;color:white'>RANK</th>
+                <th class='text-center' style='background:#a200b2;color:white'>Num Of Growth</th>
                 <th class='text-center' style='background:#a200b2;color:white'>% Growth</th>
-                <th class='text-center' style='background:#a200b2;color:white'>TOTAL</th>
                 <th class='text-center' style='background:#a200b2;color:white'>RANK</th>
             </tr>
         </thead>
@@ -661,14 +661,14 @@
                 ?>
                 <tr>
                     <th>{{$row->unit_name}}</th>
-                    <th>{{$row->total_num_of_growth_tw}}</th>
-                    <th>{{$row->total_growth_tw}} %</th>
+                    <th>{{number_format($row->total_num_of_growth_tw)}}</th>
+                    <th>{{round($row->total_growth_tw,2)}} %</th>
                     <th style="background:{{$colorTw}}">{{($rankTw8[$row->total_num_of_growth_tw] + 1)}}</th>
-                    <th>{{$row->total_num_of_growth_fb}}</th>
-                    <th>{{$row->total_growth_fb}} %</th>
+                    <th>{{number_format($row->total_num_of_growth_fb)}}</th>
+                    <th>{{round($row->total_growth_fb,2)}} %</th>
                     <th style="background:{{$colorFb}}">{{($rankFb8[$row->total_num_of_growth_fb] + 1)}}</th>
-                    <th>{{$row->total_num_of_growth_ig}}</th>
-                    <th>{{$row->total_growth_ig}} %</th>
+                    <th>{{number_format($row->total_num_of_growth_ig)}}</th>
+                    <th>{{round($row->total_growth_ig,2)}} %</th>
                     <th style="background:{{$colorIg}}">{{($rankIg8[$row->total_num_of_growth_ig] + 1)}}</th>
                 </tr>
             @endforeach

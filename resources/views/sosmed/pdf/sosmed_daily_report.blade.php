@@ -22,7 +22,7 @@
         }
 
         th, td {
-            padding: 10px;
+            padding: 6px;
         }
 
         .text-center{
@@ -118,13 +118,13 @@
                                 {{$nama}}
                             </td>
                             <td></td>
-                            <td>{{number_format($of->tw_sekarang)}}</td>
+                            <td>{{number_format($of->tw_sekarang/13)}}</td>
                             <td></td>
                             <td></td>
-                            <td>{{number_format($of->fb_sekarang)}}</td>
+                            <td>{{number_format($of->fb_sekarang/13)}}</td>
                             <td></td>
                             <td></td>
-                            <td>{{number_format($of->ig_sekarang)}}</td>
+                            <td>{{number_format($of->ig_sekarang/13)}}</td>
                             <td></td>
                         </tr>
                     @else    
@@ -138,13 +138,13 @@
                             </td>
                             <td>{{number_format($of->tw_kemarin)}}</td>
                             <td>{{number_format($of->tw_sekarang)}}</td>
-                            <td>{{$of->growth_tw}}</td>
+                            <td>{{round($of->growth_tw,2)}}</td>
                             <td>{{number_format($of->fb_kemarin)}}</td>
                             <td>{{number_format($of->fb_sekarang)}}</td>
-                            <td>{{$of->growth_fb}}</td>
+                            <td>{{round($of->growth_fb,2)}}</td>
                             <td>{{number_format($of->ig_kemarin)}}</td>
                             <td>{{number_format($of->ig_sekarang)}}</td>
-                            <td>{{$of->growth_ig}}</td>
+                            <td>{{round($of->growth_ig,2)}}</td>
                         </tr>
                     @endif
                 @else 
@@ -159,13 +159,13 @@
                         </td>
                         <td>{{number_format($of->tw_kemarin)}}</td>
                         <td>{{number_format($of->tw_sekarang)}}</td>
-                        <td>{{$of->growth_tw}}</td>
+                        <td>{{round($of->growth_tw,2)}}</td>
                         <td>{{number_format($of->fb_kemarin)}}</td>
                         <td>{{number_format($of->fb_sekarang)}}</td>
-                        <td>{{$of->growth_fb}}</td>
+                        <td>{{round($of->growth_fb,2)}}</td>
                         <td>{{number_format($of->ig_kemarin)}}</td>
                         <td>{{number_format($of->ig_sekarang)}}</td>
-                        <td>{{$of->growth_ig}}</td>
+                        <td>{{round($of->growth_ig,2)}}</td>
                     </tr>
                 @endif
             @endforeach
@@ -248,52 +248,25 @@
         </thead>
         <tbody style="color:#222">';
             @foreach($officialAndProgram as $a=>$b)
-                <tr>
-                    <td>{{$b->unit_name}} Official</td>
-                    @if(count($b->sosmed)>0)
-                        @foreach($b->sosmed as $c=>$d)
-                            @if(count($d->followers)>0){
-                                <td>{{number_format($d->followers[0]->follower)}}</td>
-                            @else
-                                <td>-</td>
-                            @endif
-                        @endforeach
-                    @else 
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                    @endif
-                </tr>
-                @if(count($b->program)>0)
-                    @foreach($b->program as $e=>$f)
-                        <tr>
-                            <td>{{$f->program_name}}</td>
-                            @if(count($f->sosmed)>0)
-                                @foreach($f->sosmed as $g=>$h)
-                                    @if(count($h->followers)>0)
-                                        <td>{{number_format($h->followers[0]->follower)}}</td>
-                                    @else 
-                                        <td>-</td>
-                                    @endif
-                                @endforeach
-                            @else
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            @endif
-                        </tr>
-                    @endforeach
+                @if($b->urut=="total")
+                    <?php $warna="background:#f2eff2;color:#222;font-weight:700";?>
+                @else 
+                    <?php $warna="";?>
                 @endif
-                            
-                <tr style='background:#f2eff2;color:#222;font-weight:700'>
-                    <td>Total</td>
-                    @for($z=0; $z<count($summaryOfficialAndProgram);$z++)
-                        @if($summaryOfficialAndProgram[$z]->id==$b->id)
-                            <td>{{number_format($summaryOfficialAndProgram[$z]->total_twitter)}}</td>
-                            <td>{{number_format($summaryOfficialAndProgram[$z]->total_fb)}}</td>
-                            <td>{{number_format($summaryOfficialAndProgram[$z]->total_ig)}}</td>
+                
+                <tr style="{{$warna}}">
+                    <td>
+                        @if($b->urut=="total")
+                            Total
+                        @elseif($b->urut=="corporate")
+                            {{$b->unit_name}} Official
+                        @else
+                            {{$b->unit_sosmed_name}}
                         @endif
-                    @endfor
+                    </td>
+                    <td>{{number_format($b->tw)}}</td>
+                    <td>{{number_format($b->fb)}}</td>
+                    <td>{{number_format($b->ig)}}</td>
                 </tr>
             @endforeach
         </tbody>
@@ -303,6 +276,52 @@
     <h3 class="text-center">ATTACHMENT
         <small>( Socmed Account Name )</small>
     </h3>
-    <div class="page-break"></div>
+    <br>
+    <table class='table table-striped table-bordered'>
+        <thead>
+            <tr> 
+                <th style="background:#419F51;color:white" class="align-middle text-white">General Name</th>
+                <th class='text-center' style='background:#008ef6;color:white'>Twitter Account Name</th>
+                <th class='text-center' style='background:#5054ab;color:white'>Facebook Account Name</th>
+                <th class='text-center' style='background:#a200b2;color:white'>Instagram Account Name</th>
+            </tr>
+        </thead>
+        <tbody style="color:#222">';
+            @foreach($attachment as $row)
+                <tr style="background:#f2eff2;color:#222;font-weight:700">
+                    <td>{{$row->unit_name}} Official</td>
+                    @if(count($row->sosmed)>0)
+                        @foreach($sosmed as $sa)
+                            <?php $h="-";?>
+                            @for($c=0;$c<count($row->sosmed);$c++)
+                                @if($row->sosmed[$c]->sosmed_id==$sa->id)
+                                    <?php $h=$row->sosmed[$c]->unit_sosmed_name;?>
+                                @endif
+                            @endfor
+                            <td>{{$h}}</td>
+                        @endforeach
+                    @else 
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    @endif
+                </tr>
+                @foreach($row->program as $p)
+                    <tr>
+                        <td>{{$p->program_name}}</td>
+                        @foreach($sosmed as $s)
+                            <?php $hasil="-";?>
+                            @for($a=0;$a<count($p->sosmed);$a++)
+                                @if($p->sosmed[$a]->sosmed_id==$s->id)
+                                    <?php $hasil=$p->sosmed[$a]->unit_sosmed_name;?>
+                                @endif
+                            @endfor
+                            <td>{{$hasil}}</td>
+                        @endforeach
+                    </tr>
+                @endforeach
+            @endforeach
+        </tbody>
+    </table>
 </body>
 </html>
