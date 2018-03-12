@@ -67,7 +67,7 @@
                     <div class="tab-pane" id="highlighted-tab2">
                         <form id="formofficialAccountAllTv" onsubmit="return false">
                             <div class="row">
-                                <div class="col-lg-3">
+                                <!-- <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="control-label">Group</label>
                                         <select name="form-control" id="group2" name="group" class="form-control">
@@ -77,7 +77,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="control-label">Periode</label>
@@ -501,118 +501,233 @@
                         el+='<table class="table table-striped table-bordered">'+
                             '<thead>'+
                                 '<tr>'+
-                                    '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>';
-                                    $.each(result.sosmed,function(a,b){
-                                        el+="<th colspan='3' class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+b.sosmed_name+"</th>";
-                                    })
-                                el+='</tr>'+
-                                '<tr>';
-                                    $.each(result.sosmed,function(a,b){
-                                        el+="<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+result.kemarin+"</th>"+
-                                        "<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+result.sekarang+"</th>"+
-                                        "<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>GROWTH FROM YESTERDAY</th>";
-                                    })
-                                el+='</tr>'+
-                            '</thead>'+
+                                    '<th width="18%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>'+
+                                    "<th colspan='3' class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
+                                    "<th colspan='3' class='text-center' style='background:#5054ab;color:white'>Facebook</th>"+
+                                    "<th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>"+
+                                '</tr>'+
+                                '<tr>'+
+                                    "<th class='text-center' style='background:#008ef6;color:white'>"+result.kemarin+"</th>"+
+                                    "<th class='text-center' style='background:#008ef6;color:white'>"+result.sekarang+"</th>"+
+                                    "<th class='text-center' style='background:#008ef6;color:white'>Growth From Yesterday</th>"+
+
+                                    "<th class='text-center' style='background:#5054ab;color:white'>"+result.sekarang+"</th>"+
+                                    "<th class='text-center' style='background:#5054ab;color:white'>"+result.sekarang+"</th>"+
+                                    "<th class='text-center' style='background:#5054ab;color:white'>Growth From Yesterday</th>"+
+
+                                    "<th class='text-center' style='background:#a200b2;color:white'>"+result.sekarang+"</th>"+
+                                    "<th class='text-center' style='background:#a200b2;color:white'>"+result.sekarang+"</th>"+
+                                    "<th class='text-center' style='background:#a200b2;color:white'>Growth From Yesterday</th>"+
+                                "</tr>"+
+                            "</thead>"+
                             '<tbody style="color:#222">';
                                 $.each(result.unit,function(a,b){
-                                    $.each(b.unit,function(c,d){
-                                        el+="<tr>"+
-                                            "<td>"+d.unit_name+"</td>";
-                                            if(d.sosmed.length>0){
-                                                $.each(d.sosmed,function(e,f){
-                                                    el+="<td>"+addKoma(f.followers.kemarin)+"</td>"+
-                                                        "<td>"+addKoma(f.followers.sekarang)+"</td>"+
-                                                        "<td>";
-                                                            if(f.followers.growth>0){
-                                                                el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+f.followers.growth+" % </a>";
+                                    if(b.id=="SUBTOTAL"){
+                                        if(b.group_id=="TOTAL"){
+                                            var nama="NILAI RATA - RATA";
+                                            var color="background:#419F51;color:white;font-weight:700";
+
+                                            el+="<tr style='"+color+"'>"+
+                                                '<td>'+nama+'</td>'+
+                                                '<td></td>'+
+                                                '<td>'+addKoma((b.tw_sekarang/13).toFixed())+'</td>'+
+                                                '<td></td>'+
+                                                '<td></td>'+
+                                                '<td>'+addKoma((b.fb_sekarang/13).toFixed())+'</td>'+
+                                                '<td></td>'+
+                                                '<td></td>'+
+                                                '<td>'+addKoma((b.ig_sekarang/13).toFixed())+'</td>'+
+                                                '<td></td>'+
+                                            '</tr>';
+                                        }else{
+                                            var nama=b.group_name;
+                                            var color="background:#f2eff2;color:#222;font-weight:700";
+
+                                            el+='<tr style="'+color+'">'+
+                                                '<td>'+nama+'</td>'+
+                                                '<td>'+addKoma(b.tw_kemarin)+'</td>'+
+                                                '<td>'+addKoma(b.tw_sekarang)+'</td>'+
+                                                '<td>';
+                                                    if(b.growth_tw>0){
+                                                        el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_tw+" % </a>";
+                                                    }else{
+                                                        if(!isNaN(b.growth_tw)){
+                                                            el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_tw+" % </a>";
+                                                        }else{
+                                                            el+="-";
+                                                        }
+                                                    }
+                                                el+='</td>'+
+                                                '<td>'+addKoma(b.fb_kemarin)+'</td>'+
+                                                '<td>'+b.fb_sekarang+'</td>'+
+                                                '<td>';
+                                                    if(b.growth_fb>0){
+                                                        el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_fb+" % </a>";
+                                                    }else{
+                                                        if(!isNaN(b.growth_fb)){
+                                                            el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_fb+" % </a>";
+                                                        }else{
+                                                            el+="-";
+                                                        }
+                                                    }
+                                                el+='</td>'+
+                                                '<td>'+b.ig_kemarin+'</td>'+
+                                                '<td>'+b.ig_sekarang+'</td>'+
+                                                '<td>';
+                                                    if(b.growth_ig>0){
+                                                        el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_ig+" % </a>";
+                                                    }else{
+                                                        if(!isNaN(b.growth_ig)){
+                                                            el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_ig+" % </a>";
+                                                        }else{
+                                                            el+="-";
+                                                        }
+                                                    }
+                                                el+='</td>'+
+                                            '</tr>';
+                                        }
+                                    }else{
+                                        var nama=b.unit_name;
+                                        var color="";
+
+                                        if(b.id==4){
+                                            el+='<tr style="'+color+'">'+
+                                                '<td>'+nama+'</td>'+
+                                                '<td>'+addKoma(b.tw_kemarin)+'</td>'+
+                                                '<td>'+addKoma(b.tw_sekarang)+'</td>'+
+                                                '<td>';
+                                                    if(b.growth_tw>0){
+                                                        el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_tw+" % </a>";
+                                                    }else{
+                                                        if(!isNaN(b.growth_tw)){
+                                                            el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_tw+" % </a>";
+                                                        }else{
+                                                            el+="-";
+                                                        }
+                                                    }
+                                                el+='</td>'+
+                                                '<td>'+addKoma(b.fb_kemarin)+'</td>'+
+                                                '<td>'+b.fb_sekarang+'</td>'+
+                                                '<td>';
+                                                    if(b.growth_fb>0){
+                                                        el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_fb+" % </a>";
+                                                    }else{
+                                                        if(!isNaN(b.growth_fb)){
+                                                            el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_fb+" % </a>";
+                                                        }else{
+                                                            el+="-";
+                                                        }
+                                                    }
+                                                el+='</td>'+
+                                                '<td>'+b.ig_kemarin+'</td>'+
+                                                '<td>'+b.ig_sekarang+'</td>'+
+                                                '<td>';
+                                                    if(b.growth_ig>0){
+                                                        el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_ig+" % </a>";
+                                                    }else{
+                                                        if(!isNaN(b.growth_ig)){
+                                                            el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_ig+" % </a>";
+                                                        }else{
+                                                            el+="-";
+                                                        }
+                                                    }
+                                                el+='</td>'+
+                                            '</tr>';
+
+                                            /*tambahkan unit disini */
+                                            $.each(result.tambahanInews,function(f,g){
+                                                if(g.id!="TOTAL"){
+                                                    el+="<tr>"+
+                                                        "<td style='color:red'>"+g.program_name+"</td>"+
+                                                        '<td>'+addKoma(g.tw_kemarin)+'</td>'+
+                                                        '<td>'+addKoma(g.tw_sekarang)+'</td>'+
+                                                        '<td>';
+                                                            if(g.growth_tw>0){
+                                                                el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+g.growth_tw+" % </a>";
                                                             }else{
-                                                                if(!isNaN(f.followers.growth)){
-                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+f.followers.growth.toFixed(2)+" % </a>";
+                                                                if(!isNaN(g.growth_tw)){
+                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+g.growth_tw+" % </a>";
                                                                 }else{
                                                                     el+="-";
                                                                 }
                                                             }
-                                                        el+="</td>";
-                                                })
-                                            }else{
-                                                el+="<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>";
-                                            }
-                                        el+="</tr>";
-                                    });
-
-                                    el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
-                                        "<td>"+b.group_name+"</td>"
-                                        for(c=0;c<result.summary.length;c++){
-                                            if(result.summary[c].id==b.id){
-                                                el+="<td>"+addKoma(result.summary[c].kemarin_twitter)+"</td>"+
-                                                    "<td>"+addKoma(result.summary[c].sekarang_twitter)+"</td>"+
-                                                    "<td>";
-                                                        var ghtwitter=result.summary[c].sekarang_twitter/result.summary[c].kemarin_twitter-1;
-                                                        if(ghtwitter>0){
-                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghtwitter+" % </a>";
-                                                        }else{
-                                                            if(!isNaN(ghtwitter)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghtwitter.toFixed(2)+" % </a>";
+                                                        el+='</td>'+
+                                                        '<td>'+addKoma(g.fb_kemarin)+'</td>'+
+                                                        '<td>'+g.fb_sekarang+'</td>'+
+                                                        '<td>';
+                                                            if(g.growth_fb>0){
+                                                                el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+g.growth_fb+" % </a>";
                                                             }else{
-                                                                el+="-";
+                                                                if(!isNaN(g.growth_fb)){
+                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+g.growth_fb+" % </a>";
+                                                                }else{
+                                                                    el+="-";
+                                                                }
                                                             }
-                                                        }
-                                                    el+="</td>"+
-                                                    "<td>"+addKoma(result.summary[c].kemarin_facebook)+"</td>"+
-                                                    "<td>"+addKoma(result.summary[c].sekarang_facebook)+"</td>"+
-                                                    "<td>";
-                                                        var ghfacebook=result.summary[c].sekarang_facebook/result.summary[c].kemarin_facebook-1;
-                                                        if(ghfacebook>0){
-                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghfacebook+" % </a>";
-                                                        }else{
-                                                            if(!isNaN(ghfacebook)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghfacebook.toFixed(2)+" % </a>";
+                                                        el+='</td>'+
+                                                        '<td>'+g.ig_kemarin+'</td>'+
+                                                        '<td>'+g.ig_sekarang+'</td>'+
+                                                        '<td>';
+                                                            if(g.growth_ig>0){
+                                                                el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+g.growth_ig+" % </a>";
                                                             }else{
-                                                                el+="-";
+                                                                if(!isNaN(g.growth_ig)){
+                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+g.growth_ig+" % </a>";
+                                                                }else{
+                                                                    el+="-";
+                                                                }
                                                             }
-                                                        }
-                                                    el+="</td>"+
-                                                    "<td>"+addKoma(result.summary[c].kemarin_instagram)+"</td>"+
-                                                    "<td>"+addKoma(result.summary[c].sekarang_instagram)+"</td>"+
-                                                    "<td>";
-                                                        var ghinstagram=result.summary[c].sekarang_instagram/result.summary[c].kemarin_instagram-1;
-                                                        if(ghinstagram>0){
-                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghinstagram+" % </a>";
+                                                        el+='</td>'+
+                                                    "</tr>";
+                                                }
+                                            })
+                                        }else{
+                                            el+='<tr style="'+color+'">'+
+                                                '<td>'+nama+'</td>'+
+                                                '<td>'+addKoma(b.tw_kemarin)+'</td>'+
+                                                '<td>'+addKoma(b.tw_sekarang)+'</td>'+
+                                                '<td>';
+                                                    if(b.growth_tw>0){
+                                                        el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_tw+" % </a>";
+                                                    }else{
+                                                        if(!isNaN(b.growth_tw)){
+                                                            el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_tw+" % </a>";
                                                         }else{
-                                                            if(!isNaN(ghinstagram)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghinstagram.toFixed(2)+" % </a>";
-                                                            }else{
-                                                                el+="-";
-                                                            }
+                                                            el+="-";
                                                         }
-                                                    el+="</td>";
-                                            }
+                                                    }
+                                                el+='</td>'+
+                                                '<td>'+addKoma(b.fb_kemarin)+'</td>'+
+                                                '<td>'+b.fb_sekarang+'</td>'+
+                                                '<td>';
+                                                    if(b.growth_fb>0){
+                                                        el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_fb+" % </a>";
+                                                    }else{
+                                                        if(!isNaN(b.growth_fb)){
+                                                            el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_fb+" % </a>";
+                                                        }else{
+                                                            el+="-";
+                                                        }
+                                                    }
+                                                el+='</td>'+
+                                                '<td>'+b.ig_kemarin+'</td>'+
+                                                '<td>'+b.ig_sekarang+'</td>'+
+                                                '<td>';
+                                                    if(b.growth_ig>0){
+                                                        el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_ig+" % </a>";
+                                                    }else{
+                                                        if(!isNaN(b.growth_ig)){
+                                                            el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_ig+" % </a>";
+                                                        }else{
+                                                            el+="-";
+                                                        }
+                                                    }
+                                                el+='</td>'+
+                                            '</tr>';
                                         }
-                                    "</tr>";
-                                })                       
+                                    }
+                                })
                             el+='</tbody>'+
-                            //'<tfoot>'+
-                            //    "<tr>"+
-                                //    '<th style="background:#419F51;color:white" class="align-middle text-white">Nilai Rata - Rata</th>'+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                            //"</tfoot>"+
                         '</table>';
 
                         $("#divofficialAccountAllTv").empty().html(el);
@@ -690,62 +805,40 @@
                         var el="";
                         el+="<table class='table table-striped table-bordered'>"+
                             "<thead>"+
-                                "<tr>"+ 
+                                "<tr>"+
                                     '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">General Name</th>'+
-                                    "<th class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
-                                    "<th class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>"+
-                                    "<th class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>"+
+                                    "<th class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
+                                    "<th class='text-center' style='background:#5054ab;color:white'>Facebook</th>"+
+                                    "<th class='text-center' style='background:#a200b2;color:white'>Instagram</th>"+
+                                "</tr>"+
+                                "<tr>"+
+                                    "<th class='text-center' style='background:#008ef6;color:white'>"+result.sekarang+"</th>"+
+                                    "<th class='text-center' style='background:#5054ab;color:white'>"+result.sekarang+"</th>"+
+                                    "<th class='text-center' style='background:#a200b2;color:white'>"+result.sekarang+"</th>"+
                                 "</tr>"+
                             "</thead>"+
                             '<tbody style="color:#222">';
-                                $.each(result.unit,function(a,b){
-                                    /* official */
-                                    el+="<tr>"+
-                                        "<td>"+b.unit_name+" Official</td>";
-                                        if(b.sosmed.length>0){
-                                            $.each(b.sosmed,function(c,d){
-                                                if(d.followers.length>0){
-                                                    el+="<td>"+addKoma(d.followers[0].follower)+"</td>";
-                                                }else{
-                                                    el+="<td>-</td>";
-                                                }
-                                            })
-                                        }else{
-                                            el+="<td>-</td>"+
-                                            "<td>-</td>"+
-                                            "<td>-</td>";
-                                        }
-                                    el+="</tr>";
-
-                                    if(b.program.length>0){
-                                        $.each(b.program,function(e,f){
-                                            el+="<tr>"+
-                                                "<td>"+f.program_name+"</td>";
-                                                if(f.sosmed.length>0){
-                                                    $.each(f.sosmed,function(g,h){
-                                                        if(h.followers.length>0){
-                                                            el+="<td>"+addKoma(h.followers[0].follower)+"</td>";
-                                                        }else{
-                                                            el+="<td>-</td>";
-                                                        }
-                                                    })
-                                                }else{
-                                                    el+="<td></td>"+
-                                                    "<td></td>"+
-                                                    "<td></td>";
-                                                }
-                                        })
+                                $.each(result.data,function(a,b){
+                                    if(b.urut=="total"){
+                                        var warna="background:#f2eff2;color:#222;font-weight:700";
+                                    }else{
+                                        var warna="";
                                     }
-                                            
-                                    el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
-                                        "<td>Total</td>";
-                                        for(z=0;z<result.summary.length>0;z++){
-                                            if(result.summary[z].id==b.id){
-                                                el+="<td>"+addKoma(result.summary[z].total_twitter)+"</td>"+
-                                                "<td>"+addKoma(result.summary[z].total_fb)+"</td>"+
-                                                "<td>"+addKoma(result.summary[z].total_ig)+"</td>";
+
+                                    el+='<tr style="'+warna+'">'+
+                                        '<td>';
+                                            if(b.urut=="total"){
+                                                el+="Total";
+                                            }else if(b.urut=="corporate"){
+                                                el+=b.unit_name+" Official";
+                                            }else{
+                                                el+=b.unit_sosmed_name;
                                             }
-                                        }
+                                        el+='</td>'+
+                                        "<td>"+addKoma(b.tw)+"</td>"+
+                                        "<td>"+addKoma(b.fb)+"</td>"+
+                                        "<td>"+addKoma(b.ig)+"</td>"+
+                                    "</tr>";
                                 })
                             el+="</tbody>"+
                         "</table>";
@@ -779,125 +872,266 @@
                             $("#divofficialAccountAllTv").empty().html("<div class='alert alert-info'>Please Wait...</div>");
                         },
                         success:function(result){
-                        el+='<table class="table table-striped table-bordered">'+
-                            '<thead>'+
-                                '<tr>'+
-                                    '<th rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>';
-                                    $.each(result.sosmed,function(a,b){
-                                        el+="<th colspan='3' class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+b.sosmed_name+"</th>";
-                                    })
-                                el+='</tr>'+
-                                '<tr>';
-                                    $.each(result.sosmed,function(a,b){
-                                        el+="<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+result.kemarin+"</th>"+
-                                        "<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>"+result.sekarang+"</th>"+
-                                        "<th class='text-center' class='text-center' style='background:"+result.header[a]+";color:white'>GROWTH FROM YESTERDAY</th>";
-                                    })
-                                el+='</tr>'+
-                            '</thead>'+
-                            '<tbody style="color:#222">';
-                                $.each(result.unit,function(a,b){
-                                    $.each(b.unit,function(c,d){
-                                        el+="<tr>"+
-                                            "<td>"+d.unit_name+"</td>";
-                                            if(d.sosmed.length>0){
-                                                $.each(d.sosmed,function(e,f){
-                                                    el+="<td>"+addKoma(f.followers.kemarin)+"</td>"+
-                                                        "<td>"+addKoma(f.followers.sekarang)+"</td>"+
-                                                        "<td>";
-                                                            if(f.followers.growth>0){
-                                                                el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+f.followers.growth.toFixed(2)+" % </a>";
+                            el+='<table class="table table-striped table-bordered">'+
+                                '<thead>'+
+                                    '<tr>'+
+                                        '<th width="18%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>'+
+                                        "<th colspan='3' class='text-center' style='background:#008ef6;color:white'>Twitter</th>"+
+                                        "<th colspan='3' class='text-center' style='background:#5054ab;color:white'>Facebook</th>"+
+                                        "<th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>"+
+                                    '</tr>'+
+                                    '<tr>'+
+                                        "<th class='text-center' style='background:#008ef6;color:white'>"+result.kemarin+"</th>"+
+                                        "<th class='text-center' style='background:#008ef6;color:white'>"+result.sekarang+"</th>"+
+                                        "<th class='text-center' style='background:#008ef6;color:white'>Growth From Yesterday</th>"+
+
+                                        "<th class='text-center' style='background:#5054ab;color:white'>"+result.sekarang+"</th>"+
+                                        "<th class='text-center' style='background:#5054ab;color:white'>"+result.sekarang+"</th>"+
+                                        "<th class='text-center' style='background:#5054ab;color:white'>Growth From Yesterday</th>"+
+
+                                        "<th class='text-center' style='background:#a200b2;color:white'>"+result.sekarang+"</th>"+
+                                        "<th class='text-center' style='background:#a200b2;color:white'>"+result.sekarang+"</th>"+
+                                        "<th class='text-center' style='background:#a200b2;color:white'>Growth From Yesterday</th>"+
+                                    "</tr>"+
+                                "</thead>"+
+                                '<tbody style="color:#222">';
+                                    $.each(result.unit,function(a,b){
+                                        if(b.id=="SUBTOTAL"){
+                                            if(b.group_id=="TOTAL"){
+                                                var nama="NILAI RATA - RATA";
+                                                var color="background:#419F51;color:white;font-weight:700";
+
+                                                el+="<tr style='"+color+"'>"+
+                                                    '<td>'+nama+'</td>'+
+                                                    '<td></td>'+
+                                                    '<td>'+addKoma((b.tw_sekarang/13).toFixed())+'</td>'+
+                                                    '<td></td>'+
+                                                    '<td></td>'+
+                                                    '<td>'+addKoma((b.fb_sekarang/13).toFixed())+'</td>'+
+                                                    '<td></td>'+
+                                                    '<td></td>'+
+                                                    '<td>'+addKoma((b.ig_sekarang/13).toFixed())+'</td>'+
+                                                    '<td></td>'+
+                                                '</tr>';
+                                            }else{
+                                                var nama=b.group_name;
+                                                var color="background:#f2eff2;color:#222;font-weight:700";
+
+                                                el+='<tr style="'+color+'">'+
+                                                    '<td>'+nama+'</td>'+
+                                                    '<td>'+addKoma(b.tw_kemarin)+'</td>'+
+                                                    '<td>'+addKoma(b.tw_sekarang)+'</td>'+
+                                                    '<td>';
+                                                        if(b.growth_tw>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_tw+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(b.growth_tw)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_tw+" % </a>";
                                                             }else{
-                                                                if(!isNaN(f.followers.growth)){
-                                                                    el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+f.followers.growth.toFixed(2)+" % </a>";
-                                                                }else{
-                                                                    el+="-";
-                                                                }
+                                                                el+="-";
                                                             }
-                                                        el+="</td>";
+                                                        }
+                                                    el+='</td>'+
+                                                    '<td>'+addKoma(b.fb_kemarin)+'</td>'+
+                                                    '<td>'+b.fb_sekarang+'</td>'+
+                                                    '<td>';
+                                                        if(b.growth_fb>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_fb+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(b.growth_fb)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_fb+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+='</td>'+
+                                                    '<td>'+b.ig_kemarin+'</td>'+
+                                                    '<td>'+b.ig_sekarang+'</td>'+
+                                                    '<td>';
+                                                        if(b.growth_ig>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_ig+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(b.growth_ig)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_ig+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+='</td>'+
+                                                '</tr>';
+                                            }
+                                        }else{
+                                            var nama=b.unit_name;
+                                            var color="";
+                                            
+                                            /* tambahan untuk 4 program inews */
+                                            if(b.id==4){
+                                                var tws=0;
+                                                var twk=0;
+                                                var gtw=0
+                                                var fbs=0;
+                                                var fbk=0;
+                                                var gfb=0;
+                                                var igs=0;
+                                                var igk=0;
+                                                var gig=0;
+
+
+                                                $.each(result.tambahanInews,function(f,g){
+                                                    if(g.id=="TOTAL"){
+                                                        tws=g.tw_sekarang;
+                                                        twk=g.tw_kemarin;
+                                                        gtw=g.growth_tw;
+                                                        fbs=g.fb_sekarang;
+                                                        fbk=g.fb_kemarin;
+                                                        gfb=g.growth_fb;
+                                                        igs=g.ig_sekarang;
+                                                        igk=g.ig_kemarin;
+                                                        gig=g.growth_ig;
+                                                    }
+                                                })
+
+                                                el+='<tr style="'+color+'">'+
+                                                    '<td>'+nama+'</td>'+
+                                                    '<td>'+addKoma(twk)+'</td>'+
+                                                    '<td>'+addKoma(tws)+'</td>'+
+                                                    '<td>';
+                                                        if(gtw>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+gtw+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(gtw)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+gtw+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+='</td>'+
+                                                    '<td>'+addKoma(fbk)+'</td>'+
+                                                    '<td>'+addKoma(fbs)+'</td>'+
+                                                    '<td>';
+                                                        if(gfb>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+gfb+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(gfb)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+gfb+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+='</td>'+
+                                                    '<td>'+addKoma(igk)+'</td>'+
+                                                    '<td>'+addKoma(igs)+'</td>'+
+                                                    '<td>';
+                                                        if(gig>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+gig+" % </a>";
+                                                        }else{
+                                                            if(!isNaN(gig)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+gig+" % </a>";
+                                                            }else{
+                                                                el+="-";
+                                                            }
+                                                        }
+                                                    el+='</td>'+
+                                                '</tr>';
+
+                                                /*tambahkan unit disini */
+                                                $.each(result.tambahanInews,function(f,g){
+                                                    if(g.id!="TOTAL"){
+                                                        el+="<tr>"+
+                                                            "<td style='color:red'>"+g.program_name+"</td>"+
+                                                            '<td>'+addKoma(g.tw_kemarin)+'</td>'+
+                                                            '<td>'+addKoma(g.tw_sekarang)+'</td>'+
+                                                            '<td>';
+                                                                if(g.growth_tw>0){
+                                                                    el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+g.growth_tw+" % </a>";
+                                                                }else{
+                                                                    if(!isNaN(g.growth_tw)){
+                                                                        el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+g.growth_tw+" % </a>";
+                                                                    }else{
+                                                                        el+="-";
+                                                                    }
+                                                                }
+                                                            el+='</td>'+
+                                                            '<td>'+addKoma(g.fb_kemarin)+'</td>'+
+                                                            '<td>'+g.fb_sekarang+'</td>'+
+                                                            '<td>';
+                                                                if(g.growth_fb>0){
+                                                                    el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+g.growth_fb+" % </a>";
+                                                                }else{
+                                                                    if(!isNaN(g.growth_fb)){
+                                                                        el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+g.growth_fb+" % </a>";
+                                                                    }else{
+                                                                        el+="-";
+                                                                    }
+                                                                }
+                                                            el+='</td>'+
+                                                            '<td>'+g.ig_kemarin+'</td>'+
+                                                            '<td>'+g.ig_sekarang+'</td>'+
+                                                            '<td>';
+                                                                if(g.growth_ig>0){
+                                                                    el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+g.growth_ig+" % </a>";
+                                                                }else{
+                                                                    if(!isNaN(g.growth_ig)){
+                                                                        el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+g.growth_ig+" % </a>";
+                                                                    }else{
+                                                                        el+="-";
+                                                                    }
+                                                                }
+                                                            el+='</td>'+
+                                                        "</tr>";
+                                                    }
                                                 })
                                             }else{
-                                                el+="<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>"+
-                                                "<td></td>";
-                                            }
-                                        el+="</tr>";
-                                    });
-
-                                    el+="<tr style='background:#f2eff2;color:#222;font-weight:700'>"+
-                                        "<td>"+b.group_name+"</td>"
-                                        for(c=0;c<result.summary.length;c++){
-                                            if(result.summary[c].id==b.id){
-                                                el+="<td>"+addKoma(result.summary[c].kemarin_twitter)+"</td>"+
-                                                    "<td>"+addKoma(result.summary[c].sekarang_twitter)+"</td>"+
-                                                    "<td>";
-                                                        var ghtwitter=result.summary[c].sekarang_twitter/result.summary[c].kemarin_twitter-1;
-                                                        if(ghtwitter>0){
-                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghtwitter.toFixed(2)+" % </a>";
+                                                el+='<tr style="'+color+'">'+
+                                                    '<td>'+nama+'</td>'+
+                                                    '<td>'+addKoma(b.tw_kemarin)+'</td>'+
+                                                    '<td>'+addKoma(b.tw_sekarang)+'</td>'+
+                                                    '<td>';
+                                                        if(b.growth_tw>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_tw+" % </a>";
                                                         }else{
-                                                            if(!isNaN(ghtwitter)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghtwitter.toFixed(2)+" % </a>";
+                                                            if(!isNaN(b.growth_tw)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_tw+" % </a>";
                                                             }else{
                                                                 el+="-";
                                                             }
                                                         }
-                                                    el+="</td>"+
-                                                    "<td>"+addKoma(result.summary[c].kemarin_facebook)+"</td>"+
-                                                    "<td>"+addKoma(result.summary[c].sekarang_facebook)+"</td>"+
-                                                    "<td>";
-                                                        var ghfacebook=result.summary[c].sekarang_facebook/result.summary[c].kemarin_facebook-1;
-                                                        if(ghfacebook>0){
-                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghfacebook.toFixed(2)+" % </a>";
+                                                    el+='</td>'+
+                                                    '<td>'+addKoma(b.fb_kemarin)+'</td>'+
+                                                    '<td>'+b.fb_sekarang+'</td>'+
+                                                    '<td>';
+                                                        if(b.growth_fb>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_fb+" % </a>";
                                                         }else{
-                                                            if(!isNaN(ghfacebook)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghfacebook.toFixed(2)+" % </a>";
+                                                            if(!isNaN(b.growth_fb)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_fb+" % </a>";
                                                             }else{
                                                                 el+="-";
                                                             }
                                                         }
-                                                    el+="</td>"+
-                                                    "<td>"+addKoma(result.summary[c].kemarin_instagram)+"</td>"+
-                                                    "<td>"+addKoma(result.summary[c].sekarang_instagram)+"</td>"+
-                                                    "<td>";
-                                                        var ghinstagram=result.summary[c].sekarang_instagram/result.summary[c].kemarin_instagram-1;
-                                                        if(ghinstagram>0){
-                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+ghinstagram.toFixed(2)+" % </a>";
+                                                    el+='</td>'+
+                                                    '<td>'+b.ig_kemarin+'</td>'+
+                                                    '<td>'+b.ig_sekarang+'</td>'+
+                                                    '<td>';
+                                                        if(b.growth_ig>0){
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+b.growth_ig+" % </a>";
                                                         }else{
-                                                            if(!isNaN(ghinstagram)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+ghinstagram.toFixed(2)+" % </a>";
+                                                            if(!isNaN(b.growth_ig)){
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+b.growth_ig+" % </a>";
                                                             }else{
                                                                 el+="-";
                                                             }
                                                         }
-                                                    el+="</td>";
+                                                    el+='</td>'+
+                                                '</tr>';
                                             }
                                         }
-                                    "</tr>";
-                                })                       
-                            el+='</tbody>'+
-                            //'<tfoot>'+
-                            //    "<tr>"+
-                                //    '<th style="background:#419F51;color:white" class="align-middle text-white">Nilai Rata - Rata</th>'+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                                //    "<th></th>"+
-                            //"</tfoot>"+
-                        '</table>';
+                                    })
+                                el+='</tbody>'+
+                            '</table>';
 
-                        $("#divofficialAccountAllTv").empty().html(el);
-                    },
+                            $("#divofficialAccountAllTv").empty().html(el);
+                        },
                         error:function(){
 
                         }
