@@ -63,18 +63,68 @@
         </thead>
         <tbody style="color:#222">
             @foreach($targetVsAch as $row)
-                <tr>
-                    <td>{{$row->unit_name}}</td>
-                    <td>{{number_format($row->follower_tw)}}</td>
-                    <td>{{number_format($row->target_tw)}}</td>
-                    <td>{{number_format($row->acv_tw,2)}} %</td>
-                    <td>{{number_format($row->follower_fb)}}</td>
-                    <td>{{number_format($row->target_fb)}}</td>
-                    <td>{{number_format($row->acv_fb,2)}} %</td>
-                    <td>{{number_format($row->follower_ig)}}</td>
-                    <td>{{number_format($row->target_ig)}}</td>
-                    <td>{{number_format($row->acv_ig,2)}} %</td>
-                </tr>
+                @if($row->id==4)
+                    @for($a=0;$a<count($tambahanInews);$a++)
+                        @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->business_unit_id==$row->id)
+
+                            <tr>
+                                <td>{{$row->unit_name}}</td>
+                                <td>{{number_format($tambahanInews[$a]->tw_sekarang+$row->follower_tw)}}</td>
+                                <td>{{number_format($row->target_tw)}}</td>
+                                <td>
+                                    @if($row->target_tw!=null)
+                                        @if($row->target_tw>0)
+                                            {{number_format(($tambahanInews[$a]->tw_sekarang / $row->target_tw) * 100,2)}} %
+                                        @else 
+                                            %
+                                        @endif 
+                                    @else 
+                                        %
+                                    @endif
+                                </td>
+                                <td>{{number_format($tambahanInews[$a]->fb_sekarang+$row->follower_fb)}}</td>
+                                <td>{{number_format($row->target_fb)}}</td>
+                                <td>
+                                    @if($row->target_fb!=null)
+                                        @if($row->target_fb>0)
+                                            {{number_format(($tambahanInews[$a]->fb_sekarang / $row->target_fb) * 100,2)}} %
+                                        @else 
+                                            %
+                                        @endif 
+                                    @else 
+                                        %
+                                    @endif
+                                </td>
+                                <td>{{number_format($tambahanInews[$a]->ig_sekarang+$row->follower_ig)}}</td>
+                                <td>{{number_format($row->target_ig)}}</td>
+                                <td>
+                                    @if($row->target_ig!=null)
+                                        @if($row->target_ig>0)
+                                            {{number_format(($tambahanInews[$a]->ig_sekarang / $row->target_ig) * 100,2)}} %
+                                        @else 
+                                            %
+                                        @endif 
+                                    @else 
+                                        %
+                                    @endif
+                                </td>
+                            </tr>
+                        @endif
+                    @endfor
+                @else
+                    <tr>
+                        <td>{{$row->unit_name}}</td>
+                        <td>{{number_format($row->follower_tw)}}</td>
+                        <td>{{number_format($row->target_tw)}}</td>
+                        <td>{{number_format($row->acv_tw,2)}} %</td>
+                        <td>{{number_format($row->follower_fb)}}</td>
+                        <td>{{number_format($row->target_fb)}}</td>
+                        <td>{{number_format($row->acv_fb,2)}} %</td>
+                        <td>{{number_format($row->follower_ig)}}</td>
+                        <td>{{number_format($row->target_ig)}}</td>
+                        <td>{{number_format($row->acv_ig,2)}} %</td>
+                    </tr>
+                @endif
             @endforeach
         </tbody>
     </table>
@@ -111,41 +161,70 @@
                         <?php 
                             $nama="NILAI RATA - RATA";
                             $color="background:#419F51;color:white;font-weight:700";
+                            $satu_tw=0;
+                            $satu_fb=0;
+                            $satu_ig=0;
                         ?>
+                        @for($a=0;$a<count($tambahanInews);$a++)
+                            @if($tambahanInews[$a]->id=="TOTAL")
+                                <?php 
+                                    $satu_tw=$tambahanInews[$a]->tw_sekarang;
+                                    $satu_fb=$tambahanInews[$a]->fb_sekarang;
+                                    $satu_ig=$tambahanInews[$a]->ig_sekarang;
+                                ?>
+                            @endif
+                        @endfor
 
-                        <tr style="{{$color}}">
-                            <td>
+                        <tr>
+                            <td style="{{$color}}">
                                 {{$nama}}
                             </td>
-                            <td></td>
-                            <td>{{number_format($of->tw_sekarang/13)}}</td>
-                            <td></td>
-                            <td></td>
-                            <td>{{number_format($of->fb_sekarang/13)}}</td>
-                            <td></td>
-                            <td></td>
-                            <td>{{number_format($of->ig_sekarang/13)}}</td>
-                            <td></td>
+                            <td colspan="3" class="text-center" style='background:#008ef6;color:white'>{{number_format(($of->tw_sekarang+$satu_tw)/13)}}</td>
+                            <td colspan="3" class="text-center" style='background:#5054ab;color:white'>{{number_format(($of->fb_sekarang+$satu_fb)/13)}}</td>
+                            <td colspan="3" class="text-center" style='background:#a200b2;color:white'>{{number_format(($of->ig_sekarang+$satu_ig)/13)}}</td>
                         </tr>
                     @else    
                         <?php 
                             $nama=$of->group_name;
                             $color="background:#f2eff2;color:#222;font-weight:700";
                         ?>
-                        <tr style="{{$color}}">
-                            <td>
-                                {{$nama}}
-                            </td>
-                            <td>{{number_format($of->tw_kemarin)}}</td>
-                            <td>{{number_format($of->tw_sekarang)}}</td>
-                            <td>{{round($of->growth_tw,2)}}</td>
-                            <td>{{number_format($of->fb_kemarin)}}</td>
-                            <td>{{number_format($of->fb_sekarang)}}</td>
-                            <td>{{round($of->growth_fb,2)}}</td>
-                            <td>{{number_format($of->ig_kemarin)}}</td>
-                            <td>{{number_format($of->ig_sekarang)}}</td>
-                            <td>{{round($of->growth_ig,2)}}</td>
-                        </tr>
+
+                        @if($of->group_id==1)
+                            <!-- tambahkan untuk inews -->
+                            @for($a=0;$a<count($tambahanInews);$a++)
+                                @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->group_unit_id==$of->group_id)
+                                    <tr style="{{$color}}">
+                                        <td>
+                                            {{$nama}}
+                                        </td>
+                                        <td>{{number_format($tambahanInews[$a]->tw_kemarin+$of->tw_kemarin)}}</td>
+                                        <td>{{number_format($tambahanInews[$a]->tw_sekarang+$of->tw_sekarang)}}</td>
+                                        <td>{{round($of->growth_tw,2)}} %</td>
+                                        <td>{{number_format($tambahanInews[$a]->fb_kemarin+$of->fb_kemarin)}}</td>
+                                        <td>{{number_format($tambahanInews[$a]->fb_sekarang+$of->fb_sekarang)}}</td>
+                                        <td>{{round($of->growth_fb,2)}} %</td>
+                                        <td>{{number_format($tambahanInews[$a]->ig_kemarin+$of->ig_kemarin)}}</td>
+                                        <td>{{number_format($tambahanInews[$a]->ig_sekarang+$of->ig_sekarang)}}</td>
+                                        <td>{{round($of->growth_ig,2)}} %</td>
+                                    </tr>
+                                @endif
+                            @endfor
+                        @else   
+                            <tr style="{{$color}}">
+                                <td>
+                                    {{$nama}}
+                                </td>
+                                <td>{{number_format($of->tw_kemarin)}}</td>
+                                <td>{{number_format($of->tw_sekarang)}}</td>
+                                <td>{{round($of->growth_tw,2)}} %</td>
+                                <td>{{number_format($of->fb_kemarin)}}</td>
+                                <td>{{number_format($of->fb_sekarang)}}</td>
+                                <td>{{round($of->growth_fb,2)}} %</td>
+                                <td>{{number_format($of->ig_kemarin)}}</td>
+                                <td>{{number_format($of->ig_sekarang)}}</td>
+                                <td>{{round($of->growth_ig,2)}} %</td>
+                            </tr>
+                        @endif
                     @endif
                 @else 
                     <?php 
@@ -153,20 +232,64 @@
                         $color="";
                     ?>
 
-                    <tr style="{{$color}}">
-                        <td>
-                            {{$nama}}
-                        </td>
-                        <td>{{number_format($of->tw_kemarin)}}</td>
-                        <td>{{number_format($of->tw_sekarang)}}</td>
-                        <td>{{round($of->growth_tw,2)}}</td>
-                        <td>{{number_format($of->fb_kemarin)}}</td>
-                        <td>{{number_format($of->fb_sekarang)}}</td>
-                        <td>{{round($of->growth_fb,2)}}</td>
-                        <td>{{number_format($of->ig_kemarin)}}</td>
-                        <td>{{number_format($of->ig_sekarang)}}</td>
-                        <td>{{round($of->growth_ig,2)}}</td>
-                    </tr>
+                    @if($of->id==4)
+                        @for($a=0;$a<count($tambahanInews);$a++)
+                            @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->business_unit_id==$of->id)
+                                <tr style="{{$color}}">
+                                    <td>
+                                        {{$nama}}
+                                    </td>
+                                    <td>{{number_format($tambahanInews[$a]->tw_kemarin+$of->tw_kemarin)}}</td>
+                                    <td>{{number_format($tambahanInews[$a]->tw_sekarang+$of->tw_sekarang)}}</td>
+                                    <td>{{round($of->growth_tw,2)}} %</td>
+                                    <td>{{number_format($tambahanInews[$a]->fb_kemarin+$of->fb_kemarin)}}</td>
+                                    <td>{{number_format($tambahanInews[$a]->fb_sekarang+$of->fb_sekarang)}}</td>
+                                    <td>{{round($of->growth_fb,2)}} %</td>
+                                    <td>{{number_format($tambahanInews[$a]->ig_kemarin+$of->ig_kemarin)}}</td>
+                                    <td>{{number_format($tambahanInews[$a]->ig_sekarang+$of->ig_sekarang)}}</td>
+                                    <td>{{round($of->growth_ig,2)}} %</td>
+                                </tr>
+                            @endif
+                        @endfor
+
+                    @else
+                        <tr style="{{$color}}">
+                            <td>
+                                {{$nama}}
+                            </td>
+                            <td>{{number_format($of->tw_kemarin)}}</td>
+                            <td>{{number_format($of->tw_sekarang)}}</td>
+                            <td>{{round($of->growth_tw,2)}} %</td>
+                            <td>{{number_format($of->fb_kemarin)}}</td>
+                            <td>{{number_format($of->fb_sekarang)}}</td>
+                            <td>{{round($of->growth_fb,2)}} %</td>
+                            <td>{{number_format($of->ig_kemarin)}}</td>
+                            <td>{{number_format($of->ig_sekarang)}}</td>
+                            <td>{{round($of->growth_ig,2)}} %</td>
+                        </tr>
+                    @endif
+
+                    <!-- menampilkan tambahan inews -->
+                    @if($of->id==4)
+                        @foreach($tambahanInews as $t)
+                            @if($t->id!="TOTAL")
+                                <tr>
+                                    <td style='color:red'>{{$t->program_name}}</td>
+                                    <td>{{number_format($t->tw_kemarin)}}</td>
+                                    <td>{{number_format($t->tw_sekarang)}}</td>
+                                    <td>{{round($t->growth_tw,2)}} %</td>
+                                    <td>{{number_format($t->fb_kemarin)}}</td>
+                                    <td>{{number_format($t->fb_sekarang)}}</td>
+                                    <td>{{round($t->growth_fb,2)}} %</td>
+                                    <td>{{number_format($t->ig_kemarin)}}</td>
+                                    <td>{{number_format($t->ig_sekarang)}}</td>
+                                    <td>{{round($t->growth_ig,2)}} %</td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    @endif
+                    <!-- end menampilkan tambahan inews -->
+
                 @endif
             @endforeach
         </tbody>

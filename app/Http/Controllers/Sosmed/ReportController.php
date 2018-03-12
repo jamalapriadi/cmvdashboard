@@ -24,8 +24,10 @@ class ReportController extends Controller
     public function target_vs_achievement(Request $request){
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
         }else{
             $sekarang=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
         }
 
         if($request->has('group')){
@@ -51,7 +53,29 @@ class ReportController extends Controller
             where a.group_unit_id='$group'
             GROUP by a.id");
 
-        return array('target'=>$target,'sekarang'=>$sekarang);
+        $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
+            d.group_unit_id, a.program_name,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as tw_sekarang,
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) -1)*100 as growth_tw,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=2, c.follower,0)) as fb_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as fb_sekarang,
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=2, c.follower,0)) -1)*100 as growth_fb,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) as ig_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig_sekarang,
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_ig
+            from program_unit a 
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
+            left join business_unit d on d.id=a.business_unit_id
+            where a.id in (89, 101, 95, 87)
+            group by a.id
+            with ROLLUP");
+
+        return view('sosmed.view.target_vs_achivement')
+            ->with('targetVsAch',$target)
+            ->with('tambahanInews',$tambahanInews)
+            ->with('sekarang',$sekarang);
     }
 
     public function official_account_all_tv(Request $request){
@@ -88,7 +112,8 @@ class ReportController extends Controller
             group by a.group_unit_id,a.id
             with ROLLUP");
 
-        $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id, a.program_name,
+        $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
+            d.group_unit_id, a.program_name,
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as tw_sekarang,
             (sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) -1)*100 as growth_tw,
@@ -100,123 +125,82 @@ class ReportController extends Controller
             (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_ig
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
-            left join unit_sosmed_follower c on c.id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
+            left join business_unit d on d.id=a.business_unit_id
             where a.id in (89, 101, 95, 87)
             group by a.id
             with ROLLUP");
 
-        return array(
-            'unit'=>$unit,
-            'sekarang'=>$sekarang,
-            'kemarin'=>$kemarin,
-            'tambahanInews'=>$tambahanInews
-        );
-
+        return view('sosmed.view.official_account_all_tv')
+            ->with('officialTv',$unit)
+            ->with('sekarang',$sekarang)
+            ->with('kemarin',$kemarin)
+            ->with('tambahanInews',$tambahanInews);
     }
 
     public function sosmed_official_and_program(Request $request){
         if($request->has('tanggal')){
-            $tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
         }else{
-            $tanggal=date('Y-m-d');
+            $sekarang=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
         }
 
-        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
-
-        $unit=\DB::select("select b.id, b.group_unit_id, b.unit_name, c.unit_sosmed_name,
-            sum(if(c.sosmed_id=1,d.follower,0)) as twitter_official,
-            sum(if(c.sosmed_id=2,d.follower,0)) as fb_official,
-            sum(if(c.sosmed_id=3,d.follower,0)) as ig_official
-            from business_unit b
-            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
-            left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal='$tanggal'
-            group by b.id");
-
-        $program=\DB::select("select a.id, a.unit_name, c.sosmed_id, 
-                sum(if(c.sosmed_id=1,d.follower,0)) as tw_program,
-                sum(if(c.sosmed_id=2,d.follower,0)) as fb_program,
-                sum(if(c.sosmed_id=3,d.follower,0)) as ig_program
-                from business_unit a 
+        $overallOfficialTv=\DB::select("select terjadi.id, terjadi.unit_name, terjadi.group_id, terjadi.group_name,
+            sum(terjadi.tw_kemarin) as total_tw_kemarin,
+            sum(terjadi.tw_sekarang) as total_tw_sekarang,
+            ((sum(terjadi.tw_sekarang) / sum(terjadi.tw_kemarin) - 1) * 100) as total_growth_tw,
+            (sum(terjadi.tw_sekarang) - sum(terjadi.tw_kemarin)) as total_num_of_growth_tw,
+            sum(terjadi.fb_kemarin) as total_fb_kemarin,
+            sum(terjadi.fb_sekarang) as total_fb_sekarang,
+            ((sum(terjadi.fb_sekarang) / sum(terjadi.fb_kemarin) - 1) * 100) as total_growth_fb,
+            (sum(terjadi.fb_sekarang) - sum(terjadi.fb_kemarin)) as total_num_of_growth_fb,
+            sum(terjadi.ig_kemarin) as total_ig_kemarin,
+            sum(terjadi.ig_sekarang) as total_ig_sekarang,
+            ((sum(terjadi.ig_sekarang) / sum(terjadi.ig_kemarin) - 1) * 100) as total_growth_ig,
+            (sum(terjadi.ig_sekarang) - sum(terjadi.ig_kemarin)) as total_num_of_growth_ig 
+            from
+            (
+                select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
+                ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
+                sum(if(d.tanggal='$kemarin' and c.sosmed_id=1,d.follower,0)) as tw_kemarin,
+                sum(if(d.tanggal='$sekarang' and c.sosmed_id=1,d.follower,0)) as tw_sekarang,
+                sum(if(d.tanggal='$kemarin' and c.sosmed_id=2,d.follower,0)) as fb_kemarin,
+                sum(if(d.tanggal='$sekarang' and c.sosmed_id=2,d.follower,0)) as fb_sekarang,
+                sum(if(d.tanggal='$kemarin' and c.sosmed_id=3,d.follower,0)) as ig_kemarin,
+                sum(if(d.tanggal='$sekarang' and c.sosmed_id=3,d.follower,0)) as ig_sekarang
+                from 
+                business_unit a 
                 left join program_unit b on b.business_unit_id=a.id
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
-                left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal='$tanggal'
-                group by a.id");
+                left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
+                left join group_unit as e on e.id=a.group_unit_id
+                group by a.group_unit_id,a.id
+                with ROLLUP
+                union all 
+                select ifnull(a.id,'SUBTOTAL') as id, a.unit_name, 
+                ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0)) as fb_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb_sekarang,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) as ig_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang
+                from 
+                business_unit a 
+                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
+                left join group_unit as e on e.id=a.group_unit_id
+                group by a.group_unit_id,a.id
+                with ROLLUP
+            ) as terjadi
+            group by terjadi.group_id,terjadi.id");
 
-        $data=array();
-        $total=array();
-        foreach($group as $row){
-            $officialunit=array();
-
-            for($a=0;$a<count($unit);$a++){
-                if($unit[$a]->group_unit_id==$row->id){
-                    $pr=array();
-
-                    for($b=0;$b<count($program);$b++){
-                        if($program[$b]->id==$unit[$a]->id){
-                            $pr=array(
-                                'tw'=>$program[$b]->tw_program,
-                                'fb'=>$program[$b]->fb_program,
-                                'ig'=>$program[$b]->ig_program
-                            );
-                        }
-                    }
-
-                    $tesofficial=array(
-                        'tw'=>$unit[$a]->twitter_official,
-                        'fb'=>$unit[$a]->fb_official,
-                        'ig'=>$unit[$a]->ig_official
-                    );
-
-                    $total=array(
-                        'tw'=>$tesofficial['tw']+$pr['tw'],
-                        'fb'=>$tesofficial['fb']+$pr['fb'],
-                        'ig'=>$tesofficial['ig']+$pr['ig']
-                    );
-
-                    $officialunit[]=array(
-                        'unit_name'=>$unit[$a]->unit_name,
-                        'sosmed_name'=>$unit[$a]->unit_sosmed_name,
-                        'official'=>$tesofficial,
-                        'program'=>$pr,
-                        'total'=>$total
-                    );
-                }
-            }
-
-            $total=array(
-                'tw'=>0,
-                'fb'=>0,
-                'ig'=>0
-            );
-
-            $subtotal=array(
-                'tw'=>0,
-                'fb'=>0,
-                'ig'=>0
-            );
-
-            foreach($officialunit as $k=>$v){
-                $subtotal['tw']+=$v['total']['tw'];  
-                $subtotal['fb']+=$v['total']['fb'];  
-                $subtotal['ig']+=$v['total']['ig'];  
-            }
-
-            $total['tw']+=$subtotal['tw'];
-            $total['fb']+=$subtotal['fb'];
-            $total['ig']+=$subtotal['ig'];
-
-            $data[]=array(
-                'id'=>$row->id,
-                'group_name'=>$row->group_name,
-                'unit'=>$officialunit,
-                'total'=>$total
-            );
-        }   
-
-        return array(
-            'data'=>$data,
-            'tanggal'=>$tanggal
-        );
+        return view('sosmed.view.sosmed_official_and_program')
+                ->with('overallOfficialTv',$overallOfficialTv)
+                ->with('sekarang',$sekarang)
+                ->with('kemarin',$kemarin);
     }
 
     public function official_and_program(Request $request){
@@ -281,10 +265,9 @@ class ReportController extends Controller
             group by semua.id
             order by id, urut,type_sosmed");
 
-        return array(
-            'data'=>$officialAndProgram,
-            'sekarang'=>$sekarang
-        );
+        return view('sosmed.view.detail_official_and_program')
+            ->with('sekarang',$sekarang)
+            ->with('officialAndProgram',$officialAndProgram);
     }
 
     /* rank */
@@ -1165,6 +1148,25 @@ class ReportController extends Controller
             )->get();
 
         $data['sosmed']=\App\Models\Sosmed\Sosmed::all();
+
+        $data['tambahanInews']=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
+            d.group_unit_id, a.program_name,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as tw_sekarang,
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) -1)*100 as growth_tw,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=2, c.follower,0)) as fb_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as fb_sekarang,
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=2, c.follower,0)) -1)*100 as growth_fb,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) as ig_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig_sekarang,
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_ig
+            from program_unit a 
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
+            left join business_unit d on d.id=a.business_unit_id
+            where a.id in (89, 101, 95, 87)
+            group by a.id
+            with ROLLUP");
 
         $pdf = \PDF::loadView('sosmed.pdf.sosmed_daily_report', $data)
             ->setPaper('a4', 'landscape')->setWarnings(false);
