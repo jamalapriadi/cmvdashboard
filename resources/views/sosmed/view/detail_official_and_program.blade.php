@@ -12,7 +12,7 @@
             <th class='text-center' style='background:#a200b2;color:white'>{{$sekarang}}</th>
         </tr>
     </thead>
-    <tbody style="color:#222">';
+    <tbody style="color:#222">
         @foreach($officialAndProgram as $a=>$b)
             @if($b->urut=="total")
                 <?php $warna="background:#f2eff2;color:#222;font-weight:700";?>

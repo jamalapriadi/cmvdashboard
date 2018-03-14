@@ -113,6 +113,34 @@ class HomeController extends Controller
         return view('sosmed.rangking');
     }
 
+    public function sosmed_daily_report(Request $request){
+        if($request->has('tanggal')){
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }else{
+            $sekarang=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }
+
+        return view('sosmed.daily_report')
+            ->with('sekarang',$sekarang)
+            ->with('kemarin',$kemarin);
+    }
+
+    public function sosmed_ranking_soc_med(Request $request){
+        if($request->has('tanggal')){
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }else{
+            $sekarang=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }
+
+        return view('sosmed.ranking_soc_med')
+            ->with('sekarang',$sekarang)
+            ->with('kemarin',$kemarin);
+    }
+
     public function official_and_program(Request $request){
         $group=\App\Models\Sosmed\Groupunit::with(
             [

@@ -31,6 +31,9 @@ Route::group(['prefix'=>'sosmed'],function(){
     Route::get('input-report-harian','HomeController@sosmed_input_report_harian');
     Route::get('add-new-report-harian','HomeController@add_new_report_harian');
 
+    Route::get('daily-report','HomeController@sosmed_daily_report');
+    Route::get('ranking-soc-med','HomeController@sosmed_ranking_soc_med');
+
     Route::get('role','HomeController@role');
     Route::get('role/{id}/permission','HomeController@permission');
     Route::get('user','HomeController@user');
@@ -95,7 +98,7 @@ Route::group(['prefix'=>'sosmed'],function(){
             Route::get('summary-program-by-id/{id}','Sosmed\ReportController@summary_program_by_id');
 
             Route::get('pdf-rank-for-sosical-media-all-tv','Sosmed\ReportController@pdf_rank_for_social_media_all_tv');
-            Route::geT('pdf-sosmed-daily-report','Sosmed\ReportController@pdf_sosmed_daily_report');
+            Route::get('pdf-sosmed-daily-report','Sosmed\ReportController@pdf_sosmed_daily_report');
         });
     });
 });

@@ -65,13 +65,31 @@
                                     </td>
                                     <td>{{number_format($tambahanInews[$a]->tw_kemarin+$of->tw_kemarin)}}</td>
                                     <td>{{number_format($tambahanInews[$a]->tw_sekarang+$of->tw_sekarang)}}</td>
-                                    <td>{{round($of->growth_tw,2)}} %</td>
+                                    <td>
+                                        @if($of->growth_tw>0)
+                                            <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_tw,2)}} % </a>
+                                        @else
+                                            <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_tw,2)}} % </a>
+                                        @endif
+                                    </td>
                                     <td>{{number_format($tambahanInews[$a]->fb_kemarin+$of->fb_kemarin)}}</td>
                                     <td>{{number_format($tambahanInews[$a]->fb_sekarang+$of->fb_sekarang)}}</td>
-                                    <td>{{round($of->growth_fb,2)}} %</td>
+                                    <td>
+                                        @if($of->growth_fb>0)
+                                            <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_fb,2)}} % </a>
+                                        @else
+                                            <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_fb,2)}} % </a>
+                                        @endif
+                                    </td>
                                     <td>{{number_format($tambahanInews[$a]->ig_kemarin+$of->ig_kemarin)}}</td>
                                     <td>{{number_format($tambahanInews[$a]->ig_sekarang+$of->ig_sekarang)}}</td>
-                                    <td>{{round($of->growth_ig,2)}} %</td>
+                                    <td>
+                                        @if($of->growth_ig>0)
+                                            <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_ig,2)}} % </a>
+                                        @else
+                                            <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_ig,2)}} % </a>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endif
                         @endfor
@@ -82,13 +100,31 @@
                             </td>
                             <td>{{number_format($of->tw_kemarin)}}</td>
                             <td>{{number_format($of->tw_sekarang)}}</td>
-                            <td>{{round($of->growth_tw,2)}} %</td>
+                            <td>
+                                @if($of->growth_tw>0)
+                                    <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_tw,2)}} % </a>
+                                @else
+                                    <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_tw,2)}} % </a>
+                                @endif
+                            </td>
                             <td>{{number_format($of->fb_kemarin)}}</td>
                             <td>{{number_format($of->fb_sekarang)}}</td>
-                            <td>{{round($of->growth_fb,2)}} %</td>
+                            <td>
+                                @if($of->growth_fb>0)
+                                    <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_fb,2)}} % </a>
+                                @else
+                                    <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_fb,2)}} % </a>
+                                @endif
+                            </td>
                             <td>{{number_format($of->ig_kemarin)}}</td>
                             <td>{{number_format($of->ig_sekarang)}}</td>
-                            <td>{{round($of->growth_ig,2)}} %</td>
+                            <td>
+                                @if($of->growth_ig>0)
+                                    <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_ig,2)}} % </a>
+                                @else
+                                    <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_ig,2)}} % </a>
+                                @endif
+                            </td>
                         </tr>
                     @endif
                 @endif
@@ -107,13 +143,31 @@
                                 </td>
                                 <td>{{number_format($tambahanInews[$a]->tw_kemarin+$of->tw_kemarin)}}</td>
                                 <td>{{number_format($tambahanInews[$a]->tw_sekarang+$of->tw_sekarang)}}</td>
-                                <td>{{round($of->growth_tw,2)}} %</td>
+                                <td>
+                                    @if($of->growth_tw>0)
+                                        <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_tw,2)}} % </a>
+                                    @else
+                                        <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_tw,2)}} % </a>
+                                    @endif
+                                </td>
                                 <td>{{number_format($tambahanInews[$a]->fb_kemarin+$of->fb_kemarin)}}</td>
                                 <td>{{number_format($tambahanInews[$a]->fb_sekarang+$of->fb_sekarang)}}</td>
-                                <td>{{round($of->growth_fb,2)}} %</td>
+                                <td>
+                                    @if($of->growth_fb>0)
+                                        <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_fb,2)}} % </a>
+                                    @else
+                                        <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_fb,2)}} % </a>
+                                    @endif
+                                </td>
                                 <td>{{number_format($tambahanInews[$a]->ig_kemarin+$of->ig_kemarin)}}</td>
                                 <td>{{number_format($tambahanInews[$a]->ig_sekarang+$of->ig_sekarang)}}</td>
-                                <td>{{round($of->growth_ig,2)}} %</td>
+                                <td>
+                                    @if($of->growth_ig>0)
+                                        <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_ig,2)}} % </a>
+                                    @else
+                                        <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_ig,2)}} % </a>
+                                    @endif
+                                </td>
                             </tr>
                         @endif
                     @endfor
@@ -125,13 +179,31 @@
                         </td>
                         <td>{{number_format($of->tw_kemarin)}}</td>
                         <td>{{number_format($of->tw_sekarang)}}</td>
-                        <td>{{round($of->growth_tw,2)}} %</td>
+                        <td>
+                            @if($of->growth_tw>0)
+                                <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_tw,2)}} % </a>
+                            @else
+                                <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_tw,2)}} % </a>
+                            @endif
+                        </td>
                         <td>{{number_format($of->fb_kemarin)}}</td>
                         <td>{{number_format($of->fb_sekarang)}}</td>
-                        <td>{{round($of->growth_fb,2)}} %</td>
+                        <td>
+                            @if($of->growth_fb>0)
+                                <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_fb,2)}} % </a>
+                            @else
+                                <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_fb,2)}} % </a>
+                            @endif
+                        </td>
                         <td>{{number_format($of->ig_kemarin)}}</td>
                         <td>{{number_format($of->ig_sekarang)}}</td>
-                        <td>{{round($of->growth_ig,2)}} %</td>
+                        <td>
+                            @if($of->growth_ig>0)
+                                <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_ig,2)}} % </a>
+                            @else
+                                <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_ig,2)}} % </a>
+                            @endif
+                        </td>
                     </tr>
                 @endif
 
@@ -143,13 +215,31 @@
                                 <td style='color:red'>{{$t->program_name}}</td>
                                 <td>{{number_format($t->tw_kemarin)}}</td>
                                 <td>{{number_format($t->tw_sekarang)}}</td>
-                                <td>{{round($t->growth_tw,2)}} %</td>
+                                <td>
+                                    @if($of->growth_tw>0)
+                                        <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_tw,2)}} % </a>
+                                    @else
+                                        <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_tw,2)}} % </a>
+                                    @endif
+                                </td>
                                 <td>{{number_format($t->fb_kemarin)}}</td>
                                 <td>{{number_format($t->fb_sekarang)}}</td>
-                                <td>{{round($t->growth_fb,2)}} %</td>
+                                <td>
+                                    @if($of->growth_fb>0)
+                                        <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_fb,2)}} % </a>
+                                    @else
+                                        <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_fb,2)}} % </a>
+                                    @endif
+                                </td>
                                 <td>{{number_format($t->ig_kemarin)}}</td>
                                 <td>{{number_format($t->ig_sekarang)}}</td>
-                                <td>{{round($t->growth_ig,2)}} %</td>
+                                <td>
+                                    @if($of->growth_ig>0)
+                                        <a><i class='icon-arrow-up16' style='color:green'></i> {{round($of->growth_ig,2)}} % </a>
+                                    @else
+                                        <a><i class='icon-arrow-down16' style='color:red'></i> {{round($of->growth_ig,2)}} % </a>
+                                    @endif
+                                </td>
                             </tr>
                         @endif
                     @endforeach

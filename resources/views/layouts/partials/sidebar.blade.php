@@ -57,10 +57,33 @@
                     <li><a href="{{URL::to('sosmed/input-report-harian')}}" class="{{ Request::path() == 'sosmed/input-report-harian' ? 'active' : '' }}"><i class="lnr lnr-location"></i> <span>Input Report</span></a></li>
                 @endif
 
-                @if(auth()->user()->can('Backup Excel'))
-                <li><a href="{{URL::to('sosmed/data/backup-excel')}}">
-                        <i class="icon-file-excel"></i> Backup Data
-                    </a>
+                @if(auth()->user()->can('Backup'))
+                <li>
+                    <a href="#subPrint" data-toggle="collapse" class="collapsed"><i class="icon-shredder"></i> <span>Export Data</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <div id="subPrint" class="collapse ">
+                        <ul class="nav">
+                            @if(auth()->user()->can('Pdf Daily Report'))
+                            <li><a href="{{URL::to('sosmed/daily-report')}}">
+                                    Daily Report
+                                </a>
+                            </li>
+                            @endif 
+
+                            @if(auth()->user()->can('Pdf Rank'))
+                            <li><a href="{{URL::to('sosmed/ranking-soc-med')}}">
+                                    Rank Social Media
+                                </a>
+                            </li>
+                            @endif 
+
+                            @if(auth()->user()->can('Backup Excel'))
+                                <li><a href="{{URL::to('sosmed/data/backup-excel')}}">
+                                        <i class="icon-file-excel"></i> Backup Data
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
                 </li>
                 @endif
             </ul>
