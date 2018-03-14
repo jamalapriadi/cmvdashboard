@@ -20,7 +20,7 @@
                 <ul class="nav nav-tabs nav-tabs-highlight">
                     <li class="active"><a href="#highlight-tab1" data-toggle="tab">TARGET VS ACHIEVEMENT</a></li>
                     <li><a href="#highlighted-tab2" data-toggle="tab">OFFICIAL ACCOUNT ALL TV</a></li>
-                    <li><a href="#highlighted-tab3" data-toggle="tab">SOSMED OFFICIAL AND PROGRAM</a></li>
+                    <li><a href="#highlighted-tab3" data-toggle="tab">SOCMED OFFICIAL AND PROGRAM</a></li>
                     <li><a href="#highlighted-tab4" data-toggle="tab">DETAIL OFFICIAL AND PROGRAM</a></li>
                     
                 </ul>

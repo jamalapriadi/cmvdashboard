@@ -245,9 +245,13 @@
     $arrFb2=array();
     $arrIg2=array();
     foreach($rankOfOfficialAccountAllTvByFollowers as $k){
-        array_push($arrTw2,$k->tw_sekarang);
-        array_push($arrFb2,$k->fb_sekarang);
-        array_push($arrIg2,$k->ig_sekarang);
+        if($k->id==4){
+
+        }else{
+            array_push($arrTw2,$k->tw_sekarang);
+            array_push($arrFb2,$k->fb_sekarang);
+            array_push($arrIg2,$k->ig_sekarang);
+        }
     }
     $rankTw2=$arrTw2;
     $rankFb2=$arrFb2;

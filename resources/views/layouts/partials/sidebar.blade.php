@@ -1,7 +1,7 @@
 <div class="sidebar">
     <div class="brand">
         <a href="{{URL::to('home')}}">
-            <img src="{{URL::asset('klorofil/img/logo.png')}}" alt="Klorofil Logo" class="img-responsive logo">
+            <img src="{{URL::asset('klorofil/img/mnc.png')}}" alt="Klorofil Logo" class="img-responsive logo">
         </a>
     </div>
     <div class="sidebar-scroll">
