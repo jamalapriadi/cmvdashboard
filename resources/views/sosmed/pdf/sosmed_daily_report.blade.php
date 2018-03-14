@@ -261,38 +261,40 @@
                                 @endif
                             @endfor
                         @else   
-                            <tr style="{{$color}}">
-                                <td>
-                                    {{$nama}}
-                                </td>
-                                <td>{{number_format($of->tw_kemarin)}}</td>
-                                <td>{{number_format($of->tw_sekarang)}}</td>
-                                <td>
-                                    @if($of->growth_tw>0)
-                                        <a style="color:green;"> {{round($of->growth_tw,2)}} % </a>
-                                    @else
-                                        <a style="color:red;"> {{round($of->growth_tw,2)}} % </a>
-                                    @endif
-                                </td>
-                                <td>{{number_format($of->fb_kemarin)}}</td>
-                                <td>{{number_format($of->fb_sekarang)}}</td>
-                                <td>
-                                    @if($of->growth_fb>0)
-                                        <a style="color:green;"> {{round($of->growth_fb,2)}} % </a>
-                                    @else
-                                        <a style="color:red;"> {{round($of->growth_fb,2)}} % </a>
-                                    @endif
-                                </td>
-                                <td>{{number_format($of->ig_kemarin)}}</td>
-                                <td>{{number_format($of->ig_sekarang)}}</td>
-                                <td>
-                                    @if($of->growth_ig>0)
-                                        <a style="color:green;"> {{round($of->growth_ig,2)}} % </a>
-                                    @else
-                                        <a style="color:red;"> {{round($of->growth_ig,2)}} % </a>
-                                    @endif
-                                </td>
-                            </tr>
+                            @if($of->group_id!=5)
+                                <tr style="{{$color}}">
+                                    <td>
+                                        {{$nama}}
+                                    </td>
+                                    <td>{{number_format($of->tw_kemarin)}}</td>
+                                    <td>{{number_format($of->tw_sekarang)}}</td>
+                                    <td>
+                                        @if($of->growth_tw>0)
+                                            <a style="color:green;"> {{round($of->growth_tw,2)}} % </a>
+                                        @else
+                                            <a style="color:red;"> {{round($of->growth_tw,2)}} % </a>
+                                        @endif
+                                    </td>
+                                    <td>{{number_format($of->fb_kemarin)}}</td>
+                                    <td>{{number_format($of->fb_sekarang)}}</td>
+                                    <td>
+                                        @if($of->growth_fb>0)
+                                            <a style="color:green;"> {{round($of->growth_fb,2)}} % </a>
+                                        @else
+                                            <a style="color:red;"> {{round($of->growth_fb,2)}} % </a>
+                                        @endif
+                                    </td>
+                                    <td>{{number_format($of->ig_kemarin)}}</td>
+                                    <td>{{number_format($of->ig_sekarang)}}</td>
+                                    <td>
+                                        @if($of->growth_ig>0)
+                                            <a style="color:green;"> {{round($of->growth_ig,2)}} % </a>
+                                        @else
+                                            <a style="color:red;"> {{round($of->growth_ig,2)}} % </a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endif
                         @endif
                     @endif
                 @else 
@@ -448,14 +450,16 @@
                             $nama=$of->group_name;
                             $color="background:#f2eff2;color:#222;font-weight:700";
                         ?>
-                        <tr style="{{$color}}">
-                            <td>
-                                {{$nama}}
-                            </td>
-                            <td>{{number_format($of->total_tw_sekarang)}}</td>
-                            <td>{{number_format($of->total_fb_sekarang)}}</td>
-                            <td>{{number_format($of->total_ig_sekarang)}}</td>
-                        </tr>
+                        @if($of->group_id!=5)
+                            <tr style="{{$color}}">
+                                <td>
+                                    {{$nama}}
+                                </td>
+                                <td>{{number_format($of->total_tw_sekarang)}}</td>
+                                <td>{{number_format($of->total_fb_sekarang)}}</td>
+                                <td>{{number_format($of->total_ig_sekarang)}}</td>
+                            </tr>
+                        @endif
                     @endif
                 @else 
                     <?php 

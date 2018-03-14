@@ -22,7 +22,7 @@
                     <li><a href="#highlighted-tab2" data-toggle="tab">OFFICIAL ACCOUNT ALL TV</a></li>
                     <li><a href="#highlighted-tab3" data-toggle="tab">SOCMED OFFICIAL AND PROGRAM</a></li>
                     <li><a href="#highlighted-tab4" data-toggle="tab">DETAIL OFFICIAL AND PROGRAM</a></li>
-                    
+                    <li><a href="#highlighted-tab5" data-toggle="tab">RANKING</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -161,6 +161,10 @@
                         <div class="table-responsive">
                             <div id="officialAndProgram"></div>
                         </div>
+                    </div>
+
+                    <div class="tab-pane" id="highlighted-tab5">
+                        <div id="rangAllAccountGroup"></div>
                     </div>
                 </div>
             </div>
@@ -351,13 +355,34 @@
                 officialAndProgram();
             });
 
-
-            
-
             targetVsAchievement();
             officialAccountAllTv();
             sosmedOfficialAndProgram();
             officialAndProgram();
+
+
+            /* ranking */
+            function rangAllAccountGroup(){
+                var tanggal=$("#tanggal5").val();
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/report/rank-of-official-account-all-group')}}",
+                    type:"GET",
+                    data:"tanggal="+tanggal,
+                    beforeSend:function(){
+                        $("#rangAllAccountGroup").empty().html("<div class='alert alert-info'>Please Wait . . .</div>");
+                    },
+                    success:function(result){
+                        $("#rangAllAccountGroup").empty().append(result);
+                    },
+                    error:function(){
+
+                    }
+                })
+            }
+
+            /* rank */
+            rangAllAccountGroup();
 
             $(document).on("click","#exportpdf",function(){
                 var el="";

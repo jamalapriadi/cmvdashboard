@@ -246,7 +246,13 @@
     $arrIg2=array();
     foreach($rankOfOfficialAccountAllTvByFollowers as $k){
         if($k->id==4){
-
+            foreach($tambahanInews as $in){
+                if($in->id=="TOTAL"){
+                    array_push($arrTw2,$in->tw_sekarang);
+                    array_push($arrFb2,$in->fb_sekarang);
+                    array_push($arrIg2,$in->ig_sekarang);        
+                }
+            }
         }else{
             array_push($arrTw2,$k->tw_sekarang);
             array_push($arrFb2,$k->fb_sekarang);
@@ -292,31 +298,69 @@
                     $colorTw="";
                     $colorFb="";
                     $colorIg="";
-                    
-                    if(($rankTw2[$row->tw_sekarang] + 1)==1 || ($rankTw2[$row->tw_sekarang] + 1)==2 || ($rankTw2[$row->tw_sekarang] + 1)==3){
-                        $colorTw="#f4a018";
-                    }
-
-                    if(($rankFb2[$row->fb_sekarang] + 1)==1 || ($rankFb2[$row->fb_sekarang] + 1)==2 || ($rankFb2[$row->fb_sekarang] + 1)==3){
-                        $colorFb="#f4a018";
-                    }
-
-                    if(($rankIg2[$row->ig_sekarang] + 1)==1 || ($rankIg2[$row->ig_sekarang] + 1)==2 || ($rankIg2[$row->ig_sekarang] + 1)==3){
-                        $colorIg="#f4a018";
-                    }
                 ?>
-                <tr>
-                    <th>{{$row->unit_name}}</th>
-                    <th>{{round($row->growth_tw,2)}} %</th>
-                    <th>{{number_format($row->tw_sekarang)}}</th>
-                    <th style="background:{{$colorTw}}">{{($rankTw2[$row->tw_sekarang] + 1)}}</th>
-                    <th>{{round($row->growth_fb,2)}} %</th>
-                    <th>{{number_format($row->fb_sekarang)}}</th>
-                    <th style="background:{{$colorFb}}">{{($rankFb2[$row->fb_sekarang] + 1)}}</th>
-                    <th>{{round($row->growth_ig,2)}} %</th>
-                    <th>{{number_format($row->ig_sekarang)}}</th>
-                    <th style="background:{{$colorIg}}">{{($rankIg2[$row->ig_sekarang] + 1)}}</th>
-                </tr>
+
+                @if($row->id==4)
+                    @foreach($tambahanInews as $in)
+                        @if($in->id=="TOTAL")
+                            @if(($rankTw2[$in->tw_sekarang] + 1)==1 || ($rankTw2[$in->tw_sekarang] + 1)==2 || ($rankTw2[$in->tw_sekarang] + 1)==3)
+                                <?php $colorTw="#f4a018";?>
+                            @endif
+
+                            @if(($rankFb2[$in->fb_sekarang] + 1)==1 || ($rankFb2[$in->fb_sekarang] + 1)==2 || ($rankFb2[$in->fb_sekarang] + 1)==3)
+                                <?php $colorFb="#f4a018";?>
+                            @endif
+
+                            @if(($rankIg2[$in->ig_sekarang] + 1)==1 || ($rankIg2[$in->ig_sekarang] + 1)==2 || ($rankIg2[$in->ig_sekarang] + 1)==3)
+                                <?php $colorIg="#f4a018";?>
+                            @endif
+                        @endif
+                    @endforeach
+                @else 
+                    @if(($rankTw2[$row->tw_sekarang] + 1)==1 || ($rankTw2[$row->tw_sekarang] + 1)==2 || ($rankTw2[$row->tw_sekarang] + 1)==3)
+                        <?php $colorTw="#f4a018";?>
+                    @endif
+
+                    @if(($rankFb2[$row->fb_sekarang] + 1)==1 || ($rankFb2[$row->fb_sekarang] + 1)==2 || ($rankFb2[$row->fb_sekarang] + 1)==3)
+                        <?php $colorFb="#f4a018";?>
+                    @endif
+
+                    @if(($rankIg2[$row->ig_sekarang] + 1)==1 || ($rankIg2[$row->ig_sekarang] + 1)==2 || ($rankIg2[$row->ig_sekarang] + 1)==3)
+                        <?php $colorIg="#f4a018";?>
+                    @endif
+                @endif
+
+                @if($row->id==4)
+                    @foreach($tambahanInews as $ins)
+                        @if($ins->id=="TOTAL")
+                            <tr>
+                                <th>{{$row->unit_name}}</th>
+                                <th>{{round($ins->growth_tw,2)}} %</th>
+                                <th>{{number_format($ins->tw_sekarang)}}</th>
+                                <th style="background:{{$colorTw}}">{{($rankTw2[$ins->tw_sekarang] + 1)}}</th>
+                                <th>{{round($ins->growth_fb,2)}} %</th>
+                                <th>{{number_format($ins->fb_sekarang)}}</th>
+                                <th style="background:{{$colorFb}}">{{($rankFb2[$ins->fb_sekarang] + 1)}}</th>
+                                <th>{{round($ins->growth_ig,2)}} %</th>
+                                <th>{{number_format($ins->ig_sekarang)}}</th>
+                                <th style="background:{{$colorIg}}">{{($rankIg2[$ins->ig_sekarang] + 1)}}</th>
+                            </tr>
+                        @endif
+                    @endforeach
+                @else
+                    <tr>
+                        <th>{{$row->unit_name}}</th>
+                        <th>{{round($row->growth_tw,2)}} %</th>
+                        <th>{{number_format($row->tw_sekarang)}}</th>
+                        <th style="background:{{$colorTw}}">{{($rankTw2[$row->tw_sekarang] + 1)}}</th>
+                        <th>{{round($row->growth_fb,2)}} %</th>
+                        <th>{{number_format($row->fb_sekarang)}}</th>
+                        <th style="background:{{$colorFb}}">{{($rankFb2[$row->fb_sekarang] + 1)}}</th>
+                        <th>{{round($row->growth_ig,2)}} %</th>
+                        <th>{{number_format($row->ig_sekarang)}}</th>
+                        <th style="background:{{$colorIg}}">{{($rankIg2[$row->ig_sekarang] + 1)}}</th>
+                    </tr>
+                @endif
             @endforeach
         </tbody>
     </table>
@@ -534,9 +578,11 @@
     foreach($rankOfOfficialAccountAllTvByFollowers as $k){
         if($k->id==4){
             foreach($tambahanInews as $in){
-                array_push($arrTw4,(string)($k->growth_tw+$in->growth_tw));
-                array_push($arrFb4,(string)($k->growth_fb+$in->growth_fb));
-                array_push($arrIg4,(string)($k->growth_ig+$in->growth_ig));    
+                if($in->id=="TOTAL"){
+                    array_push($arrTw4,(string)($in->growth_tw));
+                    array_push($arrFb4,(string)($in->growth_fb));
+                    array_push($arrIg4,(string)($in->growth_ig));    
+                }
             }
         }else{
             array_push($arrTw4,(string)$k->growth_tw);
@@ -585,7 +631,21 @@
                     $colorIg="";
                 ?>
                 @if($row->id==4)
-                    
+                    @foreach($tambahanInews as $in)
+                        @if($in->id=="TOTAL")
+                            @if(($rankTw4[$in->growth_tw] + 1)==1 || ($rankTw4[$in->growth_tw] + 1)==2 || ($rankTw4[$in->growth_tw] + 1)==3)
+                                <?php $colorTw="#f4a018";?>
+                            @endif
+
+                            @if(($rankFb4[$in->growth_fb] + 1)==1 || ($rankFb4[$in->growth_fb] + 1)==2 || ($rankFb4[$in->growth_fb] + 1)==3)
+                                <?php $colorFb="#f4a018";?>
+                            @endif
+
+                            @if(($rankIg4[$in->growth_ig] + 1)==1 || ($rankIg4[$in->growth_ig] + 1)==2 || ($rankIg4[$in->growth_ig] + 1)==3)
+                                <?php $colorIg="#f4a018";?>
+                            @endif
+                        @endif
+                    @endforeach
                 @else 
                     @if(($rankTw4[(string)$row->growth_tw] + 1)==1 || ($rankTw4[(string)$row->growth_tw] + 1)==2 || ($rankTw4[(string)$row->growth_tw] + 1)==3)
                         <?php $colorTw="#f4a018"; ?>
@@ -598,7 +658,28 @@
                     @if(($rankIg4[(string)$row->growth_ig] + 1)==1 || ($rankIg4[(string)$row->growth_ig] + 1)==2 || ($rankIg4[(string)$row->growth_ig] + 1)==3)
                         $colorIg="#f4a018";
                     @endif
+                @endif
 
+
+                <!-- tampil -->
+                @if($row->id==4)
+                    @foreach($tambahanInews as $ins)
+                        @if($ins->id=="TOTAL")
+                            <tr>
+                                <th>{{$row->unit_name}}</th>
+                                <th>{{number_format($ins->num_of_growth_tw)}}</th>
+                                <th>{{round($ins->growth_tw,2)}} %</th>
+                                <th style="background:{{$colorTw}}">{{($rankTw4[(string)$ins->growth_tw] + 1)}}</th>
+                                <th>{{number_format($ins->num_of_growth_fb)}}</th>
+                                <th>{{round($ins->growth_fb,2)}} %</th>
+                                <th style="background:{{$colorFb}}">{{($rankFb4[(string)$ins->growth_fb] + 1)}}</th>
+                                <th>{{number_format($ins->num_of_growth_ig)}}</th>
+                                <th>{{round($ins->growth_ig,2)}} %</th>
+                                <th style="background:{{$colorIg}}">{{($rankIg4[(string)$ins->growth_ig] + 1)}}</th>
+                            </tr>
+                        @endif
+                    @endforeach
+                @else 
                     <tr>
                         <th>{{$row->unit_name}}</th>
                         <th>{{number_format($row->num_of_growth_tw)}}</th>
