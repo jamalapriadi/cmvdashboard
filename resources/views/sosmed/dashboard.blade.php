@@ -164,6 +164,26 @@
                     </div>
 
                     <div class="tab-pane" id="highlighted-tab5">
+                        <form id="formRangking" onsubmit="return false">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Periode</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                            <input type="text" name="tanggal" id="tanggal5" class="form-control daterange-single">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button class='btn btn-primary' style="margin-top:25px;">
+                                        <i class="icon-filter4"></i> &nbsp;
+                                        Filter 
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
                         <div id="rangAllAccountGroup"></div>
                     </div>
                 </div>
@@ -383,6 +403,10 @@
 
             /* rank */
             rangAllAccountGroup();
+
+            $(document).on("submit","#formRangking",function(){
+                rangAllAccountGroup(); 
+            })
 
             $(document).on("click","#exportpdf",function(){
                 var el="";
