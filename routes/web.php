@@ -31,6 +31,9 @@ Route::group(['prefix'=>'sosmed'],function(){
     Route::get('input-report-harian','HomeController@sosmed_input_report_harian');
     Route::get('add-new-report-harian','HomeController@add_new_report_harian');
 
+    Route::get('daily-report','HomeController@sosmed_daily_report');
+    Route::get('ranking-soc-med','HomeController@sosmed_ranking_soc_med');
+
     Route::get('role','HomeController@role');
     Route::get('role/{id}/permission','HomeController@permission');
     Route::get('user','HomeController@user');
@@ -72,6 +75,11 @@ Route::group(['prefix'=>'sosmed'],function(){
         Route::get('daily-report','Sosmed\ProgramunitController@daily_report');
         Route::get('daily-report/{id}','Sosmed\ProgramunitController@daily_report_by_id');
         Route::put('daily-report/{id}','Sosmed\ProgramunitController@daily_report_update');
+        Route::delete('daily-report/{id}','Sosmed\ProgramunitController@daily_report_destroy');
+        Route::post('import-daily-report','Sosmed\ProgramunitController@daily_report_import');
+        Route::get('sample-daily-report','Sosmed\ProgramunitController@daily_report_sample');
+
+        Route::get('backup-excel','Sosmed\ProgramunitController@import');
 
         Route::group(['prefix'=>'report'],function(){
             Route::get('target-vs-achievement','Sosmed\ReportController@target_vs_achievement');
@@ -84,8 +92,13 @@ Route::group(['prefix'=>'sosmed'],function(){
             Route::get('rank-growth-from-yesterday-official-account-all-tv','Sosmed\ReportController@rank_growth_from_yesterday_all_tv');
             Route::get('rank-growth-from-yesterday-official-group','Sosmed\ReportController@rank_growth_from_yesterday_group');
             Route::get('rank-overall-account-all-tv-by-total-followers','Sosmed\ReportController@rank_overall_account_all_tv_by_total_followers');
+            Route::get('rank-of-overall-all-group-by-followers','Sosmed\ReportController@rank_of_overall_all_group_by_follower');
+            Route::get('rank-of-official-account-among-4tv','Sosmed\ReportController@rank_of_official_account_among_4tv');
 
             Route::get('summary-program-by-id/{id}','Sosmed\ReportController@summary_program_by_id');
+
+            Route::get('pdf-rank-for-sosical-media-all-tv','Sosmed\ReportController@pdf_rank_for_social_media_all_tv');
+            Route::get('pdf-sosmed-daily-report','Sosmed\ReportController@pdf_sosmed_daily_report');
         });
     });
 });

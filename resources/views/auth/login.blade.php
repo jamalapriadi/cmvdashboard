@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="header">
-        <div class="logo text-center"><img src="{{URL::asset('klorofil/img/logo-dark.png')}}" alt="Klorofil Logo"></div>
+        <div class="logo text-center"><img src="{{URL::asset('klorofil/img/mnc2.png')}}" alt="Klorofil Logo" style="width:140px;"></div>
         <p class="lead">Login to your account</p>
     </div>
     <form class="form-auth-small" method="POST" action="{{ route('login') }}">

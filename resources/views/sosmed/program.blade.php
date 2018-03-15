@@ -36,8 +36,8 @@
                 <i class="icon-add"></i> &nbsp;
                 Add New Program
             </a>
-            <br><br>
             @endif
+            <br><br>
 
             <fieldset>
                 <legend>Filter</legend>

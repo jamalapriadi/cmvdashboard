@@ -518,6 +518,7 @@ class ProgramunitController extends Controller
                     $new->tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
                     $new->unit_sosmed_id=$k;
                     $new->follower=$v;
+                    $new->insert_user=\Auth::user()->email;
                     $new->save();
                 }
 
@@ -535,11 +536,16 @@ class ProgramunitController extends Controller
 
     public function daily_report(Request $request){
         if($request->has('periode')){
-
+            $pecah=explode("-", $request->input('periode'));
+            $kemarin=date('Y-m-d',strtotime($pecah[0]));
+            $sekarang=date('Y-m-d',strtotime($pecah[1]));
         }else{
             $sekarang=date('Y-m-d');
-            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+            $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
         }
+
+        \DB::statement(\DB::raw('set @rownum=0'));
+
         $daily=\App\Models\Sosmed\Unitsosmedfollower::with(
             [
                 'unitsosmed',
@@ -549,11 +555,95 @@ class ProgramunitController extends Controller
                 'unitsosmed.program.businessunit'
             ]
         )->whereHas('unitsosmed')
+        ->select('id','unit_sosmed_id','tanggal',
+        'follower','insert_user','update_user','created_at','updated_at',
+        \DB::raw('@rownum := @rownum + 1 AS no'))
         ->whereBetween('tanggal',[$kemarin,$sekarang]);
 
-        $daily=$daily->get();
+        if(auth()->user()->can('All Daily Report')){
+            
+        }else{
+            $daily=$daily->where('insert_user',\Auth::user()->email);
+        }
 
-        return $daily;
+        if($request->has('unit') && $request->input('unit')!=null){
+            $unit=$request->input('unit');
+
+            $daily=$daily->whereHas('unitsosmed.program.businessunit',function($r) use($unit){
+                $r->where('id',$unit);
+            });
+        }
+
+        return \DataTables::of($daily)
+            ->addColumn('unit',function($q){
+                if($q->unitsosmed!=null){
+                    if($q->unitsosmed->type_sosmed=="corporate"){
+                        if($q->unitsosmed->businessunit!=null){
+                            $html=$q->unitsosmed->businessunit->unit_name;
+                        }else{
+                            $html='-';
+                        }
+                    }else if($q->unitsosmed->type_sosmed="program"){
+                        if($q->unitsosmed->program!=null){
+                            $html=$q->unitsosmed->program->businessunit->unit_name;
+                        }else{
+                            $html='-';
+                        }
+                    }else{
+                        $html="<label class='label label-alert'>Type Sosmed Not Found</label>";
+                    }
+                }else{
+                    $html="<label class='label label-alert'>Unit Sosmed Not Found</label>";
+                }
+
+                return $html;
+            })
+            ->addColumn('program',function($q){
+                if($q->unitsosmed!=null){
+                    if($q->unitsosmed->type_sosmed=="corporate"){
+                        if($q->unitsosmed->businessunit!=null){
+                            $html=$q->unitsosmed->businessunit->unit_name;
+                        }else{
+                            $html='-';
+                        }
+                    }else if($q->unitsosmed->type_sosmed=="program"){
+                        if($q->unitsosmed->program!=null){
+                            $html=$q->unitsosmed->program->program_name;
+                        }else{
+                            $html='-';
+                        }
+                    }
+                }else{
+                    $html="<label class='label label-alert'>Salah</label>";
+                }
+
+                return $html;
+            })
+            ->addColumn('follow',function($q){
+                if($q->follower!=null){
+                    $html=number_format($q->follower,2);
+                }else{
+                    $html='<label class="label label-danger">Set Follower</label>';
+                }
+
+                return $html;
+            })
+            ->addColumn('action',function($query){
+                $html="<div class='btn-group' data-toggle='buttons'>";
+                if(auth()->user()->can('Edit Daily Report')){
+                    $html.="<a href='#' class='btn btn-sm btn-warning editfollower' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
+                }
+                
+                if(auth()->user()->can('Delete Daily Report')){
+                    $html.="<a href='#' class='btn btn-sm btn-danger hapusfollower' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
+                }
+                
+                $html.="</div>";
+
+                return $html;
+            })
+            ->rawColumns(['unit','program','follower','action','follow'])
+            ->make(true);
     }
 
     public function daily_report_by_id($id){
@@ -586,10 +676,21 @@ class ProgramunitController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
+            $old=\App\Models\Sosmed\Unitsosmedfollower::find($id);
             $new=\App\Models\Sosmed\Unitsosmedfollower::find($id);
             $new->tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
             $new->follower=$request->input('follower');
-            $new->update_user=\Auth::user()->id;
+            $new->update_user=\Auth::user()->email;
+
+            $update=new \App\Models\Sosmed\Unitsosmedactivity;
+            $update->on_page="Daily Report";
+            $update->relasi_id=$id;
+            $update->description=\Auth::user()->name." Mengupdate Data Follower";
+            $update->tanggal=$old->tanggal;
+            $update->follower=$old->follower;
+            $update->insert_user=\Auth::user()->email;
+            $update->save();
+
             $new->save();
 
             $data=array(
@@ -598,6 +699,96 @@ class ProgramunitController extends Controller
                 'error'=>''
             );
             
+        }
+
+        return $data;
+    }
+
+    public function daily_report_destroy($id){
+        $new=\App\Models\Sosmed\Unitsosmedfollower::find($id);
+
+        $hapus=$new->delete();
+
+        if($hapus){
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil dihapus',
+                'error'=>''
+            );
+        }else{
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Data gagal berhasil dihapus',
+                'error'=>''
+            );
+        }
+
+        return $data;
+    }
+
+    public function daily_report_sample(Request $request){
+        $unitsosmed=\App\Models\Sosmed\Unitsosmed::select('id','type_sosmed','business_program_unit','sosmed_id','unit_sosmed_name','target_use')
+            ->get();
+
+        $unitfollower=\App\Models\Sosmed\Unitsosmedfollower::select('id','unit_sosmed_id','tanggal','follower')->limit(5)->get();
+
+        return \Excel::create('daily report'.date('Y-m-d H:i:s'),function($excel) use($unitsosmed,$unitfollower){
+            $excel->sheet('sheet1',function($sheet) use($unitfollower){
+                $sheet->fromArray($unitfollower);
+            });
+
+            $excel->sheet('unit_sosmed',function($sheet) use($unitsosmed){
+                $sheet->fromArray($unitsosmed);
+            });
+            
+
+        })->export('xlsx');
+    }
+
+    public function daily_report_import(Request $request){
+        $rules=['file'=>'required'];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi Error',
+                'error'=>$validasi->errors()->all()
+            );
+        }else{
+            $file=$request->file('file');
+
+            $excels=\Excel::selectSheets('sheet1')->load($file,function($reader){})->get();
+
+            $list=array();
+            foreach($excels as $key=>$val){
+                array_push($list,$val['unit_sosmed_id']);
+            }
+
+            $pesan=array();
+            foreach($excels as $k=>$v){
+                $cekfollower=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',date('Y-m-d',strtotime($v['tanggal'])))
+                    ->where('unit_sosmed_id',$val['unit_sosmed_id'])
+                    ->get();
+                
+                if(count($cekfollower)>0){
+                    continue;
+                }
+
+                $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                $new->tanggal=date('Y-m-d',strtotime($v['tanggal']));
+                $new->unit_sosmed_id=$v['unit_sosmed_id'];
+                $new->follower=$v['follower'];
+                $new->insert_user=\Auth::user()->email;
+                $new->save();
+            }
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>$pesan,
+                'error'=>''
+            );
         }
 
         return $data;
@@ -659,5 +850,54 @@ class ProgramunitController extends Controller
         }
 
         return array('program'=>$program,'result'=>$data);
+    }
+
+    public function import(Request $request){
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+
+        $unit=\App\Models\Sosmed\Businessunit::select('id','group_unit_id','unit_name')->get();
+
+        $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
+
+        $var = \App\Models\Sosmed\Programunit::select('id','business_unit_id','program_name')
+            ->get();
+
+        $unitsosmed=\App\Models\Sosmed\Unitsosmed::select('id','type_sosmed','business_program_unit','sosmed_id','unit_sosmed_name','target_use')
+            ->get();
+
+        $unitfollower=\App\Models\Sosmed\Unitsosmedfollower::select('id','unit_sosmed_id','tanggal','follower')->get();
+
+        $unittarget=\App\Models\Sosmed\Unitsosmedtarget::select('id','unit_sosmed_id','tahun','target')->get();
+
+        return \Excel::create('backup'.date('Y-m-d H:i:s'),function($excel) use($var,$unitsosmed,$group,$unit,$sosmed,$unitfollower,$unittarget){
+            $excel->sheet('group',function($sheet) use($group){
+                $sheet->fromArray($group);
+            });
+
+            $excel->sheet('unit',function($sheet) use($unit){
+                $sheet->fromArray($unit);
+            });
+
+            $excel->sheet('sosmed',function($sheet) use($sosmed){
+                $sheet->fromArray($sosmed);
+            });
+
+            $excel->sheet('program',function($sheet) use($var){
+                $sheet->fromArray($var);
+            });
+
+            $excel->sheet('unit_sosmed',function($sheet) use($unitsosmed){
+                $sheet->fromArray($unitsosmed);
+            });
+
+            $excel->sheet('unit_sosmedfollower',function($sheet) use($unitfollower){
+                $sheet->fromArray($unitfollower);
+            });
+
+            $excel->sheet('unit_sosmedtarget',function($sheet) use($unittarget){
+                $sheet->fromArray($unittarget);
+            });
+
+        })->export('xlsx');
     }
 }

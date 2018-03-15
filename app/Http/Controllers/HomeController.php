@@ -87,9 +87,17 @@ class HomeController extends Controller
 
     public function sosmed_input_report_harian(){
         $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
+        $sekarang=date('Y-m-d');
+        $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
 
         return view('sosmed.input_report_harian')
-            ->with('sosmed',$sosmed);
+            ->with('sosmed',$sosmed)
+            ->with('group',$group)
+            ->with('unit',$unit)
+            ->with('sekarang',$sekarang)
+            ->with('kemarin',$kemarin);
     }
 
     public function add_new_report_harian(){
@@ -103,6 +111,34 @@ class HomeController extends Controller
 
     public function sosmed_rangking(){
         return view('sosmed.rangking');
+    }
+
+    public function sosmed_daily_report(Request $request){
+        if($request->has('tanggal')){
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }else{
+            $sekarang=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }
+
+        return view('sosmed.daily_report')
+            ->with('sekarang',$sekarang)
+            ->with('kemarin',$kemarin);
+    }
+
+    public function sosmed_ranking_soc_med(Request $request){
+        if($request->has('tanggal')){
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }else{
+            $sekarang=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        }
+
+        return view('sosmed.ranking_soc_med')
+            ->with('sekarang',$sekarang)
+            ->with('kemarin',$kemarin);
     }
 
     public function official_and_program(Request $request){
