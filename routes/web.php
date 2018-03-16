@@ -102,3 +102,52 @@ Route::group(['prefix'=>'sosmed'],function(){
         });
     });
 });
+
+Route::group(['prefix'=>'cmv'],function(){
+    Route::get('/','Dashboard\CmvController@index');
+    Route::get('sector','Dashboard\CmvController@sector');
+    Route::get('category','Dashboard\CmvController@category');
+    Route::get('brand','Dashboard\CmvController@brand');
+    Route::get('demography','Dashboard\CmvController@demography');
+    Route::get('demography/{id}/sub','Dashboard\CmvController@sub_demography');
+    Route::get('variabel','Dashboard\CmvController@variabel');
+
+    Route::group(['prefix'=>'data'],function(){
+        Route::resource('sector','Dashboard\Cmv\SectorController');
+        Route::post('import-sector','Dashboard\Cmv\SectorController@import');
+        Route::get('sample-sector','Dashboard\Cmv\SectorController@sample');
+        Route::get('export-sector','Dashboard\Cmv\SectorController@export');
+        Route::get('list-sector','Dashboard\Cmv\SectorController@list_sector');
+
+        Route::resource('category','Dashboard\Cmv\CategoryController');
+        Route::post('import-category','Dashboard\Cmv\CategoryController@import');
+        Route::get('sample-category','Dashboard\Cmv\CategoryController@sample');
+        Route::get('export-category','Dashboard\Cmv\CategoryController@export');
+        Route::get('list-category','Dashboard\Cmv\CategoryController@list_category');
+
+        Route::resource('brand','Dashboard\Cmv\BrandController');
+        Route::post('filter-brand','Dashboard\Cmv\BrandController@filter_brand');
+        Route::post('import-brand','Dashboard\Cmv\BrandController@import');
+        Route::get('sample-brand','Dashboard\Cmv\BrandController@sample');
+        Route::get('export-brand','Dashboard\Cmv\BrandController@export');
+        Route::get('list-brand','Dashboard\Cmv\BrandController@list_brand');
+
+        Route::resource('demography','Dashboard\Cmv\DemographyController');
+        Route::post('import-demography','Dashboard\Cmv\DemographyController@import');
+        Route::get('sample-demography','Dashboard\Cmv\DemographyController@sample');
+        Route::get('export-demography','Dashboard\Cmv\DemographyController@export');
+
+        Route::resource('sub-demography','Dashboard\Cmv\SubdemographyController');
+        Route::post('import-sub-demography','Dashboard\Cmv\SubdemographyController@import');
+        Route::get('sample-sub-demography','Dashboard\Cmv\SubdemographyController@sample');
+        Route::get('export-sub-demography','Dashboard\Cmv\SubdemographyController@export');
+
+        Route::resource('variabel','Dashboard\Cmv\VariabelController');
+        Route::post('filter-variabel','Dashboard\Cmv\VariabelController@filter_variabel');
+        Route::post('import-variabel','Dashboard\Cmv\VariabelController@import');
+        Route::get('sample-variabel','Dashboard\Cmv\VariabelController@sample');
+        Route::get('export-variabel','Dashboard\Cmv\VariabelController@export');
+
+        Route::get('search','Dashboard\Cmv\VariabelController@search');
+    });
+});
