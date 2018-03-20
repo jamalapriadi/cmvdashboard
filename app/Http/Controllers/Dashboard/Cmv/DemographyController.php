@@ -22,7 +22,7 @@ class DemographyController extends Controller
         return \DataTables::of($demo)
             ->addColumn('action',function($query){
                 $html="<div class='btn-group'>";
-                $html.="<a href='".\URL::to('mam/cmv/demography/'.$query->id.'/sub')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Role'><i class='icon-gear'></i></a>";
+                $html.="<a href='".\URL::to('cmv/demography/'.$query->id.'/sub')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Role'><i class='icon-gear'></i></a>";
                 $html.="<a href='#' class='btn btn-sm btn-warning editdemo' kode='".$query->id."' title='Role'><i class='icon-pencil4'></i></a>";
                 $html.="<a href='#' class='btn btn-sm btn-danger hapusdemo' kode='".$query->id."' title='Hapus'><i class='icon-trash'></i></a>";
                 $html.="</div>";

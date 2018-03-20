@@ -117,7 +117,7 @@
                 }else console.log("invalid form");
             });
 
-            $(document).on("click",".editdemo",function(){
+            $(document).on("click",".editvariabel",function(){
                 kode=$(this).attr("kode");
 
                 $.ajax({
@@ -335,6 +335,70 @@
                 }else console.log("invalid form");
             })
 
+            $(".remote-data-brand").select2({
+                ajax: {
+                    url: "{{URL::to('cmv/data/list-brand')}}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params, // search term
+                            page_limit: 30
+                        };
+                    },
+                    results: function (data, page){
+                        return {
+                            results: data.data
+                        };
+                    },
+                    cache: true,
+                    pagination: {
+                        more: true
+                    }
+                },
+                formatResult: function(m){
+                    var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+    
+                    return markup;                
+                },
+                formatSelection: function(m){
+                    return m.text;
+                },
+                escapeMarkup: function (m) { return m; }
+            })
+
+            $(".remote-data-list-sub-demo").select2({
+                ajax: {
+                    url: "{{URL::to('cmv/data/list-sub-demo')}}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params, // search term
+                            page_limit: 30
+                        };
+                    },
+                    results: function (data, page){
+                        return {
+                            results: data.data
+                        };
+                    },
+                    cache: true,
+                    pagination: {
+                        more: true
+                    }
+                },
+                formatResult: function(m){
+                    var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+    
+                    return markup;                
+                },
+                formatSelection: function(m){
+                    return m.text;
+                },
+                escapeMarkup: function (m) { return m; }
+            })
+
             showSector(1);
         })
     </script>
@@ -377,17 +441,13 @@
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label for="" class="control-label">Brand</label>
-                            <select name="brand" id="brand" class="form-control">
-                                <option value="" disabled selected>--Select Brand--</option>
-                            </select>
+                            <input type="text" name="brand" id="brand" class="remote-data-brand">
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label for="" class="control-label">Subdemography Name</label>
-                            <select name="sub" id="sub" class="form-control">
-                                <option value="" disabled selected>--Subdemography Name--</option>
-                            </select>
+                            <input type="text" name="sub" id="sub" class="remote-data-list-sub-demo">
                         </div>
                     </div>
                     <div class="col-lg-3">

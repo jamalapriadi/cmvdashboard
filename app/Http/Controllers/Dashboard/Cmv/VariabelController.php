@@ -31,18 +31,6 @@ class VariabelController extends Controller
 
         return view('dashboard.cmv.view.variabel')
             ->with('demo',$demo);
-
-        // return \DataTables::of($demo)
-        //     ->addColumn('action',function($query){
-        //         $html="<div class='btn-group'>";
-        //         $html.="<a href='#' class='btn btn-sm btn-warning editdemo' kode='".$query->id."' title='Role'><i class='icon-pencil4'></i></a>";
-        //         $html.="<a href='#' class='btn btn-sm btn-danger hapusdemo' kode='".$query->id."' title='Hapus'><i class='icon-trash'></i></a>";
-        //         $html.="</div>";
-
-        //         return $html;
-        //     })
-        //     ->rawColumns(['action'])
-        //     ->make(true);
     }
 
     public function filter_variabel(Request $request){
@@ -103,7 +91,7 @@ class VariabelController extends Controller
     }
 
     public function edit($id){
-        $demo=Variabel::find($id);
+        $demo=Variabel::with('brand','subdemo')->find($id);
 
         return $demo;
     }

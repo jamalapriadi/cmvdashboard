@@ -86,6 +86,10 @@
                     </div>
                 </li>
                 @endif
+
+                @if(auth()->user()->can('Highlight'))
+                    <li><a href="{{URL::to('sosmed/highlight')}}" class="{{ Request::path() == 'sosmed/highlight' ? 'active' : '' }}"><i class="icon-highlight"></i> <span>Highlight</span></a></li>
+                @endif
             </ul>
         </nav>
     </div>

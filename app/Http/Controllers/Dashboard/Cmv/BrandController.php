@@ -12,7 +12,33 @@ class BrandController extends Controller
     public function index(Request $request){
         \DB::statement(\DB::raw('set @rownum=0'));
         $brand=Brand::select(
-            'id',
+            'brand_id',
+            'category_id',
+            'brand_name',
+            'created_at',
+            \DB::raw('@rownum := @rownum + 1 AS no')
+        )->with('category');
+
+        if($request->has('category') && $request->input('category')!=null){
+            $brand=$brand->where('category_id',$request->input('category'));
+        }
+
+        if($request->has('cari') && $request->input('cari')!=null){
+            $cari=$request->input('cari');
+
+            $brand=$brand->where('brand_id',$cari)
+                ->orWhere('brand_name',$cari);
+        }
+
+        $brand=$brand->paginate(15);
+
+        return view('dashboard.cmv.view.brand')
+            ->with('brand',$brand);
+    }
+
+    public function filter_brand(Request $request){
+        \DB::statement(\DB::raw('set @rownum=0'));
+        $brand=Brand::select(
             'brand_id',
             'category_id',
             'brand_name',
@@ -28,29 +54,6 @@ class BrandController extends Controller
 
         if($request->has('category') && $request->input('category')!=null){
             $brand=$brand->where('category_id',$request->input('category'));
-        }
-
-        $brand=$brand->paginate(15);
-
-        return view('dashboard.cmv.view.brand')
-            ->with('brand',$brand);
-    }
-
-    public function filter_brand(Request $request){
-        \DB::statement(\DB::raw('set @rownum=0'));
-        $brand=Brand::select(
-            'id',
-            'brand_id',
-            'category_id',
-            'brand_name',
-            'created_at',
-            \DB::raw('@rownum := @rownum + 1 AS no')
-        )->with('category');
-
-        if($request->has('cari') && $request->input('cari')!=null){
-            $cari=$request->input('cari');
-            $brand=$brand->where('brand_id',$cari)
-                ->orWhere('brand_name','like','%'.$cari.'%');
         }
 
         $brand=$brand->paginate(15);
@@ -200,7 +203,6 @@ class BrandController extends Controller
 
     public function sample(){
         $brand=Brand::select(
-            'id',
             'brand_id',
             'category_id',
             'brand_name'
@@ -215,7 +217,6 @@ class BrandController extends Controller
 
     public function export(){
         $brand=Brand::select(
-            'id',
             'brand_id',
             'category_id',
             'brand_name'
@@ -230,8 +231,7 @@ class BrandController extends Controller
 
     public function list_brand(Request $request){
         $brand=Brand::select(
-            'id',
-            'brand_id',
+            'brand_id as id',
             'category_id',
             'brand_name as text'
         );
@@ -240,7 +240,17 @@ class BrandController extends Controller
             $brand=$brand->where('category_id',$request->input('category'));
         }
 
-        $brand=$brand->get();
+        if($request->has('q')){
+            $brand=$brand->where('brand_name','like','%'.$request->input('q').'%');
+        }
+
+        if($request->has('page_limit')){
+            $pagelimit=$request->input('page_limit');
+        }else{
+            $pagelimit=30;
+        }
+
+        $brand=$brand->paginate($pagelimit);
 
         return $brand;
     }

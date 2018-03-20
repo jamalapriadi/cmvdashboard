@@ -8,7 +8,7 @@
                 <th>Quartal</th>
                 <th>Totals(000s)</th>
                 <th>Totals Vert%</th>
-                <th width="15%">Action</th>
+                <th width="18%">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -24,8 +24,8 @@
                     <td>{{$row->totals_ver}}</td>
                     <td>
                         <div class="btn-group">
-                            <a class="btn btn-sm btn-warning editdemo" kode="{{$row->id}}"><i class="icon-pencil4"></i></a>
-                            <a class="btn btn-sm btn-danger hapusdemo" kode="{{$row->id}}"><i class="icon-trash"></i></a>
+                            <a class="btn btn-sm btn-warning editvariabel" kode="{{$row->id}}"><i class="icon-pencil4"></i></a>
+                            <a class="btn btn-sm btn-danger hapusvariabel" kode="{{$row->id}}"><i class="icon-trash"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -33,5 +33,7 @@
         </tbody>
     </table>
 </div>
-<br>
+
+<hr>
+
 {{$demo->links()}}

@@ -12,7 +12,6 @@ class SectorController extends Controller
     public function index(Request $request){
         \DB::statement(\DB::raw('set @rownum=0'));
         $sector=Sector::select(
-            'id',
             'sector_id',
             'sector_name',
             'created_at',
@@ -22,8 +21,8 @@ class SectorController extends Controller
         return \DataTables::of($sector)
             ->addColumn('action',function($query){
                 $html="<div class='btn-group' data-toggle='buttons'>";
-                $html.="<a href='#' class='btn btn-sm btn-warning editsector' kode='".$query->id."' title='Role'><i class='icon-pencil4'></i></a>";
-                $html.="<a href='#' class='btn btn-sm btn-danger hapussector' kode='".$query->id."' title='Hapus'><i class='icon-trash'></i></a>";
+                $html.="<a href='#' class='btn btn-sm btn-warning editsector' kode='".$query->sector_id."' title='Role'><i class='icon-pencil4'></i></a>";
+                $html.="<a href='#' class='btn btn-sm btn-danger hapussector' kode='".$query->sector_id."' title='Hapus'><i class='icon-trash'></i></a>";
                 $html.="</div>";
 
                 return $html;
@@ -160,7 +159,6 @@ class SectorController extends Controller
 
     public function export(){
         $sector=Sector::select(
-            'id',
             'sector_id',
             'sector_name'
         )->get();
@@ -174,7 +172,6 @@ class SectorController extends Controller
 
     public function sample(){
         $sector=Sector::select(
-            'id',
             'sector_id',
             'sector_name'
         )->limit(5)->get();
@@ -186,11 +183,23 @@ class SectorController extends Controller
             })->export('xlsx');
     }
 
-    public function list_sector(){
+    public function list_sector(Request $request){
         $sector=Sector::select(
-            'sector_id',
+            'sector_id as id',
             'sector_name as text'
-        )->get();
+        );
+
+        if($request->has('q')){
+            $sector=$sector->where('sector_name','like','%'.$request->input('q').'%');
+        }
+
+        if($request->has('page_limit')){
+            $pagelimit=$request->input('page_limit');
+        }else{
+            $pagelimit=100;
+        }
+
+        $sector=$sector->paginate($pagelimit);
 
         return $sector;
     }

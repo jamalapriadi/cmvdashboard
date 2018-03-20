@@ -210,4 +210,25 @@ class SubdemographyController extends Controller
 
         return $demo;
     }
+
+    public function list_sub_demo(Request $request){
+        $demo=Subdemography::select(
+            'subdemo_id as id',
+            'subdemo_name as text'
+        );
+
+        if($request->has('q')){
+            $demo=$demo->where('subdemo_name','like','%'.$request->input('q').'%');
+        }
+
+        if($request->has('page_limit')){
+            $pagelimit=$request->input('page_limit');
+        }else{
+            $pagelimit=30;
+        }
+
+        $demo=$demo->paginate($pagelimit);
+
+        return $demo;
+    }
 }

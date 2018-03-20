@@ -9,11 +9,14 @@ class Brand extends Model
     protected $connection="mysql3";
     protected $table="cmv_brand";
 
+    protected $primaryKey="brand_id";
+
+    public $incrementing=false;
+
     public function category(){
         return $this->belongsTo('App\Models\Dashboard\Cmv\Category','category_id','category_id')
             ->select(
                 [
-                    'id',
                     'category_id',
                     'sector_id',
                     'category_name'

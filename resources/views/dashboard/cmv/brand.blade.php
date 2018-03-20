@@ -28,9 +28,13 @@
             });
 
             function showBrand(page){
+                var cari=$("#cari").val();
+                var category=$("#searchcategory").val();
+
                 $.ajax({
                     url:"{{URL::to('cmv/data/brand')}}?page="+page,
                     type:"GET",
+                    data:"category="+category+"&cari="+cari,
                     beforeSend:function(){
                         $("#tampilData").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
@@ -52,27 +56,10 @@
             $(document).on("click","#addbrand",function(){
                 var el="";
 
-                $.ajax({
-                    url:"{{URL::to('cmv/data/list-sector')}}",
-                    type:"GET",
-                    beforeSend:function(){
-                        el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
-                            '<div class="modal-dialog">'+
-                                '<form id="form" class="form-horizontal" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
-                                    '<div id="divForm">'+
-                                        '<div class="modal-body">'+
-                                            '<div class="alert alert-info">Please Wait....</div>'+
-                                        '</div>'+
-                                    '</div>'+
-                                '</form>'+
-                            '</div>'+
-                        '</div>';
-        
-                        $("#divModal").empty().html(el);
-                        $("#modal_default").modal("show");
-                    },
-                    success:function(result){
-                        el+='<div class="modal-content">'+
+                el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                    '<div class="modal-dialog">'+
+                        '<form id="form" class="form-horizontal" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                            '<div class="modal-content">'+
                                 '<div class="modal-header bg-primary">'+
                                     '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                     '<h5 class="modal-title" id="modal-title">Add New Brand</h5>'+
@@ -82,12 +69,7 @@
                                     '<div id="pesan"></div>'+
                                     '<div class="form-group">'+
                                         '<label class="control-label text-semibold">SECTOR ID</label>'+
-                                        '<select name="sector" id="sector" class="form-control">'+
-                                            '<option value="" disabled selected>--Choose Sector</option>';
-                                            $.each(result,function(a,b){
-                                                el+="<option value='"+b.sector_id+"'>"+b.text+"</option>";
-                                            })
-                                        el+='</select>'+
+                                        '<input name="sector" class="remote-sector" id="sector">'+          
                                     '</div>'+
                                     '<div class="form-group">'+
                                         '<label class="control-label text-semibold">CATEGORY ID</label>'+
@@ -107,19 +89,49 @@
                                     '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
                                     '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
                                 '</div>'+
-                            '</div>';
+                            '</div>'+
+                        '</form>'+
+                    '</div>'+
+                '</div>';
 
-                        $("#divForm").empty().html(el);
+                $("#divModal").empty().html(el);
+                $("#modal_default").modal("show");
+                
+                $(".remote-sector").select2({
+                    ajax: {
+                        url: "{{URL::to('cmv/data/list-sector')}}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                q: params, // search term
+                                page_limit: 30
+                            };
+                        },
+                        results: function (data, page){
+                            return {
+                                results: data.data
+                            };
+                        },
+                        cache: true,
+                        pagination: {
+                            more: true
+                        }
                     },
-                    error:function(){
-
-                    }
+                    formatResult: function(m){
+                        var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+        
+                        return markup;                
+                    },
+                    formatSelection: function(m){
+                        return m.text;
+                    },
+                    escapeMarkup: function (m) { return m; }
                 })
-
             })
 
             $(document).on("change","#sector",function(){
-                var sector=$("#sector option:selected").val();
+                var sector=$("#sector").val();
 
                 $.ajax({
                     url:"{{URL::to('cmv/data/list-category')}}",
@@ -130,10 +142,10 @@
                     },
                     success:function(result){
                         var el="";
-                        $.each(result,function(a,b){
+                        $.each(result.data,function(a,b){
                             $('#category')
                                 .append($("<option></option>")
-                                            .attr("value",b.category_id)
+                                            .attr("value",b.id)
                                             .text(b.text)); 
                         })
                     },
@@ -394,12 +406,12 @@
 
             $(document).on("submit","#formCari",function(e){
                 var cari=$("#cari").val();
-                var category=$("#category option:selected").val();
+                var category=$("#searchcategory").val();
 
                 $.ajax({
                     url:"{{URL::to('cmv/data/brand')}}",
                     type:"get",
-                    data:"cari="+cari+"&category="+category,
+                    data:"category="+category+"&cari="+cari,
                     beforeSend:function(){
                         $('#tampilData').empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
                     },
@@ -410,6 +422,38 @@
                         $('#tampilData').empty().html('<div class="alert alert-danger">Load Data Error. . .</div>');
                     }
                 })
+            })
+
+            $(".remote-data-category").select2({
+                ajax: {
+                    url: "{{URL::to('cmv/data/list-category')}}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params, // search term
+                            page_limit: 30
+                        };
+                    },
+                    results: function (data, page){
+                        return {
+                            results: data.data
+                        };
+                    },
+                    cache: true,
+                    pagination: {
+                        more: true
+                    }
+                },
+                formatResult: function(m){
+                    var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+    
+                    return markup;                
+                },
+                formatSelection: function(m){
+                    return m.text;
+                },
+                escapeMarkup: function (m) { return m; }
             })
 
             showBrand(1);
@@ -449,14 +493,12 @@
         </div>
 
         <div class="panel-body">
-        <div class="row well">
+            <div class="row well">
                 <form onsubmit="return false;" id="formCari">
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label for="" class="control-label">Category</label>
-                            <select name="category" id="category" class="form-control">
-                                <option value="" disabled selected>--Select Category--</option>
-                            </select>
+                            <input name="searchcagegory" class="remote-data-category" id="searchcategory">
                         </div>
                     </div>
                     <div class="col-lg-3">

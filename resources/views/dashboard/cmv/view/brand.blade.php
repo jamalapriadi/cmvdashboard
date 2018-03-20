@@ -16,12 +16,12 @@
                 <tr>
                     <td>{{$no}}</td>
                     <td>{{$row->brand_id}}</td>
-                    <td>{{$row->category->category_name}}</td>
                     <td>{{$row->brand_name}}</td>
+                    <td>{{$row->category->category_name}}</td>
                     <td>
                         <div class='btn-group'>
-                            <a href='#' class='btn btn-sm btn-warning editbrand' kode="{{$row->id}}" title='Role'><i class='icon-pencil4'></i></a>
-                            <a href='#' class='btn btn-sm btn-danger hapusbrand' kode="{{$row->id}}" title='Hapus'><i class='icon-trash'></i></a>
+                            <a href='#' class='btn btn-sm btn-warning editbrand' kode="{{$row->brand_id}}" title='Role'><i class='icon-pencil4'></i></a>
+                            <a href='#' class='btn btn-sm btn-danger hapusbrand' kode="{{$row->brand_id}}" title='Hapus'><i class='icon-trash'></i></a>
                         </div>
                     </td>
                 </tr>
@@ -29,5 +29,7 @@
         </tbody>
     </table>
 </div>
+
+<hr>
 
 {{$brand->links()}}

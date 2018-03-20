@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('import-data','HomeController@import_data');
 
 Route::group(['prefix'=>'sosmed'],function(){
-    Route::get('rangking','HomeController@sosmed_rangking');
+    Route::get('highlight','HomeController@sosmed_rangking');
     Route::get('group','HomeController@sosmed_group');
     Route::get('businness-unit','HomeController@sosmed_unit');
     Route::get('sosial-media','HomeController@sosmed_media');
@@ -99,6 +99,13 @@ Route::group(['prefix'=>'sosmed'],function(){
 
             Route::get('pdf-rank-for-sosical-media-all-tv','Sosmed\ReportController@pdf_rank_for_social_media_all_tv');
             Route::get('pdf-sosmed-daily-report','Sosmed\ReportController@pdf_sosmed_daily_report');
+
+            /* highlight */
+            Route::get('highlight-of-official-account-all-tv','Sosmed\ReportController@highlight_of_official_account_all_tv');
+            Route::get('highlight-group-official-account-by-total-followers','Sosmed\ReportController@highlight_group_official_account_by_total_followers');
+            Route::get('highlight-group-overall-account','Sosmed\ReportController@highlight_group_overall_account');
+            Route::get('highlight-program-account-all-tv','Sosmed\ReportController@higlight_program_account_all_tv');
+            Route::get('highlight-target-achivement','Sosmed\ReportController@highlight_target_achivement');
         });
     });
 });
@@ -141,6 +148,7 @@ Route::group(['prefix'=>'cmv'],function(){
         Route::post('import-sub-demography','Dashboard\Cmv\SubdemographyController@import');
         Route::get('sample-sub-demography','Dashboard\Cmv\SubdemographyController@sample');
         Route::get('export-sub-demography','Dashboard\Cmv\SubdemographyController@export');
+        Route::get('list-sub-demo','Dashboard\Cmv\SubdemographyController@list_sub_demo');
 
         Route::resource('variabel','Dashboard\Cmv\VariabelController');
         Route::post('filter-variabel','Dashboard\Cmv\VariabelController@filter_variabel');

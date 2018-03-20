@@ -12,7 +12,6 @@ class CategoryController extends Controller
     public function index(Request $request){
         \DB::statement(\DB::raw('set @rownum=0'));
         $category=Category::select(
-            'id',
             'sector_id',
             'category_id',
             'category_name',
@@ -20,16 +19,32 @@ class CategoryController extends Controller
             \DB::raw('@rownum := @rownum + 1 AS no')
         )->with('sector');
 
-        return \DataTables::of($category)
-            ->addColumn('action',function($query){
-                $html="<div class='btn-group' data-toggle='buttons'>";
-                $html.="<a href='#' class='btn btn-sm btn-warning editcategory' kode='".$query->id."' title='Role'><i class='icon-pencil4'></i></a>";
-                $html.="<a href='#' class='btn btn-sm btn-danger hapuscategory' kode='".$query->id."' title='Hapus'><i class='icon-trash'></i></a>";
-                $html.="</div>";
+        if($request->has('sector') && $request->input('sector')!=null){
+            $category=$category->where('sector_id',$request->input('sector'));
+        }
 
-                return $html;
-            })
-            ->make(true);
+        if($request->has('cari') && $request->input('cari')!=null){
+            $cari=$request->input('cari');
+
+            $category=$category->where('category_id',$cari)
+                ->orWhere('category_name',$cari);
+        }
+
+        $category=$category->paginate(15);
+
+        return view('dashboard.cmv.view.category')
+            ->with('category',$category);
+
+        // return \DataTables::of($category)
+        //     ->addColumn('action',function($query){
+                // $html="<div class='btn-group' data-toggle='buttons'>";
+                // $html.="<a href='#' class='btn btn-sm btn-warning editcategory' kode='".$query->category_id."' title='Role'><i class='icon-pencil4'></i></a>";
+                // $html.="<a href='#' class='btn btn-sm btn-danger hapuscategory' kode='".$query->category_id."' title='Hapus'><i class='icon-trash'></i></a>";
+                // $html.="</div>";
+
+        //         return $html;
+        //     })
+        //     ->make(true);
     }
 
     public function store(Request $request){
@@ -171,7 +186,6 @@ class CategoryController extends Controller
 
     public function sample(){
         $category=Category::select(
-            'id',
             'category_id',
             'sector_id',
             'category_name'
@@ -186,7 +200,6 @@ class CategoryController extends Controller
 
     public function export(){
         $category=Category::select(
-            'id',
             'category_id',
             'sector_id',
             'category_name'
@@ -201,9 +214,8 @@ class CategoryController extends Controller
 
     public function list_category(Request $request){
         $category=Category::select(
-            'id',
             'sector_id',
-            'category_id',
+            'category_id as id',
             'category_name as text'
         );
 
@@ -211,7 +223,17 @@ class CategoryController extends Controller
             $category=$category->where('sector_id',$request->input('sector'));
         }
 
-        $category=$category->get();
+        if($request->has('q')){
+            $category=$category->where('category_name','like','%'.$request->input('q').'%');
+        }
+
+        if($request->has('page_limit')){
+            $pagelimit=$request->input('page_limit');
+        }else{
+            $pagelimit=100;
+        }
+
+        $category=$category->paginate($pagelimit);
 
         return $category;
     }

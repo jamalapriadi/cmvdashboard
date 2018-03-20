@@ -27,73 +27,38 @@
                 }
             });
 
-            function showCategory(){
-                $('.datatable-colvis-basic').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    autoWidth: true,
-                    destroy: true,
-                    ajax: "{{URL::to('cmv/data/category')}}",
-                    columns: [
-                        //{data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
-                        {data: 'category_id', name: 'category_id',title:'CATEGORY ID',width:'22%'},
-                        {data: 'sector.sector_name', name: 'sector.sector_name',title:'SECTOR',width:'20%',defaultContent: "Data Not Found"},
-                        {data: 'category_name', name: 'category_name',title:'CATEGORY NAME'},
-                        {data: 'action', name: 'action',title:'ACTION',searchable:false,width:'18%'}
-                    ],
-                    buttons: [
-                        'copy', 'excel', 'pdf'
-                    ],
-                    colVis: {
-                        buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
-                        align: "right",
-                        overlayFade: 200,
-                        showAll: "Show all",
-                        showNone: "Hide all"
+            function showCategory(page){
+                var cari=$("#cari").val();
+                var sector=$("#searchsector").val();
+
+                $.ajax({
+                    url:"{{URL::to('cmv/data/category')}}?page="+page,
+                    type:"GET",
+                    data:"sector="+sector+"&cari="+cari,
+                    beforeSend:function(){
+                        $("#tampilData").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
-                    bDestroy: true
-                }); 
+                    success:function(result){
+                        $("#tampilData").empty().html(result);
+                    },
+                    error:function(){
 
-                // Launch Uniform styling for checkboxes
-                $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
-                    $('.ColVis_collection input').uniform();
-                });
-
-
-                // Add placeholder to the datatable filter option
-                $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
-
-
-                // Enable Select2 select for the length option
-                $('.dataTables_length select').select2({
-                    minimumResultsForSearch: "-1"
-                }); 
+                    }
+                })
             }
+
+            $(document).on('click', '.pagination a', function (e) {
+                showCategory($(this).attr('href').split('page=')[1]);
+                e.preventDefault();
+            });
 
             $(document).on("click","#addcategory",function(){
                 var el="";
 
-                $.ajax({
-                    url:"{{URL::to('cmv/data/list-sector')}}",
-                    type:"GET",
-                    beforeSend:function(){
-                        el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
-                            '<div class="modal-dialog">'+
-                                '<form id="form" class="form-horizontal" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
-                                    '<div id="divForm">'+
-                                        '<div class="modal-body">'+
-                                            '<div class="alert alert-info">Please Wait....</div>'+
-                                        '</div>'+
-                                    '</div>'+
-                                '</form>'+
-                            '</div>'+
-                        '</div>';
-        
-                        $("#divModal").empty().html(el);
-                        $("#modal_default").modal("show");
-                    },
-                    success:function(result){
-                        el+='<div class="modal-content">'+
+                el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                    '<div class="modal-dialog">'+
+                        '<form id="form" class="form-horizontal" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                            '<div class="modal-content">'+
                                 '<div class="modal-header bg-primary">'+
                                     '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                     '<h5 class="modal-title" id="modal-title">Add New Category</h5>'+
@@ -107,12 +72,7 @@
                                     '</div>'+
                                     '<div class="form-group">'+
                                         '<label class="control-label text-semibold">SECTOR ID</label>'+
-                                        '<select name="sector" id="sector" class="form-control">'+
-                                            '<option value="" disabled selected>--Choose Sector</option>';
-                                            $.each(result,function(a,b){
-                                                el+="<option value='"+b.sector_id+"'>"+b.text+"</option>";
-                                            })
-                                        el+='</select>'+
+                                        '<input name="sector" class="remote-sector" id="sector">'+
                                     '</div>'+
                                     '<div class="form-group">'+
                                         '<label class="control-label text-semibold">CATEGORY NAME</label>'+
@@ -124,13 +84,44 @@
                                     '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
                                     '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
                                 '</div>'+
-                            '</div>';
+                            '</div>'+
+                        '</form>'+
+                    '</div>'+
+                '</div>';
 
-                        $("#divForm").empty().html(el);
+                $("#divModal").empty().html(el);
+                $("#modal_default").modal("show");
+
+                $(".remote-sector").select2({
+                    ajax: {
+                        url: "{{URL::to('cmv/data/list-sector')}}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                q: params, // search term
+                                page_limit: 30
+                            };
+                        },
+                        results: function (data, page){
+                            return {
+                                results: data.data
+                            };
+                        },
+                        cache: true,
+                        pagination: {
+                            more: true
+                        }
                     },
-                    error:function(){
-
-                    }
+                    formatResult: function(m){
+                        var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+        
+                        return markup;                
+                    },
+                    formatSelection: function(m){
+                        return m.text;
+                    },
+                    escapeMarkup: function (m) { return m; }
                 })
 
             })
@@ -155,7 +146,7 @@
                             $('#pesan').html('&nbsp;'+data.pesan);
 
                             if(data.success==true){
-                                showCategory();
+                                showCategory(1);
                                 $("#modal_default").modal("hide");
                             }else{
                                 $("#pesan").empty().html("<pre>"+data.error+"</pre>");
@@ -267,7 +258,7 @@
                                     type: 'info'
                                 });
                                 $("#modal_default").modal("hide");
-                                showCategory();
+                                showCategory(1);
                             }else{
                                 $('#pesan').empty().html("<pre>"+result.error+"</pre><br>");
                                 new PNotify({
@@ -307,7 +298,7 @@
                             success:function(result){
                                 if(result.success=true){
                                     swal("Deleted!", result.pesan, "success");
-                                    showCategory();
+                                    showCategory(1);
                                 }else{
                                     swal("Error!", result.pesan, "error");
                                 }
@@ -371,7 +362,7 @@
                         success : function (data) {
                             if(data.success==true){
                                 $('#pesan').empty().html('<div class="alert alert-info">'+data.pesan+'</div>');
-                                showCategory();
+                                showCategory(1);
                             }else{
                                 $('#pesan').empty().html('<div class="alert alert-info">'+data.pesan+'<pre>'+data.error+'</pre></div>');
                             }
@@ -383,7 +374,59 @@
                 }else console.log("invalid form");
             });
 
-            showCategory();
+            $(document).on("submit","#formCari",function(e){
+                var cari=$("#cari").val();
+                var sector=$("#searchsector").val();
+
+                $.ajax({
+                    url:"{{URL::to('cmv/data/category')}}",
+                    type:"get",
+                    data:"sector="+sector+"&cari="+cari,
+                    beforeSend:function(){
+                        $('#tampilData').empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                    },
+                    success:function(result){
+                        $('#tampilData').empty().html(result);
+                    },
+                    error:function(){
+                        $('#tampilData').empty().html('<div class="alert alert-danger">Load Data Error. . .</div>');
+                    }
+                })
+            })
+
+            $(".remote-data-sector").select2({
+                ajax: {
+                    url: "{{URL::to('cmv/data/list-sector')}}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params, // search term
+                            page_limit: 30
+                        };
+                    },
+                    results: function (data, page){
+                        return {
+                            results: data.data
+                        };
+                    },
+                    cache: true,
+                    pagination: {
+                        more: true
+                    }
+                },
+                formatResult: function(m){
+                    var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+    
+                    return markup;                
+                },
+                formatSelection: function(m){
+                    return m.text;
+                },
+                escapeMarkup: function (m) { return m; }
+            })
+
+            showCategory(1);
         })
     </script>
 @stop
@@ -420,7 +463,32 @@
         </div>
 
         <div class="panel-body">
-            <table class="table table-striped datatable-colvis-basic"></table>
+            <div class="row well">
+                <form onsubmit="return false;" id="formCari">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="" class="control-label">Sector</label>
+                            <input name="searchsector" class="remote-data-sector" id="searchsector">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="" class="control-label">Keyword</label>
+                            <input type="text" class="form-control" name="cari" id="cari" placeholder="Category ID / Category Name">
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label for="" class="control-label"></label>
+                            <button class="btn btn-primary" style="margin-top:25px;">
+                                <i class="icon-filter4"></i> Cari
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="tampilData"></div>
         </div>
     </div>
 
