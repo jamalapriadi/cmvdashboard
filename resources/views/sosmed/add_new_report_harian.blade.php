@@ -30,7 +30,7 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">Add New Daily Report</div>
+        <div class="panel-heading">Add New Daily Report # {{$id}}</div>
         <div class="panel-body">
             <div id="pesansukses"></div>
             <div id="showKonfirmasi"></div>
@@ -113,9 +113,9 @@
                                 '</div>'+
                             '</div>'+
                             '<div class="form-group">'+
-                                '<label class="control-label text-semibold">Business Unit</label>'+
+                                '<label class="control-label text-semibold">TV Station</label>'+
                                 '<select name="unit" id="unit" class="form-control">'+
-                                    '<option value="">--Select Business Unit--</option>';
+                                    '<option value="">--Select TV Station--</option>';
                                     $.each(result.unit,function(a,b){
                                         el+="<option value='"+b.id+"'>"+b.unit_name+"</option>";
                                     })
@@ -164,58 +164,36 @@
                         $("#showForm").empty().html("<div class='alert alert-info'>Please Wait....</div>");
                     },
                     success:function(result){
-                        var kembali="{{URL::to('sosmed/input-report-harian')}}";
-
                         el+='<form id="form" onsubmit="return false;">'+
-                            '<div class="form-group">'+
-                                '<label class="control-label">Type</label>'+
-                                "<select name='type' id='type' class='form-control'>"+
-                                    '<option value="program">Program</option>'+
-                                    '<option value="corporate">Corporate</option>'+
-                                '</select>'+
-                            '</div>'+
-                            '<div class="form-group">'+
-                                '<label class="control-label">Tanggal</label>'+
-                                '<div class="input-group">'+
-                                    '<span class="input-group-addon"><i class="icon-calendar5"></i></span>'+
-                                    '<input type="text" id="tanggal" name="tanggal" class="form-control daterange-single">'+
-                                '</div>'+
-                            '</div>'+
-                            '<div class="form-group">'+
-                                '<label class="control-label text-semibold">Business Unit</label>'+
-                                '<select name="unit" id="unit" class="form-control">'+
-                                    '<option value="">--Select Business Unit--</option>';
-                                    $.each(result.unit,function(a,b){
-                                        el+="<option value='"+b.id+"'>"+b.unit_name+"</option>";
-                                    })
-                                el+='</select>'+
-                            '</div>'+
-                            '<div id="showProgram">'+
-                                '<div class="form-group">'+
-                                    '<label class="control-label">Program</label>'+
-                                    '<select name="program" id="program" class="form-control">'+
-                                        "<option value=''>--Select Program--</option>";
-
-                                    el+="</select>"+
-                                '</div>'+
-                            '</div>'+
+                            '<div class="row">'+
+                                "<div class='col-lg-3'>"+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label">Tanggal</label>'+
+                                        '<div class="input-group">'+
+                                            '<span class="input-group-addon"><i class="icon-calendar5"></i></span>'+
+                                            '<input type="text" id="tanggal" name="tanggal" class="form-control daterange-single">'+
+                                        '</div>'+
+                                    '</div>'+
+                                "</div>"+
+                                "<div class='col-lg-3'>"+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">TV Station</label>'+
+                                        '<select name="unit" id="unit" class="form-control">'+
+                                            '<option value="">--Select TV Station--</option>';
+                                            $.each(result.unit,function(a,b){
+                                                el+="<option value='"+b.id+"'>"+b.unit_name+"</option>";
+                                            })
+                                        el+='</select>'+
+                                    '</div>'+
+                                "</div>"+
+                            "</div>"+
 
                             '<br>'+
 
                             '<div id="showSosmed"></div>'+
                             '<div id="pesan"></div>'+
 
-                            '<hr>'+
-
-                            '<div class="form-group">'+
-                                '<button class="btn btn-primary">'+
-                                    '<i class="icon-floppy-disk"></i> Save'+
-                                '</button>'+
-
-                                '<a href="'+kembali+'" class="btn btn-default">'+
-                                    'Back'+
-                                '</a>'+
-                            '</div>'+
+                            '<div id="showButton"></div>'+
 
                         '</form>';
 
@@ -266,73 +244,40 @@
 
             $(document).on("change","#unit",function(){
                 var unit=$("#unit option:selected").val();
-                var type=$("#type option:selected").val();
+                var tanggal=$("#tanggal").val();
+                var sosmed="{{$id}}";
 
-                switch(type){
-                    case 'program':
-                            $.ajax({
-                                url:"{{URL::to('sosmed/data/list-program-by-unit')}}/"+unit,
-                                type:"GET",
-                                beforeSend:function(){
-                                    $("#showSosmed").empty();
-                                    $("#showProgram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
-                                },
-                                success:function(result){
-                                    var el="";
-                                    el+="<div class='form-group'>"+
-                                        "<label class='control-label'>Program</label>"+
-                                    "<select name='program' id='program' class='form-control'>"+
-                                        '<option value="" disabled selected>--Select Program--</option>';
-                                    $.each(result,function(a,b){
-                                        el+="<option value='"+b.id+"'>"+b.program_name+"</option>";
-                                    })
-                                    el+="</select></div>";
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/list-official-and-program')}}/"+unit,
+                    type:"GET",
+                    data:"tanggal="+tanggal+"&sosmed="+sosmed,
+                    beforeSend:function(){
+                        $("#showSosmed").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                    },
+                    success:function(result){
+                        var kembali="{{URL::to('sosmed/input-report')}}/{{$id}}";
 
-                                    $("#showProgram").empty().html(el);
-                                },
-                                error:function(){
+                        $("#showSosmed").empty().html(result);
 
-                                }
-                            })
-                        break;
-                    case 'corporate':
-                            $.ajax({
-                                url:"{{URL::to('sosmed/data/list-sosmed-by-unit')}}/"+unit,
-                                data:"type="+type+"&unit="+unit,
-                                type:"GET",
-                                beforeSend:function(){
-                                    $("#showSosmed").empty().html("<div class='alert alert-info'>Please Wait...</div>");
-                                },
-                                success:function(result){
-                                    var el="";
-                                    if(result.sosmed.length>0){
-                                        el+='<fieldset>'+
-                                            '<legend>Sosial Media Follower</legend>';
-                                            $.each(result.sosmed,function(c,d){
-                                                el+='<div class="form-group">'+
-                                                    '<label class="control-label">'+d.sosmed.sosmed_name+' # '+d.unit_sosmed_name+'</label>'+
-                                                    '<input type="hidden" class="form-control" name="official['+d.id+']" placeholder="'+d.sosmed.sosmed_name+'" value="'+d.unit_sosmed_name+'">'+
-                                                    '<input type="number" class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed.sosmed_name+'" required>'+
-                                                '</div>';
-                                            })
-                                        el+='</fieldset>';
-                                    }else{
-                                        el+="<div class='alert alert-info'>Sosmed Not Found</div>";
-                                    }
-                                    
+                        var el="";
+                        el+='<hr>'+
 
-                                    $("#showSosmed").empty().html(el);
-                                },
-                                error:function(){
+                        '<div class="form-group">'+
+                            '<button class="btn btn-primary">'+
+                                '<i class="icon-floppy-disk"></i> Save'+
+                            '</button>'+
 
-                                }
-                            })
-                        break;
+                            '<a href="'+kembali+'" class="btn btn-default">'+
+                                'Back'+
+                            '</a>'+
+                        '</div>';
 
-                    default:
-
-                        break;
-                }
+                        $("#showButton").empty().html(el);
+                    },
+                    error:function(){
+                        $("#showSosmed").empty().html("<div class='alert alert-danger'>Failed to load data...</div>");
+                    }
+                })
             })
 
             $(document).on("change","#program",function(){
@@ -390,9 +335,9 @@
                                 /* tampilkan data konfirmasi */
                                 $("#pesan").empty();
                                 var el="";
-                                el+='<div class="alert alert-info alert-bordered alert-rounded">'+
+                                el+='<div class="alert alert-danger  alert-bordered alert-rounded">'+
                                     '<button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>'+
-                                    '<span class="text-semibold">Heads up!</span> This alert needs your attention, but its not super important.'+
+                                    '<span class="text-semibold">Watch out!</span> Please make sure, you put the right data!'+
                                 '</div>'+
                                 "<div class='table-responsive'>"+
                                     "<table class='table table-striped'>"+
@@ -577,7 +522,7 @@
                             "<input class='form-control' type='text' name='tanggal' value='"+result.tanggal+"'>"+
                         '</div>'+
                         '<div class="form-group">'+
-                            '<label class="control-label text-semibold">Business Unit</label>'+
+                            '<label class="control-label text-semibold">TV Station</label>'+
                             '<select name="unit" class="form-control">';
                                 if(result.unitsosmed.type_sosmed=="program"){
                                     el+='<option value="'+result.unitsosmed.program.businessunit.id+'">'+result.unitsosmed.program.businessunit.unit_name+'</option>';

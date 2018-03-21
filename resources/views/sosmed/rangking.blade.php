@@ -65,8 +65,11 @@
                 </dl>
                 <dl>5. 4TV's Followers Achievement below 50%
                     <div id="tvAchievementbelow50"></div>
-                    <br>
                 </dl>
+                <!-- <dl>6. Our 4TV's Followers Official Accounts for those Achievement above 50%
+                    <div id="tvAchievementabove50"></div>
+                    <br>
+                </dl> -->
             </ul>
             
         </div>
@@ -456,17 +459,20 @@
                 })
             }
 
+            function tvAchievementabove50(){
+
+            }
+
             $(document).on("submit","#form",function(){
                 var tanggal=$("#tanggal").val();
                 var k=$("#kemarin").val();
 
-                if(k==undefined){
-                    kl="";
+                if($('#pilih').is(':checked')){
+                    $("#panelTitle").empty().html("Report Highlights as of 2PM today ("+tanggal+") compared to ("+k+")");
                 }else{
-                    kl=k;
+                    $("#panelTitle").empty().html("Report Highlights as of 2PM today ("+tanggal+")");
                 }
 
-                $("#panelTitle").empty().html("Report Highlights as of 2PM today ("+tanggal+") compared to ("+k+")");
                 $("#panelShow").show();
                 officialAccountAllTvByTotalFollowers();
                 groupOfficialAccountByTotalFollowers();

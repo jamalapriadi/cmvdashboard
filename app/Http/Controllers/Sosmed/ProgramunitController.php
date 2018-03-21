@@ -410,7 +410,6 @@ class ProgramunitController extends Controller
     public function cek_daily_report(Request $request){
         $rules=[
             'tanggal'=>'required',
-            'type'=>'required',
             'unit'=>'required',
             'sosmed'=>'required'
         ];
@@ -437,7 +436,7 @@ class ProgramunitController extends Controller
             if(count($cekfollower)>0){
                 $data=array(
                     'success'=>false,
-                    'pesan'=>'Anda sudah pernah memasukan data ini',
+                    'pesan'=>'You have stored the data for today!',
                     'error'=>''
                 );
             }else{
@@ -482,7 +481,6 @@ class ProgramunitController extends Controller
     public function save_daily_report(Request $request){
         $rules=[
             'tanggal'=>'required',
-            'type'=>'required',
             'unit'=>'required',
             'sosmed'=>'required'
         ];
@@ -509,7 +507,7 @@ class ProgramunitController extends Controller
             if(count($cekfollower)>0){
                 $data=array(
                     'success'=>false,
-                    'pesan'=>'Anda sudah pernah memasukan data ini',
+                    'pesan'=>'You have stored the data for today!',
                     'error'=>''
                 );
             }else{
@@ -555,9 +553,16 @@ class ProgramunitController extends Controller
                 'unitsosmed.program.businessunit'
             ]
         )->whereHas('unitsosmed')
-        ->select('id','unit_sosmed_id','tanggal',
-        'follower','insert_user','update_user','created_at','updated_at',
-        \DB::raw('@rownum := @rownum + 1 AS no'))
+        ->select(
+            'id',
+            'unit_sosmed_id',
+            'tanggal',
+            'follower',
+            'insert_user',
+            'update_user',
+            'created_at',
+            'updated_at',
+            \DB::raw('@rownum := @rownum + 1 AS no'))
         ->whereBetween('tanggal',[$kemarin,$sekarang]);
 
         if(auth()->user()->can('All Daily Report')){
@@ -571,6 +576,24 @@ class ProgramunitController extends Controller
 
             $daily=$daily->whereHas('unitsosmed.program.businessunit',function($r) use($unit){
                 $r->where('id',$unit);
+            });
+        }
+
+        if($request->has('sosmed')){
+            switch($request->input('sosmed')){
+                case "twitter":
+                        $sosmed=1;
+                    break;
+                case "facebook":
+                        $sosmed=2;
+                    break;
+                case "instagram":
+                        $sosmed=3;
+                    break;
+            }
+
+            $daily=$daily->whereHas('unitsosmed',function($q) use($sosmed){
+                $q->where('sosmed_id',$sosmed);
             });
         }
 
@@ -899,5 +922,57 @@ class ProgramunitController extends Controller
             });
 
         })->export('xlsx');
+    }
+
+    public function list_official_and_program(Request $request,$id){
+        if($request->has('tanggal')){
+            $tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
+        }else{
+            $tanggal=date('Y-m-d');
+        }
+
+        if($request->has('sosmed')){
+            $type=$request->input('sosmed');
+            switch($type){
+                case 'twitter':
+                        $sosmed=1;
+                    break;
+                case 'facebook':
+                        $sosmed=2;
+                    break;
+                case 'instagram':
+                        $sosmed=3;
+                    break;
+            }
+        }else{
+            $type="Twitter";
+            $sosmed=1;
+        }
+
+        $account=\DB::select("select 'corporate' as urut,a.id, a.group_unit_id, a.unit_name, 
+            b.type_sosmed, b.unit_sosmed_name, c.tanggal,
+            sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
+            sum(if(c.tanggal='$tanggal' and b.sosmed_id=$sosmed,c.follower,0)) as follower
+            from business_unit a
+            left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tanggal'
+            where a.id='$id'
+            group by a.id
+            union all 
+            select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,
+            a.program_name,c.tanggal, 
+            sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
+            sum(if(c.tanggal='$tanggal' and b.sosmed_id=$sosmed, c.follower,0)) as follower
+            from program_unit a 
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tanggal'
+            left join business_unit d on d.id=a.business_unit_id
+            where d.id='$id'
+            group by a.id
+            order by id, urut,type_sosmed");
+
+        return view('sosmed.view.add_new_report')
+            ->with('account',$account)
+            ->with('sosmed',$type);
     }
 }

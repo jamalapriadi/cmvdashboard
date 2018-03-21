@@ -54,7 +54,17 @@
                 @endif
 
                 @if(auth()->user()->can('Input Report'))
-                    <li><a href="{{URL::to('sosmed/input-report-harian')}}" class="{{ Request::path() == 'sosmed/input-report-harian' ? 'active' : '' }}"><i class="lnr lnr-location"></i> <span>Input Report</span></a></li>
+                    <li>
+                        <a href="#subR" data-toggle="collapse" class="collapsed"><i class="lnr lnr-location"></i> <span>Input Report</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                        <div id="subR" class="collapse ">
+                            <ul class="nav">
+                                <li><a href="{{URL::to('sosmed/input-report/twitter')}}"><i class="icon-twitter2"></i> Twitter</a></li>
+                                <li><a href="{{URL::to('sosmed/input-report/facebook')}}"><i class="icon-facebook2"></i> Facebook</a></li>
+                                <li><a href="{{URL::to('sosmed/input-report/instagram')}}"><i class="icon-instagram"></i> Instagram</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- <li><a href="{{URL::to('sosmed/input-report-harian')}}" class="{{ Request::path() == 'sosmed/input-report-harian' ? 'active' : '' }}"><i class="lnr lnr-location"></i> <span>Input Report</span></a></li> -->
                 @endif
 
                 @if(auth()->user()->can('Backup'))

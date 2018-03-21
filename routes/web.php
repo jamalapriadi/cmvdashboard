@@ -29,10 +29,11 @@ Route::group(['prefix'=>'sosmed'],function(){
     Route::get('program/{id}/summary','HomeController@sosmed_summary_program');
     Route::get('business-unit/{id}/summary','HomeController@sosmed_summary_bu');
     Route::get('input-report-harian','HomeController@sosmed_input_report_harian');
-    Route::get('add-new-report-harian','HomeController@add_new_report_harian');
+    Route::get('add-new-report-harian/{id}','HomeController@add_new_report_harian');
 
     Route::get('daily-report','HomeController@sosmed_daily_report');
     Route::get('ranking-soc-med','HomeController@sosmed_ranking_soc_med');
+    Route::get('input-report/{id}','HomeController@sosmed_input_report');
 
     Route::get('role','HomeController@role');
     Route::get('role/{id}/permission','HomeController@permission');
@@ -78,6 +79,7 @@ Route::group(['prefix'=>'sosmed'],function(){
         Route::delete('daily-report/{id}','Sosmed\ProgramunitController@daily_report_destroy');
         Route::post('import-daily-report','Sosmed\ProgramunitController@daily_report_import');
         Route::get('sample-daily-report','Sosmed\ProgramunitController@daily_report_sample');
+        Route::get('list-official-and-program/{id}','Sosmed\ProgramunitController@list_official_and_program');
 
         Route::get('backup-excel','Sosmed\ProgramunitController@import');
 
