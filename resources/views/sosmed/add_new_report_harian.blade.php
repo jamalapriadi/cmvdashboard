@@ -52,6 +52,7 @@
 	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.date.js')}}"></script>
 	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.time.js')}}"></script>
 	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/legacy.js')}}"></script>
+    {{Html::script('limitless1/assets/js/plugins/jquery-number/jquery.number.min.js')}}
     <script>
         $(function(){
             var kode="";

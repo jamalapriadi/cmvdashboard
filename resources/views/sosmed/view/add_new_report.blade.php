@@ -43,7 +43,7 @@
                     <td>
                         @if($row->idsosmed!=0)
                             <input type="hidden" name="official[{{$row->idsosmed}}]" value="{{$row->unit_sosmed_name}}">
-                            <input type="text" class="form-control" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" required>
+                            <input type="number" class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" required>
                         @endif
                     </td>
                 </tr>
