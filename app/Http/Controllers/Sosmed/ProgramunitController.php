@@ -927,8 +927,10 @@ class ProgramunitController extends Controller
     public function list_official_and_program(Request $request,$id){
         if($request->has('tanggal')){
             $tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($tanggal)));
         }else{
             $tanggal=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($tanggal)));
         }
 
         if($request->has('sosmed')){
@@ -952,20 +954,20 @@ class ProgramunitController extends Controller
         $account=\DB::select("select 'corporate' as urut,a.id, a.group_unit_id, a.unit_name, 
             b.type_sosmed, b.unit_sosmed_name, c.tanggal,
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
-            sum(if(c.tanggal='$tanggal' and b.sosmed_id=$sosmed,c.follower,0)) as follower
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=$sosmed,c.follower,0)) as follower
             from business_unit a
             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tanggal'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$kemarin'
             where a.id='$id'
             group by a.id
             union all 
             select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,
             a.program_name,c.tanggal, 
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
-            sum(if(c.tanggal='$tanggal' and b.sosmed_id=$sosmed, c.follower,0)) as follower
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=$sosmed, c.follower,0)) as follower
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tanggal'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$kemarin'
             left join business_unit d on d.id=a.business_unit_id
             where d.id='$id'
             group by a.id
