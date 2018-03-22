@@ -30,7 +30,7 @@ class User extends Authenticatable
     ];
 
     public function unitsosmed(){
-        return $this->belongsTo('App\Models\Sosmed\Businessunit','unit');
+        return $this->belongsTo('App\Models\Sosmed\Businessunit','unit_id');
     }
 
     public function unit(){

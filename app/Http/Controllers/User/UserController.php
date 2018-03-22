@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index(){
         \DB::statement(\DB::raw('set @rownum=0'));
 
-        $user=User::select('id','name','email','unit',
+        $user=User::select('id','name','email','unit_id',
             \DB::raw('@rownum := @rownum + 1 AS no'))
             ->with('unitsosmed');
 
@@ -59,7 +59,7 @@ class UserController extends Controller
         }else{
             $user=new User;
             $user->name=$request->input('name');
-            $user->unit=$request->input('unit');
+            $user->unit_id=$request->input('unit');
             $user->email=$request->input('email');
             $user->password=bcrypt($request->input('password'));
             
@@ -111,7 +111,7 @@ class UserController extends Controller
         }else{
             $user=User::find($id);
             $user->name=$request->input('name');
-            $user->unit=$request->input('unit');
+            $user->unit_id=$request->input('unit');
             $user->email=$request->input('email');
             $user->password=bcrypt($request->input('password'));
             
