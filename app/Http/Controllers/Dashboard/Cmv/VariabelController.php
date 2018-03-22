@@ -22,35 +22,21 @@ class VariabelController extends Controller
             \DB::raw('@rownum := @rownum + 1 AS no')
         )->with('brand','subdemo');
 
-        if($request->has('cari')){
+        if($request->has('cari') && $request->input('cari')!=null){
             $cari=$request->input('cari');
             $demo=$demo->where('brand_id',$cari);
         }
 
-        $demo=$demo->paginate(15);
+        if($request->has('brand') && $request->input('brand')!=null){
+            $demo=$demo->where('brand_id',$request->input('brand'));
+        }
 
-        return view('dashboard.cmv.view.variabel')
-            ->with('demo',$demo);
-    }
+        if($request->has('sub') && $request->input('sub')!=null){
+            $demo=$demo->where('subdemo_id',$request->input('sub'));
+        }
 
-    public function filter_variabel(Request $request){
-        \DB::statement(\DB::raw('set @rownum=0'));
-        $demo=Variabel::select(
-            'cmv_variabel.id',
-            'cmv_variabel.brand_id',
-            'cmv_variabel.subdemo_id',
-            'quartal',
-            'totals_thousand',
-            'totals_ver',
-            'cmv_variabel.created_at',
-            \DB::raw('@rownum := @rownum + 1 AS no')
-        )->with('brand','subdemo');
-
-        if($request->has('cari')){
-            $cari=$request->input('cari');
-            $demo=$demo->whereHas('brand',function($q) use($cari){
-                $q->where('brand_name','like','%'.$cari.'%');
-            });
+        if($request->has('quartal') && $request->input('quartal')!=null && $request->input('quartal')!="null"){
+            $demo=$demo->where('quartal',$request->input('quartal'));
         }
 
         $demo=$demo->paginate(15);
@@ -61,8 +47,12 @@ class VariabelController extends Controller
 
     public function store(Request $request){
         $rules=[
-            'demo'=>'required',
-            'name'=>'required'
+            'brand'=>'required',
+            'subdemo'=>'required',
+            'quartal'=>'required',
+            'thousand'=>'required',
+            'vertikal'=>'required',
+            'horizontal'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -74,15 +64,18 @@ class VariabelController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $demo=new Demography;
-
-            $demo->demo_id=$request->input('demo');
-            $demo->demo_name=$request->input('name');
+            $demo=new Variabel;
+            $demo->brand_id=$request->input('brand');
+            $demo->subdemo_id=$request->input('subdemo');
+            $demo->quartal=$request->input('quartal');
+            $demo->totals_thousand=$request->input('thousand');
+            $demo->totals_ver=$request->input('vertikal');
+            $demo->total_hor=$request->input('horizontal');
             $demo->save();
 
             $data=array(
                 'success'=>true,
-                'pesan'=>'Data berhasil diupdate',
+                'pesan'=>'Data berhasil disimpan',
                 'error'=>''
             );    
         }
@@ -104,8 +97,12 @@ class VariabelController extends Controller
 
     public function update(Request $request,$id){
         $rules=[
-            'demo'=>'required',
-            'name'=>'required'
+            'brand'=>'required',
+            'subdemo'=>'required',
+            'quartal'=>'required',
+            'thousand'=>'required',
+            'vertikal'=>'required',
+            'horizontal'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -118,9 +115,12 @@ class VariabelController extends Controller
             );
         }else{
             $demo=Variabel::find($id);
-
-            $demo->demo_id=$request->input('demo');
-            $demo->demo_name=$request->input('name');
+            $demo->brand_id=$request->input('brand');
+            $demo->subdemo_id=$request->input('subdemo');
+            $demo->quartal=$request->input('quartal');
+            $demo->totals_thousand=$request->input('thousand');
+            $demo->totals_ver=$request->input('vertikal');
+            $demo->total_hor=$request->input('horizontal');
             $demo->save();
 
             $data=array(

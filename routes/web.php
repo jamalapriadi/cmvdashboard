@@ -124,6 +124,7 @@ Route::group(['prefix'=>'cmv'],function(){
     Route::get('variabel','Dashboard\CmvController@variabel');
 
     Route::group(['prefix'=>'data'],function(){
+        Route::get('filter-demography-by-brand','Dashboard\Cmv\ReportController@filter_demography');
         Route::resource('sector','Dashboard\Cmv\SectorController');
         Route::post('import-sector','Dashboard\Cmv\SectorController@import');
         Route::get('sample-sector','Dashboard\Cmv\SectorController@sample');

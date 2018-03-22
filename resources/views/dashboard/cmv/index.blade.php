@@ -1,180 +1,107 @@
 @extends('layouts.dashboard')
 
 @section('js')
+    <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.2.0/js/dataTables.responsive.min.js"></script>
+    {{Html::script('limitless1/assets/js/plugins/tables/datatables/extensions/fixed_columns.min.js')}}
     <script>
         $(function(){
-            $.extend( $.fn.dataTable.defaults, {
-                autoWidth: false,
-                columnDefs: [{ 
-                    orderable: false,
-                    width: '100px',
-                    targets: [ 2 ]
-                }],
-                dom: '<"datatable-header"fCl><"datatable-scroll"t><"datatable-footer"ip>',
-                language: {
-                    search: '<span>Filter:</span> _INPUT_',
-                    lengthMenu: '<span>Show:</span> _MENU_',
-                    paginate: { 'first': 'First', 'last': 'Last', 'next': '&rarr;', 'previous': '&larr;' }
-                },
-                drawCallback: function () {
-                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-                    $.uniform.update();
-                },
-                preDrawCallback: function() {
-                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
-                }
-            });
-
-
-            $(document).on("change","#sector",function(){
-                var sector=$("#sector option:selected").val();
-
-                $.ajax({
-                    url:"{{URL::to('cmv/data/list-category')}}",
-                    type:"GET",
-                    data:"sector="+sector,
-                    beforeSend:function(){
-                        $("#category").empty().html("");
-                        $("#brand").empty().html("");
+            $(".remote-data-brand").select2({
+                ajax: {
+                    url: "{{URL::to('cmv/data/list-brand')}}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params, // search term
+                            page_limit: 30
+                        };
                     },
-                    success:function(result){
-                        $("#category").append($("<option></option>")
-                                    .attr("value","")
-                                    .text("--Choose Category--")); 
-
-                        $.each(result,function(a,b){
-                            $('#category')
-                                .append($("<option></option>")
-                                            .attr("value",b.category_id)
-                                            .text(b.text)); 
-                        })
+                    results: function (data, page){
+                        return {
+                            results: data.data
+                        };
                     },
-                    error:function(){
-
+                    cache: true,
+                    pagination: {
+                        more: true
                     }
-                })
-            })
-
-            $(document).on("change","#category",function(){
-                var category=$("#category option:selected").val();
-
-                $.ajax({
-                    url:"{{URL::to('cmv/data/list-brand')}}",
-                    type:"GET",
-                    data:"category="+category,
-                    beforeSend:function(){
-                        $("#brand").empty().html("");
-                    },
-                    success:function(result){
-                        $("#brand").append($("<option></option>")
-                                    .attr("value","")
-                                    .text("--Choose Brand--")); 
-
-                        $.each(result,function(a,b){
-                            $('#brand')
-                                .append($("<option></option>")
-                                            .attr("value",b.brand_id)
-                                            .text(b.text)); 
-                        })
-                    },
-                    error:function(){
-
-                    }
-                })
+                },
+                formatResult: function(m){
+                    var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+    
+                    return markup;                
+                },
+                formatSelection: function(m){
+                    return m.text;
+                },
+                escapeMarkup: function (m) { return m; }
             })
 
             $(document).on("submit","#formSearch",function(e){
-                var data = new FormData(this);
-                data.append("_method","GET");
-                if($("#formSearch")[0].checkValidity()) {
-                    //updateAllMessageForms();
-                    e.preventDefault();
-                    $.ajax({
-                        url         : "{{URL::to('cmv/data/search')}}",
-                        type        : 'post',
-                        data        : data,
-                        dataType    : 'JSON',
-                        contentType : false,
-                        cache       : false,
-                        processData : false,
-                        beforeSend  : function (){
-                            $('#pesan').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
-                        },
-                        success : function (result) {
-                            console.log(result.data);
-                            var el="";
-                            if(result.success==true){
-                                el+="<div class='panel panel-flat'>"+
-                                    "<div class='panel-body'>"+
-                                    "<table class='table text-nowrap tablesector'>"+
-                                        "<thead>"+
-                                            "<tr>"+
-                                                "<th>SUBDEMOGRAPHY</th>"+
-                                                "<th>TOTALS THOUSAND</th>"+
-                                                "<th>TOTALS VERTICAL</th>"+
-                                                "<th>TOTAL PERSEN</th>"+
-                                            "</tr>"+
-                                        "</thead>"+
-                                        "<tbody>";
-                                            $.each(result.data,function(a,b){
-                                                el+="<tr class='active border-double' style='background:lightgray'>"+
-                                                    "<th>"+b.demo+"</th>"+
-                                                    "<th></th>"+
-                                                    "<th></th>"+
-                                                    "<th></th>"+
-                                                "</tr>";
-                                                $.each(b.subdemo,function(c,d){
-                                                    el+="<tr>"+
-                                                        "<td>"+d.subdemo+"</td>"+
-                                                        "<td>"+d.total_thousand+"</td>"+
-                                                        "<td>"+d.total_vertical+"</td>"+
-                                                        "<td>"+d.total_persen+" %</td>"+
-                                                    "</tr>";
-                                                })
-                                            
-                                            })
-                                        el+="</tbody>"+
-                                    "</table>"+
-                                "</div></div>";
+                var brand=$("#brand").val();
+                var quartal=$("#quartal").val();
 
-                                $("#tampil").empty().html(el);
+                $.ajax({
+                    url:"{{URL::to('cmv/data/filter-demography-by-brand')}}",
+                    type:"GET",
+                    data:"brand="+brand+"&quartal="+quartal,
+                    beforeSend:function(){
+                        $("#showData").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        $("#showData").empty().html(result);
 
-                                $(".tablesector").DataTable({
-                                    colVis: {
-                                        buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
-                                        align: "right",
-                                        overlayFade: 200,
-                                        showAll: "Show all",
-                                        showNone: "Hide all"
-                                    },
-                                    bDestroy: true
-                                });
+                        $("#tabelBrand").DataTable({
+                            colVis: {
+                                buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
+                                align: "right",
+                                overlayFade: 200,
+                                showAll: "Show all",
+                                showNone: "Hide all"
+                            },
+                            scrollX: true,
+                            scrollY: '450px',
+                            scrollCollapse: true,
+                            fixedColumns: true,
+                            fixedColumns: {
+                                leftColumns: 2,
+                                rightColumns: 0
+                            },
+                            fnRowCallback: function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                                if ( aData[2] == "5" )
+                                {
+                                    $('td', nRow).css('background-color', 'Red');
+                                }
+                                else if ( aData[2] == "4" )
+                                {
+                                    $('td', nRow).css('background-color', 'Orange');
+                                }
+                            },
+                            bDestroy: true
+                        })
 
-                                // Launch Uniform styling for checkboxes
-                                $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
-                                    $('.ColVis_collection input').uniform();
-                                });
+                        // Launch Uniform styling for checkboxes
+                        $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
+                            $('.ColVis_collection input').uniform();
+                        });
 
 
-                                // Add placeholder to the datatable filter option
-                                $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
+                        // Add placeholder to the datatable filter option
+                        $('.dataTables_filter input[type=search]').attr('placeholder', 'Type and Enter...');
 
 
-                                // Enable Select2 select for the length option
-                                $('.dataTables_length select').select2({
-                                    minimumResultsForSearch: "-1"
-                                }); 
+                        // Enable Select2 select for the length option
+                        $('.dataTables_length select').select2({
+                            minimumResultsForSearch: "-1"
+                        }); 
 
-                            }else{
-                                
-                            }
-                        },
-                        error   :function() {  
-                            $('#pesan').html('<div class="alert alert-danger">Your request not Sent...</div>');
-                        }
-                    });
-                }else console.log("invalid form");
-            });
+                    },
+                    error:function(){
+                        $("#showData").empty().html("<div class='alert alert-danger'>Data failed to load</div>");
+                    }
+                })
+            })
         })
     </script>
 @stop
@@ -186,28 +113,15 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <label class="control-label">Sector</label>
-                            <select name="sector" id="sector" class="form-control">
-                                <option value="" disabled selected>--Select Sector--</option>
-                                @foreach($sector as $row)
-                                    <option value="{{$row->sector_id}}">{{$row->sector_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label class="control-label">Category</label>
-                            <select name="category" id="category" class="form-control">
-                                <option value="">--Select Category--</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
                             <label class="control-label">Brand</label>
-                            <select name="brand" id="brand" class="form-control">
-                                <option value="">--Select Brand--</option>
+                            <input type="text" name="brand" id="brand" class="remote-data-brand">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="control-label">Quartal</label>
+                            <select name="quartal" id="quartal" class="form-control">
+                                <option value="42017">42017</option>
                             </select>
                         </div>
                     </div>
@@ -224,55 +138,11 @@
         </div>
     </div>
 
-    <div id="tampil"></div>
-@stop
-
-@section('tes')
-<div class="table-responsive">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th rowspan="3">No.</th>
-                    <th rowspan="3">Category</th>
-                    <th rowspan="3">Brand</th>
-                    @foreach($demo as $d)
-                        <th colspan="{{count($d->subdemo)*2}}" class="text-center">{{$d->demo_name}}</th>
-                    @endforeach
-                </tr>
-                <tr>
-                    @foreach($demo as $r)
-                        @foreach($r->subdemo as $sb)
-                            <th colspan="2" class="text-center">{{$sb->subdemo_name}}</th>
-                        @endforeach
-                    @endforeach
-                </tr>
-                <tr>
-                    @foreach($demo as $r)
-                        @foreach($r->subdemo as $sb)
-                            <th class="text-center">Totals (000)s</th>
-                            <th class="text-center">Totals Ver</th>
-                        @endforeach
-                    @endforeach
-                </tr>
-            </thead>
-            <tbody>
-                <?php $no=0;?>
-                @foreach($brand as $row)
-                    <?php $no++;?>
-                    <tr>
-                        <td>{{$no}}</td>
-                        <td>{{$row->category->category_name}}</td>
-                        <td>{{$row->brand_name}}</td>
-                        @foreach($row->variabel as $k)
-                            <td>{{$k->pivot->totals_thousand}}</td>
-                            <td>{{$k->pivot->totals_ver}}</td>
-                        @endforeach
-                    </tr>
-                @endforeach
-            </tr>
-        </table>
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <div id="showData"></div>   
+        </div>
     </div>
 
-    <hr>
-    {{$brand->links()}}
+    
 @stop

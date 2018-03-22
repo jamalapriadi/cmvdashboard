@@ -28,9 +28,14 @@
             });
 
             function showSector(page){
+                var brand=$("#brand").val();
+                var sub=$("#sub").val();
+                var quartal=$("#quartal").val();
+
                 $.ajax({
                     url:"{{URL::to('cmv/data/variabel')}}?page="+page,
                     type:"GET",
+                    data:"brand="+brand+"&sub="+sub+"&quartal="+quartal,
                     beforeSend:function(){
                         $("#tampilData").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
@@ -56,18 +61,34 @@
                             '<div class="modal-content">'+
                                 '<div class="modal-header bg-primary">'+
                                     '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
-                                    '<h5 class="modal-title" id="modal-title">Add New Demography</h5>'+
+                                    '<h5 class="modal-title" id="modal-title">Input New Variabel</h5>'+
                                 '</div>'+
 
                                 '<div class="modal-body">'+
                                     '<div id="pesan"></div>'+
                                     '<div class="form-group">'+
-                                        '<label class="control-label text-semibold">DEMOGRAPHY ID</label>'+
-                                        '<input class="form-control" name="demo" id="demo" placeholder="DEMOGRAPHY ID" required>'+
+                                        '<label class="control-label text-semibold">Brand</label>'+
+                                        '<input class="remote-data-brand" name="brand" id="brand">'+
                                     '</div>'+
                                     '<div class="form-group">'+
-                                        '<label class="control-label text-semibold">DEMOGRAPHY NAME</label>'+
-                                        '<input class="form-control" name="name" id="name" placeholder="DEMOGRAPHY NAME" required>'+
+                                        '<label class="control-label text-semibold">Subdemo Name</label>'+
+                                        '<input class="remote-data-list-sub-demo" name="subdemo" id="subdemo">'+
+                                    '</div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Quartal</label>'+
+                                        '<input type="number" class="form-control" name="quartal" id="quartal">'+
+                                    '</div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Total Thousand</label>'+
+                                        '<input type="number" class="form-control" name="thousand" id="thousand">'+
+                                    '</div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Total Vertikal</label>'+
+                                        '<input type="number" class="form-control" name="vertikal" id="vertikal">'+
+                                    '</div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Total Horizontal</label>'+
+                                        '<input type="number" class="form-control" name="horizontal" id="horizontal">'+
                                     '</div>'+
                                 '</div>'+
 
@@ -82,6 +103,70 @@
 
                 $("#divModal").empty().html(el);
                 $("#modal_default").modal("show");
+
+                $(".remote-data-brand").select2({
+                    ajax: {
+                        url: "{{URL::to('cmv/data/list-brand')}}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                q: params, // search term
+                                page_limit: 30
+                            };
+                        },
+                        results: function (data, page){
+                            return {
+                                results: data.data
+                            };
+                        },
+                        cache: true,
+                        pagination: {
+                            more: true
+                        }
+                    },
+                    formatResult: function(m){
+                        var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+        
+                        return markup;                
+                    },
+                    formatSelection: function(m){
+                        return m.text;
+                    },
+                    escapeMarkup: function (m) { return m; }
+                })
+
+                $(".remote-data-list-sub-demo").select2({
+                    ajax: {
+                        url: "{{URL::to('cmv/data/list-sub-demo')}}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                q: params, // search term
+                                page_limit: 30
+                            };
+                        },
+                        results: function (data, page){
+                            return {
+                                results: data.data
+                            };
+                        },
+                        cache: true,
+                        pagination: {
+                            more: true
+                        }
+                    },
+                    formatResult: function(m){
+                        var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+        
+                        return markup;                
+                    },
+                    formatSelection: function(m){
+                        return m.text;
+                    },
+                    escapeMarkup: function (m) { return m; }
+                })
             })
 
             $(document).on("submit","#form",function(e){
@@ -136,15 +221,29 @@
 
                                         '<div class="modal-body">'+
                                             '<div id="pesan"></div>'+
-
                                             '<div class="form-group">'+
-                                                '<label class="control-label text-semibold">DEMOGRAPHY ID</label>'+
-                                                '<input class="form-control" name="demo" id="demo" placeholder="DEMOGRAPHY ID" value="'+result.demo_id+'" required>'+
+                                                '<label class="control-label text-semibold">Brand</label>'+
+                                                '<input class="remote-data-brand" name="brand" id="brand" value="'+result.brand_id+'">'+
                                             '</div>'+
-
                                             '<div class="form-group">'+
-                                                '<label class="control-label text-semibold">DEMOGRAPHY NAME</label>'+
-                                                '<input class="form-control" name="name" id="name" placeholder="SECTOR NAME" value="'+result.demo_name+'" required>'+
+                                                '<label class="control-label text-semibold">Subdemo Name</label>'+
+                                                '<input class="remote-data-list-sub-demo" name="subdemo" id="subdemo" value="'+result.subdemo_id+'">'+
+                                            '</div>'+
+                                            '<div class="form-group">'+
+                                                '<label class="control-label text-semibold">Quartal</label>'+
+                                                '<input type="number" class="form-control" name="quartal" id="quartal" value="'+result.quartal+'">'+
+                                            '</div>'+
+                                            '<div class="form-group">'+
+                                                '<label class="control-label text-semibold">Total Thousand</label>'+
+                                                '<input type="number" class="form-control" name="thousand" id="thousand" value="'+result.totals_thousand+'">'+
+                                            '</div>'+
+                                            '<div class="form-group">'+
+                                                '<label class="control-label text-semibold">Total Vertikal</label>'+
+                                                '<input type="number" class="form-control" name="vertikal" id="vertikal" value="'+result.totals_ver+'">'+
+                                            '</div>'+
+                                            '<div class="form-group">'+
+                                                '<label class="control-label text-semibold">Total Horizontal</label>'+
+                                                '<input type="number" class="form-control" name="horizontal" id="horizontal" value="'+result.total_hor+'">'+
                                             '</div>'+
                                         '</div>'+
 
@@ -159,6 +258,76 @@
 
                         $("#divModal").empty().html(el);
                         $("#modal_default").modal("show");          
+
+                        $(".remote-data-brand").select2({
+                            initSelection: function(element, callback) {
+                                callback({id: result.brand_id, text: result.brand.brand_name });
+                            },
+                            ajax: {
+                                url: "{{URL::to('cmv/data/list-brand')}}",
+                                dataType: 'json',
+                                delay: 250,
+                                data: function (params) {
+                                    return {
+                                        q: params, // search term
+                                        page_limit: 30
+                                    };
+                                },
+                                results: function (data, page){
+                                    return {
+                                        results: data.data
+                                    };
+                                },
+                                cache: true,
+                                pagination: {
+                                    more: true
+                                }
+                            },
+                            formatResult: function(m){
+                                var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+                
+                                return markup;                
+                            },
+                            formatSelection: function(m){
+                                return m.text;
+                            },
+                            escapeMarkup: function (m) { return m; }
+                        })
+
+                        $(".remote-data-list-sub-demo").select2({
+                            initSelection: function(element, callback) {
+                                callback({id: result.subdemo_id, text: result.subdemo.subdemo_name });
+                            },
+                            ajax: {
+                                url: "{{URL::to('cmv/data/list-sub-demo')}}",
+                                dataType: 'json',
+                                delay: 250,
+                                data: function (params) {
+                                    return {
+                                        q: params, // search term
+                                        page_limit: 30
+                                    };
+                                },
+                                results: function (data, page){
+                                    return {
+                                        results: data.data
+                                    };
+                                },
+                                cache: true,
+                                pagination: {
+                                    more: true
+                                }
+                            },
+                            formatResult: function(m){
+                                var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+                
+                                return markup;                
+                            },
+                            formatSelection: function(m){
+                                return m.text;
+                            },
+                            escapeMarkup: function (m) { return m; }
+                        })
                     },
                     error:function(){
                         alert('link policy not found');
@@ -211,7 +380,7 @@
                 }else console.log("invalid form");
             });
 
-            $(document).on("click",".hapusdemo",function(){
+            $(document).on("click",".hapusvariabel",function(){
                 kode=$(this).attr("kode");
 
                 swal({
@@ -310,29 +479,7 @@
             });
 
             $(document).on("submit","#formCari",function(e){
-                var data = new FormData(this);
-                if($("#formCari")[0].checkValidity()) {
-                    //updateAllMessageForms();
-                    e.preventDefault();
-                    $.ajax({
-                        url         : "{{URL::to('cmv/data/filter-variabel')}}",
-                        type        : 'post',
-                        data        : data,
-                        dataType    : 'JSON',
-                        contentType : false,
-                        cache       : false,
-                        processData : false,
-                        beforeSend  : function (){
-                            $('#tampilData').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
-                        },
-                        success : function (data) {
-                            $('#tampilData').html(data);
-                        },
-                        error   :function() {  
-                            $('#tampilData').html('<div class="alert alert-danger">Your request not Sent...</div>');
-                        }
-                    });
-                }else console.log("invalid form");
+                showSector(1);
             })
 
             $(".remote-data-brand").select2({
@@ -407,7 +554,7 @@
 @section('heading-element')
     <div class="heading-elements">
         <div class="btn-group pull-right" role="group">
-            <a href="#" class="btn bg-blue btn-labeled heading-btn" id="addsector"><b><i class="icon-task"></i></b> Create Sector</a>
+            <a href="#" class="btn bg-blue btn-labeled heading-btn" id="addsector"><b><i class="icon-task"></i></b> Create Input Variabel</a>
 
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:60px;">                <i class="icon-gear"></i>
             </button>
