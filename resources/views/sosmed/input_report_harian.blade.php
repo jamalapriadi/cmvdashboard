@@ -25,6 +25,7 @@
         color:#222;
     }
     .daterangepicker{z-index:1151 !important;}
+    
 </style>
 @stop
 

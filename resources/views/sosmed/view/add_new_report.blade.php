@@ -1,5 +1,5 @@
 <div id="parent">
-    <table class="table table-striped" id="fixTable">
+    <table class="table table-striped sticky-header" id="fixTable">
         <thead>
             <tr>
                 <th rowspan="2" rowspan='2' style="background:#419F51;color:white" class="text-center">No.</th>

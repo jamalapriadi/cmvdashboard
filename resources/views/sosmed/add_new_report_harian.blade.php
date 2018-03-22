@@ -25,6 +25,11 @@
         color:#222;
     }
     .daterangepicker{z-index:1151 !important;}
+    table.floatThead-table {
+        border-top: none;
+        border-bottom: none;
+        background-color: #fff;
+    }
 </style>
 @stop
 
@@ -53,6 +58,7 @@
 	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.time.js')}}"></script>
 	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/legacy.js')}}"></script>
     {{Html::script('limitless1/assets/js/plugins/jquery-number/jquery.number.min.js')}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/floatthead/2.1.1/jquery.floatThead.js"></script>
     <script>
         $(function(){
             var id="{{auth()->user()->id}}";
@@ -275,6 +281,7 @@
                         '</div>';
 
                         $("#showButton").empty().html(el);
+                        $(".sticky-header").floatThead({scrollingTop:50});
                         $('form').on('focus', 'input[type=number]', function (e) {
                             $(this).on('mousewheel.disableScroll', function (e) {
                                 e.preventDefault()
