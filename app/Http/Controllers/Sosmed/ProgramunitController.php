@@ -547,8 +547,12 @@ class ProgramunitController extends Controller
         $user=\App\User::with('unit')->find(auth()->user()->id);
 
         $listUnit=array();
-        foreach($user->unit as $row){
-            array_push($listUnit,$row->id);
+        if($request->has('unit') && $request->input('unit')!=null){
+            array_push($listUnit,$request->input('unit'));
+        }else{
+            foreach($user->unit as $row){
+                array_push($listUnit,$row->id);
+            }
         }
 
         if($request->has('sosmed')){
