@@ -50,6 +50,8 @@ Route::group(['prefix'=>'sosmed'],function(){
         Route::get('list-role-user','User\UserController@list_role');
         Route::post('save-role-user','User\UserController@save_role_user');
         Route::post('hapus-role-user','User\UserController@hapus_role_user');
+        Route::get('list-user/{id}/handle-unit','User\UserController@user_handle_unit');
+        Route::post('save-user-handle-unit','User\UserController@save_user_handle_unit');
     
         Route::resource('group-unit','Sosmed\GroupunitController');
         Route::get('list-group','Sosmed\GroupunitController@list_group');

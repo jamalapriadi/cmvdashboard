@@ -41,7 +41,7 @@
                             <label for="" class="control-label">Group</label>
                             <select name="searchgroup" id="searchgroup" class="form-control">
                                 <option value="" selected>--Select Group--</option>
-                                @foreach($group as $row)
+                                @foreach($user->unit->groupunit as $row)
                                     <option value="{{$row->id}}">{{$row->group_name}}</option>
                                 @endforeach
                             </select>

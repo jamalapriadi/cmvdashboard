@@ -37,24 +37,13 @@
             <div class="row">
                 <form id="formSearch" onsubmit="return false;">
                     <div style="float:left;margin-right:3px; width:160px">
-                        <div class="form-group">
-                            <label for="" class="control-label">Group</label>
-                            <select name="searchgroup" id="searchgroup" class="form-control">
-                                <option value="" selected>--Select Group--</option>
-                                @foreach($group as $row)
-                                    <option value="{{$row->id}}">{{$row->group_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div style="float:left;margin-right:3px; width:160px">
                         <div id="divsearchunit">
                             <div class="form-group">
                                 <label for="" class="control-label">Unit</label>
                                 <select name="searchunit" id="searchunit" class="form-control">
                                     <option value="all" disabled selected>--Select Unit--</option>
-                                    @foreach($unit as $row)
-                                        <option value="{{$row->id}}" data-group="{{$row->group_unit_id}}">{{$row->unit_name}}</option>
+                                    @foreach($user->unit as $rp)
+                                        <option value="{{$rp->id}}">{{$rp->unit_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -103,7 +92,7 @@
         <div class="panel-body">
             <!-- <table class="table table-striped datatable-colvis-basic"></table> -->
             <div class="table-responsive">
-                <table class='table table-striped datatable-colvis-basic'></table>
+                <div id="showData"></div>
             </div>
         </div>
     </div>
@@ -135,7 +124,7 @@
             $('.daterange-basic').daterangepicker({
                 applyClass: 'bg-slate-600',
                 cancelClass: 'btn-default',
-                opens: 'left'
+                opens: 'right'
             });
 
             // Setting datatable defaults
@@ -175,67 +164,50 @@
             }
 
             function showData(){
-                var f={
-                    sosmed:"{{$id}}"
-                }
+                var f="{{$id}}";
 
-                var table=$('.datatable-colvis-basic').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    autoWidth: true,
-                    destroy: true,
-                    ajax: {
-                        url:"{{URL::to('sosmed/data/daily-report')}}",
-                        data:f
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/daily-report')}}",
+                    type:"GET",
+                    data:"sosmed="+f,
+                    beforeSend:function(){
+                        $("#showData").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
-                    columns: [
-                        {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
-                        {data: 'unit', name: 'unit',title:'Unit Name',width:'18%'},
-                        {data: 'program', name: 'program',title:'Program Name'},
-                        {data: 'unitsosmed.sosmed.sosmed_name', name: 'unitsosmed.sosmed.sosmed_name',title:'Sosmed Name'},
-                        {data: 'unitsosmed.unit_sosmed_name', name: 'unitsosmed.unit_sosmed_name',title:'Account Name'},
-                        {data: 'tanggal', name: 'tanggal',title:'Tanggal'},
-                        {data: 'follow', name: 'follow',title:'Follower'},
-                        {data: 'insert_user', name: 'insert_user',title:'Insert User',visible:false},
-                        {data: 'created_at', name: 'created_at',title:'Created At',visible:false},
-                        {data: 'updated_at', name: 'updated_at',title:'Updated At',visible:false},
-                        {data: 'action', name: 'action',title:'Action',searchable:false,width:'22%'}
-                    ],
-                    buttons: [
-                        'copy', 'excel', 'pdf'
-                    ],
-                    colVis: {
-                        buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
-                        align: "right",
-                        overlayFade: 200,
-                        showAll: "Show all",
-                        showNone: "Hide all"
+                    success:function(result){
+                        $("#showData").empty().html(result);
+
+                        $("#tabeldaily").DataTable({
+                            colVis: {
+                                buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
+                                align: "right",
+                                overlayFade: 200,
+                                showAll: "Show all",
+                                showNone: "Hide all"
+                            },
+                            bDestroy: true
+                        })
+
+                        // Launch Uniform styling for checkboxes
+                        $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
+                            $('.ColVis_collection input').uniform();
+                        });
+
+
+                        // Add placeholder to the datatable filter option
+                        $('.dataTables_filter input[type=search]').attr('placeholder', 'Type and Enter...');
+
+
+                        // Enable Select2 select for the length option
+                        $('.dataTables_length select').select2({
+                            minimumResultsForSearch: "-1"
+                        }); 
+
+                        
                     },
-                    bDestroy: true
-                }); 
+                    error:function(){
 
-                // Launch Uniform styling for checkboxes
-                $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
-                    $('.ColVis_collection input').uniform();
-                });
-
-
-                // Add placeholder to the datatable filter option
-                $('.dataTables_filter input[type=search]').attr('placeholder', 'Type and Enter...');
-
-
-                // Enable Select2 select for the length option
-                $('.dataTables_length select').select2({
-                    minimumResultsForSearch: "-1"
-                }); 
-
-                $('.dataTables_filter input[type=search]').unbind().keyup(function(e) {
-				    var value = $(this).val();
-
-				    if (e.keyCode == 13) {
-				    	table.search(value).draw();
-				    }
-				});
+                    }
+                })                
             }
 
             $(document).on("click","#tambah",function(){
@@ -701,7 +673,7 @@
                             el+="</select>"+
                             '</div>';
                         }else{
-                            var unit=@json($unit);
+                            var unit=@json($user->unit);
 
                             el+="<div class='form-group'>"+
                                 "<label class='control-label'>Unit</label>"+
@@ -780,69 +752,48 @@
                     sosmed:"{{$id}}"
                 }
 
-                if($("#formSearch")[0].checkValidity()) {
-                    //updateAllMessageForms();
-                    e.preventDefault();
-                    
-                    var table=$('.datatable-colvis-basic').DataTable({
-                        processing: true,
-                        serverSide: true,
-                        autoWidth: true,
-                        destroy: true,
-                        ajax: {
-                            url:"{{URL::to('sosmed/data/daily-report')}}",
-                            data:formData
-                        },
-                        columns: [
-                            {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
-                            {data: 'unit', name: 'unit',title:'Unit Name',width:'18%'},
-                            {data: 'program', name: 'program',title:'Program Name'},
-                            {data: 'unitsosmed.sosmed.sosmed_name', name: 'unitsosmed.sosmed.sosmed_name',title:'Sosmed Name'},
-                            {data: 'unitsosmed.unit_sosmed_name', name: 'unitsosmed.unit_sosmed_name',title:'Account Name'},
-                            {data: 'tanggal', name: 'tanggal',title:'Tanggal'},
-                            {data: 'follow', name: 'follow',title:'Follower'},
-                            {data: 'insert_user', name: 'insert_user',title:'Insert User',visible:false},
-                            {data: 'created_at', name: 'created_at',title:'Created At',visible:false},
-                            {data: 'updated_at', name: 'updated_at',title:'Updated At',visible:false},
-                            {data: 'action', name: 'action',title:'Action',searchable:false,width:'22%'}
-                        ],
-                        buttons: [
-                            'copy', 'excel', 'pdf'
-                        ],
-                        colVis: {
-                            buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
-                            align: "right",
-                            overlayFade: 200,
-                            showAll: "Show all",
-                            showNone: "Hide all"
-                        },
-                        bDestroy: true
-                    }); 
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/daily-report')}}",
+                    type:"GET",
+                    data:formData,
+                    beforeSend:function(){
+                        $("#showData").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        $("#showData").empty().html(result);
 
-                    // Launch Uniform styling for checkboxes
-                    $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
-                        $('.ColVis_collection input').uniform();
-                    });
+                        $("#tabeldaily").DataTable({
+                            colVis: {
+                                buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
+                                align: "right",
+                                overlayFade: 200,
+                                showAll: "Show all",
+                                showNone: "Hide all"
+                            },
+                            bDestroy: true
+                        })
+
+                        // Launch Uniform styling for checkboxes
+                        $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
+                            $('.ColVis_collection input').uniform();
+                        });
 
 
-                    // Add placeholder to the datatable filter option
-                    $('.dataTables_filter input[type=search]').attr('placeholder', 'Type and Enter...');
+                        // Add placeholder to the datatable filter option
+                        $('.dataTables_filter input[type=search]').attr('placeholder', 'Type and Enter...');
 
 
-                    // Enable Select2 select for the length option
-                    $('.dataTables_length select').select2({
-                        minimumResultsForSearch: "-1"
-                    }); 
+                        // Enable Select2 select for the length option
+                        $('.dataTables_length select').select2({
+                            minimumResultsForSearch: "-1"
+                        }); 
 
-                    $('.dataTables_filter input[type=search]').unbind().keyup(function(e) {
-                        var value = $(this).val();
+                        
+                    },
+                    error:function(){
 
-                        if (e.keyCode == 13) {
-                            table.search(value).draw();
-                        }
-                    });
-
-                }else console.log("invalid form");
+                    }
+                })                
             })
 
             $(document).on("click","#import",function(){

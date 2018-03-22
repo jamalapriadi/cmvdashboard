@@ -102,7 +102,7 @@ class HomeController extends Controller
 
     public function add_new_report_harian($id){
         $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
-        $bu=\App\Models\Sosmed\Businessunit::select('id','unit_name')->get();
+        $bu=\App\User::with('unit')->find(auth()->user()->id);
 
         return view('sosmed.add_new_report_harian')
             ->with('sosmed',$sosmed)
@@ -158,14 +158,14 @@ class HomeController extends Controller
     public function sosmed_input_report(Request $request,$id){
         $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
-        $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
+        $user=\App\User::with('unit','unit.groupunit')->find(auth()->user()->id);
         $sekarang=date('Y-m-d');
         $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
 
         return view('sosmed.input_report')
             ->with('sosmed',$sosmed)
             ->with('group',$group)
-            ->with('unit',$unit)
+            ->with('user',$user)
             ->with('sekarang',$sekarang)
             ->with('kemarin',$kemarin)
             ->with('id',$id);

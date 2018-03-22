@@ -32,4 +32,16 @@ class User extends Authenticatable
     public function unitsosmed(){
         return $this->belongsTo('App\Models\Sosmed\Businessunit','unit');
     }
+
+    public function unit(){
+        return $this->belongsToMany('App\Models\Sosmed\Businessunit','user_handle_unit','user_id','business_unit_id')
+            ->select(
+                [
+                    'id',
+                    'group_unit_id',
+                    'unit_name',
+                    'logo'
+                ]
+            );
+    }
 }

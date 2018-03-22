@@ -45,4 +45,8 @@ class Businessunit extends Model
 			);
 	}
 
+	public function user(){
+		return $this->belongsToMany('App\User','user_handle_unit','business_unit_id','user_id');
+	}
+
 }

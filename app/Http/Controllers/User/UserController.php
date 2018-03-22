@@ -219,4 +219,58 @@ class UserController extends Controller
         
         return $data;
     }
+
+    public function user_handle_unit($id){
+        $user=User::with('unit')
+            ->find($id);
+
+        $unit=\App\Models\Sosmed\Businessunit::all();
+
+        return array(
+            'user'=>$user,
+            'unit'=>$unit
+        );
+    }
+
+    public function save_user_handle_unit(Request $request){
+        $rules=[
+            'user'=>'required',
+            'unit'=>'required'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'error'=>$validasi->errors()->all()
+            );
+        }else{
+            $user=$request->input('user');
+            $unit=$request->input('unit');
+
+            \DB::table('user_handle_unit')
+                ->where('user_id',$user)
+                ->delete();
+
+            foreach($unit as $key=>$val){
+                \DB::table('user_handle_unit')
+                    ->insert(
+                        [
+                            'user_id'=>$user,
+                            'business_unit_id'=>$key
+                        ]
+                    );
+            }
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil disimpan',
+                'error'=>''
+            );
+        }
+
+        return $data;
+    }
 }

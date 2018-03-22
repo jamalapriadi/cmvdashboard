@@ -55,6 +55,7 @@
     {{Html::script('limitless1/assets/js/plugins/jquery-number/jquery.number.min.js')}}
     <script>
         $(function(){
+            var id="{{auth()->user()->id}}";
             var kode="";
             var data;
 
@@ -158,7 +159,7 @@
                 $("#showKonfirmasi").hide();
 
                 $.ajax({
-                    url:"{{URL::to('sosmed/data/list-group')}}",
+                    url:"{{URL::to('sosmed/data/list-user')}}/"+id+'/handle-unit',
                     type:"GET",
                     data:"unit=unit&sosmed=sosmed",
                     beforeSend:function(){
@@ -180,8 +181,8 @@
                                     '<div class="form-group">'+
                                         '<label class="control-label text-semibold">TV Station</label>'+
                                         '<select name="unit" id="unit" class="form-control">'+
-                                            '<option value="">--Select TV Station--</option>';
-                                            $.each(result.unit,function(a,b){
+                                            '<option value="" disabled selected>--Select TV Station--</option>';
+                                            $.each(result.user.unit,function(a,b){
                                                 el+="<option value='"+b.id+"'>"+b.unit_name+"</option>";
                                             })
                                         el+='</select>'+
@@ -346,7 +347,7 @@
                                 var el="";
                                 el+='<div class="alert alert-danger  alert-bordered alert-rounded">'+
                                     '<button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>'+
-                                    '<span class="text-semibold">Watch out!</span> Please make sure, you put the right data!'+
+                                    '<span class="text-semibold">Watch out!</span> Please make sure you put the right data!'+
                                 '</div>'+
                                 "<div class='table-responsive'>"+
                                     "<table class='table table-striped'>"+
