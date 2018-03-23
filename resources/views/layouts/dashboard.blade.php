@@ -50,7 +50,7 @@
 
 </head>
 
-<body>
+<body class="pace-done sidebar-xs">
 
 	<!-- Main navbar -->
 	<div class="navbar navbar-inverse">

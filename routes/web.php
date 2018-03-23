@@ -15,7 +15,9 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Auth::routes();
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('import-data','HomeController@import_data');
@@ -162,5 +164,9 @@ Route::group(['prefix'=>'cmv'],function(){
         Route::get('export-variabel','Dashboard\Cmv\VariabelController@export');
 
         Route::get('search','Dashboard\Cmv\VariabelController@search');
+
+        Route::group(['prefix'=>'chart'],function(){
+            Route::get('all-data','Dashboard\Cmv\ReportController@chart_all_data');
+        });
     });
 });

@@ -40,8 +40,5 @@
         </div>
 
         <button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
-        <div class="bottom">
-            <span class="helper-text"><i class="fa fa-lock"></i> <a href="{{ route('password.request') }}">Forgot password?</a></span>
-        </div>
     </form>
 @endsection

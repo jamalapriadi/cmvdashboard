@@ -99,4 +99,37 @@ class ReportController extends Controller
                 ->with('data',$data);
         }
     }
+
+    public function chart_all_data(Request $request){
+        $rules=[
+            'quartal'=>'required',
+            'brand'=>'required'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $response=array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+
+            return $response;
+        }else{
+            $reqbrand=$request->input('brand');
+            $reqquartal=$request->input('quartal');
+            
+            $allbrand=\DB::connection('mysql3')
+                ->select("select a.brand_id, a.brand_name,d.demo_id,d.demo_name,b.subdemo_id,
+                c.subdemo_name ,b.quartal, b.totals_thousand, b.totals_ver from cmv_brand a 
+                left join cmv_variabel as b on b.brand_id=a.brand_id
+                left join cmv_sub_demography as c on c.subdemo_id=b.subdemo_id
+                left join cmv_demography as d on d.demo_id=c.demo_id
+                where a.brand_id='$reqbrand'
+                and b.quartal='$reqquartal'");
+
+            return $allbrand;
+        }
+    }
 }
