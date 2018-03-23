@@ -114,54 +114,654 @@
 
             function showGender(data){
                 var gender=[];
+                var color=["#5d9edb","#f38542"];
+                var br="";
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D1"){
+                        br=b.brand_name;
                         gender.push({
-                            values:[b.totals_thousand],
-                            backgroundColor:"#5d9edb",
+                            values:[parseInt(b.totals_thousand)],
+                            backgroundColor:color[a],
                             text:b.subdemo_name,
                             "detached":true
                         })
                     }
                 })
-                console.log(gender);
 
-                // var gender={};
-                // $.each(data,function(a,b){
-                //     if(b.demo_id=="D1"){
-                //         gender[]={
-                //             values:[b.totals_thousand],
-                //             backgroundColor:"#5d9edb",
-                //             text:b.subdemo_name,
-                //             "de"
-                //         }
-                //         [
-                //             {
-                //                 values : [53.54],
-                //                 backgroundColor: "#5d9edb",
-                //                 text:"MALE",
-                //                 "detached":true
-                //             },
-                //             {
-                //                 values : [46.46],
-                //                 backgroundColor: "#f38542",
-                //                 text:"FEMALE"
-                //             }
-                //         ]
-                //     }
-                // })
                 var myConfig = {
                     type: "pie", 
                     backgroundColor: "#fff",
                     title: {
-                        text: "BABY POWDER - [ ZWITSAL ]",
+                        text: br,
                         backgroundColor: "#fff",
                         height: 40,
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
                     "legend":{
-                        "x":"75%",
+                        "x":"55%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":2,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"5%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%npv%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v (%npv%)",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : gender
+               };
+                
+               zingchart.render({ 
+                   id : 'divGender', 
+                   data : myConfig
+               });
+            }
+
+            function showSec(data){
+                var sec=[];
+                var color=["#599cdb","#f67b28","#a9a9a9"];
+                var br="";
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D3"){
+                        br=b.brand_name;
+                        sec.push({
+                            values:[parseInt(b.totals_thousand)],
+                            backgroundColor:color[a],
+                            text:b.subdemo_name
+                        })
+                    }
+                })
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"65%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"5%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%npv%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v (%npv%)",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : sec
+               };
+            
+                zingchart.render({ 
+                    id : 'divSec', 
+                    data : myConfig
+                });
+                
+                
+            }
+
+            function showAge(data){
+                var age=[];
+                var color=["#5b9ddb","#f67c2a","#a0a0a0","#ffc720","#557dcb"];
+                var br="";
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D2"){
+                        br=b.brand_name;
+                        age.push({
+                            values:[parseInt(b.totals_thousand)],
+                            backgroundColor:color[a],
+                            text:b.subdemo_name
+                        })
+                    }
+                })
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"58%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"5%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%npv%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v (%npv%)",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : age
+               };
+            
+                zingchart.render({ 
+                    id : 'divAge', 
+                    data : myConfig
+                });
+                
+                
+            }
+
+            function showEducation(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D4"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseInt(b.totals_thousand)],
+                            backgroundColor:color[a],
+                            text:b.subdemo_name
+                        })
+                    }
+                })
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"25%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%npv%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v (%npv%)",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divEducation', 
+                    data : myConfig
+                });
+                
+                
+            }
+
+            function showOccupation(data){
+                var occupation=[];
+                var color=["#3260af","#6aa047","#4b8ac2","#da712d","#949494","#edaf02"];
+                var br="";
+                var no=0;
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D5"){
+                        no++;
+                        br=b.brand_name;
+                        if(no==2 || no==4 || no==5){
+                            occupation.push({
+                                values:[parseInt(b.totals_thousand)],
+                                backgroundColor:color[a],
+                                text:b.subdemo_name
+                            })
+                        }else{
+                            occupation.push({
+                                values:[parseInt(b.totals_thousand)],
+                                backgroundColor:color[a],
+                                text:b.subdemo_name
+                            })
+                        }
+                    }
+                })
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"35%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"30%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%npv%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v (%npv%)",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : occupation
+               };
+            
+                zingchart.render({ 
+                    id : 'divOccupation', 
+                    data : myConfig
+                });
+                
+                
+            }
+
+            function showHobby(data){
+                var occupation=[];
+                var color=["#4887c0","#da6f2a","#979797","#edb111","#3260af","#649e3d","#99bae3","#f5ac8f","#c2c2c2","#ffd68e"];
+                var br="";
+                var no=0;
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D6"){
+                        no++;
+                        br=b.brand_name;
+                        if(no==2 || no==4 || no==5){
+                            occupation.push({
+                                values:[parseInt(b.totals_thousand)],
+                                backgroundColor:color[a],
+                                text:b.subdemo_name
+                                // "detached":true
+                            })
+                        }else{
+                            occupation.push({
+                                values:[parseInt(b.totals_thousand)],
+                                backgroundColor:color[a],
+                                text:b.subdemo_name
+                            })
+                        }
+                    }
+                })
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"50%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"30%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%npv%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v (%npv%)",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : occupation
+               };
+            
+                zingchart.render({ 
+                    id : 'divHobby', 
+                    data : myConfig
+                });
+                
+                
+            }
+
+            function showPsiko(data){
+                var occupation=[];
+                var color=["#6ba148","#96b9e3","#f3a282","#c1c1c1","#4a89c2","#d86a20","#959595","#edb10e","#3a66b4"];
+                var br="";
+                var no=0;
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D9"){
+                        no++;
+                        br=b.brand_name;
+                        if(no==2 || no==4 || no==5){
+                            occupation.push({
+                                values:[parseInt(b.totals_thousand)],
+                                backgroundColor:color[a],
+                                text:b.subdemo_name
+                                // "detached":true
+                            })
+                        }else{
+                            occupation.push({
+                                values:[parseInt(b.totals_thousand)],
+                                backgroundColor:color[a],
+                                text:b.subdemo_name
+                            })
+                        }
+                    }
+                })
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"65%",
                         "y":"10%",
                         "border-width":1,
                         "border-color":"gray",
@@ -210,7 +810,7 @@
                             "border-radius":"10px",
                             "padding":"10%",
                             "placement":"node:out" //"node:out" or "node:center"
-                        }
+                        },
                     },
                     tooltip: {
                         fontSize: 12,
@@ -220,13 +820,112 @@
                         borderWidth: 1,
                         borderColor: "#fff"
                     },
-                    series : gender
+                    series : occupation
                };
+            
+                zingchart.render({ 
+                    id : 'divPsiko', 
+                    data : myConfig
+                });
                 
-               zingchart.render({ 
-                   id : 'divGender', 
-                   data : myConfig
-               });
+                
+            }
+
+            function showMedia(data){
+                var labels=[];
+                var values=[];
+                var br="";
+                var no=0;
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D7"){
+                        no++;
+                        br=b.brand_name;
+                        labels.push(b.subdemo_name);
+                        values.push(parseInt(b.totals_thousand));
+                        // occupation.push({
+                        //         values:[parseInt(b.totals_thousand)],
+                        //         backgroundColor:color[a],
+                        //         text:b.subdemo_name
+                        //     })
+                    }
+                })
+
+                var myConfig = {
+                    type: "bar",
+                    utc:true,
+                    plotarea: {
+                      adjustLayout:true
+                    },
+                    scaleX:{
+                      label:{
+                        text:br
+                      },
+                      "labels": labels,
+                      minValue:1420070400000,
+                      step:"day",
+                      transform:{
+                        type:"date",
+                        all:"%M %d"
+                      }
+                    },
+                    series: [
+                      {
+                        values:values,
+                        "background-color": "#599cdb"
+                      }
+                    ]
+                };
+                   
+                zingchart.render({ 
+                    id : 'divMedia', 
+                    data : myConfig
+                });
+            }
+
+            function showCity(data){
+                var labels=[];
+                var values=[];
+                var br="";
+                var no=0;
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D8"){
+                        no++;
+                        br=b.brand_name;
+                        labels.push(b.subdemo_name);
+                        values.push(parseInt(b.totals_thousand));
+                    }
+                })
+
+                var myConfig = {
+                    type: "bar",
+                    utc:true,
+                    plotarea: {
+                      adjustLayout:true
+                    },
+                    scaleX:{
+                      label:{
+                        text:br
+                      },
+                      "labels":labels,
+                      minValue:1420070400000,
+                      step:"day",
+                      transform:{
+                        type:"date",
+                        all:"%M %d"
+                      }
+                    },
+                    series: [
+                      {
+                        values:values,
+                        "background-color": "#599cdb"
+                      }
+                    ]
+                };
+                   
+                zingchart.render({ 
+                    id : 'divCity', 
+                    data : myConfig
+                });
             }
 
             function allData(){
@@ -244,6 +943,14 @@
                         alldata=result;
 
                         showGender(alldata);
+                        showSec(alldata);
+                        showAge(alldata);
+                        showEducation(alldata);
+                        showOccupation(alldata);
+                        showHobby(alldata);
+                        showPsiko(alldata);
+                        showMedia(alldata);
+                        showCity(alldata);
                     },
                     error:function(){
 
@@ -349,750 +1056,6 @@
 
                 zingchart.render({ 
                     id : 'topBrand', 
-                    data : myConfig
-                });
-            }
-
-            function showAge(){
-                var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
-                    title: {
-                        text: "BABY POWDER - [ ZWITSAL ]",
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
-                    },
-                    "legend":{
-                        "x":"63%",
-                        "y":"10%",
-                        "border-width":1,
-                        "border-color":"gray",
-                        "border-radius":"5px",
-                        "header":{
-                            "text":"Legend",
-                            "font-family":"Georgia",
-                            "font-size":12,
-                            "font-color":"white",
-                            "font-weight":"normal"
-                        },
-                        "marker":{
-                            "type":"circle"
-                        },
-                        "toggle-action":"remove",
-                        "minimize":true,
-                        "icon":{
-                            "line-color":"#9999ff"
-                        },
-                        "max-items":8,
-                        "overflow":"scroll"
-                    },
-                    "plotarea":{
-                        "margin-right":"20%",
-                        "margin-top":"10%"
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%npv%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v (%npv%)",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
-                        }
-                    },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : [
-                        {
-                            values : [7.98],
-                            backgroundColor: "#5b9ddb",
-                            text:"AGE 10 - 14 YEARS"
-                        },
-                        {
-                            values : [62.29],
-                            backgroundColor: "#f67c2a",
-                            text:"AGE 15-34 YEARS"
-                        },
-                        {
-                            values : [19.56],
-                            backgroundColor: "#a0a0a0",
-                            text:"AGE 35 - 49 YEARS"
-                        },
-                        {
-                            values : [8.11],
-                            backgroundColor: "#ffc720",
-                            text:"AGE 50 - 64 YEARS"
-                        },
-                        {
-                            values : [1.93],
-                            backgroundColor: "#557dcb",
-                            text:"AGE 65 +YEARS"
-                        }
-                   ]
-               };
-            
-                zingchart.render({ 
-                    id : 'divAge', 
-                    data : myConfig
-                });
-                
-                
-            }
-
-            function showSec(){
-                var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
-                    title: {
-                        text: "BABY POWDER - [ ZWITSAL ]",
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
-                    },
-                    "legend":{
-                        "x":"75%",
-                        "y":"10%",
-                        "border-width":1,
-                        "border-color":"gray",
-                        "border-radius":"5px",
-                        "header":{
-                            "text":"Legend",
-                            "font-family":"Georgia",
-                            "font-size":12,
-                            "font-color":"white",
-                            "font-weight":"normal"
-                        },
-                        "marker":{
-                            "type":"circle"
-                        },
-                        "toggle-action":"remove",
-                        "minimize":true,
-                        "icon":{
-                            "line-color":"#9999ff"
-                        },
-                        "max-items":8,
-                        "overflow":"scroll"
-                    },
-                    "plotarea":{
-                        "margin-right":"20%",
-                        "margin-top":"10%"
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%npv%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v (%npv%)",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
-                        }
-                    },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : [
-                        {
-                            values : [26.51],
-                            backgroundColor: "#599cdb",
-                            text:"UPPER"
-                        },
-                        {
-                            values : [64.61],
-                            backgroundColor: "#f67b28",
-                            text:"MIDDLE"
-                        },
-                        {
-                            values : [8.88],
-                            backgroundColor: "#a9a9a9",
-                            text:"LOWER"
-                        }
-                   ]
-               };
-            
-                zingchart.render({ 
-                    id : 'divSec', 
-                    data : myConfig
-                });
-                
-                
-            }
-
-            function showEducation(){
-                var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
-                    title: {
-                        text: "BABY POWDER - [ ZWITSAL ]",
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
-                    },
-                    "legend":{
-                        "x":"75%",
-                        "y":"10%",
-                        "border-width":1,
-                        "border-color":"gray",
-                        "border-radius":"5px",
-                        "header":{
-                            "text":"Legend",
-                            "font-family":"Georgia",
-                            "font-size":12,
-                            "font-color":"white",
-                            "font-weight":"normal"
-                        },
-                        "marker":{
-                            "type":"circle"
-                        },
-                        "toggle-action":"remove",
-                        "minimize":true,
-                        "icon":{
-                            "line-color":"#9999ff"
-                        },
-                        "max-items":8,
-                        "overflow":"scroll"
-                    },
-                    "plotarea":{
-                        "margin-right":"20%",
-                        "margin-top":"10%"
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%npv%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v (%npv%)",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
-                        }
-                    },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : [
-                        {
-                            values : [23.04],
-                            backgroundColor: "#5197d7",
-                            text:"LOW"
-                        },
-                        {
-                            values : [57.14],
-                            backgroundColor: "#ef7421",
-                            text:"MEDIUM"
-                        },
-                        {
-                            values : [7.46],
-                            backgroundColor: "#aaaaaa",
-                            text:"HEIGHT"
-                        }
-                   ]
-               };
-            
-                zingchart.render({ 
-                    id : 'divEducation', 
-                    data : myConfig
-                });
-                
-                
-            }
-
-            function showOccupation(){
-                var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
-                    title: {
-                        text: "BABY POWDER - [ ZWITSAL ]",
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
-                    },
-                    "legend":{
-                        "x":"65%",
-                        "y":"10%",
-                        "border-width":1,
-                        "border-color":"gray",
-                        "border-radius":"5px",
-                        "header":{
-                            "text":"Legend",
-                            "font-family":"Georgia",
-                            "font-size":12,
-                            "font-color":"white",
-                            "font-weight":"normal"
-                        },
-                        "marker":{
-                            "type":"circle"
-                        },
-                        "toggle-action":"remove",
-                        "minimize":true,
-                        "icon":{
-                            "line-color":"#9999ff"
-                        },
-                        "max-items":8,
-                        "overflow":"scroll"
-                    },
-                    "plotarea":{
-                        "margin-right":"20%",
-                        "margin-top":"10%"
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%npv%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v (%npv%)",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
-                        }
-                    },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : [
-                        {
-                            values : [32.05],
-                            backgroundColor: "#3260af",
-                            text:"HOUSEWIVES"
-                        },
-                        {
-                            values : [11.33],
-                            backgroundColor: "#6aa047",
-                            text:"OTHERS"
-                        },
-                        {
-                            values : [12.74],
-                            backgroundColor: "#4b8ac2",
-                            text:"WHITE COLLAR"
-                        },
-                        {
-                            values : [17.5],
-                            backgroundColor: "#da712d",
-                            text:"BLUE COLLAR"
-                        },
-                        {
-                            values : [14.41],
-                            backgroundColor: "#949494",
-                            text:"ENTREPRENEUR"
-                        },
-                        {
-                            values : [12.1],
-                            backgroundColor: "#edaf02",
-                            text:"STUDENT"
-                        }
-                   ]
-               };
-            
-                zingchart.render({ 
-                    id : 'divOccupation', 
-                    data : myConfig
-                });
-                
-                
-            }
-
-            function showHobby(){
-                var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
-                    title: {
-                        text: "BABY POWDER - [ ZWITSAL ]",
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
-                    },
-                    "legend":{
-                        "x":"58%",
-                        "y":"10%",
-                        "border-width":1,
-                        "border-color":"gray",
-                        "border-radius":"5px",
-                        "header":{
-                            "text":"Legend",
-                            "font-family":"Georgia",
-                            "font-size":12,
-                            "font-color":"white",
-                            "font-weight":"normal"
-                        },
-                        "marker":{
-                            "type":"circle"
-                        },
-                        "toggle-action":"remove",
-                        "minimize":true,
-                        "icon":{
-                            "line-color":"#9999ff"
-                        },
-                        "max-items":8,
-                        "overflow":"scroll"
-                    },
-                    "plotarea":{
-                        "margin-right":"20%",
-                        "margin-top":"10%"
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%npv%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v (%npv%)",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
-                        }
-                    },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : [
-                        {
-                            values : [31.66],
-                            backgroundColor: "#4887c0",
-                            text:"SPORT"
-                        },
-                        {
-                            values : [24.32],
-                            backgroundColor: "#da6f2a",
-                            text:"LISTENING TO MUSIC"
-                        },
-                        {
-                            values : [15.57],
-                            backgroundColor: "#979797",
-                            text:"COOKING"
-                        },
-                        {
-                            values : [14.03],
-                            backgroundColor: "#edb111",
-                            text:"NONE"
-                        },
-                        {
-                            values : [10.17],
-                            backgroundColor: "#3260af",
-                            text:"SURFING INTERNET"
-                        },
-                        {
-                            values : [6.56],
-                            backgroundColor: "#649e3d",
-                            text:"READING QURAN"
-                        },
-                        {
-                            values : [4.89],
-                            backgroundColor: "#99bae3",
-                            text:"READING BOOKS"
-                        },
-                        {
-                            values : [5.15],
-                            backgroundColor: "#f5ac8f",
-                            text:"WINDOW SHOPPING"
-                        },
-                        {
-                            values : [5.79],
-                            backgroundColor: "#c2c2c2",
-                            text:"SHOPPING TRAVELLING"
-                        },
-                        {
-                            values : [2.06],
-                            backgroundColor: "#ffd68e",
-                            text:"SINGING"
-                        }
-                   ]
-               };
-            
-                zingchart.render({ 
-                    id : 'divHobby', 
-                    data : myConfig
-                });
-                
-                
-            }
-
-            function showPsiko(){
-                var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
-                    title: {
-                        text: "BABY POWDER - [ ZWITSAL ]",
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
-                    },
-                    "legend":{
-                        "x":"65%",
-                        "y":"10%",
-                        "border-width":1,
-                        "border-color":"gray",
-                        "border-radius":"5px",
-                        "header":{
-                            "text":"Legend",
-                            "font-family":"Georgia",
-                            "font-size":12,
-                            "font-color":"white",
-                            "font-weight":"normal"
-                        },
-                        "marker":{
-                            "type":"circle"
-                        },
-                        "toggle-action":"remove",
-                        "minimize":true,
-                        "icon":{
-                            "line-color":"#9999ff"
-                        },
-                        "max-items":8,
-                        "overflow":"scroll"
-                    },
-                    "plotarea":{
-                        "margin-right":"20%",
-                        "margin-top":"10%"
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%npv%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v (%npv%)",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
-                        },
-                    },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : [
-                        {
-                            values : [16.09],
-                            backgroundColor: "#6ba148",
-                            text:"SETTLED"
-                        },
-                        {
-                            values : [5.79],
-                            backgroundColor: "#96b9e3",
-                            text:"SKEPTICAL"
-                        },
-                        {
-                            values : [14.29],
-                            backgroundColor: "#f3a282",
-                            text:"OPTIMIST"
-                        },
-                        {
-                            values : [8.24],
-                            backgroundColor: "#c1c1c1",
-                            text:"YOUNG LOYALIST"
-                        },
-                        {
-                            values : [10.17],
-                            backgroundColor: "#4a89c2",
-                            text:"WESTERN MINDED"
-                        },
-                        {
-                            values : [9.56],
-                            backgroundColor: "#d86a20",
-                            text:"RESTLESS"
-                        },
-                        {
-                            values : [5.92],
-                            backgroundColor: "#959595",
-                            text:"APATHETIC"
-                        },
-                        {
-                            values : [10.94],
-                            backgroundColor: "#edb10e",
-                            text:"TRADISIONALIST"
-                        },
-                        {
-                            values : [11.07],
-                            backgroundColor: "#3a66b4",
-                            text:"MATERIAL CONFORT"
-                        }
-                   ]
-               };
-            
-                zingchart.render({ 
-                    id : 'divPsiko', 
-                    data : myConfig
-                });
-                
-                
-            }
-
-            function showMedia(){
-                var myConfig = {
-                    type: "bar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
-                    },
-                    scaleX:{
-                      label:{
-                        text:"BABY POWDER - [ SWITSAL ]"
-                      },
-                      "labels":["TELEVISION","PAY TV","RADIO","CINEMA","INTERNET","OOH","PUBLIC TRANS AD","NEWSPAPER","TABLOID","MAGAZINE"],
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
-                    },
-                    series: [
-                      {
-                        values:[99.75, 7.59, 25.1, 7.21, 44.79, 36.16, 19.18, 5.02, 1.29, 0.64],
-                        "background-color": "#599cdb"
-                      }
-                    ]
-                };
-                   
-                zingchart.render({ 
-                    id : 'divMedia', 
-                    data : myConfig
-                });
-            }
-
-            function showCity(){
-                var myConfig = {
-                    type: "bar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
-                    },
-                    scaleX:{
-                      label:{
-                        text:"BABY POWDER - [ SWITSAL ]"
-                      },
-                      "labels":["JAKARTA","BANDUNG","SURABAYA","SEMARANG","MEDAN","MAKASSAR","YOGYAKARTA","DENPASAR","PALEMBANG","BANJARMASIN","SURAKARTA"],
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
-                    },
-                    series: [
-                      {
-                        values:[46.59, 14.54, 15.57, 9.91, 2.7, 2.32, 3.22, 1.03, 0.26, 2.32, 1.42],
-                        "background-color": "#599cdb"
-                      }
-                    ]
-                };
-                   
-                zingchart.render({ 
-                    id : 'divCity', 
                     data : myConfig
                 });
             }
