@@ -120,12 +120,20 @@
                 $.each(data,function(a,b){
                     if(b.demo_id=="D1"){
                         br=b.brand_name;
-                        gender.push({
-                            values:[parseInt(b.totals_thousand)],
-                            backgroundColor:color[a],
-                            text:b.subdemo_name,
-                            "detached":true
-                        })
+                        if(a==1){
+                            gender.push({
+                                values:[parseInt(b.totals_thousand)],
+                                backgroundColor:color[a],
+                                text:b.subdemo_name,
+                                "detached":true
+                            })
+                        }else{
+                            gender.push({
+                                values:[parseInt(b.totals_thousand)],
+                                backgroundColor:color[a],
+                                text:b.subdemo_name
+                            })
+                        }
                     }
                 })
 
