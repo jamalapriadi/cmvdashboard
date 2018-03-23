@@ -65,7 +65,7 @@
 </head>
 <body>
     <div style="margin-top:40%;"></div>
-    <h1 class="text-center">RANK FOR SOCIAL MEDIA ALL TV</h1>
+    <h1 class="text-center">SOCMED DAILY REPORT</h1>
     <p class="text-center">( {{$sekarang}} )</p>
 
     <div class="page-break"></div>
