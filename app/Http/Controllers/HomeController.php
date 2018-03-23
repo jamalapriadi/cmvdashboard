@@ -100,13 +100,14 @@ class HomeController extends Controller
             ->with('kemarin',$kemarin);
     }
 
-    public function add_new_report_harian(){
+    public function add_new_report_harian($id){
         $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
-        $bu=\App\Models\Sosmed\Businessunit::select('id','unit_name')->get();
+        $bu=\App\User::with('unit')->find(auth()->user()->id);
 
         return view('sosmed.add_new_report_harian')
             ->with('sosmed',$sosmed)
-            ->with('bu',$bu);
+            ->with('bu',$bu)
+            ->with('id',$id);
     }
 
     public function sosmed_rangking(){
@@ -152,5 +153,21 @@ class HomeController extends Controller
         )->get();
 
         return $group;
+    }
+
+    public function sosmed_input_report(Request $request,$id){
+        $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        $user=\App\User::with('unit','unit.groupunit')->find(auth()->user()->id);
+        $sekarang=date('Y-m-d');
+        $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
+
+        return view('sosmed.input_report')
+            ->with('sosmed',$sosmed)
+            ->with('group',$group)
+            ->with('user',$user)
+            ->with('sekarang',$sekarang)
+            ->with('kemarin',$kemarin)
+            ->with('id',$id);
     }
 }

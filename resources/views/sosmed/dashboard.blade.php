@@ -5,7 +5,13 @@
 @endsection
 
 @section('extra-style')
-
+    <style>
+        table.floatThead-table {
+            border-top: none;
+            border-bottom: none;
+            background-color: #fff;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -209,7 +215,7 @@
 	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.date.js')}}"></script>
 	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.time.js')}}"></script>
 	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/legacy.js')}}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/floatthead/2.1.1/jquery.floatThead.js"></script>
     <script>
         $(function(){
             var kode="";
@@ -273,6 +279,7 @@
                     },
                     success:function(result){
                         $("#divofficialAccountAllTv").empty().append(result);
+                        $(".sticky-header").floatThead({scrollingTop:50});
                     },
                     error:function(){
 
@@ -290,6 +297,7 @@
                     },
                     success:function(result){
                         $("#sosmedOfficialAndProgram").empty().append(result);
+                        $(".sticky-header").floatThead({scrollingTop:50});
                     },
                     error:function(){
 
@@ -310,6 +318,7 @@
                     },
                     success:function(result){
                         $("#officialAndProgram").empty().append(result);
+                        $(".sticky-header").floatThead({scrollingTop:50});
                     },
                     error:function(){
 

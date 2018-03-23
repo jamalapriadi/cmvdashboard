@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index(){
         \DB::statement(\DB::raw('set @rownum=0'));
 
-        $user=User::select('id','name','email','unit',
+        $user=User::select('id','name','email','unit_id',
             \DB::raw('@rownum := @rownum + 1 AS no'))
             ->with('unitsosmed');
 
@@ -59,7 +59,7 @@ class UserController extends Controller
         }else{
             $user=new User;
             $user->name=$request->input('name');
-            $user->unit=$request->input('unit');
+            $user->unit_id=$request->input('unit');
             $user->email=$request->input('email');
             $user->password=bcrypt($request->input('password'));
             
@@ -111,7 +111,7 @@ class UserController extends Controller
         }else{
             $user=User::find($id);
             $user->name=$request->input('name');
-            $user->unit=$request->input('unit');
+            $user->unit_id=$request->input('unit');
             $user->email=$request->input('email');
             $user->password=bcrypt($request->input('password'));
             
@@ -217,6 +217,60 @@ class UserController extends Controller
             );
         }
         
+        return $data;
+    }
+
+    public function user_handle_unit($id){
+        $user=User::with('unit')
+            ->find($id);
+
+        $unit=\App\Models\Sosmed\Businessunit::all();
+
+        return array(
+            'user'=>$user,
+            'unit'=>$unit
+        );
+    }
+
+    public function save_user_handle_unit(Request $request){
+        $rules=[
+            'user'=>'required',
+            'unit'=>'required'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'error'=>$validasi->errors()->all()
+            );
+        }else{
+            $user=$request->input('user');
+            $unit=$request->input('unit');
+
+            \DB::table('user_handle_unit')
+                ->where('user_id',$user)
+                ->delete();
+
+            foreach($unit as $key=>$val){
+                \DB::table('user_handle_unit')
+                    ->insert(
+                        [
+                            'user_id'=>$user,
+                            'business_unit_id'=>$key
+                        ]
+                    );
+            }
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil disimpan',
+                'error'=>''
+            );
+        }
+
         return $data;
     }
 }

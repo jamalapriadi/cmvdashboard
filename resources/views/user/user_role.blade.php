@@ -6,8 +6,24 @@
             List Role 
         </div>
         <div class="panel-body">
-            <div id="pesan"></div>
-            <div id="divRole"></div>
+            <div class="tabbable">
+                <ul class="nav nav-tabs nav-tabs-highlight">
+                    <li class="active"><a href="#highlighted-tab1" data-toggle="tab">Role</a></li>
+                    <li><a href="#highlighted-tab2" data-toggle="tab">Unit Handle</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="highlighted-tab1">
+                        <div id="pesan"></div>
+                        <div id="divRole"></div>
+                    </div>
+
+                    <div class="tab-pane" id="highlighted-tab2">
+                        <div id="pesanHandleUnit"></div>
+                        <div id="showUnit"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @stop
@@ -76,6 +92,47 @@
                     },
                     error:function(){
 
+                    }
+                })
+            }
+
+            function showUnit(){
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/list-user')}}/"+id+"/handle-unit",
+                    type:"GET",
+                    beforeSend:function(){
+                        $("#showUnit").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        var el="";
+                        el+="<form id='formHandleUnit' onsubmit='return false;'>";
+                        if(result.unit.length>0){
+                            $.each(result.unit,function(a,b){
+                                var c="";
+                                for(a=0;a<result.user.unit.length;a++){
+                                    if(result.user.unit[a].id==b.id){
+                                        c='checked="checked"';
+                                    }
+                                }
+
+                                el+="<div class='checkbox'>"+
+                                    '<label>'+
+                                        '<input type="checkbox" class="styled" name="unit['+b.id+']" value="'+b.id+'" '+c+'>'+
+                                        b.unit_name+
+                                    '</label>'+
+                                '</div>';
+                            })
+                        }
+
+                        el+='<div class="row well">'+
+                            '<button class="btn btn-primary"> &nbsp; <i class="icon-git-compare"></i> Update Unit</button>'+
+                        '</div>'+
+                        '</form>';
+
+                        $("#showUnit").empty().html(el);
+                    },
+                    error:function(){
+                        $("#showUnit").empty().html("<div class='alert alert-danger'>Data failed to load. . .</div>");
                     }
                 })
             }
@@ -156,7 +213,41 @@
                 });
             })
 
+            $(document).on("submit","#formHandleUnit",function(e){
+                var data = new FormData(this);
+                data.append("user",id);
+                
+                if($("#formHandleUnit")[0].checkValidity()) {
+                    //updateAllMessageForms();
+                    e.preventDefault();
+                    $.ajax({
+                        url         : "{{URL::to('sosmed/data/save-user-handle-unit')}}",
+                        type        : 'post',
+                        data        : data,
+                        dataType    : 'JSON',
+                        contentType : false,
+                        cache       : false,
+                        processData : false,
+                        beforeSend  : function (){
+                            $('#pesanHandleUnit').empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        },
+                        success : function (data) {
+                            if(data.success==true){
+                                $("#pesanHandleUnit").empty().html('<div class="alert alert-success">'+data.pesan+'</div>');
+                                showUnit();
+                            }else{
+                                $("#pesanHandleUnit").empty().html('<div class="alert alert-danger">'+data.pesan+'</div>');
+                            }
+                        },
+                        error   :function() {  
+                            $('#pesanHandleUnit').empty().html('<div class="alert alert-danger">Your request not Sent...</div>');
+                        }
+                    });
+                }else console.log("invalid form");
+            })
+
             showRole();
+            showUnit();
         })
     </script>
 @endpush
