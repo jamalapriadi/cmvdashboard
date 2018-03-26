@@ -384,9 +384,21 @@
             }elseif($k->id==1){
                 foreach($tambahanInews as $in){
                     if($in->id=="TOTAL"){
-                        array_push($arrTw3,(string)($k->growth_tw+$in->growth_tw));
-                        array_push($arrFb3,(string)($k->growth_fb+$in->growth_fb));
-                        array_push($arrIg3,(string)($k->growth_ig+$in->growth_ig));    
+                        $twsekarang1=$k->tw_sekarang+$in->tw_sekarang;
+                        $twkemarin1=$k->tw_kemarin+$in->tw_kemarin;
+                        $growthtw1=($twsekarang1/$twkemarin1-1)*100;
+
+                        $fbsekarang1=$k->fb_sekarang+$in->fb_sekarang;
+                        $fbkemarin1=$k->fb_kemarin+$in->fb_kemarin;
+                        $growthfb1=($fbsekarang1/$fbkemarin1-1)*100;
+
+                        $igsekarang1=$k->ig_sekarang+$in->ig_sekarang;
+                        $igkemarin1=$k->ig_kemarin+$in->ig_kemarin;
+                        $growthig1=($igsekarang1/$igkemarin1-1)*100;
+
+                        array_push($arrTw3,(string)$growthtw1);
+                        array_push($arrFb3,(string)$growthfb1);
+                        array_push($arrIg3,(string)$growthig1);    
                     }
                 }
             }else{
@@ -461,31 +473,46 @@
                     @foreach($tambahanInews as $ins)
                         @if($ins->id=="TOTAL")
                             <?php
-                                $ttw3=(string)($ins->growth_tw+$row->growth_tw);
-                                $tfb3=(string)($ins->growth_fb+$row->growth_fb);
-                                $tig3=(string)($ins->growth_ig+$row->growth_ig);
+                                $twsekarang2=$row->tw_sekarang+$ins->tw_sekarang;
+                                $twkemarin2=$row->tw_kemarin+$ins->tw_kemarin;
+                                $num_of_growth_tw2=$twsekarang2-$twkemarin2;
+                                $growthtw2=($twsekarang2/$twkemarin2-1)*100;
+
+                                $fbsekarang2=$row->fb_sekarang+$ins->fb_sekarang;
+                                $fbkemarin2=$row->fb_kemarin+$ins->fb_kemarin;
+                                $num_of_growth_fb2=$fbsekarang2-$fbkemarin2;
+                                $growthfb2=($fbsekarang2/$fbkemarin2-1)*100;
+
+                                $igsekarang2=$row->ig_sekarang+$ins->ig_sekarang;
+                                $igkemarin2=$row->ig_kemarin+$ins->ig_kemarin;
+                                $num_of_growth_ig2=$igsekarang2-$igkemarin2;
+                                $growthig2=($igsekarang2/$igkemarin2-1)*100;
+
+                                $ttw3=(string)$growthtw2;
+                                $tfb3=(string)$growthfb2;
+                                $tig3=(string)$growthig2;
                             ?>
                             @if(($rankTw3[$ttw3] + 1)==1 || ($rankTw3[$ttw3] + 1)==2 || ($rankTw3[$ttw3] + 1)==3)
                                 <?php 
                                     $colorTw="#f4a018"; 
-                                    $ttw3=(string)($row->growth_tw+$ins->growth_tw);
-                                    $growth_tw3=$row->num_of_growth_tw+$ins->num_of_growth_tw;
+                                    $ttw3=(string)$growthtw2;
+                                    $growth_tw3=$num_of_growth_tw2;
                                 ?>
                             @endif
 
                             @if(($rankFb3[$tfb3] + 1)==1 || ($rankFb3[$tfb3] + 1)==2 || ($rankFb3[$tfb3] + 1)==3)
                                 <?php 
                                     $colorFb="#f4a018"; 
-                                    $tfb3=(string)($row->growth_fb+$ins->growth_fb);
-                                    $growth_fb3=$row->num_of_growth_fb+$ins->num_of_growth_fb;
+                                    $tfb3=(string)$growthfb2;
+                                    $growth_fb3=$num_of_growth_fb2
                                 ?>
                             @endif
 
                             @if(($rankIg3[$tig3] + 1)==1 || ($rankIg3[$tig3] + 1)==2 || ($rankIg3[$tig3] + 1)==3)
                                 <?php 
                                     $colorIg="#f4a018"; 
-                                    $tig3=(string)($row->growth_ig+$ins->growth_ig);
-                                    $growth_ig3=$row->num_of_growth_ig+$ins->num_of_growth_ig;
+                                    $tig3=(string)$growthig2;
+                                    $growth_ig3=$num_of_growth_ig2
                                 ?>
                             @endif
                         @endif
