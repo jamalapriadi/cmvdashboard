@@ -451,13 +451,19 @@ class ProgramunitController extends Controller
                         'sosmed_name'=>$request->input('official')[$k]
                     );
 
+                    if($request->input('last')[$k]>0){
+                        $l=($v/$request->input('last')[$k]-1)*100;
+                    }else{
+                        $l=0;
+                    }
+
                     $datasekarang[]=array(
                         'unit_sosmed_id'=>$k,
                         'tanggal'=>date('Y-m-d',strtotime($request->input('tanggal'))),
                         'last'=>$request->input('last')[$k],
                         'follower'=>$v,
                         'num_of_growth'=>$v-$request->input('last')[$k],
-                        'growth'=>($v/$request->input('last')[$k]-1)*100
+                        'growth'=>$l
                     );
                 }
 
