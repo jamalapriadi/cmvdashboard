@@ -11,6 +11,7 @@
             border-bottom: none;
             background-color: #fff;
         }
+        .daterangepicker{z-index:1151 !important;}
     </style>
 @endsection
 
