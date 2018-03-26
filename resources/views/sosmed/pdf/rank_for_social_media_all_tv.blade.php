@@ -683,7 +683,7 @@
                     @endif
 
                     @if(($rankIg4[(string)$row->growth_ig] + 1)==1 || ($rankIg4[(string)$row->growth_ig] + 1)==2 || ($rankIg4[(string)$row->growth_ig] + 1)==3)
-                        $colorIg="#f4a018";
+                        <?php $colorIg="#f4a018";?>
                     @endif
                 @endif
 
