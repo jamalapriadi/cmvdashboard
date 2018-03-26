@@ -1,5 +1,17 @@
 @extends('layouts.sosmed')
 
+@section('extra-style')
+    <style>
+        .zc-ref {
+            display: none;
+        }
+        #myChart{
+            height:100%;
+            width:100%;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="panel panel-default">
         <div class="panel-heading">Summary Program</div>
@@ -35,10 +47,13 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Recent Activity
+                </div>
+                <div class="panel-body">
+                    <div id="myChart"></div>
                 </div>
             </div>
         </div>
@@ -48,6 +63,15 @@
 @stop
 
 @push('extra-script')
+    <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.2.0/js/dataTables.responsive.min.js"></script>
+    {{Html::script('limitless1/assets/js/plugins/tables/datatables/extensions/fixed_columns.min.js')}}
+
+    <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
+	<script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+	ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
+	<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+	<script src="https://www.amcharts.com/lib/3/pie.js"></script>
     <script>
         $(function(){
             var id="{{$id}}";
@@ -187,6 +211,136 @@
                         '</table>';
 
                         $("#divTarget").empty().html(el); 
+                    },
+                    error:function(){
+
+                    }
+                })
+            }
+
+            function showChart(){
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/chart/daily-chart')}}/"+id+"/program",
+                    type:"GET",
+                    beforeSend:function(){
+
+                    },
+                    success:function(result){
+                        var myConfig ={
+                            type: "area",
+                            stacked: true,
+                            title:{
+                                text: "Monthly Apparel Sales",
+                                fontColor: "#424242",
+                                adjustLayout: true,
+                                marginTop: 15
+                            },
+                            subtitle:{
+                                text: "In thousands (k)",
+                                fontColor: "#616161",
+                                adjustLayout: true,
+                                marginTop: 45
+                            },
+                            plot:{
+                                aspect: "spline",
+                                alphaArea: 0.6
+                            },
+                            plotarea:{
+                                margin: "dynamic"
+                            },
+                            tooltip:{visible:false},
+                            scaleY:{
+                                short:true,
+                                shortUnit:'k',
+                                lineColor: "#AAA5A5",
+                            tick:{
+                                lineColor: "#AAA5A5"
+                            },
+                            item:{
+                                fontColor: "#616161",
+                                paddingRight: 5
+                            },
+                            guide:{
+                                lineStyle: "dotted",
+                                lineColor: "#AAA5A5"
+                            },
+                            label:{
+                                text: "Quantity",
+                                fontColor: "#616161"
+                            }
+                            },
+                            scaleX:{
+                                lineColor: "#AAA5A5",
+                                labels:result.tanggal,
+                                tick:{
+                                    lineColor: "#AAA5A5"
+                                },
+                                item:{
+                                    fontColor: "#616161",
+                                    paddingTop: 5
+                                },
+                                label:{
+                                    text: "2016",
+                                    fontColor: "#616161"
+                                }
+                            },
+                            crosshairX:{
+                            lineColor: "#AAA5A5",
+                            plotLabel:{
+                                backgroundColor:"#EBEBEC",
+                                borderColor: "#AAA5A5",
+                                borderWidth: 2,
+                                borderRadius: 2, 	
+                                thousandsSeparator:',',
+                                fontColor:'#616161'
+                            },
+                            scaleLabel:{
+                                backgroundColor: "#EBEBEC",
+                                borderColor: "#AAA5A5",
+                                fontColor: "#424242"
+                            }
+                            },
+                            series : [
+                                {
+                                    values : result.tw,
+                                    text: "Twitter",
+                                    backgroundColor: "#4CAF50",
+                                    lineColor: "#4CAF50",
+                                    marker:{
+                                    backgroundColor: "#4CAF50",
+                                    borderColor: "#4CAF50"
+                        
+                                    }
+                                },
+                                {
+                                    values : result.fb,
+                                    text: "Facebook",
+                                    backgroundColor: "#E53935",
+                                    lineColor: "#E53935",
+                                    marker:{
+                                    backgroundColor: "#E53935",
+                                    borderColor: "#E53935"
+                        
+                                    }
+                                },
+                                {
+                                    values : result.ig,
+                                    text: "Instagram",
+                                    backgroundColor: "#00BCD4",
+                                    lineColor: "#00BCD4",
+                                    marker:{
+                                    backgroundColor: "#00BCD4",
+                                    borderColor: "#00BCD4"
+                        
+                                    }
+                                }
+                            ]
+                        };
+                        
+                        zingchart.render({ 
+                            id : 'myChart', 
+                            data : myConfig 
+                        });
                     },
                     error:function(){
 
@@ -460,6 +614,7 @@
 
             sosmed();
             target();
+            showChart();
         })
     </script>
 @endpush

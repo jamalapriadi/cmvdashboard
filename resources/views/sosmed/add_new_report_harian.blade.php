@@ -373,35 +373,31 @@
                                             $.each(data.official,function(a,b){
                                                 var kemarin=0;
                                                 var sekarang=0;
-
-                                                if(data.datakemarin.length>0){
-                                                    for(a=0;a<data.datakemarin.length;a++){
-                                                        if(data.datakemarin[a].unit_sosmed_id==b.unit_sosmed_id && data.datakemarin[a].tanggal==data.tanggal_kemarin){
-                                                            kemarin=data.datakemarin[a].follower;
-                                                        }
-                                                    }
-                                                }
+                                                var growth=0;
+                                                var num_of_growth=0;
+                                                var last=0;
 
                                                 if(data.datasekarang.length>0){
                                                     for(a=0;a<data.datasekarang.length;a++){
                                                         if(data.datasekarang[a].unit_sosmed_id==b.unit_sosmed_id && data.datasekarang[a].tanggal==data.tanggal_sekarang){
+                                                            last=data.datasekarang[a].last;
                                                             sekarang=data.datasekarang[a].follower;
+                                                            growth=data.datasekarang[a].growth;
+                                                            num_of_growth=data.datasekarang[a].num_of_growth;
                                                         }
                                                     }
                                                 }
 
-                                                growth=sekarang/kemarin-1;
-
                                                 el+="<tr>"+
                                                     "<td>"+b.sosmed_name+"</td>"+
-                                                    "<td>"+kemarin+"</td>"+
+                                                    "<td>"+last+"</td>"+
                                                     "<td>"+sekarang+"</td>"+
                                                     "<td>";
                                                         if(growth>0){
-                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+Math.round(growth)+" % </a>";
+                                                            el+="<a><i class='icon-arrow-up16' style='color:green'></i> "+Math.round(growth)+" % ( "+num_of_growth+" )</a>";
                                                         }else{
                                                             if(!isNaN(growth)){
-                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(growth)+" % </a>";
+                                                                el+="<a><i class='icon-arrow-down16' style='color:red'></i> "+Math.round(growth)+" % ( "+num_of_growth+" )</a>";
                                                             }else{
                                                                 el+="-";
                                                             }

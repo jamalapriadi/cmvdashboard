@@ -454,12 +454,15 @@ class ProgramunitController extends Controller
                     $datasekarang[]=array(
                         'unit_sosmed_id'=>$k,
                         'tanggal'=>date('Y-m-d',strtotime($request->input('tanggal'))),
-                        'follower'=>$v
+                        'last'=>$request->input('last')[$k],
+                        'follower'=>$v,
+                        'num_of_growth'=>$v-$request->input('last')[$k],
+                        'growth'=>($v/$request->input('last')[$k]-1)*100
                     );
                 }
 
-                $datakemarin=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',$kemarin)
-                    ->whereIn('unit_sosmed_id',$list)
+                $datakemarin=\App\Models\Sosmed\Unitsosmedfollower::whereIn('unit_sosmed_id',$list)
+                    ->orderBy('tanggal','desc')
                     ->get();
 
                 $data=array(
@@ -908,22 +911,30 @@ class ProgramunitController extends Controller
         $account=\DB::select("select 'corporate' as urut,a.id, a.group_unit_id, a.unit_name, 
             b.type_sosmed, b.unit_sosmed_name, c.tanggal,
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
-            sum(if(c.tanggal='$kemarin' and b.sosmed_id=$sosmed,c.follower,0)) as follower
+            sum(if(c.tanggal=(
+                select distinct tanggal from unit_sosmed_follower order by tanggal desc limit 1
+            ) and b.sosmed_id=$sosmed,c.follower,0)) as follower
             from business_unit a
             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$kemarin'
-            where a.id='$id'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal=(
+                select distinct tanggal from unit_sosmed_follower order by tanggal desc limit 1
+            )
+            where a.id=$id
             group by a.id
             union all 
             select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,
             a.program_name,c.tanggal, 
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
-            sum(if(c.tanggal='$kemarin' and b.sosmed_id=$sosmed, c.follower,0)) as follower
+            sum(if(c.tanggal=(
+                select distinct tanggal from unit_sosmed_follower order by tanggal desc limit 1
+            ) and b.sosmed_id=$sosmed, c.follower,0)) as follower
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$kemarin'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal=(
+                select distinct tanggal from unit_sosmed_follower order by tanggal desc limit 1
+            )
             left join business_unit d on d.id=a.business_unit_id
-            where d.id='$id'
+            where d.id=$id
             group by a.id
             order by id, urut,type_sosmed");
 
