@@ -908,31 +908,43 @@ class ProgramunitController extends Controller
             $sosmed=1;
         }
 
+        $alltanggal=\DB::select("select DISTINCT total.tanggal from (
+            select distinct c.tanggal from business_unit a 
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
+            where a.id=$id
+            union all 
+            select distinct cc.tanggal from program_unit aa 
+            left join unit_sosmed bb on bb.id=aa.business_unit_id and bb.type_sosmed='program'
+            left join unit_sosmed_follower cc on cc.unit_sosmed_id=bb.id
+            where aa.id=$id
+            )as total
+            order by total.tanggal desc
+            limit 1");
+
+        if(count($alltanggal)>0){
+            $tgl=$alltanggal[0]->tanggal;
+        }else{
+            $tgl=date('Y-m-d');
+        }
+
         $account=\DB::select("select 'corporate' as urut,a.id, a.group_unit_id, a.unit_name, 
             b.type_sosmed, b.unit_sosmed_name, c.tanggal,
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
-            sum(if(c.tanggal=(
-                select distinct tanggal from unit_sosmed_follower order by tanggal desc limit 1
-            ) and b.sosmed_id=$sosmed,c.follower,0)) as follower
+            sum(if(c.tanggal='$tgl' and b.sosmed_id=$sosmed,c.follower,0)) as follower
             from business_unit a
             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal=(
-                select distinct tanggal from unit_sosmed_follower order by tanggal desc limit 1
-            )
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tgl'
             where a.id=$id
             group by a.id
             union all 
             select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,
             a.program_name,c.tanggal, 
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
-            sum(if(c.tanggal=(
-                select distinct tanggal from unit_sosmed_follower order by tanggal desc limit 1
-            ) and b.sosmed_id=$sosmed, c.follower,0)) as follower
+            sum(if(c.tanggal='$tgl' and b.sosmed_id=$sosmed, c.follower,0)) as follower
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal=(
-                select distinct tanggal from unit_sosmed_follower order by tanggal desc limit 1
-            )
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tgl'
             left join business_unit d on d.id=a.business_unit_id
             where d.id=$id
             group by a.id
