@@ -39,7 +39,9 @@
                     <td>{{$no}}</td>
                     <td>{{$row->type_sosmed}}</td>
                     <td>{{$row->unit_sosmed_name}}</td>
-                    <td>{{number_format($row->follower)}}</td>
+                    <td>{{number_format($row->follower)}}
+                        <input type="hidden" name="last[{{$row->idsosmed}}]" value="{{$row->follower}}">
+                    </td>
                     <td>
                         @if($row->idsosmed!=0)
                             <input type="hidden" name="official[{{$row->idsosmed}}]" value="{{$row->unit_sosmed_name}}">

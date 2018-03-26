@@ -2219,4 +2219,41 @@ class ReportController extends Controller
 
         return $data;
     }
+
+    public function daily_chart_program(Request $request,$id){
+        if($request->has('bulan')){
+            $bulan=date('Y-m',strtotime($request->input('bulan')));
+        }else{
+            $bulan=date('Y-m');
+        }
+
+        $program=\DB::select("select a.id, a.business_unit_id, a.program_name, c.tanggal, 
+            sum(if(b.sosmed_id=1, c.follower,0)) as tw,
+            sum(if(b.sosmed_id=2, c.follower,0)) as fb,
+            sum(if(b.sosmed_id=3, c.follower,0)) as ig
+            from program_unit a 
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
+            where a.id=$id
+            and date_format(c.tanggal,'%Y-%m')='$bulan'
+            group by c.tanggal");
+
+        $tanggal=array();
+        $fb=array();
+        $ig=array();
+        $tw=array();
+        foreach($program as $row){
+            array_push($tanggal,date('d',strtotime($row->tanggal)));
+            array_push($tw,$row->tw);
+            array_push($fb,$row->fb);
+            array_push($ig,$row->ig);
+        }
+
+        return array(
+            'tanggal'=>$tanggal,
+            'tw'=>$tw,
+            'fb'=>$fb,
+            'ig'=>$ig
+        );
+    }
 }

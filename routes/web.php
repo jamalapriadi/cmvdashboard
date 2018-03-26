@@ -123,6 +123,10 @@ Route::group(['prefix'=>'sosmed'],function(){
             Route::get('highlight-program-account-all-tv','Sosmed\ReportController@higlight_program_account_all_tv');
             Route::get('highlight-target-achivement','Sosmed\ReportController@highlight_target_achivement');
         });
+
+        Route::group(['prefix'=>'chart'],function(){
+            Route::get('daily-chart/{id}/program','Sosmed\ReportController@daily_chart_program');
+        });
     });
 });
 
