@@ -908,22 +908,17 @@ class ProgramunitController extends Controller
             $sosmed=1;
         }
 
-        $alltanggal=\DB::select("select DISTINCT total.tanggal from (
-            select distinct c.tanggal from business_unit a 
+        $alltanggal=\DB::select("select total.tanggal from (
+            select c.tanggal from business_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
-            where a.id=$id
-            union all 
-            select distinct cc.tanggal from program_unit aa 
-            left join unit_sosmed bb on bb.id=aa.business_unit_id and bb.type_sosmed='program'
-            left join unit_sosmed_follower cc on cc.unit_sosmed_id=bb.id
-            where aa.id=$id
+            where a.id=$id and b.sosmed_id=$sosmed
+            group by c.tanggal
             )as total
-            order by total.tanggal desc
-            limit 1");
+            order by total.tanggal desc");
 
         if(count($alltanggal)>0){
-            $tgl=$alltanggal[0]->tanggal;
+            $tgl=date('Y-m-d',strtotime($alltanggal[0]->tanggal));
         }else{
             $tgl=date('Y-m-d');
         }
