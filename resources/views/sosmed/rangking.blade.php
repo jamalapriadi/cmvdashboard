@@ -293,13 +293,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
-                                        el+="<li>1. "+result[a].unit_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
                                     }
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==3){
-                                        el+="<li>3. "+result[a].unit_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
                                     }
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==2){
-                                        el+="<li>2. "+result[a].unit_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
@@ -308,13 +308,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==3){
-                                        el+="<li>3. "+result[a].unit_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
                                     }
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==2){
-                                        el+="<li>2. "+result[a].unit_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
                                     }
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
-                                        el+="<li>1. "+result[a].unit_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
@@ -323,13 +323,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==3){
-                                        el+="<li>3. "+result[a].unit_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
                                     }
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==2){
-                                        el+="<li>2. "+result[a].unit_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
                                     }
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
-                                        el+="<li>1. "+result[a].unit_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
