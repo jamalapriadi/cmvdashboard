@@ -170,4 +170,8 @@ class HomeController extends Controller
             ->with('kemarin',$kemarin)
             ->with('id',$id);
     }
+
+    public function change_password(){
+        return view('user.change_password');
+    }
 }

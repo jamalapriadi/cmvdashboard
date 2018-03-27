@@ -33,6 +33,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('import-data','HomeController@import_data');
 
 Route::group(['prefix'=>'sosmed'],function(){
+    Route::get('change-password','HomeController@change_password');
     Route::get('highlight','HomeController@sosmed_rangking');
     Route::get('group','HomeController@sosmed_group');
     Route::get('businness-unit','HomeController@sosmed_unit');
@@ -53,6 +54,7 @@ Route::group(['prefix'=>'sosmed'],function(){
     Route::get('user/{id}/role','HomeController@user_role');
 
     Route::group(['prefix'=>'data'],function(){
+        Route::post('change-password','User\UserController@change_password');
         Route::get('official-and-program-account-all-tv','HomeController@official_and_program');
 
         Route::resource('users','User\UserController');
@@ -181,6 +183,7 @@ Route::group(['prefix'=>'cmv'],function(){
 
         Route::group(['prefix'=>'chart'],function(){
             Route::get('all-data','Dashboard\Cmv\ReportController@chart_all_data');
+            Route::get('all-brand','Dashboard\Cmv\ReportController@all_brand');
         });
     });
 });
