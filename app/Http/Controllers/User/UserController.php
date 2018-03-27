@@ -273,4 +273,52 @@ class UserController extends Controller
 
         return $data;
     }
+
+    public function change_password(Request $request){
+        if($request->ajax()){
+            $rules=[
+                'current'=>'required',
+                'password'=>'required',
+                'password_confirmation'=>'required|same:password'
+            ];
+
+            $pesan=[
+                'current.required'=>'Current password harus diisi',
+                'password.required'=>'Password harus diisi',
+                'password_confirmation.required'=>'Confirmasi password harus diisi'
+            ];
+
+            $validasi=\Validator::make($request->all(),$rules,$pesan);
+
+            if($validasi->fails()){
+                $data=array(
+                    'success'=>false,
+                    'pesan'=>'Validasi gagal',
+                    'error'=>$validasi->errors()->all()
+                );
+            }else{
+                if(\Hash::check($request->input('current'), \Auth::user()->password)){
+                    $user=\App\User::find(auth()->user()->id);
+                    $user->password=\Bcrypt($request->input('password'));
+                    $user->save();
+
+                    $data=array(
+                        'success'=>true,
+                        'pesan'=>'Password has been change',
+                        'error'=>''
+                    );
+
+                    \Auth::logout();
+                }else{
+                    $data=array(
+                        'success'=>false,
+                        'pesan'=>'Current password wrong',
+                        'error'=>''
+                    );
+                }
+            }
+
+            return $data;
+        }
+    }
 }
