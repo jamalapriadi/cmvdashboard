@@ -2310,7 +2310,6 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_target c on c.unit_sosmed_id=b.id
             left join unit_sosmed_follower d on d.unit_sosmed_id=b.id and d.tanggal='$sekarang'
-            where a.group_unit_id='$group'
             GROUP by a.id");
 
         $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
@@ -2332,50 +2331,95 @@ class ReportController extends Controller
             group by a.id
             with ROLLUP");
 
-        $data=array();
-        foreach($target as $row){
-            if($row->id==4){
-                foreach($tambahanInews as $in){
-                    if($in->id=="TOTAL"){
-                        $data[]=array(
-                            'id'=>$row->id,
-                            'unit_name'=>$row->unit_name,
-                            'follower'=>array(
-                                'tw'=>1,
-                                'target_tw'=>$row->target_tw,
-                                'tw_sekarang'=>($row->follower_tw+$in->tw_sekarang),
-                                'acv_tw'=>number_format(($row->follower_tw+$in->tw_sekarang) /  $row->target_tw * 100),
-                                'fb'=>2,
-                                'target_fb'=>$row->target_fb,
-                                'fb_sekarang'=>($row->follower_fb+$in->fb_sekarang),
-                                'acv_fb'=>number_format(($row->follower_fb+$in->fb_sekarang) /  $row->target_fb * 100),
-                                'ig'=>3,
-                                'target_ig'=>$row->target_ig,
-                                'ig_sekarang'=>($row->follower_ig+$in->ig_sekarang),
-                                'acv_ig'=>number_format(($row->follower_ig+$in->ig_sekarang) /  $row->target_ig * 100)
-                            )
-                        );
+        $arrTw=array();
+        $arrFb=array();
+        $arrIg=array();
+        foreach($target as $r){
+            if($r->group_unit_id==1){
+                if($r->id==4){
+                    foreach($tambahanInews as $in){
+                        if($in->id=="TOTAL"){
+                            array_push($arrTw,$in->tw_sekarang);
+                            array_push($arrFb,$in->fb_sekarang);
+                            array_push($arrIg,$in->ig_sekarang);                
+                        }
                     }
+                }else{
+                    array_push($arrTw,$r->follower_tw);
+                    array_push($arrFb,$r->follower_fb);
+                    array_push($arrIg,$r->follower_ig);
                 }
             }else{
-                $data[]=array(
-                    'id'=>$row->id,
-                    'unit_name'=>$row->unit_name,
-                    'follower'=>array(
-                        'tw'=>1,
-                        'target_tw'=>$row->target_tw,
-                        'tw_sekarang'=>$row->follower_tw,
-                        'acv_tw'=>number_format($row->follower_tw /  $row->target_tw * 100),
-                        'fb'=>2,
-                        'target_fb'=>$row->target_fb,
-                        'fb_sekarang'=>$row->follower_fb,
-                        'acv_fb'=>number_format($row->follower_fb /  $row->target_fb * 100),
-                        'ig'=>3,
-                        'target_ig'=>$row->target_ig,
-                        'ig_sekarang'=>$row->follower_ig,
-                        'acv_ig'=>number_format($row->follower_ig /  $row->target_ig * 100)
-                    )
-                );
+                array_push($arrTw,$r->follower_tw);
+                array_push($arrFb,$r->follower_fb);
+                array_push($arrIg,$r->follower_ig);
+            }
+        }
+
+        $rankTw=$arrTw;
+        $rankFb=$arrFb;
+        $rankIg=$arrIg;
+
+        rsort($rankTw);
+        rsort($rankFb);
+        rsort($rankIg);
+
+        $rankTw=array_flip($rankTw);
+        $rankFb=array_flip($rankFb);
+        $rankIg=array_flip($rankIg);
+
+        $data=array();
+        foreach($target as $row){
+            if($row->group_unit_id==1){
+                if($row->id==4){
+                    foreach($tambahanInews as $in){
+                        if($in->id=="TOTAL"){
+                            $data[]=array(
+                                'id'=>$row->id,
+                                'unit_name'=>$row->unit_name,
+                                'follower'=>array(
+                                    'tw'=>1,
+                                    'target_tw'=>$row->target_tw,
+                                    'tw_sekarang'=>($row->follower_tw+$in->tw_sekarang),
+                                    'acv_tw'=>number_format(($row->follower_tw+$in->tw_sekarang) /  $row->target_tw * 100),
+                                    'rank_tw'=>($rankTw[$in->tw_sekarang]+1),
+                                    'fb'=>2,
+                                    'target_fb'=>$row->target_fb,
+                                    'fb_sekarang'=>($row->follower_fb+$in->fb_sekarang),
+                                    'acv_fb'=>number_format(($row->follower_fb+$in->fb_sekarang) /  $row->target_fb * 100),
+                                    'rank_fb'=>($rankFb[$in->fb_sekarang]+1),
+                                    'ig'=>3,
+                                    'target_ig'=>$row->target_ig,
+                                    'ig_sekarang'=>($row->follower_ig+$in->ig_sekarang),
+                                    'acv_ig'=>number_format(($row->follower_ig+$in->ig_sekarang) /  $row->target_ig * 100),
+                                    'rank_ig'=>($rankIg[$in->ig_sekarang]+1)
+                                )
+                            );
+                        }
+                    }
+                }else{
+                    $data[]=array(
+                        'id'=>$row->id,
+                        'unit_name'=>$row->unit_name,
+                        'follower'=>array(
+                            'tw'=>1,
+                            'target_tw'=>$row->target_tw,
+                            'tw_sekarang'=>$row->follower_tw,
+                            'acv_tw'=>number_format($row->follower_tw /  $row->target_tw * 100),
+                            'rank_tw'=>($rankTw[$row->follower_tw]+1),
+                            'fb'=>2,
+                            'target_fb'=>$row->target_fb,
+                            'fb_sekarang'=>$row->follower_fb,
+                            'acv_fb'=>number_format($row->follower_fb /  $row->target_fb * 100),
+                            'rank_fb'=>($rankFb[$row->follower_fb]+1),
+                            'ig'=>3,
+                            'target_ig'=>$row->target_ig,
+                            'ig_sekarang'=>$row->follower_ig,
+                            'acv_ig'=>number_format($row->follower_ig /  $row->target_ig * 100),
+                            'rank_ig'=>($rankIg[$row->follower_ig]+1)
+                        )
+                    );
+                }
             }
         }
 
