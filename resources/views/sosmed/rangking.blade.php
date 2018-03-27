@@ -66,10 +66,10 @@
                 <dl>5. 4TV's Followers Achievement below 50%
                     <div id="tvAchievementbelow50"></div>
                 </dl>
-                <!-- <dl>6. Our 4TV's Followers Official Accounts for those Achievement above 50%
+                <dl>6. Our 4TV's Followers Official Accounts for those Achievement above 50%
                     <div id="tvAchievementabove50"></div>
                     <br>
-                </dl> -->
+                </dl>
             </ul>
             
         </div>
@@ -226,13 +226,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
-                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
                                     }
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==3){
-                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
                                     }
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==2){
-                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
@@ -241,13 +241,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==3){
-                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
                                     }
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==2){
-                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
                                     }
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
-                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
@@ -256,13 +256,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==3){
-                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
                                     }
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==2){
-                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
                                     }
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
-                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
@@ -293,13 +293,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
-                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
                                     }
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==3){
-                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
                                     }
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==2){
-                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
@@ -308,13 +308,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==3){
-                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
                                     }
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==2){
-                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
                                     }
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
-                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
@@ -323,13 +323,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==3){
-                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>3. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
                                     }
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==2){
-                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>2. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
                                     }
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
-                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>1. "+result[a].group_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
@@ -360,13 +360,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
-                                        el+="<li>1. "+result[a].unit_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>1. "+result[a].unit_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
                                     }
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==3){
-                                        el+="<li>3. "+result[a].unit_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>3. "+result[a].unit_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
                                     }
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==2){
-                                        el+="<li>2. "+result[a].unit_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" / "+result[a].follower.num_of_growth_tw+")</li>";
+                                        el+="<li>2. "+result[a].unit_name+" "+addKoma(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
@@ -375,13 +375,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==3){
-                                        el+="<li>3. "+result[a].unit_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>3. "+result[a].unit_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
                                     }
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==2){
-                                        el+="<li>2. "+result[a].unit_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>2. "+result[a].unit_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
                                     }
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
-                                        el+="<li>1. "+result[a].unit_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+result[a].follower.num_of_growth_fb+")</li>";
+                                        el+="<li>1. "+result[a].unit_name+" "+addKoma(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
@@ -390,13 +390,13 @@
                                 "<ul>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==3){
-                                        el+="<li>3. "+result[a].unit_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>3. "+result[a].unit_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
                                     }
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==2){
-                                        el+="<li>2. "+result[a].unit_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>2. "+result[a].unit_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
                                     }
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
-                                        el+="<li>1. "+result[a].unit_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+result[a].follower.num_of_growth_ig+")</li>";
+                                        el+="<li>1. "+result[a].unit_name+" "+addKoma(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
                                     }
                                 }
                                 el+="</ul>"+
@@ -460,7 +460,60 @@
             }
 
             function tvAchievementabove50(){
+                var tanggal=$("#tanggal").val();
+                var k=$("#kemarin").val();
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/report/highlight-target-achivement')}}",
+                    type:"GET",
+                    data:"tanggal="+tanggal+"&kemarin="+k,
+                    beforeSend:function(){
+                        $("#tvAchievementabove50").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        var el="";
+                        el+="<ul>"+
+                            "<li>Twitter"+
+                                "<ul>";
+                                var no=0;
+                                for(a=0;a<result.length;a++){
+                                    if(result[a].follower.tw==1 && result[a].follower.acv_tw > 50){
+                                        no++;
+                                        el+="<li>"+no+". "+result[a].unit_name+" "+result[a].follower.acv_tw+" % #"+result[a].follower.rank_tw+"</li>";
+                                    }
+                                }
+                                el+="</ul>"+
+                            "</li>"+
+                            "<li>Facebook"+
+                                "<ul>";
+                                var nos=0;
+                                for(a=0;a<result.length;a++){
+                                    if(result[a].follower.fb==2 && result[a].follower.acv_fb > 50){
+                                        nos++;
+                                        el+="<li>"+nos+". "+result[a].unit_name+" "+result[a].follower.acv_fb+" % #"+result[a].follower.rank_fb+"</li>";
+                                    }
+                                }
+                                el+="</ul>"+
+                            "</li>"+
+                            "<li>Instagram"+
+                                "<ul>";
+                                var nol=0;
+                                for(a=0;a<result.length;a++){
+                                    if(result[a].follower.ig==3 && result[a].follower.acv_ig > 50){
+                                        nol++;
+                                        el+="<li>"+nol+". "+result[a].unit_name+" "+result[a].follower.acv_ig+" % #"+result[a].follower.rank_ig+"</li>";
+                                    }
+                                }
+                                el+="</ul>"+
+                            "</li>"+
+                        "</ul>";
 
+                        el+="<i>note : the ranks are compared to 13 TVs in the industry</i>";
+                        $("#tvAchievementabove50").empty().html(el);
+                    },
+                    error:function(){
+
+                    }
+                })
             }
 
             $(document).on("submit","#form",function(){
@@ -479,6 +532,7 @@
                 groupOverallAccount();
                 programAccountAllTv();
                 tvAchievementbelow50();
+                tvAchievementabove50();
             })
             
         })
