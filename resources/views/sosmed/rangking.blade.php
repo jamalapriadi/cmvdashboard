@@ -144,11 +144,19 @@
             
             function officialAccountAllTvByTotalFollowers(){
                 var tanggal=$("#tanggal").val();
-                var k=$("#kemarin").val();
+
+                if($("#pilih").is(':checked')){
+                    var pilih=$("#pilih").val();
+                    var k=$("#kemarin").val();
+                }else{
+                    var pilih="";
+                    var k="";
+                }
+
                 $.ajax({
                     url:"{{URL::to('sosmed/data/report/highlight-of-official-account-all-tv')}}",
                     type:"GET",
-                    data:"tanggal="+tanggal+"&kemarin="+k,
+                    data:"tanggal="+tanggal+"&kemarin="+k+"&pilih="+pilih,
                     beforeSend:function(){
                         $("#officalAccountAllTvByTotalFollowers").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
@@ -211,11 +219,19 @@
 
             function groupOfficialAccountByTotalFollowers(){
                 var tanggal=$("#tanggal").val();
-                var k=$("#kemarin").val();
+
+                if($("#pilih").is(':checked')){
+                    var pilih=$("#pilih").val();
+                    var k=$("#kemarin").val();
+                }else{
+                    var pilih="";
+                    var k="";
+                }
+
                 $.ajax({
                     url:"{{URL::to('sosmed/data/report/highlight-group-official-account-by-total-followers')}}",
                     type:"GET",
-                    data:"tanggal="+tanggal+"&kemarin="+k,
+                    data:"tanggal="+tanggal+"&kemarin="+k+"&pilih="+pilih,
                     beforeSend:function(){
                         $("#groupOfficialAccountByTotalFollowers").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
@@ -278,11 +294,19 @@
 
             function groupOverallAccount(){
                 var tanggal=$("#tanggal").val();
-                var k=$("#kemarin").val();
+                
+                if($("#pilih").is(':checked')){
+                    var pilih=$("#pilih").val();
+                    var k=$("#kemarin").val();
+                }else{
+                    var pilih="";
+                    var k="";
+                }
+
                 $.ajax({
                     url:"{{URL::to('sosmed/data/report/highlight-group-overall-account')}}",
                     type:"GET",
-                    data:"tanggal="+tanggal+"&kemarin="+k,
+                    data:"tanggal="+tanggal+"&kemarin="+k+"&pilih="+pilih,
                     beforeSend:function(){
                         $("#groupOverallAccount").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
@@ -345,11 +369,19 @@
 
             function programAccountAllTv(){
                 var tanggal=$("#tanggal").val();
-                var k=$("#kemarin").val();
+                
+                if($("#pilih").is(':checked')){
+                    var pilih=$("#pilih").val();
+                    var k=$("#kemarin").val();
+                }else{
+                    var pilih="";
+                    var k="";
+                }
+
                 $.ajax({
                     url:"{{URL::to('sosmed/data/report/highlight-program-account-all-tv')}}",
                     type:"GET",
-                    data:"tanggal="+tanggal+"&kemarin="+k,
+                    data:"tanggal="+tanggal+"&kemarin="+k+"&pilih="+pilih,
                     beforeSend:function(){
                         $("#programAccountAllTv").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
@@ -412,11 +444,19 @@
 
             function tvAchievementbelow50(){
                 var tanggal=$("#tanggal").val();
-                var k=$("#kemarin").val();
+                
+                if($("#pilih").is(':checked')){
+                    var pilih=$("#pilih").val();
+                    var k=$("#kemarin").val();
+                }else{
+                    var pilih="";
+                    var k="";
+                }
+
                 $.ajax({
                     url:"{{URL::to('sosmed/data/report/highlight-target-achivement')}}",
                     type:"GET",
-                    data:"tanggal="+tanggal+"&kemarin="+k,
+                    data:"tanggal="+tanggal+"&kemarin="+k+"&pilih="+pilih,
                     beforeSend:function(){
                         $("#tvAchievementbelow50").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
@@ -461,11 +501,19 @@
 
             function tvAchievementabove50(){
                 var tanggal=$("#tanggal").val();
-                var k=$("#kemarin").val();
+                
+                if($("#pilih").is(':checked')){
+                    var pilih=$("#pilih").val();
+                    var k=$("#kemarin").val();
+                }else{
+                    var pilih="";
+                    var k="";
+                }
+
                 $.ajax({
                     url:"{{URL::to('sosmed/data/report/highlight-target-achivement')}}",
                     type:"GET",
-                    data:"tanggal="+tanggal+"&kemarin="+k,
+                    data:"tanggal="+tanggal+"&kemarin="+k+"&pilih="+pilih,
                     beforeSend:function(){
                         $("#tvAchievementabove50").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
@@ -518,9 +566,9 @@
 
             $(document).on("submit","#form",function(){
                 var tanggal=$("#tanggal").val();
-                var k=$("#kemarin").val();
 
                 if($('#pilih').is(':checked')){
+                    var k=$("#kemarin").val();
                     $("#panelTitle").empty().html("Report Highlights as of 2PM today ("+tanggal+") compared to ("+k+")");
                 }else{
                     $("#panelTitle").empty().html("Report Highlights as of 2PM today ("+tanggal+")");
