@@ -32,7 +32,7 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('import-data','HomeController@import_data');
 
-Route::group(['prefix'=>'sosmed'],function(){
+Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
     Route::get('change-password','HomeController@change_password');
     Route::get('highlight','HomeController@sosmed_rangking');
     Route::get('group','HomeController@sosmed_group');
