@@ -12,6 +12,53 @@
     <div class="panel panel-default">
         <div class="panel-heading">Highlight</div>
         <div class="panel-body">
+        <div class="tabbable">
+                <ul class="nav nav-tabs nav-tabs-highlight">
+                    <li class="active"><a href="#highlight-tab1" data-toggle="tab">HIGHLIGHT</a></li>
+                    <li><a href="#highlighted-tab2" data-toggle="tab">PROGRAM</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="highlight-tab1">
+                        <form id="formTargetAchievement" onsubmit="return false">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Group</label>
+                                        <select name="form-control" name="group" id="group" class="form-control">
+                                            @foreach($group as $row)
+                                                <option value="{{$row->id}}">{{$row->group_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Periode</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                            <input type="text" id="tanggal" name="tanggal" class="form-control daterange-single">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button class='btn btn-primary' style="margin-top:25px;">
+                                        <i class="icon-filter4"></i> &nbsp;
+                                        Filter 
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div style="margin-top:10px;"></div>
+
+                        <div class="table-responsive">
+                            <div id="divTargetVsAchievement"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <form class="form-horizontal" target="new target" id="form" onsubmit="return false;">
                 <div class="form-group">
                     <label class="col-lg-2">Date</label>
