@@ -12,6 +12,7 @@
             background-color: #fff;
         }
         .daterangepicker{z-index:1151 !important;}
+        #ui-datepicker-div{z-index:1151 !important;}
     </style>
 @endsection
 
@@ -85,15 +86,22 @@
                                         </select>
                                     </div>
                                 </div> -->
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label class="control-label">Periode</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
                                             <input type="text" name="tanggal" id="tanggal2" class="form-control daterange-single">
                                         </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="pilih" id="pilih"> <small>check to compare data with another date?</small>
+                                            </label>
+                                        </div>  
                                     </div>
                                 </div>
+                                <div id="anotherDate"></div>
+
                                 <div class="col-lg-3">
                                     <button class='btn btn-primary' style="margin-top:25px;">
                                         <i class="icon-filter4"></i> &nbsp;
@@ -173,15 +181,21 @@
                     <div class="tab-pane" id="highlighted-tab5">
                         <form id="formRangking" onsubmit="return false">
                             <div class="row">
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label class="control-label">Periode</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
                                             <input type="text" name="tanggal" id="tanggal5" class="form-control daterange-single">
                                         </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="pilih" id="pilih2"> <small>check to compare data with another date?</small>
+                                            </label>
+                                        </div>  
                                     </div>
                                 </div>
+                                <div id="anotherDate2"></div>
                                 <div class="col-lg-3">
                                     <button class='btn btn-primary' style="margin-top:25px;">
                                         <i class="icon-filter4"></i> &nbsp;
@@ -221,6 +235,10 @@
         $(function(){
             var kode="";
 
+            var sekarang = new Date();
+            var kemarin = new Date(sekarang);
+            kemarin.setDate(sekarang.getDate() - 1);    
+
             $('.pickadate-accessibility').pickadate({
                 labelMonthNext: 'Go to the next month',
                 labelMonthPrev: 'Go to the previous month',
@@ -248,6 +266,60 @@
                 }
                 return x1 + x2;
             }
+
+            $(document).on("click","#pilih",function(){
+                if($(this).is(':checked')){
+                    var el="";
+                    el+='<div class="col-lg-3">'+
+                        '<div class="form-group">'+
+                            '<label class="control-label">Compare With</label>'+
+                            '<div class="input-group">'+
+                                '<span class="input-group-addon"><i class="icon-calendar"></i></span>'+
+                                '<input class="form-control daterange-single-kemarin" name="kemarin" id="kemarin">'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>';
+
+                    $("#anotherDate").empty().html(el);
+
+                    $('.daterange-single-kemarin').datepicker({ 
+                        singleDatePicker: true,
+                        selectMonths: true,
+                        selectYears: true
+                    });
+
+                    $('.daterange-single-kemarin').datepicker('setDate',kemarin);
+                }else{
+                    $("#anotherDate").empty();
+                }
+            })
+
+            $(document).on("click","#pilih2",function(){
+                if($(this).is(':checked')){
+                    var el="";
+                    el+='<div class="col-lg-3">'+
+                        '<div class="form-group">'+
+                            '<label class="control-label">Compare With</label>'+
+                            '<div class="input-group">'+
+                                '<span class="input-group-addon"><i class="icon-calendar"></i></span>'+
+                                '<input class="form-control daterange-single-kemarin" name="kemarin" id="kemarin2">'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>';
+
+                    $("#anotherDate2").empty().html(el);
+
+                    $('.daterange-single-kemarin').datepicker({ 
+                        singleDatePicker: true,
+                        selectMonths: true,
+                        selectYears: true
+                    });
+
+                    $('.daterange-single-kemarin').datepicker('setDate',kemarin);
+                }else{
+                    $("#anotherDate").empty();
+                }
+            })
 
             function targetVsAchievement(){
                 var group=$("#group option:selected").val();
@@ -334,6 +406,14 @@
             $(document).on("submit","#formofficialAccountAllTv",function(e){
                 var group=$("#group2 option:selected").val();
                 var tanggal=$("#tanggal2").val();
+                
+                if($("#pilih").is(':checked')){
+                    var pilih=$("#pilih").val();
+                    var kemarin=$("#kemarin").val();
+                }else{
+                    var pilih="";
+                    var kemarin="";
+                }
 
                 var el="";
                 if($("#formofficialAccountAllTv")[0].checkValidity()) {
@@ -342,12 +422,13 @@
                     $.ajax({
                         url:"{{URL::to('sosmed/data/report/official-account-all-tv')}}",
                         type:"GET",
-                        data:"group="+group+"&tanggal="+tanggal,
+                        data:"group="+group+"&tanggal="+tanggal+"&pilih="+pilih+"&kemarin="+kemarin,
                         beforeSend:function(){
                             $("#divofficialAccountAllTv").empty().html("<div class='alert alert-info'>Please Wait...</div>");
                         },
                         success:function(result){
                             $("#divofficialAccountAllTv").empty().append(result);
+                            $(".sticky-header").floatThead({scrollingTop:50});
                         },
                         error:function(){
 
@@ -395,10 +476,18 @@
             function rangAllAccountGroup(){
                 var tanggal=$("#tanggal5").val();
 
+                if($("#pilih2").is(':checked')){
+                    var pilih=$("#pilih2").val();
+                    var kemarin=$("#kemarin2").val();
+                }else{
+                    var pilih="";
+                    var kemarin="";
+                }
+
                 $.ajax({
                     url:"{{URL::to('sosmed/data/report/rank-of-official-account-all-group')}}",
                     type:"GET",
-                    data:"tanggal="+tanggal,
+                    data:"tanggal="+tanggal+"&pilih="+pilih+"&kemarin="+kemarin,
                     beforeSend:function(){
                         $("#rangAllAccountGroup").empty().html("<div class='alert alert-info'>Please Wait . . .</div>");
                     },

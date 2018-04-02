@@ -126,9 +126,9 @@
                     success:function(result){
                         el+='<div id="pesan"></div>'+
                             '<div class="form-group">'+
-                                '<label class="control-label text-semibold">Business Unit</label>'+
+                                '<label class="control-label text-semibold">TV Station</label>'+
                                 '<select name="unit" class="form-control">'+
-                                    '<option value="" disabled selected>--Select Business Unit--</option>';
+                                    '<option value="" disabled selected>--Select TV Station--</option>';
                                     $.each(result.unit,function(a,b){
                                         el+="<option value='"+b.id+"'>"+b.unit_name+"</option>";
                                     })
@@ -229,9 +229,9 @@
                     success:function(result){
                         el+='<div id="pesan"></div>'+
                             '<div class="form-group">'+
-                                '<label class="control-label text-semibold">Business Unit</label>'+
+                                '<label class="control-label text-semibold">TV Station</label>'+
                                 '<select name="unit" id="unit" class="form-control">'+
-                                    '<option value="">--Select Business Unit--</option>';
+                                    '<option value="">--Select TV Station--</option>';
                                     $.each(result.unit,function(a,b){
                                         el+="<option value='"+b.id+"'>"+b.unit_name+"</option>";
                                     })

@@ -96,7 +96,7 @@ class ReportController extends Controller
 
     public function official_account_all_tv(Request $request){
         $rules=[
-            'group'=>'bail|required|regex:/^[a-zA-Z0-9 \',.!&_-]+$/u'
+            'group'=>'bail|regex:/^[a-zA-Z0-9 \',.!&_-]+$/u'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -107,12 +107,28 @@ class ReportController extends Controller
                 'pesan'=>'Validasi error',
                 'error'=>$validasi->errors()->all()
             );
+            return $data;
         }else{
             $allsosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
 
             if($request->has('tanggal')){
                 $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
-                $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+
+                if($request->has('pilih')){
+                    $pilih=$request->input('pilih');
+    
+                    if($pilih=="on"){
+                        if($request->has('kemarin')){
+                            $kemarin=date('Y-m-d',strtotime($request->input('kemarin')));
+                        }else{
+                            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+                        }
+                    }else{
+                        $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+                    }
+                }else{
+                    $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+                }
             }else{
                 $sekarang=date('Y-m-d');
                 $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
