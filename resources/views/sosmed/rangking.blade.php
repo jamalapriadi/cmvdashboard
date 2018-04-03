@@ -154,7 +154,8 @@
                     return num.toFixed(2)+" Million";
                 }else if(number>=juta && number<milyar){
                     num=number/juta;
-                    return num.toFixed(2)+" Mio";
+                    var tes=num.toString();
+                    return tes.substring(0, 5)+" Mio";
                 }else{
                     num=number/ribuan*100;
 
@@ -623,7 +624,7 @@
                             "</li>"+
                         "</ul>";
 
-                        el+="<i>note : the ranks are compared to 13 TVs in the industry</i>";
+                        el+="_note : the ranks are compared to 13 TVs in the industry_";
                         $("#tvAchievementabove50").empty().html(el);
                     },
                     error:function(){
