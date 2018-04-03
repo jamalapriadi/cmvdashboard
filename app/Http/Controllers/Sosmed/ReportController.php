@@ -1385,7 +1385,7 @@ class ReportController extends Controller
         $pdf = \PDF::loadView('sosmed.pdf.rank_for_social_media_all_tv', $data)
             ->setPaper('a4', 'landscape')->setWarnings(false);
 
-        return $pdf->stream();
+        return $pdf->stream('Socmed Ranking '.date('d-M-Y').'.pdf');
     }
 
     public function pdf_sosmed_daily_report(Request $request){
@@ -1593,7 +1593,7 @@ class ReportController extends Controller
         $pdf = \PDF::loadView('sosmed.pdf.sosmed_daily_report', $data)
             ->setPaper('a4', 'landscape')->setWarnings(false);
 
-        return $pdf->stream();
+        return $pdf->stream('Socmed Daily Report '.date('d-M-Y').'.pdf');
     }
 
     public function highlight_of_official_account_all_tv(Request $request){
@@ -2290,7 +2290,7 @@ class ReportController extends Controller
         foreach($program as $val){
             $data[]=array(
                 'id'=>$val->id,
-                'unit_name'=>$val->program_name,
+                'unit_name'=>$val->program_name." - ".$val->unit_name,
                 'follower'=>array(
                     'tw'=>1,
                     'growth_tw'=>$val->growth_tw,
