@@ -133,7 +133,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
     });
 });
 
-Route::group(['prefix'=>'cmv'],function(){
+Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
     Route::get('/','Dashboard\CmvController@index');
     Route::get('sector','Dashboard\CmvController@sector');
     Route::get('category','Dashboard\CmvController@category');
