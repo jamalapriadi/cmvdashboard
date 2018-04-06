@@ -66,7 +66,7 @@
 <body>
     <div style="margin-top:40%;"></div>
     <h1 class="text-center">SOCMED DAILY REPORT</h1>
-    <p class="text-center">( {{$sekarang}} )</p>
+    <p class="text-center">( {{date('Y-m-d',strtotime($sekarang))}} vs {{date('Y-m-d',strtotime($kemarin))}} )</p>
 
     <div class="page-break"></div>
 

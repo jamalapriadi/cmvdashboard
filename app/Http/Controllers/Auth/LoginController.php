@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -35,5 +36,35 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function hasTooManyLoginAttempts(Request $request){
+        $maxLoginAttempts=3;
+
+        $lockoutTime=1; // dalam menit
+
+        return $this->limiter()->tooManyAttempts(
+            $this->throttleKey($request),$maxLoginAttempts,$lockoutTime
+        );
+    }
+
+    protected function sendLoginResponse(Request $request){
+        $request->session()->regenerate();
+        $previous_session=auth()->user()->session_id;
+        if($previous_session){
+            \Session::getHandler()->destroy($previous_session);
+        }
+
+        auth()->user()->session_id=\Session::getId();
+        auth()->user()->save();
+        $this->clearLoginAttempts($request);
+
+        return $this->authenticated($request, $this->guard()->user())
+            ?: redirect()->intended($this->redirectPath());
+    }
+
+    public function setPasswordAttribute($password)
+    {   
+        $this->attributes['password'] = bcrypt($password);
     }
 }

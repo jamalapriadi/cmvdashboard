@@ -12,7 +12,6 @@ class SubdemographyController extends Controller
     public function index(Request $request){
         \DB::statement(\DB::raw('set @rownum=0'));
         $demo=Subdemography::select(
-            'id',
             'subdemo_id',
             'demo_id',
             'subdemo_name',
@@ -27,8 +26,8 @@ class SubdemographyController extends Controller
         return \DataTables::of($demo)
             ->addColumn('action',function($query){
                 $html="<div class='btn-group'>";
-                $html.="<a href='#' class='btn btn-sm btn-warning editdemo' kode='".$query->id."' title='Role'><i class='icon-pencil4'></i></a>";
-                $html.="<a href='#' class='btn btn-sm btn-danger hapusdemo' kode='".$query->id."' title='Hapus'><i class='icon-trash'></i></a>";
+                $html.="<a href='#' class='btn btn-sm btn-warning editdemo' kode='".$query->subdemo_id."' title='Role'><i class='icon-pencil4'></i></a>";
+                $html.="<a href='#' class='btn btn-sm btn-danger hapusdemo' kode='".$query->subdemo_id."' title='Hapus'><i class='icon-trash'></i></a>";
                 $html.="</div>";
 
                 return $html;
@@ -174,7 +173,6 @@ class SubdemographyController extends Controller
 
     public function export(){
         $demo=Subdemography::select(
-            'id',
             'subdemo_id',
             'demo_id',
             'subdemo_name'
@@ -189,7 +187,6 @@ class SubdemographyController extends Controller
 
     public function sample(){
         $demo=Subdemography::select(
-            'id',
             'subdemo_id',
             'demo_id',
             'subdemo_name'

@@ -32,7 +32,7 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('import-data','HomeController@import_data');
 
-Route::group(['prefix'=>'sosmed'],function(){
+Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
     Route::get('change-password','HomeController@change_password');
     Route::get('highlight','HomeController@sosmed_rangking');
     Route::get('group','HomeController@sosmed_group');
@@ -124,6 +124,7 @@ Route::group(['prefix'=>'sosmed'],function(){
             Route::get('highlight-group-overall-account','Sosmed\ReportController@highlight_group_overall_account');
             Route::get('highlight-program-account-all-tv','Sosmed\ReportController@higlight_program_account_all_tv');
             Route::get('highlight-target-achivement','Sosmed\ReportController@highlight_target_achivement');
+            Route::get('all-program-growth','Sosmed\ReportController@all_program_growth');
         });
 
         Route::group(['prefix'=>'chart'],function(){
@@ -132,7 +133,7 @@ Route::group(['prefix'=>'sosmed'],function(){
     });
 });
 
-Route::group(['prefix'=>'cmv'],function(){
+Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
     Route::get('/','Dashboard\CmvController@index');
     Route::get('sector','Dashboard\CmvController@sector');
     Route::get('category','Dashboard\CmvController@category');

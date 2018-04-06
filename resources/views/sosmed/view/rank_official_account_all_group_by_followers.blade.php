@@ -47,7 +47,7 @@
                     <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Istagram</th>
+                    <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>% Growth</th>
@@ -250,7 +250,7 @@
                     <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Istagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>% Growth</th>
@@ -362,9 +362,21 @@
                 }elseif($k->id==1){
                     foreach($tambahanInews as $in){
                         if($in->id=="TOTAL"){
-                            array_push($arrTw3,(string)($k->growth_tw+$in->growth_tw));
-                            array_push($arrFb3,(string)($k->growth_fb+$in->growth_fb));
-                            array_push($arrIg3,(string)($k->growth_ig+$in->growth_ig));    
+                            $twsekarang1=$k->tw_sekarang+$in->tw_sekarang;
+                            $twkemarin1=$k->tw_kemarin+$in->tw_kemarin;
+                            $growthtw1=($twsekarang1/$twkemarin1-1)*100;
+
+                            $fbsekarang1=$k->fb_sekarang+$in->fb_sekarang;
+                            $fbkemarin1=$k->fb_kemarin+$in->fb_kemarin;
+                            $growthfb1=($fbsekarang1/$fbkemarin1-1)*100;
+
+                            $igsekarang1=$k->ig_sekarang+$in->ig_sekarang;
+                            $igkemarin1=$k->ig_kemarin+$in->ig_kemarin;
+                            $growthig1=($igsekarang1/$igkemarin1-1)*100;
+
+                            array_push($arrTw3,(string)$growthtw1);
+                            array_push($arrFb3,(string)$growthfb1);
+                            array_push($arrIg3,(string)$growthig1);    
                         }
                     }
                 }else{
@@ -391,7 +403,7 @@
                     <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Istagram</th>
+                    <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>Num Of Growth</th>
@@ -439,31 +451,46 @@
                         @foreach($tambahanInews as $ins)
                             @if($ins->id=="TOTAL")
                                 <?php
-                                    $ttw3=(string)($ins->growth_tw+$row->growth_tw);
-                                    $tfb3=(string)($ins->growth_fb+$row->growth_fb);
-                                    $tig3=(string)($ins->growth_ig+$row->growth_ig);
+                                    $twsekarang2=$row->tw_sekarang+$ins->tw_sekarang;
+                                    $twkemarin2=$row->tw_kemarin+$ins->tw_kemarin;
+                                    $num_of_growth_tw2=$twsekarang2-$twkemarin2;
+                                    $growthtw2=($twsekarang2/$twkemarin2-1)*100;
+
+                                    $fbsekarang2=$row->fb_sekarang+$ins->fb_sekarang;
+                                    $fbkemarin2=$row->fb_kemarin+$ins->fb_kemarin;
+                                    $num_of_growth_fb2=$fbsekarang2-$fbkemarin2;
+                                    $growthfb2=($fbsekarang2/$fbkemarin2-1)*100;
+
+                                    $igsekarang2=$row->ig_sekarang+$ins->ig_sekarang;
+                                    $igkemarin2=$row->ig_kemarin+$ins->ig_kemarin;
+                                    $num_of_growth_ig2=$igsekarang2-$igkemarin2;
+                                    $growthig2=($igsekarang2/$igkemarin2-1)*100;
+
+                                    $ttw3=(string)$growthtw2;
+                                    $tfb3=(string)$growthfb2;
+                                    $tig3=(string)$growthig2;
                                 ?>
                                 @if(($rankTw3[$ttw3] + 1)==1 || ($rankTw3[$ttw3] + 1)==2 || ($rankTw3[$ttw3] + 1)==3)
                                     <?php 
                                         $colorTw="#f4a018"; 
-                                        $ttw3=(string)($row->growth_tw+$ins->growth_tw);
-                                        $growth_tw3=$row->num_of_growth_tw+$ins->num_of_growth_tw;
+                                        $ttw3=(string)$growthtw2;
+                                        $growth_tw3=$num_of_growth_tw2;
                                     ?>
                                 @endif
 
                                 @if(($rankFb3[$tfb3] + 1)==1 || ($rankFb3[$tfb3] + 1)==2 || ($rankFb3[$tfb3] + 1)==3)
                                     <?php 
                                         $colorFb="#f4a018"; 
-                                        $tfb3=(string)($row->growth_fb+$ins->growth_fb);
-                                        $growth_fb3=$row->num_of_growth_fb+$ins->num_of_growth_fb;
+                                        $tfb3=(string)$growthfb2;
+                                        $growth_fb3=$num_of_growth_fb2
                                     ?>
                                 @endif
 
                                 @if(($rankIg3[$tig3] + 1)==1 || ($rankIg3[$tig3] + 1)==2 || ($rankIg3[$tig3] + 1)==3)
                                     <?php 
                                         $colorIg="#f4a018"; 
-                                        $tig3=(string)($row->growth_ig+$ins->growth_ig);
-                                        $growth_ig3=$row->num_of_growth_ig+$ins->num_of_growth_ig;
+                                        $tig3=(string)$growthig2;
+                                        $growth_ig3=$num_of_growth_ig2
                                     ?>
                                 @endif
                             @endif
@@ -594,7 +621,7 @@
                     <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Istagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>Num Of Growth</th>
@@ -729,7 +756,7 @@
                     <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Istagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>% Growth</th>
@@ -868,7 +895,7 @@
                     <th width="18%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Istagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>% Growth</th>
@@ -935,14 +962,14 @@
             foreach($rankOverallAccountGroup as $k){
                 if($k->group_unit_id==5){
                     foreach($tambahanOverAllTvOthers as $pk){
-                        array_push($arrTw7,$pk->total_num_of_growth_tw);
-                        array_push($arrFb7,$pk->total_num_of_growth_fb);
-                        array_push($arrIg7,$pk->total_num_of_growth_ig);
+                        array_push($arrTw7,(string)$pk->total_growth_tw);
+                        array_push($arrFb7,(string)$pk->total_growth_fb);
+                        array_push($arrIg7,(string)$pk->total_growth_ig);
                     }
                 }else{
-                    array_push($arrTw7,$k->total_num_of_growth_tw);
-                    array_push($arrFb7,$k->total_num_of_growth_fb);
-                    array_push($arrIg7,$k->total_num_of_growth_ig);
+                    array_push($arrTw7,(string)$k->total_growth_tw);
+                    array_push($arrFb7,(string)$k->total_growth_fb);
+                    array_push($arrIg7,(string)$k->total_growth_ig);
                 }
             }
             $rankTw7=$arrTw7;
@@ -963,7 +990,7 @@
                     <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Istagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>Nom Of Growth</th>
@@ -986,28 +1013,28 @@
                     ?>
                     @if($row->group_unit_id==5)
                         @foreach($tambahanOverAllTvOthers as $pp)
-                            @if(($rankTw7[$pp->total_num_of_growth_tw] + 1)==1 || ($rankTw7[$pp->total_num_of_growth_tw] + 1)==2 || ($rankTw7[$pp->total_num_of_growth_tw] + 1)==3)
+                            @if(($rankTw7[$pp->total_growth_tw] + 1)==1 || ($rankTw7[$pp->total_growth_tw] + 1)==2 || ($rankTw7[$pp->total_growth_tw] + 1)==3)
                                 <?php $colorTw="#f4a018"; ?>
                             @endif
 
-                            @if(($rankFb7[$pp->total_num_of_growth_fb] + 1)==1 || ($rankFb7[$pp->total_num_of_growth_fb] + 1)==2 || ($rankFb7[$pp->total_num_of_growth_fb] + 1)==3)
+                            @if(($rankFb7[$pp->total_growth_fb] + 1)==1 || ($rankFb7[$pp->total_growth_fb] + 1)==2 || ($rankFb7[$pp->total_growth_fb] + 1)==3)
                                 <?php $colorFb="#f4a018"; ?>
                             @endif
 
-                            @if(($rankIg7[$pp->total_num_of_growth_ig] + 1)==1 || ($rankIg7[$pp->total_num_of_growth_ig] + 1)==2 || ($rankIg7[$pp->total_num_of_growth_ig] + 1)==3)
+                            @if(($rankIg7[$pp->total_growth_ig] + 1)==1 || ($rankIg7[$pp->total_growth_ig] + 1)==2 || ($rankIg7[$pp->total_growth_ig] + 1)==3)
                                 <?php $colorIg="#f4a018"; ?>
                             @endif
                         @endforeach
                     @else 
-                        @if(($rankTw7[$row->total_num_of_growth_tw] + 1)==1 || ($rankTw7[$row->total_num_of_growth_tw] + 1)==2 || ($rankTw7[$row->total_num_of_growth_tw] + 1)==3)
+                        @if(($rankTw7[$row->total_growth_tw] + 1)==1 || ($rankTw7[$row->total_growth_tw] + 1)==2 || ($rankTw7[$row->total_growth_tw] + 1)==3)
                             <?php $colorTw="#f4a018";?>
                         @endif
 
-                        @if(($rankFb7[$row->total_num_of_growth_fb] + 1)==1 || ($rankFb7[$row->total_num_of_growth_fb] + 1)==2 || ($rankFb7[$row->total_num_of_growth_fb] + 1)==3)
+                        @if(($rankFb7[$row->total_growth_fb] + 1)==1 || ($rankFb7[$row->total_growth_fb] + 1)==2 || ($rankFb7[$row->total_growth_fb] + 1)==3)
                             <?php $colorFb="#f4a018";?>
                         @endif
 
-                        @if(($rankIg7[$row->total_num_of_growth_ig] + 1)==1 || ($rankIg7[$row->total_num_of_growth_ig] + 1)==2 || ($rankIg7[$row->total_num_of_growth_ig] + 1)==3)
+                        @if(($rankIg7[$row->total_growth_ig] + 1)==1 || ($rankIg7[$row->total_growth_ig] + 1)==2 || ($rankIg7[$row->total_growth_ig] + 1)==3)
                             <?php $colorIg="#f4a018";?>
                         @endif
                     @endif
@@ -1020,15 +1047,15 @@
                                 $cfb="";
                                 $cig="";
                             ?>
-                            @if(($rankTw7[$p->total_num_of_growth_tw] + 1)==1 || ($rankTw7[$p->total_num_of_growth_tw] + 1)==2 || ($rankTw7[$p->total_num_of_growth_tw] + 1)==3)
+                            @if(($rankTw7[$p->total_growth_tw] + 1)==1 || ($rankTw7[$p->total_growth_tw] + 1)==2 || ($rankTw7[$p->total_growth_tw] + 1)==3)
                                 <?php $ctw="#f4a018";?>
                             @endif 
 
-                            @if(($rankFb7[$p->total_num_of_growth_fb] + 1)==1 || ($rankFb7[$p->total_num_of_growth_fb] + 1)==2 || ($rankFb7[$p->total_num_of_growth_fb] + 1)==3)
+                            @if(($rankFb7[$p->total_growth_fb] + 1)==1 || ($rankFb7[$p->total_growth_fb] + 1)==2 || ($rankFb7[$p->total_growth_fb] + 1)==3)
                                 <?php $cfb="#f4a018";?>
                             @endif 
 
-                            @if(($rankIg7[$p->total_num_of_growth_ig] + 1)==1 || ($rankIg7[$p->total_num_of_growth_ig] + 1)==2 || ($rankIg7[$p->total_num_of_growth_ig] + 1)==3)
+                            @if(($rankIg7[$p->total_growth_ig] + 1)==1 || ($rankIg7[$p->total_growth_ig] + 1)==2 || ($rankIg7[$p->total_growth_ig] + 1)==3)
                                 <?php $cig="#f4a018";?>
                             @endif 
 
@@ -1036,13 +1063,13 @@
                                 <th>{{$p->unit_name}}</th>
                                 <th>{{number_format($p->total_num_of_growth_tw)}}</th>
                                 <th>{{round($p->total_growth_tw,2)}} %</th>
-                                <th style="background:{{$ctw}}">{{($rankTw7[$p->total_num_of_growth_tw] + 1)}}</th>
+                                <th style="background:{{$ctw}}">{{($rankTw7[$p->total_growth_tw] + 1)}}</th>
                                 <th>{{number_format($p->total_num_of_growth_fb)}}</th>
                                 <th>{{round($p->total_growth_fb,2)}} %</th>
-                                <th style="background:{{$cfb}}">{{($rankFb7[$p->total_num_of_growth_fb] + 1)}}</th>
+                                <th style="background:{{$cfb}}">{{($rankFb7[$p->total_growth_fb] + 1)}}</th>
                                 <th>{{number_format($p->total_num_of_growth_ig)}}</th>
                                 <th>{{round($p->total_growth_ig,2)}} %</th>
-                                <th style="background:{{$cig}}">{{($rankIg7[$p->total_num_of_growth_ig] + 1)}}</th>
+                                <th style="background:{{$cig}}">{{($rankIg7[$p->total_growth_ig] + 1)}}</th>
                             </tr>
                         @endforeach
                     @else
@@ -1050,13 +1077,13 @@
                             <th>{{$row->group_name}}</th>
                             <th>{{number_format($row->total_num_of_growth_tw)}}</th>
                             <th>{{round($row->total_growth_tw,2)}} %</th>
-                            <th style="background:{{$colorTw}}">{{($rankTw7[$row->total_num_of_growth_tw] + 1)}}</th>
+                            <th style="background:{{$colorTw}}">{{($rankTw7[$row->total_growth_tw] + 1)}}</th>
                             <th>{{number_format($row->total_num_of_growth_fb)}}</th>
                             <th>{{round($row->total_growth_fb,2)}} %</th>
-                            <th style="background:{{$colorFb}}">{{($rankFb7[$row->total_num_of_growth_fb] + 1)}}</th>
+                            <th style="background:{{$colorFb}}">{{($rankFb7[$row->total_growth_fb] + 1)}}</th>
                             <th>{{number_format($row->total_num_of_growth_ig)}}</th>
                             <th>{{round($row->total_growth_ig,2)}} %</th>
-                            <th style="background:{{$colorIg}}">{{($rankIg7[$row->total_num_of_growth_ig] + 1)}}</th>
+                            <th style="background:{{$colorIg}}">{{($rankIg7[$row->total_growth_ig] + 1)}}</th>
                         </tr>
                     @endif
                 @endforeach
@@ -1079,9 +1106,9 @@
             $arrFb8=array();
             $arrIg8=array();
             foreach($rankOverallAccountAllTv as $k){
-                array_push($arrTw8,$k->total_num_of_growth_tw);
-                array_push($arrFb8,$k->total_num_of_growth_fb);
-                array_push($arrIg8,$k->total_num_of_growth_ig);
+                array_push($arrTw8,(string)$k->total_growth_tw);
+                array_push($arrFb8,(string)$k->total_growth_fb);
+                array_push($arrIg8,(string)$k->total_growth_ig);
             }
             $rankTw8=$arrTw8;
             $rankFb8=$arrFb8;
@@ -1101,7 +1128,7 @@
                     <th width="18%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Istagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>Num Of Growth</th>
@@ -1122,15 +1149,15 @@
                         $colorFb="";
                         $colorIg="";
                         
-                        if(($rankTw8[$row->total_num_of_growth_tw] + 1)==1 || ($rankTw8[$row->total_num_of_growth_tw] + 1)==2 || ($rankTw8[$row->total_num_of_growth_tw] + 1)==3){
+                        if(($rankTw8[$row->total_growth_tw] + 1)==1 || ($rankTw8[$row->total_growth_tw] + 1)==2 || ($rankTw8[$row->total_growth_tw] + 1)==3){
                             $colorTw="#f4a018";
                         }
 
-                        if(($rankFb8[$row->total_num_of_growth_fb] + 1)==1 || ($rankFb8[$row->total_num_of_growth_fb] + 1)==2 || ($rankFb8[$row->total_num_of_growth_fb] + 1)==3){
+                        if(($rankFb8[$row->total_growth_fb] + 1)==1 || ($rankFb8[$row->total_growth_fb] + 1)==2 || ($rankFb8[$row->total_growth_fb] + 1)==3){
                             $colorFb="#f4a018";
                         }
 
-                        if(($rankIg8[$row->total_num_of_growth_ig] + 1)==1 || ($rankIg8[$row->total_num_of_growth_ig] + 1)==2 || ($rankIg8[$row->total_num_of_growth_ig] + 1)==3){
+                        if(($rankIg8[$row->total_growth_ig] + 1)==1 || ($rankIg8[$row->total_growth_ig] + 1)==2 || ($rankIg8[$row->total_growth_ig] + 1)==3){
                             $colorIg="#f4a018";
                         }
                     ?>
@@ -1138,13 +1165,13 @@
                         <th>{{$row->unit_name}}</th>
                         <th>{{number_format($row->total_num_of_growth_tw)}}</th>
                         <th>{{round($row->total_growth_tw,2)}} %</th>
-                        <th style="background:{{$colorTw}}">{{($rankTw8[$row->total_num_of_growth_tw] + 1)}}</th>
+                        <th style="background:{{$colorTw}}">{{($rankTw8[$row->total_growth_tw] + 1)}}</th>
                         <th>{{number_format($row->total_num_of_growth_fb)}}</th>
                         <th>{{round($row->total_growth_fb,2)}} %</th>
-                        <th style="background:{{$colorFb}}">{{($rankFb8[$row->total_num_of_growth_fb] + 1)}}</th>
+                        <th style="background:{{$colorFb}}">{{($rankFb8[$row->total_growth_fb] + 1)}}</th>
                         <th>{{number_format($row->total_num_of_growth_ig)}}</th>
                         <th>{{round($row->total_growth_ig,2)}} %</th>
-                        <th style="background:{{$colorIg}}">{{($rankIg8[$row->total_num_of_growth_ig] + 1)}}</th>
+                        <th style="background:{{$colorIg}}">{{($rankIg8[$row->total_growth_ig] + 1)}}</th>
                     </tr>
                 @endforeach
             </tbody>

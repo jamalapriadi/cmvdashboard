@@ -111,7 +111,13 @@ class HomeController extends Controller
     }
 
     public function sosmed_rangking(){
-        return view('sosmed.rangking');
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
+
+        return view('sosmed.rangking')
+            ->with('group',$group)
+            ->with('unit',$unit);
+        
     }
 
     public function sosmed_daily_report(Request $request){
