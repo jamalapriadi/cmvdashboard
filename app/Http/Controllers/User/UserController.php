@@ -325,4 +325,23 @@ class UserController extends Controller
             return $data;
         }
     }
+
+    public function list_activity_user(Request $request){
+        $act=\App\Models\Sosmed\Activity::select('id','on_page','relasi_id',
+            'description','tanggal','follower','insert_user','created_at','updated_at')
+            ->orderBy('created_at','desc')
+            ->with('user')
+            ->paginate(10);
+
+        return $act;
+    }
+
+    public function recent_login_user(Request $request){
+        $user=User::select('id','name','status_login','created_at','updated_at')
+            ->with('lastlogin')
+            ->whereHas('lastlogin')
+            ->get();
+
+        return $user;
+    }
 }

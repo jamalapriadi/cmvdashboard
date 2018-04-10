@@ -211,9 +211,11 @@
             </div>
         </div>
     </div>
+
+    @if(auth()->user()->can('Access Log'))
     <!-- END OVERVIEW -->
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-md-5">
             <!-- TIMELINE -->
             <div class="panel panel-scrolling">
                 <div class="panel-heading">
@@ -224,41 +226,26 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <ul class="list-unstyled activity-list">
-                        <li>
-                            <img src="assets/img/user1.png" alt="Avatar" class="img-circle pull-left avatar">
-                            <p><a href="#">Michael</a> has achieved 80% of his completed tasks <span class="timestamp">20 minutes ago</span></p>
-                        </li>
-                        <li>
-                            <img src="assets/img/user2.png" alt="Avatar" class="img-circle pull-left avatar">
-                            <p><a href="#">Daniel</a> has been added as a team member to project <a href="#">System Update</a> <span class="timestamp">Yesterday</span></p>
-                        </li>
-                        <li>
-                            <img src="assets/img/user3.png" alt="Avatar" class="img-circle pull-left avatar">
-                            <p><a href="#">Martha</a> created a new heatmap view <a href="#">Landing Page</a> <span class="timestamp">2 days ago</span></p>
-                        </li>
-                        <li>
-                            <img src="assets/img/user4.png" alt="Avatar" class="img-circle pull-left avatar">
-                            <p><a href="#">Jane</a> has completed all of the tasks <span class="timestamp">2 days ago</span></p>
-                        </li>
-                        <li>
-                            <img src="assets/img/user5.png" alt="Avatar" class="img-circle pull-left avatar">
-                            <p><a href="#">Jason</a> started a discussion about <a href="#">Weekly Meeting</a> <span class="timestamp">3 days ago</span></p>
-                        </li>
-                    </ul>
-                    <button type="button" class="btn btn-primary btn-bottom center-block">Load More</button>
+                    <div id="showActivitys"></div>
+                    <!-- <button type="button" class="btn btn-primary btn-bottom center-block">Load More</button> -->
                 </div>
             </div>
             <!-- END TIMELINE -->
-
         </div>
 
-        <div class="col-lg-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Last User Login</div>
+        <div class="col-md-7">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Recent Login User
+                </div>
+                <div class="panel-body">
+                    <div id="loginActivity"></div>
+                </div>
             </div>
         </div>
+
     </div>
+    @endif
 </div>
 
 <div id="divModal"></div>
@@ -511,6 +498,81 @@
             $(document).on("submit","#formofficialAndProgram",function(e){
                 officialAndProgram();
             });
+
+            /* activity login */
+            function showActivity(){
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/list-activity-user')}}",
+                    type:"GET",
+                    beforeSend:function(){
+                        $("#showActivitys").empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                    },
+                    success:function(result){
+                        var el="";
+                        el+='<ul class="list-unstyled activity-list">';
+                            $.each(result.data,function(a,b){
+                                el+='<li>';
+                                if(b.user!=null){
+                                    var path="https://www.baxter.com/assets/images/products/Renal/thumb_image_not_available.png";
+                                    el+='<img src="'+b.images+'" onerror=this.src="'+path+'"; alt="'+b.user.name+'" class="img-circle pull-left avatar">';        
+                                }else{
+                                    el+='<img src="https://cdn.iconscout.com/public/images/icon/free/png-512/avatar-user-coder-3579ca3abc3fd60f-512x512.png" alt="Avatar" class="img-circle pull-left avatar">';        
+                                }
+                                el+='<p>'+b.description+' <span class="timestamp">'+b.created_at+'</span></p>'+
+                            '</li>';
+                            })
+                        el+='</ul>';
+
+                        $("#showActivitys").empty().html(el);
+                    },
+                    error:function(){
+                        
+                    }
+                })
+            }
+
+            function lastLogin(){
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/recent-login-user')}}",
+                    type:"GET",
+                    beforeSend:function(){
+                        $("#loginActivity").empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                    },
+                    success:function(result){
+                        var el="";
+                        el+='<table class="table table-striped">'+
+                            '<thead>'+
+                                '<tr>'+
+                                    '<th>No.</th>'+
+                                    '<th>Name</th>'+
+                                    '<th>Last Login</th>'+
+                                    '<th>IP Address</th>'+
+                                '</tr>'+
+                            '</thead>'+
+                            '<tbody>';
+                            var no=0;
+                            $.each(result,function(a,b){
+                                no++;
+                                el+="<tr>"+
+                                    "<td>"+no+"</td>"+
+                                    "<td>"+b.name+"</td>"+
+                                    "<td>"+b.created_at+"</td>"+
+                                    "<td>"+b.lastlogin.ip_address+"<br><small>"+b.lastlogin.user_agent+"</small></td>"+
+                                "</tr>";
+                            })
+                            el+="</tbody>"+ 
+                        '</table>';
+
+                        $("#loginActivity").empty().html(el);
+                    },
+                    error:function(){
+                        
+                    }
+                })
+            }
+
+            showActivity();
+            lastLogin();
 
             targetVsAchievement();
             officialAccountAllTv();
