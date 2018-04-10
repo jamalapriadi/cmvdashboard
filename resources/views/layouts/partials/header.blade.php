@@ -17,7 +17,7 @@
                             </div>
                         </form>
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
+                            <!-- <li class="dropdown">
                                 <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
                                     <i class="lnr lnr-alarm"></i>
                                     <span class="badge bg-danger">5</span>
@@ -30,7 +30,7 @@
                                     <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
                                     <li><a href="#" class="more">See all notifications</a></li>
                                 </ul>
-                            </li>
+                            </li> -->
                             <!-- <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                                 <ul class="dropdown-menu">
