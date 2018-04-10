@@ -34,17 +34,6 @@ class CategoryController extends Controller
 
         return view('dashboard.cmv.view.category')
             ->with('category',$category);
-
-        // return \DataTables::of($category)
-        //     ->addColumn('action',function($query){
-                // $html="<div class='btn-group' data-toggle='buttons'>";
-                // $html.="<a href='#' class='btn btn-sm btn-warning editcategory' kode='".$query->category_id."' title='Role'><i class='icon-pencil4'></i></a>";
-                // $html.="<a href='#' class='btn btn-sm btn-danger hapuscategory' kode='".$query->category_id."' title='Hapus'><i class='icon-trash'></i></a>";
-                // $html.="</div>";
-
-        //         return $html;
-        //     })
-        //     ->make(true);
     }
 
     public function store(Request $request){
@@ -164,15 +153,18 @@ class CategoryController extends Controller
             $excels=\Excel::selectSheets('category')->load($file,function($reader){})->get();
             
             $no=0;
-            foreach($excels as $key=>$val){
-                $no++;
-
-                $category=new Category;
-                $category->sector_id=$val['sector_id'];
-                $category->category_id=$val['category_id'];
-                $category->category_name=$val['category_name'];
-                $category->save();
-            }
+            
+            \DB::transaction(function() use($excels,$no){
+                foreach($excels as $key=>$val){
+                    $no++;
+    
+                    $category=new Category;
+                    $category->sector_id=$val['sector_id'];
+                    $category->category_id=$val['category_id'];
+                    $category->category_name=$val['category_name'];
+                    $category->save();
+                }
+            });
 
             $data=array(
                 'success'=>true,

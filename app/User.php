@@ -44,4 +44,14 @@ class User extends Authenticatable
                 ]
             );
     }
+
+    public function logins(){
+        return $this->hasMany('App\Userloginactivity','user_id')
+            ->orderBy('created_at','desc');
+    }
+
+    public function lastlogin(){
+        return $this->hasOne('App\Userloginactivity','user_id')
+            ->orderBy('created_at','desc');
+    }
 }

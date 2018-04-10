@@ -138,14 +138,17 @@ class SectorController extends Controller
             $excels=\Excel::selectSheets('sector')->load($file,function($reader){})->get();
             
             $no=0;
-            foreach($excels as $key=>$val){
-                $no++;
 
-                $sector=new Sector;
-                $sector->sector_id=$val['sector_id'];
-                $sector->sector_name=$val['sector_name'];
-                $sector->save();
-            }
+            \DB::transaction(function() use($excels,$no){
+                foreach($excels as $key=>$val){
+                    $no++;
+    
+                    $sector=new Sector;
+                    $sector->sector_id=$val['sector_id'];
+                    $sector->sector_name=$val['sector_name'];
+                    $sector->save();
+                }
+            });
 
             $data=array(
                 'success'=>true,

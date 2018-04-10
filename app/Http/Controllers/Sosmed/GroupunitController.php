@@ -11,6 +11,10 @@ use \App\Models\Sosmed\Groupunit;
 class GroupunitController extends Controller
 {
     public function index(){
+        if(!auth()->user()->can('Read Group')){
+            return abort('403');
+        }
+
         \DB::statement(\DB::raw('set @rownum=0'));
 
         $group=Groupunit::select('id','group_name','insert_user',
@@ -41,7 +45,7 @@ class GroupunitController extends Controller
 
     public function store(Request $request){
         $rules=[
-            'name'=>'required'
+            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -103,7 +107,7 @@ class GroupunitController extends Controller
 
     public function update(Request $request,$id){
         $rules=[
-            'name'=>'required'
+            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);

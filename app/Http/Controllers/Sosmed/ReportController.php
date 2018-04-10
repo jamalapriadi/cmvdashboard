@@ -23,7 +23,8 @@ class ReportController extends Controller
 
     public function target_vs_achievement(Request $request){
         $rules=[
-            'group'=>'bail|required|regex:/^[a-zA-Z0-9 \',.!&_-]+$/u'
+            'group'=>'alpha_num',
+            'tanggal'=>'date'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -96,7 +97,7 @@ class ReportController extends Controller
 
     public function official_account_all_tv(Request $request){
         $rules=[
-            'group'=>'bail|regex:/^[a-zA-Z0-9 \',.!&_-]+$/u'
+            'group'=>'alpha_num'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -187,6 +188,20 @@ class ReportController extends Controller
     }
 
     public function sosmed_official_and_program(Request $request){
+        $rules=[
+            'tanggal'=>'date'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi Error',
+                'error'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
@@ -252,6 +267,21 @@ class ReportController extends Controller
     }
 
     public function official_and_program(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'group'=>'alpha_num'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
         }else{
@@ -320,6 +350,21 @@ class ReportController extends Controller
 
     /* rank */
     public function rank_of_official_account_all_group(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
 
@@ -583,6 +628,21 @@ class ReportController extends Controller
     }
 
     public function rank_of_official_account_all_tv(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
@@ -719,6 +779,21 @@ class ReportController extends Controller
     }
 
     public function rank_growth_from_yesterday_all_tv(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
@@ -776,6 +851,21 @@ class ReportController extends Controller
     }
 
     public function rank_growth_from_yesterday_group(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
@@ -848,6 +938,21 @@ class ReportController extends Controller
     }
 
     public function rank_overall_account_all_tv_by_total_followers(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
@@ -960,6 +1065,21 @@ class ReportController extends Controller
     }
 
     public function rank_of_overall_all_group_by_follower(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
@@ -1044,6 +1164,22 @@ class ReportController extends Controller
     }
 
     public function rank_of_official_account_among_4tv(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date',
+            'group'=>'alpha_num'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
@@ -1133,6 +1269,21 @@ class ReportController extends Controller
     }
 
     public function pdf_rank_for_social_media_all_tv(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
 
@@ -1389,6 +1540,22 @@ class ReportController extends Controller
     }
 
     public function pdf_sosmed_daily_report(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date',
+            'group'=>'alpha_num'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
 
@@ -1597,6 +1764,21 @@ class ReportController extends Controller
     }
 
     public function highlight_of_official_account_all_tv(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
 
@@ -1748,6 +1930,22 @@ class ReportController extends Controller
     }
 
     public function highlight_group_official_account_by_total_followers(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date',
+            'group'=>'alpha_num'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         $allsosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
 
         if($request->has('tanggal')){
@@ -1978,6 +2176,22 @@ class ReportController extends Controller
     }
 
     public function highlight_group_overall_account(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date',
+            'group'=>'alpha_num'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
 
@@ -2195,6 +2409,22 @@ class ReportController extends Controller
     }
 
     public function higlight_program_account_all_tv(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date',
+            'group'=>'alpha_num'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
 
@@ -2315,6 +2545,22 @@ class ReportController extends Controller
     }
 
     public function highlight_target_achivement(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date',
+            'group'=>'alpha_num'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
 
@@ -2475,6 +2721,22 @@ class ReportController extends Controller
     }
 
     public function daily_chart_program(Request $request,$id){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date',
+            'group'=>'alpha_num'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('bulan')){
             $bulan=date('Y-m',strtotime($request->input('bulan')));
         }else{
@@ -2512,6 +2774,23 @@ class ReportController extends Controller
     }
 
     public function all_program_growth(Request $request){
+        $rules=[
+            'tanggal'=>'date',
+            'kemarin'=>'nullable|date',
+            'group'=>'alpha_num',
+            'unit'=>'alpha_num'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
 

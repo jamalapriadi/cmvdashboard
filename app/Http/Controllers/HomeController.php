@@ -31,7 +31,11 @@ class HomeController extends Controller
     }
 
     public function role(){
-        return view('user.role');
+        if(auth()->user()->can('Read Role')){
+            return view('user.role');
+        }
+
+        return abort('403');
     }
 
     public function permission($id){
@@ -50,16 +54,28 @@ class HomeController extends Controller
     }
 
     public function user_role($id){
-        return view('user.user_role')
-            ->with('id',$id);
+        if(auth()->user()->can('Setting Role')){
+            return view('user.user_role')
+                ->with('id',$id);
+        }
+
+        return abort('403');
     }
 
     public function sosmed_group(){
-        return view('sosmed.group');
+        if(auth()->user()->can('Read Group')){
+            return view('sosmed.group');
+        }
+
+        return abort('403');
     }
 
     public function sosmed_unit(){
-        return view('sosmed.unit');
+        if(auth()->user()->can('Read Unit')){
+            return view('sosmed.unit');
+        }
+
+        return abort('403');
     }
 
     public function sosmed_media(){
@@ -67,17 +83,25 @@ class HomeController extends Controller
     }
 
     public function sosmed_program(){
-        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
-        $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
+        if(auth()->user()->can('Read Program')){
+            $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+            $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
 
-        return view('sosmed.program')
-            ->with('group',$group)
-            ->with('unit',$unit);
+            return view('sosmed.program')
+                ->with('group',$group)
+                ->with('unit',$unit);
+        }
+
+        return abort('403');
     }
 
     public function sosmed_summary_program($id){
-        return view('sosmed.summary_program')
-            ->with('id',$id);
+        if(auth()->user()->can('Summary Program')){
+            return view('sosmed.summary_program')
+                ->with('id',$id);
+        }
+
+        return abort('403');
     }
 
     public function sosmed_summary_bu($id){
@@ -86,52 +110,67 @@ class HomeController extends Controller
     }
 
     public function sosmed_input_report_harian(){
-        $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
-        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
-        $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
-        $sekarang=date('Y-m-d');
-        $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
+        if(auth()->user()->can('Read Daily Report')){
+            $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
+            $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+            $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
+            $sekarang=date('Y-m-d');
+            $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
 
-        return view('sosmed.input_report_harian')
-            ->with('sosmed',$sosmed)
-            ->with('group',$group)
-            ->with('unit',$unit)
-            ->with('sekarang',$sekarang)
-            ->with('kemarin',$kemarin);
+            return view('sosmed.input_report_harian')
+                ->with('sosmed',$sosmed)
+                ->with('group',$group)
+                ->with('unit',$unit)
+                ->with('sekarang',$sekarang)
+                ->with('kemarin',$kemarin);
+        }
+
+        return abort('403');
     }
 
     public function add_new_report_harian($id){
-        $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
-        $bu=\App\User::with('unit')->find(auth()->user()->id);
+        if(auth()->user()->can('Add Daily Report')){
+            $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
+            $bu=\App\User::with('unit')->find(auth()->user()->id);
 
-        return view('sosmed.add_new_report_harian')
-            ->with('sosmed',$sosmed)
-            ->with('bu',$bu)
-            ->with('id',$id);
+            return view('sosmed.add_new_report_harian')
+                ->with('sosmed',$sosmed)
+                ->with('bu',$bu)
+                ->with('id',$id);
+        }
+
+        return abort('403');
     }
 
     public function sosmed_rangking(){
-        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
-        $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
+        if(auth()->user()->can('Pdf Rank')){
+            $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+            $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
 
-        return view('sosmed.rangking')
-            ->with('group',$group)
-            ->with('unit',$unit);
+            return view('sosmed.rangking')
+                ->with('group',$group)
+                ->with('unit',$unit);
+        }
         
+        return abort('403');
     }
 
     public function sosmed_daily_report(Request $request){
-        if($request->has('tanggal')){
-            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
-            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
-        }else{
-            $sekarang=date('Y-m-d');
-            $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        if(auth()->user()->can('Pdf Daily Report')){
+            if($request->has('tanggal')){
+                $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+                $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+            }else{
+                $sekarang=date('Y-m-d');
+                $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+            }
+    
+            return view('sosmed.daily_report')
+                ->with('sekarang',$sekarang)
+                ->with('kemarin',$kemarin);
         }
 
-        return view('sosmed.daily_report')
-            ->with('sekarang',$sekarang)
-            ->with('kemarin',$kemarin);
+        return abort('403');
     }
 
     public function sosmed_ranking_soc_med(Request $request){

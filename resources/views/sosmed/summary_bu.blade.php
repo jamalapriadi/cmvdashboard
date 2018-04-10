@@ -255,6 +255,7 @@
 
             $(document).on("submit","#formTarget",function(e){
                 var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
                 if($("#formTarget")[0].checkValidity()) {
                     //updateAllMessageForms();
                     e.preventDefault();
@@ -351,6 +352,7 @@
 
             $(document).on("submit","#formSetTarget",function(e){
                 var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
                 data.append("_method","put");
                 if($("#formSetTarget")[0].checkValidity()) {
                     //updateAllMessageForms();

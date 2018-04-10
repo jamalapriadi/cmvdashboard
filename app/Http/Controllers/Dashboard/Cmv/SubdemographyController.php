@@ -151,15 +151,18 @@ class SubdemographyController extends Controller
             $excels=\Excel::selectSheets('subdemo')->load($file,function($reader){})->get();
             
             $no=0;
-            foreach($excels as $key=>$val){
-                $no++;
 
-                $demo=new Subdemography;
-                $demo->subdemo_id=$val['subdemo_id'];
-                $demo->demo_id=$val['demo_id'];
-                $demo->subdemo_name=$val['subdemo_name'];
-                $demo->save();
-            }
+            \DB::transaction(function() use($excels,$no){
+                foreach($excels as $key=>$val){
+                    $no++;
+    
+                    $demo=new Subdemography;
+                    $demo->subdemo_id=$val['subdemo_id'];
+                    $demo->demo_id=$val['demo_id'];
+                    $demo->subdemo_name=$val['subdemo_name'];
+                    $demo->save();
+                }
+            });
 
             $data=array(
                 'success'=>true,

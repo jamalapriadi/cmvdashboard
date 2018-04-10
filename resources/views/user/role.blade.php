@@ -99,6 +99,7 @@
                                 '</div>'+
 
                                 '<div class="modal-body">'+
+                                    '<div id="pesan"></div>'+
                                     '<div class="form-group">'+
                                         '<label class="control-label text-semibold">Name</label>'+
                                         '<input class="form-control" name="name" id="name" placeholder="Name" required>'+
@@ -120,6 +121,7 @@
 
             $(document).on("submit","#form",function(e){
                 var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
                 if($("#form")[0].checkValidity()) {
                     //updateAllMessageForms();
                     e.preventDefault();
@@ -141,7 +143,7 @@
                                 showData();
                                 $("#modal_default").modal("hide");
                             }else{
-                                $("#pesan").empty().html("<pre>"+data.error+"</pre>");
+                                $("#pesan").empty().html("<pre style='background:#f2a7a7'>"+data.errors+"</pre>");
                             }
                         },
                         error   :function() {  
@@ -203,6 +205,7 @@
             $(document).on("submit","#formUpdate",function(e){
                 var data = new FormData(this);
                 data.append("_method","PUT");
+                data.append("_token","{{ csrf_token() }}");
                 if($("#formUpdate")[0].checkValidity()) {
                     //updateAllMessageForms();
                     e.preventDefault();
@@ -229,7 +232,7 @@
                                 $("#modal_default").modal("hide");
                                 showData();
                             }else{
-                                $('#pesan').empty().html("<pre>"+result.error+"</pre><br>");
+                                $("#pesan").empty().html("<pre style='background:#f2a7a7'>"+result.errors+"</pre>");
                                 new PNotify({
                                     title: 'Info notice',
                                     text: result.pesan,
@@ -264,6 +267,7 @@
                         $.ajax({
                             url:"{{URL::to('sosmed/data/roles')}}/"+kode,
                             type:"DELETE",
+                            data:"_token={{ csrf_token() }}",
                             success:function(result){
                                 if(result.success=true){
                                     swal("Deleted!", result.pesan, "success");

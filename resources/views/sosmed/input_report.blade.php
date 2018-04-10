@@ -432,6 +432,7 @@
 
             $(document).on("submit","#form",function(e){
                 var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
                 if($("#form")[0].checkValidity()) {
                     //updateAllMessageForms();
                     e.preventDefault();
@@ -590,6 +591,7 @@
                         $.ajax({
                             url:"{{URL::to('sosmed/data/daily-report')}}/"+kode,
                             type:"DELETE",
+                            data:"_token={{ csrf_token() }}",
                             success:function(result){
                                 if(result.success=true){
                                     swal("Deleted!", result.pesan, "success");
@@ -607,6 +609,7 @@
 
             $(document).on("submit","#formUpdateDaily",function(e){
                 var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
                 data.append("_method","PUT");
                 if($("#formUpdateDaily")[0].checkValidity()) {
                     //updateAllMessageForms();
@@ -834,6 +837,7 @@
 
             $(document).on("submit","#formImport",function(e){
                 var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
                 if($("#formImport")[0].checkValidity()) {
                     //updateAllMessageForms();
                     e.preventDefault();

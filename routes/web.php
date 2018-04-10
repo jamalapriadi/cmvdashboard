@@ -14,7 +14,9 @@
 Route::get('/', function () {
     return view('auth.login');
 });
-
+Route::get('info',function(){
+    phpinfo();
+});
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
@@ -54,6 +56,8 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
     Route::get('user/{id}/role','HomeController@user_role');
 
     Route::group(['prefix'=>'data'],function(){
+        Route::get('list-activity-user','User\UserController@list_activity_user');
+        Route::get('recent-login-user','User\UserController@recent_login_user');
         Route::post('change-password','User\UserController@change_password');
         Route::get('official-and-program-account-all-tv','HomeController@official_and_program');
 

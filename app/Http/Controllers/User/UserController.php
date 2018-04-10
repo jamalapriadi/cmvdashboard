@@ -11,6 +11,10 @@ use App\User;
 class UserController extends Controller
 {
     public function index(){
+        if(!auth()->user()->can('Read User')){
+            return abort('403');
+        }
+
         \DB::statement(\DB::raw('set @rownum=0'));
 
         $user=User::select('id','name','email','unit_id',
@@ -41,11 +45,11 @@ class UserController extends Controller
 
     public function store(Request $request){
         $rules=[
-            'unit'=>'required',
-            'name'=>'required',
-            'email'=>'required',
-            'password'=>'required',
-            'password_confirm'=>'required'
+            'unit'=>'required|max:15|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'name'=>'required|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'email'=>'required|min:5|max:45|regex:/^[a-zA-Z0-9_\-@. ]*$/|email|unique:users,email',
+            'password'=>'required|min:6|max:18|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'password_confirm'=>'required|min:6|max:18|regex:/^[a-zA-Z0-9_\- ]*$/|same:password'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -95,9 +99,9 @@ class UserController extends Controller
 
     public function update(Request $request,$id){
         $rules=[
-            'unit'=>'required',
-            'name'=>'required',
-            'email'=>'required'
+            'unit'=>'required|max:15|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'name'=>'required|min:5|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'email'=>'required|max:45|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -277,9 +281,9 @@ class UserController extends Controller
     public function change_password(Request $request){
         if($request->ajax()){
             $rules=[
-                'current'=>'required',
-                'password'=>'required',
-                'password_confirmation'=>'required|same:password'
+                'current'=>'required|alpha_num|min:3|max:18',
+                'password'=>'required|alpha_num|min:3|max:18',
+                'password_confirmation'=>'required|same:password|alpha_num|min:3|max:18'
             ];
 
             $pesan=[
@@ -320,5 +324,24 @@ class UserController extends Controller
 
             return $data;
         }
+    }
+
+    public function list_activity_user(Request $request){
+        $act=\App\Models\Sosmed\Activity::select('id','on_page','relasi_id',
+            'description','tanggal','follower','insert_user','created_at','updated_at')
+            ->orderBy('created_at','desc')
+            ->with('user')
+            ->paginate(10);
+
+        return $act;
+    }
+
+    public function recent_login_user(Request $request){
+        $user=User::select('id','name','status_login','created_at','updated_at')
+            ->with('lastlogin')
+            ->whereHas('lastlogin')
+            ->get();
+
+        return $user;
     }
 }

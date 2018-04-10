@@ -35,8 +35,8 @@ class PermissionController extends Controller
 
     public function store(Request $request){
         $rules=[
-            'role'=>'required',
-            'name'=>'required'
+            'role'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'name'=>'required|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -71,7 +71,7 @@ class PermissionController extends Controller
 
     public function update(Request $request,$id){
         $rules=[
-            'name'=>'required'
+            'name'=>'required|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -99,7 +99,7 @@ class PermissionController extends Controller
 
     public function destroy(Request $request,$id){
         $rules=[
-            'role'=>'required'
+            'role'=>'required|regex:/^[\w-]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);

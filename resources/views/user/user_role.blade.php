@@ -140,6 +140,7 @@
             $(document).on("submit","#formRoleUser",function(e){
                 var data = new FormData(this);
                 data.append("user",id);
+                data.append("_token","{{ csrf_token() }}");
                 
                 if($("#formRoleUser")[0].checkValidity()) {
                     //updateAllMessageForms();
@@ -190,7 +191,7 @@
                         $.ajax({
                             url:"{{URL::to('sosmed/data/hapus-role-user')}}",
                             type:"POST",
-                            data:"permission="+rolename+"&user="+id,
+                            data:"_token={{ csrf_token() }}&permission="+rolename+"&user="+id,
                             beforeSend:function(){
                                 $("#pesan").empty();
                             },
@@ -216,6 +217,7 @@
             $(document).on("submit","#formHandleUnit",function(e){
                 var data = new FormData(this);
                 data.append("user",id);
+                data.append("_token","{{ csrf_token() }}");
                 
                 if($("#formHandleUnit")[0].checkValidity()) {
                     //updateAllMessageForms();

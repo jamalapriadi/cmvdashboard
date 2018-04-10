@@ -11,6 +11,10 @@ use \App\Models\Sosmed\Programunit;
 class ProgramunitController extends Controller
 {
     public function index(Request $request){
+        if(!auth()->user()->can('Read Program')){
+            return abort('403');
+        }
+
         \DB::statement(\DB::raw('set @rownum=0'));
         $var=Programunit::with('businessunit')
             ->with('sosmed')
@@ -71,9 +75,10 @@ class ProgramunitController extends Controller
 
     public function store(Request $request){
         $rules=[
-            'unit'=>'required',
-            'name'=>'required',
-            'sosmed'=>'required'
+            'unit'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'sosmed'=>'required|array|min:3',
+            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -94,15 +99,20 @@ class ProgramunitController extends Controller
             if($simpan){
                 if($request->has('sosmed')){
                     $sosmed=$request->input('sosmed');
-
-                    foreach($sosmed as $key=>$val){
-                        $s=new \App\Models\Sosmed\Unitsosmed;
-                        $s->type_sosmed="program";
-                        $s->business_program_unit=$var->id;
-                        $s->sosmed_id=$key;
-                        $s->unit_sosmed_name=$val;
-                        $s->save();
-                    }
+                    
+                    //add db transaction
+                    \DB::transaction(function() use($sosmed,$var){
+                        foreach($sosmed as $key=>$val){
+                            if($val!=null){
+                                $s=new \App\Models\Sosmed\Unitsosmed;
+                                $s->type_sosmed="program";
+                                $s->business_program_unit=$var->id;
+                                $s->sosmed_id=$key;
+                                $s->unit_sosmed_name=$val;
+                                $s->save();
+                            }
+                        }
+                    });
                 }
 
                 $data=array(
@@ -138,8 +148,10 @@ class ProgramunitController extends Controller
 
     public function update(Request $request,$id){
         $rules=[
-            'unit'=>'required',
-            'name'=>'required'
+            'unit'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'sosmed'=>'required|array|min:3',
+            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -162,26 +174,32 @@ class ProgramunitController extends Controller
                 if($request->has('sosmed')){
                     $sosmed=$request->input('sosmed');
                     $tes=array();
-                    foreach($sosmed as $key=>$val){
-                        $ceksosmed=\App\Models\Sosmed\Unitsosmed::where('sosmed_id',$key)
-                            ->where('business_program_unit',$id)
-                            ->where('type_sosmed','program')
-                            ->first();
-                        
-                        if(count($ceksosmed)>0){
-                            $s=\App\Models\Sosmed\Unitsosmed::find($ceksosmed->id);
-                            $s->type_sosmed="program";
-                            $s->unit_sosmed_name=$val;
-                            $s->save();
-                        }else{
-                            $s=new \App\Models\Sosmed\Unitsosmed;
-                            $s->type_sosmed="program";
-                            $s->business_program_unit=$id;
-                            $s->sosmed_id=$key;
-                            $s->unit_sosmed_name=$val;
-                            $s->save();
+
+                    \DB::transaction(function() use($sosmed,$id){
+                        foreach($sosmed as $key=>$val){
+                            if($val!=null){
+                                $ceksosmed=\App\Models\Sosmed\Unitsosmed::where('sosmed_id',$key)
+                                    ->where('business_program_unit',$id)
+                                    ->where('type_sosmed','program')
+                                    ->first();
+                                
+                                if($ceksosmed!=null){
+                                    $s=\App\Models\Sosmed\Unitsosmed::find($ceksosmed->id);
+                                    $s->type_sosmed="program";
+                                    $s->unit_sosmed_name=$val;
+                                    $s->save();
+                                }else{
+                                    $s=new \App\Models\Sosmed\Unitsosmed;
+                                    $s->type_sosmed="program";
+                                    $s->business_program_unit=$id;
+                                    $s->sosmed_id=$key;
+                                    $s->unit_sosmed_name=$val;
+                                    $s->save();
+                                }
+                            }   
                         }
-                    }
+                    });
+
                 }
 
                 $data=array(
@@ -249,7 +267,7 @@ class ProgramunitController extends Controller
         $rules=[
             'tahun'=>'required',
             'sosmed'=>'required',
-            'target'=>'required'
+            'target'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -266,7 +284,7 @@ class ProgramunitController extends Controller
                 ->where('tahun',$request->input('tahun'))
                 ->first();
 
-            if(count($cektarget)>0){
+            if($cektarget!=null){
                 $updatetarget=\App\Models\Sosmed\Unitsosmedtarget::where('unit_sosmed_id',$request->input('sosmed'))
                 ->where('tahun',$request->input('tahun'))
                 ->update(
@@ -411,7 +429,7 @@ class ProgramunitController extends Controller
         $rules=[
             'tanggal'=>'required',
             'unit'=>'required',
-            'sosmed'=>'required'
+            'sosmed'=>'required|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -520,14 +538,25 @@ class ProgramunitController extends Controller
                     'error'=>''
                 );
             }else{
-                foreach($sosmed as $k=>$v){
-                    $new=new \App\Models\Sosmed\Unitsosmedfollower;
-                    $new->tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
-                    $new->unit_sosmed_id=$k;
-                    $new->follower=$v;
-                    $new->insert_user=\Auth::user()->email;
-                    $new->save();
-                }
+                \DB::transaction(function() use($sosmed,$request){
+                    foreach($sosmed as $k=>$v){
+                        $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                        $new->tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
+                        $new->unit_sosmed_id=$k;
+                        $new->follower=$v;
+                        $new->insert_user=\Auth::user()->email;
+                        $new->save();
+    
+                        $update=new \App\Models\Sosmed\Unitsosmedactivity;
+                        $update->on_page="Insert Daily Report";
+                        $update->relasi_id=$k;
+                        $update->description=\Auth::user()->name." Menambah Data Follower";
+                        $update->tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
+                        $update->follower=$v;
+                        $update->insert_user=\Auth::user()->email;
+                        $update->save();
+                    }
+                });
 
                 $data=array(
                     'success'=>true,
@@ -650,7 +679,7 @@ class ProgramunitController extends Controller
         $rules=[
             'tanggal'=>'required',
             'type'=>'required',
-            'follower'=>'required',
+            'follower'=>'required|regex:/^[a-zA-Z0-9_\- ]*$/',
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -662,22 +691,24 @@ class ProgramunitController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $old=\App\Models\Sosmed\Unitsosmedfollower::find($id);
-            $new=\App\Models\Sosmed\Unitsosmedfollower::find($id);
-            $new->tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
-            $new->follower=$request->input('follower');
-            $new->update_user=\Auth::user()->email;
+            \DB::transaction(function () use($request,$id){
+                $old=\App\Models\Sosmed\Unitsosmedfollower::find($id);
+                $new=\App\Models\Sosmed\Unitsosmedfollower::find($id);
+                $new->tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
+                $new->follower=$request->input('follower');
+                $new->update_user=\Auth::user()->email;
 
-            $update=new \App\Models\Sosmed\Unitsosmedactivity;
-            $update->on_page="Daily Report";
-            $update->relasi_id=$id;
-            $update->description=\Auth::user()->name." Mengupdate Data Follower";
-            $update->tanggal=$old->tanggal;
-            $update->follower=$old->follower;
-            $update->insert_user=\Auth::user()->email;
-            $update->save();
+                $update=new \App\Models\Sosmed\Unitsosmedactivity;
+                $update->on_page="Daily Report";
+                $update->relasi_id=$id;
+                $update->description=\Auth::user()->name." Mengupdate Data Follower";
+                $update->tanggal=$old->tanggal;
+                $update->follower=$old->follower;
+                $update->insert_user=\Auth::user()->email;
+                $update->save();
 
-            $new->save();
+                $new->save();
+            });
 
             $data=array(
                 'success'=>true,
@@ -753,22 +784,25 @@ class ProgramunitController extends Controller
             }
 
             $pesan=array();
-            foreach($excels as $k=>$v){
-                $cekfollower=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',date('Y-m-d',strtotime($v['tanggal'])))
-                    ->where('unit_sosmed_id',$val['unit_sosmed_id'])
-                    ->get();
-                
-                if(count($cekfollower)>0){
-                    continue;
-                }
 
-                $new=new \App\Models\Sosmed\Unitsosmedfollower;
-                $new->tanggal=date('Y-m-d',strtotime($v['tanggal']));
-                $new->unit_sosmed_id=$v['unit_sosmed_id'];
-                $new->follower=$v['follower'];
-                $new->insert_user=\Auth::user()->email;
-                $new->save();
-            }
+            \DB::transaction(function() use($excels){
+                foreach($excels as $k=>$v){
+                    $cekfollower=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',date('Y-m-d',strtotime($v['tanggal'])))
+                        ->where('unit_sosmed_id',$val['unit_sosmed_id'])
+                        ->get();
+                    
+                    if(count($cekfollower)>0){
+                        continue;
+                    }
+    
+                    $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                    $new->tanggal=date('Y-m-d',strtotime($v['tanggal']));
+                    $new->unit_sosmed_id=$v['unit_sosmed_id'];
+                    $new->follower=$v['follower'];
+                    $new->insert_user=\Auth::user()->email;
+                    $new->save();
+                }
+            });              
 
             $data=array(
                 'success'=>true,
@@ -839,52 +873,57 @@ class ProgramunitController extends Controller
     }
 
     public function import(Request $request){
-        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        if(auth()->user()->can('Backup Excel')){
+            $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
 
-        $unit=\App\Models\Sosmed\Businessunit::select('id','group_unit_id','unit_name')->get();
+            $unit=\App\Models\Sosmed\Businessunit::select('id','group_unit_id','unit_name')->get();
 
-        $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
+            $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
 
-        $var = \App\Models\Sosmed\Programunit::select('id','business_unit_id','program_name')
-            ->get();
+            $var = \App\Models\Sosmed\Programunit::select('id','business_unit_id','program_name')
+                ->get();
 
-        $unitsosmed=\App\Models\Sosmed\Unitsosmed::select('id','type_sosmed','business_program_unit','sosmed_id','unit_sosmed_name','target_use')
-            ->get();
+            $unitsosmed=\App\Models\Sosmed\Unitsosmed::select('id','type_sosmed','business_program_unit','sosmed_id','unit_sosmed_name','target_use')
+                ->get();
 
-        $unitfollower=\App\Models\Sosmed\Unitsosmedfollower::select('id','unit_sosmed_id','tanggal','follower')->get();
+            $unitfollower=\App\Models\Sosmed\Unitsosmedfollower::select('id','unit_sosmed_id','tanggal','follower')->get();
 
-        $unittarget=\App\Models\Sosmed\Unitsosmedtarget::select('id','unit_sosmed_id','tahun','target')->get();
+            $unittarget=\App\Models\Sosmed\Unitsosmedtarget::select('id','unit_sosmed_id','tahun','target')->get();
 
-        return \Excel::create('backup'.date('Y-m-d H:i:s'),function($excel) use($var,$unitsosmed,$group,$unit,$sosmed,$unitfollower,$unittarget){
-            $excel->sheet('group',function($sheet) use($group){
-                $sheet->fromArray($group);
-            });
+            return \Excel::create('backup'.date('Y-m-d H:i:s'),function($excel) use($var,$unitsosmed,$group,$unit,$sosmed,$unitfollower,$unittarget){
+                $excel->sheet('group',function($sheet) use($group){
+                    $sheet->fromArray($group);
+                });
 
-            $excel->sheet('unit',function($sheet) use($unit){
-                $sheet->fromArray($unit);
-            });
+                $excel->sheet('unit',function($sheet) use($unit){
+                    $sheet->fromArray($unit);
+                });
 
-            $excel->sheet('sosmed',function($sheet) use($sosmed){
-                $sheet->fromArray($sosmed);
-            });
+                $excel->sheet('sosmed',function($sheet) use($sosmed){
+                    $sheet->fromArray($sosmed);
+                });
 
-            $excel->sheet('program',function($sheet) use($var){
-                $sheet->fromArray($var);
-            });
+                $excel->sheet('program',function($sheet) use($var){
+                    $sheet->fromArray($var);
+                });
 
-            $excel->sheet('unit_sosmed',function($sheet) use($unitsosmed){
-                $sheet->fromArray($unitsosmed);
-            });
+                $excel->sheet('unit_sosmed',function($sheet) use($unitsosmed){
+                    $sheet->fromArray($unitsosmed);
+                });
 
-            $excel->sheet('unit_sosmedfollower',function($sheet) use($unitfollower){
-                $sheet->fromArray($unitfollower);
-            });
+                $excel->sheet('unit_sosmedfollower',function($sheet) use($unitfollower){
+                    $sheet->fromArray($unitfollower);
+                });
 
-            $excel->sheet('unit_sosmedtarget',function($sheet) use($unittarget){
-                $sheet->fromArray($unittarget);
-            });
+                $excel->sheet('unit_sosmedtarget',function($sheet) use($unittarget){
+                    $sheet->fromArray($unittarget);
+                });
 
-        })->export('xlsx');
+            })->export('xlsx');
+        }
+
+        return abort('403');
+        
     }
 
     public function list_official_and_program(Request $request,$id){

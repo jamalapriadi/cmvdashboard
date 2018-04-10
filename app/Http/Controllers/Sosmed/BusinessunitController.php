@@ -11,6 +11,10 @@ use \App\Models\Sosmed\Businessunit;
 class BusinessunitController extends Controller
 {
     public function index(){
+        if(!auth()->user()->can('Read Unit')){
+            return abort('403');
+        }
+
         \DB::statement(\DB::raw('set @rownum=0'));
 
         $var=Businessunit::with('groupunit','sosmed')
@@ -59,8 +63,10 @@ class BusinessunitController extends Controller
 
     public function store(Request $request){
         $rules=[
-            'name'=>'required',
-            'group'=>'required'
+            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'group'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'sosmed'=>'required|array|min:3',
+            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -97,12 +103,14 @@ class BusinessunitController extends Controller
                     $sosmed=$request->input('sosmed');
 
                     foreach($sosmed as $key=>$val){
-                        $s=new \App\Models\Sosmed\Unitsosmed;
-                        $s->type_sosmed="corporate";
-                        $s->business_program_unit=$var->id;
-                        $s->sosmed_id=$key;
-                        $s->unit_sosmed_name=$val;
-                        $s->save();
+                        if($val!=null){
+                            $s=new \App\Models\Sosmed\Unitsosmed;
+                            $s->type_sosmed="corporate";
+                            $s->business_program_unit=$var->id;
+                            $s->sosmed_id=$key;
+                            $s->unit_sosmed_name=$val;
+                            $s->save();
+                        }
                     }
                 }
 
@@ -139,8 +147,10 @@ class BusinessunitController extends Controller
 
     public function update(Request $request,$id){
         $rules=[
-            'name'=>'required',
-            'group'=>'required'
+            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'group'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'sosmed'=>'required|array|min:3',
+            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -177,23 +187,25 @@ class BusinessunitController extends Controller
                     $sosmed=$request->input('sosmed');
 
                     foreach($sosmed as $key=>$val){
-                        $ceksosmed=\App\Models\Sosmed\Unitsosmed::where('sosmed_id',$key)
-                            ->where('business_program_unit',$id)
-                            ->where('type_sosmed','corporate')
-                            ->first();
-                        
-                        if(count($ceksosmed)>0){
-                            $s=\App\Models\Sosmed\Unitsosmed::find($ceksosmed->id);
-                            $s->type_sosmed="corporate";
-                            $s->unit_sosmed_name=$val;
-                            $s->save();
-                        }else{
-                            $s=new \App\Models\Sosmed\Unitsosmed;
-                            $s->type_sosmed="corporate";
-                            $s->business_program_unit=$var->id;
-                            $s->sosmed_id=$key;
-                            $s->unit_sosmed_name=$val;
-                            $s->save();
+                        if($val!=null){
+                            $ceksosmed=\App\Models\Sosmed\Unitsosmed::where('sosmed_id',$key)
+                                ->where('business_program_unit',$id)
+                                ->where('type_sosmed','corporate')
+                                ->first();
+                            
+                            if($ceksosmed!=null){
+                                $s=\App\Models\Sosmed\Unitsosmed::find($ceksosmed->id);
+                                $s->type_sosmed="corporate";
+                                $s->unit_sosmed_name=$val;
+                                $s->save();
+                            }else{
+                                $s=new \App\Models\Sosmed\Unitsosmed;
+                                $s->type_sosmed="corporate";
+                                $s->business_program_unit=$var->id;
+                                $s->sosmed_id=$key;
+                                $s->unit_sosmed_name=$val;
+                                $s->save();
+                            }
                         }
                     }
                 }
