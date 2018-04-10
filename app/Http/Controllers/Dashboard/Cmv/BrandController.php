@@ -181,15 +181,18 @@ class BrandController extends Controller
             $excels=\Excel::selectSheets('brand')->load($file,function($reader){})->get();
             
             $no=0;
-            foreach($excels as $key=>$val){
-                $no++;
 
-                $brand=new Brand;
-                $brand->category_id=$val['category_id'];
-                $brand->brand_id=$val['brand_id'];
-                $brand->brand_name=$val['brand_name'];
-                $brand->save();
-            }
+            \DB::transaction(function() use($excels,$no){
+                foreach($excels as $key=>$val){
+                    $no++;
+    
+                    $brand=new Brand;
+                    $brand->category_id=$val['category_id'];
+                    $brand->brand_id=$val['brand_id'];
+                    $brand->brand_name=$val['brand_name'];
+                    $brand->save();
+                }
+            });
 
             $data=array(
                 'success'=>true,

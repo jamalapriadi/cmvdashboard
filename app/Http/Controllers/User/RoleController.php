@@ -12,6 +12,10 @@ use Spatie\Permission\Models\Role;
 class RoleController extends Controller
 {
     public function index(){
+        if(!auth()->user()->can('Read Role')){
+            return abort('403');
+        }
+
         \DB::statement(\DB::raw('set @rownum=0'));
 
         $role=Role::select('id','name','guard_name',
@@ -32,7 +36,7 @@ class RoleController extends Controller
 
     public function store(Request $request){
         $rules=[
-            'name'=>'required'
+            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -64,7 +68,7 @@ class RoleController extends Controller
 
     public function update(Request $request,$id){
         $rules=[
-            'name'=>'required'
+            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);

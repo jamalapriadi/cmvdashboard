@@ -56,7 +56,16 @@ class LoginController extends Controller
         }
 
         auth()->user()->session_id=\Session::getId();
+        auth()->user()->status_login="On";
         auth()->user()->save();
+
+        //insert to login activity
+        $ac=new \App\Userloginactivity;
+        $ac->user_id=auth()->user()->id;
+        $ac->ip_address=\Request::ip();
+        $ac->user_agent=$request->server('HTTP_USER_AGENT');
+        $ac->save();
+
         $this->clearLoginAttempts($request);
 
         return $this->authenticated($request, $this->guard()->user())
@@ -66,5 +75,12 @@ class LoginController extends Controller
     public function setPasswordAttribute($password)
     {   
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function logout(Request $request){
+        auth()->user()->status_login="Off";
+        auth()->user()->save();
+        auth()->logout();
+        return redirect('/');
     }
 }

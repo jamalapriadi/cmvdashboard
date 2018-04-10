@@ -44,4 +44,8 @@ class User extends Authenticatable
                 ]
             );
     }
+
+    public function logins(){
+        return $this->hasMany('App\Userloginactivity','user_id');
+    }
 }

@@ -150,14 +150,17 @@ class DemographyController extends Controller
             $excels=\Excel::selectSheets('demo')->load($file,function($reader){})->get();
             
             $no=0;
-            foreach($excels as $key=>$val){
-                $no++;
-
-                $demo=new Demography;
-                $demo->demo_id=$val['demo_id'];
-                $demo->demo_name=$val['demo_name'];
-                $demo->save();
-            }
+            
+            \DB::transaction(function() use($excels,$no){
+                foreach($excels as $key=>$val){
+                    $no++;
+    
+                    $demo=new Demography;
+                    $demo->demo_id=$val['demo_id'];
+                    $demo->demo_name=$val['demo_name'];
+                    $demo->save();
+                }
+            });
 
             $data=array(
                 'success'=>true,

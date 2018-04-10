@@ -234,6 +234,7 @@
 
             $(document).on("submit","#form",function(e){
                 var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
                 if($("#form")[0].checkValidity()) {
                     //updateAllMessageForms();
                     e.preventDefault();
@@ -354,6 +355,7 @@
 
             $(document).on("submit","#formUpdate",function(e){
                 var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
                 data.append("_method","PUT");
                 if($("#formUpdate")[0].checkValidity()) {
                     //updateAllMessageForms();
@@ -416,6 +418,7 @@
                         $.ajax({
                             url:"{{URL::to('sosmed/data/program-unit')}}/"+kode,
                             type:"DELETE",
+                            data:"_token={{ csrf_token() }}",
                             success:function(result){
                                 if(result.success=true){
                                     swal("Deleted!", result.pesan, "success");
@@ -572,6 +575,7 @@
                         $.ajax({
                             url:"{{URL::to('sosmed/data/unit-sosmed')}}/"+sosmedid,
                             type:"DELETE",
+                            data:"_token={{ csrf_token() }}",
                             success:function(result){
                                 if(result.success=true){
                                     swal("Deleted!", result.pesan, "success");

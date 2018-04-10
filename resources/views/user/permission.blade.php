@@ -131,6 +131,7 @@
                                 '</div>'+
 
                                 '<div class="modal-body">'+
+                                    '<div id="pesan"></div>'+
                                     '<div class="form-group">'+
                                         '<label class="control-label text-semibold">Name</label>'+
                                         '<input class="form-control" name="name" id="name" placeholder="Name" required>'+
@@ -153,6 +154,7 @@
             $(document).on("submit","#form",function(e){
                 var data = new FormData(this);
                 data.append("role",id);
+                data.append("_token","{{ csrf_token() }}");
                 if($("#form")[0].checkValidity()) {
                     //updateAllMessageForms();
                     e.preventDefault();
@@ -174,7 +176,7 @@
                                 showData();
                                 $("#modal_default").modal("hide");
                             }else{
-                                $("#pesan").empty().html("<pre>"+data.error+"</pre>");
+                                $("#pesan").empty().html("<pre style='background:#f2a7a7'>"+data.error+"</pre>");
                             }
                         },
                         error   :function() {  
@@ -236,6 +238,7 @@
             $(document).on("submit","#formUpdate",function(e){
                 var data = new FormData(this);
                 data.append("_method","PUT");
+                data.append("_token","{{ csrf_token() }}");
                 if($("#formUpdate")[0].checkValidity()) {
                     //updateAllMessageForms();
                     e.preventDefault();
@@ -297,7 +300,7 @@
                         $.ajax({
                             url:"{{URL::to('sosmed/data/permissions')}}/"+kode,
                             type:"DELETE",
-                            data:"role="+id,
+                            data:"role="+id+"&_token={{ csrf_token() }}",
                             success:function(result){
                                 if(result.success=true){
                                     swal("Deleted!", result.pesan, "success");
