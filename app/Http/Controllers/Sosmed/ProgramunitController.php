@@ -429,7 +429,7 @@ class ProgramunitController extends Controller
         $rules=[
             'tanggal'=>'required',
             'unit'=>'required',
-            'sosmed'=>'required|regex:/^[a-zA-Z0-9_\- ]*$/'
+            'sosmed'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
