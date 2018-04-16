@@ -35,29 +35,36 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('import-data','HomeController@import_data');
 
 Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
-    Route::get('change-password','HomeController@change_password');
-    Route::get('highlight','HomeController@sosmed_rangking');
-    Route::get('group','HomeController@sosmed_group');
-    Route::get('businness-unit','HomeController@sosmed_unit');
-    Route::get('sosial-media','HomeController@sosmed_media');
-    Route::get('program','HomeController@sosmed_program');
-    Route::get('program/{id}/summary','HomeController@sosmed_summary_program');
-    Route::get('business-unit/{id}/summary','HomeController@sosmed_summary_bu');
-    Route::get('input-report-harian','HomeController@sosmed_input_report_harian');
-    Route::get('add-new-report-harian/{id}','HomeController@add_new_report_harian');
+    Route::group(['middleware'=>'access-log-sosmed'],function(){
+        Route::get('change-password','HomeController@change_password');
+        Route::get('highlight','HomeController@sosmed_rangking');
+        Route::get('group','HomeController@sosmed_group');
+        Route::get('businness-unit','HomeController@sosmed_unit');
+        Route::get('sosial-media','HomeController@sosmed_media');
+        Route::get('program','HomeController@sosmed_program');
+        Route::get('program/{id}/summary','HomeController@sosmed_summary_program');
+        Route::get('business-unit/{id}/summary','HomeController@sosmed_summary_bu');
+        Route::get('input-report-harian','HomeController@sosmed_input_report_harian');
+        Route::get('add-new-report-harian/{id}','HomeController@add_new_report_harian');
 
-    Route::get('daily-report','HomeController@sosmed_daily_report');
-    Route::get('ranking-soc-med','HomeController@sosmed_ranking_soc_med');
-    Route::get('input-report/{id}','HomeController@sosmed_input_report');
+        Route::get('daily-report','HomeController@sosmed_daily_report');
+        Route::get('ranking-soc-med','HomeController@sosmed_ranking_soc_med');
+        Route::get('input-report/{id}','HomeController@sosmed_input_report');
 
-    Route::get('role','HomeController@role');
-    Route::get('role/{id}/permission','HomeController@permission');
-    Route::get('user','HomeController@user');
-    Route::get('user/{id}/role','HomeController@user_role');
+        Route::get('role','HomeController@role');
+        Route::get('role/{id}/permission','HomeController@permission');
+        Route::get('user','HomeController@user');
+        Route::get('user/{id}/role','HomeController@user_role');
+
+        Route::get('log/login','HomeController@log_login');
+        Route::get('log/activity','HomeController@log_activity');
+        Route::get('log/access-log','HomeController@access_log');
+    });
 
     Route::group(['prefix'=>'data'],function(){
         Route::get('list-activity-user','User\UserController@list_activity_user');
         Route::get('recent-login-user','User\UserController@recent_login_user');
+        Route::get('recent-access-log','User\UserController@recent_access_log');
         Route::post('change-password','User\UserController@change_password');
         Route::get('official-and-program-account-all-tv','HomeController@official_and_program');
 
@@ -183,6 +190,7 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
         Route::post('import-variabel','Dashboard\Cmv\VariabelController@import');
         Route::get('sample-variabel','Dashboard\Cmv\VariabelController@sample');
         Route::get('export-variabel','Dashboard\Cmv\VariabelController@export');
+        Route::post('rollback-variabel','Dashboard\Cmv\VariabelController@rollback_excel');
 
         Route::get('search','Dashboard\Cmv\VariabelController@search');
 

@@ -59,17 +59,22 @@ class LoginController extends Controller
         auth()->user()->status_login="On";
         auth()->user()->save();
 
-        //insert to login activity
-        $ac=new \App\Userloginactivity;
-        $ac->user_id=auth()->user()->id;
-        $ac->ip_address=\Request::ip();
-        $ac->user_agent=$request->server('HTTP_USER_AGENT');
-        $ac->save();
-
         $this->clearLoginAttempts($request);
 
         return $this->authenticated($request, $this->guard()->user())
             ?: redirect()->intended($this->redirectPath());
+    }
+
+    protected function credentials(Request $request){
+        return $request->only($this->username(),'password','status_active');
+    }
+
+    protected function attemptLogin(Request $request){
+        $request->merge(['status_active','Y']);
+
+        return $this->guard()->attempt(
+            $this->credentials($request),$request->filled('remember')
+        );
     }
 
     public function setPasswordAttribute($password)

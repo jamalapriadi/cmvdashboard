@@ -177,13 +177,22 @@ class VariabelController extends Controller
             \DB::transaction(function() use($excels,$no){
                 foreach($excels as $key=>$val){
                     $no++;
-                    $demo=new Variabel;
-                    $demo->brand_id=$val['brand_id'];
-                    $demo->subdemo_id=$val['subdemo_id'];
-                    $demo->quartal=$val['quartal'];
-                    $demo->totals_thousand=$val['totals_thousand'];
-                    $demo->totals_Ver=$val['totals_ver'];
-                    $demo->save();
+                    $cek=Variabel::where('brand_id',$val['brand_id'])
+                        ->where('subdemo_id',$val['subdemo_id'])
+                        ->where('quartal',$val['quartal'])
+                        ->get();
+                    
+                    if(count($cek)>0){
+                        continue;
+                    }else{
+                        $demo=new Variabel;
+                        $demo->brand_id=$val['brand_id'];
+                        $demo->subdemo_id=$val['subdemo_id'];
+                        $demo->quartal=$val['quartal'];
+                        $demo->totals_thousand=$val['totals_thousand'];
+                        $demo->totals_Ver=$val['totals_ver'];
+                        $demo->save();
+                    }
                 }
             });
 
@@ -311,6 +320,45 @@ class VariabelController extends Controller
                 'success'=>true,
                 'pesan'=>'Data berhasil diload',
                 'data'=>$header
+            );
+        }
+
+        return $data;
+    }
+
+    public function rollback_excel(Request $request){
+        $rules=['file'=>'required'];
+        $pesan=['file.required'=>'Pesan harus diisi'];
+
+        $validasi=\Validator::make($request->all(),$rules,$pesan);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi gagal',
+                'errors'=>$validasi->errors()->all()
+            );
+        }else{
+            $file=$request->file('file');
+
+            $excels=\Excel::selectSheets('variabel')->load($file,function($reader){})->get();
+            
+            $no=0;
+
+            \DB::transaction(function() use($excels,$no){
+                foreach($excels as $key=>$val){
+                    $no++;
+                    $demo=Variabel::where('brand_id',$val['brand_id'])
+                        ->where('subdemo_id',$val['subdemo_id'])
+                        ->where('quartal',$val['quartal'])
+                        ->delete();
+                }
+            });
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Berhasil import '.$no.' Data',
+                'error'=>''
             );
         }
 

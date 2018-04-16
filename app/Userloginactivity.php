@@ -8,6 +8,13 @@ class Userloginactivity extends Model
     protected $table="user_login_activity";
 
     public function user(){
-        return $this->belongsTo('App\User','user_id');
+        return $this->belongsTo('App\User','user_id')
+            ->select(
+                [
+                    'id',
+                    'name',
+                    'email'
+                ]
+            );
     }
 }

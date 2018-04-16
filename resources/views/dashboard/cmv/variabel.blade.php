@@ -448,12 +448,78 @@
                 $("#modal_default").modal("show");
             })
 
+            $(document).on("click","#rollback",function(){
+                var sample="{{URL::to('cmv/data/sample-variabel')}}";
+                var el="";
+                el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                    '<div class="modal-dialog">'+
+                        '<form id="formRollback" class="form-horizontal" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                            '<div class="modal-content">'+
+                                '<div class="modal-header bg-primary">'+
+                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                    '<h5 class="modal-title" id="modal-title">Rollback Data Variabel</h5>'+
+                                '</div>'+
+
+                                '<div class="modal-body">'+
+                                    '<div id="pesan"></div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">FILE</label>'+
+                                        '<input class="form-control" type="file" name="file" id="file" placeholder="SECTOR ID" required>'+
+                                    '</div>'+
+                                    "<p><small>You can download 'Format DB variabel' if you want to upload data to make sure that your data will upload has appropriate with format</small> <a href='"+sample+"'><label class='label label-success'>Click to Download Format DB variabel</label></a>"+
+                                '</div>'+
+
+                                '<div class="modal-footer">'+
+                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                    '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Upload</span> </button>'+
+                                '</div>'+
+                            '</div>'+
+                        '</form>'+
+                    '</div>'+
+                '</div>';
+
+                $("#divModal").empty().html(el);
+                $("#modal_default").modal("show");
+            })
+
             $(document).on("submit","#formImport",function(e){
                 var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
                 if($("#formImport")[0].checkValidity()) {
                     e.preventDefault();
                     $.ajax({
                         url         : "{{URL::to('cmv/data/import-variabel')}}",
+                        type        : 'post',
+                        data        : data,
+                        dataType    : 'JSON',
+                        contentType : false,
+                        cache       : false,
+                        processData : false,
+                        beforeSend  : function (){
+                            $('#pesan').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        },
+                        success : function (data) {
+                            if(data.success==true){
+                                $('#pesan').empty().html('<div class="alert alert-info">'+data.pesan+'</div>');
+                                showSector(1);
+                            }else{
+                                $('#pesan').empty().html('<div class="alert alert-info">'+data.pesan+'<pre>'+data.error+'</pre></div>');
+                            }
+                        },
+                        error   :function() {  
+                            $('#pesan').empty().html('<div class="alert alert-danger">Your request not Sent...</div>');
+                        }
+                    });
+                }else console.log("invalid form");
+            });
+
+            $(document).on("submit","#formRollback",function(e){
+                var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
+                if($("#formRollback")[0].checkValidity()) {
+                    e.preventDefault();
+                    $.ajax({
+                        url         : "{{URL::to('cmv/data/rollback-variabel')}}",
                         type        : 'post',
                         data        : data,
                         dataType    : 'JSON',
@@ -569,6 +635,12 @@
                     <a href="{{URL::to('cmv/data/export-demography')}}">
                         <i class="icon-file-excel"></i>
                         Export Excel
+                    </a>
+                </li>
+                <li>
+                    <a href="#" href="#" id="rollback">
+                        <i class="icon-history"></i>
+                        Rollback Excel
                     </a>
                 </li>
             </ul>

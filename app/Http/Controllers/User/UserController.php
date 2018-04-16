@@ -48,8 +48,8 @@ class UserController extends Controller
             'unit'=>'required|max:15|regex:/^[a-zA-Z0-9_\- ]*$/',
             'name'=>'required|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/',
             'email'=>'required|min:5|max:45|regex:/^[a-zA-Z0-9_\-@. ]*$/|email|unique:users,email',
-            'password'=>'required|min:6|max:18|regex:/^[a-zA-Z0-9_\- ]*$/',
-            'password_confirm'=>'required|min:6|max:18|regex:/^[a-zA-Z0-9_\- ]*$/|same:password'
+            'password'=>'required|min:12|max:18|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'password_confirm'=>'required|min:12|max:18|regex:/^[a-zA-Z0-9_\- ]*$/|same:password'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -281,9 +281,9 @@ class UserController extends Controller
     public function change_password(Request $request){
         if($request->ajax()){
             $rules=[
-                'current'=>'required|alpha_num|min:3|max:18',
-                'password'=>'required|alpha_num|min:3|max:18',
-                'password_confirmation'=>'required|same:password|alpha_num|min:3|max:18'
+                'current'=>'required|alpha_num|min:12|max:18',
+                'password'=>'required|alpha_num|min:12|max:18',
+                'password_confirmation'=>'required|same:password|alpha_num|min:12|max:18'
             ];
 
             $pesan=[
@@ -331,17 +331,26 @@ class UserController extends Controller
             'description','tanggal','follower','insert_user','created_at','updated_at')
             ->orderBy('created_at','desc')
             ->with('user')
-            ->paginate(10);
+            ->get();
 
         return $act;
     }
 
     public function recent_login_user(Request $request){
-        $user=User::select('id','name','status_login','created_at','updated_at')
-            ->with('lastlogin')
-            ->whereHas('lastlogin')
+        $user=\App\Userloginactivity::with('user')
+            ->orderBy('created_at','desc')
             ->get();
 
         return $user;
+    }
+
+    public function recent_access_log(){
+        $log=\DB::table('access_logs as a')
+            ->leftJoin('users as b','b.id','=','a.user_id')
+            ->select('a.id','b.name','a.path','a.ip_address','a.created_at','a.updated_at')
+            ->where('modul','SOSMED')
+            ->get();
+
+        return $log;
     }
 }

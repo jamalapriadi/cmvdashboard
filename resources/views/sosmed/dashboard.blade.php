@@ -211,41 +211,6 @@
             </div>
         </div>
     </div>
-
-    @if(auth()->user()->can('Access Log'))
-    <!-- END OVERVIEW -->
-    <div class="row">
-        <div class="col-md-5">
-            <!-- TIMELINE -->
-            <div class="panel panel-scrolling">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Recent User Activity</h3>
-                    <div class="right">
-                        <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
-                        <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div id="showActivitys"></div>
-                    <!-- <button type="button" class="btn btn-primary btn-bottom center-block">Load More</button> -->
-                </div>
-            </div>
-            <!-- END TIMELINE -->
-        </div>
-
-        <div class="col-md-7">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    Recent Login User
-                </div>
-                <div class="panel-body">
-                    <div id="loginActivity"></div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    @endif
 </div>
 
 <div id="divModal"></div>
@@ -498,81 +463,6 @@
             $(document).on("submit","#formofficialAndProgram",function(e){
                 officialAndProgram();
             });
-
-            /* activity login */
-            function showActivity(){
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/list-activity-user')}}",
-                    type:"GET",
-                    beforeSend:function(){
-                        $("#showActivitys").empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
-                    },
-                    success:function(result){
-                        var el="";
-                        el+='<ul class="list-unstyled activity-list">';
-                            $.each(result.data,function(a,b){
-                                el+='<li>';
-                                if(b.user!=null){
-                                    var path="https://www.baxter.com/assets/images/products/Renal/thumb_image_not_available.png";
-                                    el+='<img src="'+b.images+'" onerror=this.src="'+path+'"; alt="'+b.user.name+'" class="img-circle pull-left avatar">';        
-                                }else{
-                                    el+='<img src="https://cdn.iconscout.com/public/images/icon/free/png-512/avatar-user-coder-3579ca3abc3fd60f-512x512.png" alt="Avatar" class="img-circle pull-left avatar">';        
-                                }
-                                el+='<p>'+b.description+' <span class="timestamp">'+b.created_at+'</span></p>'+
-                            '</li>';
-                            })
-                        el+='</ul>';
-
-                        $("#showActivitys").empty().html(el);
-                    },
-                    error:function(){
-                        
-                    }
-                })
-            }
-
-            function lastLogin(){
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/recent-login-user')}}",
-                    type:"GET",
-                    beforeSend:function(){
-                        $("#loginActivity").empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
-                    },
-                    success:function(result){
-                        var el="";
-                        el+='<table class="table table-striped">'+
-                            '<thead>'+
-                                '<tr>'+
-                                    '<th>No.</th>'+
-                                    '<th>Name</th>'+
-                                    '<th>Last Login</th>'+
-                                    '<th>IP Address</th>'+
-                                '</tr>'+
-                            '</thead>'+
-                            '<tbody>';
-                            var no=0;
-                            $.each(result,function(a,b){
-                                no++;
-                                el+="<tr>"+
-                                    "<td>"+no+"</td>"+
-                                    "<td>"+b.name+"</td>"+
-                                    "<td>"+b.created_at+"</td>"+
-                                    "<td>"+b.lastlogin.ip_address+"<br><small>"+b.lastlogin.user_agent+"</small></td>"+
-                                "</tr>";
-                            })
-                            el+="</tbody>"+ 
-                        '</table>';
-
-                        $("#loginActivity").empty().html(el);
-                    },
-                    error:function(){
-                        
-                    }
-                })
-            }
-
-            showActivity();
-            lastLogin();
 
             targetVsAchievement();
             officialAccountAllTv();
