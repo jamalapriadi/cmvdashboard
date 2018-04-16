@@ -87,8 +87,6 @@
                             </div>
 
                             <div class="panel-body">
-                                <a href="https://api.whatsapp.com/send?phone=whatsappphonenumber&text=urlencodedtext">Send Wa</a>
-                                <hr>
                                 <ul style="list-style-type:none">
                                     <li>*1. Official* Account *All TV* By *Total Followers*
                                         <div id="officalAccountAllTvByTotalFollowers"></div>
