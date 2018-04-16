@@ -96,6 +96,28 @@
                     </div>
                 </li>
                 @endif
+                
+                @if(auth()->user()->can('Access Log'))
+                <li>
+                    <a href="#subLog" data-toggle="collapse" class="collapsed"><i class="icon-list"></i> <span>Recent Activity</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <div id="subLog" class="collapse ">
+                        <ul class="nav">
+                            <li><a href="{{URL::to('sosmed/log/login')}}">
+                                    Log
+                                </a>
+                            </li>
+                            <li><a href="{{URL::to('sosmed/log/activity')}}">
+                                    Activity
+                                </a>
+                            </li>
+                            <li><a href="{{URL::to('sosmed/log/access-log')}}">
+                                    Access Log
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                @endif
 
                 @if(auth()->user()->can('Highlight'))
                     <li><a href="{{URL::to('sosmed/highlight')}}" class="{{ Request::path() == 'sosmed/highlight' ? 'active' : '' }}"><i class="icon-highlight"></i> <span>Highlight</span></a></li>

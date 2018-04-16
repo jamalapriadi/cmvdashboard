@@ -216,6 +216,30 @@ class HomeController extends Controller
             ->with('id',$id);
     }
 
+    public function log_login(){
+        if(auth()->user()->can('Access Log')){
+            return view('sosmed.log.login');
+        }
+
+        return abort('403');
+    }
+
+    public function log_activity(){
+        if(auth()->user()->can('Access Log')){
+            return view('sosmed.log.activity');
+        }
+
+        return abort('403');
+    }
+
+    public function access_log(){
+        if(auth()->user()->can('Access Log')){
+            return view('sosmed.log.access-log');
+        }
+
+        return abort('403');
+    }
+
     public function change_password(){
         return view('user.change_password');
     }

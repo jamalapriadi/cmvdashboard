@@ -26,6 +26,11 @@ class LogSuccessfulLogout
      */
     public function handle(Logout $event)
     {
-        //
+        $ac=new \App\Userloginactivity;
+        $ac->user_id=auth()->user()->id;
+        $ac->ip_address=\Request::ip();
+        $ac->user_agent=\Request::server('HTTP_USER_AGENT');
+        $ac->activity="LOGOUT";
+        $ac->save();
     }
 }

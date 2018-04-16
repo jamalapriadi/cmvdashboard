@@ -29,6 +29,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function setPasswordAttribute($password)
+    {   
+        $this->attributes['password'] = bcrypt($password);
+    }
+
     public function unitsosmed(){
         return $this->belongsTo('App\Models\Sosmed\Businessunit','unit_id');
     }

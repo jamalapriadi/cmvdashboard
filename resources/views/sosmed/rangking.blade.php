@@ -87,26 +87,28 @@
                             </div>
 
                             <div class="panel-body">
-                                <dd>
-                                    <dl>1. *Official Account* All TV By *Total Followers*
+                                <a href="https://api.whatsapp.com/send?phone=whatsappphonenumber&text=urlencodedtext">Send Wa</a>
+                                <hr>
+                                <ul style="list-style-type:none">
+                                    <li>*1. Official* Account *All TV* By *Total Followers*
                                         <div id="officalAccountAllTvByTotalFollowers"></div>
-                                    </dl>
-                                    <dl>2. *Group Official* Account by *Total Followers*
+                                    </li>
+                                    <li>*2. Group Official* Account by *Total Followers*
                                         <div id="groupOfficialAccountByTotalFollowers"></div>
-                                    </dl>
-                                    <dl>3. *Group Overall* Accounts ( Official + Program ) by *Total Followers*
+                                    </li>
+                                    <li>*3. Group Overall* Accounts ( Official + Program ) by *Total Followers*
                                         <div id="groupOverallAccount"></div>
-                                    </dl>
-                                    <dl>4. *Program Accounts* ALL TV by *Additional Followers* from yesterday
+                                    </li>
+                                    <li>*4. Program* Accounts *ALL TV* by *Additional Followers* from yesterday
                                         <div id="programAccountAllTv"></div>
-                                    </dl>
-                                    <dl>5. *4TV's* Followers *Achievement below 50%*
+                                    </li>
+                                    <li>*5. 4TV's* Followers *Achievement below 50%*
                                         <div id="tvAchievementbelow50"></div>
-                                    </dl>
-                                    <dl>6. *Our 4TV's* Followers *Official Accounts* for those *Achievement above 50%*
+                                    </li>
+                                    <li>*6. Our 4TV's* Followers *Official Accounts* for those *Achievement above 50%*
                                         <div id="tvAchievementabove50"></div>
                                         <br>
-                                    </dl>
+                                    </li>
                                 </ul>
                                 
                             </div>
@@ -300,9 +302,9 @@
                     },
                     success:function(result){
                         var el="";
-                        el+="<ul>"+
+                        el+="<ul style='list-style-type:none'>"+
                             "<li>*Twitter*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
                                         el+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_twitter+" / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
@@ -321,7 +323,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Facebook*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
                                         el+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
@@ -340,7 +342,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Instagram*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
                                         el+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
@@ -387,9 +389,9 @@
                     },
                     success:function(result){
                         var el="";
-                        el+="<ul>"+
+                        el+="<ul style='list-style-type:none'>"+
                             "<li>*Twitter*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
                                         el+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
@@ -408,7 +410,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Facebook*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
                                         el+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
@@ -427,7 +429,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Instagram*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
                                         el+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
@@ -474,9 +476,9 @@
                     },
                     success:function(result){
                         var el="";
-                        el+="<ul>"+
+                        el+="<ul style='list-style-type:none'>"+
                             "<li>*Twitter*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
                                         el+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
@@ -495,7 +497,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Facebook*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
                                         el+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
@@ -514,7 +516,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Instagram*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
                                         el+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
@@ -561,9 +563,9 @@
                     },
                     success:function(result){
                         var el="";
-                        el+="<ul>"+
+                        el+="<ul style='list-style-type:none'>"+
                             "<li>*Twitter*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
                                         el+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
@@ -582,7 +584,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Facebook*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
                                         el+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
@@ -601,7 +603,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Instagram*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
                                         el+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
@@ -648,9 +650,9 @@
                     },
                     success:function(result){
                         var el="";
-                        el+="<ul>"+
+                        el+="<ul style='list-style-type:none'>"+
                             "<li>*Twitter*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.tw==1 && result[a].follower.acv_tw < 50){
                                         el+="<li>1. "+result[a].unit_name+" "+result[a].follower.acv_tw+" %</li>";
@@ -659,7 +661,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Facebook*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.fb==2 && result[a].follower.acv_fb < 50){
                                         el+="<li>1. "+result[a].unit_name+" "+result[a].follower.acv_fb+" %</li>";
@@ -668,7 +670,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Instagram*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.acv_ig < 50){
                                         el+="<li>1. "+result[a].unit_name+" "+result[a].follower.acv_ig+" %</li>";
@@ -705,9 +707,9 @@
                     },
                     success:function(result){
                         var el="";
-                        el+="<ul>"+
+                        el+="<ul style='list-style-type:none'>"+
                             "<li>*Twitter*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 var no=0;
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.tw==1 && result[a].follower.acv_tw > 50){
@@ -718,7 +720,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Facebook*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 var nos=0;
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.fb==2 && result[a].follower.acv_fb > 50){
@@ -729,7 +731,7 @@
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Instagram*"+
-                                "<ul>";
+                                "<ul style='list-style-type:none'>";
                                 var nol=0;
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.acv_ig > 50){
