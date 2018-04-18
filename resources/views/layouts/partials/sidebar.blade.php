@@ -67,6 +67,30 @@
                     <!-- <li><a href="{{URL::to('sosmed/input-report-harian')}}" class="{{ Request::path() == 'sosmed/input-report-harian' ? 'active' : '' }}"><i class="lnr lnr-location"></i> <span>Input Report</span></a></li> -->
                 @endif
 
+                <li>
+                    <a href="#subChart" data-toggle="collapse" class="collapsed"><i class="icon-chart"></i> <span>Charts</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                    <div id="subChart" class="collapse ">
+                        <ul class="nav">
+                            <li><a href="{{URL::to('sosmed/chart/cross-channel')}}">
+                                    Cross Channel
+                                </a>
+                            </li>
+                            <li><a href="{{URL::to('sosmed/chart/twitter')}}">
+                                    Twitter
+                                </a>
+                            </li>
+                            <li><a href="{{URL::to('sosmed/chart/facebook')}}">
+                                    Facebook
+                                </a>
+                            </li>
+                            <li><a href="{{URL::to('sosmed/chart/instagram')}}">
+                                    Instagram
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
                 @if(auth()->user()->can('Backup'))
                 <li>
                     <a href="#subPrint" data-toggle="collapse" class="collapsed"><i class="icon-shredder"></i> <span>Export Data</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>

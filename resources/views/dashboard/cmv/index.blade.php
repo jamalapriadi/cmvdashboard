@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.tabler')
 
 @section('js')
     <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>

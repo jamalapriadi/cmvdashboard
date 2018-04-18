@@ -31,6 +31,7 @@ class RoleController extends Controller
 
                 return $html;
             })
+            ->escapeColumns()
             ->make(true);
     }
 

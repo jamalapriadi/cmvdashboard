@@ -59,6 +59,8 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('log/login','HomeController@log_login');
         Route::get('log/activity','HomeController@log_activity');
         Route::get('log/access-log','HomeController@access_log');
+
+        Route::get('chart/{param}','HomeController@sosmed_chart');
     });
 
     Route::group(['prefix'=>'data'],function(){
@@ -140,6 +142,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
 
         Route::group(['prefix'=>'chart'],function(){
             Route::get('daily-chart/{id}/program','Sosmed\ReportController@daily_chart_program');
+            Route::get('all-tier','Sosmed\ReportController@all_tier');
         });
     });
 });

@@ -187,6 +187,23 @@ class HomeController extends Controller
             ->with('kemarin',$kemarin);
     }
 
+    public function sosmed_chart($param){
+        switch($param){
+            case 'cross-channel':
+                    return view('sosmed.chart.cross_channel');
+                break;
+            case 'twitter':
+            case 'facebook':
+            case 'instagram':
+                return view('sosmed.chart.twitter')
+                    ->with('param',$param);
+                break;
+            default: 
+
+                break;
+        }
+    }
+
     public function official_and_program(Request $request){
         $group=\App\Models\Sosmed\Groupunit::with(
             [
