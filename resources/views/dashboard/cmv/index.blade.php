@@ -1,4 +1,4 @@
-@extends('layouts.tabler')
+@extends('layouts.dashboard')
 
 @section('js')
     <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
@@ -124,8 +124,7 @@
                             gender.push({
                                 values:[parseInt(b.totals_thousand)],
                                 backgroundColor:color[a],
-                                text:b.subdemo_name,
-                                "detached":true
+                                text:b.subdemo_name
                             })
                         }else{
                             gender.push({

@@ -32,6 +32,10 @@
             @endif
         </div>
 
+        {!! app('captcha')->display(['data-type' => 'audio']) !!}
+
+        <br>
+
         <div class="form-group clearfix">
             <label class="fancy-checkbox element-left">
                 <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>

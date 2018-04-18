@@ -82,6 +82,14 @@ class LoginController extends Controller
         $this->attributes['password'] = bcrypt($password);
     }
 
+    protected function validateLogin(Request $request){
+        $this->validate($request,[
+            $this->username()=>'required|string',
+            'password'=>'required|string',
+            'g-recaptcha-response' => 'required|captcha'
+        ]);
+    }
+
     public function logout(Request $request){
         auth()->user()->status_login="Off";
         auth()->user()->save();
