@@ -67,7 +67,7 @@
                     <!-- <li><a href="{{URL::to('sosmed/input-report-harian')}}" class="{{ Request::path() == 'sosmed/input-report-harian' ? 'active' : '' }}"><i class="lnr lnr-location"></i> <span>Input Report</span></a></li> -->
                 @endif
 
-                <li>
+                <!-- <li>
                     <a href="#subChart" data-toggle="collapse" class="collapsed"><i class="icon-chart"></i> <span>Charts</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                     <div id="subChart" class="collapse ">
                         <ul class="nav">
@@ -89,7 +89,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> -->
 
                 @if(auth()->user()->can('Backup'))
                 <li>
