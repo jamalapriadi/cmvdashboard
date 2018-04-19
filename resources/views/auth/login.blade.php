@@ -32,7 +32,7 @@
             @endif
         </div>
 
-        {!! app('captcha')->display(['data-type' => 'audio']) !!}
+        {!! app('captcha')->display() !!}
 
         <br>
 
