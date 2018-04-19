@@ -7,9 +7,9 @@
             <th class='text-center' style='background:#a200b2;color:white'>Instagram</th>
         </tr>
         <tr>
-            <th class='text-center' style='background:#008ef6;color:white'>{{$sekarang}}</th>
-            <th class='text-center' style='background:#5054ab;color:white'>{{$sekarang}}</th>
-            <th class='text-center' style='background:#a200b2;color:white'>{{$sekarang}}</th>
+            <th class='text-center' style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+            <th class='text-center' style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+            <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
         </tr>
     </thead>
     <tbody style="color:#222">

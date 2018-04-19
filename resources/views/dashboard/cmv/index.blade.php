@@ -124,8 +124,7 @@
                             gender.push({
                                 values:[parseInt(b.totals_thousand)],
                                 backgroundColor:color[a],
-                                text:b.subdemo_name,
-                                "detached":true
+                                text:b.subdemo_name
                             })
                         }else{
                             gender.push({

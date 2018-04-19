@@ -51,6 +51,66 @@ class ReportController extends Controller
             }else{
                 $group=1;
             }
+
+            // $target=\DB::table('business_unit as a')
+            //     ->leftJoin('unit_sosmed as b',function($join){
+            //         $join->on('b.business_program_unit','a.id');
+            //         $join->where('b.type_sosmed','corporate');
+            //     })
+            //     ->leftJoin('unit_sosmed_target as c',function($join){
+            //         $join->on('c.unit_sosmed_id','b.id');
+            //     })
+            //     ->leftJoin('unit_sosmed_follower as d',function($join) use($sekarang){
+            //         $join->on('d.unit_sosmed_id','b.id');
+            //         $join->where('d.tanggal',$sekarang);
+            //     })
+            //     ->select(
+            //         'a.id',
+            //         'a.group_unit_id',
+            //         'a.unit_name',
+            //         'b.target_use',
+            //         \DB::Raw("sum(if(b.sosmed_id=1, c.target,0)) as target_tw"),
+            //         \DB::raw("sum(if(d.tanggal='$sekarang' and b.sosmed_id=1, d.follower,0)) as follower_tw"),
+            //         \DB::Raw("( sum(if(d.tanggal='$sekarang' and b.sosmed_id=1, d.follower,0)) / sum(if(b.sosmed_id=1, c.target,0)) * 100) as acv_tw"),
+            //         \DB::raw("sum(if(b.sosmed_id=2, c.target,0)) as target_fb"),
+            //         \DB::raw("sum(if(d.tanggal='$sekarang' and b.sosmed_id=2, d.follower,0)) as follower_fb"),
+            //         \DB::raw("( sum(if(d.tanggal='$sekarang' and b.sosmed_id=2, d.follower,0)) / sum(if(b.sosmed_id=2, c.target,0)) * 100) as acv_fb"),
+            //         \DB::raw("sum(if(b.sosmed_id=3, c.target,0)) as target_ig"),
+            //         \DB::raw("sum(if(d.tanggal='$sekarang' and b.sosmed_id=3, d.follower,0)) as follower_ig"),
+            //         \DB::raw("( sum(if(d.tanggal='$sekarang' and b.sosmed_id=3, d.follower,0)) / sum(if(b.sosmed_id=3, c.target,0)) * 100) as acv_ig")
+            //     )
+            //     ->where('a.group_unit_id',$group)
+            //     ->groupBy('a.id')
+            //     ->get();
+
+            // $tambahanInews=\DB::table('program_unit as a')
+            //     ->leftJoin('unit_sosmed as b',function($join){
+            //         $join->on('b.business_program_unit','=','a.id')
+            //             ->where('b.type_sosmed','program');
+            //     })
+            //     ->leftJoin('unit_sosmed_follower as c',function($join) use($kemarin,$sekarang){
+            //         $join->on('c.unit_sosmed_id','=','b.id')
+            //             ->whereBetween('c.tanggal',[$kemarin,$sekarang]);
+            //     })
+            //     ->leftJoin('business_unit as d','d.id','=','a.business_unit_id')
+            //     ->select(
+            //         \DB::raw("ifnull(a.id,'TOTAL') as id"),
+            //         'a.business_unit_id',
+            //         'd.group_unit_id',
+            //         'a.program_name',
+            //         \DB::raw("sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as tw_kemarin"),
+            //         \DB::raw("sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as tw_sekarang"),
+            //         \DB::raw("(sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) -1)*100 as growth_tw"),
+            //         \DB::raw("sum(if(c.tanggal='$kemarin' and b.sosmed_id=2, c.follower,0)) as fb_kemarin"),
+            //         \DB::raw("sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as fb_sekarang"),
+            //         \DB::raw("(sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=2, c.follower,0)) -1)*100 as growth_fb"),
+            //         \DB::raw("sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) as ig_kemarin"),
+            //         \DB::raw("sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig_sekarang"),
+            //         \DB::raw("(sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_ig")
+            //     )
+            //     ->whereIn('a.id',[89, 101, 95, 87])
+            //     ->groupBy(\DB::raw('a.id WITH ROLLUP'))
+            //     ->get();
     
             $target=\DB::select("select a.id, a.group_unit_id, a.unit_name, b.target_use, 
                 sum(if(b.sosmed_id=1, c.target,0)) as target_tw,
@@ -2851,4 +2911,76 @@ class ReportController extends Controller
             ->with('kemarin',$kemarin)
             ->with('sekarang',$sekarang);
     }
+
+
+    /* chart */
+    public function all_tier(Request $request){
+        $rules=[
+            'tanggal'=>'date'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }
+
+        if($request->has('tanggal')){
+            $tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
+        }else{
+            $tanggal=date('Y-m-d');
+        }
+
+        $chart=\DB::select("select a.id, a.group_unit_id, a.unit_name,
+            sum(if(b.sosmed_id=1,c.follower,0)) as tw,
+            sum(if(b.sosmed_id=2,c.follower,0)) as fb,
+            sum(if(b.sosmed_id=3,c.follower,0)) as ig,
+            (sum(if(b.sosmed_id=1,c.follower,0)) + sum(if(b.sosmed_id=2,c.follower,0)) + sum(if(b.sosmed_id=3,c.follower,0))) as total
+            from business_unit a 
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            left JOIN unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='2018-03-16'
+            GROUP by a.id");
+
+        return $chart;
+    }
+
+    public function chart_official_tv(Request $request){
+        // $chart=\DB::select("select a.id, a.group_unit_id,a.unit_name, c.tanggal, c.follower 
+        // from business_unit a 
+        // left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate' and b.sosmed_id=1
+        // left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and date_format(c.tanggal,'%Y-%m')='2018-04'
+        // where a.id=1 or a.id=6
+        // order by a.id, c.tanggal")
+        $sosmed=1;
+        $bulan=date('Y-m');
+
+        $chart=\DB::table('business_unit as a')
+            ->leftJoin('unit_sosmed as b',function($q) use($sosmed){
+                $q->on('b.business_program_unit','=','a.id')
+                    ->where('b.type_sosmed','corporate')
+                    ->where('sosmed_id',$sosmed);
+            })
+            ->leftJoin('unit_sosmed_follower as c',function($q) use($bulan){
+                $q->on('c.unit_sosmed_id','b.id')
+                    ->where(\DB::raw("date_format(c.tanggal,'%Y-%m')"),$bulan);
+            })
+            ->select(
+                'a.id',
+                'a.group_unit_id',
+                'a.unit_name',
+                'c.tanggal',
+                'c.follower'
+            )
+            ->whereIn('a.id',[1,6])
+            ->orderBy('a.id','asc')
+            ->orderBy('c.tanggal','asc')
+            ->get();
+
+        return $chart;
+    }
+    /* end chart */
 }

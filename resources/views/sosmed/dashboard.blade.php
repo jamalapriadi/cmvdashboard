@@ -249,7 +249,10 @@
             $('.daterange-single').daterangepicker({ 
                 singleDatePicker: true,
                 selectMonths: true,
-                selectYears: true
+                selectYears: true,
+                locale: {
+                    format: 'DD-MM-YYYY'
+                }
             });
 
             function addKoma(nStr)

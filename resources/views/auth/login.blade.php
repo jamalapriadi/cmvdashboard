@@ -32,6 +32,10 @@
             @endif
         </div>
 
+        {!! app('captcha')->display() !!}
+
+        <br>
+
         <div class="form-group clearfix">
             <label class="fancy-checkbox element-left">
                 <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>

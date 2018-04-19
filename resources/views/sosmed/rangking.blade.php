@@ -87,8 +87,6 @@
                             </div>
 
                             <div class="panel-body">
-                                <a href="https://api.whatsapp.com/send?phone=whatsappphonenumber&text=urlencodedtext">Send Wa</a>
-                                <hr>
                                 <ul style="list-style-type:none">
                                     <li>*1. Official* Account *All TV* By *Total Followers*
                                         <div id="officalAccountAllTvByTotalFollowers"></div>
@@ -192,7 +190,8 @@
             $('.daterange-single-sekarang').datepicker({ 
                 singleDatePicker: true,
                 selectMonths: true,
-                selectYears: true
+                selectYears: true,
+                dateFormat: 'dd-mm-yy'
             });
 
             $('.daterange-single-sekarang').datepicker('setDate',sekarang);
@@ -215,7 +214,8 @@
                     $('.daterange-single-kemarin').datepicker({ 
                         singleDatePicker: true,
                         selectMonths: true,
-                        selectYears: true
+                        selectYears: true,
+                        dateFormat: 'dd-mm-yy'
                     });
 
                     $('.daterange-single-kemarin').datepicker('setDate',kemarin);
@@ -240,7 +240,8 @@
                     $('.daterange-single-kemarin2').datepicker({ 
                         singleDatePicker: true,
                         selectMonths: true,
-                        selectYears: true
+                        selectYears: true,
+                        dateFormat: 'dd-mm-yy'
                     });
 
                     $('.daterange-single-kemarin2').datepicker('setDate',kemarin);
