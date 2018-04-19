@@ -66,7 +66,7 @@
 <body>
     <div style="margin-top:40%;"></div>
     <h1 class="text-center">SOCMED DAILY REPORT</h1>
-    <p class="text-center">( {{date('Y-m-d',strtotime($sekarang))}} vs {{date('Y-m-d',strtotime($kemarin))}} )</p>
+    <p class="text-center">( {{date('d-m-Y',strtotime($sekarang))}} vs {{date('d-m-Y',strtotime($kemarin))}} )</p>
 
     <div class="page-break"></div>
 
@@ -81,15 +81,15 @@
                 <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
             </tr>
             <tr>
-                <th class='text-center' style='background:#008ef6;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
                 <th class='text-center' style='background:#008ef6;color:white'>Target</th>
                 <th class='text-center' style='background:#008ef6;color:white'>ACH</th>
 
-                <th class='text-center' style='background:#5054ab;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
                 <th class='text-center' style='background:#5054ab;color:white'>Target</th>
                 <th class='text-center' style='background:#5054ab;color:white'>ACH</th>
 
-                <th class='text-center' style='background:#a200b2;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
                 <th class='text-center' style='background:#a200b2;color:white'>Target</th>
                 <th class='text-center' style='background:#a200b2;color:white'>ACH</th>
             </tr>
@@ -174,16 +174,16 @@
                 <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
             </tr>
             <tr>
-                <th class='text-center' style='background:#008ef6;color:white'>{{$kemarin}}</th>
-                <th class='text-center' style='background:#008ef6;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
+                <th class='text-center' style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
                 <th class='text-center' style='background:#008ef6;color:white'>Growth From Yesterday</th>
 
-                <th class='text-center' style='background:#5054ab;color:white'>{{$kemarin}}</th>
-                <th class='text-center' style='background:#5054ab;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
+                <th class='text-center' style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
                 <th class='text-center' style='background:#5054ab;color:white'>Growth From Yesterday</th>
 
-                <th class='text-center' style='background:#a200b2;color:white'>{{$kemarin}}</th>
-                <th class='text-center' style='background:#a200b2;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
+                <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
                 <th class='text-center' style='background:#a200b2;color:white'>Growth From Yesterday</th>
             </tr>
         </thead>
@@ -432,9 +432,9 @@
                 <th class='text-center' style='background:#a200b2;color:white'>Instagram</th>
             </tr>
             <tr>
-                <th class="text-center" style='background:#008ef6;color:white'>{{$sekarang}}</th>
-                <th class="text-center" style='background:#5054ab;color:white'>{{$sekarang}}</th>
-                <th class="text-center" style='background:#a200b2;color:white'>{{$sekarang}}</th>
+                <th class="text-center" style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                <th class="text-center" style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                <th class="text-center" style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
             </tr>
         </thead>
         <tbody style="color:#222">
@@ -491,9 +491,9 @@
                 <th class='text-center' style='background:#a200b2;color:white'>Instagram</th>
             </tr>
             <tr>
-                <th class='text-center' style='background:#008ef6;color:white'>{{$sekarang}}</th>
-                <th class='text-center' style='background:#5054ab;color:white'>{{$sekarang}}</th>
-                <th class='text-center' style='background:#a200b2;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                <th class='text-center' style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
             </tr>
         </thead>
         <tbody style="color:#222">';

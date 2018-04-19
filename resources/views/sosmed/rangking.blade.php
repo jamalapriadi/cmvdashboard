@@ -190,7 +190,8 @@
             $('.daterange-single-sekarang').datepicker({ 
                 singleDatePicker: true,
                 selectMonths: true,
-                selectYears: true
+                selectYears: true,
+                dateFormat: 'dd-mm-yy'
             });
 
             $('.daterange-single-sekarang').datepicker('setDate',sekarang);

@@ -19,7 +19,7 @@
                 <td>{{$row->unit_name}}</td>
                 <td>{{$row->type_sosmed}}</td>
                 <td>{{$row->unit_sosmed_name}}</td>
-                <td>{{$row->tanggal}}</td>
+                <td>{{date('d-m-Y',strtotime($row->tanggal))}}</td>
                 <td>{{number_format($row->follower)}}</td>
                 <td>
                     <div class='btn-group' data-toggle='buttons'>
