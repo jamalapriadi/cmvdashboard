@@ -214,7 +214,8 @@
                     $('.daterange-single-kemarin').datepicker({ 
                         singleDatePicker: true,
                         selectMonths: true,
-                        selectYears: true
+                        selectYears: true,
+                        dateFormat: 'dd-mm-yy'
                     });
 
                     $('.daterange-single-kemarin').datepicker('setDate',kemarin);
@@ -239,7 +240,8 @@
                     $('.daterange-single-kemarin2').datepicker({ 
                         singleDatePicker: true,
                         selectMonths: true,
-                        selectYears: true
+                        selectYears: true,
+                        dateFormat: 'dd-mm-yy'
                     });
 
                     $('.daterange-single-kemarin2').datepicker('setDate',kemarin);
