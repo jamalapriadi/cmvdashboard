@@ -23,7 +23,7 @@
     {{Html::script('limitless1/assets/js/core/libraries/bootstrap.min.js')}}
     <script>
       requirejs.config({
-          baseUrl: '.'
+          baseUrl:"{{URL::asset('.')}}"
       });
     </script>
     <!-- Dashboard Core -->
