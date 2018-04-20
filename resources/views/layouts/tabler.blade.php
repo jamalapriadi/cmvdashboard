@@ -18,9 +18,7 @@
     <title>CMV Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
-    <script src="{{URL::asset('tabler/assets/js/require.min.js')}}"></script>
-    {{Html::script('limitless1/assets/js/core/libraries/jquery.min.js')}}
-    {{Html::script('limitless1/assets/js/core/libraries/bootstrap.min.js')}}
+    {{Html::script('tabler/assets/js/require.min.js')}}
     <script>
       requirejs.config({
           baseUrl:"{{URL::asset('.')}}"
@@ -37,6 +35,25 @@
     <script src="{{URL::asset('tabler/assets/plugins/maps-google/plugin.js')}}"></script>
     <!-- Input Mask Plugin -->
     <script src="{{URL::asset('tabler/assets/plugins/input-mask/plugin.js')}}"></script>
+
+    <!--DATATABLE AND CKEDITOR -->
+    {{Html::script('limitless1/ckeditor/ckeditor.js')}}
+
+	<!-- Theme JS files -->
+    {{Html::script('limitless1/assets/js/plugins/tables/datatables/datatables.min.js')}}
+    {{Html::script('limitless1/assets/js/plugins/tables/datatables/extensions/col_vis.min.js')}}
+    {{Html::script('limitless1/assets/js/plugins/forms/styling/uniform.min.js')}}
+    {{Html::script('limitless1/assets/js/core/libraries/jquery_ui/interactions.min.js')}}
+    {{Html::script('limitless1/assets/js/plugins/forms/selects/select2.min.js')}}
+      {{Html::script('limitless1/assets/js/plugins/notifications/pnotify.min.js')}}
+      {{Html::script('limitless1/assets/js/plugins/forms/styling/switchery.min.js')}}
+    {{Html::script('limitless1/assets/js/plugins/forms/styling/switch.min.js')}}
+
+    {{Html::style('limitless1/assets/js/plugins/sweetalert/dist/sweetalert.css')}}
+    {{Html::script('limitless1/assets/js/plugins/sweetalert/dist/sweetalert.min.js')}}
+
+
+    @yield('css')
 </head>
 <body class="">
     <div class="page">
@@ -48,9 +65,6 @@
                 <img src="./demo/brand/tabler.svg" class="header-brand-img" alt="tabler logo">
               </a>
               <div class="d-flex order-lg-2 ml-auto">
-                <div class="nav-item d-none d-md-flex">
-                  <a href="https://github.com/tabler/tabler" class="btn btn-sm btn-outline-primary" target="_blank">Source code</a>
-                </div>
                 <div class="dropdown d-none d-md-flex">
                   <a class="nav-link icon" data-toggle="dropdown">
                     <i class="fe fe-bell"></i>
@@ -86,7 +100,7 @@
                   <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
                     <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
                     <span class="ml-2 d-none d-lg-block">
-                      <span class="text-default">Jane Pearson</span>
+                      <span class="text-default">{{auth()->user()->name}}</span>
                       <small class="text-muted d-block mt-1">Administrator</small>
                     </span>
                   </a>
@@ -144,85 +158,14 @@
                       <a href="./pricing-cards.html" class="dropdown-item ">Pricing cards</a>
                     </div>
                   </li>
-                  <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-calendar"></i> Components</a>
-                    <div class="dropdown-menu dropdown-menu-arrow">
-                      <a href="./maps.html" class="dropdown-item ">Maps</a>
-                      <a href="./icons.html" class="dropdown-item ">Icons</a>
-                      <a href="./store.html" class="dropdown-item ">Store</a>
-                      <a href="./blog.html" class="dropdown-item ">Blog</a>
-                      <a href="./carousel.html" class="dropdown-item ">Carousel</a>
-                    </div>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link active" data-toggle="dropdown"><i class="fe fe-file"></i> Pages</a>
-                    <div class="dropdown-menu dropdown-menu-arrow">
-                      <a href="./profile.html" class="dropdown-item ">Profile</a>
-                      <a href="./login.html" class="dropdown-item ">Login</a>
-                      <a href="./register.html" class="dropdown-item ">Register</a>
-                      <a href="./forgot-password.html" class="dropdown-item ">Forgot password</a>
-                      <a href="./400.html" class="dropdown-item ">400 error</a>
-                      <a href="./401.html" class="dropdown-item ">401 error</a>
-                      <a href="./403.html" class="dropdown-item ">403 error</a>
-                      <a href="./404.html" class="dropdown-item ">404 error</a>
-                      <a href="./500.html" class="dropdown-item ">500 error</a>
-                      <a href="./503.html" class="dropdown-item ">503 error</a>
-                      <a href="./email.html" class="dropdown-item ">Email</a>
-                      <a href="./empty.html" class="dropdown-item active">Empty page</a>
-                      <a href="./rtl.html" class="dropdown-item ">RTL mode</a>
-                    </div>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a href="./form-elements.html" class="nav-link"><i class="fe fe-check-square"></i> Forms</a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./gallery.html" class="nav-link"><i class="fe fe-image"></i> Gallery</a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="./docs/index.html" class="nav-link"><i class="fe fe-file-text"></i> Documentation</a>
-                  </li>
                 </ul>
               </div>
             </div>
           </div>
         </div>
         <div class="my-3 my-md-5">
-        </div>
-      </div>
-      <div class="footer">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-8">
-              <div class="row">
-                <div class="col-6 col-md-3">
-                  <ul class="list-unstyled mb-0">
-                    <li><a href="#">First link</a></li>
-                    <li><a href="#">Second link</a></li>
-                  </ul>
-                </div>
-                <div class="col-6 col-md-3">
-                  <ul class="list-unstyled mb-0">
-                    <li><a href="#">Third link</a></li>
-                    <li><a href="#">Fourth link</a></li>
-                  </ul>
-                </div>
-                <div class="col-6 col-md-3">
-                  <ul class="list-unstyled mb-0">
-                    <li><a href="#">Fifth link</a></li>
-                    <li><a href="#">Sixth link</a></li>
-                  </ul>
-                </div>
-                <div class="col-6 col-md-3">
-                  <ul class="list-unstyled mb-0">
-                    <li><a href="#">Other link</a></li>
-                    <li><a href="#">Last link</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 mt-4 mt-lg-0">
-              Premium and Open Source dashboard template with responsive and high quality UI. For Free!
-            </div>
+          <div class="container">
+            @yield('content')
           </div>
         </div>
       </div>
@@ -249,5 +192,6 @@
         </div>
       </footer>
     </div>
+    @yield('js')
   </body>
 </html>

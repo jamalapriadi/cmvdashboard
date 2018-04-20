@@ -7,16 +7,16 @@
                 <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
             </tr>
             <tr>
-                <th class='text-center' style='background:#008ef6;color:white'>{{$kemarin}}</th>
-                <th class='text-center' style='background:#008ef6;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
+                <th class='text-center' style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
                 <th class='text-center' style='background:#008ef6;color:white'>Growth From Yesterday</th>
 
-                <th class='text-center' style='background:#5054ab;color:white'>{{$kemarin}}</th>
-                <th class='text-center' style='background:#5054ab;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
+                <th class='text-center' style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
                 <th class='text-center' style='background:#5054ab;color:white'>Growth From Yesterday</th>
 
-                <th class='text-center' style='background:#a200b2;color:white'>{{$kemarin}}</th>
-                <th class='text-center' style='background:#a200b2;color:white'>{{$sekarang}}</th>
+                <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
+                <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
                 <th class='text-center' style='background:#a200b2;color:white'>Growth From Yesterday</th>
             </tr>
         </thead>
