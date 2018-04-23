@@ -22,4 +22,18 @@ class Category extends Model
             );
     }
 
+    public function variabel(){
+        return $this->hasManyThrough('App\Models\Dashboard\Cmv\Variabel','App\Models\Dashboard\Cmv\Brand','category_id','brand_id')
+            ->select(
+                [
+                    'cmv_variabel.id',
+                    'cmv_variabel.brand_id',
+                    'subdemo_id',
+                    'quartal',
+                    'totals_thousand',
+                    'totals_ver'
+                ]
+            );
+    }
+
 }
