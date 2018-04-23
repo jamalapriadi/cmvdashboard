@@ -273,7 +273,7 @@
                     num=number/milyar;
                     var k=num.toString();
 
-                    return k.subString(0,5)+" Million";
+                    return k.substring(0,5)+" Million";
                     // return num.toFixed(2)+" Million";
                 }else if(number>=juta && number<milyar){
                     num=number/juta;
@@ -283,7 +283,7 @@
                     num=number/ribuan*100;
                     var k=num.toString();
 
-                    return k.subString(0,5)+" K";
+                    return k.substring(0,5)+" K";
 
                     // return num.toFixed(0)+" K";
                 }
