@@ -1135,6 +1135,12 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="form-group">
+                            <label for="" class="control-label">Category</label>
+                            <input type="text" name="category" id="category" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
                             <label class="control-label">Brand</label>
                             <input type="text" name="brand" id="brand" class="remote-data-brand">
                         </div>
