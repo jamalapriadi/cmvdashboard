@@ -39,4 +39,15 @@ class Programunit extends Model
 				]
 			);
 	}
+
+	public function followers(){
+		return $this->hasManyThrough('\App\Models\Sosmed\Unitsosmedfollower','\App\Models\Sosmed\Unitsosmed','business_program_unit','unit_sosmed_id')
+			->select(
+				[
+					'unit_sosmed_id',
+					'tanggal',
+					'follower'
+				]
+			)->where('type_sosmed','program');
+	}
 }

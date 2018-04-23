@@ -159,6 +159,9 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
 
     Route::group(['prefix'=>'data'],function(){
         Route::get('filter-demography-by-brand','Dashboard\Cmv\ReportController@filter_demography');
+        Route::get('top-brand-by-category','Dashboard\Cmv\ReportController@top_brand_by_category');
+        Route::post('list-competitive-map','Dashboard\Cmv\ReportController@competitive_map');
+
         Route::resource('sector','Dashboard\Cmv\SectorController');
         Route::post('import-sector','Dashboard\Cmv\SectorController@import');
         Route::get('sample-sector','Dashboard\Cmv\SectorController@sample');
@@ -203,4 +206,8 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
             Route::get('all-brand','Dashboard\Cmv\ReportController@all_brand');
         });
     });
+});
+
+Route::get('info',function(){
+    phpinfo();
 });

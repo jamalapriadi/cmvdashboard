@@ -638,99 +638,83 @@
             }
 
             function official(){
-                zingchart.THEME="classic";
-                var myConfig = {
-                    "background-color":"white",
-                    "type":"line",
-                    "title":{
-                        "text":"",
-                        "color":"#333",
-                        "background-color":"white",
-                        "width":"60%",
-                        "text-align":"center",
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/chart/official-tv')}}",
+                    type:"GET",
+                    beforeSend:function(){
+
                     },
-                    "legend":{
-                        "layout":"x1",
-                        "margin-top":"5%",
-                        "border-width":"0",
-                        "shadow":false,
-                        "marker":{
-                            "cursor":"hand",
-                            "border-width":"0"
-                        },
-                        "background-color":"white",
-                        "item":{
-                            "cursor":"hand"
-                        },
-                        "toggle-action":"remove"
+                    success:function(result){
+                        var myConfig = {
+                            "background-color":"white",
+                            "type":"line",
+                            "title":{
+                                "text":"",
+                                "color":"#333",
+                                "background-color":"white",
+                                "width":"60%",
+                                "text-align":"center",
+                            },
+                            "legend":{
+                                "layout":"x1",
+                                "margin-top":"5%",
+                                "border-width":"0",
+                                "shadow":false,
+                                "marker":{
+                                    "cursor":"hand",
+                                    "border-width":"0"
+                                },
+                                "background-color":"white",
+                                "item":{
+                                    "cursor":"hand"
+                                },
+                                "toggle-action":"remove"
+                            },
+                            "scaleX": {
+                                "markers": [],
+                                "offsetEnd":75,
+                                "labels": result.labels
+                            },
+                            "scaleY":{
+                                "line-color":"#333"
+                            },
+                            "tooltip":{
+                                "text":"%t: %v outbreaks in %k"
+                            },
+                            "plot":{
+                                "line-width":3,
+                                "marker":{
+                                    "size":2
+                                },
+                                "selection-mode":"multiple",
+                                "background-mode":"graph",
+                                "selected-state":{
+                                    "line-width":4
+                                },
+                                "background-state":{
+                                    "line-color":"#eee",
+                                    "marker":{
+                                        "background-color":"none"
+                                    }
+                                }
+                            },
+                            "plotarea":{
+                                "margin":"15% 15% 10% 7%"
+                            },
+                            "series":result.series
+                        };
+                        
+                        zingchart.render({ 
+                            id : 'official', 
+                            data : myConfig, 
+                            height: 400, 
+                            width: 925 
+                        });
                     },
-                    "scaleX":{
-                        "values":"1998:2012:1",
-                        "max-items":8
-                    },
-                    "scaleY":{
-                        "line-color":"#333"
-                    },
-                    "tooltip":{
-                        "text":"%t: %v outbreaks in %k"
-                    },
-                    "plot":{
-                        "line-width":3,
-                        "marker":{
-                            "size":2
-                        },
-                        "selection-mode":"multiple",
-                        "background-mode":"graph",
-                        "selected-state":{
-                            "line-width":4
-                        },
-                        "background-state":{
-                            "line-color":"#eee",
-                            "marker":{
-                                "background-color":"none"
-                            }
-                        }
-                    },
-                    "plotarea":{
-                        "margin":"15% 15% 10% 7%"
-                    },
-                    "series":[
-                        {
-                            "values":[783,672,621,466,427,315,382,299,363,363,350,213,261,287,243],
-                            "text":"Undeclared",
-                            "line-color":"#a6cee3",
-                            "marker":{
-                                "background-color":"#a6cee3",
-                                "border-color":"#a6cee3"
-                            }
-                        },
-                        {
-                            "values":[148,137,149,134,132,136,141,115,120,146,117,118,132,114,116],
-                            "text":"Salmonella",
-                            "line-color":"#1f78b4",
-                            "marker":{
-                                "background-color":"#1f78b4",
-                                "border-color":"#1f78b4"
-                            }
-                        },
-                        {
-                            "values":[73,199,276,305,367,285,496,283,503,321,358,198,303,224,288],
-                            "text":"Norovirus",
-                            "line-color":"#b2df8a",
-                            "marker":{
-                                "background-color":"#b2df8a",
-                                "border-color":"#b2df8a"
-                            }
-                        }
-                    ]
-                };
-                
-                zingchart.render({ 
-                    id : 'official', 
-                    data : myConfig, 
-                    height: 400, 
-                    width: 925 
-                });
+                    error:function(){
+
+                    }
+                })
             }
             
             alltier();
