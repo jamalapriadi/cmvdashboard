@@ -49,4 +49,15 @@ class Businessunit extends Model
 		return $this->belongsToMany('App\User','user_handle_unit','business_unit_id','user_id');
 	}
 
+	public function followers(){
+		return $this->hasManyThrough('\App\Models\Sosmed\Unitsosmedfollower','\App\Models\Sosmed\Unitsosmed','business_program_unit','unit_sosmed_id')
+			->select(
+				[
+					'unit_sosmed_id',
+					'tanggal',
+					'follower'
+				]
+			)->where('type_sosmed','corporate');
+	}
+
 }

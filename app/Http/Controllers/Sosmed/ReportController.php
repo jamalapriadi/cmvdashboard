@@ -2949,38 +2949,79 @@ class ReportController extends Controller
     }
 
     public function chart_official_tv(Request $request){
-        // $chart=\DB::select("select a.id, a.group_unit_id,a.unit_name, c.tanggal, c.follower 
-        // from business_unit a 
-        // left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate' and b.sosmed_id=1
-        // left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and date_format(c.tanggal,'%Y-%m')='2018-04'
-        // where a.id=1 or a.id=6
-        // order by a.id, c.tanggal")
-        $sosmed=1;
-        $bulan=date('Y-m');
+        $chart=\App\Models\Sosmed\Businessunit::with(
+            [
+                'followers'=>function($q){
+                    $q->where(\DB::Raw("date_format(tanggal,'%Y-%m')"),'2018-03')
+                        ->where('type_sosmed','corporate')
+                        ->where('sosmed_id',1);
+                }
+            ]
+        )
+        ->select('id','group_unit_id','unit_name')
+        ->where('id',5)
+        ->orWhere('id',10)
+        ->orWhere('id',2)
+        ->get();
 
-        $chart=\DB::table('business_unit as a')
-            ->leftJoin('unit_sosmed as b',function($q) use($sosmed){
-                $q->on('b.business_program_unit','=','a.id')
-                    ->where('b.type_sosmed','corporate')
-                    ->where('sosmed_id',$sosmed);
-            })
-            ->leftJoin('unit_sosmed_follower as c',function($q) use($bulan){
-                $q->on('c.unit_sosmed_id','b.id')
-                    ->where(\DB::raw("date_format(c.tanggal,'%Y-%m')"),$bulan);
-            })
-            ->select(
-                'a.id',
-                'a.group_unit_id',
-                'a.unit_name',
-                'c.tanggal',
-                'c.follower'
-            )
-            ->whereIn('a.id',[1,6])
-            ->orderBy('a.id','asc')
-            ->orderBy('c.tanggal','asc')
-            ->get();
+        $data=array();
+        $labels=array();
 
-        return $chart;
+        foreach($chart as $key=>$val){
+
+            if($val->id==1){
+                $line="#a6cee3";
+                $marker=array(
+                    "background-color"=>"#a6cee3",
+                    "border-color"=>"#a6cee3"
+                );
+
+            }elseif($val->id==6){
+                $line="#1f78b4";
+                $marker=array(
+                    "background-color"=>"#1f78b4",
+                    "border-color"=>"#1f78b4"
+                );
+            }elseif($val->id==5){
+                $line="#1f78b4";
+                $marker=array(
+                    "background-color"=>"#1f78b4",
+                    "border-color"=>"#1f78b4"
+                );
+            }elseif($val->id==10){
+                $line="#1f78b4";
+                $marker=array(
+                    "background-color"=>"#1f78b4",
+                    "border-color"=>"#1f78b4"
+                );
+            }elseif($val->id==2){
+                $line="#1f78b4";
+                $marker=array(
+                    "background-color"=>"#1f78b4",
+                    "border-color"=>"#1f78b4"
+                );
+            }
+            
+
+            $values=array();
+            foreach($val->followers as $f){
+                $values[]=$f->follower;
+
+                //cek labels
+                if(!in_array(date('d',strtotime($f->tanggal)),$labels)){
+                    array_push($labels,date('d',strtotime($f->tanggal)));
+                }
+            }
+
+            $data[]=array(
+                'values'=>$values,
+                'text'=>$val->unit_name,
+                'line-color'=>$line,
+                'marker'=>$marker
+            );
+        }
+
+        return array('labels'=>$labels,'series'=>$data);
     }
     /* end chart */
 }
