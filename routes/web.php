@@ -157,10 +157,16 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
     Route::get('demography/{id}/sub','Dashboard\CmvController@sub_demography');
     Route::get('variabel','Dashboard\CmvController@variabel');
 
+    Route::group(['prefix'=>'chart'],function(){
+        Route::get('brand','Dashboard\CmvController@chart_brand');
+        Route::get('competitive-map','Dashboard\CmvController@chart_competitive_map');
+    });
+
     Route::group(['prefix'=>'data'],function(){
         Route::get('filter-demography-by-brand','Dashboard\Cmv\ReportController@filter_demography');
         Route::get('top-brand-by-category','Dashboard\Cmv\ReportController@top_brand_by_category');
         Route::post('list-competitive-map','Dashboard\Cmv\ReportController@competitive_map');
+        Route::get('compare-with','Dashboard\Cmv\ReportController@compare_with');
 
         Route::resource('sector','Dashboard\Cmv\SectorController');
         Route::post('import-sector','Dashboard\Cmv\SectorController@import');
