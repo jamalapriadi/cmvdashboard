@@ -1171,97 +1171,19 @@
                                                                 var values=[];
 
                                                                 if(data.list[a].brand_id==b.brand_id && data.list[a].demo_id==f.demo_id){
-                                                                    // el+="<table class='table table-striped'>"+
-                                                                    //     '<thead>'+
-                                                                    //         '<tr>'+
-                                                                    //             '<th>'+data.list[a].subdemo_name+'</th>'+
-                                                                    //             '<th>'+data.list[a].totals_thousand+'</th>'+
-                                                                    //         '</tr>'+
-                                                                    //     '</thead>'+
-                                                                    // '</table>';
-                                                                    labels.push(data.list[a].subdemo_name);
-                                                                    values.push(parseInt(data.list[a].totals_thousand));
+                                                                    el+="<table class='table table-striped'>"+
+                                                                        '<thead>'+
+                                                                            '<tr>'+
+                                                                                '<th>'+data.list[a].subdemo_name+'</th>'+
+                                                                                '<th>'+data.list[a].totals_thousand+'</th>'+
+                                                                            '</tr>'+
+                                                                        '</thead>'+
+                                                                    '</table>';
+                                                                    // labels.push(data.list[a].subdemo_name);
+                                                                    // values.push(parseInt(data.list[a].totals_thousand));
                                                                 }
 
-                                                                var primaryColor = "#4184F3";
-                                                                var primaryColorHover = "#3a53c5";
-                                                                var secondaryColor = '#DCDCDC'
-                                                                var scaleTextColor = '#999';
                                                                 
-                                                                $("#chart"+b.brand_id+""+f.demo_id).empty();
-
-                                                                var chartConfig = {
-                                                                    "type": "hbar",
-                                                                    "plot": {
-                                                                        "stacked": true,
-                                                                        "valueBox":{
-                                                                            "text":"%total",
-                                                                            "rules": [
-                                                                                {
-                                                                                    "rule": '%stack-top == 0',
-                                                                                    "visible": 0
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    },
-                                                                    "plotarea": {
-                                                                        "margin": "2% 2% 15% 15%"
-                                                                    },
-                                                                    "legend":{
-                                                                        "align": 'center',
-                                                                        "verticalAlign": 'bottom',
-                                                                        "layout": 'x3',
-                                                                        "toggleAction": 'remove'
-                                                                    },
-                                                                    "backgroundColor": "#fff",
-                                                                    "scaleX": {
-                                                                        "values": labels,
-                                                                        "lineWidth": 0,
-                                                                        "lineColor":"none",
-                                                                        "tick": {
-                                                                            "visible": false
-                                                                        },
-                                                                        "guide": {
-                                                                            "visible": false
-                                                                        },
-                                                                        "item": {
-                                                                            "font-color": "#999"
-                                                                        }
-                                                                    },
-                                                                    "tooltip": {
-                                                                        "htmlMode": true,
-                                                                        "backgroundColor": "none",
-                                                                        "padding": 0,
-                                                                        "placement": "node:center",
-                                                                        "text": "<div class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v<\/div><\/div>"
-                                                                    },
-                                                                    "series": [
-                                                                        {
-                                                                            "values": values,
-                                                                            "alpha": 1,
-                                                                            "background-color": "#008ef6",
-                                                                            "hover-state" : {
-                                                                                backgroundColor: '#2956A0'
-                                                                            }
-                                                                        }
-                                                                    ]
-                                                                };
-
-                                                                chartConfig.plot.animation = {
-                                                                    'method': 'LINEAR',
-                                                                    'delay': 0,
-                                                                    'effect': 'ANIMATION_EXPAND_VERTICAL',
-                                                                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
-                                                                    'speed': 10
-                                                                }
-                                                                
-                                                                zingchart.render({
-                                                                    id: 'chart'+b.brand_id+''+f.demo_id,
-                                                                    data: chartConfig,
-                                                                    output: 'canvas',
-                                                                    height:'100px',
-                                                                    width:'100px'
-                                                                });
                                                             }
                                                         el+='</div>'+
                                                     '</div>';
