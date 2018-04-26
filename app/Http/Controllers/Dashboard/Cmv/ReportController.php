@@ -117,15 +117,16 @@ class ReportController extends Controller
         left join cmv_brand b on b.category_id=a.category_id
         left join cmv_variabel c on c.brand_id=b.brand_id and c.subdemo_id in ('DD1','DD2')
         where a.category_id='$category'
-        group by b.brand_id order by total desc
-        limit 10");
+        group by b.brand_id order by total desc");
 
         $data=array();
         $value=array();
         $label=array();
         foreach($cat as $key=>$val){
-            array_push($label,$val->brand_name);
-            array_push($data,$val->total);
+            if($key<10){
+                array_push($label,$val->brand_name);
+                array_push($data,$val->total);
+            }
         }
 
         return array('data'=>$data,'label'=>$label);
@@ -311,11 +312,12 @@ class ReportController extends Controller
 
             $allbrand=\DB::connection('mysql3')
                 ->select("select a.brand_id, a.brand_name,d.demo_id,d.demo_name,b.subdemo_id,
-                c.subdemo_name ,b.quartal, b.totals_thousand, b.totals_ver from cmv_brand a 
+                c.subdemo_name ,b.quartal, b.totals_thousand, b.totals_ver 
+                from cmv_brand a 
                 left join cmv_variabel as b on b.brand_id=a.brand_id
                 left join cmv_sub_demography as c on c.subdemo_id=b.subdemo_id
                 left join cmv_demography as d on d.demo_id=c.demo_id
-                where b.quartal='$reqquartal' limit 10");
+                where b.quartal='$reqquartal' where a.brand_id='$reqbrand'");
             
             $masterDemo=\DB::connection('mysql3')
                 ->select("select demo_id, demo_name from cmv_demography");

@@ -215,25 +215,40 @@
                 var gender=[];
                 var color=["#5d9edb","#f38542"];
                 var br="";
+                var allnilai=[];
 
                 $.each(data,function(a,b){
                     if(b.demo_id=="D1"){
                         br=b.brand_name;
                         if(a==1){
                             gender.push({
-                                values:[parseInt(b.totals_thousand)],
+                                values:[parseFloat(b.totals_ver)],
+                                ver:b.totals_ver,
+                                thousand:b.totals_thousand,
                                 backgroundColor:color[a],
                                 text:b.subdemo_name
                             })
                         }else{
                             gender.push({
-                                values:[parseInt(b.totals_thousand)],
+                                values:[parseFloat(b.totals_ver)],
                                 backgroundColor:color[a],
+                                ver:b.totals_ver,
+                                thousand:b.totals_thousand,
                                 text:b.subdemo_name
                             })
                         }
+
+                        allnilai.push(b.totals_thousand);
                     }
                 })
+                
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<gender.length;l++){
+                    if(gender[l].thousand==tertinggi){
+                        $("#genderValue").empty().html(parseFloat(gender[l].ver)+" %");
+                        $("#genderName").empty().html(gender[l].text);
+                    }
+                }
 
                 var myConfig = {
                     type: "pie", 
@@ -280,12 +295,12 @@
                         valueBox: [
                         {
                             placement: "in",
-                            text: "%npv%",
+                            text: "%v%",
                             fontColor: "#1A1B26",
                             fontSize: 16
                         }],
                         "tooltip":{
-                            "text":"%t: %v (%npv%)",
+                            "text":"%t: %v%",
                             "font-color":"black",
                             "font-family":"Georgia",
                             "text-alpha":1,
@@ -320,17 +335,30 @@
                 var sec=[];
                 var color=["#599cdb","#f67b28","#a9a9a9"];
                 var br="";
+                var allnilai=[];
 
                 $.each(data,function(a,b){
                     if(b.demo_id=="D3"){
                         br=b.brand_name;
                         sec.push({
-                            values:[parseInt(b.totals_thousand)],
+                            values:[parseFloat(b.totals_ver)],
                             backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
                             text:b.subdemo_name
-                        })
+                        });
+
+                        allnilai.push(b.totals_thousand);
                     }
                 })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<sec.length;l++){
+                    if(sec[l].thousand==tertinggi){
+                        $("#secValue").empty().html(parseFloat(sec[l].ver)+" %");
+                        $("#secName").empty().html(sec[l].text);
+                    }
+                }
 
                 var myConfig = {
                     type: "pie", 
@@ -377,12 +405,12 @@
                         valueBox: [
                         {
                             placement: "in",
-                            text: "%npv%",
+                            text: "%v%",
                             fontColor: "#1A1B26",
                             fontSize: 16
                         }],
                         "tooltip":{
-                            "text":"%t: %v (%npv%)",
+                            "text":"%t: %v%",
                             "font-color":"black",
                             "font-family":"Georgia",
                             "text-alpha":1,
@@ -419,17 +447,30 @@
                 var age=[];
                 var color=["#5b9ddb","#f67c2a","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
+                var allnilai=[];
 
                 $.each(data,function(a,b){
                     if(b.demo_id=="D2"){
                         br=b.brand_name;
                         age.push({
-                            values:[parseInt(b.totals_thousand)],
+                            values:[parseFloat(b.totals_ver)],
                             backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
+
+                        allnilai.push(b.totals_thousand);
                     }
                 })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<age.length;l++){
+                    if(age[l].thousand==tertinggi){
+                        $("#ageValue").empty().html(parseFloat(age[l].ver)+" %");
+                        $("#ageName").empty().html(age[l].text);
+                    }
+                }
 
                 var myConfig = {
                     type: "pie", 
@@ -476,12 +517,12 @@
                         valueBox: [
                         {
                             placement: "in",
-                            text: "%npv%",
+                            text: "%v%",
                             fontColor: "#1A1B26",
                             fontSize: 16
                         }],
                         "tooltip":{
-                            "text":"%t: %v (%npv%)",
+                            "text":"%t: %v%",
                             "font-color":"black",
                             "font-family":"Georgia",
                             "text-alpha":1,
@@ -518,17 +559,30 @@
                 var education=[];
                 var color=["#5197d7","#ef7421","#aaaaaa"];
                 var br="";
+                var allnilai=[];
 
                 $.each(data,function(a,b){
                     if(b.demo_id=="D4"){
                         br=b.brand_name;
                         education.push({
-                            values:[parseInt(b.totals_thousand)],
+                            values:[parseFloat(b.totals_ver)],
                             backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
+
+                        allnilai.push(b.totals_thousand);
                     }
                 })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#educationValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#educationName").empty().html(education[l].text);
+                    }
+                }
 
                 var myConfig = {
                     type: "pie", 
@@ -575,12 +629,12 @@
                         valueBox: [
                         {
                             placement: "in",
-                            text: "%npv%",
+                            text: "%v%",
                             fontColor: "#1A1B26",
                             fontSize: 16
                         }],
                         "tooltip":{
-                            "text":"%t: %v (%npv%)",
+                            "text":"%t: %v%",
                             "font-color":"black",
                             "font-family":"Georgia",
                             "text-alpha":1,
@@ -618,25 +672,41 @@
                 var color=["#3260af","#6aa047","#4b8ac2","#da712d","#949494","#edaf02"];
                 var br="";
                 var no=0;
+                var allnilai=[];
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D5"){
                         no++;
                         br=b.brand_name;
                         if(no==2 || no==4 || no==5){
                             occupation.push({
-                                values:[parseInt(b.totals_thousand)],
+                                values:[parseFloat(b.totals_ver)],
                                 backgroundColor:color[a],
+                                ver:b.totals_ver,
+                                thousand:b.totals_thousand,
                                 text:b.subdemo_name
                             })
                         }else{
                             occupation.push({
-                                values:[parseInt(b.totals_thousand)],
+                                values:[parseFloat(b.totals_ver)],
                                 backgroundColor:color[a],
+                                ver:b.totals_ver,
+                                thousand:b.totals_thousand,
                                 text:b.subdemo_name
                             })
                         }
+
+                        allnilai.push(b.totals_thousand);
                     }
                 })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<occupation.length;l++){
+                    if(occupation[l].thousand==tertinggi){
+                        $("#occupationValue").empty().html(parseFloat(occupation[l].ver)+" %");
+                        $("#occupationName").empty().html(occupation[l].text);
+                    }
+                }
 
                 var myConfig = {
                     type: "pie", 
@@ -683,12 +753,12 @@
                         valueBox: [
                         {
                             placement: "in",
-                            text: "%npv%",
+                            text: "%v%",
                             fontColor: "#1A1B26",
                             fontSize: 16
                         }],
                         "tooltip":{
-                            "text":"%t: %v (%npv%)",
+                            "text":"%t: %v%",
                             "font-color":"black",
                             "font-family":"Georgia",
                             "text-alpha":1,
@@ -722,30 +792,35 @@
             }
 
             function showHobby(data){
-                var occupation=[];
+                var hobby=[];
                 var color=["#4887c0","#da6f2a","#979797","#edb111","#3260af","#649e3d","#99bae3","#f5ac8f","#c2c2c2","#ffd68e"];
                 var br="";
                 var no=0;
+                var allnilai=[];
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D6"){
                         no++;
                         br=b.brand_name;
-                        if(no==2 || no==4 || no==5){
-                            occupation.push({
-                                values:[parseInt(b.totals_thousand)],
-                                backgroundColor:color[a],
-                                text:b.subdemo_name
-                                // "detached":true
-                            })
-                        }else{
-                            occupation.push({
-                                values:[parseInt(b.totals_thousand)],
-                                backgroundColor:color[a],
-                                text:b.subdemo_name
-                            })
-                        }
+                        hobby.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
                     }
                 })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<hobby.length;l++){
+                    if(hobby[l].thousand==tertinggi){
+                        $("#hobbyValue").empty().html(parseFloat(hobby[l].ver)+" %");
+                        $("#hobbyName").empty().html(hobby[l].text);
+                    }
+                }
 
                 var myConfig = {
                     type: "pie", 
@@ -792,12 +867,12 @@
                         valueBox: [
                         {
                             placement: "in",
-                            text: "%npv%",
+                            text: "%v%",
                             fontColor: "#1A1B26",
                             fontSize: 16
                         }],
                         "tooltip":{
-                            "text":"%t: %v (%npv%)",
+                            "text":"%t: %v%",
                             "font-color":"black",
                             "font-family":"Georgia",
                             "text-alpha":1,
@@ -819,7 +894,7 @@
                         borderWidth: 1,
                         borderColor: "#fff"
                     },
-                    series : occupation
+                    series : hobby
                };
             
                 zingchart.render({ 
@@ -942,19 +1017,36 @@
                 var values=[];
                 var br="";
                 var no=0;
+                var alldata=[];
+                var allnilai=[];
                 $.each(data,function(a,b){
                     if(b.demo_id=="D7"){
                         no++;
                         br=b.brand_name;
                         labels.push(b.subdemo_name);
-                        values.push(parseInt(b.totals_thousand));
+                        values.push(parseFloat(b.totals_ver));
                         // occupation.push({
                         //         values:[parseInt(b.totals_thousand)],
                         //         backgroundColor:color[a],
                         //         text:b.subdemo_name
                         //     })
+                        alldata.push({
+                            label:b.subdemo_name,
+                            value:b.totals_ver,
+                            thousand:b.totals_thousand
+                        });
+
+                        allnilai.push(b.totals_thousand);
                     }
                 })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<alldata.length;l++){
+                    if(alldata[l].thousand==tertinggi){
+                        $("#mediaValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        $("#mediaName").empty().html(alldata[l].label);
+                    }
+                }
 
                 var myConfig = {
                     type: "bar",
@@ -973,6 +1065,15 @@
                         type:"date",
                         all:"%M %d"
                       }
+                    },
+                    plot:{
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
                     },
                     series: [
                       {
@@ -993,14 +1094,32 @@
                 var values=[];
                 var br="";
                 var no=0;
+                var alldata=[];
+                var allnilai=[];
                 $.each(data,function(a,b){
                     if(b.demo_id=="D8"){
                         no++;
                         br=b.brand_name;
                         labels.push(b.subdemo_name);
-                        values.push(parseInt(b.totals_thousand));
+                        values.push(parseFloat(b.totals_ver));
+
+                        alldata.push({
+                            label:b.subdemo_name,
+                            value:b.totals_ver,
+                            thousand:b.totals_thousand
+                        });
+
+                        allnilai.push(b.totals_thousand);
                     }
                 })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<alldata.length;l++){
+                    if(alldata[l].thousand==tertinggi){
+                        $("#kotaValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        $("#kotaName").empty().html(alldata[l].label);
+                    }
+                }
 
                 var myConfig = {
                     type: "bar",
@@ -1019,6 +1138,15 @@
                         type:"date",
                         all:"%M %d"
                       }
+                    },
+                    plot:{
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
                     },
                     series: [
                       {
@@ -1164,6 +1292,7 @@
 
             $(document).on("submit","#formSearch",function(e){
                 var el="";
+                var namabrand=$("#brand").select2('data').text;
 
                 /* top 10 brand */
                 el+='<div class="panel panel-primary">'+
@@ -1252,24 +1381,39 @@
                             '<h6 class="panel-title">Summary Demography</h6>'+
                         '</div>'+
                         '<div class="panel-body">'+
-                            '<table class="table table-striped">'+
-                                '<thead>'+
-                                    '<tr>'+
-                                        '<th>Demography</th>'+
-                                        '<th>Name</th>'+
-                                        '<th>Value</th>'+
-                                    '</tr>'+
-                                '</thead>'+
+                            '<h5>Pengguna Brand :  <b>'+namabrand+'</b></h5>'+
+                            '<h6>Di dominasi oleh:</h6>'+
+                            '<table class="">'+
                                 '<tbody>'+
                                     '<tr>'+
-                                        '<td>Gender</td>'+
-                                        '<td>Female</td>'+
-                                        '<td>54%</td>'+
+                                        '<td width="35%"><b>Gender</b></td>'+
+                                        '<td width="45%"><b><div id="genderName"></div></b></td>'+
+                                        '<td><div id="genderValue"></div></td>'+
                                     '</tr>'+
                                     '<tr>'+
-                                        '<td>SEC</td>'+
-                                        '<td>Middle</td>'+
-                                        '<td>64%</td>'+
+                                        '<td><b>SEC</b></td>'+
+                                        '<td><b><div id="secName"></div></b></td>'+
+                                        '<td><div id="secValue"></div></td>'+
+                                    '</tr>'+
+                                    '<tr>'+
+                                        '<td><b>Age</b></td>'+
+                                        '<td><b><div id="ageName"></div></b></td>'+
+                                        '<td><div id="ageValue"></div></td>'+
+                                    '</tr>'+
+                                    '<tr>'+
+                                        '<td><b>Education</b></td>'+
+                                        '<td><b><div id="educationName"></div></b></td>'+
+                                        '<td><div id="educationValue"></div></td>'+
+                                    '</tr>'+
+                                    '<tr>'+
+                                        '<td><b>Occupation</b></td>'+
+                                        '<td><b><div id="occupationName"></div></b></td>'+
+                                        '<td><div id="occupationValue"></div></td>'+
+                                    '</tr>'+
+                                    '<tr>'+
+                                        '<td><b>Hobby</b></td>'+
+                                        '<td><b><div id="hobbyName"></div></b></td>'+
+                                        '<td><div id="hobbyValue"></div></td>'+
                                     '</tr>'+
                             '</table>'+
                         '</div>'+
@@ -1306,9 +1450,24 @@
                             '<h6 class="panel-title">Summary Penetration</h6>'+
                         '</div>'+
                         '<div class="panel-body">'+
-
+                            '<h5>Pengguna Brand :  <b>'+namabrand+'</b></h5>'+
+                            '<h6>Di dominasi oleh:</h6>'+
+                            '<table class="">'+
+                                '<tbody>'+
+                                    '<tr>'+
+                                        '<td width="35%"><b>Media</b></td>'+
+                                        '<td width="45%"><b><div id="mediaName"></div></b></td>'+
+                                        '<td><div id="mediaValue"></div></td>'+
+                                    '</tr>'+
+                                    '<tr>'+
+                                        '<td><b>Kota</b></td>'+
+                                        '<td><b><div id="kotaName"></div></b></td>'+
+                                        '<td><div id="kotaValue"></div></td>'+
+                                    '</tr>'+
+                            '</table>'+
                         '</div>'+
                     '</div>'+
+
                 '</div></div>';
                 /*end penetration */
 
