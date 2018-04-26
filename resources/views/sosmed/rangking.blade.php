@@ -271,15 +271,21 @@
                 
                 if(number>milyar){
                     num=number/milyar;
-                    return num.toFixed(2)+" Million";
+                    var k=num.toString();
+
+                    return k.substring(0,5)+" Million";
+                    // return num.toFixed(2)+" Million";
                 }else if(number>=juta && number<milyar){
                     num=number/juta;
                     var tes=num.toString();
                     return tes.substring(0, 5)+" Mio";
                 }else{
                     num=number/ribuan*100;
+                    var k=num.toString();
 
-                    return num.toFixed(0)+" K";
+                    return k.substring(0,5)+" K";
+
+                    // return num.toFixed(0)+" K";
                 }
             }
             

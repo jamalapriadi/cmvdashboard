@@ -82,6 +82,18 @@ class CmvController extends Controller
             ->with('title','Variabel');
     }
 
+    public function chart_brand(){
+        return view('dashboard.cmv.chart.brand')
+            ->with('home','CMV')
+            ->with('title','Chart');
+    }
+
+    public function chart_competitive_map(){
+        return view('dashboard.cmv.chart.competitive_map')
+            ->with('home','CMV')
+            ->with('title','Competitive Map');
+    }
+
     public function import(Request $request){
         $rules=[
             'file'=>'required'
