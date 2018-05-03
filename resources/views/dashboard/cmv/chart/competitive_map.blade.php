@@ -168,7 +168,7 @@
                             var el="<div class='row'>"+
                                 '<div class="col-lg-5">'+
                                     '<div class="panel panel-primary">'+
-                                        '<div class="panel-heading">'+data.brand.brand_name+'</div>'+
+                                        '<div class="panel-heading">'+data.parent.brand_name+'</div>'+
                                     '</div>'+
 
                                     '<div class="panel panel-default">'+
@@ -236,14 +236,14 @@
                             '</div>';
 
                             $("#competitiveMap").empty().html(el);
-                            competitiveGender(data.list);
-                            competitiveSec(data.list);
-                            competitiveAge(data.list);
-                            competitiveEducation(data.list);
-                            competitiveOccupation(data.list);
-                            competitiveHobby(data.list);
-                            competitiveMedia(data.list);
-                            competitiveCities(data.list);
+                            competitiveGender(data.parent.variabel);
+                            competitiveSec(data.parent.variabel);
+                            competitiveAge(data.parent.variabel);
+                            competitiveEducation(data.parent.variabel);
+                            competitiveOccupation(data.parent.variabel);
+                            competitiveHobby(data.parent.variabel);
+                            competitiveMedia(data.parent.variabel);
+                            competitiveCities(data.parent.variabel);
                             comparewith();
                         },
                         error   :function() {  
@@ -260,7 +260,7 @@
                 $.each(data,function(a,b){
                     if(b.demo_id=="D1"){
                         nama.push(b.subdemo_name);
-                        value.push(parseInt(b.totals_ver));
+                        value.push(parseInt(b.pivot.totals_ver));
                     }
                 })
                 
@@ -341,7 +341,7 @@
                 $.each(data,function(a,b){
                     if(b.demo_id=="D3"){
                         nama.push(b.subdemo_name);
-                        value.push(parseInt(b.totals_ver));
+                        value.push(parseInt(b.pivot.totals_ver));
                     }
                 })
                 
@@ -422,7 +422,7 @@
                 $.each(data,function(a,b){
                     if(b.demo_id=="D2"){
                         nama.push(b.subdemo_name);
-                        value.push(parseInt(b.totals_ver));
+                        value.push(parseInt(b.pivot.totals_ver));
                     }
                 })
                 
@@ -503,7 +503,7 @@
                 $.each(data,function(a,b){
                     if(b.demo_id=="D4"){
                         nama.push(b.subdemo_name);
-                        value.push(parseInt(b.totals_ver));
+                        value.push(parseInt(b.pivot.totals_ver));
                     }
                 })
                 
@@ -584,7 +584,7 @@
                 $.each(data,function(a,b){
                     if(b.demo_id=="D5"){
                         nama.push(b.subdemo_name);
-                        value.push(parseInt(b.totals_ver));
+                        value.push(parseInt(b.pivot.totals_ver));
                     }
                 })
                 
@@ -666,7 +666,7 @@
                 $.each(data,function(a,b){
                     if(b.demo_id=="D6"){
                         nama.push(b.subdemo_name);
-                        value.push(parseInt(b.totals_ver));
+                        value.push(parseInt(b.pivot.totals_ver));
                     }
                 })
                 
@@ -748,7 +748,7 @@
                 $.each(data,function(a,b){
                     if(b.demo_id=="D7"){
                         nama.push(b.subdemo_name);
-                        value.push(parseInt(b.totals_ver));
+                        value.push(parseInt(b.pivot.totals_ver));
                     }
                 })
                 
@@ -830,7 +830,7 @@
                 $.each(data,function(a,b){
                     if(b.demo_id=="D8"){
                         nama.push(b.subdemo_name);
-                        value.push(parseInt(b.totals_ver));
+                        value.push(parseInt(b.pivot.totals_ver));
                     }
                 })
                 
@@ -917,83 +917,81 @@
                     },
                     success:function(result){
                         var el="";
-                        $.each(result.compare,function(a,b){
-                            el+="<div class='col-lg-4'>"+
-                                    '<div class="panel panel-info">'+
-                                        '<div class="panel-heading">'+
-                                            b.brand_name+
-                                        '</div>'+
-                                    '</div>'+
+                        el+="<div class='col-lg-4'>"+
+                            '<div class="panel panel-info">'+
+                                '<div class="panel-heading">'+
+                                    result.brand.brand_name+
+                                '</div>'+
+                            '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">GENDER</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareGender'+b.brand_id+'" style="width:100%;height:130px;"></div>'+
-                                        '</div>'+
-                                    '</div>'+
+                            '<div class="panel panel-default">'+
+                                '<div class="panel-heading">GENDER</div>'+
+                                '<div class="panel-body">'+
+                                    '<div id="productGender'+result.brand.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                '</div>'+
+                            '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">SEC</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareSec'+b.brand_id+'" style="width:100%;height:130px;"></div>'+
-                                        '</div>'+
-                                    '</div>'+
+                            '<div class="panel panel-default">'+
+                                '<div class="panel-heading">SEC</div>'+
+                                '<div class="panel-body">'+
+                                    '<div id="productSec'+result.brand.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                '</div>'+
+                            '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">AGE</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareAge'+b.brand_id+'" style="width:100%;height:130px;"></div>'+
-                                        '</div>'+
-                                    '</div>'+
+                            '<div class="panel panel-default">'+
+                                '<div class="panel-heading">AGE</div>'+
+                                '<div class="panel-body">'+
+                                    '<div id="productAge'+result.brand.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                '</div>'+
+                            '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">EDUCATION</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareEducation'+b.brand_id+'" style="width:100%;height:130px;"></div>'+
-                                        '</div>'+
-                                    '</div>'+
-                                    
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">OCCUPATION</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareOccupation'+b.brand_id+'" style="width:100%;height:200px;"></div>'+
-                                        '</div>'+
-                                    '</div>'+
+                            '<div class="panel panel-default">'+
+                                '<div class="panel-heading">EDUCATION</div>'+
+                                '<div class="panel-body">'+
+                                    '<div id="productEducation'+result.brand.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                '</div>'+
+                            '</div>'+
+                            
+                            '<div class="panel panel-default">'+
+                                '<div class="panel-heading">OCCUPATION</div>'+
+                                '<div class="panel-body">'+
+                                    '<div id="productOccupation'+result.brand.brand_id+'" style="width:100%;height:200px;"></div>'+
+                                '</div>'+
+                            '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">HOBBY</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareHobby'+b.brand_id+'" style="width:100%;height:300px;"></div>'+
-                                        '</div>'+
-                                    '</div>'+
+                            '<div class="panel panel-default">'+
+                                '<div class="panel-heading">HOBBY</div>'+
+                                '<div class="panel-body">'+
+                                    '<div id="productHobby'+result.brand.brand_id+'" style="width:100%;height:300px;"></div>'+
+                                '</div>'+
+                            '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">MEDIA</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareMedia'+b.brand_id+'" style="width:100%;height:220px;"></div>'+
-                                        '</div>'+
-                                    '</div>'+
+                            '<div class="panel panel-default">'+
+                                '<div class="panel-heading">MEDIA</div>'+
+                                '<div class="panel-body">'+
+                                    '<div id="productMedia'+result.brand.brand_id+'" style="width:100%;height:220px;"></div>'+
+                                '</div>'+
+                            '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">CITIES</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareCities'+b.brand_id+'" style="width:100%;height:300px;"></div>'+
-                                        '</div>'+
-                                    '</div>'+
+                            '<div class="panel panel-default">'+
+                                '<div class="panel-heading">CITIES</div>'+
+                                '<div class="panel-body">'+
+                                    '<div id="productCities'+result.brand.brand_id+'" style="width:100%;height:300px;"></div>'+
+                                '</div>'+
+                            '</div>'+
 
-                                '</div>';
-                        })
+                        '</div>';
 
                         $("#comparewith").empty().html(el);
 
-                        compareGender(result.compare,result.list);
-                        compareSec(result.compare,result.list);
-                        compareAge(result.compare,result.list);
-                        compareEducation(result.compare,result.list);
-                        compareOccupation(result.compare,result.list);
-                        compareHobby(result.compare,result.list);
-                        compareMedia(result.compare,result.list);
-                        compareCities(result.compare,result.list);
+                        productGender(result.parent,result.brand);
+                        productSec(result.parent,result.brand);
+                        productAge(result.parent,result.brand);
+                        // productEducation(result.parent,result.brand);
+                        // productOccupation(result.parent,result.brand);
+                        // productHobby(result.parent,result.brand);
+                        // productMedia(result.parent,result.brand);
+                        // productCities(result.parent,result.brand);
                     },
                     error:function(){
                         $("#comparewith").empty().html("<div class='alert alert-danger'>Opss.. failed data to load</div>");
@@ -1001,205 +999,202 @@
                 })
             }
 
-            function compareGender(compare,list){
-                $.each(compare,function(a,b){
-                    var val=[];
+            function productGender(parent,brand){
+                var val=[];
+                for(a=0;a<brand.variabel.length;a++){
+                    if(brand.variabel[a].demo_id=="D1"){
+                        var total=brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver;
 
-                    $.each(list,function(c,d){
-                        if(d.demo_id=="D1" && d.brand_id==b.brand_id){
-                            if(d.total>0){
-                                var bg="#68d7c6";
-                                var text=d.subdemo_name;
-                            }else{
-                                var bg="#fd625e";
-                                var text=d.subdemo_name
-                            }
-                            val.push(
-                                {
-                                    values: [parseInt(d.total)],
-                                    stack: c,
-                                    'data-custom-token': [parseInt(d.total)],
-                                    text:text,
-                                    valueBox:{  
-                                        "text":'%data-custom-token',
-                                        "placement":'bottom'
-                                    },
-                                    backgroundColor:bg
-                                }
-                            )
+                        if(total>0){
+                            var bg="#68d7c6";
+                            var text=brand.variabel[a].subdemo_name;
+                        }else{
+                            var bg="#fd625e";
+                            var text=brand.variabel[a].subdemo_name
                         }
-                    })
-
-                    var myConfig = {
-                        type: 'hbar',
-                        stacked: true,
-                        plotarea:{
-                            margin: 'dynamic'
-                        },
-                        tooltip:{
-                            text:"%t %negation%v",
-                            decimals: 2,
-                            align: 'left',
-                            borderRadius: 3,
-                            fontColor:"#ffffff",
-                            negation: 'currency'
-                        },
-                        plot:{
-                            valueBox:{
-                                text:"%total",
-                                rules: [
-                                    {
-                                        rule: '%stack-top == 0',
-                                        visible: 0
-                                    }
-                                ]
+                        val.push(
+                            {
+                                values: [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                stack: a,
+                                'data-custom-token': [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                text:text,
+                                valueBox:{  
+                                    "text":'%data-custom-token',
+                                    "placement":'bottom'
+                                },
+                                backgroundColor:bg
                             }
-                        },
-                        series: val
-                    };
-                    
-                    zingchart.render({ 
-                        id : 'compareGender'+b.brand_id, 
-                        data: myConfig, 
-                        height: '100%', 
-                        width: '100%' 
-                    });
-                })
+                        )
+                    }
+                }
+
+                var myConfig = {
+                    type: 'hbar',
+                    stacked: true,
+                    plotarea:{
+                        margin: 'dynamic'
+                    },
+                    tooltip:{
+                        text:"%t %negation%v",
+                        decimals: 2,
+                        align: 'left',
+                        borderRadius: 3,
+                        fontColor:"#ffffff",
+                        negation: 'currency'
+                    },
+                    plot:{
+                        valueBox:{
+                            text:"%total",
+                            rules: [
+                                {
+                                    rule: '%stack-top == 0',
+                                    visible: 0
+                                }
+                            ]
+                        }
+                    },
+                    series: val
+                };
+                
+                zingchart.render({ 
+                    id : 'productGender'+brand.brand_id, 
+                    data: myConfig, 
+                    height: '100%', 
+                    width: '100%' 
+                });
             }
 
-            function compareSec(compare,list){
-                $.each(compare,function(a,b){
-                    var val=[];
+            function productSec(parent,brand){
+                var val=[];
+                for(a=0;a<brand.variabel.length;a++){
+                    if(brand.variabel[a].demo_id=="D3"){
+                        var total=brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver;
 
-                    $.each(list,function(c,d){
-                        if(d.demo_id=="D3" && d.brand_id==b.brand_id){
-                            if(d.total>0){
-                                var bg="#68d7c6";
-                                var text=d.subdemo_name;
-                            }else{
-                                var bg="#fd625e";
-                                var text=d.subdemo_name
-                            }
-                            val.push(
-                                {
-                                    values: [parseInt(d.total)],
-                                    stack: c,
-                                    'data-custom-token': [parseInt(d.total)],
-                                    text:text,
-                                    valueBox:{  
-                                        "text":'%data-custom-token',
-                                        "placement":'bottom'
-                                    },
-                                    backgroundColor:bg
-                                }
-                            )
+                        if(total>0){
+                            var bg="#68d7c6";
+                            var text=brand.variabel[a].subdemo_name;
+                        }else{
+                            var bg="#fd625e";
+                            var text=brand.variabel[a].subdemo_name
                         }
-                    })
-
-                    var myConfig = {
-                        type: 'hbar',
-                        stacked: true,
-                        plotarea:{
-                            margin: 'dynamic'
-                        },
-                        tooltip:{
-                            text:"%t %negation%v",
-                            decimals: 2,
-                            align: 'left',
-                            borderRadius: 3,
-                            fontColor:"#ffffff",
-                            negation: 'currency'
-                        },
-                        plot:{
-                            valueBox:{
-                                text:"%total",
-                                rules: [
-                                    {
-                                        rule: '%stack-top == 0',
-                                        visible: 0
-                                    }
-                                ]
+                        val.push(
+                            {
+                                values: [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                stack: a,
+                                'data-custom-token': [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                text:text,
+                                valueBox:{  
+                                    "text":'%data-custom-token',
+                                    "placement":'bottom'
+                                },
+                                backgroundColor:bg
                             }
-                        },
-                        series: val
-                    };
-                    
-                    zingchart.render({ 
-                        id : 'compareSec'+b.brand_id, 
-                        data: myConfig, 
-                        height: '100%', 
-                        width: '100%' 
-                    });
-                })
+                        )
+                    }
+                }
+
+                var myConfig = {
+                    type: 'hbar',
+                    stacked: true,
+                    plotarea:{
+                        margin: 'dynamic'
+                    },
+                    tooltip:{
+                        text:"%t %negation%v",
+                        decimals: 2,
+                        align: 'left',
+                        borderRadius: 3,
+                        fontColor:"#ffffff",
+                        negation: 'currency'
+                    },
+                    plot:{
+                        valueBox:{
+                            text:"%total",
+                            rules: [
+                                {
+                                    rule: '%stack-top == 0',
+                                    visible: 0
+                                }
+                            ]
+                        }
+                    },
+                    series: val
+                };
+                
+                zingchart.render({ 
+                    id : 'productSec'+brand.brand_id, 
+                    data: myConfig, 
+                    height: '100%', 
+                    width: '100%' 
+                });
             }
 
-            function compareAge(compare,list){
-                $.each(compare,function(a,b){
-                    var val=[];
+            function productAge(parent,brand){
+                var val=[];
+                for(a=0;a<brand.variabel.length;a++){
+                    if(brand.variabel[a].demo_id=="D2"){
+                        var total=brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver;
 
-                    $.each(list,function(c,d){
-                        if(d.demo_id=="D2" && d.brand_id==b.brand_id){
-                            if(d.total>0){
-                                var bg="#68d7c6";
-                                var text=d.subdemo_name;
-                            }else{
-                                var bg="#fd625e";
-                                var text=d.subdemo_name
-                            }
-                            val.push(
-                                {
-                                    values: [parseInt(d.total)],
-                                    stack: c,
-                                    'data-custom-token': [parseInt(d.total)],
-                                    text:text,
-                                    valueBox:{  
-                                        "text":'%data-custom-token',
-                                        "placement":'bottom'
-                                    },
-                                    backgroundColor:bg
-                                }
-                            )
+                        if(total>0){
+                            var bg="#68d7c6";
+                            var text=brand.variabel[a].subdemo_name;
+                        }else{
+                            var bg="#fd625e";
+                            var text=brand.variabel[a].subdemo_name
                         }
-                    })
-
-                    var myConfig = {
-                        type: 'hbar',
-                        stacked: true,
-                        plotarea:{
-                            margin: 'dynamic'
-                        },
-                        tooltip:{
-                            text:"%t %negation%v",
-                            decimals: 2,
-                            align: 'left',
-                            borderRadius: 3,
-                            fontColor:"#ffffff",
-                            negation: 'currency'
-                        },
-                        plot:{
-                            valueBox:{
-                                text:"%total",
-                                rules: [
-                                    {
-                                        rule: '%stack-top == 0',
-                                        visible: 0
-                                    }
-                                ]
+                        val.push(
+                            {
+                                values: [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                stack: a,
+                                'data-custom-token': [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                text:text,
+                                valueBox:{  
+                                    "text":'%data-custom-token',
+                                    "placement":'bottom'
+                                },
+                                backgroundColor:bg
                             }
-                        },
-                        series: val
-                    };
-                    
-                    zingchart.render({ 
-                        id : 'compareAge'+b.brand_id, 
-                        data: myConfig, 
-                        height: '100%', 
-                        width: '100%' 
-                    });
-                })
+                        )
+                    }
+                }
+
+                var myConfig = {
+                    type: 'hbar',
+                    stacked: true,
+                    plotarea:{
+                        margin: 'dynamic'
+                    },
+                    tooltip:{
+                        text:"%t %negation%v",
+                        decimals: 2,
+                        align: 'left',
+                        borderRadius: 3,
+                        fontColor:"#ffffff",
+                        negation: 'currency'
+                    },
+                    plot:{
+                        valueBox:{
+                            text:"%total",
+                            rules: [
+                                {
+                                    rule: '%stack-top == 0',
+                                    visible: 0
+                                }
+                            ]
+                        }
+                    },
+                    series: val
+                };
+                
+                zingchart.render({ 
+                    id : 'productAge'+brand.brand_id, 
+                    data: myConfig, 
+                    height: '100%', 
+                    width: '100%' 
+                });
             }
 
-            function compareEducation(compare,list){
+            function productEducation(compare,list){
                 $.each(compare,function(a,b){
                     var val=[];
 
@@ -1265,7 +1260,7 @@
                 })
             }
 
-            function compareOccupation(compare,list){
+            function productOccupation(compare,list){
                 $.each(compare,function(a,b){
                     var val=[];
 
@@ -1331,7 +1326,7 @@
                 })
             }
 
-            function compareHobby(compare,list){
+            function productHobby(compare,list){
                 $.each(compare,function(a,b){
                     var val=[];
 
@@ -1397,7 +1392,7 @@
                 })
             }
 
-            function compareMedia(compare,list){
+            function productMedia(compare,list){
                 $.each(compare,function(a,b){
                     var val=[];
 
@@ -1463,7 +1458,7 @@
                 })
             }
 
-            function compareCities(compare,list){
+            function productCities(compare,list){
                 $.each(compare,function(a,b){
                     var val=[];
 

@@ -237,7 +237,7 @@ class BrandController extends Controller
             'brand_id as id',
             'category_id',
             'brand_name as text'
-        );
+        )->whereNotNull('parent_id');
 
         if($request->has('category')){
             $brand=$brand->where('category_id',$request->input('category'));

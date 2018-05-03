@@ -287,7 +287,7 @@
                     "plotarea":{
                         "margin-right":"5%",
                         "margin-left":"5%",
-                        "margin-top":"5%",
+                        "margin-top":"20%",
                         "margin-bottom":"5%"
                     },
                     plot: {
@@ -397,7 +397,7 @@
                     "plotarea":{
                         "margin-right":"5%",
                         "margin-left":"5%",
-                        "margin-top":"5%",
+                        "margin-top":"20%",
                         "margin-bottom":"5%"
                     },
                     plot: {
@@ -509,7 +509,7 @@
                     "plotarea":{
                         "margin-right":"5%",
                         "margin-left":"5%",
-                        "margin-top":"5%",
+                        "margin-top":"20%",
                         "margin-bottom":"5%"
                     },
                     plot: {
@@ -621,7 +621,7 @@
                     "plotarea":{
                         "margin-right":"5%",
                         "margin-left":"5%",
-                        "margin-top":"25%",
+                        "margin-top":"20%",
                         "margin-bottom":"5%"
                     },
                     plot: {
@@ -663,245 +663,153 @@
                     id : 'divEducation', 
                     data : myConfig
                 });
-                
-                
             }
 
             function showOccupation(data){
-                var occupation=[];
-                var color=["#3260af","#6aa047","#4b8ac2","#da712d","#949494","#edaf02"];
+                var labels=[];
+                var values=[];
                 var br="";
                 var no=0;
+                var alldata=[];
                 var allnilai=[];
-
                 $.each(data,function(a,b){
                     if(b.demo_id=="D5"){
                         no++;
                         br=b.brand_name;
-                        if(no==2 || no==4 || no==5){
-                            occupation.push({
-                                values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[a],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                text:b.subdemo_name
-                            })
-                        }else{
-                            occupation.push({
-                                values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[a],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                text:b.subdemo_name
-                            })
-                        }
+                        labels.push(b.subdemo_name);
+                        values.push(parseFloat(b.totals_ver));
+
+                        alldata.push({
+                            label:b.subdemo_name,
+                            value:b.totals_ver,
+                            thousand:b.totals_thousand
+                        });
 
                         allnilai.push(b.totals_thousand);
                     }
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
-                for(l=0;l<occupation.length;l++){
-                    if(occupation[l].thousand==tertinggi){
-                        $("#occupationValue").empty().html(parseFloat(occupation[l].ver)+" %");
-                        $("#occupationName").empty().html(occupation[l].text);
+                for(l=0;l<alldata.length;l++){
+                    if(alldata[l].thousand==tertinggi){
+                        $("#occupationValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        $("#occupationName").empty().html(alldata[l].label);
                     }
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
-                    title: {
-                        text: br,
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                    type: "hbar",
+                    utc:true,
+                    plotarea: {
+                      adjustLayout:true
                     },
-                    "legend":{
-                        "x":"35%",
-                        "y":"10%",
-                        "border-width":1,
-                        "border-color":"gray",
-                        "border-radius":"5px",
-                        "header":{
-                            "text":"Legend",
-                            "font-family":"Georgia",
-                            "font-size":12,
-                            "font-color":"white",
-                            "font-weight":"normal"
-                        },
-                        "marker":{
-                            "type":"circle"
-                        },
-                        "toggle-action":"remove",
-                        "minimize":true,
-                        "icon":{
-                            "line-color":"#9999ff"
-                        },
-                        "max-items":8,
-                        "overflow":"scroll"
+                    scaleX:{
+                      label:{
+                        text:br
+                      },
+                      "labels":labels,
+                      minValue:1420070400000,
+                      step:"day",
+                      transform:{
+                        type:"date",
+                        all:"%M %d"
+                      }
                     },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"30%",
-                        "margin-bottom":"5%"
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v%",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
-                        }
-                    },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : occupation
-               };
-            
+                    // plot:{
+                    //     valueBox: [
+                    //     {
+                    //         placement: "in",
+                    //         text: "%v%",
+                    //         fontColor: "#1A1B26",
+                    //         fontSize: 16
+                    //     }],
+                    // },
+                    series: [
+                      {
+                        values:values,
+                        "background-color": "#599cdb"
+                      }
+                    ]
+                };
+                   
                 zingchart.render({ 
                     id : 'divOccupation', 
                     data : myConfig
                 });
                 
-                
             }
 
             function showHobby(data){
-                var hobby=[];
-                var color=["#4887c0","#da6f2a","#979797","#edb111","#3260af","#649e3d","#99bae3","#f5ac8f","#c2c2c2","#ffd68e"];
+                var labels=[];
+                var values=[];
                 var br="";
                 var no=0;
+                var alldata=[];
                 var allnilai=[];
-
                 $.each(data,function(a,b){
                     if(b.demo_id=="D6"){
                         no++;
                         br=b.brand_name;
-                        hobby.push({
-                            values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
-                            ver:b.totals_ver,
-                            thousand:b.totals_thousand,
-                            text:b.subdemo_name
-                        })
+                        labels.push(b.subdemo_name);
+                        values.push(parseFloat(b.totals_ver));
+
+                        alldata.push({
+                            label:b.subdemo_name,
+                            value:b.totals_ver,
+                            thousand:b.totals_thousand
+                        });
 
                         allnilai.push(b.totals_thousand);
                     }
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
-                for(l=0;l<hobby.length;l++){
-                    if(hobby[l].thousand==tertinggi){
-                        $("#hobbyValue").empty().html(parseFloat(hobby[l].ver)+" %");
-                        $("#hobbyName").empty().html(hobby[l].text);
+                for(l=0;l<alldata.length;l++){
+                    if(alldata[l].thousand==tertinggi){
+                        $("#hobbyValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        $("#hobbyName").empty().html(alldata[l].label);
                     }
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
-                    title: {
-                        text: br,
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                    type: "hbar",
+                    utc:true,
+                    plotarea: {
+                      adjustLayout:true
                     },
-                    "legend":{
-                        "x":"50%",
-                        "y":"10%",
-                        "border-width":1,
-                        "border-color":"gray",
-                        "border-radius":"5px",
-                        "header":{
-                            "text":"Legend",
-                            "font-family":"Georgia",
-                            "font-size":12,
-                            "font-color":"white",
-                            "font-weight":"normal"
-                        },
-                        "marker":{
-                            "type":"circle"
-                        },
-                        "toggle-action":"remove",
-                        "minimize":true,
-                        "icon":{
-                            "line-color":"#9999ff"
-                        },
-                        "max-items":8,
-                        "overflow":"scroll"
+                    scaleX:{
+                      label:{
+                        text:br
+                      },
+                      "labels":labels,
+                      minValue:1420070400000,
+                      step:"day",
+                      transform:{
+                        type:"date",
+                        all:"%M %d"
+                      }
                     },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"30%",
-                        "margin-bottom":"5%"
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v%",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
-                        }
-                    },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : hobby
-               };
-            
+                    // plot:{
+                    //     valueBox: [
+                    //     {
+                    //         placement: "in",
+                    //         text: "%v%",
+                    //         fontColor: "#1A1B26",
+                    //         fontSize: 16
+                    //     }],
+                    // },
+                    series: [
+                      {
+                        values:values,
+                        "background-color": "#599cdb"
+                      }
+                    ]
+                };
+                   
                 zingchart.render({ 
                     id : 'divHobby', 
                     data : myConfig
                 });
-                
                 
             }
 
@@ -1049,7 +957,7 @@
                 }
 
                 var myConfig = {
-                    type: "bar",
+                    type: "hbar",
                     utc:true,
                     plotarea: {
                       adjustLayout:true
@@ -1066,15 +974,15 @@
                         all:"%M %d"
                       }
                     },
-                    plot:{
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                    },
+                    // plot:{
+                    //     valueBox: [
+                    //     {
+                    //         placement: "in",
+                    //         text: "%v%",
+                    //         fontColor: "#1A1B26",
+                    //         fontSize: 16
+                    //     }],
+                    // },
                     series: [
                       {
                         values:values,
@@ -1122,7 +1030,7 @@
                 }
 
                 var myConfig = {
-                    type: "bar",
+                    type: "hbar",
                     utc:true,
                     plotarea: {
                       adjustLayout:true
@@ -1139,15 +1047,15 @@
                         all:"%M %d"
                       }
                     },
-                    plot:{
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                    },
+                    // plot:{
+                    //     valueBox: [
+                    //     {
+                    //         placement: "in",
+                    //         text: "%v%",
+                    //         fontColor: "#1A1B26",
+                    //         fontSize: 16
+                    //     }],
+                    // },
                     series: [
                       {
                         values:values,
@@ -1158,6 +1066,1436 @@
                    
                 zingchart.render({ 
                     id : 'divCity', 
+                    data : myConfig
+                });
+            }
+
+            function showTimeSpent(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D10"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#timespentValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#timespentName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divTimeSpent', 
+                    data : myConfig
+                });
+            }
+
+            function showFrequency(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D11"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#frequencyValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#frequencyName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divFrequency', 
+                    data : myConfig
+                });
+            }
+
+            function showGeneral(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D12"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#generalValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#generalName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divGeneral', 
+                    data : myConfig
+                });
+            }
+
+            function showFinance(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D13"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#financeValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#financeName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divFinance', 
+                    data : myConfig
+                });
+            }
+
+            function showCommerce(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D14"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#commerceValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#commerceName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divCommerce', 
+                    data : myConfig
+                });
+            }
+
+            function showTools(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D15"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#toolsValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#toolsName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divTools', 
+                    data : myConfig
+                });
+            }
+
+            function showAllWebsite(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D16"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#allWebsiteValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#allWebsiteName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divAllWebsite', 
+                    data : myConfig
+                });
+            }
+
+            function showFrequencyRadio(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D17"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#frequensiRadioValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#frequensiRadioName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divFrequencyRadio', 
+                    data : myConfig
+                });
+            }
+
+            function showPlace(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D18"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#placeValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#placeName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divPlace', 
+                    data : myConfig
+                });
+            }
+
+            function showToolsListeningRadio(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D19"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#toolsListeningValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#toolsListeningName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divToolsListeningRadio', 
+                    data : myConfig
+                });
+            }
+
+            function showAllTime(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D20"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#allTimeValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#allTimeName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divAllTime', 
+                    data : myConfig
+                });
+            }
+
+            function showPrimeTime(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D21"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#primeTimeValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#primeTimeName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divPrimeTime', 
+                    data : myConfig
+                });
+            }
+
+            function showNonPrimeTime(data){
+                var education=[];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var br="";
+                var allnilai=[];
+
+                $.each(data,function(a,b){
+                    if(b.demo_id=="D22"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
+                    }
+                })
+
+                var tertinggi=Math.max.apply(Math,allnilai);
+                for(l=0;l<education.length;l++){
+                    if(education[l].thousand==tertinggi){
+                        $("#nonprimetimeValue").empty().html(parseFloat(education[l].ver)+" %");
+                        $("#nonprimetimeName").empty().html(education[l].text);
+                    }
+                }
+
+                var myConfig = {
+                    type: "pie", 
+                    backgroundColor: "#fff",
+                    title: {
+                        text: br,
+                        backgroundColor: "#fff",
+                        height: 40,
+                        fontColor: "#1A1B26",
+                        fontSize: 16
+                    },
+                    "legend":{
+                        "x":"23%",
+                        "y":"10%",
+                        "border-width":1,
+                        "border-color":"gray",
+                        "border-radius":"5px",
+                        "header":{
+                            "text":"Legend",
+                            "font-family":"Georgia",
+                            "font-size":12,
+                            "font-color":"white",
+                            "font-weight":"normal"
+                        },
+                        "marker":{
+                            "type":"circle"
+                        },
+                        "toggle-action":"remove",
+                        "minimize":true,
+                        "icon":{
+                            "line-color":"#9999ff"
+                        },
+                        "max-items":8,
+                        "overflow":"scroll"
+                    },
+                    "plotarea":{
+                        "margin-right":"5%",
+                        "margin-left":"5%",
+                        "margin-top":"20%",
+                        "margin-bottom":"5%"
+                    },
+                    plot: {
+                        refAngle: 270,
+                        valueBox: [
+                        {
+                            placement: "in",
+                            text: "%v%",
+                            fontColor: "#1A1B26",
+                            fontSize: 16
+                        }],
+                        "tooltip":{
+                            "text":"%t: %v%",
+                            "font-color":"black",
+                            "font-family":"Georgia",
+                            "text-alpha":1,
+                            "background-color":"white",
+                            "alpha":0.7,
+                            "border-width":1,
+                            "border-color":"#cccccc",
+                            "line-style":"dotted",
+                            "border-radius":"10px",
+                            "padding":"10%",
+                            "placement":"node:out" //"node:out" or "node:center"
+                        }
+                    },
+                    tooltip: {
+                        fontSize: 12,
+                        fontColor: "#1A1B26",
+                        shadow: 0,
+                        borderRadius: 3,
+                        borderWidth: 1,
+                        borderColor: "#fff"
+                    },
+                    series : education
+               };
+            
+                zingchart.render({ 
+                    id : 'divNonPrimeTime', 
                     data : myConfig
                 });
             }
@@ -1174,6 +2512,7 @@
 
                     },
                     success:function(result){
+                        result.reverse();
                         alldata=result;
 
                         showGender(alldata);
@@ -1185,6 +2524,19 @@
                         showPsiko(alldata);
                         showMedia(alldata);
                         showCity(alldata);
+                        showTimeSpent(alldata);
+                        showFrequency(alldata);
+                        showGeneral(alldata);
+                        showFinance(alldata);
+                        showCommerce(alldata);
+                        showTools(alldata);
+                        showAllWebsite(alldata);
+                        showFrequencyRadio(alldata);
+                        showPlace(alldata);
+                        showToolsListeningRadio(alldata);
+                        showAllTime(alldata);
+                        showPrimeTime(alldata);
+                        showNonPrimeTime(alldata);
                     },
                     error:function(){
 
@@ -1202,12 +2554,41 @@
                     data:"brand="+brand+"&quartal="+quartal,
                     beforeSend:function(){
                         $("#topBrand").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                        $("#rankTopBrand").empty();
                     },
                     success:function(result){
                         var primaryColor = "#4184F3";
                         var primaryColorHover = "#3a53c5";
                         var secondaryColor = '#DCDCDC'
                         var scaleTextColor = '#999';
+
+                        var labels=[];
+                        var values=[];
+
+                        result.label.reverse();
+
+                        $.each(result.label,function(a,b){
+                            labels.push(b.brand);
+                            values.push(b.total);
+                        })
+                        
+                        var el="";
+                        el+="<table class='table table-striped'>"+
+                            '<thead>'+
+                                '<tr>'+
+                                    '<th>Rank</th>'+
+                                    '<th> : </th>'+
+                                    '<th>'+result.rank.number+'</th>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<th>Category</th>'+
+                                    '<th> : </th>'+
+                                    '<th>'+result.rank.category+'</th>'+
+                                '</tr>'+
+                            '</thead>'+
+                        '</table>';
+
+                        $("#rankTopBrand").empty().html(el);
                         
                         $("#topBrand").empty();
 
@@ -1226,17 +2607,11 @@
                                 }
                             },
                             "plotarea": {
-                                "margin": "2% 2% 15% 15%"
-                            },
-                            "legend":{
-                                "align": 'center',
-                                "verticalAlign": 'bottom',
-                                "layout": 'x3',
-                                "toggleAction": 'remove'
+                                "margin": "2% 2% 15% 20%"
                             },
                             "backgroundColor": "#fff",
                             "scaleX": {
-                                "values": result.label,
+                                "values": labels,
                                 "lineWidth": 0,
                                 "lineColor":"none",
                                 "tick": {
@@ -1258,7 +2633,7 @@
                             },
                             "series": [
                                 {
-                                    "values": result.data,
+                                    "values": values,
                                     "alpha": 1,
                                     "background-color": "#008ef6",
                                     "hover-state": {
@@ -1294,6 +2669,126 @@
                 var el="";
                 var namabrand=$("#brand").select2('data').text;
 
+                /* summary */
+                el+='<div class="panel panel-primary">'+
+                    '<div class="panel-heading">'+
+                        'SUMMARY'+
+                    '</div>'+
+                    '<div class="panel-body">'+
+                        '<h5>Pengguna Brand :  <b>'+namabrand+'</b></h5>'+
+                        '<h6>Di dominasi oleh:</h6>'+
+                        '<table width="60%">'+
+                            '<tbody>'+
+                                '<tr>'+
+                                    '<td width="35%"><b>GENDER</b></td>'+
+                                    '<td width="45%"><b><div id="genderName"></div></b></td>'+
+                                    '<td><div id="genderValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>SEC</b></td>'+
+                                    '<td><b><div id="secName"></div></b></td>'+
+                                    '<td><div id="secValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>AGE</b></td>'+
+                                    '<td><b><div id="ageName"></div></b></td>'+
+                                    '<td><div id="ageValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>EDUCATION</b></td>'+
+                                    '<td><b><div id="educationName"></div></b></td>'+
+                                    '<td><div id="educationValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>OCCUPATION</b></td>'+
+                                    '<td><b><div id="occupationName"></div></b></td>'+
+                                    '<td><div id="occupationValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>HOBBY</b></td>'+
+                                    '<td><b><div id="hobbyName"></div></b></td>'+
+                                    '<td><div id="hobbyValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td width="35%"><b>MEDIA</b></td>'+
+                                    '<td width="45%"><b><div id="mediaName"></div></b></td>'+
+                                    '<td><div id="mediaValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>KOTA</b></td>'+
+                                    '<td><b><div id="kotaName"></div></b></td>'+
+                                    '<td><div id="kotaValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>TIME SPENT OF USING INTERNET</b></td>'+
+                                    '<td><b><div id="timespentName"></div></b></td>'+
+                                    '<td><div id="timespentValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>FREQUENCY OF USING INTERNET</b></td>'+
+                                    '<td><b><div id="frequencyName"></div></b></td>'+
+                                    '<td><div id="frequencyValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>GENERAL</b></td>'+
+                                    '<td><b><div id="generalName"></div></b></td>'+
+                                    '<td><div id="generalValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>E-FINANCE</b></td>'+
+                                    '<td><b><div id="financeName"></div></b></td>'+
+                                    '<td><div id="financeValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>E-COMMERCE</b></td>'+
+                                    '<td><b><div id="commerceName"></div></b></td>'+
+                                    '<td><div id="commerceValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>TOOLS OF INTERNET ACCESS</b></td>'+
+                                    '<td><b><div id="toolsName"></div></b></td>'+
+                                    '<td><div id="toolsValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>ALL WEBSITE</b></td>'+
+                                    '<td><b><div id="allWebsiteName"></div></b></td>'+
+                                    '<td><div id="allWebsiteValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>FREQUENCY OF LISTENING</b></td>'+
+                                    '<td><b><div id="frequensiRadioName"></div></b></td>'+
+                                    '<td><div id="frequensiRadioValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>PLACE OF LISTENING RADIO</b></td>'+
+                                    '<td><b><div id="placeName"></div></b></td>'+
+                                    '<td><div id="placeValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>TOOLS OF LISTENING RADIO</b></td>'+
+                                    '<td><b><div id="toolsListeningName"></div></b></td>'+
+                                    '<td><div id="toolsListeningValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>DAY PART - ALL TIME</b></td>'+
+                                    '<td><b><div id="allTimeName"></div></b></td>'+
+                                    '<td><div id="allTimeValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>DAY PART - PRIME TIME</b></td>'+
+                                    '<td><b><div id="primeTimeName"></div></b></td>'+
+                                    '<td><div id="primeTimeValue"></div></td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td><b>DAY PART - NON PRIME TIME</b></td>'+
+                                    '<td><b><div id="nonprimetimeName"></div></b></td>'+
+                                    '<td><div id="nonprimetimeValue"></div></td>'+
+                                '</tr>'+
+                        '</table>'+
+                    '</div>'+
+                '</div>';
+                /* end summary */
+
                 /* top 10 brand */
                 el+='<div class="panel panel-primary">'+
                     '<div class="panel-heading">'+
@@ -1301,13 +2796,16 @@
                     '</div>'+
                     '<div class="panel-body">'+
                         '<div class="row">'+
-                            '<div class="col-lg-9">'+
+                            '<div class="col-lg-8">'+
                                 '<div id="topBrand"></div>'+
                             '</div>'+
-                            '<div class="col-lg-3">'+
+                            '<div class="col-lg-4">'+
                                 "<div class='panel panel-info'>"+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">Summary</h6>'+
+                                        '<h6 class="panel-title">Brand Position</h6>'+
+                                    '</div>'+
+                                    '<div class="panel-body">'+
+                                        '<div id="rankTopBrand"></div>'+
                                     '</div>'+
                                 '</div>'+
                             '</div>'+
@@ -1323,7 +2821,7 @@
                         '</div>'+
                     '<div class="panel-body">'+
                     '<div class="row">'+
-                        '<div class="col-lg-4">'+
+                        '<div class="col-lg-3">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
                                     '<h6 class="panel-title"><strong>GENDER</strong></h6>'+
@@ -1331,7 +2829,7 @@
                             '</div>'+
                             '<div id="divGender"></div>'+
                         '</div>'+
-                        '<div class="col-lg-4">'+
+                        '<div class="col-lg-3">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
                                     '<h6 class="panel-title"><strong>SEC</strong></h6>'+
@@ -1339,7 +2837,7 @@
                             '</div>'+
                             '<div id="divSec"></div>'+
                         '</div>'+
-                        '<div class="col-lg-4">'+
+                        '<div class="col-lg-3">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
                                     '<h6 class="panel-title"><strong>AGE</strong></h6>'+
@@ -1347,10 +2845,7 @@
                             '</div>'+
                             '<div id="divAge"></div>'+
                         '</div>'+
-                    '</div>'+
-
-                    '<div class="row">'+
-                        '<div class="col-lg-4">'+
+                        '<div class="col-lg-3">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
                                     '<h6 class="panel-title"><strong>EDUCATION</strong></h6>'+
@@ -1358,7 +2853,10 @@
                             '</div>'+
                             '<div id="divEducation"></div>'+
                         '</div>'+
-                        '<div class="col-lg-4">'+
+                    '</div>'+
+
+                    '<div class="row">'+
+                        '<div class="col-lg-6">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
                                     '<h6 class="panel-title"><strong>OCCUPATION</strong></h6>'+
@@ -1366,56 +2864,13 @@
                             '</div>'+
                             '<div id="divOccupation"></div>'+
                         '</div>'+
-                        '<div class="col-lg-4">'+
+                        '<div class="col-lg-6">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
                                     '<h6 class="panel-title"><strong>HOBBY</strong></h6>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divHobby"></div>'+
-                        '</div>'+
-                    '</div>'+
-
-                    '<div class="panel panel-info">'+
-                        '<div class="panel-heading">'+
-                            '<h6 class="panel-title">Summary Demography</h6>'+
-                        '</div>'+
-                        '<div class="panel-body">'+
-                            '<h5>Pengguna Brand :  <b>'+namabrand+'</b></h5>'+
-                            '<h6>Di dominasi oleh:</h6>'+
-                            '<table class="">'+
-                                '<tbody>'+
-                                    '<tr>'+
-                                        '<td width="35%"><b>Gender</b></td>'+
-                                        '<td width="45%"><b><div id="genderName"></div></b></td>'+
-                                        '<td><div id="genderValue"></div></td>'+
-                                    '</tr>'+
-                                    '<tr>'+
-                                        '<td><b>SEC</b></td>'+
-                                        '<td><b><div id="secName"></div></b></td>'+
-                                        '<td><div id="secValue"></div></td>'+
-                                    '</tr>'+
-                                    '<tr>'+
-                                        '<td><b>Age</b></td>'+
-                                        '<td><b><div id="ageName"></div></b></td>'+
-                                        '<td><div id="ageValue"></div></td>'+
-                                    '</tr>'+
-                                    '<tr>'+
-                                        '<td><b>Education</b></td>'+
-                                        '<td><b><div id="educationName"></div></b></td>'+
-                                        '<td><div id="educationValue"></div></td>'+
-                                    '</tr>'+
-                                    '<tr>'+
-                                        '<td><b>Occupation</b></td>'+
-                                        '<td><b><div id="occupationName"></div></b></td>'+
-                                        '<td><div id="occupationValue"></div></td>'+
-                                    '</tr>'+
-                                    '<tr>'+
-                                        '<td><b>Hobby</b></td>'+
-                                        '<td><b><div id="hobbyName"></div></b></td>'+
-                                        '<td><div id="hobbyValue"></div></td>'+
-                                    '</tr>'+
-                            '</table>'+
                         '</div>'+
                     '</div>'+
                 '</div></div>';
@@ -1427,6 +2882,7 @@
                             '<h6 class="panel-title">PENETRATION</h6>'+
                         '</div>'+
                     '<div class="panel-body">'+
+
                     '<div class="row">'+
                         '<div class="col-lg-6">'+
                             '<div class="panel panel-default">'+
@@ -1445,31 +2901,149 @@
                             '<div id="divCity"></div>'+
                         '</div>'+
                     '</div>'+
-                    '<div class="panel panel-info">'+
-                        '<div class="panel-heading">'+
-                            '<h6 class="panel-title">Summary Penetration</h6>'+
-                        '</div>'+
-                        '<div class="panel-body">'+
-                            '<h5>Pengguna Brand :  <b>'+namabrand+'</b></h5>'+
-                            '<h6>Di dominasi oleh:</h6>'+
-                            '<table class="">'+
-                                '<tbody>'+
-                                    '<tr>'+
-                                        '<td width="35%"><b>Media</b></td>'+
-                                        '<td width="45%"><b><div id="mediaName"></div></b></td>'+
-                                        '<td><div id="mediaValue"></div></td>'+
-                                    '</tr>'+
-                                    '<tr>'+
-                                        '<td><b>Kota</b></td>'+
-                                        '<td><b><div id="kotaName"></div></b></td>'+
-                                        '<td><div id="kotaValue"></div></td>'+
-                                    '</tr>'+
-                            '</table>'+
-                        '</div>'+
-                    '</div>'+
 
                 '</div></div>';
                 /*end penetration */
+
+                /* internet */
+                el+='<div class="panel panel-primary">'+
+                    '<div class="panel-heading">'+
+                        '<h6 class="panel-title">INTERNET</h6>'+
+                    '</div>'+
+                    '<div class="panel-body">'+
+                        '<div class="row">'+
+                            '<div class="col-lg-3">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">TIME SPENT OF USING INTERNET</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divTimeSpent"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-3">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">FREQUENCY OF USING INTERNET</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divFrequency"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-3">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">GENERAL</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divGeneral"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-3">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">E-FINANCE</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divFinance"></div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="row">'+
+                            '<div class="col-lg-3">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">E-COMMERCE</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divCommerce"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-3">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">TOOLS OF INTERNET ACCESS</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divTools"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-3">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">ALL WEBSITE</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divAllWebsite"></div>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>';
+                /* end internet */
+
+                /* radio */
+                el+='<div class="panel panel-primary">'+
+                    '<div class="panel-heading">'+
+                        '<h6 class="panel-title">RADIO</h6>'+
+                    '</div>'+
+                    '<div class="panel-body">'+
+                        '<div class="row">'+
+                            '<div class="col-lg-4">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">FREQUENCY OF LISTENING</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divFrequencyRadio"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-4">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">PLACE OF LISTENING RADIO</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divPlace"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-4">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">TOOLS OF LISTENING RADIO</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divToolsListeningRadio"></div>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>';
+                /* end radio */
+
+                el+='<div class="panel panel-primary">'+
+                    '<div class="panel-heading">'+
+                        '<h6 class="panel-title">TV</h6>'+
+                    '</div>'+
+                    '<div class="panel-body">'+
+                        '<div class="row">'+
+                            '<div class="col-lg-4">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">DAY PART - ALL TIME</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divAllTime"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-4">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">DAY PART - PRIME TIME</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divPrimeTime"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-4">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<h6 class="panel-title">DAY PART - NON PRIME TIME</h6>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divNonPrimeTime"></div>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>';
 
                 /*tabel nya*/
                 el+='<div class="panel panel-flat">'+
@@ -1536,6 +3110,71 @@
         }
 
         #divCity {
+            height: 100%;
+            width: 100%;
+        }
+
+        #divTimeSpent{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divFrequency{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divGeneral{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divFinance{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divCommerce{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divTools{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divAllWebsite{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divFrequencyRadio{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divPlace{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divToolsListeningRadio{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divAllTime{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divPrimeTime{
+            height: 100%;
+            width: 100%;
+        }
+
+        #divNonPrimeTime{
             height: 100%;
             width: 100%;
         }
