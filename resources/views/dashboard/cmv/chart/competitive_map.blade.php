@@ -2287,7 +2287,7 @@
                         <div class="form-group">
                             <label class="control-label">Quartal</label>
                             <select name="quartal" class="form-control">
-                                <option value="42017">42017</option>
+                                <option value="42017">Q4 - 2017</option>
                             </select>
                         </div>
                     </div>
