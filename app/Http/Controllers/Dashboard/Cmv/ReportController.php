@@ -106,135 +106,63 @@ class ReportController extends Controller
         $reqbrand=$request->input('brand');
         $reqquartal=$request->input('quartal');
 
-        $brand=\App\Models\Dashboard\Cmv\Brand::find($reqbrand);
+        $brand=\App\Models\Dashboard\Cmv\Brand::with('category')->find($reqbrand);
+        
         $category=$brand->category_id;
 
-        $cat=\DB::connection('mysql3')->select("select a.category_id,a.category_name, b.brand_id, b.brand_name, 
-        sum(if(c.subdemo_id='DD1',c.totals_thousand,0)) as male,
-        sum(if(c.subdemo_id='DD2',c.totals_thousand,0)) as female,
-        sum(if(c.subdemo_id='DD1',c.totals_thousand,0)) + sum(if(c.subdemo_id='DD2',c.totals_thousand,0)) as total
-        from cmv_category a
-        left join cmv_brand b on b.category_id=a.category_id
-        left join cmv_variabel c on c.brand_id=b.brand_id and c.subdemo_id in ('DD1','DD2')
-        where a.category_id='$category'
-        group by b.brand_id order by total desc");
-
+        $allbrand=\DB::connection('mysql3')
+            ->table('cmv_brand as a')
+            ->leftJoin('cmv_variabel as b','b.brand_id','=','a.brand_id')
+            ->leftJoin('cmv_sub_demography as c','c.subdemo_id','=','b.subdemo_id')
+            ->where('c.demo_id','D0')
+            ->where('parent_id',$brand->parent_id)
+            ->orderBy('totals_ver','desc')
+            ->select(
+                'parent_id',
+                'b.brand_id',
+                'category_id',
+                'brand_name',
+                'quartal',
+                'totals_ver',
+                'totals_thousand',
+                'demo_id',
+                'subdemo_name'
+            )
+            ->get();
+        
         $data=array();
+        $list=array();
         $value=array();
         $label=array();
-        foreach($cat as $key=>$val){
+        $brandrank=array();
+        
+        $no=0;
+        foreach($allbrand as $key=>$val){
+            $no++;
             if($key<10){
-                array_push($label,$val->brand_name);
-                array_push($data,$val->total);
+                array_push($label,array('brand'=>$val->brand_name,'total'=>$val->totals_ver));
+                array_push($data,$val->totals_ver);
+            }
+
+            if($val->brand_id==$brand->brand_id){
+                $brandrank=array(
+                    'number'=>$no,
+                    'category'=>$brand->category->category_name
+                );
             }
         }
 
-        return array('data'=>$data,'label'=>$label);
+        $a=sort($data);
 
+        return array('data'=>$data,'label'=>$label,'rank'=>$brandrank);
     }
 
     public function competitive_map(Request $request){
-        $category=$request->input('category');
-
-        $listcompare=array();
-        $alldemo=\App\Models\Dashboard\Cmv\Demography::all();
-        $brand=\App\Models\Dashboard\Cmv\Brand::find($request->input('brand'));
-
-        $list=\DB::connection('mysql3')->table('cmv_category as a')
-            ->leftJoin('cmv_brand as b','b.category_id','=','a.category_id')
-            ->leftJoin('cmv_variabel as c','c.brand_id','=','b.brand_id')
-            ->leftJoin('cmv_sub_demography as d','d.subdemo_id','=','c.subdemo_id')
-            ->select(
-                'a.category_id',
-                'a.category_name',
-                'b.brand_id',
-                'b.brand_name',
-                'd.demo_id',
-                'c.subdemo_id',
-                'd.subdemo_name',
-                'c.quartal',
-                'c.totals_ver'
-            );
-
-        // if($request->has('compare')){
-        //     $compare=$request->input('compare');
-        //     $pecahbrand=explode(",",$compare);
-        //     if(count($pecahbrand)){
-        //         foreach($pecahbrand as $key=>$val){
-        //             array_push($listcompare,$val);
-        //         }
-        //     }
-
-        //     $list=$list->whereIn('b.brand_id',$listcompare);
-
-        //     $br=\App\Models\Dashboard\Cmv\Brand::whereIn('brand_id',$listcompare)->get();
-        // }
-
-        if($request->has('brand')){
-            $list=$list->where('b.brand_id',$request->input('brand'));
-        }
-
-        if($request->has('category')){
-            $list=$list->where('a.category_id',$category);
-        }
-
-        $list=$list->orderBy('c.subdemo_id','asc')->get();
-
-        return array('list'=>$list,'alldemo'=>$alldemo,'brand'=>$brand);
-
-
-        // $com=\DB::select("select a.category_id,a.category_name, b.brand_id, 
-        // b.brand_name,d.demo_id, c.subdemo_id, c.quartal, c.totals_thousand
-        // from cmv_category a
-        // left join cmv_brand b on b.category_id=a.category_id
-        // left join cmv_variabel c on c.brand_id=b.brand_id
-        // left join cmv_sub_demography as d on d.subdemo_id=c.subdemo_id
-        // where a.category_id='AA1'
-        // and b.brand_id in ('B10','B11')");
-    }
-
-    public function compare_with(Request $request){
-        $brand=$request->input('brand');
-
+        $reqbrand=$request->input('brand');
         $listcompare=array();
 
-        // select a.brand_id,a.brand_name, c.demo_id,b.subdemo_id, b.quartal, b.totals_ver,
-        // (
-        // b.totals_ver - (select cc.totals_ver
-        //         from cmv_brand bb
-        //         left join cmv_variabel cc on cc.brand_id=bb.brand_id
-        //         left join cmv_sub_demography as dd on dd.subdemo_id=cc.subdemo_id
-        //         where bb.brand_id='B1' and cc.subdemo_id=b.subdemo_id)
-        // ) as total
-        // from cmv_brand a 
-        // left join cmv_variabel b on b.brand_id=a.brand_id
-        // left join cmv_sub_demography c on c.subdemo_id=b.subdemo_id
-        // where a.brand_id in ('B10','B11')
-
-        $list=\DB::connection('mysql3')->table('cmv_category as a')
-            ->leftJoin('cmv_brand as b','b.category_id','=','a.category_id')
-            ->leftJoin('cmv_variabel as c','c.brand_id','=','b.brand_id')
-            ->leftJoin('cmv_sub_demography as d','d.subdemo_id','=','c.subdemo_id')
-            ->select(
-                'a.category_id',
-                'a.category_name',
-                'b.brand_id',
-                'b.brand_name',
-                'd.demo_id',
-                'c.subdemo_id',
-                'd.subdemo_name',
-                'c.quartal',
-                'c.totals_ver',
-                \DB::raw("(
-                    c.totals_ver - (
-                        select cc.totals_ver
-                        from cmv_brand bb 
-                        left join cmv_variabel cc on cc.brand_id=bb.brand_id
-                        left join cmv_sub_demography dd on dd.subdemo_id=cc.subdemo_id
-                        where bb.brand_id='$brand' and cc.subdemo_id=c.subdemo_id
-                    )
-                )as total")
-            );
+        $brand=\App\Models\Dashboard\Cmv\Brand::with('variabel')->find($reqbrand);
+        $parent=\App\Models\Dashboard\Cmv\Brand::with('variabel')->find($brand->parent_id);
 
         if($request->has('compare')){
             $compare=$request->input('compare');
@@ -245,18 +173,55 @@ class ReportController extends Controller
                 }
             }
 
-            $list=$list->whereIn('b.brand_id',$listcompare);
-
-            $br=\App\Models\Dashboard\Cmv\Brand::whereIn('brand_id',$listcompare)->get();
+            $br=\App\Models\Dashboard\Cmv\Brand::with('variabel')->whereIn('brand_id',$listcompare)->get();
         }
 
-        if($request->has('category')){
-            $list=$list->where('a.category_id',$category);
+        return array('parent'=>$parent,'brand'=>$brand,'compare'=>$br);
+    }
+
+    public function compare_product(Request $request){
+        $reqbrand=$request->input('brand');
+        $listcompare=array();
+
+        $brand=\App\Models\Dashboard\Cmv\Brand::with('variabel')->find($reqbrand);
+        $parent=\App\Models\Dashboard\Cmv\Brand::with('variabel')->find($brand->parent_id);
+
+        return array('parent'=>$parent,'brand'=>$brand);
+    }
+
+    public function compare_with(Request $request){
+        $rules=['compare'=>'required'];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'error'=>$validasi->errors()->all()
+            );
+        }else{
+            $reqbrand=$request->input('brand');
+            $listcompare=array();
+
+            $compare=$request->input('compare');
+            $pecahbrand=explode(",",$compare);
+            if(count($pecahbrand)){
+                foreach($pecahbrand as $key=>$val){
+                    array_push($listcompare,$val);
+                }
+            }
+
+            $br=\App\Models\Dashboard\Cmv\Brand::with('variabel')->whereIn('brand_id',$listcompare)->get();
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil diload',
+                'data'=>$br
+            );
         }
 
-        $list=$list->orderBy('c.subdemo_id','desc')->get();
-
-        return array('list'=>$list,'compare'=>$br);
+        return $data;
     }
 
     public function chart_all_data(Request $request){

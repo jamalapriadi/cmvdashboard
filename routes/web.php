@@ -166,6 +166,7 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
         Route::get('filter-demography-by-brand','Dashboard\Cmv\ReportController@filter_demography');
         Route::get('top-brand-by-category','Dashboard\Cmv\ReportController@top_brand_by_category');
         Route::post('list-competitive-map','Dashboard\Cmv\ReportController@competitive_map');
+        Route::get('compare-product','Dashboard\Cmv\ReportController@compare_product');
         Route::get('compare-with','Dashboard\Cmv\ReportController@compare_with');
 
         Route::resource('sector','Dashboard\Cmv\SectorController');
