@@ -23,6 +23,7 @@
                     data: function (params) {
                         return {
                             q: params, // search term
+                            category:$("#category").val(),
                             page_limit: 30
                         };
                     },
@@ -3215,6 +3216,12 @@
         <div class="panel-body">
             <form id="formSearch" onsubmit="return false" name="formSearch">
                 <div class="row">
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label class="control-label">Category</label>
+                            <input type="text" name="category" id="category" class="remote-data-category">
+                        </div>
+                    </div>
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label class="control-label">Brand</label>
@@ -3225,7 +3232,7 @@
                         <div class="form-group">
                             <label class="control-label">Quartal</label>
                             <select name="quartal" id="quartal" class="form-control">
-                                <option value="42017">42017</option>
+                                <option value="42017">Q4 - 2017</option>
                             </select>
                         </div>
                     </div>
