@@ -145,8 +145,7 @@
                 },
                 escapeMarkup: function (m) { return m; }
             })
-
-            
+        
             $(document).on("submit","#formCompetitive",function(e){
                 var data = new FormData(this);
                 data.append("_token","{{ csrf_token() }}");
@@ -230,12 +229,20 @@
 
                                 '<div class="col-lg-7">'+
                                     '<div class="row">'+
-                                        '<div id="comparewith"></div>'+
+                                        '<div class="col-lg-4">'+
+                                            '<div id="compareproduct"></div>'+
+                                        '</div>'+
+                                        '<div class="col-lg-8">'+
+                                            '<div class="row">'+
+                                                '<div id="comparewith"></div>'+
+                                            '</div>'+
+                                        '</div>'+
                                     '</div>'+
                                 '</div>'+
                             '</div>';
 
                             $("#competitiveMap").empty().html(el);
+                            data.parent.variabel.reverse();
                             competitiveGender(data.parent.variabel);
                             competitiveSec(data.parent.variabel);
                             competitiveAge(data.parent.variabel);
@@ -244,7 +251,7 @@
                             competitiveHobby(data.parent.variabel);
                             competitiveMedia(data.parent.variabel);
                             competitiveCities(data.parent.variabel);
-                            comparewith();
+                            product();
                         },
                         error   :function() {  
                             $('#competitiveMap').html('<div class="alert alert-danger">Your request not Sent...</div>');
@@ -905,20 +912,19 @@
                 });
             }
 
-            function comparewith(){
+            function product(){
                 var brand=$("#brand2").val();
                 var compare=$("#compare2").val();
                 $.ajax({
-                    url:"{{URL::to('cmv/data/compare-with')}}",
+                    url:"{{URL::to('cmv/data/compare-product')}}",
                     type:"GET",
                     data:"brand="+brand+"&compare="+compare,
                     beforeSend:function(){
-                        $("#comparewith").empty().html('<div class="alert alert-success"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Comparing Data. . . </div>');
+                        $("#compareproduct").empty().html('<div class="alert alert-success"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Loading Data Brand. . . </div>');
                     },
                     success:function(result){
                         var el="";
-                        el+="<div class='col-lg-4'>"+
-                            '<div class="panel panel-info">'+
+                        el+='<div class="panel panel-info">'+
                                 '<div class="panel-heading">'+
                                     result.brand.brand_name+
                                 '</div>'+
@@ -978,23 +984,22 @@
                                 '<div class="panel-body">'+
                                     '<div id="productCities'+result.brand.brand_id+'" style="width:100%;height:300px;"></div>'+
                                 '</div>'+
-                            '</div>'+
+                            '</div>';
 
-                        '</div>';
-
-                        $("#comparewith").empty().html(el);
+                        $("#compareproduct").empty().html(el);
 
                         productGender(result.parent,result.brand);
                         productSec(result.parent,result.brand);
                         productAge(result.parent,result.brand);
-                        // productEducation(result.parent,result.brand);
-                        // productOccupation(result.parent,result.brand);
-                        // productHobby(result.parent,result.brand);
-                        // productMedia(result.parent,result.brand);
-                        // productCities(result.parent,result.brand);
+                        productEducation(result.parent,result.brand);
+                        productOccupation(result.parent,result.brand);
+                        productHobby(result.parent,result.brand);
+                        productMedia(result.parent,result.brand);
+                        productCities(result.parent,result.brand);
+                        comparewith(result.parent);
                     },
                     error:function(){
-                        $("#comparewith").empty().html("<div class='alert alert-danger'>Opss.. failed data to load</div>");
+                        $("#compareproduct").empty().html("<div class='alert alert-danger'>Opss.. failed data to load</div>");
                     }
                 })
             }
@@ -1194,24 +1199,657 @@
                 });
             }
 
-            function productEducation(compare,list){
-                $.each(compare,function(a,b){
+            function productEducation(parent,brand){
+                var val=[];
+                for(a=0;a<brand.variabel.length;a++){
+                    if(brand.variabel[a].demo_id=="D4"){
+                        var total=brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver;
+
+                        if(total>0){
+                            var bg="#68d7c6";
+                            var text=brand.variabel[a].subdemo_name;
+                        }else{
+                            var bg="#fd625e";
+                            var text=brand.variabel[a].subdemo_name
+                        }
+                        val.push(
+                            {
+                                values: [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                stack: a,
+                                'data-custom-token': [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                text:text,
+                                valueBox:{  
+                                    "text":'%data-custom-token',
+                                    "placement":'bottom'
+                                },
+                                backgroundColor:bg
+                            }
+                        )
+                    }
+                }
+
+                var myConfig = {
+                    type: 'hbar',
+                    stacked: true,
+                    plotarea:{
+                        margin: 'dynamic'
+                    },
+                    tooltip:{
+                        text:"%t %negation%v",
+                        decimals: 2,
+                        align: 'left',
+                        borderRadius: 3,
+                        fontColor:"#ffffff",
+                        negation: 'currency'
+                    },
+                    plot:{
+                        valueBox:{
+                            text:"%total",
+                            rules: [
+                                {
+                                    rule: '%stack-top == 0',
+                                    visible: 0
+                                }
+                            ]
+                        }
+                    },
+                    series: val
+                };
+                
+                zingchart.render({ 
+                    id : 'productEducation'+brand.brand_id, 
+                    data: myConfig, 
+                    height: '100%', 
+                    width: '100%' 
+                });
+            }
+
+            function productOccupation(parent,brand){
+                var val=[];
+                for(a=0;a<brand.variabel.length;a++){
+                    if(brand.variabel[a].demo_id=="D5"){
+                        var total=brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver;
+
+                        if(total>0){
+                            var bg="#68d7c6";
+                            var text=brand.variabel[a].subdemo_name;
+                        }else{
+                            var bg="#fd625e";
+                            var text=brand.variabel[a].subdemo_name
+                        }
+                        val.push(
+                            {
+                                values: [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                stack: a,
+                                'data-custom-token': [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                text:text,
+                                valueBox:{  
+                                    "text":'%data-custom-token',
+                                    "placement":'bottom'
+                                },
+                                backgroundColor:bg
+                            }
+                        )
+                    }
+                }
+
+                var myConfig = {
+                    type: 'hbar',
+                    stacked: true,
+                    plotarea:{
+                        margin: 'dynamic'
+                    },
+                    tooltip:{
+                        text:"%t %negation%v",
+                        decimals: 2,
+                        align: 'left',
+                        borderRadius: 3,
+                        fontColor:"#ffffff",
+                        negation: 'currency'
+                    },
+                    plot:{
+                        valueBox:{
+                            text:"%total",
+                            rules: [
+                                {
+                                    rule: '%stack-top == 0',
+                                    visible: 0
+                                }
+                            ]
+                        }
+                    },
+                    series: val
+                };
+                
+                zingchart.render({ 
+                    id : 'productOccupation'+brand.brand_id, 
+                    data: myConfig, 
+                    height: '100%', 
+                    width: '100%' 
+                });
+            }
+
+            function productHobby(parent,brand){
+                var val=[];
+                for(a=0;a<brand.variabel.length;a++){
+                    if(brand.variabel[a].demo_id=="D6"){
+                        var total=brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver;
+
+                        if(total>0){
+                            var bg="#68d7c6";
+                            var text=brand.variabel[a].subdemo_name;
+                        }else{
+                            var bg="#fd625e";
+                            var text=brand.variabel[a].subdemo_name
+                        }
+                        val.push(
+                            {
+                                values: [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                stack: a,
+                                'data-custom-token': [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                text:text,
+                                valueBox:{  
+                                    "text":'%data-custom-token',
+                                    "placement":'bottom'
+                                },
+                                backgroundColor:bg
+                            }
+                        )
+                    }
+                }
+
+                var myConfig = {
+                    type: 'hbar',
+                    stacked: true,
+                    plotarea:{
+                        margin: 'dynamic'
+                    },
+                    tooltip:{
+                        text:"%t %negation%v",
+                        decimals: 2,
+                        align: 'left',
+                        borderRadius: 3,
+                        fontColor:"#ffffff",
+                        negation: 'currency'
+                    },
+                    plot:{
+                        valueBox:{
+                            text:"%total",
+                            rules: [
+                                {
+                                    rule: '%stack-top == 0',
+                                    visible: 0
+                                }
+                            ]
+                        }
+                    },
+                    series: val
+                };
+                
+                zingchart.render({ 
+                    id : 'productHobby'+brand.brand_id, 
+                    data: myConfig, 
+                    height: '100%', 
+                    width: '100%' 
+                });
+            }
+
+            function productMedia(parent,brand){
+                var val=[];
+                for(a=0;a<brand.variabel.length;a++){
+                    if(brand.variabel[a].demo_id=="D7"){
+                        var total=brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver;
+
+                        if(total>0){
+                            var bg="#68d7c6";
+                            var text=brand.variabel[a].subdemo_name;
+                        }else{
+                            var bg="#fd625e";
+                            var text=brand.variabel[a].subdemo_name
+                        }
+                        val.push(
+                            {
+                                values: [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                stack: a,
+                                'data-custom-token': [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                text:text,
+                                valueBox:{  
+                                    "text":'%data-custom-token',
+                                    "placement":'bottom'
+                                },
+                                backgroundColor:bg
+                            }
+                        )
+                    }
+                }
+
+                var myConfig = {
+                    type: 'hbar',
+                    stacked: true,
+                    plotarea:{
+                        margin: 'dynamic'
+                    },
+                    tooltip:{
+                        text:"%t %negation%v",
+                        decimals: 2,
+                        align: 'left',
+                        borderRadius: 3,
+                        fontColor:"#ffffff",
+                        negation: 'currency'
+                    },
+                    plot:{
+                        valueBox:{
+                            text:"%total",
+                            rules: [
+                                {
+                                    rule: '%stack-top == 0',
+                                    visible: 0
+                                }
+                            ]
+                        }
+                    },
+                    series: val
+                };
+                
+                zingchart.render({ 
+                    id : 'productMedia'+brand.brand_id, 
+                    data: myConfig, 
+                    height: '100%', 
+                    width: '100%' 
+                });
+            }
+
+            function productCities(parent,brand){
+                var val=[];
+                for(a=0;a<brand.variabel.length;a++){
+                    if(brand.variabel[a].demo_id=="D8"){
+                        var total=brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver;
+
+                        if(total>0){
+                            var bg="#68d7c6";
+                            var text=brand.variabel[a].subdemo_name;
+                        }else{
+                            var bg="#fd625e";
+                            var text=brand.variabel[a].subdemo_name
+                        }
+                        val.push(
+                            {
+                                values: [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                stack: a,
+                                'data-custom-token': [brand.variabel[a].pivot.totals_ver - parent.variabel[a].pivot.totals_ver],
+                                text:text,
+                                valueBox:{  
+                                    "text":'%data-custom-token',
+                                    "placement":'bottom'
+                                },
+                                backgroundColor:bg
+                            }
+                        )
+                    }
+                }
+
+                var myConfig = {
+                    type: 'hbar',
+                    stacked: true,
+                    plotarea:{
+                        margin: 'dynamic'
+                    },
+                    tooltip:{
+                        text:"%t %negation%v",
+                        decimals: 2,
+                        align: 'left',
+                        borderRadius: 3,
+                        fontColor:"#ffffff",
+                        negation: 'currency'
+                    },
+                    plot:{
+                        valueBox:{
+                            text:"%total",
+                            rules: [
+                                {
+                                    rule: '%stack-top == 0',
+                                    visible: 0
+                                }
+                            ]
+                        }
+                    },
+                    series: val
+                };
+                
+                zingchart.render({ 
+                    id : 'productCities'+brand.brand_id, 
+                    data: myConfig, 
+                    height: '100%', 
+                    width: '100%' 
+                });
+            }
+
+            function comparewith(parent){
+                var brand=$("#brand2").val();
+                var compare=$("#compare2").val();
+                $.ajax({
+                    url:"{{URL::to('cmv/data/compare-with')}}",
+                    type:"GET",
+                    data:"brand="+brand+"&compare="+compare,
+                    beforeSend:function(){
+                        $("#comparewith").empty().html('<div class="alert alert-success"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Comparing Data. . . </div>');
+                    },
+                    success:function(result){
+                        if(result.success==true){
+                            var el="";
+                            $.each(result.data,function(c,d){
+                                el+="<div class='col-lg-6'>"+
+                                    '<div class="panel panel-info">'+
+                                        '<div class="panel-heading">'+
+                                            d.brand_name+
+                                        '</div>'+
+                                    '</div>'+
+
+                                    '<div class="panel panel-default">'+
+                                        '<div class="panel-heading">GENDER</div>'+
+                                        '<div class="panel-body">'+
+                                            '<div id="compareGender'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                        '</div>'+
+                                    '</div>'+
+
+                                    '<div class="panel panel-default">'+
+                                        '<div class="panel-heading">SEC</div>'+
+                                        '<div class="panel-body">'+
+                                            '<div id="compareSec'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                        '</div>'+
+                                    '</div>'+
+
+                                    '<div class="panel panel-default">'+
+                                        '<div class="panel-heading">AGE</div>'+
+                                        '<div class="panel-body">'+
+                                            '<div id="compareAge'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                        '</div>'+
+                                    '</div>'+
+
+                                    '<div class="panel panel-default">'+
+                                        '<div class="panel-heading">EDUCATION</div>'+
+                                        '<div class="panel-body">'+
+                                            '<div id="compareEducation'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                    
+                                    '<div class="panel panel-default">'+
+                                        '<div class="panel-heading">OCCUPATION</div>'+
+                                        '<div class="panel-body">'+
+                                            '<div id="compareOccupation'+d.brand_id+'" style="width:100%;height:200px;"></div>'+
+                                        '</div>'+
+                                    '</div>'+
+
+                                    '<div class="panel panel-default">'+
+                                        '<div class="panel-heading">HOBBY</div>'+
+                                        '<div class="panel-body">'+
+                                            '<div id="compareHobby'+d.brand_id+'" style="width:100%;height:300px;"></div>'+
+                                        '</div>'+
+                                    '</div>'+
+
+                                    '<div class="panel panel-default">'+
+                                        '<div class="panel-heading">MEDIA</div>'+
+                                        '<div class="panel-body">'+
+                                            '<div id="compareMedia'+d.brand_id+'" style="width:100%;height:220px;"></div>'+
+                                        '</div>'+
+                                    '</div>'+
+
+                                    '<div class="panel panel-default">'+
+                                        '<div class="panel-heading">CITIES</div>'+
+                                        '<div class="panel-body">'+
+                                            '<div id="compareCities'+d.brand_id+'" style="width:100%;height:300px;"></div>'+
+                                        '</div>'+
+                                    '</div>'+
+
+                                '</div>';
+                            })
+
+                            $("#comparewith").empty().html(el);
+                            compareGender(parent,result.data);
+                            compareSec(parent,result.data);
+                            compareAge(parent,result.data);
+                            compareEducation(parent,result.data);
+                            compareOccupation(parent,result.data);
+                            compareHobby(parent,result.data);
+                            compareMedia(parent,result.data);
+                            compareCities(parent,result.data);
+                        }
+                        
+                    },
+                    error:function(){
+                        $("#comparewith").empty().html("<div class='alert alert-danger'>Opss.. failed data to load</div>");
+                    }
+                })
+            }
+
+            function compareGender(parent,brand){
+                $.each(brand,function(a,b){
                     var val=[];
 
-                    $.each(list,function(c,d){
-                        if(d.demo_id=="D4" && d.brand_id==b.brand_id){
-                            if(d.total>0){
+                    $.each(b.variabel,function(c,d){
+                        if(d.demo_id=="D1"){
+                            var total=d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver;
+
+                            if(total>0){
                                 var bg="#68d7c6";
                                 var text=d.subdemo_name;
                             }else{
                                 var bg="#fd625e";
                                 var text=d.subdemo_name
                             }
+
                             val.push(
                                 {
-                                    values: [parseInt(d.total)],
+                                    values: [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
                                     stack: c,
-                                    'data-custom-token': [parseInt(d.total)],
+                                    'data-custom-token': [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
+                                    text:text,
+                                    valueBox:{  
+                                        "text":'%data-custom-token',
+                                        "placement":'bottom'
+                                    },
+                                    backgroundColor:bg
+                                }
+                            )
+                        }
+                    })
+
+                    var myConfig = {
+                        type: 'hbar',
+                        stacked: true,
+                        plotarea:{
+                            margin: 'dynamic'
+                        },
+                        tooltip:{
+                            text:"%t %negation%v",
+                            decimals: 2,
+                            align: 'left',
+                            borderRadius: 3,
+                            fontColor:"#ffffff",
+                            negation: 'currency'
+                        },
+                        plot:{
+                            valueBox:{
+                                text:"%total",
+                                rules: [
+                                    {
+                                        rule: '%stack-top == 0',
+                                        visible: 0
+                                    }
+                                ]
+                            }
+                        },
+                        series: val
+                    };
+                    
+                    zingchart.render({ 
+                        id : 'compareGender'+b.brand_id, 
+                        data: myConfig, 
+                        height: '100%', 
+                        width: '100%' 
+                    });
+                })
+            }
+
+            function compareSec(parent,brand){
+                $.each(brand,function(a,b){
+                    var val=[];
+
+                    $.each(b.variabel,function(c,d){
+                        if(d.demo_id=="D3"){
+                            var total=d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver;
+
+                            if(total>0){
+                                var bg="#68d7c6";
+                                var text=d.subdemo_name;
+                            }else{
+                                var bg="#fd625e";
+                                var text=d.subdemo_name
+                            }
+
+                            val.push(
+                                {
+                                    values: [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
+                                    stack: c,
+                                    'data-custom-token': [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
+                                    text:text,
+                                    valueBox:{  
+                                        "text":'%data-custom-token',
+                                        "placement":'bottom'
+                                    },
+                                    backgroundColor:bg
+                                }
+                            )
+                        }
+                    })
+
+                    var myConfig = {
+                        type: 'hbar',
+                        stacked: true,
+                        plotarea:{
+                            margin: 'dynamic'
+                        },
+                        tooltip:{
+                            text:"%t %negation%v",
+                            decimals: 2,
+                            align: 'left',
+                            borderRadius: 3,
+                            fontColor:"#ffffff",
+                            negation: 'currency'
+                        },
+                        plot:{
+                            valueBox:{
+                                text:"%total",
+                                rules: [
+                                    {
+                                        rule: '%stack-top == 0',
+                                        visible: 0
+                                    }
+                                ]
+                            }
+                        },
+                        series: val
+                    };
+                    
+                    zingchart.render({ 
+                        id : 'compareSec'+b.brand_id, 
+                        data: myConfig, 
+                        height: '100%', 
+                        width: '100%' 
+                    });
+                })
+            }
+
+            function compareAge(parent,brand){
+                $.each(brand,function(a,b){
+                    var val=[];
+
+                    $.each(b.variabel,function(c,d){
+                        if(d.demo_id=="D2"){
+                            var total=d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver;
+
+                            if(total>0){
+                                var bg="#68d7c6";
+                                var text=d.subdemo_name;
+                            }else{
+                                var bg="#fd625e";
+                                var text=d.subdemo_name
+                            }
+
+                            val.push(
+                                {
+                                    values: [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
+                                    stack: c,
+                                    'data-custom-token': [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
+                                    text:text,
+                                    valueBox:{  
+                                        "text":'%data-custom-token',
+                                        "placement":'bottom'
+                                    },
+                                    backgroundColor:bg
+                                }
+                            )
+                        }
+                    })
+
+                    var myConfig = {
+                        type: 'hbar',
+                        stacked: true,
+                        plotarea:{
+                            margin: 'dynamic'
+                        },
+                        tooltip:{
+                            text:"%t %negation%v",
+                            decimals: 2,
+                            align: 'left',
+                            borderRadius: 3,
+                            fontColor:"#ffffff",
+                            negation: 'currency'
+                        },
+                        plot:{
+                            valueBox:{
+                                text:"%total",
+                                rules: [
+                                    {
+                                        rule: '%stack-top == 0',
+                                        visible: 0
+                                    }
+                                ]
+                            }
+                        },
+                        series: val
+                    };
+                    
+                    zingchart.render({ 
+                        id : 'compareAge'+b.brand_id, 
+                        data: myConfig, 
+                        height: '100%', 
+                        width: '100%' 
+                    });
+                })
+            }
+
+            function compareEducation(parent,brand){
+                $.each(brand,function(a,b){
+                    var val=[];
+
+                    $.each(b.variabel,function(c,d){
+                        if(d.demo_id=="D4"){
+                            var total=d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver;
+
+                            if(total>0){
+                                var bg="#68d7c6";
+                                var text=d.subdemo_name;
+                            }else{
+                                var bg="#fd625e";
+                                var text=d.subdemo_name
+                            }
+
+                            val.push(
+                                {
+                                    values: [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
+                                    stack: c,
+                                    'data-custom-token': [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
                                     text:text,
                                     valueBox:{  
                                         "text":'%data-custom-token',
@@ -1260,24 +1898,27 @@
                 })
             }
 
-            function productOccupation(compare,list){
-                $.each(compare,function(a,b){
+            function compareOccupation(parent,brand){
+                $.each(brand,function(a,b){
                     var val=[];
 
-                    $.each(list,function(c,d){
-                        if(d.demo_id=="D5" && d.brand_id==b.brand_id){
-                            if(d.total>0){
+                    $.each(b.variabel,function(c,d){
+                        if(d.demo_id=="D5"){
+                            var total=d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver;
+
+                            if(total>0){
                                 var bg="#68d7c6";
                                 var text=d.subdemo_name;
                             }else{
                                 var bg="#fd625e";
                                 var text=d.subdemo_name
                             }
+
                             val.push(
                                 {
-                                    values: [parseInt(d.total)],
+                                    values: [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
                                     stack: c,
-                                    'data-custom-token': [parseInt(d.total)],
+                                    'data-custom-token': [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
                                     text:text,
                                     valueBox:{  
                                         "text":'%data-custom-token',
@@ -1326,24 +1967,27 @@
                 })
             }
 
-            function productHobby(compare,list){
-                $.each(compare,function(a,b){
+            function compareHobby(parent,brand){
+                $.each(brand,function(a,b){
                     var val=[];
 
-                    $.each(list,function(c,d){
-                        if(d.demo_id=="D6" && d.brand_id==b.brand_id){
-                            if(d.total>0){
+                    $.each(b.variabel,function(c,d){
+                        if(d.demo_id=="D6"){
+                            var total=d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver;
+
+                            if(total>0){
                                 var bg="#68d7c6";
                                 var text=d.subdemo_name;
                             }else{
                                 var bg="#fd625e";
                                 var text=d.subdemo_name
                             }
+
                             val.push(
                                 {
-                                    values: [parseInt(d.total)],
+                                    values: [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
                                     stack: c,
-                                    'data-custom-token': [parseInt(d.total)],
+                                    'data-custom-token': [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
                                     text:text,
                                     valueBox:{  
                                         "text":'%data-custom-token',
@@ -1392,24 +2036,27 @@
                 })
             }
 
-            function productMedia(compare,list){
-                $.each(compare,function(a,b){
+            function compareMedia(parent,brand){
+                $.each(brand,function(a,b){
                     var val=[];
 
-                    $.each(list,function(c,d){
-                        if(d.demo_id=="D7" && d.brand_id==b.brand_id){
-                            if(d.total>0){
+                    $.each(b.variabel,function(c,d){
+                        if(d.demo_id=="D7"){
+                            var total=d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver;
+
+                            if(total>0){
                                 var bg="#68d7c6";
                                 var text=d.subdemo_name;
                             }else{
                                 var bg="#fd625e";
                                 var text=d.subdemo_name
                             }
+
                             val.push(
                                 {
-                                    values: [parseInt(d.total)],
+                                    values: [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
                                     stack: c,
-                                    'data-custom-token': [parseInt(d.total)],
+                                    'data-custom-token': [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
                                     text:text,
                                     valueBox:{  
                                         "text":'%data-custom-token',
@@ -1458,24 +2105,27 @@
                 })
             }
 
-            function productCities(compare,list){
-                $.each(compare,function(a,b){
+            function compareCities(parent,brand){
+                $.each(brand,function(a,b){
                     var val=[];
 
-                    $.each(list,function(c,d){
-                        if(d.demo_id=="D8" && d.brand_id==b.brand_id){
-                            if(d.total>0){
+                    $.each(b.variabel,function(c,d){
+                        if(d.demo_id=="D8"){
+                            var total=d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver;
+
+                            if(total>0){
                                 var bg="#68d7c6";
                                 var text=d.subdemo_name;
                             }else{
                                 var bg="#fd625e";
                                 var text=d.subdemo_name
                             }
+
                             val.push(
                                 {
-                                    values: [parseInt(d.total)],
+                                    values: [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
                                     stack: c,
-                                    'data-custom-token': [parseInt(d.total)],
+                                    'data-custom-token': [d.pivot.totals_ver - parent.variabel[c].pivot.totals_ver],
                                     text:text,
                                     valueBox:{  
                                         "text":'%data-custom-token',

@@ -179,14 +179,31 @@ class ReportController extends Controller
         return array('parent'=>$parent,'brand'=>$brand,'compare'=>$br);
     }
 
-    public function compare_with(Request $request){
+    public function compare_product(Request $request){
         $reqbrand=$request->input('brand');
         $listcompare=array();
 
         $brand=\App\Models\Dashboard\Cmv\Brand::with('variabel')->find($reqbrand);
         $parent=\App\Models\Dashboard\Cmv\Brand::with('variabel')->find($brand->parent_id);
 
-        if($request->has('compare')){
+        return array('parent'=>$parent,'brand'=>$brand);
+    }
+
+    public function compare_with(Request $request){
+        $rules=['compare'=>'required'];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'error'=>$validasi->errors()->all()
+            );
+        }else{
+            $reqbrand=$request->input('brand');
+            $listcompare=array();
+
             $compare=$request->input('compare');
             $pecahbrand=explode(",",$compare);
             if(count($pecahbrand)){
@@ -196,9 +213,15 @@ class ReportController extends Controller
             }
 
             $br=\App\Models\Dashboard\Cmv\Brand::with('variabel')->whereIn('brand_id',$listcompare)->get();
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil diload',
+                'data'=>$br
+            );
         }
 
-        return array('parent'=>$parent,'brand'=>$brand,'compare'=>$br);
+        return $data;
     }
 
     public function chart_all_data(Request $request){
