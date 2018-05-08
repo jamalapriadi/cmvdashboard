@@ -76,6 +76,12 @@ class CmvController extends Controller
             ->with('demo',$demo);
     }
 
+    public function target_audience(){
+        return view('dashboard.cmv.target_audience')
+            ->with('home','CMV')
+            ->with('title','Target Audience');
+    }
+
     public function variabel(){
         return view('dashboard.cmv.variabel')
             ->with('home','CMV')
@@ -92,6 +98,12 @@ class CmvController extends Controller
         return view('dashboard.cmv.chart.competitive_map')
             ->with('home','CMV')
             ->with('title','Competitive Map');
+    }
+
+    public function chart_by_target_audience(){
+        return view('dashboard.cmv.chart.by_target_audience')
+            ->with('home','CMV')
+            ->with('title','By Target Audience');
     }
 
     public function import(Request $request){

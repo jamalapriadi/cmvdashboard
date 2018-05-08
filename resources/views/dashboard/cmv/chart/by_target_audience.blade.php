@@ -17,45 +17,13 @@
 
             $(".remote-data-brand").select2({
                 ajax: {
-                    url: "{{URL::to('cmv/data/list-brand')}}",
+                    url: "{{URL::to('cmv/data/list-ta')}}",
                     dataType: 'json',
                     delay: 250,
                     data: function (params) {
                         return {
                             q: params, // search term
                             category:$("#category").val(),
-                            page_limit: 30
-                        };
-                    },
-                    results: function (data, page){
-                        return {
-                            results: data.data
-                        };
-                    },
-                    cache: true,
-                    pagination: {
-                        more: true
-                    }
-                },
-                formatResult: function(m){
-                    var markup="<option value='"+m.id+"'>"+m.text+"</option>";
-    
-                    return markup;                
-                },
-                formatSelection: function(m){
-                    return m.text;
-                },
-                escapeMarkup: function (m) { return m; }
-            })
-
-            $(".remote-data-category").select2({
-                ajax: {
-                    url: "{{URL::to('cmv/data/list-category')}}",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            q: params, // search term
                             page_limit: 30
                         };
                     },
@@ -148,13 +116,13 @@
             })
 
             function tabelData(){
-                var brand=$("#brand").val();
+                var brand=$("#ta").val();
                 var quartal=$("#quartal").val();
 
                 $.ajax({
-                    url:"{{URL::to('cmv/data/filter-demography-by-brand')}}",
+                    url:"{{URL::to('cmv/data/filter-demography-by-ta')}}",
                     type:"GET",
-                    data:"brand="+brand+"&quartal="+quartal,
+                    data:"ta="+brand+"&quartal="+quartal,
                     beforeSend:function(){
                         $("#showData").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
@@ -214,14 +182,12 @@
 
             function showGender(data){
                 var gender=[];
-                var color=["#FF7965","#FFCB45"];
+                var color=["#5d9edb","#f38542"];
                 var br="";
                 var allnilai=[];
-                
-                var a=0;
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D1"){
-                        a++;
                         br=b.brand_name;
                         if(a==1){
                             gender.push({
@@ -234,6 +200,7 @@
                         }else{
                             gender.push({
                                 values:[parseFloat(b.totals_ver)],
+                                backgroundColor:color[a],
                                 ver:b.totals_ver,
                                 thousand:b.totals_thousand,
                                 text:b.subdemo_name
@@ -252,30 +219,8 @@
                     }
                 }
 
-                var myTheme = {
-                    palette:{
-                        line:[
-                            ['#FBFCFE', '#00BAF2', '#00BAF2', '#00a7d9'], /* light blue */
-                            ['#FBFCFE', '#E80C60', '#E80C60', '#d00a56'], /* light pink */
-                            ['#FBFCFE', '#9B26AF', '#9B26AF', '#8b229d'], /* light purple */
-                            ['#FBFCFE', '#E2D51A', '#E2D51A', '#E2D51A'], /* med yellow */
-                            ['#FBFCFE', '#FB301E', '#FB301E', '#e12b1b'], /* med red */
-                            ['#FBFCFE', '#00AE4D', '#00AE4D', '#00AE4D'], /* med green */
-                        ]
-                    },
-                    graph: { 
-                        title: {
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        padding: 15,
-                        fontColor: '#1E5D9E',
-                        adjustLayout: true
-                        }
-                    } 
-                };
-
                 var myConfig = {
-                    type: "pie3d", 
+                    type: "pie", 
                     backgroundColor: "#fff",
                     title: {
                         text: br,
@@ -333,8 +278,7 @@
                 
                zingchart.render({ 
                    id : 'divGender', 
-                   data : myConfig,
-                   defaults: myTheme // Theme object
+                   data : myConfig
                });
             }
 
@@ -2202,11 +2146,11 @@
             }
 
             function allData(){
-                var brand=$("#brand").val();
+                var brand=$("#ta").val();
                 var quartal=$("#quartal").val();
 
                 $.ajax({
-                    url:"{{URL::to('cmv/data/chart/all-data')}}",
+                    url:"{{URL::to('cmv/data/chart/all-data-ta')}}",
                     type:"GET",
                     data:"brand="+brand+"&quartal="+quartal,
                     beforeSend:function(){
@@ -2322,8 +2266,7 @@
                                     "visible": false
                                 },
                                 "item": {
-                                    "font-size": "11px",
-                                    "font-color": "#7E7E7E"
+                                    "font-color": "#999"
                                 }
                             },
                             "tooltip": {
@@ -2337,7 +2280,7 @@
                                 {
                                     "values": values,
                                     "alpha": 1,
-                                    "background-color": "#fb8072",
+                                    "background-color": "#008ef6",
                                     "hover-state": {
                                         "backgroundColor": "#2956A0"
                                     }
@@ -2369,152 +2312,7 @@
 
             $(document).on("submit","#formSearch",function(e){
                 var el="";
-                var namabrand=$("#brand").select2('data').text;
-
-                /* summary */
-                el+='<div class="panel panel-primary">'+
-                    '<div class="panel-heading">'+
-                        'SUMMARY'+
-                    '</div>'+
-                    '<div class="panel-body">'+
-                        '<h5>Pengguna Brand :  <b>'+namabrand+'</b></h5>'+
-                        '<h6>Di dominasi oleh:</h6>'+
-                        '<table width="60%">'+
-                            '<tbody>'+
-                                '<tr>'+
-                                    '<td width="35%"><b>GENDER</b></td>'+
-                                    '<td width="45%"><b><div id="genderName"></div></b></td>'+
-                                    '<td><div id="genderValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>SEC</b></td>'+
-                                    '<td><b><div id="secName"></div></b></td>'+
-                                    '<td><div id="secValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>AGE</b></td>'+
-                                    '<td><b><div id="ageName"></div></b></td>'+
-                                    '<td><div id="ageValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>EDUCATION</b></td>'+
-                                    '<td><b><div id="educationName"></div></b></td>'+
-                                    '<td><div id="educationValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>OCCUPATION</b></td>'+
-                                    '<td><b><div id="occupationName"></div></b></td>'+
-                                    '<td><div id="occupationValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>HOBBY</b></td>'+
-                                    '<td><b><div id="hobbyName"></div></b></td>'+
-                                    '<td><div id="hobbyValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td width="35%"><b>MEDIA</b></td>'+
-                                    '<td width="45%"><b><div id="mediaName"></div></b></td>'+
-                                    '<td><div id="mediaValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>KOTA</b></td>'+
-                                    '<td><b><div id="kotaName"></div></b></td>'+
-                                    '<td><div id="kotaValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>TIME SPENT OF USING INTERNET</b></td>'+
-                                    '<td><b><div id="timespentName"></div></b></td>'+
-                                    '<td><div id="timespentValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>FREQUENCY OF USING INTERNET</b></td>'+
-                                    '<td><b><div id="frequencyName"></div></b></td>'+
-                                    '<td><div id="frequencyValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>GENERAL</b></td>'+
-                                    '<td><b><div id="generalName"></div></b></td>'+
-                                    '<td><div id="generalValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>E-FINANCE</b></td>'+
-                                    '<td><b><div id="financeName"></div></b></td>'+
-                                    '<td><div id="financeValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>E-COMMERCE</b></td>'+
-                                    '<td><b><div id="commerceName"></div></b></td>'+
-                                    '<td><div id="commerceValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>TOOLS OF INTERNET ACCESS</b></td>'+
-                                    '<td><b><div id="toolsName"></div></b></td>'+
-                                    '<td><div id="toolsValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>ALL WEBSITE</b></td>'+
-                                    '<td><b><div id="allWebsiteName"></div></b></td>'+
-                                    '<td><div id="allWebsiteValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>FREQUENCY OF LISTENING</b></td>'+
-                                    '<td><b><div id="frequensiRadioName"></div></b></td>'+
-                                    '<td><div id="frequensiRadioValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>PLACE OF LISTENING RADIO</b></td>'+
-                                    '<td><b><div id="placeName"></div></b></td>'+
-                                    '<td><div id="placeValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>TOOLS OF LISTENING RADIO</b></td>'+
-                                    '<td><b><div id="toolsListeningName"></div></b></td>'+
-                                    '<td><div id="toolsListeningValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>DAY PART - ALL TIME</b></td>'+
-                                    '<td><b><div id="allTimeName"></div></b></td>'+
-                                    '<td><div id="allTimeValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>DAY PART - PRIME TIME</b></td>'+
-                                    '<td><b><div id="primeTimeName"></div></b></td>'+
-                                    '<td><div id="primeTimeValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>DAY PART - NON PRIME TIME</b></td>'+
-                                    '<td><b><div id="nonprimetimeName"></div></b></td>'+
-                                    '<td><div id="nonprimetimeValue"></div></td>'+
-                                '</tr>'+
-                        '</table>'+
-                    '</div>'+
-                '</div>';
-                /* end summary */
-
-                /* top 10 brand */
-                el+='<div class="panel panel-primary">'+
-                    '<div class="panel-heading">'+
-                        'TOP 10 BRAND'+
-                    '</div>'+
-                    '<div class="panel-body">'+
-                        '<div class="row">'+
-                            '<div class="col-lg-8">'+
-                                '<div id="topBrand"></div>'+
-                            '</div>'+
-                            '<div class="col-lg-4">'+
-                                "<div class='panel panel-info'>"+
-                                    '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">Brand Position</h6>'+
-                                    '</div>'+
-                                    '<div class="panel-body">'+
-                                        '<div id="rankTopBrand"></div>'+
-                                    '</div>'+
-                                '</div>'+
-                            '</div>'+
-                        '</div>'+
-                    '</div>'+
-                '</div>';
-                /* end top 10 brand */
+                var namabrand=$("#ta").select2('data').text;
 
                 /*demography */
                 el+='<div class="panel panel-primary">'+
@@ -2756,7 +2554,6 @@
                 /* end tabel nya*/
 
                 $("#divData").empty().html(el);
-                topbrand();
                 allData();
                 tabelData();  
             })
@@ -2917,16 +2714,10 @@
         <div class="panel-body">
             <form id="formSearch" onsubmit="return false" name="formSearch">
                 <div class="row">
-                    <div class="col-lg-2">
-                        <div class="form-group">
-                            <label class="control-label">Category</label>
-                            <input type="text" name="category" id="category" class="remote-data-category">
-                        </div>
-                    </div>
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <label class="control-label">Brand</label>
-                            <input type="text" name="brand" id="brand" class="remote-data-brand">
+                            <label class="control-label">Target Audience</label>
+                            <input type="text" name="ta" id="ta" class="remote-data-brand">
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -2951,143 +2742,4 @@
     </div>
 
     <div id="divData"></div>
-
-    
-    <!-- <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h6 class="panel-title">PSYCHOGRAPHICS</h6>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-lg-7">
-                    <div id="divPsiko"></div>
-                </div>
-
-                <div class="col-lg-5">
-                    <div class="panel-group panel-group-control content-group-lg" id="accordion-control">
-        
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <h6 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group2">TRADITIONALIST</a>
-                                </h6>
-                            </div>
-                            <div id="accordion-control-group2" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                        “Hold traditional value, dreaming of wealth, Non Brand Minded, Less Health Conscious, Non Ad Believer” 
-                                </div>
-                            </div>
-                        </div>
-        
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <h6 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group3">SETTLED</a>
-                                </h6>
-                            </div>
-                            <div id="accordion-control-group3" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                        “Nested. Practical (Prefer buying new than fixing), TV is entertainment, Enjoying Ad, Enjoying Shopping” 
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <h6 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group4">YOUNG LOYALIST</a>
-                                </h6>
-                            </div>
-                            <div id="accordion-control-group4" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                        “Value friendship, Self sacrificing for greater result, Less environment concern” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <h6 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group5">WESTERN MINDED</a>
-                                </h6>
-                            </div>
-                            <div id="accordion-control-group5" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                        “Brand Minded, Career oriented, Enjoying life, Lonely and Challenge” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <h6 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group6">SKEPTICAL</a>
-                                </h6>
-                            </div>
-                            <div id="accordion-control-group6" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    “Worried, Critical on life, Cynical on money, Information seekers (on labels), Non career Minded” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <h6 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group7">RESTLESS</a>
-                                </h6>
-                            </div>
-                            <div id="accordion-control-group7" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    “Restless (tend to dislike a regular pattern of life), No confidence” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <h6 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group8">APATHETIC</a>
-                                </h6>
-                            </div>
-                            <div id="accordion-control-group8" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    “Non Opinioned (goes with the flow), Career is important, Believe in gender equal opportunities” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <h6 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group9">MATERIAL COMFORT</a>
-                                </h6>
-                            </div>
-                            <div id="accordion-control-group9" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    “Makin good money and financially secured, Not price conscious, Appearance concerns” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <h6 class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group10">OPTIMIST</a>
-                                </h6>
-                            </div>
-                            <div id="accordion-control-group10" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    “Trusting, Do not fear failure, Outspoken, Health Conscious” 
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-    
 @stop

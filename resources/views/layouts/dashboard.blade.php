@@ -155,6 +155,7 @@
 											<li class="{{ Request::path() == 'cmv/category' ? 'active' : '' }}"><a href="{{URL::to('cmv/category')}}">Category</a></li>
 											<li class="{{ Request::path() == 'cmv/brand' ? 'active' : '' }}"><a href="{{URL::to('cmv/brand')}}">Brand</a></li>
 											<li class="{{ Request::path() == 'cmv/demography' ? 'active' : '' }}"><a href="{{URL::to('cmv/demography')}}">Demography</a></li>
+											<li class="{{ Request::path() == 'cmv/target-audience' ? 'active' : '' }}"><a href="{{URL::to('cmv/target-audience')}}">Target Audience</a></li>
 										</ul>
 									</li>
 									<li class="{{ Request::path() == 'cmv/variabel' ? 'active' : '' }}"><a href="{{URL::to('cmv/variabel')}}"><i class="icon-import"></i> <span>Import Variabel</span></a></li>
@@ -163,6 +164,7 @@
 										<ul>
 											<li class="{{ Request::path() == 'cmv/chart/brand' ? 'active' : '' }}"><a href="{{URL::to('cmv/chart/brand')}}">Brand</a></li>
 											<li class="{{ Request::path() == 'cmv/chart/competitive-map' ? 'active' : '' }}"><a href="{{URL::to('cmv/chart/competitive-map')}}">Competitive Map</a></li>
+											<li class="{{ Request::path() == 'cmv/chart/by-target-audience' ? 'active' : '' }}"><a href="{{URL::to('cmv/chart/by-target-audience')}}">By Target Audience</a></li>
 										</ul>
 									</li>
 							</ul>
