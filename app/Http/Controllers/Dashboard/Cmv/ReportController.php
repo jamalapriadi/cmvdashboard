@@ -234,8 +234,8 @@ class ReportController extends Controller
         foreach($allbrand as $key=>$val){
             $no++;
             if($key<10){
-                array_push($label,array('brand'=>$val->brand_name,'total'=>$val->totals_ver));
-                array_push($data,$val->totals_ver);
+                array_push($label,array('brand'=>$val->brand_name,'total'=>$val->totals_thousand));
+                array_push($data,$val->totals_thousand);
             }
 
             if($val->brand_id==$brand->brand_id){

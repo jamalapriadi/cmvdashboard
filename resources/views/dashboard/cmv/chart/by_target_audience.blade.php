@@ -1047,18 +1047,25 @@
                 var br="";
                 var allnilai=[];
 
+                data.sort(function(a, b){return b.totals_ver - a.totals_ver});
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D11"){
-                        br=b.brand_name;
-                        education.push({
-                            values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
-                            ver:b.totals_ver,
-                            thousand:b.totals_thousand,
-                            text:b.subdemo_name
-                        })
+                        n++;
 
-                        allnilai.push(b.totals_thousand);
+                        if(n<=5){
+                            br=b.brand_name;
+                            education.push({
+                                values:[parseFloat(b.totals_ver)],
+                                backgroundColor:color[a],
+                                ver:b.totals_ver,
+                                thousand:b.totals_thousand,
+                                text:b.subdemo_name
+                            })
+
+                            allnilai.push(b.totals_thousand);
+                        }
                     }
                 })
 
@@ -1139,18 +1146,25 @@
                 var br="";
                 var allnilai=[];
 
+                data.sort(function(a, b){return b.totals_ver - a.totals_ver});
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D12"){
-                        br=b.brand_name;
-                        education.push({
-                            values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
-                            ver:b.totals_ver,
-                            thousand:b.totals_thousand,
-                            text:b.subdemo_name
-                        })
+                        n++;
 
-                        allnilai.push(b.totals_thousand);
+                        if(n<=5){
+                            br=b.brand_name;
+                            education.push({
+                                values:[parseFloat(b.totals_ver)],
+                                backgroundColor:color[a],
+                                ver:b.totals_ver,
+                                thousand:b.totals_thousand,
+                                text:b.subdemo_name
+                            })
+
+                            allnilai.push(b.totals_thousand);
+                        }
                     }
                 })
 
@@ -1231,18 +1245,25 @@
                 var br="";
                 var allnilai=[];
 
+                data.sort(function(a, b){return b.totals_ver - a.totals_ver});
+                
+                var n=0;
                 $.each(data,function(a,b){
-                    if(b.demo_id=="D13"){
-                        br=b.brand_name;
-                        education.push({
-                            values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
-                            ver:b.totals_ver,
-                            thousand:b.totals_thousand,
-                            text:b.subdemo_name
-                        })
+                    if(b.demo_id=="D13" && b.subdemo_id!="DD108"){
+                        n++;
 
-                        allnilai.push(b.totals_thousand);
+                        if(n<=5){
+                            br=b.brand_name;
+                            education.push({
+                                values:[parseFloat(b.totals_ver)],
+                                backgroundColor:color[a],
+                                ver:b.totals_ver,
+                                thousand:b.totals_thousand,
+                                text:b.subdemo_name
+                            })
+
+                            allnilai.push(b.totals_thousand);
+                        }
                     }
                 })
 
@@ -1323,18 +1344,25 @@
                 var br="";
                 var allnilai=[];
 
+                data.sort(function(a, b){return b.totals_ver - a.totals_ver});
+                
+                var n=0;
                 $.each(data,function(a,b){
-                    if(b.demo_id=="D14"){
-                        br=b.brand_name;
-                        education.push({
-                            values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
-                            ver:b.totals_ver,
-                            thousand:b.totals_thousand,
-                            text:b.subdemo_name
-                        })
+                    if(b.demo_id=="D14" && b.subdemo_id!="DD122"){
+                        n++;
 
-                        allnilai.push(b.totals_thousand);
+                        if(n<=5){
+                            br=b.brand_name;
+                            education.push({
+                                values:[parseFloat(b.totals_ver)],
+                                backgroundColor:color[a],
+                                ver:b.totals_ver,
+                                thousand:b.totals_thousand,
+                                text:b.subdemo_name
+                            })
+
+                            allnilai.push(b.totals_thousand);
+                        }
                     }
                 })
 
@@ -1507,18 +1535,25 @@
                 var br="";
                 var allnilai=[];
 
+                data.sort(function(a, b){return b.totals_ver - a.totals_ver});
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D16"){
-                        br=b.brand_name;
-                        education.push({
-                            values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
-                            ver:b.totals_ver,
-                            thousand:b.totals_thousand,
-                            text:b.subdemo_name
-                        })
+                        n++;
 
-                        allnilai.push(b.totals_thousand);
+                        if(n<=5){
+                            br=b.brand_name;
+                            education.push({
+                                values:[parseFloat(b.totals_ver)],
+                                backgroundColor:color[a],
+                                ver:b.totals_ver,
+                                thousand:b.totals_thousand,
+                                text:b.subdemo_name
+                            })
+
+                            allnilai.push(b.totals_thousand);
+                        }
                     }
                 })
 
@@ -1691,18 +1726,25 @@
                 var br="";
                 var allnilai=[];
 
+                data.sort(function(a, b){return b.totals_ver - a.totals_ver});
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D18"){
-                        br=b.brand_name;
-                        education.push({
-                            values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
-                            ver:b.totals_ver,
-                            thousand:b.totals_thousand,
-                            text:b.subdemo_name
-                        })
+                        n++;
 
-                        allnilai.push(b.totals_thousand);
+                        if(n<=5){
+                            br=b.brand_name;
+                            education.push({
+                                values:[parseFloat(b.totals_ver)],
+                                backgroundColor:color[a],
+                                ver:b.totals_ver,
+                                thousand:b.totals_thousand,
+                                text:b.subdemo_name
+                            })
+
+                            allnilai.push(b.totals_thousand);
+                        }
                     }
                 })
 
