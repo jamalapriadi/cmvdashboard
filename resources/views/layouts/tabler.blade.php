@@ -21,7 +21,7 @@
     {{Html::script('tabler/assets/js/require.min.js')}}
     <script>
       requirejs.config({
-          baseUrl: '.'
+          baseUrl:"{{URL::asset('.')}}"
       });
     </script>
     <!-- Dashboard Core -->

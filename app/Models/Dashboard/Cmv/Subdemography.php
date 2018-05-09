@@ -16,4 +16,9 @@ class Subdemography extends Model
         return $this->belongsTo('App\Models\Dashboard\Cmv\Demography','demo_id','demo_id');
     }
 
+    /* variabel target */
+    public function vtarget(){
+        return $this->hasOne('App\Models\Dashboard\Cmv\Variabelta','subdemo_id');
+    }
+
 }

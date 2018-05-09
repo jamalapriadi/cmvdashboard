@@ -156,14 +156,17 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
     Route::get('demography','Dashboard\CmvController@demography');
     Route::get('demography/{id}/sub','Dashboard\CmvController@sub_demography');
     Route::get('variabel','Dashboard\CmvController@variabel');
+    Route::get('target-audience','Dashboard\CmvController@target_audience');
 
     Route::group(['prefix'=>'chart'],function(){
         Route::get('brand','Dashboard\CmvController@chart_brand');
         Route::get('competitive-map','Dashboard\CmvController@chart_competitive_map');
+        Route::get('by-target-audience','Dashboard\CmvController@chart_by_target_audience');
     });
 
     Route::group(['prefix'=>'data'],function(){
         Route::get('filter-demography-by-brand','Dashboard\Cmv\ReportController@filter_demography');
+        Route::get('filter-demography-by-ta','Dashboard\Cmv\ReportController@filter_demography_by_ta');
         Route::get('top-brand-by-category','Dashboard\Cmv\ReportController@top_brand_by_category');
         Route::post('list-competitive-map','Dashboard\Cmv\ReportController@competitive_map');
         Route::get('compare-product','Dashboard\Cmv\ReportController@compare_product');
@@ -180,6 +183,7 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
         Route::get('sample-category','Dashboard\Cmv\CategoryController@sample');
         Route::get('export-category','Dashboard\Cmv\CategoryController@export');
         Route::get('list-category','Dashboard\Cmv\CategoryController@list_category');
+        Route::get('list-category-by-id/{id}','Dashboard\Cmv\CategoryController@list_category_by_id');
 
         Route::resource('brand','Dashboard\Cmv\BrandController');
         Route::post('filter-brand','Dashboard\Cmv\BrandController@filter_brand');
@@ -187,6 +191,9 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
         Route::get('sample-brand','Dashboard\Cmv\BrandController@sample');
         Route::get('export-brand','Dashboard\Cmv\BrandController@export');
         Route::get('list-brand','Dashboard\Cmv\BrandController@list_brand');
+
+        Route::resource('target-audience','Dashboard\Cmv\TargetaudienceController');
+        Route::get('list-ta','Dashboard\Cmv\TargetaudienceController@list_ta');
 
         Route::resource('demography','Dashboard\Cmv\DemographyController');
         Route::post('import-demography','Dashboard\Cmv\DemographyController@import');
@@ -211,6 +218,7 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
         Route::group(['prefix'=>'chart'],function(){
             Route::get('all-data','Dashboard\Cmv\ReportController@chart_all_data');
             Route::get('all-brand','Dashboard\Cmv\ReportController@all_brand');
+            Route::get('all-data-ta','Dashboard\Cmv\ReportController@all_data_by_ta');
         });
     });
 });
