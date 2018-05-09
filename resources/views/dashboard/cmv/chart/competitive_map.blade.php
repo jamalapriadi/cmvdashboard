@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.tabler')
 
 @section('js')
     <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
@@ -217,76 +217,75 @@
                         success : function (data) {
                             var el="<div class='row'>"+
                                 '<div class="col-lg-5">'+
-                                    '<div class="panel panel-primary">'+
-                                        '<div class="panel-heading">'+data.parent.brand_name+'</div>'+
+                                    '<div class="card card-primary">'+
+                                        '<div class="card-status bg-green"></div>'+
+                                        '<div class="card-header">'+data.parent.brand_name+'</div>'+
                                     '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">GENDER</div>'+
-                                        '<div class="panel-body">'+
+                                    '<div class="card card-default">'+
+                                        '<div class="card-header">GENDER</div>'+
+                                        '<div class="card-body">'+
                                             '<div id="competitiveGender" style="width:100%;height:130px;"></div>'+
                                         '</div>'+
                                     '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">SEC</div>'+
-                                        '<div class="panel-body">'+
+                                    '<div class="card card-default">'+
+                                        '<div class="card-header">SEC</div>'+
+                                        '<div class="card-body">'+
                                             '<div id="competitiveSec" style="width:100%;height:130px;"></div>'+
                                         '</div>'+
                                     '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">AGE</div>'+
-                                        '<div class="panel-body">'+
+                                    '<div class="card card-default">'+
+                                        '<div class="card-header">AGE</div>'+
+                                        '<div class="card-body">'+
                                             '<div id="competitiveAge" style="width:100%;height:130px;"></div>'+
                                         '</div>'+
                                     '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">EDUCATION</div>'+
-                                        '<div class="panel-body">'+
+                                    '<div class="card card-default">'+
+                                        '<div class="card-header">EDUCATION</div>'+
+                                        '<div class="card-body">'+
                                             '<div id="competitiveEducation" style="width:100%;height:130px;"></div>'+
                                         '</div>'+
                                     '</div>'+
                                     
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">OCCUPATION</div>'+
-                                        '<div class="panel-body">'+
+                                    '<div class="card card-default">'+
+                                        '<div class="card-header">OCCUPATION</div>'+
+                                        '<div class="card-body">'+
                                             '<div id="competitiveOccupation" style="width:100%;height:200px;"></div>'+
                                         '</div>'+
                                     '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">HOBBY</div>'+
-                                        '<div class="panel-body">'+
+                                    '<div class="card card-default">'+
+                                        '<div class="card-header">HOBBY</div>'+
+                                        '<div class="card-body">'+
                                             '<div id="competitiveHobby" style="width:100%;height:300px;"></div>'+
                                         '</div>'+
                                     '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">MEDIA</div>'+
-                                        '<div class="panel-body">'+
+                                    '<div class="card card-default">'+
+                                        '<div class="card-header">MEDIA</div>'+
+                                        '<div class="card-body">'+
                                             '<div id="competitiveMedia" style="width:100%;height:220px;"></div>'+
                                         '</div>'+
                                     '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">CITIES</div>'+
-                                        '<div class="panel-body">'+
+                                    '<div class="card card-default">'+
+                                        '<div class="card-header">CITIES</div>'+
+                                        '<div class="card-body">'+
                                             '<div id="competitiveCities" style="width:100%;height:300px;"></div>'+
                                         '</div>'+
                                     '</div>'+
                                 '</div>'+
 
-                                '<div class="col-lg-7">'+
+                                '<div class="col-md-7">'+
                                     '<div class="row">'+
-                                        '<div class="col-lg-4">'+
+                                        '<div class="col-md-4">'+
                                             '<div id="compareproduct"></div>'+
                                         '</div>'+
-                                        '<div class="col-lg-8">'+
-                                            '<div class="row">'+
-                                                '<div id="comparewith"></div>'+
-                                            '</div>'+
+                                        '<div class="col-md-8">'+
+                                            '<div id="comparewith"></div>'+
                                         '</div>'+
                                     '</div>'+
                                 '</div>'+
@@ -975,67 +974,69 @@
                     },
                     success:function(result){
                         var el="";
-                        el+='<div class="panel panel-info">'+
-                                '<div class="panel-heading">'+
+                        el+='<div class="card">'+
+                            '<div class="card-status bg-green"></div>'+
+                            '<div class="card-header">'+
                                     result.brand.brand_name+
                                 '</div>'+
                             '</div>'+
 
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">GENDER</div>'+
-                                '<div class="panel-body">'+
+                            '<div class="card card-default">'+
+                                '<div class="card-header">GENDER</div>'+
+                                '<div class="card-body">'+
                                     '<div id="productGender'+result.brand.brand_id+'" style="width:100%;height:130px;"></div>'+
                                 '</div>'+
                             '</div>'+
 
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">SEC</div>'+
-                                '<div class="panel-body">'+
+                            '<div class="card card-default">'+
+                                '<div class="card-header">SEC</div>'+
+                                '<div class="card-body">'+
                                     '<div id="productSec'+result.brand.brand_id+'" style="width:100%;height:130px;"></div>'+
                                 '</div>'+
                             '</div>'+
 
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">AGE</div>'+
-                                '<div class="panel-body">'+
+                            '<div class="card card-default">'+
+                                '<div class="card-header">AGE</div>'+
+                                '<div class="card-body">'+
                                     '<div id="productAge'+result.brand.brand_id+'" style="width:100%;height:130px;"></div>'+
                                 '</div>'+
                             '</div>'+
 
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">EDUCATION</div>'+
-                                '<div class="panel-body">'+
+                            '<div class="card card-default">'+
+                                '<div class="card-header">EDUCATION</div>'+
+                                '<div class="card-body">'+
                                     '<div id="productEducation'+result.brand.brand_id+'" style="width:100%;height:130px;"></div>'+
                                 '</div>'+
                             '</div>'+
                             
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">OCCUPATION</div>'+
-                                '<div class="panel-body">'+
+                            '<div class="card card-default">'+
+                                '<div class="card-header">OCCUPATION</div>'+
+                                '<div class="card-body">'+
                                     '<div id="productOccupation'+result.brand.brand_id+'" style="width:100%;height:200px;"></div>'+
                                 '</div>'+
                             '</div>'+
 
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">HOBBY</div>'+
-                                '<div class="panel-body">'+
+                            '<div class="card card-default">'+
+                                '<div class="card-header">HOBBY</div>'+
+                                '<div class="card-body">'+
                                     '<div id="productHobby'+result.brand.brand_id+'" style="width:100%;height:300px;"></div>'+
                                 '</div>'+
                             '</div>'+
 
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">MEDIA</div>'+
-                                '<div class="panel-body">'+
+                            '<div class="card card-default">'+
+                                '<div class="card-header">MEDIA</div>'+
+                                '<div class="card-body">'+
                                     '<div id="productMedia'+result.brand.brand_id+'" style="width:100%;height:220px;"></div>'+
                                 '</div>'+
                             '</div>'+
 
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">CITIES</div>'+
-                                '<div class="panel-body">'+
+                            '<div class="card card-default">'+
+                                '<div class="card-header">CITIES</div>'+
+                                '<div class="card-body">'+
                                     '<div id="productCities'+result.brand.brand_id+'" style="width:100%;height:300px;"></div>'+
                                 '</div>'+
-                            '</div>';
+                            '</div>'
+                        '</div>';
 
                         $("#compareproduct").empty().html(el);
 
@@ -1587,73 +1588,74 @@
                     },
                     success:function(result){
                         if(result.success==true){
-                            var el="";
+                            var el="<div class='row'>";
                             $.each(result.data,function(c,d){
                                 el+="<div class='col-lg-6'>"+
-                                    '<div class="panel panel-info">'+
-                                        '<div class="panel-heading">'+
-                                            d.brand_name+
+                                        '<div class="card card-default">'+
+                                            '<div class="card-status bg-green"></div>'+ 
+                                            '<div class="card-header">'+
+                                                d.brand_name+
+                                            '</div>'+
                                         '</div>'+
-                                    '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">GENDER</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareGender'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                        '<div class="card card-default">'+
+                                            '<div class="card-header">GENDER</div>'+
+                                            '<div class="card-body">'+
+                                                '<div id="compareGender'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                            '</div>'+
                                         '</div>'+
-                                    '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">SEC</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareSec'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                        '<div class="card card-default">'+
+                                            '<div class="card-header">SEC</div>'+
+                                            '<div class="card-body">'+
+                                                '<div id="compareSec'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                            '</div>'+
                                         '</div>'+
-                                    '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">AGE</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareAge'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                        '<div class="card card-default">'+
+                                            '<div class="card-header">AGE</div>'+
+                                            '<div class="card-body">'+
+                                                '<div id="compareAge'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                            '</div>'+
                                         '</div>'+
-                                    '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">EDUCATION</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareEducation'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                        '<div class="card card-default">'+
+                                            '<div class="card-header">EDUCATION</div>'+
+                                            '<div class="card-body">'+
+                                                '<div id="compareEducation'+d.brand_id+'" style="width:100%;height:130px;"></div>'+
+                                            '</div>'+
                                         '</div>'+
-                                    '</div>'+
-                                    
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">OCCUPATION</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareOccupation'+d.brand_id+'" style="width:100%;height:200px;"></div>'+
+                                        
+                                        '<div class="card card-default">'+
+                                            '<div class="card-header">OCCUPATION</div>'+
+                                            '<div class="card-body">'+
+                                                '<div id="compareOccupation'+d.brand_id+'" style="width:100%;height:200px;"></div>'+
+                                            '</div>'+
                                         '</div>'+
-                                    '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">HOBBY</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareHobby'+d.brand_id+'" style="width:100%;height:300px;"></div>'+
+                                        '<div class="card card-default">'+
+                                            '<div class="card-header">HOBBY</div>'+
+                                            '<div class="card-body">'+
+                                                '<div id="compareHobby'+d.brand_id+'" style="width:100%;height:300px;"></div>'+
+                                            '</div>'+
                                         '</div>'+
-                                    '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">MEDIA</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareMedia'+d.brand_id+'" style="width:100%;height:220px;"></div>'+
+                                        '<div class="card card-default">'+
+                                            '<div class="card-header">MEDIA</div>'+
+                                            '<div class="card-body">'+
+                                                '<div id="compareMedia'+d.brand_id+'" style="width:100%;height:220px;"></div>'+
+                                            '</div>'+
                                         '</div>'+
-                                    '</div>'+
 
-                                    '<div class="panel panel-default">'+
-                                        '<div class="panel-heading">CITIES</div>'+
-                                        '<div class="panel-body">'+
-                                            '<div id="compareCities'+d.brand_id+'" style="width:100%;height:300px;"></div>'+
+                                        '<div class="card card-default">'+
+                                            '<div class="card-header">CITIES</div>'+
+                                            '<div class="card-body">'+
+                                                '<div id="compareCities'+d.brand_id+'" style="width:100%;height:300px;"></div>'+
+                                            '</div>'+
                                         '</div>'+
-                                    '</div>'+
-
-                                '</div>';
+                                    '</div>';
                             })
+                            el+='</div>';
 
                             $("#comparewith").empty().html(el);
                             compareGender(parent,result.data);
@@ -2309,14 +2311,14 @@
 @stop
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h6 class="panel-title"><span class="text-semibold">Competitive</span> Map</h6>
+    <div class="card card-default">
+        <div class="card-header">
+            <h6 class="card-title"><span class="text-semibold">Competitive</span> Map</h6>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             <form id="formCompetitive" onsubmit="return false">
                 <div class="row">
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <div class="form-group">
                             <label class="control-label">Brand</label>
                             <input type="text" name="brand" id="brand2" class="remote-data-brand-compare">

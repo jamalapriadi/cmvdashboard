@@ -24,8 +24,8 @@
                     <td>{{$row->totals_ver}}</td>
                     <td>
                         <div class="btn-group">
-                            <a class="btn btn-sm btn-warning editvariabel" kode="{{$row->id}}"><i class="icon-pencil4"></i></a>
-                            <a class="btn btn-sm btn-danger hapusvariabel" kode="{{$row->id}}"><i class="icon-trash"></i></a>
+                            <a class="btn btn-sm btn-warning editvariabel text-white" kode="{{$row->id}}"><i class="icon-pencil4"></i></a>
+                            <a class="btn btn-sm btn-danger hapusvariabel text-white" kode="{{$row->id}}"><i class="icon-trash"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -36,4 +36,4 @@
 
 <hr>
 
-{{$demo->links()}}
+{{$demo->links('vendor/pagination/bootstrap-4')}}

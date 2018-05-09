@@ -32,4 +32,4 @@
 
 <hr>
 
-{{$brand->links()}}
+{{$brand->links('vendor/pagination/bootstrap-4')}}

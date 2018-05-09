@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.tabler')
 
 @section('js')
     <script>
@@ -36,7 +36,7 @@
                     ajax: "{{URL::to('cmv/data/target-audience')}}",
                     columns: [
                         //{data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
-                        {data: 'id_ta', name: 'id_ta',title:'ID TA',width:'17%'},
+                        {data: 'ta_id', name: 'ta_id',title:'ID TA',width:'17%'},
                         {data: 'ta_name', name: 'ta_name',title:'TA NAME'},
                         {data: 'action', name: 'action',title:'ACTION',searchable:false,width:'22%'}
                     ],
@@ -75,9 +75,9 @@
                     '<div class="modal-dialog">'+
                         '<form id="form" class="form-horizontal" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                             '<div class="modal-content">'+
-                                '<div class="modal-header bg-primary">'+
-                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                '<div class="modal-header bg-primary text-white">'+
                                     '<h5 class="modal-title" id="modal-title">Add New Target Audience</h5>'+
+                                    '<button type="button" class="close" data-dismiss="modal"></button>'+
                                 '</div>'+
 
                                 '<div class="modal-body">'+
@@ -164,16 +164,16 @@
                     },
                     success:function(result){
                         el+='<div class="modal-content">'+
-                                '<div class="modal-header bg-primary">'+
-                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                '<div class="modal-header bg-primary text-white">'+
                                     '<h5 class="modal-title" id="modal-title">Edit Target Audience</h5>'+
+                                    '<button type="button" class="close" data-dismiss="modal"></button>'+
                                 '</div>'+
 
                                 '<div class="modal-body">'+
                                     '<div id="pesan"></div>'+
                                     '<div class="form-group">'+
                                         '<label class="control-label text-semibold">ID TA</label>'+
-                                        '<input class="form-control" name="idta" id="idta" placeholder="ID TA" value="'+result.id_ta+'" required>'+
+                                        '<input class="form-control" name="idta" id="idta" placeholder="ID TA" value="'+result.ta_id+'" required>'+
                                     '</div>'+
                                     '<div class="form-group">'+
                                         '<label class="control-label text-semibold">NAME</label>'+
@@ -190,7 +190,7 @@
                         $("#divForm").empty().html(el);
                     },
                     error:function(){
-                        alert('link policy not found');
+                        alert('link target audience not found');
                     }
                 })
             });
@@ -282,21 +282,22 @@
     </script>
 @stop
 
-@section('heading-element')
-    <div class="heading-elements">
+@section('content')
+    <div class="page-header">
+        <h1 class="page-title">
+            TARGET AUDIENCE
+        </h1>
+        <!-- <div class="page-subtitle">1 - 12 of 1713 photos</div> -->
+        <div class="page-options d-flex">
         <div class="btn-group pull-right" role="group">
-            <a href="#" class="btn bg-blue btn-labeled heading-btn" id="addta"><b><i class="icon-task"></i></b> Create Target Audience</a>
+            <a href="#" class="btn btn-primary btn-labeled heading-btn" id="addta"><b><i class="icon-task"></i></b> Create Target Audience</a>
+        </div>
         </div>
     </div>
-@stop
 
-@section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h6 class="panel-title">Sector</h6>
-        </div>
 
-        <div class="panel-body">
+    <div class="card card-default">
+        <div class="card-body">
             <table class="table table-striped datatable-colvis-basic"></table>
         </div>
     </div>

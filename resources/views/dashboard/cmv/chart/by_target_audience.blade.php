@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.tabler')
 
 @section('js')
     <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
@@ -416,7 +416,7 @@
                         fontSize: 16
                     },
                     "legend":{
-                        "x":"58%",
+                        "x":"50%",
                         "y":"10%",
                         "toggle-action":"remove",
                         "highlight-plot":true
@@ -2547,40 +2547,45 @@
                 var namabrand=$("#ta").select2('data').text;
 
                 /*demography */
-                el+='<div class="panel panel-primary">'+
-                        '<div class="panel-heading">'+
-                            '<p class="panel-title">DEMOGRAPHY</p>'+
+                el+='<div class="card card-primary">'+
+                        '<div class="card-status bg-green"></div>'+
+                        '<div class="card-header">'+
+                            '<p class="card-title">DEMOGRAPHY</p>'+
                         '</div>'+
-                    '<div class="panel-body">'+
+                    '<div class="card-body">'+
                     '<div class="row">'+
                         '<div class="col-lg-3">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>GENDER</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>GENDER</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divGender"></div>'+
                         '</div>'+
                         '<div class="col-lg-3">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>AGE</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>AGE</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divAge"></div>'+
                         '</div>'+
                         '<div class="col-lg-3">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>SEC</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>SEC</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divSec"></div>'+
                         '</div>'+
                         '<div class="col-lg-3">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>EDUCATION</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>EDUCATION</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divEducation"></div>'+
@@ -2589,17 +2594,19 @@
 
                     '<div class="row">'+
                         '<div class="col-lg-6">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>OCCUPATION</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>OCCUPATION</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divOccupation"></div>'+
                         '</div>'+
                         '<div class="col-lg-6">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>HOBBY</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>HOBBY</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divHobby"></div>'+
@@ -2609,25 +2616,28 @@
                 /* end demography */
 
                 /* penetration */
-                el+='<div class="panel panel-primary">'+
-                        '<div class="panel-heading">'+
-                            '<p class="panel-title">PENETRATION</p>'+
+                el+='<div class="card card-primary">'+
+                        '<div class="card-status bg-green"></div>'+
+                        '<div class="card-header">'+
+                            '<p class="card-title">PENETRATION</p>'+
                         '</div>'+
-                    '<div class="panel-body">'+
+                    '<div class="card-body">'+
 
                     '<div class="row">'+
                         '<div class="col-lg-6">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title">MEDIA</p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title">MEDIA</p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divMedia"></div>'+
                         '</div>'+
                         '<div class="col-lg-6">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title">CITIES</p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title">CITIES</p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divCity"></div>'+
@@ -2638,32 +2648,36 @@
                 /*end penetration */
 
                 /* internet */
-                el+='<div class="panel panel-primary">'+
-                    '<div class="panel-heading">'+
-                        '<p class="panel-title">INTERNET</p>'+
+                el+='<div class="card card-primary">'+
+                    '<div class="card-status bg-green"></div>'+
+                    '<div class="card-header">'+
+                        '<p class="card-title">INTERNET</p>'+
                     '</div>'+
-                    '<div class="panel-body">'+
+                    '<div class="card-body">'+
                         '<div class="row">'+
                             '<div class="col-lg-3">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">TIME SPENT OF USING INTERNET</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">TIME SPENT OF USING INTERNET</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divTimeSpent"></div>'+
                             '</div>'+
                             '<div class="col-lg-3">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">FREQUENCY OF USING INTERNET</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">FREQUENCY OF USING INTERNET</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFrequency"></div>'+
                             '</div>'+
                             '<div class="col-lg-6">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">GENERAL</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">GENERAL</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divGeneral"></div>'+
@@ -2671,18 +2685,20 @@
                         '</div>'+
                         '<div class="row">'+
                             '<div class="col-lg-6">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">E-FINANCE</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">E-FINANCE</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFinance"></div>'+
                             '</div>'+
 
                             '<div class="col-lg-6">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">E-COMMERCE</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">E-COMMERCE</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divCommerce"></div>'+
@@ -2690,17 +2706,19 @@
                         '</div>'+
                         '<div class="row">'+
                             '<div class="col-lg-3">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">TOOLS OF INTERNET ACCESS</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">TOOLS OF INTERNET ACCESS</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divTools"></div>'+
                             '</div>'+
                             '<div class="col-lg-3">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">ALL WEBSITE</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">ALL WEBSITE</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divAllWebsite"></div>'+
@@ -2711,32 +2729,36 @@
                 /* end internet */
 
                 /* radio */
-                el+='<div class="panel panel-primary">'+
-                    '<div class="panel-heading">'+
-                        '<p class="panel-title">RADIO</p>'+
+                el+='<div class="card card-primary">'+
+                    '<div class="card-status bg-green"></div>'+
+                    '<div class="card-header">'+
+                        '<p class="card-title">RADIO</p>'+
                     '</div>'+
-                    '<div class="panel-body">'+
+                    '<div class="card-body">'+
                         '<div class="row">'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">FREQUENCY OF LISTENING</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">FREQUENCY OF LISTENING</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFrequencyRadio"></div>'+
                             '</div>'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">PLACE OF LISTENING RADIO</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">PLACE OF LISTENING RADIO</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divPlace"></div>'+
                             '</div>'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">TOOLS OF LISTENING RADIO</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">TOOLS OF LISTENING RADIO</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divToolsListeningRadio"></div>'+
@@ -2746,32 +2768,36 @@
                 '</div>';
                 /* end radio */
 
-                el+='<div class="panel panel-primary">'+
-                    '<div class="panel-heading">'+
-                        '<p class="panel-title">TV</p>'+
+                el+='<div class="card card-primary">'+
+                    '<div class="card-status bg-green"></div>'+
+                    '<div class="card-header">'+
+                        '<p class="card-title">TV</p>'+
                     '</div>'+
-                    '<div class="panel-body">'+
+                    '<div class="card-body">'+
                         '<div class="row">'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">DAY PART - ALL TIME</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">DAY PART - ALL TIME</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divAllTime"></div>'+
                             '</div>'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">DAY PART - PRIME TIME</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">DAY PART - PRIME TIME</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divPrimeTime"></div>'+
                             '</div>'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">DAY PART - NON PRIME TIME</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">DAY PART - NON PRIME TIME</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divNonPrimeTime"></div>'+
@@ -2781,16 +2807,16 @@
                 '</div>';
 
                 /*tabel nya*/
-                el+='<div class="panel panel-flat">'+
-                    '<div class="panel-body">'+
-                        '<div id="showData"></div>'+
-                    '</div>'+
-                '</div>';
+                // el+='<div class="card card-flat">'+
+                //     '<div class="card-body">'+
+                //         '<div id="showData"></div>'+
+                //     '</div>'+
+                // '</div>';
                 /* end tabel nya*/
 
                 $("#divData").empty().html(el);
                 allData();
-                tabelData();  
+                // tabelData();  
             })
         })
     </script>
@@ -2942,11 +2968,11 @@
 @stop
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <p class="panel-title"><span class="text-semibold">Chart</span> By Target Audience</p>
+    <div class="card card-default">
+        <div class="card-header">
+            <p class="card-title"><span class="text-semibold">Chart</span> By Target Audience</p>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             <form id="formSearch" onsubmit="return false" name="formSearch">
                 <div class="row">
                     <div class="col-lg-3">

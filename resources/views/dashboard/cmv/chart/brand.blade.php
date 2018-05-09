@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.tabler')
 
 @section('js')
     <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
@@ -523,7 +523,7 @@
                         fontSize: 16
                     },
                     "legend":{
-                        "x":"58%",
+                        "x":"50%",
                         "y":"10%",
                         "toggle-action":"remove",
                         "highlight-plot":true
@@ -2672,11 +2672,16 @@
                 var namabrand=$("#brand").select2('data').text;
 
                 /* summary */
-                el+='<div class="panel panel-primary">'+
-                    '<div class="panel-heading">'+
+                el+='<div class="card card-primary">'+
+                    '<div class="card-status bg-green"></div>'+
+                    '<div class="card-header">'+
                         'SUMMARY'+
+                        '<div class="card-options">'+
+                            '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
+                            '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
+                        '</div>'+
                     '</div>'+
-                    '<div class="panel-body">'+
+                    '<div class="card-body">'+
                         '<h5>Pengguna Brand :  <b>'+namabrand+'</b></h5>'+
                         '<p>Di dominasi oleh:</p>'+
                         '<table width="60%">'+
@@ -2792,21 +2797,27 @@
                 /* end summary */
 
                 /* top 10 brand */
-                el+='<div class="panel panel-primary">'+
-                    '<div class="panel-heading">'+
+                el+='<div class="card card-primary">'+
+                    '<div class="card-status bg-green"></div>'+
+                    '<div class="card-header">'+
                         'TOP 10 BRAND'+
+                        '<div class="card-options">'+
+                            '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
+                            '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
+                        '</div>'+
                     '</div>'+
-                    '<div class="panel-body">'+
+                    '<div class="card-body">'+
                         '<div class="row">'+
                             '<div class="col-lg-8">'+
                                 '<div id="topBrand"></div>'+
                             '</div>'+
                             '<div class="col-lg-4">'+
-                                "<div class='panel panel-info'>"+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">Brand Position</p>'+
+                                "<div class='card card-info'>"+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">Brand Position</p>'+
                                     '</div>'+
-                                    '<div class="panel-body">'+
+                                    '<div class="card-body">'+
                                         '<div id="rankTopBrand"></div>'+
                                     '</div>'+
                                 '</div>'+
@@ -2817,40 +2828,49 @@
                 /* end top 10 brand */
 
                 /*demography */
-                el+='<div class="panel panel-primary">'+
-                        '<div class="panel-heading">'+
-                            '<p class="panel-title">DEMOGRAPHY</p>'+
+                el+='<div class="card card-primary">'+
+                    '<div class="card-status bg-green"></div>'+
+                    '<div class="card-header">'+
+                        '<p class="card-title">DEMOGRAPHY</p>'+
+                        '<div class="card-options">'+
+                            '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
+                            '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
                         '</div>'+
-                    '<div class="panel-body">'+
+                    '</div>'+
+                    '<div class="card-body">'+
                     '<div class="row">'+
                         '<div class="col-lg-3">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>GENDER</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>GENDER</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divGender"></div>'+
                         '</div>'+
                         '<div class="col-lg-3">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>AGE</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>AGE</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divAge"></div>'+
                         '</div>'+
                         '<div class="col-lg-3">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>SEC</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>SEC</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divSec"></div>'+
                         '</div>'+
                         '<div class="col-lg-3">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>EDUCATION</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>EDUCATION</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divEducation"></div>'+
@@ -2859,17 +2879,19 @@
 
                     '<div class="row">'+
                         '<div class="col-lg-6">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>OCCUPATION</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>OCCUPATION</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divOccupation"></div>'+
                         '</div>'+
                         '<div class="col-lg-6">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title"><strong>HOBBY</strong></p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title"><strong>HOBBY</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divHobby"></div>'+
@@ -2879,25 +2901,32 @@
                 /* end demography */
 
                 /* penetration */
-                el+='<div class="panel panel-primary">'+
-                        '<div class="panel-heading">'+
-                            '<p class="panel-title">PENETRATION</p>'+
+                el+='<div class="card card-primary">'+
+                    '<div class="card-status bg-green"></div>'+
+                        '<div class="card-header">'+
+                            '<p class="card-title">PENETRATION</p>'+
+                            '<div class="card-options">'+
+                                '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
+                                '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
+                            '</div>'+
                         '</div>'+
-                    '<div class="panel-body">'+
+                    '<div class="card-body">'+
 
                     '<div class="row">'+
                         '<div class="col-lg-6">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title">MEDIA</p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title">MEDIA</p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divMedia"></div>'+
                         '</div>'+
                         '<div class="col-lg-6">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<p class="panel-title">CITIES</p>'+
+                            '<div class="card card-default">'+
+                                '<div class="card-status card-status-left bg-blue"></div>'+
+                                '<div class="card-header">'+
+                                    '<p class="card-title">CITIES</p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divCity"></div>'+
@@ -2908,32 +2937,40 @@
                 /*end penetration */
 
                 /* internet */
-                el+='<div class="panel panel-primary">'+
-                    '<div class="panel-heading">'+
-                        '<p class="panel-title">INTERNET</p>'+
+                el+='<div class="card card-primary">'+
+                    '<div class="card-status bg-green"></div>'+
+                    '<div class="card-header">'+
+                        '<p class="card-title">INTERNET</p>'+
+                        '<div class="card-options">'+
+                            '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
+                            '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
+                        '</div>'+
                     '</div>'+
-                    '<div class="panel-body">'+
+                    '<div class="card-body">'+
                         '<div class="row">'+
                             '<div class="col-lg-3">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">TIME SPENT OF USING INTERNET</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">TIME SPENT OF USING INTERNET</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divTimeSpent"></div>'+
                             '</div>'+
                             '<div class="col-lg-3">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">FREQUENCY OF USING INTERNET</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">FREQUENCY OF USING INTERNET</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFrequency"></div>'+
                             '</div>'+
                             '<div class="col-lg-6">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">GENERAL</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">GENERAL</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divGeneral"></div>'+
@@ -2941,17 +2978,19 @@
                         '</div>'+
                         '<div class="row">'+
                             '<div class="col-lg-6">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">E-FINANCE</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">E-FINANCE</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFinance"></div>'+
                             '</div>'+
                             '<div class="col-lg-6">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">E-COMMERCE</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">E-COMMERCE</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divCommerce"></div>'+
@@ -2959,17 +2998,19 @@
                         '</div>'+
                         '<div class="row">'+
                             '<div class="col-lg-3">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">TOOLS OF INTERNET ACCESS</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">TOOLS OF INTERNET ACCESS</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divTools"></div>'+
                             '</div>'+
                             '<div class="col-lg-3">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">ALL WEBSITE</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">ALL WEBSITE</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divAllWebsite"></div>'+
@@ -2980,32 +3021,40 @@
                 /* end internet */
 
                 /* radio */
-                el+='<div class="panel panel-primary">'+
-                    '<div class="panel-heading">'+
-                        '<p class="panel-title">RADIO</p>'+
+                el+='<div class="card card-primary">'+
+                    '<div class="card-status bg-green"></div>'+
+                    '<div class="card-header">'+
+                        '<p class="card-title">RADIO</p>'+
+                        '<div class="card-options">'+
+                            '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
+                            '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
+                        '</div>'+
                     '</div>'+
-                    '<div class="panel-body">'+
+                    '<div class="card-body">'+
                         '<div class="row">'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">FREQUENCY OF LISTENING</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">FREQUENCY OF LISTENING</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFrequencyRadio"></div>'+
                             '</div>'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">PLACE OF LISTENING RADIO</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">PLACE OF LISTENING RADIO</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divPlace"></div>'+
                             '</div>'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">TOOLS OF LISTENING RADIO</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">TOOLS OF LISTENING RADIO</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divToolsListeningRadio"></div>'+
@@ -3015,32 +3064,40 @@
                 '</div>';
                 /* end radio */
 
-                el+='<div class="panel panel-primary">'+
-                    '<div class="panel-heading">'+
-                        '<p class="panel-title">TV</p>'+
+                el+='<div class="card card-primary">'+
+                    '<div class="card-status bg-green"></div>'+
+                    '<div class="card-header">'+
+                        '<p class="card-title">TV</p>'+
+                        '<div class="card-options">'+
+                            '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
+                            '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
+                        '</div>'+
                     '</div>'+
-                    '<div class="panel-body">'+
+                    '<div class="card-body">'+
                         '<div class="row">'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">DAY PART - ALL TIME</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">DAY PART - ALL TIME</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divAllTime"></div>'+
                             '</div>'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">DAY PART - PRIME TIME</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">DAY PART - PRIME TIME</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divPrimeTime"></div>'+
                             '</div>'+
                             '<div class="col-lg-4">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<p class="panel-title">DAY PART - NON PRIME TIME</p>'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">DAY PART - NON PRIME TIME</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divNonPrimeTime"></div>'+
@@ -3050,17 +3107,17 @@
                 '</div>';
 
                 /*tabel nya*/
-                el+='<div class="panel panel-flat">'+
-                    '<div class="panel-body">'+
-                        '<div id="showData"></div>'+
-                    '</div>'+
-                '</div>';
+                // el+='<div class="card card-flat">'+
+                //     '<div class="card-body">'+
+                //         '<div id="showData"></div>'+
+                //     '</div>'+
+                // '</div>';
                 /* end tabel nya*/
 
                 $("#divData").empty().html(el);
                 topbrand();
                 allData();
-                tabelData();  
+                // tabelData();  
             })
         })
     </script>
@@ -3212,11 +3269,11 @@
 @stop
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <p class="panel-title"><span class="text-semibold">Brand</span> Chart</p>
+    <div class="card card-default">
+        <div class="card-header">
+            <h3 class="card-title"><span class="text-semibold">Brand</span> Chart</3>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             <form id="formSearch" onsubmit="return false" name="formSearch">
                 <div class="row">
                     <div class="col-lg-3">
@@ -3254,143 +3311,4 @@
     </div>
 
     <div id="divData"></div>
-
-    
-    <!-- <div class="panel panel-primary">
-        <div class="panel-heading">
-            <p class="panel-title">PSYCHOGRAPHICS</p>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-lg-7">
-                    <div id="divPsiko"></div>
-                </div>
-
-                <div class="col-lg-5">
-                    <div class="panel-group panel-group-control content-group-lg" id="accordion-control">
-        
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <p class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group2">TRADITIONALIST</a>
-                                </p>
-                            </div>
-                            <div id="accordion-control-group2" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                        “Hold traditional value, dreaming of wealth, Non Brand Minded, Less Health Conscious, Non Ad Believer” 
-                                </div>
-                            </div>
-                        </div>
-        
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <p class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group3">SETTLED</a>
-                                </p>
-                            </div>
-                            <div id="accordion-control-group3" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                        “Nested. Practical (Prefer buying new than fixing), TV is entertainment, Enjoying Ad, Enjoying Shopping” 
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <p class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group4">YOUNG LOYALIST</a>
-                                </p>
-                            </div>
-                            <div id="accordion-control-group4" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                        “Value friendship, Self sacrificing for greater result, Less environment concern” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <p class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group5">WESTERN MINDED</a>
-                                </p>
-                            </div>
-                            <div id="accordion-control-group5" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                        “Brand Minded, Career oriented, Enjoying life, Lonely and Challenge” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <p class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group6">SKEPTICAL</a>
-                                </p>
-                            </div>
-                            <div id="accordion-control-group6" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    “Worried, Critical on life, Cynical on money, Information seekers (on labels), Non career Minded” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <p class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group7">RESTLESS</a>
-                                </p>
-                            </div>
-                            <div id="accordion-control-group7" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    “Restless (tend to dislike a regular pattern of life), No confidence” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <p class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group8">APATHETIC</a>
-                                </p>
-                            </div>
-                            <div id="accordion-control-group8" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    “Non Opinioned (goes with the flow), Career is important, Believe in gender equal opportunities” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <p class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group9">MATERIAL COMFORT</a>
-                                </p>
-                            </div>
-                            <div id="accordion-control-group9" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    “Makin good money and financially secured, Not price conscious, Appearance concerns” 
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-white">
-                            <div class="panel-heading">
-                                <p class="panel-title">
-                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control" href="#accordion-control-group10">OPTIMIST</a>
-                                </p>
-                            </div>
-                            <div id="accordion-control-group10" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    “Trusting, Do not fear failure, Outspoken, Health Conscious” 
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-    
 @stop
