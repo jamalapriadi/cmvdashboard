@@ -229,4 +229,10 @@ class CategoryController extends Controller
 
         return $category;
     }
+
+    public function list_category_by_id(Request $request,$id){
+        $category=\App\Models\Dashboard\Cmv\Brand::with('category')->find($id);
+
+        return $category;
+    }
 }

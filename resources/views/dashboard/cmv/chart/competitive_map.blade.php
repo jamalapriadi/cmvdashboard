@@ -79,6 +79,57 @@
                 escapeMarkup: function (m) { return m; }
             })
 
+            $("#brand2").on("change",function(e){
+                var data = $('#brand2').select2('data');
+                // alert(data.text);
+                $.ajax({
+                    url:"{{URL::to('cmv/data/list-category-by-id')}}/"+data.id,
+                    type:"GET",
+                    beforeSend:function(){
+
+                    },
+                    success:function(result){
+                        $(".remote-data-category").select2({
+                            initSelection: function(element, callback) {
+                                callback({id: result.category.category_id, text: result.category.category_name });
+                            },
+                            ajax: {
+                                url: "{{URL::to('cmv/data/list-category')}}",
+                                dataType: 'json',
+                                delay: 250,
+                                data: function (params) {
+                                    return {
+                                        q: params, // search term
+                                        page_limit: 30
+                                    };
+                                },
+                                results: function (data, page){
+                                    return {
+                                        results: data.data
+                                    };
+                                },
+                                cache: true,
+                                pagination: {
+                                    more: true
+                                }
+                            },
+                            formatResult: function(m){
+                                var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+                
+                                return markup;                
+                            },
+                            formatSelection: function(m){
+                                return m.text;
+                            },
+                            escapeMarkup: function (m) { return m; }
+                        })      
+                    },
+                    error:function(){
+
+                    }
+                })
+            })
+
             $(".remote-data-brand-competitive").select2({
                 multiple:true,
                 ajax: {
@@ -2267,14 +2318,14 @@
                 <div class="row">
                     <div class="col-lg-2">
                         <div class="form-group">
-                            <label class="control-label">Category</label>
-                            <input type="text" name="category" id="category" class="remote-data-category">
+                            <label class="control-label">Brand</label>
+                            <input type="text" name="brand" id="brand2" class="remote-data-brand-compare">
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="form-group">
-                            <label class="control-label">Brand</label>
-                            <input type="text" name="brand" id="brand2" class="remote-data-brand-compare">
+                            <label class="control-label">Category</label>
+                            <input type="text" name="category" id="category" class="remote-data-category">
                         </div>
                     </div>
                     <div class="col-lg-3">

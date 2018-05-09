@@ -624,7 +624,56 @@
                     series: [
                       {
                         values:values,
-                        "background-color": "#599cdb"
+                        "rules":[
+                            {
+                                "rule":"%i==0",
+                                "background-color":"#FA8452"
+                            },
+                            {
+                                "rule":"%i==1",
+                                "background-color":"#FCAE48"
+                            },
+                            {
+                                "rule":"%i==2",
+                                "background-color":"#FCCC65"
+                            },
+                            {
+                                "rule":"%i==3",
+                                "background-color":"#A0BE4A"
+                            },
+                            {
+                                "rule":"%i==4",
+                                "background-color":"#6FA6DF"
+                            },
+                            {
+                                "rule":"%i==5",
+                                "background-color":"#a200b2"
+                            },
+                            {
+                                "rule":"%i==6",
+                                "background-color":"#47f79f"
+                            },
+                            {
+                                "rule":"%i==7",
+                                "background-color":"#fc0aec"
+                            },
+                            {
+                                "rule":"%i==8",
+                                "background-color":"#ea8c7c"
+                            },
+                            {
+                                "rule":"%i==9",
+                                "background-color":"#f9e154"
+                            },
+                            {
+                                "rule":"%i==10",
+                                "background-color":"#f4ef58"
+                            },
+                            {
+                                "rule":"%i==11",
+                                "background-color":"#e057e0"
+                            }
+                        ]
                       }
                     ]
                 };
@@ -698,7 +747,56 @@
                     series: [
                       {
                         values:values,
-                        "background-color": "#599cdb"
+                        "rules":[
+                            {
+                                "rule":"%i==0",
+                                "background-color":"#FA8452"
+                            },
+                            {
+                                "rule":"%i==1",
+                                "background-color":"#FCAE48"
+                            },
+                            {
+                                "rule":"%i==2",
+                                "background-color":"#FCCC65"
+                            },
+                            {
+                                "rule":"%i==3",
+                                "background-color":"#A0BE4A"
+                            },
+                            {
+                                "rule":"%i==4",
+                                "background-color":"#6FA6DF"
+                            },
+                            {
+                                "rule":"%i==5",
+                                "background-color":"#a200b2"
+                            },
+                            {
+                                "rule":"%i==6",
+                                "background-color":"#47f79f"
+                            },
+                            {
+                                "rule":"%i==7",
+                                "background-color":"#fc0aec"
+                            },
+                            {
+                                "rule":"%i==8",
+                                "background-color":"#ea8c7c"
+                            },
+                            {
+                                "rule":"%i==9",
+                                "background-color":"#f9e154"
+                            },
+                            {
+                                "rule":"%i==10",
+                                "background-color":"#f4ef58"
+                            },
+                            {
+                                "rule":"%i==11",
+                                "background-color":"#e057e0"
+                            }
+                        ]
                       }
                     ]
                 };
@@ -865,7 +963,32 @@
                     series: [
                       {
                         values:values,
-                        "background-color": "#599cdb"
+                        "rules":[
+                            {
+                                "rule":"%i==0",
+                                "background-color":"#FA8452"
+                            },
+                            {
+                                "rule":"%i==1",
+                                "background-color":"#FCAE48"
+                            },
+                            {
+                                "rule":"%i==2",
+                                "background-color":"#FCCC65"
+                            },
+                            {
+                                "rule":"%i==3",
+                                "background-color":"#A0BE4A"
+                            },
+                            {
+                                "rule":"%i==4",
+                                "background-color":"#6FA6DF"
+                            },
+                            {
+                                "rule":"%i==5",
+                                "background-color":"#a200b2"
+                            }
+                        ]
                       }
                     ]
                 };
@@ -938,7 +1061,56 @@
                     series: [
                       {
                         values:values,
-                        "background-color": "#599cdb"
+                        "rules":[
+                            {
+                                "rule":"%i==0",
+                                "background-color":"#FA8452"
+                            },
+                            {
+                                "rule":"%i==1",
+                                "background-color":"#FCAE48"
+                            },
+                            {
+                                "rule":"%i==2",
+                                "background-color":"#FCCC65"
+                            },
+                            {
+                                "rule":"%i==3",
+                                "background-color":"#A0BE4A"
+                            },
+                            {
+                                "rule":"%i==4",
+                                "background-color":"#6FA6DF"
+                            },
+                            {
+                                "rule":"%i==5",
+                                "background-color":"#a200b2"
+                            },
+                            {
+                                "rule":"%i==6",
+                                "background-color":"#47f79f"
+                            },
+                            {
+                                "rule":"%i==7",
+                                "background-color":"#fc0aec"
+                            },
+                            {
+                                "rule":"%i==8",
+                                "background-color":"#ea8c7c"
+                            },
+                            {
+                                "rule":"%i==9",
+                                "background-color":"#f9e154"
+                            },
+                            {
+                                "rule":"%i==10",
+                                "background-color":"#f4ef58"
+                            },
+                            {
+                                "rule":"%i==11",
+                                "background-color":"#e057e0"
+                            }
+                        ]
                       }
                     ]
                 };
@@ -1141,9 +1313,11 @@
             }
 
             function showGeneral(data){
-                var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var labels=[];
+                var values=[];
                 var br="";
+                var no=0;
+                var alldata=[];
                 var allnilai=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
@@ -1155,13 +1329,18 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            education.push({
-                                values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[a],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                text:b.subdemo_name
-                            })
+                            labels.push(b.subdemo_name);
+                            values.push(parseFloat(b.totals_ver));
+                            // occupation.push({
+                            //         values:[parseInt(b.totals_thousand)],
+                            //         backgroundColor:color[a],
+                            //         text:b.subdemo_name
+                            //     })
+                            alldata.push({
+                                label:b.subdemo_name,
+                                value:b.totals_ver,
+                                thousand:b.totals_thousand
+                            });
 
                             allnilai.push(b.totals_thousand);
                         }
@@ -1169,70 +1348,69 @@
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
-                for(l=0;l<education.length;l++){
-                    if(education[l].thousand==tertinggi){
-                        $("#generalValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#generalName").empty().html(education[l].text);
+                for(l=0;l<alldata.length;l++){
+                    if(alldata[l].thousand==tertinggi){
+                        $("#generalValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        $("#generalName").empty().html(alldata[l].label);
                     }
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
-                    title: {
-                        text: br,
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                    type: "hbar",
+                    utc:true,
+                    plotarea: {
+                      adjustLayout:true
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
+                    scaleX:{
+                      label:{
+                        text:br
+                      },
+                      "labels": labels,
+                      minValue:1420070400000,
+                      step:"day",
+                      transform:{
+                        type:"date",
+                        all:"%M %d"
+                      }
                     },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v%",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
-                        }
-                    },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : education
-               };
-            
+                    // plot:{
+                    //     valueBox: [
+                    //     {
+                    //         placement: "in",
+                    //         text: "%v%",
+                    //         fontColor: "#1A1B26",
+                    //         fontSize: 16
+                    //     }],
+                    // },
+                    series: [
+                      {
+                        values:values,
+                        "rules":[
+                            {
+                                "rule":"%i==0",
+                                "background-color":"#FA8452"
+                            },
+                            {
+                                "rule":"%i==1",
+                                "background-color":"#FCAE48"
+                            },
+                            {
+                                "rule":"%i==2",
+                                "background-color":"#FCCC65"
+                            },
+                            {
+                                "rule":"%i==3",
+                                "background-color":"#A0BE4A"
+                            },
+                            {
+                                "rule":"%i==4",
+                                "background-color":"#6FA6DF"
+                            }
+                        ]
+                      }
+                    ]
+                };
+                   
                 zingchart.render({ 
                     id : 'divGeneral', 
                     data : myConfig
@@ -1240,9 +1418,11 @@
             }
 
             function showFinance(data){
-                var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var labels=[];
+                var values=[];
                 var br="";
+                var no=0;
+                var alldata=[];
                 var allnilai=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
@@ -1254,13 +1434,18 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            education.push({
-                                values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[a],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                text:b.subdemo_name
-                            })
+                            labels.push(b.subdemo_name);
+                            values.push(parseFloat(b.totals_ver));
+                            // occupation.push({
+                            //         values:[parseInt(b.totals_thousand)],
+                            //         backgroundColor:color[a],
+                            //         text:b.subdemo_name
+                            //     })
+                            alldata.push({
+                                label:b.subdemo_name,
+                                value:b.totals_ver,
+                                thousand:b.totals_thousand
+                            });
 
                             allnilai.push(b.totals_thousand);
                         }
@@ -1268,70 +1453,69 @@
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
-                for(l=0;l<education.length;l++){
-                    if(education[l].thousand==tertinggi){
-                        $("#financeValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#financeName").empty().html(education[l].text);
+                for(l=0;l<alldata.length;l++){
+                    if(alldata[l].thousand==tertinggi){
+                        $("#financeValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        $("#financeName").empty().html(alldata[l].label);
                     }
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
-                    title: {
-                        text: br,
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                    type: "hbar",
+                    utc:true,
+                    plotarea: {
+                      adjustLayout:true
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
+                    scaleX:{
+                      label:{
+                        text:br
+                      },
+                      "labels": labels,
+                      minValue:1420070400000,
+                      step:"day",
+                      transform:{
+                        type:"date",
+                        all:"%M %d"
+                      }
                     },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v%",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
-                        }
-                    },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : education
-               };
-            
+                    // plot:{
+                    //     valueBox: [
+                    //     {
+                    //         placement: "in",
+                    //         text: "%v%",
+                    //         fontColor: "#1A1B26",
+                    //         fontSize: 16
+                    //     }],
+                    // },
+                    series: [
+                      {
+                        values:values,
+                        "rules":[
+                            {
+                                "rule":"%i==0",
+                                "background-color":"#FA8452"
+                            },
+                            {
+                                "rule":"%i==1",
+                                "background-color":"#FCAE48"
+                            },
+                            {
+                                "rule":"%i==2",
+                                "background-color":"#FCCC65"
+                            },
+                            {
+                                "rule":"%i==3",
+                                "background-color":"#A0BE4A"
+                            },
+                            {
+                                "rule":"%i==4",
+                                "background-color":"#6FA6DF"
+                            }
+                        ]
+                      }
+                    ]
+                };
+                   
                 zingchart.render({ 
                     id : 'divFinance', 
                     data : myConfig
@@ -1339,9 +1523,11 @@
             }
 
             function showCommerce(data){
-                var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var labels=[];
+                var values=[];
                 var br="";
+                var no=0;
+                var alldata=[];
                 var allnilai=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
@@ -1353,13 +1539,18 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            education.push({
-                                values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[a],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                text:b.subdemo_name
-                            })
+                            labels.push(b.subdemo_name);
+                            values.push(parseFloat(b.totals_ver));
+                            // occupation.push({
+                            //         values:[parseInt(b.totals_thousand)],
+                            //         backgroundColor:color[a],
+                            //         text:b.subdemo_name
+                            //     })
+                            alldata.push({
+                                label:b.subdemo_name,
+                                value:b.totals_ver,
+                                thousand:b.totals_thousand
+                            });
 
                             allnilai.push(b.totals_thousand);
                         }
@@ -1367,70 +1558,69 @@
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
-                for(l=0;l<education.length;l++){
-                    if(education[l].thousand==tertinggi){
-                        $("#commerceValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#commerceName").empty().html(education[l].text);
+                for(l=0;l<alldata.length;l++){
+                    if(alldata[l].thousand==tertinggi){
+                        $("#commerceValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        $("#commerceName").empty().html(alldata[l].label);
                     }
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
-                    title: {
-                        text: br,
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                    type: "hbar",
+                    utc:true,
+                    plotarea: {
+                      adjustLayout:true
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
+                    scaleX:{
+                      label:{
+                        text:br
+                      },
+                      "labels": labels,
+                      minValue:1420070400000,
+                      step:"day",
+                      transform:{
+                        type:"date",
+                        all:"%M %d"
+                      }
                     },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "in",
-                            text: "%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 16
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v%",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
-                        }
-                    },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : education
-               };
-            
+                    // plot:{
+                    //     valueBox: [
+                    //     {
+                    //         placement: "in",
+                    //         text: "%v%",
+                    //         fontColor: "#1A1B26",
+                    //         fontSize: 16
+                    //     }],
+                    // },
+                    series: [
+                      {
+                        values:values,
+                        "rules":[
+                            {
+                                "rule":"%i==0",
+                                "background-color":"#FA8452"
+                            },
+                            {
+                                "rule":"%i==1",
+                                "background-color":"#FCAE48"
+                            },
+                            {
+                                "rule":"%i==2",
+                                "background-color":"#FCCC65"
+                            },
+                            {
+                                "rule":"%i==3",
+                                "background-color":"#A0BE4A"
+                            },
+                            {
+                                "rule":"%i==4",
+                                "background-color":"#6FA6DF"
+                            }
+                        ]
+                      }
+                    ]
+                };
+                   
                 zingchart.render({ 
                     id : 'divCommerce', 
                     data : myConfig
@@ -2359,14 +2549,14 @@
                 /*demography */
                 el+='<div class="panel panel-primary">'+
                         '<div class="panel-heading">'+
-                            '<h6 class="panel-title">DEMOGRAPHY</h6>'+
+                            '<p class="panel-title">DEMOGRAPHY</p>'+
                         '</div>'+
                     '<div class="panel-body">'+
                     '<div class="row">'+
                         '<div class="col-lg-3">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
-                                    '<h6 class="panel-title"><strong>GENDER</strong></h6>'+
+                                    '<p class="panel-title"><strong>GENDER</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divGender"></div>'+
@@ -2374,15 +2564,7 @@
                         '<div class="col-lg-3">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
-                                    '<h6 class="panel-title"><strong>SEC</strong></h6>'+
-                                '</div>'+
-                            '</div>'+
-                            '<div id="divSec"></div>'+
-                        '</div>'+
-                        '<div class="col-lg-3">'+
-                            '<div class="panel panel-default">'+
-                                '<div class="panel-heading">'+
-                                    '<h6 class="panel-title"><strong>AGE</strong></h6>'+
+                                    '<p class="panel-title"><strong>AGE</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divAge"></div>'+
@@ -2390,7 +2572,15 @@
                         '<div class="col-lg-3">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
-                                    '<h6 class="panel-title"><strong>EDUCATION</strong></h6>'+
+                                    '<p class="panel-title"><strong>SEC</strong></p>'+
+                                '</div>'+
+                            '</div>'+
+                            '<div id="divSec"></div>'+
+                        '</div>'+
+                        '<div class="col-lg-3">'+
+                            '<div class="panel panel-default">'+
+                                '<div class="panel-heading">'+
+                                    '<p class="panel-title"><strong>EDUCATION</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divEducation"></div>'+
@@ -2401,7 +2591,7 @@
                         '<div class="col-lg-6">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
-                                    '<h6 class="panel-title"><strong>OCCUPATION</strong></h6>'+
+                                    '<p class="panel-title"><strong>OCCUPATION</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divOccupation"></div>'+
@@ -2409,7 +2599,7 @@
                         '<div class="col-lg-6">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
-                                    '<h6 class="panel-title"><strong>HOBBY</strong></h6>'+
+                                    '<p class="panel-title"><strong>HOBBY</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divHobby"></div>'+
@@ -2421,7 +2611,7 @@
                 /* penetration */
                 el+='<div class="panel panel-primary">'+
                         '<div class="panel-heading">'+
-                            '<h6 class="panel-title">PENETRATION</h6>'+
+                            '<p class="panel-title">PENETRATION</p>'+
                         '</div>'+
                     '<div class="panel-body">'+
 
@@ -2429,7 +2619,7 @@
                         '<div class="col-lg-6">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
-                                    '<h6 class="panel-title">MEDIA</h6>'+
+                                    '<p class="panel-title">MEDIA</p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divMedia"></div>'+
@@ -2437,7 +2627,7 @@
                         '<div class="col-lg-6">'+
                             '<div class="panel panel-default">'+
                                 '<div class="panel-heading">'+
-                                    '<h6 class="panel-title">CITIES</h6>'+
+                                    '<p class="panel-title">CITIES</p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divCity"></div>'+
@@ -2450,14 +2640,14 @@
                 /* internet */
                 el+='<div class="panel panel-primary">'+
                     '<div class="panel-heading">'+
-                        '<h6 class="panel-title">INTERNET</h6>'+
+                        '<p class="panel-title">INTERNET</p>'+
                     '</div>'+
                     '<div class="panel-body">'+
                         '<div class="row">'+
                             '<div class="col-lg-3">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">TIME SPENT OF USING INTERNET</h6>'+
+                                        '<p class="panel-title">TIME SPENT OF USING INTERNET</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divTimeSpent"></div>'+
@@ -2465,41 +2655,44 @@
                             '<div class="col-lg-3">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">FREQUENCY OF USING INTERNET</h6>'+
+                                        '<p class="panel-title">FREQUENCY OF USING INTERNET</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFrequency"></div>'+
                             '</div>'+
-                            '<div class="col-lg-3">'+
+                            '<div class="col-lg-6">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">GENERAL</h6>'+
+                                        '<p class="panel-title">GENERAL</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divGeneral"></div>'+
                             '</div>'+
-                            '<div class="col-lg-3">'+
+                        '</div>'+
+                        '<div class="row">'+
+                            '<div class="col-lg-6">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">E-FINANCE</h6>'+
+                                        '<p class="panel-title">E-FINANCE</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFinance"></div>'+
+                            '</div>'+
+
+                            '<div class="col-lg-6">'+
+                                '<div class="panel panel-default">'+
+                                    '<div class="panel-heading">'+
+                                        '<p class="panel-title">E-COMMERCE</p>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divCommerce"></div>'+
                             '</div>'+
                         '</div>'+
                         '<div class="row">'+
                             '<div class="col-lg-3">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">E-COMMERCE</h6>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div id="divCommerce"></div>'+
-                            '</div>'+
-                            '<div class="col-lg-3">'+
-                                '<div class="panel panel-default">'+
-                                    '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">TOOLS OF INTERNET ACCESS</h6>'+
+                                        '<p class="panel-title">TOOLS OF INTERNET ACCESS</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divTools"></div>'+
@@ -2507,7 +2700,7 @@
                             '<div class="col-lg-3">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">ALL WEBSITE</h6>'+
+                                        '<p class="panel-title">ALL WEBSITE</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divAllWebsite"></div>'+
@@ -2520,14 +2713,14 @@
                 /* radio */
                 el+='<div class="panel panel-primary">'+
                     '<div class="panel-heading">'+
-                        '<h6 class="panel-title">RADIO</h6>'+
+                        '<p class="panel-title">RADIO</p>'+
                     '</div>'+
                     '<div class="panel-body">'+
                         '<div class="row">'+
                             '<div class="col-lg-4">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">FREQUENCY OF LISTENING</h6>'+
+                                        '<p class="panel-title">FREQUENCY OF LISTENING</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFrequencyRadio"></div>'+
@@ -2535,7 +2728,7 @@
                             '<div class="col-lg-4">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">PLACE OF LISTENING RADIO</h6>'+
+                                        '<p class="panel-title">PLACE OF LISTENING RADIO</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divPlace"></div>'+
@@ -2543,7 +2736,7 @@
                             '<div class="col-lg-4">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">TOOLS OF LISTENING RADIO</h6>'+
+                                        '<p class="panel-title">TOOLS OF LISTENING RADIO</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divToolsListeningRadio"></div>'+
@@ -2555,14 +2748,14 @@
 
                 el+='<div class="panel panel-primary">'+
                     '<div class="panel-heading">'+
-                        '<h6 class="panel-title">TV</h6>'+
+                        '<p class="panel-title">TV</p>'+
                     '</div>'+
                     '<div class="panel-body">'+
                         '<div class="row">'+
                             '<div class="col-lg-4">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">DAY PART - ALL TIME</h6>'+
+                                        '<p class="panel-title">DAY PART - ALL TIME</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divAllTime"></div>'+
@@ -2570,7 +2763,7 @@
                             '<div class="col-lg-4">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">DAY PART - PRIME TIME</h6>'+
+                                        '<p class="panel-title">DAY PART - PRIME TIME</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divPrimeTime"></div>'+
@@ -2578,7 +2771,7 @@
                             '<div class="col-lg-4">'+
                                 '<div class="panel panel-default">'+
                                     '<div class="panel-heading">'+
-                                        '<h6 class="panel-title">DAY PART - NON PRIME TIME</h6>'+
+                                        '<p class="panel-title">DAY PART - NON PRIME TIME</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divNonPrimeTime"></div>'+
@@ -2751,7 +2944,7 @@
 @section('content')
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h6 class="panel-title"><span class="text-semibold">Brand</span> Chart</h6>
+            <p class="panel-title"><span class="text-semibold">Chart</span> By Target Audience</p>
         </div>
         <div class="panel-body">
             <form id="formSearch" onsubmit="return false" name="formSearch">

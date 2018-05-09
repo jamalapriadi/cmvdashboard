@@ -183,6 +183,7 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
         Route::get('sample-category','Dashboard\Cmv\CategoryController@sample');
         Route::get('export-category','Dashboard\Cmv\CategoryController@export');
         Route::get('list-category','Dashboard\Cmv\CategoryController@list_category');
+        Route::get('list-category-by-id/{id}','Dashboard\Cmv\CategoryController@list_category_by_id');
 
         Route::resource('brand','Dashboard\Cmv\BrandController');
         Route::post('filter-brand','Dashboard\Cmv\BrandController@filter_brand');
