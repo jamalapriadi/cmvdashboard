@@ -14,20 +14,14 @@ class CmvController extends Controller
     }
     
     public function index(){
-        // $demo=\App\Models\Dashboard\Cmv\Demography::all();
+        $demo=\App\Models\Dashboard\Cmv\Demography::count();
         
-        // $brand=\App\Models\Dashboard\Cmv\Brand::all();
+        $brand=\App\Models\Dashboard\Cmv\Brand::count();
 
-        // $sector=\App\Models\Dashboard\Cmv\Sector::select('sector_id','sector_name')->get();
-        // $category=\App\Models\Dashboard\Cmv\Category::all();
-        // $ta=\App\Models\Dashboard\Cmv\Ta::all();
-        // $variabel=\App\Models\Dashboard\Cmv\Variabel::all();
-        $demo=array();
-        $brand=array();
-        $sector=array();
-        $category=array();
-        $ta=array();
-        $variabel=array();
+        $sector=\App\Models\Dashboard\Cmv\Sector::count();
+        $category=\App\Models\Dashboard\Cmv\Category::count();
+        $ta=\App\Models\Dashboard\Cmv\Ta::count();
+        $variabel=\App\Models\Dashboard\Cmv\Variabel::count();
 
         return view('dashboard.cmv.index')
             ->with('title','CMV')
