@@ -9,7 +9,7 @@ class Ta extends Model
     protected $connection="mysql3";
     protected $table="cmv_target_audience";
 
-    protected $primaryKey="id_ta";
+    protected $primaryKey="ta_id";
 
     public $incrementing=false;
 

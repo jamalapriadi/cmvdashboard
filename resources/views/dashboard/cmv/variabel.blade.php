@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.tabler')
 
 @section('js')
     <script>
@@ -59,9 +59,9 @@
                     '<div class="modal-dialog">'+
                         '<form id="form" class="form-horizontal" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                             '<div class="modal-content">'+
-                                '<div class="modal-header bg-primary">'+
-                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                '<div class="modal-header bg-primary text-white">'+
                                     '<h5 class="modal-title" id="modal-title">Input New Variabel</h5>'+
+                                    '<button type="button" class="close" data-dismiss="modal"></button>'+
                                 '</div>'+
 
                                 '<div class="modal-body">'+
@@ -214,9 +214,9 @@
                             '<div class="modal-dialog">'+
                                 '<form class="form-horizontal" id="formUpdate" onsubmit="return false;" enctype="multipart/form-data">'+
                                     '<div class="modal-content">'+
-                                        '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                        '<div class="modal-header bg-primary text-white">'+
                                             '<h5 class="modal-title" id="modal-title">Edit Demography</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal"></button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -421,9 +421,9 @@
                     '<div class="modal-dialog">'+
                         '<form id="formImport" class="form-horizontal" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                             '<div class="modal-content">'+
-                                '<div class="modal-header bg-primary">'+
-                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                '<div class="modal-header bg-primary text-white">'+
                                     '<h5 class="modal-title" id="modal-title">Import Data Variabel</h5>'+
+                                    '<button type="button" class="close" data-dismiss="modal"></button>'+
                                 '</div>'+
 
                                 '<div class="modal-body">'+
@@ -455,9 +455,9 @@
                     '<div class="modal-dialog">'+
                         '<form id="formRollback" class="form-horizontal" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                             '<div class="modal-content">'+
-                                '<div class="modal-header bg-primary">'+
-                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                '<div class="modal-header bg-primary text-white">'+
                                     '<h5 class="modal-title" id="modal-title">Rollback Data Variabel</h5>'+
+                                    '<button type="button" class="close" data-dismiss="modal"></button>'+
                                 '</div>'+
 
                                 '<div class="modal-body">'+
@@ -649,14 +649,33 @@
 @stop
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h6 class="panel-title">Sector</h6>
+    <div class="page-header">
+        <h1 class="page-title">
+            VARIABEL
+        </h1>
+        <!-- <div class="page-subtitle">1 - 12 of 1713 photos</div> -->
+        <div class="page-options d-flex">
+        <div class="btn-group pull-right" role="group">
+            <a href="#" class="btn btn-primary btn-labeled heading-btn" id="addsector"><b><i class="icon-task"></i></b> Create Input Variabel</a>
+            <div class="dropdown">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-gear"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" id="import">Import Excel</a>
+                    <a class="dropdown-item" href="{{URL::to('cmv/data/export-category')}}">Export Excel</a>
+                    <a class="dropdown-item" href="#" id="rollback">Rollback Excel</a>
+                </div>
+            </div>
         </div>
+        </div>
+    </div>
 
-        <div class="panel-body">
-            <div class="row well">
-                <form onsubmit="return false;" id="formCari">
+
+    <div class="card card-default">
+        <div class="card-body">
+            <form onsubmit="return false;" id="formCari">
+                <div class="row well">
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label for="" class="control-label">Brand</label>
@@ -685,8 +704,8 @@
                             </button>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
             <div id="tampilData"></div>
         </div>
     </div>

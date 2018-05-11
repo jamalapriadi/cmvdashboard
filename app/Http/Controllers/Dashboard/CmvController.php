@@ -14,33 +14,24 @@ class CmvController extends Controller
     }
     
     public function index(){
-        $demo=\App\Models\Dashboard\Cmv\Demography::select('id','demo_id','demo_name')
-            ->with(
-                [
-                    'subdemo'
-                ]
-            )
-            ->get();
-        $id='A1';
+        $demo=\App\Models\Dashboard\Cmv\Demography::all();
         
-        $brand=\App\Models\Dashboard\Cmv\Brand::with(
-            [
-                'category',
-                'category.sector'=>function($q) use($id){
-                    $q->where('sector_id',$id);
-                },
-                'variabel'
-            ]
-        )->where('category_id','AA1')->paginate(10);
+        $brand=\App\Models\Dashboard\Cmv\Brand::all();
 
         $sector=\App\Models\Dashboard\Cmv\Sector::select('sector_id','sector_name')->get();
+        $category=\App\Models\Dashboard\Cmv\Category::all();
+        $ta=\App\Models\Dashboard\Cmv\Ta::all();
+        $variabel=\App\Models\Dashboard\Cmv\Variabel::all();
 
         return view('dashboard.cmv.index')
             ->with('title','CMV')
             ->with('home','Dashboard')
             ->with('demo',$demo)
             ->with('brand',$brand)
-            ->with('sector',$sector);
+            ->with('sector',$sector)
+            ->with('category',$category)
+            ->with('ta',$ta)
+            ->with('variabel',$variabel);
     }
 
     public function sector(){

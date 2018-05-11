@@ -1,59 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta http-equiv="Content-Language" content="en" />
-    <meta name="msapplication-TileColor" content="#2d89ef">
-    <meta name="theme-color" content="#4188c9">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="320">
-    <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
-    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
-    <!-- Generated: 2018-04-16 09:29:05 +0200 -->
-    <title>CMV Dashboard</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
-    {{Html::script('tabler/assets/js/require.min.js')}}
-    <script>
-      requirejs.config({
-          baseUrl:"{{URL::asset('.')}}"
-      });
-    </script>
-    <!-- Dashboard Core -->
-    <link href="{{URL::asset('tabler/assets/css/dashboard.css')}}" rel="stylesheet" />
-    <script src="{{URL::asset('tabler/assets/js/dashboard.js')}}"></script>
-    <!-- c3.js Charts Plugin -->
-    <link href="{{URL::asset('tabler/assets/plugins/charts-c3/plugin.css')}}" rel="stylesheet" />
-    <script src="{{URL::asset('tabler/assets/plugins/charts-c3/plugin.js')}}"></script>
-    <!-- Google Maps Plugin -->
-    <link href="{{URL::asset('tabler/assets/plugins/maps-google/plugin.css')}}" rel="stylesheet" />
-    <script src="{{URL::asset('tabler/assets/plugins/maps-google/plugin.js')}}"></script>
-    <!-- Input Mask Plugin -->
-    <script src="{{URL::asset('tabler/assets/plugins/input-mask/plugin.js')}}"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Customer Media View</title>
+  <!-- GOOGLE FONTS -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  {{Html::style('limitless1/assets/css/icons/icomoon/styles.css')}}
+  
+  <script src="{{URL::asset('limitless1/assets/js/core/libraries/jquery.min.js')}}"></script>
+  <script src="{{URL::asset('tabler/assets/js/vendors/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{URL::asset('tabler/assets/js/vendors/jquery.sparkline.min.js')}}"></script>
+  <script src="{{URL::asset('tabler/assets/js/vendors/selectize.min.js')}}"></script>
+  <script src="{{URL::asset('tabler/assets/js/vendors/jquery.tablesorter.min.js')}}"></script>
+  <script src="{{URL::asset('tabler/assets/js/vendors/jquery-jvectormap-2.0.3.min.js')}}"></script>
+  <script src="{{URL::asset('tabler/assets/js/vendors/jquery-jvectormap-de-merc.js')}}"></script>
+  <script src="{{URL::asset('tabler/assets/js/vendors/jquery-jvectormap-world-mill.js')}}"></script>
+  <script src="{{URL::asset('tabler/assets/js/vendors/circle-progress.min.js')}}"></script>
 
-    <!--DATATABLE AND CKEDITOR -->
-    {{Html::script('limitless1/ckeditor/ckeditor.js')}}
+  <!--DATATABLE AND CKEDITOR -->
+  {{Html::script('limitless1/ckeditor/ckeditor.js')}}
 
-	<!-- Theme JS files -->
-    {{Html::script('limitless1/assets/js/plugins/tables/datatables/datatables.min.js')}}
-    {{Html::script('limitless1/assets/js/plugins/tables/datatables/extensions/col_vis.min.js')}}
-    {{Html::script('limitless1/assets/js/plugins/forms/styling/uniform.min.js')}}
-    {{Html::script('limitless1/assets/js/core/libraries/jquery_ui/interactions.min.js')}}
-    {{Html::script('limitless1/assets/js/plugins/forms/selects/select2.min.js')}}
-      {{Html::script('limitless1/assets/js/plugins/notifications/pnotify.min.js')}}
-      {{Html::script('limitless1/assets/js/plugins/forms/styling/switchery.min.js')}}
-    {{Html::script('limitless1/assets/js/plugins/forms/styling/switch.min.js')}}
+  <!-- Theme JS files -->
+  {{Html::script('limitless1/assets/js/plugins/tables/datatables/datatables.min.js')}}
+  {{Html::script('limitless1/assets/js/plugins/tables/datatables/extensions/col_vis.min.js')}}
+  {{Html::script('limitless1/assets/js/plugins/forms/styling/uniform.min.js')}}
+  {{Html::script('limitless1/assets/js/core/libraries/jquery_ui/interactions.min.js')}}
+  {{Html::script('limitless1/assets/js/plugins/forms/selects/select2.min.js')}}
+  {{Html::script('limitless1/assets/js/plugins/notifications/pnotify.min.js')}}
+  {{Html::script('limitless1/assets/js/plugins/forms/styling/switchery.min.js')}}
+  {{Html::script('limitless1/assets/js/plugins/forms/styling/switch.min.js')}}
 
-    {{Html::style('limitless1/assets/js/plugins/sweetalert/dist/sweetalert.css')}}
-    {{Html::script('limitless1/assets/js/plugins/sweetalert/dist/sweetalert.min.js')}}
-
-
-    @yield('css')
+  {{Html::style('limitless1/assets/js/plugins/sweetalert/dist/sweetalert.css')}}
+  {{Html::script('limitless1/assets/js/plugins/sweetalert/dist/sweetalert.min.js')}}
+  
+  <!-- Dashboard Core -->
+  <link href="{{URL::asset('tabler/assets/css/dashboard.css')}}" rel="stylesheet" />
+  <link href="{{URL::asset('tabler/assets/css/cmv.css')}}" rel="stylesheet" />
+  @yield('css')
 </head>
 <body class="">
     <div class="page">
@@ -61,8 +49,9 @@
         <div class="header py-4">
           <div class="container">
             <div class="d-flex">
-              <a class="header-brand" href="./index.html">
-                <img src="./demo/brand/tabler.svg" class="header-brand-img" alt="tabler logo">
+              <a class="header-brand" href="{{URL::to('cmv')}}">
+                <!-- <img src="{{URL::asset('tabler/demo/brand/tabler.svg')}}" class="header-brand-img" alt="tabler logo"> -->
+                <img src="{{URL::asset('klorofil/img/mnc2.png')}}" class="header-brand-img">
               </a>
               <div class="d-flex order-lg-2 ml-auto">
                 <div class="dropdown d-none d-md-flex">
@@ -105,26 +94,13 @@
                     </span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                    <a class="dropdown-item" href="#">
-                      <i class="dropdown-icon fe fe-user"></i> Profile
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="dropdown-icon fe fe-settings"></i> Settings
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <span class="float-right"><span class="badge badge-primary">6</span></span>
-                      <i class="dropdown-icon fe fe-mail"></i> Inbox
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="dropdown-icon fe fe-send"></i> Message
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                      <i class="dropdown-icon fe fe-help-circle"></i> Need help?
-                    </a>
-                    <a class="dropdown-item" href="#">
-                      <i class="dropdown-icon fe fe-log-out"></i> Sign out
-                    </a>
+                    <a href="{{ route('logout') }}" class="dropdown-item"
+                              onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();"><i class="lnr lnr-exit"><i class="dropdown-icon fe fe-log-out"></i> Sign out</a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                   </div>
                 </div>
               </div>
@@ -137,25 +113,30 @@
         <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
           <div class="container">
             <div class="row align-items-center">
-              <div class="col-lg-3 ml-auto">
-                <form class="input-icon my-3 my-lg-0">
-                  <input type="search" class="form-control header-search" placeholder="Search&hellip;" tabindex="1">
-                  <div class="input-icon-addon">
-                    <i class="fe fe-search"></i>
-                  </div>
-                </form>
-              </div>
               <div class="col-lg order-lg-first">
                 <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
                   <li class="nav-item">
-                    <a href="./index.html" class="nav-link"><i class="fe fe-home"></i> Home</a>
+                    <a href="{{URL::to('cmv')}}" class="{{ Request::path() == 'cmv' ? 'nav-link active' : 'nav-link' }}"><i class="fe fe-home"></i> Home</a>
                   </li>
                   <li class="nav-item">
-                    <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i class="fe fe-box"></i> Interface</a>
+                    <a href="{{URL::to('cmv/chart/brand')}}"  class="{{ Request::path() == 'cmv/chart/brand' ? 'nav-link active' : 'nav-link' }}"><i class="fe fe-pie-chart"></i> Brand</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{URL::to('cmv/chart/competitive-map')}}"  class="{{ Request::path() == 'cmv/chart/competitive-map' ? 'nav-link active' : 'nav-link' }}"><i class="fa fa-newspaper-o"></i>  Competitive Map</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{URL::to('cmv/chart/by-target-audience')}}"  class="{{ Request::path() == 'cmv/chart/by-target-audience' ? 'nav-link active' : 'nav-link' }}"><i class="fa fa-street-view"></i> Target Audience</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="javascript:void(0)" class="@if(Request::path()=='cmv/sector' || Request::path()=='cmv/category' ||  Request::path()=='cmv/brand'
+                     ||  Request::path()=='cmv/demography' ||  Request::path()=='cmv/target-audience' ||  Request::path()=='cmv/variabel' ) nav-link active @else nav-link @endif" data-toggle="dropdown"><i class="fe fe-box"></i> Master Data</a>
                     <div class="dropdown-menu dropdown-menu-arrow">
-                      <a href="./cards.html" class="dropdown-item ">Cards design</a>
-                      <a href="./charts.html" class="dropdown-item ">Charts</a>
-                      <a href="./pricing-cards.html" class="dropdown-item ">Pricing cards</a>
+                      <a href="{{URL::to('cmv/sector')}}" class="{{ Request::path() == 'cmv/sector' ? 'dropdown-item active' : 'dropdown-item' }}">Sector</a>
+                      <a href="{{URL::to('cmv/category')}}" class="{{ Request::path() == 'cmv/category' ? 'dropdown-item active' : 'dropdown-item' }}">Category</a>
+                      <a href="{{URL::to('cmv/brand')}}" class="{{ Request::path() == 'cmv/brand' ? 'dropdown-item active' : 'dropdown-item' }}">Brand</a>
+                      <a href="{{URL::to('cmv/demography')}}" class="{{ Request::path() == 'cmv/demography' ? 'dropdown-item active' : 'dropdown-item' }}">Demography</a>
+                      <a href="{{URL::to('cmv/target-audience')}}" class="{{ Request::path() == 'cmv/target-audience' ? 'dropdown-item active' : 'dropdown-item' }}">Target Audience</a>
+                      <a href="{{URL::to('cmv/variabel')}}" class="{{ Request::path() == 'cmv/variabel' ? 'dropdown-item active' : 'dropdown-item' }}">Variabel</a>
                     </div>
                   </li>
                 </ul>
@@ -173,20 +154,10 @@
         <div class="container">
           <div class="row align-items-center flex-row-reverse">
             <div class="col-auto ml-lg-auto">
-              <div class="row align-items-center">
-                <div class="col-auto">
-                  <ul class="list-inline list-inline-dots mb-0">
-                    <li class="list-inline-item"><a href="./docs/index.html">Documentation</a></li>
-                    <li class="list-inline-item"><a href="./faq.html">FAQ</a></li>
-                  </ul>
-                </div>
-                <div class="col-auto">
-                  <a href="https://github.com/tabler/tabler" class="btn btn-outline-primary btn-sm">Source code</a>
-                </div>
-              </div>
+              
             </div>
             <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
-              Copyright © 2018 <a href=".">Tabler</a>. Theme by <a href="https://codecalm.net" target="_blank">codecalm.net</a> All rights reserved.
+              Copyright © {{date('Y')}} <a href="#">MNC Marketing Strategic</a>. Theme by <a href="https://codecalm.net" target="_blank">codecalm.net</a> All rights reserved.
             </div>
           </div>
         </div>

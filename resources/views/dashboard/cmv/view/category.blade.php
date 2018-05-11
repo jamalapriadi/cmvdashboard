@@ -29,4 +29,4 @@
 </table>
 
 <hr>
-{{$category->links()}}
+{{$category->links('vendor/pagination/bootstrap-4')}}
