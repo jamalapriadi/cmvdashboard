@@ -1089,7 +1089,8 @@
                     type: 'hbar',
                     stacked: true,
                     plotarea:{
-                        margin: 'dynamic'
+                        // margin: 'dynamic',
+                        "margin": "2% 15% 15% 5%"
                     },
                     tooltip:{
                         text:"%t %negation%v",
@@ -1154,7 +1155,7 @@
                     type: 'hbar',
                     stacked: true,
                     plotarea:{
-                        margin: 'dynamic'
+                        "margin": "2% 15% 15% 5%"
                     },
                     tooltip:{
                         text:"%t %negation%v",
@@ -1219,7 +1220,7 @@
                     type: 'hbar',
                     stacked: true,
                     plotarea:{
-                        margin: 'dynamic'
+                        "margin": "2% 15% 15% 5%"
                     },
                     tooltip:{
                         text:"%t %negation%v",
@@ -1284,7 +1285,7 @@
                     type: 'hbar',
                     stacked: true,
                     plotarea:{
-                        margin: 'dynamic'
+                        "margin": "2% 15% 15% 5%"
                     },
                     tooltip:{
                         text:"%t %negation%v",
@@ -1349,7 +1350,7 @@
                     type: 'hbar',
                     stacked: true,
                     plotarea:{
-                        margin: 'dynamic'
+                        "margin": "2% 15% 15% 5%"
                     },
                     tooltip:{
                         text:"%t %negation%v",
@@ -1414,7 +1415,7 @@
                     type: 'hbar',
                     stacked: true,
                     plotarea:{
-                        margin: 'dynamic'
+                        "margin": "0% 15% 15% 5%"
                     },
                     tooltip:{
                         text:"%t %negation%v",
@@ -1479,7 +1480,7 @@
                     type: 'hbar',
                     stacked: true,
                     plotarea:{
-                        margin: 'dynamic'
+                        "margin": "2% 15% 15% 5%"
                     },
                     tooltip:{
                         text:"%t %negation%v",
@@ -1544,7 +1545,7 @@
                     type: 'hbar',
                     stacked: true,
                     plotarea:{
-                        margin: 'dynamic'
+                        "margin": "0 15% 15% 5%"
                     },
                     tooltip:{
                         text:"%t %negation%v",
@@ -1711,7 +1712,7 @@
                         type: 'hbar',
                         stacked: true,
                         plotarea:{
-                            margin: 'dynamic'
+                            "margin": "0% 15% 15% 5%"
                         },
                         tooltip:{
                             text:"%t %negation%v",
@@ -1780,7 +1781,7 @@
                         type: 'hbar',
                         stacked: true,
                         plotarea:{
-                            margin: 'dynamic'
+                            "margin": "0% 15% 15% 5%"
                         },
                         tooltip:{
                             text:"%t %negation%v",
@@ -1849,7 +1850,7 @@
                         type: 'hbar',
                         stacked: true,
                         plotarea:{
-                            margin: 'dynamic'
+                            "margin": "0% 15% 15% 5%"
                         },
                         tooltip:{
                             text:"%t %negation%v",
@@ -1918,7 +1919,7 @@
                         type: 'hbar',
                         stacked: true,
                         plotarea:{
-                            margin: 'dynamic'
+                            "margin": "0% 15% 15% 5%"
                         },
                         tooltip:{
                             text:"%t %negation%v",
@@ -1987,7 +1988,7 @@
                         type: 'hbar',
                         stacked: true,
                         plotarea:{
-                            margin: 'dynamic'
+                            "margin": "0% 15% 15% 5%"
                         },
                         tooltip:{
                             text:"%t %negation%v",
@@ -2056,7 +2057,7 @@
                         type: 'hbar',
                         stacked: true,
                         plotarea:{
-                            margin: 'dynamic'
+                            "margin": "0% 15% 15% 5%"
                         },
                         tooltip:{
                             text:"%t %negation%v",
@@ -2125,7 +2126,7 @@
                         type: 'hbar',
                         stacked: true,
                         plotarea:{
-                            margin: 'dynamic'
+                            "margin": "0% 15% 15% 5%"
                         },
                         tooltip:{
                             text:"%t %negation%v",
@@ -2194,7 +2195,7 @@
                         type: 'hbar',
                         stacked: true,
                         plotarea:{
-                            margin: 'dynamic'
+                            "margin": "0% 15% 15% 5%"
                         },
                         tooltip:{
                             text:"%t %negation%v",

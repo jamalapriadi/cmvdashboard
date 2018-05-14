@@ -264,70 +264,39 @@
             }
 
             function showGender(data){
-                var gender=[];
-                var color=["#FF7965","#FFCB45"];
+                var age=[];
+                var color=["#5b9ddb","#f67c2a","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-                
-                var a=0;
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D1"){
-                        a++;
                         br=b.brand_name;
-                        if(a==1){
-                            gender.push({
-                                values:[parseFloat(b.totals_ver)],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                backgroundColor:color[a],
-                                text:b.subdemo_name
-                            })
-                        }else{
-                            gender.push({
-                                values:[parseFloat(b.totals_ver)],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                text:b.subdemo_name
-                            })
-                        }
+                        age.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[a],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
 
                         allnilai.push(b.totals_thousand);
                     }
                 })
-                
+
                 var tertinggi=Math.max.apply(Math,allnilai);
-                for(l=0;l<gender.length;l++){
-                    if(gender[l].thousand==tertinggi){
-                        $("#genderValue").empty().html(parseFloat(gender[l].ver)+" %");
-                        $("#genderName").empty().html(gender[l].text);
+                for(l=0;l<age.length;l++){
+                    if(age[l].thousand==tertinggi){
+                        $("#genderValue").empty().html(parseFloat(age[l].ver)+" %");
+                        $("#genderName").empty().html(age[l].text);
                     }
                 }
 
-                var myTheme = {
-                    palette:{
-                        line:[
-                            ['#FBFCFE', '#00BAF2', '#00BAF2', '#00a7d9'], /* light blue */
-                            ['#FBFCFE', '#E80C60', '#E80C60', '#d00a56'], /* light pink */
-                            ['#FBFCFE', '#9B26AF', '#9B26AF', '#8b229d'], /* light purple */
-                            ['#FBFCFE', '#E2D51A', '#E2D51A', '#E2D51A'], /* med yellow */
-                            ['#FBFCFE', '#FB301E', '#FB301E', '#e12b1b'], /* med red */
-                            ['#FBFCFE', '#00AE4D', '#00AE4D', '#00AE4D'], /* med green */
-                        ]
-                    },
-                    graph: { 
-                        title: {
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        padding: 15,
-                        fontColor: '#1E5D9E',
-                        adjustLayout: true
-                        }
-                    } 
-                };
-
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -335,26 +304,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"55%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -371,22 +333,15 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : gender
-               };
+                    series : age
+                };
+            
+                zingchart.render({ 
+                    id : 'divGender', 
+                    data : myConfig
+                });
                 
-               zingchart.render({ 
-                   id : 'divGender', 
-                   data : myConfig,
-                   defaults: myTheme // Theme object
-               });
+                
             }
 
             function showSec(data){
@@ -419,8 +374,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -428,26 +385,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"65%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -464,16 +414,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : sec
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divSec', 
@@ -513,8 +455,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -522,26 +466,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"50%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -558,16 +495,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : age
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divAge', 
@@ -607,8 +536,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -616,26 +547,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -652,16 +576,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divEducation', 
@@ -701,93 +617,114 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels":labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            },
-                            {
-                                "rule":"%i==5",
-                                "background-color":"#a200b2"
-                            },
-                            {
-                                "rule":"%i==6",
-                                "background-color":"#47f79f"
-                            },
-                            {
-                                "rule":"%i==7",
-                                "background-color":"#fc0aec"
-                            },
-                            {
-                                "rule":"%i==8",
-                                "background-color":"#ea8c7c"
-                            },
-                            {
-                                "rule":"%i==9",
-                                "background-color":"#f9e154"
-                            },
-                            {
-                                "rule":"%i==10",
-                                "background-color":"#f4ef58"
-                            },
-                            {
-                                "rule":"%i==11",
-                                "background-color":"#e057e0"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#FA8452"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#FCAE48"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#FCCC65"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#A0BE4A"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#6FA6DF"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#a200b2"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#47f79f"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#fc0aec"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#ea8c7c"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#f9e154"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divOccupation', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divOccupation',
+                    data: chartConfig
                 });
                 
             }
@@ -824,93 +761,114 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels":labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            },
-                            {
-                                "rule":"%i==5",
-                                "background-color":"#a200b2"
-                            },
-                            {
-                                "rule":"%i==6",
-                                "background-color":"#47f79f"
-                            },
-                            {
-                                "rule":"%i==7",
-                                "background-color":"#fc0aec"
-                            },
-                            {
-                                "rule":"%i==8",
-                                "background-color":"#ea8c7c"
-                            },
-                            {
-                                "rule":"%i==9",
-                                "background-color":"#f9e154"
-                            },
-                            {
-                                "rule":"%i==10",
-                                "background-color":"#f4ef58"
-                            },
-                            {
-                                "rule":"%i==11",
-                                "background-color":"#e057e0"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#FA8452"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#FCAE48"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#FCCC65"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#A0BE4A"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#6FA6DF"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#a200b2"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#47f79f"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#fc0aec"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#ea8c7c"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#f9e154"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divHobby', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divHobby',
+                    data: chartConfig
                 });
                 
             }
@@ -1040,93 +998,114 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels": labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            },
-                            {
-                                "rule":"%i==5",
-                                "background-color":"#a200b2"
-                            },
-                            {
-                                "rule":"%i==6",
-                                "background-color":"#47f79f"
-                            },
-                            {
-                                "rule":"%i==7",
-                                "background-color":"#fc0aec"
-                            },
-                            {
-                                "rule":"%i==8",
-                                "background-color":"#ea8c7c"
-                            },
-                            {
-                                "rule":"%i==9",
-                                "background-color":"#f9e154"
-                            },
-                            {
-                                "rule":"%i==10",
-                                "background-color":"#f4ef58"
-                            },
-                            {
-                                "rule":"%i==11",
-                                "background-color":"#e057e0"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#FA8452"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#FCAE48"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#FCCC65"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#A0BE4A"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#6FA6DF"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#a200b2"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#47f79f"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#fc0aec"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#ea8c7c"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#f9e154"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divMedia', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divMedia',
+                    data: chartConfig
                 });
             }
 
@@ -1162,93 +1141,114 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels":labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            },
-                            {
-                                "rule":"%i==5",
-                                "background-color":"#a200b2"
-                            },
-                            {
-                                "rule":"%i==6",
-                                "background-color":"#47f79f"
-                            },
-                            {
-                                "rule":"%i==7",
-                                "background-color":"#fc0aec"
-                            },
-                            {
-                                "rule":"%i==8",
-                                "background-color":"#ea8c7c"
-                            },
-                            {
-                                "rule":"%i==9",
-                                "background-color":"#f9e154"
-                            },
-                            {
-                                "rule":"%i==10",
-                                "background-color":"#f4ef58"
-                            },
-                            {
-                                "rule":"%i==11",
-                                "background-color":"#e057e0"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#FA8452"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#FCAE48"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#FCCC65"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#A0BE4A"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#6FA6DF"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#a200b2"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#47f79f"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#fc0aec"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#ea8c7c"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#f9e154"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divCity', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divCity',
+                    data: chartConfig
                 });
             }
 
@@ -1282,8 +1282,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -1291,26 +1293,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1327,16 +1322,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divTimeSpent', 
@@ -1381,8 +1368,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -1390,26 +1379,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1426,16 +1408,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divFrequency', 
@@ -1486,65 +1460,115 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels": labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#FA8452"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#FCAE48"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#FCCC65"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#A0BE4A"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#6FA6DF"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#a200b2"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#47f79f"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#fc0aec"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#ea8c7c"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#f9e154"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divGeneral', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divGeneral',
+                    height:350,
+                    data: chartConfig
                 });
             }
 
@@ -1591,65 +1615,115 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels": labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#FA8452"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#FCAE48"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#FCCC65"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#A0BE4A"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#6FA6DF"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#a200b2"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#47f79f"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#fc0aec"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#ea8c7c"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#f9e154"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divFinance', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divFinance',
+                    height:350,
+                    data: chartConfig
                 });
             }
 
@@ -1696,65 +1770,115 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels": labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#FA8452"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#FCAE48"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#FCCC65"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#A0BE4A"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#6FA6DF"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#a200b2"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#47f79f"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#fc0aec"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#ea8c7c"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#f9e154"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divCommerce', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divCommerce',
+                    height:350,
+                    data: chartConfig
                 });
             }
 
@@ -1788,8 +1912,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -1797,26 +1923,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1833,16 +1952,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divTools', 
@@ -1887,8 +1998,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -1896,26 +2009,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1932,16 +2038,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divAllWebsite', 
@@ -1979,8 +2077,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -1988,26 +2088,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2024,16 +2117,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divFrequencyRadio', 
@@ -2071,8 +2156,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -2080,26 +2167,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2116,16 +2196,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divPlace', 
@@ -2163,8 +2235,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -2172,26 +2246,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2208,16 +2275,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divToolsListeningRadio', 
@@ -2255,8 +2314,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -2264,26 +2325,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2300,16 +2354,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divAllTime', 
@@ -2347,8 +2393,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -2356,26 +2404,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2392,16 +2433,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divPrimeTime', 
@@ -2439,8 +2472,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -2448,26 +2483,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2484,16 +2512,8 @@
                             "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divNonPrimeTime', 
@@ -2554,7 +2574,7 @@
                     type:"GET",
                     data:"brand="+brand+"&quartal="+quartal,
                     beforeSend:function(){
-                        $("#topBrand").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                        $("#topBrand").empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
                         $("#rankTopBrand").empty();
                     },
                     success:function(result){
@@ -2566,25 +2586,34 @@
                         var labels=[];
                         var values=[];
 
-                        result.label.reverse();
-
-                        $.each(result.label,function(a,b){
-                            labels.push(b.brand);
-                            values.push(b.total);
+                        var filterbrand=result.allbrand.slice(0,10);
+                        filterbrand.reverse();
+                        $.each(filterbrand,function(a,b){
+                            labels.push(b.brand_name);
+                            values.push(b.totals_thousand);
                         })
                         
+                        var brandrank="";
+                        var brandcategory="";
+                        for (var i=0; i<result.allbrand.length; i++){
+                            if (result.allbrand[i].brand_id === result.brand.brand_id){
+                                brandrank=i+1;
+                                brandcategory= result.brand.category.category_name;
+                            }
+                        }
+                        
                         var el="";
-                        el+="<table class='table table-striped'>"+
+                        el+="<table class='table table-striped' style='color:#22222'>"+
                             '<thead>'+
                                 '<tr>'+
                                     '<th>Rank</th>'+
                                     '<th> : </th>'+
-                                    '<th>'+result.rank.number+'</th>'+
+                                    '<th>'+brandrank+'</th>'+
                                 '</tr>'+
                                 '<tr>'+
                                     '<th>Category</th>'+
                                     '<th> : </th>'+
-                                    '<th>'+result.rank.category+'</th>'+
+                                    '<th>'+brandcategory+'</th>'+
                                 '</tr>'+
                             '</thead>'+
                         '</table>';
@@ -2622,8 +2651,8 @@
                                     "visible": false
                                 },
                                 "item": {
-                                    "font-size": "11px",
-                                    "font-color": "#7E7E7E"
+                                    "font-size": "9px",
+                                    "font-color": "#222222"
                                 }
                             },
                             "tooltip": {
@@ -2737,17 +2766,17 @@
                                     '<td><div id="frequencyValue"></div></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>GENERAL</b></td>'+
+                                    '<td><b>FUNCTION USED GENERAL</b></td>'+
                                     '<td><b><div id="generalName"></div></b></td>'+
                                     '<td><div id="generalValue"></div></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>E-FINANCE</b></td>'+
+                                    '<td><b>FUNCTION USED E-FINANCE</b></td>'+
                                     '<td><b><div id="financeName"></div></b></td>'+
                                     '<td><div id="financeValue"></div></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>E-COMMERCE</b></td>'+
+                                    '<td><b>FUNCTION USED E-COMMERCE</b></td>'+
                                     '<td><b><div id="commerceName"></div></b></td>'+
                                     '<td><div id="commerceValue"></div></td>'+
                                 '</tr>'+
@@ -2839,7 +2868,7 @@
                     '</div>'+
                     '<div class="card-body">'+
                     '<div class="row">'+
-                        '<div class="col-lg-3">'+
+                        '<div class="col-lg-6">'+
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
@@ -2848,7 +2877,7 @@
                             '</div>'+
                             '<div id="divGender"></div>'+
                         '</div>'+
-                        '<div class="col-lg-3">'+
+                        '<div class="col-lg-6">'+
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
@@ -2857,7 +2886,7 @@
                             '</div>'+
                             '<div id="divAge"></div>'+
                         '</div>'+
-                        '<div class="col-lg-3">'+
+                        '<div class="col-lg-6">'+
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
@@ -2866,7 +2895,7 @@
                             '</div>'+
                             '<div id="divSec"></div>'+
                         '</div>'+
-                        '<div class="col-lg-3">'+
+                        '<div class="col-lg-6">'+
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
@@ -2952,7 +2981,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">TIME SPENT OF USING INTERNET</p>'+
+                                        '<p class="card-title" style="font-size:16px;">TIME SPENT OF USING INTERNET</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divTimeSpent"></div>'+
@@ -2961,42 +2990,11 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">FREQUENCY OF USING INTERNET</p>'+
+                                        '<p class="card-title" style="font-size:16px;">FREQUENCY OF USING INTERNET</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFrequency"></div>'+
                             '</div>'+
-                            '<div class="col-lg-6">'+
-                                '<div class="card card-default">'+
-                                    '<div class="card-status card-status-left bg-blue"></div>'+
-                                    '<div class="card-header">'+
-                                        '<p class="card-title">GENERAL</p>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div id="divGeneral"></div>'+
-                            '</div>'+
-                        '</div>'+
-                        '<div class="row">'+
-                            '<div class="col-lg-6">'+
-                                '<div class="card card-default">'+
-                                    '<div class="card-status card-status-left bg-blue"></div>'+
-                                    '<div class="card-header">'+
-                                        '<p class="card-title">E-FINANCE</p>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div id="divFinance"></div>'+
-                            '</div>'+
-                            '<div class="col-lg-6">'+
-                                '<div class="card card-default">'+
-                                    '<div class="card-status card-status-left bg-blue"></div>'+
-                                    '<div class="card-header">'+
-                                        '<p class="card-title">E-COMMERCE</p>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div id="divCommerce"></div>'+
-                            '</div>'+
-                        '</div>'+
-                        '<div class="row">'+
                             '<div class="col-lg-3">'+
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
@@ -3015,6 +3013,38 @@
                                 '</div>'+
                                 '<div id="divAllWebsite"></div>'+
                             '</div>'+
+                        '</div>'+
+                        '<div class="row">'+
+                            '<div class="col-lg-4">'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">FUNCTION USED GENERAL</p>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divGeneral"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-4">'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">FUNCTION USED E-FINANCE</p>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divFinance"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-4">'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">FUNCTION USED E-COMMERCE</p>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divCommerce"></div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="row">'+
+                            
                         '</div>'+
                     '</div>'+
                 '</div>';
@@ -3185,12 +3215,12 @@
             width: 100%;
         }
 
-        #divGeneral{
+        /* #divGeneral{
             height: 100%;
             width: 100%;
-        }
+        } */
 
-        #divFinance{
+        /* #divFinance{
             height: 100%;
             width: 100%;
         }
@@ -3198,7 +3228,7 @@
         #divCommerce{
             height: 100%;
             width: 100%;
-        }
+        } */
 
         #divTools{
             height: 100%;
