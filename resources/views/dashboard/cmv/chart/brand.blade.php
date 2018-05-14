@@ -265,22 +265,25 @@
 
             function showGender(data){
                 var age=[];
-                var color=["#5b9ddb","#f67c2a","#a0a0a0","#ffc720","#557dcb"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
 
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D1"){
+
                         br=b.brand_name;
                         age.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -293,7 +296,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie",
+                    type: "pie3d",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -330,7 +333,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : age
@@ -346,22 +349,24 @@
 
             function showSec(data){
                 var sec=[];
-                var color=["#599cdb","#f67b28","#a9a9a9"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D3"){
                         br=b.brand_name;
                         sec.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         });
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -374,7 +379,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie",
+                    type: "pie3d",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -411,7 +416,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : sec
@@ -427,22 +432,24 @@
 
             function showAge(data){
                 var age=[];
-                var color=["#5b9ddb","#f67c2a","#a0a0a0","#ffc720","#557dcb"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D2"){
                         br=b.brand_name;
                         age.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -455,7 +462,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie",
+                    type: "pie3d",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -492,7 +499,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : age
@@ -508,22 +515,24 @@
 
             function showEducation(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D4"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -536,7 +545,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie",
+                    type: "pie3d",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -573,7 +582,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : education
@@ -1254,22 +1263,24 @@
 
             function showTimeSpent(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D10"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -1282,7 +1293,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie",
+                    type: "pie3d",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -1305,7 +1316,7 @@
                             placement: "out",
                             text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 7
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1319,7 +1330,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : education
@@ -1333,7 +1344,7 @@
 
             function showFrequency(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
 
@@ -1348,7 +1359,7 @@
                             br=b.brand_name;
                             education.push({
                                 values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[a],
+                                backgroundColor:color[n],
                                 ver:b.totals_ver,
                                 thousand:b.totals_thousand,
                                 text:b.subdemo_name
@@ -1368,7 +1379,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie",
+                    type: "pie3d",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -1391,7 +1402,7 @@
                             placement: "out",
                             text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 7
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1405,7 +1416,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : education
@@ -1884,22 +1895,24 @@
 
             function showTools(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D15"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -1912,7 +1925,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie",
+                    type: "pie3d",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -1935,7 +1948,7 @@
                             placement: "out",
                             text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 7
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1949,7 +1962,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : education
@@ -1963,7 +1976,7 @@
 
             function showAllWebsite(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
 
@@ -1978,7 +1991,7 @@
                             br=b.brand_name;
                             education.push({
                                 values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[a],
+                                backgroundColor:color[n],
                                 ver:b.totals_ver,
                                 thousand:b.totals_thousand,
                                 text:b.subdemo_name
@@ -1998,7 +2011,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie",
+                    type: "pie3d",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -2021,7 +2034,7 @@
                             placement: "out",
                             text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 7
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2035,7 +2048,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : education
@@ -2049,22 +2062,24 @@
 
             function showFrequencyRadio(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D17"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -2077,7 +2092,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie",
+                    type: "pie3d",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -2100,7 +2115,7 @@
                             placement: "out",
                             text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 7
+                            fontSize: 9
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2114,7 +2129,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : education
@@ -2128,22 +2143,24 @@
 
             function showPlace(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D18"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -2156,7 +2173,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie",
+                    type: "pie3d",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -2179,7 +2196,7 @@
                             placement: "out",
                             text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 7
+                            fontSize: 9
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2193,7 +2210,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : education
@@ -2207,22 +2224,24 @@
 
             function showToolsListeningRadio(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D19"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -2235,7 +2254,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie",
+                    type: "pie3d",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -2258,7 +2277,7 @@
                             placement: "out",
                             text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 7
+                            fontSize: 9
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2272,7 +2291,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : education
@@ -2555,12 +2574,239 @@
                         showFrequencyRadio(alldata);
                         showPlace(alldata);
                         showToolsListeningRadio(alldata);
-                        showAllTime(alldata);
-                        showPrimeTime(alldata);
-                        showNonPrimeTime(alldata);
+                        // showAllTime(alldata);
+                        // showPrimeTime(alldata);
+                        // showNonPrimeTime(alldata);
+
+                        showDayPart();
                     },
                     error:function(){
 
+                    }
+                })
+            }
+
+            function showDayPart(){
+                var brand=$("#brand").val();
+                var quartal=$("#quartal").val();
+
+                $.ajax({
+                    url:"{{URL::to('cmv/data/chart/day-part')}}",
+                    type:"GET",
+                    data:"brand="+brand+"&quartal="+quartal,
+                    beforeSend:function(){
+                        $("#divTableDaypart").empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        $("#divGrafikDaypart").empty();
+                    },
+                    success:function(result){
+                        if(result.success==true){
+                            var el="";
+                            var rcti=[];
+                            var mnctv=[];
+                            var gtv=[];
+                            var label="";
+
+                            el+='<table class="table table-striped">'+
+                                '<thead>'+
+                                    '<tr>'+
+                                        '<th colspan="10" class="text-center"><p id="labelDayPart"></p></th>'+
+                                    '</tr>'+
+                                    '<tr>'+
+                                        '<th></th>'+
+                                        '<th>02:00 TO 06:59</th>'+
+                                        '<th>07:00 TO 08:59</th>'+
+                                        '<th>09:00 TO 11:59</th>'+
+                                        '<th>12:00 TO 13:59</th>'+
+                                        '<th>14:00 TO 17:59</th>'+
+                                        '<th>18:00 TO 19:59</th>'+
+                                        '<th>20:00 TO 21:59</th>'+
+                                        '<th>22:00 TO 23:59</th>'+
+                                        '<th>24:00 TO 25:59</th>'+
+                                    '</tr>'+
+                                '</thead>'+
+                                '<tbody>';
+                                $.each(result.data,function(a,b){
+                                    label=b.brand_name;
+                                    if(b.subdemo_name=="RCTI"){
+                                        rcti=[
+                                                b.pertama,
+                                                b.kedua,
+                                                b.ketiga,
+                                                b.keempat,
+                                                b.kelima,
+                                                b.keenam,
+                                                b.ketujuh,
+                                                b.kedelapan,
+                                                b.kesembilan
+                                            ];
+                                    }
+
+                                    if(b.subdemo_name=="MNCTV"){
+                                        mnctv=[
+                                                b.pertama,
+                                                b.kedua,
+                                                b.ketiga,
+                                                b.keempat,
+                                                b.kelima,
+                                                b.keenam,
+                                                b.ketujuh,
+                                                b.kedelapan,
+                                                b.kesembilan
+                                            ];
+                                    }
+
+                                    if(b.subdemo_name=="GTV"){
+                                        gtv=[
+                                                b.pertama,
+                                                b.kedua,
+                                                b.ketiga,
+                                                b.keempat,
+                                                b.kelima,
+                                                b.keenam,
+                                                b.ketujuh,
+                                                b.kedelapan,
+                                                b.kesembilan
+                                            ];
+                                    }
+
+                                    el+="<tr>"+
+                                        '<td>'+b.subdemo_name+'</td>'+
+                                        '<td>'+b.pertama+'</td>'+
+                                        '<td>'+b.kedua+'</td>'+
+                                        '<td>'+b.ketiga+'</td>'+
+                                        '<td>'+b.keempat+'</td>'+
+                                        '<td>'+b.kelima+'</td>'+
+                                        '<td>'+b.keenam+'</td>'+
+                                        '<td>'+b.ketujuh+'</td>'+
+                                        '<td>'+b.kedelapan+'</td>'+
+                                        '<td>'+b.kesembilan+'</td>'+
+                                    '</tr>';
+                                })
+                                el+='</tbody>'+
+                            '</table>';
+
+                            $("#divTableDaypart").empty().html(el);
+                            $("#labelDayPart").empty().html(label);
+
+                            console.log(rcti);
+
+                            var myConfig = {
+                                "background-color":"white",
+                                "type":"line",
+                                "title":{
+                                    "text":label,
+                                    "color":"#333",
+                                    "background-color":"white",
+                                    "text-align":"center",
+                                },
+                                legend:{
+                                    adjustLayout: true,
+                                    align: 'center',
+                                    verticalAlign: 'bottom'
+                                },
+                                "scaleX":{
+                                    "values": [
+                                        "02:00 - 06:59",
+                                        "07:00 - 08:59",
+                                        "09:00 - 11:59",
+                                        "12:00 - 13:59",
+                                        "14:00 - 17:59",
+                                        "18:00 - 19:59",
+                                        "20:00 - 21:59",
+                                        "22:00 - 23:59",
+                                        "24:00 - 25:59"
+                                    ],
+                                    "max-items":9
+                                },
+                                "scaleY":{
+                                    "line-color":"#333",
+                                    "max-labels":9,
+                                    "margin":"15% 25% 10% 7%"
+                                },
+                                "tooltip":{
+                                    "text":"%t: %v outbreaks in %k"
+                                },
+                                "plot":{
+                                    "line-width":3,
+                                    "marker":{
+                                        "size":3,
+                                        "type":"square",
+                                        "angle":45
+                                    },
+                                    "selection-mode":"multiple",
+                                    "background-mode":"graph",
+                                    "selected-state":{
+                                        "line-width":4
+                                    },
+                                    "background-state":{
+                                        "line-color":"#eee",
+                                        "marker":{
+                                            "background-color":"none",
+                                            size: 4
+                                        }
+                                    }
+                                },
+                                "plotarea":{
+                                    // "margin":"15% 25% 10% 7%"
+                                },
+                                crosshairX:{
+                                    exact: true,
+                                    lineColor:'#000',
+                                    scaleLabel:{
+                                        borderRadius: 2
+                                    },
+                                    marker:{
+                                        size: 7,
+                                        alpha: 0.5,
+                                        backgroundColor:'white',
+                                        borderWidth: 2,
+                                        borderColor:'#000'
+                                    }
+                                },
+                                "series":[
+                                    {
+                                        // "values":[1033,988,1283,1128,1472,1380,1392,1186,836],
+                                        "values":rcti,
+                                        "text":"RCTI",
+                                        "line-color":"#3542ab",
+                                        "marker":{
+                                            "background-color":"#a6cee3",
+                                            "border-color":"#a6cee3"
+                                        }
+                                    },
+                                    {
+                                        "values":mnctv,
+                                        "text":"MNCTV",
+                                        "line-color":"#009ce4",
+                                        "marker":{
+                                            "background-color":"#1f78b4",
+                                            "border-color":"#1f78b4"
+                                        }
+                                    },
+                                    {
+                                        "values":gtv,
+                                        "text":"GTV",
+                                        "line-color":"#c00000",
+                                        "marker":{
+                                            "background-color":"#b2df8a",
+                                            "border-color":"#b2df8a"
+                                        }
+                                    }
+                                ]
+                            };
+
+
+                            
+                            zingchart.render({ 
+                                id: 'divGrafikDaypart', 
+                                data: myConfig,
+                            });
+                        }else{
+                            $("#divTableDaypart").empty().html('<div class="alert alert-danger">&nbsp;Failed to load data</div>');
+                        }
+                    },
+                    errors:function(){
+                        $("#divTableDaypart").empty().html('<div class="alert alert-danger">&nbsp;Link not found</div>');
                     }
                 })
             }
@@ -2805,21 +3051,21 @@
                                     '<td><b><div id="toolsListeningName"></div></b></td>'+
                                     '<td><div id="toolsListeningValue"></div></td>'+
                                 '</tr>'+
-                                '<tr>'+
-                                    '<td><b>DAY PART - ALL TIME</b></td>'+
-                                    '<td><b><div id="allTimeName"></div></b></td>'+
-                                    '<td><div id="allTimeValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>DAY PART - PRIME TIME</b></td>'+
-                                    '<td><b><div id="primeTimeName"></div></b></td>'+
-                                    '<td><div id="primeTimeValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>DAY PART - NON PRIME TIME</b></td>'+
-                                    '<td><b><div id="nonprimetimeName"></div></b></td>'+
-                                    '<td><div id="nonprimetimeValue"></div></td>'+
-                                '</tr>'+
+                                // '<tr>'+
+                                //     '<td><b>DAY PART - ALL TIME</b></td>'+
+                                //     '<td><b><div id="allTimeName"></div></b></td>'+
+                                //     '<td><div id="allTimeValue"></div></td>'+
+                                // '</tr>'+
+                                // '<tr>'+
+                                //     '<td><b>DAY PART - PRIME TIME</b></td>'+
+                                //     '<td><b><div id="primeTimeName"></div></b></td>'+
+                                //     '<td><div id="primeTimeValue"></div></td>'+
+                                // '</tr>'+
+                                // '<tr>'+
+                                //     '<td><b>DAY PART - NON PRIME TIME</b></td>'+
+                                //     '<td><b><div id="nonprimetimeName"></div></b></td>'+
+                                //     '<td><div id="nonprimetimeValue"></div></td>'+
+                                // '</tr>'+
                         '</table>'+
                     '</div>'+
                 '</div>';
@@ -2977,7 +3223,7 @@
                     '</div>'+
                     '<div class="card-body">'+
                         '<div class="row">'+
-                            '<div class="col-lg-3">'+
+                            '<div class="col-lg-6">'+
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
@@ -2986,7 +3232,7 @@
                                 '</div>'+
                                 '<div id="divTimeSpent"></div>'+
                             '</div>'+
-                            '<div class="col-lg-3">'+
+                            '<div class="col-lg-6">'+
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
@@ -2995,7 +3241,7 @@
                                 '</div>'+
                                 '<div id="divFrequency"></div>'+
                             '</div>'+
-                            '<div class="col-lg-3">'+
+                            '<div class="col-lg-6">'+
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
@@ -3004,7 +3250,7 @@
                                 '</div>'+
                                 '<div id="divTools"></div>'+
                             '</div>'+
-                            '<div class="col-lg-3">'+
+                            '<div class="col-lg-6">'+
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
@@ -3104,35 +3350,38 @@
                         '</div>'+
                     '</div>'+
                     '<div class="card-body">'+
-                        '<div class="row">'+
-                            '<div class="col-lg-4">'+
-                                '<div class="card card-default">'+
-                                    '<div class="card-status card-status-left bg-blue"></div>'+
-                                    '<div class="card-header">'+
-                                        '<p class="card-title">DAY PART - ALL TIME</p>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div id="divAllTime"></div>'+
-                            '</div>'+
-                            '<div class="col-lg-4">'+
-                                '<div class="card card-default">'+
-                                    '<div class="card-status card-status-left bg-blue"></div>'+
-                                    '<div class="card-header">'+
-                                        '<p class="card-title">DAY PART - PRIME TIME</p>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div id="divPrimeTime"></div>'+
-                            '</div>'+
-                            '<div class="col-lg-4">'+
-                                '<div class="card card-default">'+
-                                    '<div class="card-status card-status-left bg-blue"></div>'+
-                                    '<div class="card-header">'+
-                                        '<p class="card-title">DAY PART - NON PRIME TIME</p>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div id="divNonPrimeTime"></div>'+
-                            '</div>'+
-                        '</div>'+
+                        // '<div class="row">'+
+                        //     '<div class="col-lg-4">'+
+                        //         '<div class="card card-default">'+
+                        //             '<div class="card-status card-status-left bg-blue"></div>'+
+                        //             '<div class="card-header">'+
+                        //                 '<p class="card-title">DAY PART - ALL TIME</p>'+
+                        //             '</div>'+
+                        //         '</div>'+
+                        //         '<div id="divAllTime"></div>'+
+                        //     '</div>'+
+                        //     '<div class="col-lg-4">'+
+                        //         '<div class="card card-default">'+
+                        //             '<div class="card-status card-status-left bg-blue"></div>'+
+                        //             '<div class="card-header">'+
+                        //                 '<p class="card-title">DAY PART - PRIME TIME</p>'+
+                        //             '</div>'+
+                        //         '</div>'+
+                        //         '<div id="divPrimeTime"></div>'+
+                        //     '</div>'+
+                        //     '<div class="col-lg-4">'+
+                        //         '<div class="card card-default">'+
+                        //             '<div class="card-status card-status-left bg-blue"></div>'+
+                        //             '<div class="card-header">'+
+                        //                 '<p class="card-title">DAY PART - NON PRIME TIME</p>'+
+                        //             '</div>'+
+                        //         '</div>'+
+                        //         '<div id="divNonPrimeTime"></div>'+
+                        //     '</div>'+
+                        // '</div>'+
+                        '<div id="divTableDaypart"></div>'+
+                        '<hr>'+
+                        '<div id="divGrafikDaypart"></div>'+
                     '</div>'+
                 '</div>';
 
@@ -3157,6 +3406,11 @@
     <style>
         #topBrand {
             height: 450px;
+            width: 100%;
+        }
+
+        #divGrafikDaypart{
+            height: 100%;
             width: 100%;
         }
 

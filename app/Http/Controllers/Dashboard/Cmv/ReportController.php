@@ -452,4 +452,66 @@ class ReportController extends Controller
             return $allbrand;
         }
     }
+
+    public function day_part(Request $request){
+        // SELECT a.brand_id, a.brand_name, c.subdemo_name,
+        // sum(if(b.subdemo_id='DD215' or b.subdemo_id='DD216' or b.subdemo_id='DD217',b.totals_thousand,0)) as '02:00 TO 06:59',
+        // sum(if(b.subdemo_id='DD218' or b.subdemo_id='DD219' or b.subdemo_id='DD220',b.totals_thousand,0)) as '07:00 TO 08:59',
+        // sum(if(b.subdemo_id='DD221' or b.subdemo_id='DD222' or b.subdemo_id='DD223',b.totals_thousand,0)) as '09:00 TO 11:59',
+        // sum(if(b.subdemo_id='DD224' or b.subdemo_id='DD225' or b.subdemo_id='DD226',b.totals_thousand,0)) as '12:00 TO 13:59',
+        // sum(if(b.subdemo_id='DD227' or b.subdemo_id='DD228' or b.subdemo_id='DD229',b.totals_thousand,0)) as '14:00 TO 17:59',
+        // sum(if(b.subdemo_id='DD230' or b.subdemo_id='DD231' or b.subdemo_id='DD232',b.totals_thousand,0)) as '18:00 TO 19:59',
+        // sum(if(b.subdemo_id='DD233' or b.subdemo_id='DD234' or b.subdemo_id='DD235',b.totals_thousand,0)) as '20:00 TO 21:59',
+        // sum(if(b.subdemo_id='DD236' or b.subdemo_id='DD237' or b.subdemo_id='DD238',b.totals_thousand,0)) as '22:00 TO 23:59',
+        // sum(if(b.subdemo_id='DD239' or b.subdemo_id='DD240' or b.subdemo_id='DD241',b.totals_thousand,0)) as '24:00 TO 25:59'
+        // from cmv_brand a
+        // left join cmv_variabel b on b.brand_id=a.brand_id
+        // left join cmv_sub_demography c on c.subdemo_id=b.subdemo_id
+        // left join cmv_demography d on d.demo_id=c.demo_id
+        // where a.brand_id='B686'
+        // and c.demo_id in ('D23','D24','D25','D26','D27','D28','D29','D30','D31')
+        // group by a.brand_id, c.subdemo_name
+        $rules=['brand'=>'required','quartal'=>'required'];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>'Validasi Errors',
+                'error'=>$validasi->errors()->all()
+            );
+        }else{
+            $brand=$request->input('brand');
+            $quartal=$request->input('quartal');
+
+            $day=\DB::connection('mysql3')->Table('cmv_brand as a')
+                ->leftJoin('cmv_variabel as b','b.brand_id','=','a.brand_id')
+                ->leftJoin('cmv_sub_demography as c','c.subdemo_id','=','b.subdemo_id')
+                ->leftJoin('cmv_demography as d','d.demo_id','=','c.demo_id')
+                ->where('a.brand_id',$brand)
+                ->where('b.quartal',$quartal)
+                ->whereIn('c.demo_id',['D23','D24','D25','D26','D27','D28','D29','D30','D31'])
+                ->groupBy('a.brand_id','c.subdemo_name')
+                ->select(
+                    'a.brand_id', 'a.brand_name', 'c.subdemo_name',
+                    \DB::raw("sum(if(b.subdemo_id='DD215' or b.subdemo_id='DD216' or b.subdemo_id='DD217',b.totals_thousand,0)) as 'pertama'"),
+                    \DB::raw("sum(if(b.subdemo_id='DD218' or b.subdemo_id='DD219' or b.subdemo_id='DD220',b.totals_thousand,0)) as 'kedua'"),
+                    \DB::raw("sum(if(b.subdemo_id='DD221' or b.subdemo_id='DD222' or b.subdemo_id='DD223',b.totals_thousand,0)) as 'ketiga'"),
+                    \DB::raw("sum(if(b.subdemo_id='DD224' or b.subdemo_id='DD225' or b.subdemo_id='DD226',b.totals_thousand,0)) as 'keempat'"),
+                    \DB::raw("sum(if(b.subdemo_id='DD227' or b.subdemo_id='DD228' or b.subdemo_id='DD229',b.totals_thousand,0)) as 'kelima'"),
+                    \DB::raw("sum(if(b.subdemo_id='DD230' or b.subdemo_id='DD231' or b.subdemo_id='DD232',b.totals_thousand,0)) as 'keenam'"),
+                    \DB::raw("sum(if(b.subdemo_id='DD233' or b.subdemo_id='DD234' or b.subdemo_id='DD235',b.totals_thousand,0)) as 'ketujuh'"),
+                    \DB::raw("sum(if(b.subdemo_id='DD236' or b.subdemo_id='DD237' or b.subdemo_id='DD238',b.totals_thousand,0)) as 'kedelapan'"),
+                    \DB::raw("sum(if(b.subdemo_id='DD239' or b.subdemo_id='DD240' or b.subdemo_id='DD241',b.totals_thousand,0)) as 'kesembilan'")
+                )->orderBy('c.subdemo_name','desc')
+                ->get();
+
+            return array(
+                'success'=>true,
+                'pesan'=>'Data berhasil diload',
+                'data'=>$day
+            );
+        }
+    }
 }
