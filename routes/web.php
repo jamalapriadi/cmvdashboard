@@ -219,6 +219,7 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
             Route::get('all-data','Dashboard\Cmv\ReportController@chart_all_data');
             Route::get('all-brand','Dashboard\Cmv\ReportController@all_brand');
             Route::get('all-data-ta','Dashboard\Cmv\ReportController@all_data_by_ta');
+            Route::get('day-part','Dashboard\Cmv\ReportController@day_part');
         });
     });
 });

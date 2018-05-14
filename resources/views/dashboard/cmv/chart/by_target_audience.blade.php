@@ -181,47 +181,42 @@
             }
 
             function showGender(data){
-                var gender=[];
-                var color=["#5d9edb","#f38542"];
+                var age=[];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
 
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D1"){
+
                         br=b.brand_name;
-                        if(a==1){
-                            gender.push({
-                                values:[parseFloat(b.totals_ver)],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                backgroundColor:color[a],
-                                text:b.subdemo_name
-                            })
-                        }else{
-                            gender.push({
-                                values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[a],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                text:b.subdemo_name
-                            })
-                        }
+                        age.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[n],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
-                
+
                 var tertinggi=Math.max.apply(Math,allnilai);
-                for(l=0;l<gender.length;l++){
-                    if(gender[l].thousand==tertinggi){
-                        $("#genderValue").empty().html(parseFloat(gender[l].ver)+" %");
-                        $("#genderName").empty().html(gender[l].text);
+                for(l=0;l<age.length;l++){
+                    if(age[l].thousand==tertinggi){
+                        $("#genderValue").empty().html(parseFloat(age[l].ver)+" %");
+                        $("#genderName").empty().html(age[l].text);
                     }
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -229,26 +224,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"55%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -262,44 +250,40 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
-                    series : gender
-               };
+                    series : age
+                };
+            
+                zingchart.render({ 
+                    id : 'divGender', 
+                    data : myConfig
+                });
                 
-               zingchart.render({ 
-                   id : 'divGender', 
-                   data : myConfig
-               });
+                
             }
 
             function showSec(data){
                 var sec=[];
-                var color=["#599cdb","#f67b28","#a9a9a9"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D3"){
                         br=b.brand_name;
                         sec.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         });
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -312,8 +296,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -321,26 +307,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"65%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -354,19 +333,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : sec
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divSec', 
@@ -378,22 +349,24 @@
 
             function showAge(data){
                 var age=[];
-                var color=["#5b9ddb","#f67c2a","#a0a0a0","#ffc720","#557dcb"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D2"){
                         br=b.brand_name;
                         age.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -406,8 +379,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -415,26 +390,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"50%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -448,19 +416,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : age
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divAge', 
@@ -472,22 +432,24 @@
 
             function showEducation(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D4"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -500,8 +462,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -509,26 +473,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -542,19 +499,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divEducation', 
@@ -1123,22 +1072,24 @@
 
             function showTimeSpent(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D10"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -1151,8 +1102,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -1160,26 +1113,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1193,19 +1139,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divTimeSpent', 
@@ -1215,7 +1153,7 @@
 
             function showFrequency(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
 
@@ -1230,7 +1168,7 @@
                             br=b.brand_name;
                             education.push({
                                 values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[a],
+                                backgroundColor:color[n],
                                 ver:b.totals_ver,
                                 thousand:b.totals_thousand,
                                 text:b.subdemo_name
@@ -1250,8 +1188,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -1259,26 +1199,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1292,19 +1225,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divFrequency', 
@@ -1355,65 +1280,115 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels": labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#FA8452"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#FCAE48"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#FCCC65"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#A0BE4A"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#6FA6DF"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#a200b2"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#47f79f"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#fc0aec"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#ea8c7c"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#f9e154"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divGeneral', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divGeneral',
+                    height:350,
+                    data: chartConfig
                 });
             }
 
@@ -1460,65 +1435,115 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels": labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#FA8452"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#FCAE48"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#FCCC65"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#A0BE4A"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#6FA6DF"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#a200b2"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#47f79f"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#fc0aec"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#ea8c7c"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#f9e154"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divFinance', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divFinance',
+                    height:350,
+                    data: chartConfig
                 });
             }
 
@@ -1565,86 +1590,138 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels": labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#FA8452"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#FCAE48"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#FCCC65"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#A0BE4A"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#6FA6DF"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#a200b2"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#47f79f"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#fc0aec"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#ea8c7c"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#f9e154"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divCommerce', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divCommerce',
+                    height:350,
+                    data: chartConfig
                 });
             }
 
             function showTools(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D15"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -1657,8 +1734,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -1666,26 +1745,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1699,19 +1771,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divTools', 
@@ -1721,7 +1785,7 @@
 
             function showAllWebsite(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
 
@@ -1736,7 +1800,7 @@
                             br=b.brand_name;
                             education.push({
                                 values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[a],
+                                backgroundColor:color[n],
                                 ver:b.totals_ver,
                                 thousand:b.totals_thousand,
                                 text:b.subdemo_name
@@ -1756,8 +1820,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -1765,26 +1831,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 12
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1798,19 +1857,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divAllWebsite', 
@@ -1820,22 +1871,24 @@
 
             function showFrequencyRadio(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D17"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -1848,8 +1901,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -1857,26 +1912,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 9
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1890,19 +1938,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divFrequencyRadio', 
@@ -1912,29 +1952,24 @@
 
             function showPlace(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
-                data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
                 var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D18"){
+                        br=b.brand_name;
+                        education.push({
+                            values:[parseFloat(b.totals_ver)],
+                            backgroundColor:color[n],
+                            ver:b.totals_ver,
+                            thousand:b.totals_thousand,
+                            text:b.subdemo_name
+                        })
+
+                        allnilai.push(b.totals_thousand);
                         n++;
-
-                        if(n<=5){
-                            br=b.brand_name;
-                            education.push({
-                                values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[a],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                text:b.subdemo_name
-                            })
-
-                            allnilai.push(b.totals_thousand);
-                        }
                     }
                 })
 
@@ -1947,8 +1982,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -1956,26 +1993,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 9
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1989,19 +2019,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divPlace', 
@@ -2011,22 +2033,24 @@
 
             function showToolsListeningRadio(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D19"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -2039,8 +2063,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -2048,26 +2074,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 9
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2081,19 +2100,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divToolsListeningRadio', 
@@ -2103,22 +2114,24 @@
 
             function showAllTime(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D20"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -2131,8 +2144,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -2140,26 +2155,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 9
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2173,19 +2181,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divAllTime', 
@@ -2195,22 +2195,24 @@
 
             function showPrimeTime(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D21"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -2223,8 +2225,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -2232,26 +2236,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 9
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2265,19 +2262,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divPrimeTime', 
@@ -2287,22 +2276,24 @@
 
             function showNonPrimeTime(data){
                 var education=[];
-                var color=["#5197d7","#ef7421","#aaaaaa"];
+                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
                 var br="";
                 var allnilai=[];
-
+                
+                var n=0;
                 $.each(data,function(a,b){
                     if(b.demo_id=="D22"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[a],
+                            backgroundColor:color[n],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
+                        n++;
                     }
                 })
 
@@ -2315,8 +2306,10 @@
                 }
 
                 var myConfig = {
-                    type: "pie", 
-                    backgroundColor: "#fff",
+                    type: "pie3d",
+                    "plotarea": {
+                        "margin": "0 0"
+                    }, 
                     title: {
                         text: br,
                         backgroundColor: "#fff",
@@ -2324,26 +2317,19 @@
                         fontColor: "#1A1B26",
                         fontSize: 16
                     },
-                    "legend":{
-                        "x":"23%",
-                        "y":"10%",
-                        "toggle-action":"remove",
-                        "highlight-plot":true
-                    },
-                    "plotarea":{
-                        "margin-right":"5%",
-                        "margin-left":"5%",
-                        "margin-top":"20%",
-                        "margin-bottom":"5%"
+                    backgroundColor: "#fff",
+                    "scale":{
+                        "layout":"1x1", //specify the layout by rows and columns
+                        "size-factor":0.6 //provide a decimal or percentage value
                     },
                     plot: {
                         refAngle: 270,
                         valueBox: [
                         {
-                            placement: "in",
-                            text: "%v%",
+                            placement: "out",
+                            text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 16
+                            fontSize: 9
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2357,19 +2343,11 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            "placement":"node:out" //"node:out" or "node:center"
+                            // "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
-                    tooltip: {
-                        fontSize: 12,
-                        fontColor: "#1A1B26",
-                        shadow: 0,
-                        borderRadius: 3,
-                        borderWidth: 1,
-                        borderColor: "#fff"
-                    },
                     series : education
-               };
+                };
             
                 zingchart.render({ 
                     id : 'divNonPrimeTime', 
@@ -2554,7 +2532,7 @@
                         '</div>'+
                     '<div class="card-body">'+
                     '<div class="row">'+
-                        '<div class="col-lg-3">'+
+                        '<div class="col-lg-6">'+
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
@@ -2563,7 +2541,7 @@
                             '</div>'+
                             '<div id="divGender"></div>'+
                         '</div>'+
-                        '<div class="col-lg-3">'+
+                        '<div class="col-lg-6">'+
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
@@ -2572,7 +2550,7 @@
                             '</div>'+
                             '<div id="divAge"></div>'+
                         '</div>'+
-                        '<div class="col-lg-3">'+
+                        '<div class="col-lg-6">'+
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
@@ -2581,7 +2559,7 @@
                             '</div>'+
                             '<div id="divSec"></div>'+
                         '</div>'+
-                        '<div class="col-lg-3">'+
+                        '<div class="col-lg-6">'+
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
@@ -2655,7 +2633,7 @@
                     '</div>'+
                     '<div class="card-body">'+
                         '<div class="row">'+
-                            '<div class="col-lg-3">'+
+                            '<div class="col-lg-6">'+
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
@@ -2664,7 +2642,7 @@
                                 '</div>'+
                                 '<div id="divTimeSpent"></div>'+
                             '</div>'+
-                            '<div class="col-lg-3">'+
+                            '<div class="col-lg-6">'+
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
@@ -2677,14 +2655,33 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
+                                        '<p class="card-title">TOOLS OF INTERNET ACCESS</p>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divTools"></div>'+
+                            '</div>'+
+                            '<div class="col-lg-6">'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
+                                        '<p class="card-title">ALL WEBSITE</p>'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div id="divAllWebsite"></div>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="row">'+
+                            '<div class="col-lg-4">'+
+                                '<div class="card card-default">'+
+                                    '<div class="card-status card-status-left bg-blue"></div>'+
+                                    '<div class="card-header">'+
                                         '<p class="card-title">GENERAL</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divGeneral"></div>'+
                             '</div>'+
-                        '</div>'+
-                        '<div class="row">'+
-                            '<div class="col-lg-6">'+
+
+                            '<div class="col-lg-4">'+
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
@@ -2694,7 +2691,7 @@
                                 '<div id="divFinance"></div>'+
                             '</div>'+
 
-                            '<div class="col-lg-6">'+
+                            '<div class="col-lg-4">'+
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
@@ -2702,26 +2699,6 @@
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divCommerce"></div>'+
-                            '</div>'+
-                        '</div>'+
-                        '<div class="row">'+
-                            '<div class="col-lg-3">'+
-                                '<div class="card card-default">'+
-                                    '<div class="card-status card-status-left bg-blue"></div>'+
-                                    '<div class="card-header">'+
-                                        '<p class="card-title">TOOLS OF INTERNET ACCESS</p>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div id="divTools"></div>'+
-                            '</div>'+
-                            '<div class="col-lg-3">'+
-                                '<div class="card card-default">'+
-                                    '<div class="card-status card-status-left bg-blue"></div>'+
-                                    '<div class="card-header">'+
-                                        '<p class="card-title">ALL WEBSITE</p>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div id="divAllWebsite"></div>'+
                             '</div>'+
                         '</div>'+
                     '</div>'+
