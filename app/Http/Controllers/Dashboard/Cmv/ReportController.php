@@ -222,33 +222,10 @@ class ReportController extends Controller
                 'demo_id',
                 'subdemo_name'
             )
+            ->orderBy('b.totals_thousand','desc')
             ->get();
-        
-        $data=array();
-        $list=array();
-        $value=array();
-        $label=array();
-        $brandrank=array();
-        
-        $no=0;
-        foreach($allbrand as $key=>$val){
-            $no++;
-            if($key<10){
-                array_push($label,array('brand'=>$val->brand_name,'total'=>$val->totals_thousand));
-                array_push($data,$val->totals_thousand);
-            }
 
-            if($val->brand_id==$brand->brand_id){
-                $brandrank=array(
-                    'number'=>$no,
-                    'category'=>$brand->category->category_name
-                );
-            }
-        }
-
-        $a=sort($data);
-
-        return array('data'=>$data,'label'=>$label,'rank'=>$brandrank);
+        return array('allbrand'=>$allbrand,'brand'=>$brand);
     }
 
     public function competitive_map(Request $request){
