@@ -657,7 +657,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -673,6 +674,28 @@
                         "item": {
                             "font-size": "9px",
                             "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -724,7 +747,7 @@
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#3c2f2f"
+                                    "background-color":"#a0a0a0"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -814,7 +837,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -830,6 +854,28 @@
                         "item": {
                             "font-size": "9px",
                             "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -881,7 +927,7 @@
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#3c2f2f"
+                                    "background-color":"#a0a0a0"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1059,7 +1105,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -1075,6 +1122,17 @@
                         "item": {
                             "font-size": "9px",
                             "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -1126,7 +1184,7 @@
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#3c2f2f"
+                                    "background-color":"#a0a0a0"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1214,7 +1272,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -1230,6 +1289,17 @@
                         "item": {
                             "font-size": "9px",
                             "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -1281,7 +1351,7 @@
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#3c2f2f"
+                                    "background-color":"#a0a0a0"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1545,7 +1615,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -1561,6 +1632,17 @@
                         "item": {
                             "font-size": "9px",
                             "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -1612,7 +1694,7 @@
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#3c2f2f"
+                                    "background-color":"#a0a0a0"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1707,7 +1789,7 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -1723,6 +1805,17 @@
                         "item": {
                             "font-size": "9px",
                             "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -1774,7 +1867,7 @@
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#3c2f2f"
+                                    "background-color":"#a0a0a0"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1869,7 +1962,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -1885,6 +1979,17 @@
                         "item": {
                             "font-size": "9px",
                             "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -1936,7 +2041,7 @@
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#3c2f2f"
+                                    "background-color":"#a0a0a0"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -2049,10 +2154,13 @@
             }
 
             function showAllWebsite(data){
-                var education=[];
-                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
+                var labels=[];
+                var values=[];
                 var br="";
+                var no=0;
+                var alldata=[];
                 var allnilai=[];
+                var listdata=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
@@ -2063,75 +2171,158 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            education.push({
-                                values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[n],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                text:b.subdemo_name
+
+                            listdata.push({
+                                values:parseFloat(b.totals_ver),
+                                labels:b.subdemo_name
                             })
+
+                            alldata.push({
+                                label:b.subdemo_name,
+                                value:b.totals_ver,
+                                thousand:b.totals_thousand
+                            });
 
                             allnilai.push(b.totals_thousand);
                         }
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+                
+
                 var tertinggi=Math.max.apply(Math,allnilai);
-                for(l=0;l<education.length;l++){
-                    if(education[l].thousand==tertinggi){
-                        $("#allWebsiteValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#allWebsiteName").empty().html(education[l].text);
+                for(l=0;l<alldata.length;l++){
+                    if(alldata[l].thousand==tertinggi){
+                        $("#allWebsiteValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        $("#allWebsiteName").empty().html(alldata[l].label);
                     }
                 }
 
-                var myConfig = {
-                    type: "pie3d",
-                    "plotarea": {
-                        "margin": "0 0"
-                    }, 
-                    title: {
-                        text: br,
-                        backgroundColor: "#fff",
-                        height: 40,
-                        "font-color":"#222222",
-                        bold:false,
-                        fontSize: 14
-                    },
-                    backgroundColor: "#fff",
-                    "scale":{
-                        "layout":"1x1", //specify the layout by rows and columns
-                        "size-factor":0.6 //provide a decimal or percentage value
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "out",
-                            text: "%t:%v%",
-                            fontSize: 12,
-                            bold:false
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v%",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            // "placement":"node:out" //"node:out" or "node:center"
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
                         }
                     },
-                    series : education
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
+                    },
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#a2798f"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#d7c6cf"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#008080"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#a8e6cf"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#dcedc1"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#ffd3b6"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#ffaaa5"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#ff8b94"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#be9b7b"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#a0a0a0"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
+                    ]
                 };
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
             
                 zingchart.render({ 
                     id : 'divAllWebsite', 
-                    data : myConfig
+                    data : chartConfig
                 });
             }
 
