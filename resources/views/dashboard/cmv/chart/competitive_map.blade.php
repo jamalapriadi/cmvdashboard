@@ -1038,6 +1038,17 @@
                             '</div>'
                         '</div>';
 
+                        el+="<style>"+
+                            "#productGender"+result.brand.brand_id+"-license-text{display:none;}"+
+                            "#productSec"+result.brand.brand_id+"-license-text{display:none;}"+
+                            "#productAge"+result.brand.brand_id+"-license-text{display:none;}"+
+                            "#productEducation"+result.brand.brand_id+"-license-text{display:none;}"+
+                            "#productOccupation"+result.brand.brand_id+"-license-text{display:none;}"+
+                            "#productHobby"+result.brand.brand_id+"-license-text{display:none;}"+
+                            "#productMedia"+result.brand.brand_id+"-license-text{display:none;}"+
+                            "#productCities"+result.brand.brand_id+"-license-text{display:none;}"+
+                        "</style>";
+
                         $("#compareproduct").empty().html(el);
 
                         productGender(result.parent,result.brand);
@@ -1655,6 +1666,17 @@
                                             '</div>'+
                                         '</div>'+
                                     '</div>';
+
+                                    el+="<style>"+
+                                        "#compareGender"+d.brand_id+"-license-text{display:none;}"+
+                                        "#compareSec"+d.brand_id+"-license-text{display:none;}"+
+                                        "#compareAge"+d.brand_id+"-license-text{display:none;}"+
+                                        "#compareEducation"+d.brand_id+"-license-text{display:none;}"+
+                                        "#compareOccupation"+d.brand_id+"-license-text{display:none;}"+
+                                        "#compareHobby"+d.brand_id+"-license-text{display:none;}"+
+                                        "#compareMedia"+d.brand_id+"-license-text{display:none;}"+
+                                        "#compareCities"+d.brand_id+"-license-text{display:none;}"+
+                                    "</style>";
                             })
                             el+='</div>';
 
@@ -2238,9 +2260,21 @@
             width: 750px;
         }
 
+        #topBrand-license-text{
+            display:none;
+        } 
+
         #divGender {
             height: 100%;
             width: 100%;
+        }
+
+        #divGender-license-text{
+            display:none;
+        } 
+
+        #competitiveGender-license-text{
+            display:none;
         }
 
         #divAge {
@@ -2248,9 +2282,25 @@
             width: 100%;
         }
 
+        #divAge-license-text{
+            display:none;
+        } 
+
+        #competitiveAge-license-text{
+            display:none;
+        }
+
         #divSec {
             height: 100%;
             width: 100%;
+        }
+
+        #divSec-license-text{
+            display:none;
+        } 
+
+        #competitiveSec-license-text{
+            display:none;
         }
 
         #divEducation {
@@ -2258,9 +2308,25 @@
             width: 100%;
         }
 
+        #divEducation-license-text{
+            display:none;
+        }
+
+        #competitiveEducation-license-text{
+            display:none;
+        }
+
         #divOccupation {
             height: 100%;
             width: 100%;
+        }
+
+        #divOccupation-license-text{
+            display:none;
+        }
+        
+        #competitiveOccupation-license-text{
+            display:none;
         }
 
         #divHobby {
@@ -2268,9 +2334,25 @@
             width: 100%;
         }
 
+        #divHobby-license-text{
+            display:none;
+        }
+
+        #competitiveHobby-license-text{
+            display:none;
+        }
+
         #divPsiko {
             height: 100%;
             width: 100%;
+        }
+
+        #divPsiko-license-text{
+            display:none;
+        }
+
+        #competitivePsiko-license-text{
+            display:none;
         }
 
         #divMedia {
@@ -2278,9 +2360,29 @@
             width: 100%;
         }
 
+        #divMedia-license-text{
+            display:none;
+        }
+
+        #competitiveMedia-license-text{
+            display:none;
+        }
+
         #divCity {
             height: 100%;
             width: 100%;
+        }
+
+        #divCity-license-text{
+            display:none;
+        }
+
+        #competitiveCity-license-text{
+            display:none;
+        }
+
+        #competitiveCities-license-text{
+            display:none;
         }
 
         .zingchart-tooltip {

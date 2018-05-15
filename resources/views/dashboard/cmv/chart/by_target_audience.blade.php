@@ -2806,14 +2806,27 @@
             width: 100%;
         }
 
+        #divGrafikDaypart{
+            height: 100%;
+            width: 100%;
+        }
+
         #divGender {
             height: 100%;
             width: 100%;
         }
 
+        #divGender-license-text{
+            display:none;
+        } 
+
         #divAge {
             height: 100%;
             width: 100%;
+        }
+
+        #divAge-license-text{
+            display:none;
         }
 
         #divSec {
@@ -2821,9 +2834,17 @@
             width: 100%;
         }
 
+        #divSec-license-text{
+            display:none;
+        }
+
         #divEducation {
             height: 100%;
             width: 100%;
+        }
+
+        #divEducation-license-text{
+            display:none;
         }
 
         #divOccupation {
@@ -2831,9 +2852,17 @@
             width: 100%;
         }
 
+        #divOccupation-license-text{
+            display:none;
+        }
+
         #divHobby {
             height: 100%;
             width: 100%;
+        }
+
+        #divHobby-license-text{
+            display:none;
         }
 
         #divPsiko {
@@ -2841,9 +2870,17 @@
             width: 100%;
         }
 
+        #divPsiko-license-text{
+            display:none;
+        }
+
         #divMedia {
             height: 100%;
             width: 100%;
+        }
+
+        #divMedia-license-text{
+            display:none;
         }
 
         #divCity {
@@ -2851,9 +2888,17 @@
             width: 100%;
         }
 
+        #divCity-license-text{
+            display:none;
+        }
+
         #divTimeSpent{
             height: 100%;
             width: 100%;
+        }
+
+        #divTimeSpent-license-text{
+            display:none;
         }
 
         #divFrequency{
@@ -2861,12 +2906,21 @@
             width: 100%;
         }
 
-        #divGeneral{
-            height: 100%;
-            width: 100%;
+        #divFrequency-license-text{
+            display:none;
         }
 
-        #divFinance{
+        /* #divGeneral{
+            height: 100%;
+            width: 100%;
+        } */
+
+        #divGeneral-license-text{
+            display:none;
+        }
+        
+
+        /* #divFinance{
             height: 100%;
             width: 100%;
         }
@@ -2874,6 +2928,14 @@
         #divCommerce{
             height: 100%;
             width: 100%;
+        } */
+
+        #divFinance-license-text{
+            display:none;
+        }
+
+        #divCommerce-license-text{
+            display:none;
         }
 
         #divTools{
@@ -2881,9 +2943,17 @@
             width: 100%;
         }
 
+        #divTools-license-text{
+            display:none;
+        }
+
         #divAllWebsite{
             height: 100%;
             width: 100%;
+        }
+
+        #divAllWebsite-license-text{
+            display:none;
         }
 
         #divFrequencyRadio{
@@ -2891,9 +2961,17 @@
             width: 100%;
         }
 
+        #divFrequencyRadio-license-text{
+            display:none;
+        }
+
         #divPlace{
             height: 100%;
             width: 100%;
+        }
+
+        #divPlace-license-text{
+            display:none;
         }
 
         #divToolsListeningRadio{
@@ -2901,9 +2979,17 @@
             width: 100%;
         }
 
+        #divToolsListeningRadio-license-text{
+            display:none;
+        }
+
         #divAllTime{
             height: 100%;
             width: 100%;
+        }
+
+        #divAllTime-license-text{
+            display:none;
         }
 
         #divPrimeTime{
@@ -2911,9 +2997,21 @@
             width: 100%;
         }
 
+        #divPrimeTime-license-text{
+            display:none;
+        }
+
         #divNonPrimeTime{
             height: 100%;
             width: 100%;
+        }
+
+        #divNonPrimeTime-license-text{
+            display:none;
+        }
+
+        #divGrafikDaypart-license-text{
+            display:none;
         }
 
         .zingchart-tooltip {
