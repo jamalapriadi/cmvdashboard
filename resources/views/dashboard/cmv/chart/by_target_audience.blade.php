@@ -221,8 +221,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -235,8 +236,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -304,8 +305,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -318,8 +320,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -387,8 +389,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -401,8 +404,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -470,8 +473,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -484,8 +488,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -518,12 +522,17 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D5"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
 
                         alldata.push({
                             label:b.subdemo_name,
@@ -535,6 +544,13 @@
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
@@ -543,93 +559,114 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels":labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            },
-                            {
-                                "rule":"%i==5",
-                                "background-color":"#a200b2"
-                            },
-                            {
-                                "rule":"%i==6",
-                                "background-color":"#47f79f"
-                            },
-                            {
-                                "rule":"%i==7",
-                                "background-color":"#fc0aec"
-                            },
-                            {
-                                "rule":"%i==8",
-                                "background-color":"#ea8c7c"
-                            },
-                            {
-                                "rule":"%i==9",
-                                "background-color":"#f9e154"
-                            },
-                            {
-                                "rule":"%i==10",
-                                "background-color":"#f4ef58"
-                            },
-                            {
-                                "rule":"%i==11",
-                                "background-color":"#e057e0"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#a2798f"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#d7c6cf"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#008080"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#a8e6cf"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#dcedc1"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#ffd3b6"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#ffaaa5"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#ff8b94"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#be9b7b"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#3c2f2f"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divOccupation', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divOccupation',
+                    data: chartConfig
                 });
                 
             }
@@ -641,12 +678,18 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D6"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
 
                         alldata.push({
                             label:b.subdemo_name,
@@ -658,6 +701,13 @@
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
@@ -666,93 +716,114 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels":labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            },
-                            {
-                                "rule":"%i==5",
-                                "background-color":"#a200b2"
-                            },
-                            {
-                                "rule":"%i==6",
-                                "background-color":"#47f79f"
-                            },
-                            {
-                                "rule":"%i==7",
-                                "background-color":"#fc0aec"
-                            },
-                            {
-                                "rule":"%i==8",
-                                "background-color":"#ea8c7c"
-                            },
-                            {
-                                "rule":"%i==9",
-                                "background-color":"#f9e154"
-                            },
-                            {
-                                "rule":"%i==10",
-                                "background-color":"#f4ef58"
-                            },
-                            {
-                                "rule":"%i==11",
-                                "background-color":"#e057e0"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#a2798f"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#d7c6cf"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#008080"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#a8e6cf"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#dcedc1"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#ffd3b6"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#ffaaa5"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#ff8b94"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#be9b7b"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#3c2f2f"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divHobby', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divHobby',
+                    data: chartConfig
                 });
                 
             }
@@ -790,8 +861,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     "legend":{
                         "x":"65%",
@@ -809,7 +881,6 @@
                         {
                             placement: "in",
                             text: "%npv%",
-                            fontColor: "#1A1B26",
                             fontSize: 16
                         }],
                         "tooltip":{
@@ -829,7 +900,6 @@
                     },
                     tooltip: {
                         fontSize: 12,
-                        fontColor: "#1A1B26",
                         shadow: 0,
                         borderRadius: 3,
                         borderWidth: 1,
@@ -853,17 +923,19 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D7"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
-                        // occupation.push({
-                        //         values:[parseInt(b.totals_thousand)],
-                        //         backgroundColor:color[a],
-                        //         text:b.subdemo_name
-                        //     })
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
+
                         alldata.push({
                             label:b.subdemo_name,
                             value:b.totals_ver,
@@ -872,6 +944,13 @@
 
                         allnilai.push(b.totals_thousand);
                     }
+                })
+
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
@@ -882,69 +961,114 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels": labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            },
-                            {
-                                "rule":"%i==5",
-                                "background-color":"#a200b2"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#a2798f"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#d7c6cf"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#008080"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#a8e6cf"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#dcedc1"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#ffd3b6"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#ffaaa5"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#ff8b94"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#be9b7b"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#3c2f2f"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divMedia', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divMedia',
+                    data: chartConfig
                 });
             }
 
@@ -955,12 +1079,17 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D8"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
 
                         alldata.push({
                             label:b.subdemo_name,
@@ -972,6 +1101,13 @@
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
@@ -980,93 +1116,114 @@
                     }
                 }
 
-                var myConfig = {
-                    type: "hbar",
-                    utc:true,
-                    plotarea: {
-                      adjustLayout:true
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
+                        }
                     },
-                    scaleX:{
-                      label:{
-                        text:br
-                      },
-                      "labels":labels,
-                      minValue:1420070400000,
-                      step:"day",
-                      transform:{
-                        type:"date",
-                        all:"%M %d"
-                      }
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
                     },
-                    // plot:{
-                    //     valueBox: [
-                    //     {
-                    //         placement: "in",
-                    //         text: "%v%",
-                    //         fontColor: "#1A1B26",
-                    //         fontSize: 16
-                    //     }],
-                    // },
-                    series: [
-                      {
-                        values:values,
-                        "rules":[
-                            {
-                                "rule":"%i==0",
-                                "background-color":"#FA8452"
-                            },
-                            {
-                                "rule":"%i==1",
-                                "background-color":"#FCAE48"
-                            },
-                            {
-                                "rule":"%i==2",
-                                "background-color":"#FCCC65"
-                            },
-                            {
-                                "rule":"%i==3",
-                                "background-color":"#A0BE4A"
-                            },
-                            {
-                                "rule":"%i==4",
-                                "background-color":"#6FA6DF"
-                            },
-                            {
-                                "rule":"%i==5",
-                                "background-color":"#a200b2"
-                            },
-                            {
-                                "rule":"%i==6",
-                                "background-color":"#47f79f"
-                            },
-                            {
-                                "rule":"%i==7",
-                                "background-color":"#fc0aec"
-                            },
-                            {
-                                "rule":"%i==8",
-                                "background-color":"#ea8c7c"
-                            },
-                            {
-                                "rule":"%i==9",
-                                "background-color":"#f9e154"
-                            },
-                            {
-                                "rule":"%i==10",
-                                "background-color":"#f4ef58"
-                            },
-                            {
-                                "rule":"%i==11",
-                                "background-color":"#e057e0"
-                            }
-                        ]
-                      }
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#a2798f"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#d7c6cf"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#008080"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#a8e6cf"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#dcedc1"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#ffd3b6"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#ffaaa5"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#ff8b94"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#be9b7b"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#3c2f2f"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#f4ef58"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
                     ]
                 };
-                   
-                zingchart.render({ 
-                    id : 'divCity', 
-                    data : myConfig
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
+                
+                zingchart.render({
+                    id: 'divCity',
+                    data: chartConfig
                 });
             }
 
@@ -1110,8 +1267,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -1124,8 +1282,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1196,8 +1354,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -1210,8 +1369,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1244,6 +1403,7 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
@@ -1254,13 +1414,12 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            labels.push(b.subdemo_name);
-                            values.push(parseFloat(b.totals_ver));
-                            // occupation.push({
-                            //         values:[parseInt(b.totals_thousand)],
-                            //         backgroundColor:color[a],
-                            //         text:b.subdemo_name
-                            //     })
+
+                            listdata.push({
+                                values:parseFloat(b.totals_ver),
+                                labels:b.subdemo_name
+                            })
+
                             alldata.push({
                                 label:b.subdemo_name,
                                 value:b.totals_ver,
@@ -1271,6 +1430,14 @@
                         }
                     }
                 })
+
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+                
 
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
@@ -1326,43 +1493,43 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#a2798f"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#d7c6cf"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#008080"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#a8e6cf"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#dcedc1"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#ffd3b6"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#ffaaa5"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#ff8b94"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#be9b7b"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#3c2f2f"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1399,6 +1566,7 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
@@ -1409,13 +1577,12 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            labels.push(b.subdemo_name);
-                            values.push(parseFloat(b.totals_ver));
-                            // occupation.push({
-                            //         values:[parseInt(b.totals_thousand)],
-                            //         backgroundColor:color[a],
-                            //         text:b.subdemo_name
-                            //     })
+                            
+                            listdata.push({
+                                values:parseFloat(b.totals_ver),
+                                labels:b.subdemo_name
+                            })
+
                             alldata.push({
                                 label:b.subdemo_name,
                                 value:b.totals_ver,
@@ -1425,6 +1592,13 @@
                             allnilai.push(b.totals_thousand);
                         }
                     }
+                })
+
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
@@ -1481,43 +1655,43 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#a2798f"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#d7c6cf"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#008080"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#a8e6cf"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#dcedc1"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#ffd3b6"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#ffaaa5"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#ff8b94"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#be9b7b"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#3c2f2f"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1554,6 +1728,7 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
@@ -1564,13 +1739,12 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            labels.push(b.subdemo_name);
-                            values.push(parseFloat(b.totals_ver));
-                            // occupation.push({
-                            //         values:[parseInt(b.totals_thousand)],
-                            //         backgroundColor:color[a],
-                            //         text:b.subdemo_name
-                            //     })
+                            
+                            listdata.push({
+                                values:parseFloat(b.totals_ver),
+                                labels:b.subdemo_name
+                            })
+
                             alldata.push({
                                 label:b.subdemo_name,
                                 value:b.totals_ver,
@@ -1580,6 +1754,13 @@
                             allnilai.push(b.totals_thousand);
                         }
                     }
+                })
+
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
@@ -1636,43 +1817,43 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#a2798f"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#d7c6cf"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#008080"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#a8e6cf"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#dcedc1"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#ffd3b6"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#ffaaa5"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#ff8b94"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#be9b7b"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#3c2f2f"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1742,8 +1923,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -1756,8 +1938,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1828,8 +2010,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -1842,8 +2025,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1909,8 +2092,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -1923,7 +2107,6 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
                             fontSize: 9
                         }],
                         "tooltip":{
@@ -1990,8 +2173,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2004,7 +2188,6 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
                             fontSize: 9
                         }],
                         "tooltip":{
@@ -2071,8 +2254,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2085,7 +2269,6 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
                             fontSize: 9
                         }],
                         "tooltip":{
@@ -2114,24 +2297,22 @@
 
             function showAllTime(data){
                 var education=[];
-                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
                 var br="";
                 var allnilai=[];
-                
-                var n=0;
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D20"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[n],
+                            backgroundColor:color[a],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
-                        n++;
                     }
                 })
 
@@ -2144,7 +2325,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie3d",
+                    type: "pie",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -2153,7 +2334,7 @@
                         backgroundColor: "#fff",
                         height: 40,
                         fontColor: "#1A1B26",
-                        fontSize: 16
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2167,7 +2348,7 @@
                             placement: "out",
                             text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 9
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2181,7 +2362,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            // "placement":"node:out" //"node:out" or "node:center"
+                            "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : education
@@ -2195,24 +2376,22 @@
 
             function showPrimeTime(data){
                 var education=[];
-                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
                 var br="";
                 var allnilai=[];
-                
-                var n=0;
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D21"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[n],
+                            backgroundColor:color[a],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
-                        n++;
                     }
                 })
 
@@ -2225,7 +2404,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie3d",
+                    type: "pie",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -2233,8 +2412,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2247,8 +2427,7 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 9
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2262,7 +2441,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            // "placement":"node:out" //"node:out" or "node:center"
+                            "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : education
@@ -2276,24 +2455,22 @@
 
             function showNonPrimeTime(data){
                 var education=[];
-                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
+                var color=["#5197d7","#ef7421","#aaaaaa"];
                 var br="";
                 var allnilai=[];
-                
-                var n=0;
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D22"){
                         br=b.brand_name;
                         education.push({
                             values:[parseFloat(b.totals_ver)],
-                            backgroundColor:color[n],
+                            backgroundColor:color[a],
                             ver:b.totals_ver,
                             thousand:b.totals_thousand,
                             text:b.subdemo_name
                         })
 
                         allnilai.push(b.totals_thousand);
-                        n++;
                     }
                 })
 
@@ -2306,7 +2483,7 @@
                 }
 
                 var myConfig = {
-                    type: "pie3d",
+                    type: "pie",
                     "plotarea": {
                         "margin": "0 0"
                     }, 
@@ -2315,7 +2492,7 @@
                         backgroundColor: "#fff",
                         height: 40,
                         fontColor: "#1A1B26",
-                        fontSize: 16
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2329,7 +2506,7 @@
                             placement: "out",
                             text: "%t:%v%",
                             fontColor: "#1A1B26",
-                            fontSize: 9
+                            fontSize: 7
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2343,7 +2520,7 @@
                             "line-style":"dotted",
                             "border-radius":"10px",
                             "padding":"10%",
-                            // "placement":"node:out" //"node:out" or "node:center"
+                            "placement":"node:out" //"node:out" or "node:center"
                         }
                     },
                     series : education

@@ -14,6 +14,7 @@
     <script>
         $(function(){
             var alldata={};
+            var cat = $("#category").val();
 
             $(".remote-data-brand").select2({
                 ajax: {
@@ -55,6 +56,7 @@
                     data: function (params) {
                         return {
                             q: params, // search term
+                            category:cat.id,
                             page_limit: 30
                         };
                     },
@@ -122,7 +124,9 @@
                                 return m.text;
                             },
                             escapeMarkup: function (m) { return m; }
-                        })      
+                        })  
+
+                        $("#compare2").select2("val", "");  
                     },
                     error:function(){
 
@@ -139,7 +143,7 @@
                     data: function (params) {
                         return {
                             q: params, // search term
-                            category:$("#category").val(),
+                            category:$('#category').select2('data').id,
                             page_limit: 30
                         };
                     },
@@ -328,7 +332,7 @@
                     "plot": {
                         "stacked": true,
                         "valueBox":{
- 	                        "text":"%total",
+ 	                        "text":"%total%",
  	                        "rules": [
    	                            {
    	                                "rule": '%stack-top == 0',
@@ -352,7 +356,19 @@
                             "visible": false
                         },
                         "item": {
-                            "font-color": "#999"
+                            "font-size": "10px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -409,7 +425,7 @@
                     "plot": {
                         "stacked": true,
                         "valueBox":{
- 	                        "text":"%total",
+ 	                        "text":"%total%",
  	                        "rules": [
    	                            {
    	                                "rule": '%stack-top == 0',
@@ -433,7 +449,19 @@
                             "visible": false
                         },
                         "item": {
-                            "font-color": "#999"
+                            "font-size": "10px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -490,7 +518,7 @@
                     "plot": {
                         "stacked": true,
                         "valueBox":{
- 	                        "text":"%total",
+ 	                        "text":"%total%",
  	                        "rules": [
    	                            {
    	                                "rule": '%stack-top == 0',
@@ -514,7 +542,19 @@
                             "visible": false
                         },
                         "item": {
-                            "font-color": "#999"
+                            "font-size": "10px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -571,7 +611,7 @@
                     "plot": {
                         "stacked": true,
                         "valueBox":{
- 	                        "text":"%total",
+ 	                        "text":"%total%",
  	                        "rules": [
    	                            {
    	                                "rule": '%stack-top == 0',
@@ -595,7 +635,19 @@
                             "visible": false
                         },
                         "item": {
-                            "font-color": "#999"
+                            "font-size": "10px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -652,7 +704,7 @@
                     "plot": {
                         "stacked": true,
                         "valueBox":{
- 	                        "text":"%total",
+ 	                        "text":"%total%",
  	                        "rules": [
    	                            {
    	                                "rule": '%stack-top == 0',
@@ -676,8 +728,19 @@
                             "visible": false
                         },
                         "item": {
-                            "font-color": "#999",
-                            "font-size":"10px"
+                            "font-size": "10px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -734,7 +797,7 @@
                     "plot": {
                         "stacked": true,
                         "valueBox":{
- 	                        "text":"%total",
+ 	                        "text":"%total%",
  	                        "rules": [
    	                            {
    	                                "rule": '%stack-top == 0',
@@ -758,8 +821,19 @@
                             "visible": false
                         },
                         "item": {
-                            "font-color": "#999",
-                            "font-size":"10px"
+                            "font-size": "10px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -816,7 +890,7 @@
                     "plot": {
                         "stacked": true,
                         "valueBox":{
- 	                        "text":"%total",
+ 	                        "text":"%total%",
  	                        "rules": [
    	                            {
    	                                "rule": '%stack-top == 0',
@@ -840,8 +914,19 @@
                             "visible": false
                         },
                         "item": {
-                            "font-color": "#999",
-                            "font-size":"10px"
+                            "font-size": "10px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -898,7 +983,7 @@
                     "plot": {
                         "stacked": true,
                         "valueBox":{
- 	                        "text":"%total",
+ 	                        "text":"%total%",
  	                        "rules": [
    	                            {
    	                                "rule": '%stack-top == 0',
@@ -922,8 +1007,19 @@
                             "visible": false
                         },
                         "item": {
-                            "font-color": "#999",
-                            "font-size":"10px"
+                            "font-size": "10px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
                         }
                     },
                     "tooltip": {
@@ -1111,6 +1207,31 @@
                         fontColor:"#ffffff",
                         negation: 'currency'
                     },
+                    "scaleX": {
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-color": "#999",
+                            "font-size":"10px"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
                     plot:{
                         valueBox:{
                             text:"%total",
@@ -1175,6 +1296,31 @@
                         borderRadius: 3,
                         fontColor:"#ffffff",
                         negation: 'currency'
+                    },
+                    "scaleX": {
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-color": "#999",
+                            "font-size":"10px"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
                     },
                     plot:{
                         valueBox:{
@@ -1241,6 +1387,31 @@
                         fontColor:"#ffffff",
                         negation: 'currency'
                     },
+                    "scaleX": {
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-color": "#999",
+                            "font-size":"10px"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
                     plot:{
                         valueBox:{
                             text:"%total",
@@ -1305,6 +1476,31 @@
                         borderRadius: 3,
                         fontColor:"#ffffff",
                         negation: 'currency'
+                    },
+                    "scaleX": {
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-color": "#999",
+                            "font-size":"10px"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
                     },
                     plot:{
                         valueBox:{
@@ -1371,6 +1567,31 @@
                         fontColor:"#ffffff",
                         negation: 'currency'
                     },
+                    "scaleX": {
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-color": "#999",
+                            "font-size":"10px"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
                     plot:{
                         valueBox:{
                             text:"%total",
@@ -1435,6 +1656,31 @@
                         borderRadius: 3,
                         fontColor:"#ffffff",
                         negation: 'currency'
+                    },
+                    "scaleX": {
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-color": "#999",
+                            "font-size":"10px"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
                     },
                     plot:{
                         valueBox:{
@@ -1501,6 +1747,31 @@
                         fontColor:"#ffffff",
                         negation: 'currency'
                     },
+                    "scaleX": {
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-color": "#999",
+                            "font-size":"10px"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
                     plot:{
                         valueBox:{
                             text:"%total",
@@ -1565,6 +1836,31 @@
                         borderRadius: 3,
                         fontColor:"#ffffff",
                         negation: 'currency'
+                    },
+                    "scaleX": {
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-color": "#999",
+                            "font-size":"10px"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
                     },
                     plot:{
                         valueBox:{
@@ -1744,6 +2040,31 @@
                             fontColor:"#ffffff",
                             negation: 'currency'
                         },
+                        "scaleX": {
+                            "lineWidth": 0,
+                            "lineColor":"none",
+                            "tick": {
+                                "visible": false
+                            },
+                            "guide": {
+                                "visible": false
+                            },
+                            "item": {
+                                "font-color": "#999",
+                                "font-size":"10px"
+                            }
+                        },
+                        "scale-y":{
+                            "line-color":"#333",
+                            "guide":{
+                                "line-style":"solid",
+                                "line-color":"#c4c4c4",
+                                visible:false
+                            },
+                            "tick":{
+                                "line-color":"#333",
+                            }
+                        },
                         plot:{
                             valueBox:{
                                 text:"%total",
@@ -1812,6 +2133,31 @@
                             borderRadius: 3,
                             fontColor:"#ffffff",
                             negation: 'currency'
+                        },
+                        "scaleX": {
+                            "lineWidth": 0,
+                            "lineColor":"none",
+                            "tick": {
+                                "visible": false
+                            },
+                            "guide": {
+                                "visible": false
+                            },
+                            "item": {
+                                "font-color": "#999",
+                                "font-size":"10px"
+                            }
+                        },
+                        "scale-y":{
+                            "line-color":"#333",
+                            "guide":{
+                                "line-style":"solid",
+                                "line-color":"#c4c4c4",
+                                visible:false
+                            },
+                            "tick":{
+                                "line-color":"#333",
+                            }
                         },
                         plot:{
                             valueBox:{
@@ -1882,6 +2228,31 @@
                             fontColor:"#ffffff",
                             negation: 'currency'
                         },
+                        "scaleX": {
+                            "lineWidth": 0,
+                            "lineColor":"none",
+                            "tick": {
+                                "visible": false
+                            },
+                            "guide": {
+                                "visible": false
+                            },
+                            "item": {
+                                "font-color": "#999",
+                                "font-size":"10px"
+                            }
+                        },
+                        "scale-y":{
+                            "line-color":"#333",
+                            "guide":{
+                                "line-style":"solid",
+                                "line-color":"#c4c4c4",
+                                visible:false
+                            },
+                            "tick":{
+                                "line-color":"#333",
+                            }
+                        },
                         plot:{
                             valueBox:{
                                 text:"%total",
@@ -1950,6 +2321,31 @@
                             borderRadius: 3,
                             fontColor:"#ffffff",
                             negation: 'currency'
+                        },
+                        "scaleX": {
+                            "lineWidth": 0,
+                            "lineColor":"none",
+                            "tick": {
+                                "visible": false
+                            },
+                            "guide": {
+                                "visible": false
+                            },
+                            "item": {
+                                "font-color": "#999",
+                                "font-size":"10px"
+                            }
+                        },
+                        "scale-y":{
+                            "line-color":"#333",
+                            "guide":{
+                                "line-style":"solid",
+                                "line-color":"#c4c4c4",
+                                visible:false
+                            },
+                            "tick":{
+                                "line-color":"#333",
+                            }
                         },
                         plot:{
                             valueBox:{
@@ -2020,6 +2416,31 @@
                             fontColor:"#ffffff",
                             negation: 'currency'
                         },
+                        "scaleX": {
+                            "lineWidth": 0,
+                            "lineColor":"none",
+                            "tick": {
+                                "visible": false
+                            },
+                            "guide": {
+                                "visible": false
+                            },
+                            "item": {
+                                "font-color": "#999",
+                                "font-size":"10px"
+                            }
+                        },
+                        "scale-y":{
+                            "line-color":"#333",
+                            "guide":{
+                                "line-style":"solid",
+                                "line-color":"#c4c4c4",
+                                visible:false
+                            },
+                            "tick":{
+                                "line-color":"#333",
+                            }
+                        },
                         plot:{
                             valueBox:{
                                 text:"%total",
@@ -2088,6 +2509,31 @@
                             borderRadius: 3,
                             fontColor:"#ffffff",
                             negation: 'currency'
+                        },
+                        "scaleX": {
+                            "lineWidth": 0,
+                            "lineColor":"none",
+                            "tick": {
+                                "visible": false
+                            },
+                            "guide": {
+                                "visible": false
+                            },
+                            "item": {
+                                "font-color": "#999",
+                                "font-size":"10px"
+                            }
+                        },
+                        "scale-y":{
+                            "line-color":"#333",
+                            "guide":{
+                                "line-style":"solid",
+                                "line-color":"#c4c4c4",
+                                visible:false
+                            },
+                            "tick":{
+                                "line-color":"#333",
+                            }
                         },
                         plot:{
                             valueBox:{
@@ -2158,6 +2604,31 @@
                             fontColor:"#ffffff",
                             negation: 'currency'
                         },
+                        "scaleX": {
+                            "lineWidth": 0,
+                            "lineColor":"none",
+                            "tick": {
+                                "visible": false
+                            },
+                            "guide": {
+                                "visible": false
+                            },
+                            "item": {
+                                "font-color": "#999",
+                                "font-size":"10px"
+                            }
+                        },
+                        "scale-y":{
+                            "line-color":"#333",
+                            "guide":{
+                                "line-style":"solid",
+                                "line-color":"#c4c4c4",
+                                visible:false
+                            },
+                            "tick":{
+                                "line-color":"#333",
+                            }
+                        },
                         plot:{
                             valueBox:{
                                 text:"%total",
@@ -2226,6 +2697,31 @@
                             borderRadius: 3,
                             fontColor:"#ffffff",
                             negation: 'currency'
+                        },
+                        "scaleX": {
+                            "lineWidth": 0,
+                            "lineColor":"none",
+                            "tick": {
+                                "visible": false
+                            },
+                            "guide": {
+                                "visible": false
+                            },
+                            "item": {
+                                "font-color": "#999",
+                                "font-size":"10px"
+                            }
+                        },
+                        "scale-y":{
+                            "line-color":"#333",
+                            "guide":{
+                                "line-style":"solid",
+                                "line-color":"#c4c4c4",
+                                visible:false
+                            },
+                            "tick":{
+                                "line-color":"#333",
+                            }
                         },
                         plot:{
                             valueBox:{

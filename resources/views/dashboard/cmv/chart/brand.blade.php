@@ -304,8 +304,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -318,8 +319,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -387,8 +388,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -401,8 +403,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -470,8 +472,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -484,8 +487,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -553,8 +556,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -567,8 +571,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -601,12 +605,17 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D5"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
 
                         alldata.push({
                             label:b.subdemo_name,
@@ -616,6 +625,13 @@
 
                         allnilai.push(b.totals_thousand);
                     }
+                })
+
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
@@ -672,43 +688,43 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#a2798f"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#d7c6cf"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#008080"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#a8e6cf"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#dcedc1"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#ffd3b6"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#ffaaa5"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#ff8b94"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#be9b7b"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#3c2f2f"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -745,12 +761,18 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D6"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
 
                         alldata.push({
                             label:b.subdemo_name,
@@ -760,6 +782,13 @@
 
                         allnilai.push(b.totals_thousand);
                     }
+                })
+
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
@@ -816,43 +845,43 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#a2798f"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#d7c6cf"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#008080"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#a8e6cf"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#dcedc1"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#ffd3b6"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#ffaaa5"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#ff8b94"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#be9b7b"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#3c2f2f"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -915,8 +944,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     "legend":{
                         "x":"65%",
@@ -934,7 +964,6 @@
                         {
                             placement: "in",
                             text: "%npv%",
-                            fontColor: "#1A1B26",
                             fontSize: 16
                         }],
                         "tooltip":{
@@ -954,7 +983,6 @@
                     },
                     tooltip: {
                         fontSize: 12,
-                        fontColor: "#1A1B26",
                         shadow: 0,
                         borderRadius: 3,
                         borderWidth: 1,
@@ -978,17 +1006,19 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D7"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
-                        // occupation.push({
-                        //         values:[parseInt(b.totals_thousand)],
-                        //         backgroundColor:color[a],
-                        //         text:b.subdemo_name
-                        //     })
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
+
                         alldata.push({
                             label:b.subdemo_name,
                             value:b.totals_ver,
@@ -997,6 +1027,13 @@
 
                         allnilai.push(b.totals_thousand);
                     }
+                })
+
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
@@ -1053,43 +1090,43 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#a2798f"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#d7c6cf"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#008080"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#a8e6cf"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#dcedc1"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#ffd3b6"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#ffaaa5"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#ff8b94"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#be9b7b"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#3c2f2f"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1125,12 +1162,17 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D8"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
 
                         alldata.push({
                             label:b.subdemo_name,
@@ -1140,6 +1182,13 @@
 
                         allnilai.push(b.totals_thousand);
                     }
+                })
+
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
@@ -1196,43 +1245,43 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#a2798f"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#d7c6cf"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#008080"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#a8e6cf"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#dcedc1"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#ffd3b6"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#ffaaa5"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#ff8b94"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#be9b7b"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#3c2f2f"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1301,8 +1350,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -1315,8 +1365,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1387,8 +1437,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -1401,8 +1452,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1435,6 +1486,7 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
@@ -1445,13 +1497,12 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            labels.push(b.subdemo_name);
-                            values.push(parseFloat(b.totals_ver));
-                            // occupation.push({
-                            //         values:[parseInt(b.totals_thousand)],
-                            //         backgroundColor:color[a],
-                            //         text:b.subdemo_name
-                            //     })
+
+                            listdata.push({
+                                values:parseFloat(b.totals_ver),
+                                labels:b.subdemo_name
+                            })
+
                             alldata.push({
                                 label:b.subdemo_name,
                                 value:b.totals_ver,
@@ -1462,6 +1513,14 @@
                         }
                     }
                 })
+
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+                
 
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
@@ -1517,43 +1576,43 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#a2798f"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#d7c6cf"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#008080"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#a8e6cf"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#dcedc1"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#ffd3b6"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#ffaaa5"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#ff8b94"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#be9b7b"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#3c2f2f"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1590,6 +1649,7 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
@@ -1600,13 +1660,12 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            labels.push(b.subdemo_name);
-                            values.push(parseFloat(b.totals_ver));
-                            // occupation.push({
-                            //         values:[parseInt(b.totals_thousand)],
-                            //         backgroundColor:color[a],
-                            //         text:b.subdemo_name
-                            //     })
+                            
+                            listdata.push({
+                                values:parseFloat(b.totals_ver),
+                                labels:b.subdemo_name
+                            })
+
                             alldata.push({
                                 label:b.subdemo_name,
                                 value:b.totals_ver,
@@ -1616,6 +1675,13 @@
                             allnilai.push(b.totals_thousand);
                         }
                     }
+                })
+
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
@@ -1672,43 +1738,43 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#a2798f"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#d7c6cf"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#008080"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#a8e6cf"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#dcedc1"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#ffd3b6"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#ffaaa5"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#ff8b94"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#be9b7b"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#3c2f2f"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1745,6 +1811,7 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
@@ -1755,13 +1822,12 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            labels.push(b.subdemo_name);
-                            values.push(parseFloat(b.totals_ver));
-                            // occupation.push({
-                            //         values:[parseInt(b.totals_thousand)],
-                            //         backgroundColor:color[a],
-                            //         text:b.subdemo_name
-                            //     })
+                            
+                            listdata.push({
+                                values:parseFloat(b.totals_ver),
+                                labels:b.subdemo_name
+                            })
+
                             alldata.push({
                                 label:b.subdemo_name,
                                 value:b.totals_ver,
@@ -1771,6 +1837,13 @@
                             allnilai.push(b.totals_thousand);
                         }
                     }
+                })
+
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
                 })
 
                 var tertinggi=Math.max.apply(Math,allnilai);
@@ -1827,43 +1900,43 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#a2798f"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#d7c6cf"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#008080"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#a8e6cf"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#dcedc1"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#ffd3b6"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#ffaaa5"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#ff8b94"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#be9b7b"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#3c2f2f"
                                 },
                                 {
                                     "rule":"%i==10",
@@ -1933,8 +2006,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -1947,8 +2021,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2019,8 +2093,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2033,8 +2108,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -2100,8 +2175,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2114,7 +2190,6 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
                             fontSize: 9
                         }],
                         "tooltip":{
@@ -2181,8 +2256,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2195,7 +2271,6 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
                             fontSize: 9
                         }],
                         "tooltip":{
@@ -2262,8 +2337,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2276,7 +2352,6 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
                             fontSize: 9
                         }],
                         "tooltip":{
@@ -2342,7 +2417,7 @@
                         backgroundColor: "#fff",
                         height: 40,
                         fontColor: "#1A1B26",
-                        fontSize: 16
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2420,8 +2495,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2434,7 +2510,6 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
                             fontSize: 7
                         }],
                         "tooltip":{
@@ -2500,7 +2575,7 @@
                         backgroundColor: "#fff",
                         height: 40,
                         fontColor: "#1A1B26",
-                        fontSize: 16
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2695,7 +2770,10 @@
                                 "type":"line",
                                 "title":{
                                     "text":label,
-                                    "color":"#333",
+                                    "font-color":"#222222",
+                                    bold:false,
+                                    "font-size":14,
+                                    "font-weight":40,
                                     "background-color":"white",
                                     "text-align":"center",
                                 },
@@ -2901,6 +2979,17 @@
                                     "font-color": "#222222"
                                 }
                             },
+                            "scale-y":{
+                                "line-color":"#333",
+                                "guide":{
+                                    "line-style":"solid",
+                                    "line-color":"#c4c4c4",
+                                    visible:false
+                                },
+                                "tick":{
+                                    "line-color":"#333",
+                                }
+                            },
                             "tooltip": {
                                 "htmlMode": true,
                                 "backgroundColor": "none",
@@ -2950,7 +3039,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        'SUMMARY'+
+                        '<p class="card-title no-italics"><strong>SUMMARY</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -2962,94 +3051,94 @@
                         '<table width="60%">'+
                             '<tbody>'+
                                 '<tr>'+
-                                    '<td width="35%"><b>GENDER</b></td>'+
-                                    '<td width="45%"><b><div id="genderName"></div></b></td>'+
-                                    '<td><div id="genderValue"></div></td>'+
+                                    '<td width="35%">GENDER</td>'+
+                                    '<td width="45%"><strong><div id="genderName"></div></strong></td>'+
+                                    '<td><strong><div id="genderValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>SEC</b></td>'+
-                                    '<td><b><div id="secName"></div></b></td>'+
-                                    '<td><div id="secValue"></div></td>'+
+                                    '<td>SEC</td>'+
+                                    '<td><strong><div id="secName"></div></strong></td>'+
+                                    '<td><strong><div id="secValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>AGE</b></td>'+
-                                    '<td><b><div id="ageName"></div></b></td>'+
-                                    '<td><div id="ageValue"></div></td>'+
+                                    '<td>AGE</td>'+
+                                    '<td><strong><div id="ageName"></div></strong></td>'+
+                                    '<td><strong><div id="ageValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>EDUCATION</b></td>'+
-                                    '<td><b><div id="educationName"></div></b></td>'+
-                                    '<td><div id="educationValue"></div></td>'+
+                                    '<td>EDUCATION</td>'+
+                                    '<td><strong><div id="educationName"></div></strong></td>'+
+                                    '<td><strong><div id="educationValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>OCCUPATION</b></td>'+
-                                    '<td><b><div id="occupationName"></div></b></td>'+
-                                    '<td><div id="occupationValue"></div></td>'+
+                                    '<td>OCCUPATION</td>'+
+                                    '<td><strong><div id="occupationName"></div></strong></td>'+
+                                    '<td><strong><div id="occupationValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>HOBBY</b></td>'+
-                                    '<td><b><div id="hobbyName"></div></b></td>'+
-                                    '<td><div id="hobbyValue"></div></td>'+
+                                    '<td>HOBBY</td>'+
+                                    '<td><strong><div id="hobbyName"></div></strong></td>'+
+                                    '<td><strong><div id="hobbyValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td width="35%"><b>MEDIA</b></td>'+
-                                    '<td width="45%"><b><div id="mediaName"></div></b></td>'+
-                                    '<td><div id="mediaValue"></div></td>'+
+                                    '<td width="35%">MEDIA</td>'+
+                                    '<td width="45%"><strong><div id="mediaName"></div></strong></td>'+
+                                    '<td><strong><div id="mediaValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>KOTA</b></td>'+
-                                    '<td><b><div id="kotaName"></div></b></td>'+
-                                    '<td><div id="kotaValue"></div></td>'+
+                                    '<td>KOTA</td>'+
+                                    '<td><strong><div id="kotaName"></div></strong></td>'+
+                                    '<td><strong><div id="kotaValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>TIME SPENT OF USING INTERNET</b></td>'+
-                                    '<td><b><div id="timespentName"></div></b></td>'+
-                                    '<td><div id="timespentValue"></div></td>'+
+                                    '<td>TIME SPENT OF USING INTERNET</td>'+
+                                    '<td><strong><div id="timespentName"></div></strong></td>'+
+                                    '<td><strong><div id="timespentValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>FREQUENCY OF USING INTERNET</b></td>'+
-                                    '<td><b><div id="frequencyName"></div></b></td>'+
-                                    '<td><div id="frequencyValue"></div></td>'+
+                                    '<td>FREQUENCY OF USING INTERNET</td>'+
+                                    '<td><strong><div id="frequencyName"></div></strong></td>'+
+                                    '<td><strong><div id="frequencyValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>FUNCTION USED GENERAL</b></td>'+
-                                    '<td><b><div id="generalName"></div></b></td>'+
-                                    '<td><div id="generalValue"></div></td>'+
+                                    '<td>FUNCTION USED GENERAL</td>'+
+                                    '<td><strong><div id="generalName"></div></strong></td>'+
+                                    '<td><strong><div id="generalValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>FUNCTION USED E-FINANCE</b></td>'+
-                                    '<td><b><div id="financeName"></div></b></td>'+
-                                    '<td><div id="financeValue"></div></td>'+
+                                    '<td>FUNCTION USED E-FINANCE</td>'+
+                                    '<td><strong><div id="financeName"></div></strong></td>'+
+                                    '<td><strong><div id="financeValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>FUNCTION USED E-COMMERCE</b></td>'+
-                                    '<td><b><div id="commerceName"></div></b></td>'+
-                                    '<td><div id="commerceValue"></div></td>'+
+                                    '<td>FUNCTION USED E-COMMERCE</td>'+
+                                    '<td><strong><div id="commerceName"></div></strong></td>'+
+                                    '<td><strong><div id="commerceValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>TOOLS OF INTERNET ACCESS</b></td>'+
-                                    '<td><b><div id="toolsName"></div></b></td>'+
-                                    '<td><div id="toolsValue"></div></td>'+
+                                    '<td>TOOLS OF INTERNET ACCESS</td>'+
+                                    '<td><strong><div id="toolsName"></div></strong></td>'+
+                                    '<td><strong><div id="toolsValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>ALL WEBSITE</b></td>'+
-                                    '<td><b><div id="allWebsiteName"></div></b></td>'+
-                                    '<td><div id="allWebsiteValue"></div></td>'+
+                                    '<td>ALL WEBSITE</td>'+
+                                    '<td><strong><div id="allWebsiteName"></div></strong></td>'+
+                                    '<td><strong><div id="allWebsiteValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>FREQUENCY OF LISTENING</b></td>'+
-                                    '<td><b><div id="frequensiRadioName"></div></b></td>'+
-                                    '<td><div id="frequensiRadioValue"></div></td>'+
+                                    '<td>FREQUENCY OF LISTENING</td>'+
+                                    '<td><strong><div id="frequensiRadioName"></div></strong></td>'+
+                                    '<td><strong><div id="frequensiRadioValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>PLACE OF LISTENING RADIO</b></td>'+
-                                    '<td><b><div id="placeName"></div></b></td>'+
-                                    '<td><div id="placeValue"></div></td>'+
+                                    '<td>PLACE OF LISTENING RADIO</td>'+
+                                    '<td><strong><div id="placeName"></div></strong></td>'+
+                                    '<td><strong><div id="placeValue"></div></strong></td>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<td><b>TOOLS OF LISTENING RADIO</b></td>'+
-                                    '<td><b><div id="toolsListeningName"></div></b></td>'+
-                                    '<td><div id="toolsListeningValue"></div></td>'+
+                                    '<td>TOOLS OF LISTENING RADIO</td>'+
+                                    '<td><strong><div id="toolsListeningName"></div></strong></td>'+
+                                    '<td><strong><div id="toolsListeningValue"></div></strong></td>'+
                                 '</tr>'+
                                 // '<tr>'+
                                 //     '<td><b>DAY PART - ALL TIME</b></td>'+
@@ -3075,7 +3164,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        'TOP 10 BRAND'+
+                        '<p class="card-title"><strong>TOP 10 BRAND</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -3106,7 +3195,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        '<p class="card-title">DEMOGRAPHY</p>'+
+                        '<p class="card-title"><strong>DEMOGRAPHY</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -3179,7 +3268,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                         '<div class="card-header">'+
-                            '<p class="card-title">PENETRATION</p>'+
+                            '<p class="card-title"><strong>PENETRATION</strong></p>'+
                             '<div class="card-options">'+
                                 '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                                 '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -3192,7 +3281,7 @@
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
-                                    '<p class="card-title">MEDIA</p>'+
+                                    '<p class="card-title"><strong>MEDIA</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divMedia"></div>'+
@@ -3201,7 +3290,7 @@
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
-                                    '<p class="card-title">CITIES</p>'+
+                                    '<p class="card-title"><strong>CITIES</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divCity"></div>'+
@@ -3215,7 +3304,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        '<p class="card-title">INTERNET</p>'+
+                        '<p class="card-title"><strong>INTERNET</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -3227,7 +3316,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title" style="font-size:16px;">TIME SPENT OF USING INTERNET</p>'+
+                                        '<p class="card-title" style="font-size:16px;"><strong>TIME SPENT OF USING INTERNET</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divTimeSpent"></div>'+
@@ -3236,7 +3325,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title" style="font-size:16px;">FREQUENCY OF USING INTERNET</p>'+
+                                        '<p class="card-title" style="font-size:16px;"><strong>FREQUENCY OF USING INTERNET</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFrequency"></div>'+
@@ -3245,7 +3334,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">TOOLS OF INTERNET ACCESS</p>'+
+                                        '<p class="card-title"><strong>TOOLS OF INTERNET ACCESS</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divTools"></div>'+
@@ -3254,7 +3343,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">ALL WEBSITE</p>'+
+                                        '<p class="card-title"><strong>ALL WEBSITE</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divAllWebsite"></div>'+
@@ -3265,7 +3354,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">FUNCTION USED GENERAL</p>'+
+                                        '<p class="card-title"><strong>FUNCTION USED GENERAL</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divGeneral"></div>'+
@@ -3274,7 +3363,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">FUNCTION USED E-FINANCE</p>'+
+                                        '<p class="card-title"><strong>FUNCTION USED E-FINANCE</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFinance"></div>'+
@@ -3283,7 +3372,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">FUNCTION USED E-COMMERCE</p>'+
+                                        '<p class="card-title"><strong>FUNCTION USED E-COMMERCE</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divCommerce"></div>'+
@@ -3300,7 +3389,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        '<p class="card-title">RADIO</p>'+
+                        '<p class="card-title"><strong>RADIO</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -3312,7 +3401,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">FREQUENCY OF LISTENING</p>'+
+                                        '<p class="card-title"><strong>FREQUENCY OF LISTENING</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFrequencyRadio"></div>'+
@@ -3321,7 +3410,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">PLACE OF LISTENING RADIO</p>'+
+                                        '<p class="card-title"><strong>PLACE OF LISTENING RADIO</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divPlace"></div>'+
@@ -3330,7 +3419,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">TOOLS OF LISTENING RADIO</p>'+
+                                        '<p class="card-title"><strong>TOOLS OF LISTENING RADIO</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divToolsListeningRadio"></div>'+
@@ -3343,7 +3432,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        '<p class="card-title">TV</p>'+
+                        '<p class="card-title"><strong>DAY PART</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -3379,8 +3468,8 @@
                         //         '<div id="divNonPrimeTime"></div>'+
                         //     '</div>'+
                         // '</div>'+
-                        '<div id="divTableDaypart"></div>'+
-                        '<hr>'+
+                        // '<div id="divTableDaypart"></div>'+
+                        // '<hr>'+
                         '<div id="divGrafikDaypart"></div>'+
                     '</div>'+
                 '</div>';
@@ -3652,7 +3741,7 @@
 @section('content')
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title"><span class="text-semibold">Brand</span> Chart</3>
+            <h3 class="card-title"><span class="text-semibold">Brand</span> Chart</h3>
         </div>
         <div class="card-body">
             <form id="formSearch" onsubmit="return false" name="formSearch">

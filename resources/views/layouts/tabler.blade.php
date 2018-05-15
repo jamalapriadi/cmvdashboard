@@ -41,6 +41,23 @@
   <!-- Dashboard Core -->
   <link href="{{URL::asset('tabler/assets/css/dashboard.css')}}" rel="stylesheet" />
   <link href="{{URL::asset('tabler/assets/css/cmv.css')}}" rel="stylesheet" />
+  <style>
+    html,body{
+      font-style: normal;
+    }
+    .no-italics {
+      font-style: normal;   
+    }
+    p{
+      font-style: normal;   
+    }
+    table{
+      font-style: normal;   
+    }
+    h5,h3,a,h6, .control-label, .card-header{
+      font-style: normal;   
+    }
+  </style>
   @yield('css')
 </head>
 <body class="">
