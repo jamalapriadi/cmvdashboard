@@ -57,6 +57,36 @@
     h5,h3,a,h6, .control-label, .card-header{
       font-style: normal;   
     }
+    .text-center{
+      text-align:center;
+    }
+
+    .card-titles{
+      text-align: center;
+      font-weight: 700;
+      font-style: normal;
+      margin-bottom: -15px;
+    }
+    .card-fullscreen .card-options-fullscreen i:before {
+      content: '\e992';
+    }
+
+    .card-fullscreen .card-options-remove {
+      display: none;
+    }
+
+    /**
+    Card fullscreen
+    */
+    .card-fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      margin: 0;
+    }
   </style>
   @yield('css')
 </head>
@@ -127,11 +157,11 @@
             </div>
           </div>
         </div>
-        <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+        <div class="header collapse d-lg-flex p-0 bg-blue-darker text-white" id="headerMenuCollapse">
           <div class="container">
             <div class="row align-items-center">
               <div class="col-lg order-lg-first">
-                <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+                <ul class="nav nav-tabs border-0 flex-column flex-lg-row text-white">
                   <li class="nav-item">
                     <a href="{{URL::to('cmv')}}" class="{{ Request::path() == 'cmv' ? 'nav-link active' : 'nav-link' }}"><i class="fe fe-home"></i> Home</a>
                   </li>

@@ -3154,6 +3154,11 @@
                             "plotarea": {
                                 "margin": "2% 2% 15% 20%"
                             },
+                            source:{
+                                text: "* Dalam Ribu",
+                                fontColor:"#222222",
+                                // align: "center",
+                            },
                             "backgroundColor": "#fff",
                             "scaleX": {
                                 "values": labels,
@@ -3358,6 +3363,7 @@
                         '<p class="card-title"><strong>TOP 10 BRAND</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
+                            '<a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen"><i class="fe fe-maximize"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
                         '</div>'+
                     '</div>'+

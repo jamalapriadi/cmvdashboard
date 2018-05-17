@@ -177,6 +177,7 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
         Route::get('sample-sector','Dashboard\Cmv\SectorController@sample');
         Route::get('export-sector','Dashboard\Cmv\SectorController@export');
         Route::get('list-sector','Dashboard\Cmv\SectorController@list_sector');
+        Route::get('list-quartal','Dashboard\Cmv\ReportController@list_quartal');
 
         Route::resource('category','Dashboard\Cmv\CategoryController');
         Route::post('import-category','Dashboard\Cmv\CategoryController@import');
