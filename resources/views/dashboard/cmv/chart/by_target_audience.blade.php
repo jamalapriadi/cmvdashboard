@@ -616,47 +616,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -784,47 +784,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1040,47 +1040,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1206,47 +1206,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1548,47 +1548,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1721,47 +1721,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1894,47 +1894,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -2150,47 +2150,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",

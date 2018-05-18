@@ -87,6 +87,17 @@
       z-index: 1;
       margin: 0;
     }
+    ul.summary{
+      line-height: 5px;
+    }
+    .garis{
+      display: block;
+      height: 1px;
+      border: 0;
+      border-top: 1px solid #dddddd;
+      margin: 1em 0;
+      padding: 0;
+    }
   </style>
   @yield('css')
 </head>
@@ -107,7 +118,7 @@
                     <span class="nav-unread"></span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                    <a href="#" class="dropdown-item d-flex">
+                    {{-- <a href="#" class="dropdown-item d-flex">
                       <span class="avatar mr-3 align-self-center" style="background-image: url(demo/faces/male/41.jpg)"></span>
                       <div>
                         <strong>Nathan</strong> pushed new commit: Fix page load performance issue.
@@ -129,7 +140,7 @@
                       </div>
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item text-center text-muted-dark">Mark all as read</a>
+                    <a href="#" class="dropdown-item text-center text-muted-dark">Mark all as read</a> --}}
                   </div>
                 </div>
                 <div class="dropdown">
@@ -204,7 +215,7 @@
               
             </div>
             <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
-              Copyright © {{date('Y')}} <a href="#">MNC Marketing Strategic</a>. Theme by <a href="https://codecalm.net" target="_blank">codecalm.net</a> All rights reserved.
+              Copyright © {{date('Y')}} <a href="#">MNC Marketing Strategic</a>.  All rights reserved.
             </div>
           </div>
         </div>

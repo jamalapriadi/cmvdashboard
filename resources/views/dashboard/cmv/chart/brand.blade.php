@@ -290,8 +290,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<age.length;l++){
                     if(age[l].thousand==tertinggi){
-                        $("#genderValue").empty().html(parseFloat(age[l].ver)+" %");
-                        $("#genderName").empty().html(age[l].text);
+                        // $("#genderValue").empty().html(parseFloat(age[l].ver)+" %");
+                        // $("#genderName").empty().html(age[l].text);
+                        $("#newGender").empty().html(parseFloat(age[l].ver)+" % "+age[l].text);
                     }
                 }
 
@@ -374,8 +375,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<sec.length;l++){
                     if(sec[l].thousand==tertinggi){
-                        $("#secValue").empty().html(parseFloat(sec[l].ver)+" %");
-                        $("#secName").empty().html(sec[l].text);
+                        // $("#secValue").empty().html(parseFloat(sec[l].ver)+" %");
+                        // $("#secName").empty().html("SEC "+sec[l].text);
+                        $("#newSec").empty().html(parseFloat(sec[l].ver)+" % SEC "+sec[l].text);
                     }
                 }
 
@@ -458,8 +460,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<age.length;l++){
                     if(age[l].thousand==tertinggi){
-                        $("#ageValue").empty().html(parseFloat(age[l].ver)+" %");
-                        $("#ageName").empty().html(age[l].text);
+                        // $("#ageValue").empty().html(parseFloat(age[l].ver)+" %");
+                        // $("#ageName").empty().html(age[l].text+" OLD");
+                        $("#newAge").empty().html(parseFloat(age[l].ver)+" % "+age[l].text+" OLD");
                     }
                 }
 
@@ -542,8 +545,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#educationValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#educationName").empty().html(education[l].text);
+                        // $("#educationValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#educationName").empty().html(education[l].text);
+                        $("#newEducation").empty().html(parseFloat(education[l].ver)+" % "+education[l].text);
                     }
                 }
 
@@ -637,8 +641,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#occupationValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#occupationName").empty().html(alldata[l].label);
+                        // $("#occupationValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#occupationName").empty().html(alldata[l].label);
+                        $("#newOccupation").empty().html(parseFloat(alldata[l].value)+" % "+alldata[l].label);
                     }
                 }
 
@@ -711,47 +716,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -817,8 +822,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#hobbyValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#hobbyName").empty().html(alldata[l].label);
+                        // $("#hobbyValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#hobbyName").empty().html(alldata[l].label);
+                        $("#newHobby").empty().html(parseFloat(alldata[l].value)+" % "+alldata[l].label+"  as their hobby");
                     }
                 }
 
@@ -891,47 +897,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1085,8 +1091,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#mediaValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#mediaName").empty().html(alldata[l].label);
+                        // $("#mediaValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#mediaName").empty().html(alldata[l].label);
+                        $("#newMedia").empty().html(parseFloat(alldata[l].value)+" % "+alldata[l].label);
                     }
                 }
 
@@ -1148,47 +1155,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1252,8 +1259,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#kotaValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#kotaName").empty().html(alldata[l].label);
+                        // $("#kotaValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#kotaName").empty().html(alldata[l].label);
+                        $("#newKota").empty().html(parseFloat(alldata[l].value)+" % Live in "+alldata[l].label);
                     }
                 }
 
@@ -1315,47 +1323,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1406,8 +1414,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#timespentValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#timespentName").empty().html(education[l].text);
+                        // $("#timespentValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#timespentName").empty().html(education[l].text);
+                        $("#newTimeSpent").empty().html(parseFloat(education[l].ver)+" % spend "+education[l].text+" to access internet");
                     }
                 }
 
@@ -1493,8 +1502,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#frequencyValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#frequencyName").empty().html(education[l].text);
+                        // $("#frequencyValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#frequencyName").empty().html(education[l].text);
+                        $("#newFrequencyName").empty().html(parseFloat(education[l].ver)+" % Use Internet "+education[l].text);
                     }
                 }
 
@@ -1595,8 +1605,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#generalValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#generalName").empty().html(alldata[l].label);
+                        // $("#generalValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#generalName").empty().html(alldata[l].label);
+                        $("#newGeneral").empty().html(parseFloat(alldata[l].value)+" % use internet for "+alldata[l].label);
                     }
                 }
 
@@ -1658,47 +1669,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1769,8 +1780,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#financeValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#financeName").empty().html(alldata[l].label);
+                        // $("#financeValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#financeName").empty().html(alldata[l].label);
+                        $("#newFinance").empty().html(parseFloat(alldata[l].value)+" % use e-finance to "+alldata[l].label);
                     }
                 }
 
@@ -1831,47 +1843,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1942,8 +1954,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#commerceValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#commerceName").empty().html(alldata[l].label);
+                        // $("#commerceValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#commerceName").empty().html(alldata[l].label);
+                        $("#newCommerce").empty().html(parseFloat(alldata[l].value)+" % use e-commerce to look for "+alldata[l].label);
                     }
                 }
 
@@ -2005,47 +2018,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -2097,8 +2110,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#toolsValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#toolsName").empty().html(education[l].text);
+                        // $("#toolsValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#toolsName").empty().html(education[l].text);
+                        $("#newTools").empty().html(parseFloat(education[l].ver)+" % use "+education[l].text+" to access internet");
                     }
                 }
 
@@ -2199,8 +2213,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#allWebsiteValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#allWebsiteName").empty().html(alldata[l].label);
+                        // $("#allWebsiteValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#allWebsiteName").empty().html(alldata[l].label);
+                        $("#newAllWebsite").empty().html(alldata[l].label+" is the most often site visited by "+parseFloat(alldata[l].value)+" % of consumer");
                     }
                 }
 
@@ -2261,47 +2276,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#a2798f"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#d7c6cf"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#008080"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#a8e6cf"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#dcedc1"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#ffd3b6"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#ffaaa5"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#ff8b94"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#be9b7b"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#a0a0a0"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -2352,8 +2367,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#frequensiRadioValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#frequensiRadioName").empty().html(education[l].text);
+                        // $("#frequensiRadioValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#frequensiRadioName").empty().html(education[l].text);
+                        $("#newFrequensiRadio").empty().html(parseFloat(education[l].ver)+" % consumer are listening to the radio "+education[l].text);
                     }
                 }
 
@@ -2433,8 +2449,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#placeValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#placeName").empty().html(education[l].text);
+                        // $("#placeValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#placeName").empty().html(education[l].text);
+                        $("#newPlace").empty().html(parseFloat(education[l].ver)+" % consumer are listening to the radio in their "+education[l].text);
                     }
                 }
 
@@ -2514,8 +2531,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#toolsListeningValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#toolsListeningName").empty().html(education[l].text);
+                        // $("#toolsListeningValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#toolsListeningName").empty().html(education[l].text);
+                        $("#newToolsListening").empty().html(parseFloat(education[l].ver)+" % consumer are listening to the radio with his "+education[l].text);
                     }
                 }
 
@@ -3121,14 +3139,14 @@
                         el+="<table class='table table-striped' style='color:#22222'>"+
                             '<thead>'+
                                 '<tr>'+
-                                    '<th>Rank</th>'+
-                                    '<th> : </th>'+
-                                    '<th>'+brandrank+'</th>'+
+                                    '<th style="color:#000">Rank</th>'+
+                                    '<th style="color:#000"> : </th>'+
+                                    '<th style="color:#000">'+brandrank+'</th>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<th>Category</th>'+
-                                    '<th> : </th>'+
-                                    '<th>'+brandcategory+'</th>'+
+                                    '<th style="color:#000">Category</th>'+
+                                    '<th style="color:#000"> : </th>'+
+                                    '<th style="color:#000">'+brandcategory+'</th>'+
                                 '</tr>'+
                             '</thead>'+
                         '</table>';
@@ -3242,116 +3260,105 @@
                         '</div>'+
                     '</div>'+
                     '<div class="card-body">'+
-                        '<h5>Pengguna Brand :  <b>'+namabrand+'</b></h5>'+
-                        '<p>Di dominasi oleh:</p>'+
-                        '<table width="60%">'+
-                            '<tbody>'+
-                                '<tr>'+
-                                    '<td width="35%">GENDER</td>'+
-                                    '<td width="45%"><strong><div id="genderName"></div></strong></td>'+
-                                    '<td><strong><div id="genderValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>SEC</td>'+
-                                    '<td><strong><div id="secName"></div></strong></td>'+
-                                    '<td><strong><div id="secValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>AGE</td>'+
-                                    '<td><strong><div id="ageName"></div></strong></td>'+
-                                    '<td><strong><div id="ageValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>EDUCATION</td>'+
-                                    '<td><strong><div id="educationName"></div></strong></td>'+
-                                    '<td><strong><div id="educationValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>OCCUPATION</td>'+
-                                    '<td><strong><div id="occupationName"></div></strong></td>'+
-                                    '<td><strong><div id="occupationValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>HOBBY</td>'+
-                                    '<td><strong><div id="hobbyName"></div></strong></td>'+
-                                    '<td><strong><div id="hobbyValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td width="35%">MEDIA</td>'+
-                                    '<td width="45%"><strong><div id="mediaName"></div></strong></td>'+
-                                    '<td><strong><div id="mediaValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>KOTA</td>'+
-                                    '<td><strong><div id="kotaName"></div></strong></td>'+
-                                    '<td><strong><div id="kotaValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>TIME SPENT OF USING INTERNET</td>'+
-                                    '<td><strong><div id="timespentName"></div></strong></td>'+
-                                    '<td><strong><div id="timespentValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>FREQUENCY OF USING INTERNET</td>'+
-                                    '<td><strong><div id="frequencyName"></div></strong></td>'+
-                                    '<td><strong><div id="frequencyValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>FUNCTION USED GENERAL</td>'+
-                                    '<td><strong><div id="generalName"></div></strong></td>'+
-                                    '<td><strong><div id="generalValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>FUNCTION USED E-FINANCE</td>'+
-                                    '<td><strong><div id="financeName"></div></strong></td>'+
-                                    '<td><strong><div id="financeValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>FUNCTION USED E-COMMERCE</td>'+
-                                    '<td><strong><div id="commerceName"></div></strong></td>'+
-                                    '<td><strong><div id="commerceValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>TOOLS OF INTERNET ACCESS</td>'+
-                                    '<td><strong><div id="toolsName"></div></strong></td>'+
-                                    '<td><strong><div id="toolsValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>ALL WEBSITE</td>'+
-                                    '<td><strong><div id="allWebsiteName"></div></strong></td>'+
-                                    '<td><strong><div id="allWebsiteValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>FREQUENCY OF LISTENING</td>'+
-                                    '<td><strong><div id="frequensiRadioName"></div></strong></td>'+
-                                    '<td><strong><div id="frequensiRadioValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>PLACE OF LISTENING RADIO</td>'+
-                                    '<td><strong><div id="placeName"></div></strong></td>'+
-                                    '<td><strong><div id="placeValue"></div></strong></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td>TOOLS OF LISTENING RADIO</td>'+
-                                    '<td><strong><div id="toolsListeningName"></div></strong></td>'+
-                                    '<td><strong><div id="toolsListeningValue"></div></strong></td>'+
-                                '</tr>'+
-                                // '<tr>'+
-                                //     '<td><b>DAY PART - ALL TIME</b></td>'+
-                                //     '<td><b><div id="allTimeName"></div></b></td>'+
-                                //     '<td><div id="allTimeValue"></div></td>'+
-                                // '</tr>'+
-                                // '<tr>'+
-                                //     '<td><b>DAY PART - PRIME TIME</b></td>'+
-                                //     '<td><b><div id="primeTimeName"></div></b></td>'+
-                                //     '<td><div id="primeTimeValue"></div></td>'+
-                                // '</tr>'+
-                                // '<tr>'+
-                                //     '<td><b>DAY PART - NON PRIME TIME</b></td>'+
-                                //     '<td><b><div id="nonprimetimeName"></div></b></td>'+
-                                //     '<td><div id="nonprimetimeValue"></div></td>'+
-                                // '</tr>'+
-                        '</table>'+
+                        '<h3><b>'+namabrand+'</b> <small>consumer is dominated by:</small></h3>'+
+                        '<hr>'+
+                        '<h6>DEMOGRAPHY</h6>'+
+                        '<div class="highlight" style="padding-top:10px;">'+
+                        '<ul class="summary">'+
+                            '<li><p id="newGender"></p></li>'+
+                            '<li><p id="newAge"></p></li>'+
+                            '<li><p id="newSec"></p></li>'+
+                            '<li><p id="newEducation"></p></li>'+
+                            '<li><p id="newOccupation"></p></li>'+
+                            '<li><p id="newHobby"></p></li>'+
+                        '</ul>'+ 
+                        '</div>'+
+                        '<h6>PENETRATION</h6>'+
+                        '<div class="highlight" style="padding-top:10px;">'+
+                        '<ul class="summary">'+
+                            '<li><p id="newMedia"></p></li>'+
+                            '<li><p id="newKota"></p></li>'+
+                        '</ul>'+ 
+                        '</div>'+
+                        '<h6>INTERNET</h6>'+
+                        '<div class="highlight" style="padding-top:10px;">'+
+                        '<ul class="summary">'+
+                            '<li><p id="newFrequencyName"></p></li>'+
+                            '<li><p id="newTimeSpent"></p></li>'+
+                            '<li><p id="newGeneral"></p></li>'+
+                            '<li><p id="newFinance"></p></li>'+
+                            '<li><p id="newCommerce"></p></li>'+
+                            '<li><p id="newTools"></p></li>'+
+                            '<li><p id="newAllWebsite"></p></li>'+
+                        '</ul>'+ 
+                        '</div>'+
+                        '<h6>RADIO</h6>'+
+                        '<div class="highlight" style="padding-top:10px;">'+
+                        '<ul class="summary">'+
+                            '<li><p id="newFrequensiRadio"></p></li>'+
+                            '<li><p id="newPlace"></p></li>'+
+                            '<li><p id="newToolsListening"></p></li>'+
+                        '</ul>'+ 
+                        '</div>'+
+                        // '<table width="60%">'+
+                        //     '<thead>'+
+                        //         '<tr>'+
+                        //             '<th colspan="3"><h6>DEMOGRAPHY</h6></th>'+
+                        //         '</tr>'+
+                        //     '</thead>'+
+                        //     '<tbody>'+
+                        //         '<tr>'+
+                        //             '<td width="2%">-</td>'+
+                        //             '<td width="8%"><strong><div id="genderValue"></div></strong></td>'+
+                        //             '<td width="45%"><strong><div id="genderName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="ageValue"></div></strong></td>'+
+                        //             '<td><strong><div id="ageName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="secValue"></div></strong></td>'+
+                        //             '<td><strong><div id="secName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="educationValue"></div></strong></td>'+
+                        //             '<td><strong><div id="educationName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="occupationValue"></div></strong></td>'+
+                        //             '<td><strong><div id="occupationName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="hobbyValue"></div></strong></td>'+
+                        //             '<td><strong><div id="hobbyName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //     '</tbody>'+
+                        // '</table>'+
+                        // '<hr>'+
+                        // '<table width="60%">'+
+                        //     '<thead>'+
+                        //         '<tr>'+
+                        //             '<th colspan="3"><h6>PENETRATION</h6></th>'+
+                        //         '</tr>'+
+                        //     '</thead>'+
+                        //     '<tbody>'+
+                        //         '<tr>'+
+                        //             '<td width="2%">-</td>'+
+                        //             '<td width="5%"><strong><div id="mediaValue"></div></strong></td>'+
+                        //             '<td width="45%"><strong><div id="mediaName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="kotaValue"></div></strong></td>'+
+                        //             '<td><strong><div id="kotaName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //     '</tbody>'+
+                        // '</table>'+
                     '</div>'+
                 '</div>';
                 /* end summary */

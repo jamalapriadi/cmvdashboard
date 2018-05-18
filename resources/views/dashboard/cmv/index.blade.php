@@ -67,7 +67,7 @@
                 {{-- <div class="card-status bg-green"></div> --}}
                 <h4 class="card-titles p-3 text-center">TOTAL POPULASI</h4>
                 <div class="card-body p-3 text-center">
-                    <div class="h1 m-0">54.832.000</div>
+                    <div class="h1 m-0">54,832,000</div>
                 </div>
             </div>
         </div>
