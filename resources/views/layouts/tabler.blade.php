@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Customer Media View</title>
+  <title>Consumer Media View</title>
   <!-- GOOGLE FONTS -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -41,6 +41,64 @@
   <!-- Dashboard Core -->
   <link href="{{URL::asset('tabler/assets/css/dashboard.css')}}" rel="stylesheet" />
   <link href="{{URL::asset('tabler/assets/css/cmv.css')}}" rel="stylesheet" />
+  <style>
+    html,body{
+      font-style: normal;
+    }
+    .no-italics {
+      font-style: normal;   
+    }
+    p{
+      font-style: normal;   
+    }
+    table{
+      font-style: normal;   
+    }
+    h5,h3,a,h6, .control-label, .card-header{
+      font-style: normal;   
+    }
+    .text-center{
+      text-align:center;
+    }
+
+    .card-titles{
+      text-align: center;
+      font-weight: 700;
+      font-style: normal;
+      margin-bottom: -15px;
+    }
+    .card-fullscreen .card-options-fullscreen i:before {
+      content: '\e992';
+    }
+
+    .card-fullscreen .card-options-remove {
+      display: none;
+    }
+
+    /**
+    Card fullscreen
+    */
+    .card-fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      margin: 0;
+    }
+    ul.summary{
+      line-height: 5px;
+    }
+    .garis{
+      display: block;
+      height: 1px;
+      border: 0;
+      border-top: 1px solid #dddddd;
+      margin: 1em 0;
+      padding: 0;
+    }
+  </style>
   @yield('css')
 </head>
 <body class="">
@@ -60,7 +118,7 @@
                     <span class="nav-unread"></span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                    <a href="#" class="dropdown-item d-flex">
+                    {{-- <a href="#" class="dropdown-item d-flex">
                       <span class="avatar mr-3 align-self-center" style="background-image: url(demo/faces/male/41.jpg)"></span>
                       <div>
                         <strong>Nathan</strong> pushed new commit: Fix page load performance issue.
@@ -82,7 +140,7 @@
                       </div>
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item text-center text-muted-dark">Mark all as read</a>
+                    <a href="#" class="dropdown-item text-center text-muted-dark">Mark all as read</a> --}}
                   </div>
                 </div>
                 <div class="dropdown">
@@ -110,11 +168,11 @@
             </div>
           </div>
         </div>
-        <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+        <div class="header collapse d-lg-flex p-0 bg-blue-darker text-white" id="headerMenuCollapse">
           <div class="container">
             <div class="row align-items-center">
               <div class="col-lg order-lg-first">
-                <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+                <ul class="nav nav-tabs border-0 flex-column flex-lg-row text-white">
                   <li class="nav-item">
                     <a href="{{URL::to('cmv')}}" class="{{ Request::path() == 'cmv' ? 'nav-link active' : 'nav-link' }}"><i class="fe fe-home"></i> Home</a>
                   </li>
@@ -157,7 +215,7 @@
               
             </div>
             <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
-              Copyright © {{date('Y')}} <a href="#">MNC Marketing Strategic</a>. Theme by <a href="https://codecalm.net" target="_blank">codecalm.net</a> All rights reserved.
+              Copyright © {{date('Y')}} <a href="#">MNC Marketing Strategic</a>.  All rights reserved.
             </div>
           </div>
         </div>

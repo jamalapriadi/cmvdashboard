@@ -235,12 +235,13 @@ class BrandController extends Controller
     public function list_brand(Request $request){
         $brand=Brand::select(
             'brand_id as id',
-            'category_id',
-            'brand_name as text'
-        )->whereNotNull('parent_id');
+            'cmv_brand.category_id',
+            \DB::raw("concat(brand_name,' - ',cmv_category.category_name) as text")
+        )->leftJoin('cmv_category','cmv_category.category_id','cmv_brand.category_id')
+        ->whereNotNull('parent_id');
 
         if($request->has('category') && $request->input('category')!=null){
-            $brand=$brand->where('category_id',$request->input('category'));
+            $brand=$brand->where('cmv_brand.category_id',$request->input('category'));
         }
 
         if($request->has('q')){

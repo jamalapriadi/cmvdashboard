@@ -39,4 +39,8 @@ class Brand extends Model
 
     }
 
+    public function total(){
+        return $this->hasOne('App\Models\Dashboard\Cmv\Variabel','brand_id','brand_id');
+    }
+
 }
