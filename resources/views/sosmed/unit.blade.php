@@ -37,6 +37,45 @@
                 Add New Business Unit
             </a>
             @endif
+            <br><br>
+            <fieldset>
+                <legend>Filter</legend>
+                <div class="row" style="padding-left:10px;">
+                    <form id="formSearch" onsubmit="return false;">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="" class="control-label">Group</label>
+                                <select name="searchgroup" id="searchgroup" class="form-control">
+                                    <option value="" selected>--Select Group--</option>
+                                    @foreach($group as $row)
+                                        <option value="{{$row->id}}">{{$row->group_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div id="divsearchunit">
+                                <div class="form-group">
+                                    <label for="" class="control-label">Type Unit</label>
+                                    <select name="searchtype" id="searchtype" class="form-control">
+                                        <option value="" disabled selected>--Select Type Unit--</option>
+                                        <option value="TV">TV</option>
+                                        <option value="Publisher">Publisher</option>
+                                        <option value="Radio">Radio</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <button class="btn btn-primary" style="margin-top:25px">
+                                <i class="icon-filter4"></i> Filter
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </fieldset>
+
             <table class="table table-striped datatable-colvis-basic"></table>
         </div>
     </div>
@@ -73,16 +112,25 @@
             });
 
             function showData(){
+                var f={
+                    group:$("#searchgroup option:selected").val(),
+                    type:$("#searchtype option:selected").val()
+                }
+
                 $('.datatable-colvis-basic').DataTable({
                     processing: true,
                     serverSide: true,
                     autoWidth: true,
                     destroy: true,
-                    ajax: "{{URL::to('sosmed/data/business-unit')}}",
+                    ajax:{
+                        url:"{{URL::to('sosmed/data/business-unit')}}",
+                        data:f
+                    },
                     columns: [
                         {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
                         {data: 'groupunit.group_name', name: 'groupunit.group_name',title:'Group Name',width:'20%'},
                         {data: 'unit_name', name: 'unit_name',title:'Unit Name'},
+                        {data: 'type_unit', name: 'type_unit',title:'Type Unit'},
                         {data: 'jumsosmed', name: 'jumsosmed',title:'Jumlah Sosmed',width:'20%'},
                         {data: 'action', name: 'action',title:'Action',searchable:false,width:'25%'}
                     ],
@@ -114,6 +162,10 @@
                     minimumResultsForSearch: "-1"
                 }); 
             } 
+
+            $(document).on("submit","#formSearch",function(){
+                showData();
+            })
 
             $(document).on("click","#tambah",function(){
                 var el="";
@@ -159,6 +211,14 @@
                                         el+="<option value='"+b.id+"'>"+b.group_name+"</option>";
                                     })
                                 el+='</select>'+
+                            '</div>'+
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Type Unit</label>'+
+                                '<select name="type" id="type" class="form-control" required>'+
+                                    "<option value='TV'>TV</option>"+
+                                    "<option value='Publisher'>Publisher</option>"+
+                                    "<option value='Radio'>Radio</option>"+
+                                '</select>'+
                             '</div>'+
                             '<div class="form-group">'+
                                 '<label class="control-label text-semibold">Business Unit Name</label>'+
@@ -264,6 +324,14 @@
                                 el+='</select>'+
                             '</div>'+
                             '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Type Unit</label>'+
+                                '<select name="type" id="type" class="form-control" required>'+
+                                    "<option value='TV'>TV</option>"+
+                                    "<option value='Publisher'>Publisher</option>"+
+                                    "<option value='Radio'>Radio</option>"+
+                                '</select>'+
+                            '</div>'+
+                            '<div class="form-group">'+
                                 '<label class="control-label text-semibold">Business Unit Name</label>'+
                                 '<input class="form-control" name="name" value="'+result.unit.unit_name+'" id="name" placeholder="Business Unit Name" required>'+
                             '</div>'+
@@ -298,6 +366,7 @@
                         $("#showForm").empty().html(el);
 
                         $("#group").val(result.unit.group_unit_id);
+                        $("#type").val(result.unit.type_unit);
                     },
                     error:function(){
                         $("#showForm").empty().html("<div class='alert alert-danger'>Data Failed to load</div>");

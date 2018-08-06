@@ -788,6 +788,23 @@
                 })
             }
 
+            function showAllGrowthProgram(){
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/report/all-program-growth')}}",
+                    type:"GET",
+                    beforeSend:function(){
+                        $("#growthProgram").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        $("#growthProgram").empty().html(result);
+                        $(".sticky-header").floatThead({scrollingTop:50});
+                    },
+                    error:function(){
+                        $("#growthProgram").empty().html("<div class='alert alert-danger'>Data Failed to Load</div>");
+                    }
+                })
+            }
+
             $(document).on("change","#searchgroup",function(){
                 var group=$("#searchgroup option:selected").val();
 
@@ -862,6 +879,8 @@
                 tvAchievementbelow50();
                 tvAchievementabove50();
             })
+
+            showAllGrowthProgram();
             
         })
     </script>

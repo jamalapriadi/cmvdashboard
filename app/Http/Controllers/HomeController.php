@@ -72,7 +72,10 @@ class HomeController extends Controller
 
     public function sosmed_unit(){
         if(auth()->user()->can('Read Unit')){
-            return view('sosmed.unit');
+            $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+
+            return view('sosmed.unit')
+                ->with('group',$group);
         }
 
         return abort('403');
@@ -225,12 +228,12 @@ class HomeController extends Controller
         $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
 
         return view('sosmed.input_report')
-            ->with('sosmed',$sosmed)
-            ->with('group',$group)
-            ->with('user',$user)
-            ->with('sekarang',$sekarang)
-            ->with('kemarin',$kemarin)
-            ->with('id',$id);
+                ->with('sosmed',$sosmed)
+                ->with('group',$group)
+                ->with('user',$user)
+                ->with('sekarang',$sekarang)
+                ->with('kemarin',$kemarin)
+                ->with('id',$id);
     }
 
     public function log_login(){

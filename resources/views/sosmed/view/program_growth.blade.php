@@ -1,7 +1,8 @@
 <table class="table table-striped table-bordered sticky-header">
     <thead>
         <tr>
-            <th width="18%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>
+            <th width="18%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white" valign="top">Channel</th>
+            <th width="18%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Unit</th>
             <th colspan='3' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
             <th colspan='3' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
             <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
@@ -24,6 +25,7 @@
         @foreach($program as $of)
             <tr>
                 <td>{{$of->program_name}}</td>
+                <td>{{$of->unit_name}}</td>
                 <td>{{number_format($of->tw_kemarin)}}</td>
                 <td>{{number_format($of->tw_sekarang)}}</td>
                 <td>

@@ -604,6 +604,8 @@ class ProgramunitController extends Controller
                     break;
                 case 'instagram':
                         $sosmed=3;
+                case 'youtube':
+                        $sosmed=4;
                     break;
             }
         }else{
@@ -633,7 +635,7 @@ class ProgramunitController extends Controller
                 ->whereIn('business_unit_id',$listUnit)
                 ->where('sosmed_id',$sosmed);
 
-                $daily=\DB::table('business_unit')
+        $daily=\DB::table('business_unit')
                 ->leftJoin('unit_sosmed',function($join){
                     $join->on('business_program_unit','=','business_unit.id')
                         ->where('type_sosmed','=','corporate');
@@ -658,7 +660,8 @@ class ProgramunitController extends Controller
                 ->get();
 
         return view('sosmed.view.daily_report')
-                ->with('daily',$daily);
+                ->with('daily',$daily)
+                ->with('sosmed',$sosmed);
     }
 
     public function daily_report_by_id($id){
@@ -946,6 +949,8 @@ class ProgramunitController extends Controller
                     break;
                 case 'instagram':
                         $sosmed=3;
+                case 'youtube':
+                        $sosmed=4;
                     break;
             }
         }else{

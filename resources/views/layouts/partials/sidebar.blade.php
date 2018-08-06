@@ -61,6 +61,7 @@
                                 <li><a href="{{URL::to('sosmed/input-report/twitter')}}"><i class="icon-twitter2"></i> Twitter</a></li>
                                 <li><a href="{{URL::to('sosmed/input-report/facebook')}}"><i class="icon-facebook2"></i> Facebook</a></li>
                                 <li><a href="{{URL::to('sosmed/input-report/instagram')}}"><i class="icon-instagram"></i> Instagram</a></li>
+                                <li><a href="{{URL::to('sosmed/input-report/youtube')}}"><i class="icon-youtube"></i> Youtube</a></li>
                             </ul>
                         </div>
                     </li>
