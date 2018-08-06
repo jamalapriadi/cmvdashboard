@@ -290,8 +290,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<age.length;l++){
                     if(age[l].thousand==tertinggi){
-                        $("#genderValue").empty().html(parseFloat(age[l].ver)+" %");
-                        $("#genderName").empty().html(age[l].text);
+                        // $("#genderValue").empty().html(parseFloat(age[l].ver)+" %");
+                        // $("#genderName").empty().html(age[l].text);
+                        $("#newGender").empty().html(parseFloat(age[l].ver)+" % "+age[l].text);
                     }
                 }
 
@@ -304,8 +305,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -318,8 +320,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -373,8 +375,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<sec.length;l++){
                     if(sec[l].thousand==tertinggi){
-                        $("#secValue").empty().html(parseFloat(sec[l].ver)+" %");
-                        $("#secName").empty().html(sec[l].text);
+                        // $("#secValue").empty().html(parseFloat(sec[l].ver)+" %");
+                        // $("#secName").empty().html("SEC "+sec[l].text);
+                        $("#newSec").empty().html(parseFloat(sec[l].ver)+" % SEC "+sec[l].text);
                     }
                 }
 
@@ -387,8 +390,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -401,8 +405,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -456,8 +460,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<age.length;l++){
                     if(age[l].thousand==tertinggi){
-                        $("#ageValue").empty().html(parseFloat(age[l].ver)+" %");
-                        $("#ageName").empty().html(age[l].text);
+                        // $("#ageValue").empty().html(parseFloat(age[l].ver)+" %");
+                        // $("#ageName").empty().html(age[l].text+" OLD");
+                        $("#newAge").empty().html(parseFloat(age[l].ver)+" % "+age[l].text+" OLD");
                     }
                 }
 
@@ -470,8 +475,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -484,8 +490,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -539,8 +545,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#educationValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#educationName").empty().html(education[l].text);
+                        // $("#educationValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#educationName").empty().html(education[l].text);
+                        $("#newEducation").empty().html(parseFloat(education[l].ver)+" % "+education[l].text);
                     }
                 }
 
@@ -553,8 +560,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -567,8 +575,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -601,12 +609,17 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D5"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
 
                         alldata.push({
                             label:b.subdemo_name,
@@ -618,11 +631,19 @@
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#occupationValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#occupationName").empty().html(alldata[l].label);
+                        // $("#occupationValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#occupationName").empty().html(alldata[l].label);
+                        $("#newOccupation").empty().html(parseFloat(alldata[l].value)+" % "+alldata[l].label);
                     }
                 }
 
@@ -641,7 +662,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -659,6 +681,28 @@
                             "font-color": "#222222"
                         }
                     },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
                     "tooltip": {
                         "htmlMode": true,
                         "backgroundColor": "none",
@@ -672,47 +716,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -745,12 +789,18 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D6"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
 
                         alldata.push({
                             label:b.subdemo_name,
@@ -762,11 +812,19 @@
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#hobbyValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#hobbyName").empty().html(alldata[l].label);
+                        // $("#hobbyValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#hobbyName").empty().html(alldata[l].label);
+                        $("#newHobby").empty().html(parseFloat(alldata[l].value)+" % "+alldata[l].label+"  as their hobby");
                     }
                 }
 
@@ -785,7 +843,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -803,6 +862,28 @@
                             "font-color": "#222222"
                         }
                     },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
                     "tooltip": {
                         "htmlMode": true,
                         "backgroundColor": "none",
@@ -816,47 +897,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -915,8 +996,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     "legend":{
                         "x":"65%",
@@ -934,7 +1016,6 @@
                         {
                             placement: "in",
                             text: "%npv%",
-                            fontColor: "#1A1B26",
                             fontSize: 16
                         }],
                         "tooltip":{
@@ -954,7 +1035,6 @@
                     },
                     tooltip: {
                         fontSize: 12,
-                        fontColor: "#1A1B26",
                         shadow: 0,
                         borderRadius: 3,
                         borderWidth: 1,
@@ -978,17 +1058,19 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D7"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
-                        // occupation.push({
-                        //         values:[parseInt(b.totals_thousand)],
-                        //         backgroundColor:color[a],
-                        //         text:b.subdemo_name
-                        //     })
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
+
                         alldata.push({
                             label:b.subdemo_name,
                             value:b.totals_ver,
@@ -999,11 +1081,19 @@
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#mediaValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#mediaName").empty().html(alldata[l].label);
+                        // $("#mediaValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#mediaName").empty().html(alldata[l].label);
+                        $("#newMedia").empty().html(parseFloat(alldata[l].value)+" % "+alldata[l].label);
                     }
                 }
 
@@ -1022,7 +1112,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -1040,6 +1131,17 @@
                             "font-color": "#222222"
                         }
                     },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
                     "tooltip": {
                         "htmlMode": true,
                         "backgroundColor": "none",
@@ -1053,47 +1155,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1125,12 +1227,17 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
+
                 $.each(data,function(a,b){
                     if(b.demo_id=="D8"){
                         no++;
                         br=b.brand_name;
-                        labels.push(b.subdemo_name);
-                        values.push(parseFloat(b.totals_ver));
+                        
+                        listdata.push({
+                            values:parseFloat(b.totals_ver),
+                            labels:b.subdemo_name
+                        })
 
                         alldata.push({
                             label:b.subdemo_name,
@@ -1142,11 +1249,19 @@
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#kotaValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#kotaName").empty().html(alldata[l].label);
+                        // $("#kotaValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#kotaName").empty().html(alldata[l].label);
+                        $("#newKota").empty().html(parseFloat(alldata[l].value)+" % Live in "+alldata[l].label);
                     }
                 }
 
@@ -1165,7 +1280,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -1183,6 +1299,17 @@
                             "font-color": "#222222"
                         }
                     },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
                     "tooltip": {
                         "htmlMode": true,
                         "backgroundColor": "none",
@@ -1196,47 +1323,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1287,8 +1414,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#timespentValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#timespentName").empty().html(education[l].text);
+                        // $("#timespentValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#timespentName").empty().html(education[l].text);
+                        $("#newTimeSpent").empty().html(parseFloat(education[l].ver)+" % spend "+education[l].text+" to access internet");
                     }
                 }
 
@@ -1301,8 +1429,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -1315,8 +1444,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1373,8 +1502,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#frequencyValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#frequencyName").empty().html(education[l].text);
+                        // $("#frequencyValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#frequencyName").empty().html(education[l].text);
+                        $("#newFrequencyName").empty().html(parseFloat(education[l].ver)+" % Use Internet "+education[l].text);
                     }
                 }
 
@@ -1387,8 +1517,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -1401,8 +1532,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1435,6 +1566,7 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
@@ -1445,13 +1577,12 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            labels.push(b.subdemo_name);
-                            values.push(parseFloat(b.totals_ver));
-                            // occupation.push({
-                            //         values:[parseInt(b.totals_thousand)],
-                            //         backgroundColor:color[a],
-                            //         text:b.subdemo_name
-                            //     })
+
+                            listdata.push({
+                                values:parseFloat(b.totals_ver),
+                                labels:b.subdemo_name
+                            })
+
                             alldata.push({
                                 label:b.subdemo_name,
                                 value:b.totals_ver,
@@ -1463,11 +1594,20 @@
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+                
+
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#generalValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#generalName").empty().html(alldata[l].label);
+                        // $("#generalValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#generalName").empty().html(alldata[l].label);
+                        $("#newGeneral").empty().html(parseFloat(alldata[l].value)+" % use internet for "+alldata[l].label);
                     }
                 }
 
@@ -1486,7 +1626,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -1504,6 +1645,17 @@
                             "font-color": "#222222"
                         }
                     },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
                     "tooltip": {
                         "htmlMode": true,
                         "backgroundColor": "none",
@@ -1517,47 +1669,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1590,6 +1742,7 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
@@ -1600,13 +1753,12 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            labels.push(b.subdemo_name);
-                            values.push(parseFloat(b.totals_ver));
-                            // occupation.push({
-                            //         values:[parseInt(b.totals_thousand)],
-                            //         backgroundColor:color[a],
-                            //         text:b.subdemo_name
-                            //     })
+                            
+                            listdata.push({
+                                values:parseFloat(b.totals_ver),
+                                labels:b.subdemo_name
+                            })
+
                             alldata.push({
                                 label:b.subdemo_name,
                                 value:b.totals_ver,
@@ -1618,11 +1770,19 @@
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#financeValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#financeName").empty().html(alldata[l].label);
+                        // $("#financeValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#financeName").empty().html(alldata[l].label);
+                        $("#newFinance").empty().html(parseFloat(alldata[l].value)+" % use e-finance to "+alldata[l].label);
                     }
                 }
 
@@ -1641,7 +1801,7 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -1659,6 +1819,17 @@
                             "font-color": "#222222"
                         }
                     },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
                     "tooltip": {
                         "htmlMode": true,
                         "backgroundColor": "none",
@@ -1672,47 +1843,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1745,6 +1916,7 @@
                 var no=0;
                 var alldata=[];
                 var allnilai=[];
+                var listdata=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
@@ -1755,13 +1927,12 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            labels.push(b.subdemo_name);
-                            values.push(parseFloat(b.totals_ver));
-                            // occupation.push({
-                            //         values:[parseInt(b.totals_thousand)],
-                            //         backgroundColor:color[a],
-                            //         text:b.subdemo_name
-                            //     })
+                            
+                            listdata.push({
+                                values:parseFloat(b.totals_ver),
+                                labels:b.subdemo_name
+                            })
+
                             alldata.push({
                                 label:b.subdemo_name,
                                 value:b.totals_ver,
@@ -1773,11 +1944,19 @@
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<alldata.length;l++){
                     if(alldata[l].thousand==tertinggi){
-                        $("#commerceValue").empty().html(parseFloat(alldata[l].value)+" %");
-                        $("#commerceName").empty().html(alldata[l].label);
+                        // $("#commerceValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#commerceName").empty().html(alldata[l].label);
+                        $("#newCommerce").empty().html(parseFloat(alldata[l].value)+" % use e-commerce to look for "+alldata[l].label);
                     }
                 }
 
@@ -1796,7 +1975,8 @@
                         }
                     },
                     "plotarea": {
-                        "margin": "2% 2% 15% 20%"
+                        // "margin": "2% 2% 15% 20%"
+                        margin: 'dynamic dynamic dynamic dynamic',
                     },
                     "backgroundColor": "#fff",
                     "scaleX": {
@@ -1814,6 +1994,17 @@
                             "font-color": "#222222"
                         }
                     },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
                     "tooltip": {
                         "htmlMode": true,
                         "backgroundColor": "none",
@@ -1827,47 +2018,47 @@
                             "rules":[
                                 {
                                     "rule":"%i==0",
-                                    "background-color":"#FA8452"
+                                    "background-color":"#ob2347"
                                 },
                                 {
                                     "rule":"%i==1",
-                                    "background-color":"#FCAE48"
+                                    "background-color":"#103061"
                                 },
                                 {
                                     "rule":"%i==2",
-                                    "background-color":"#FCCC65"
+                                    "background-color":"#123770"
                                 },
                                 {
                                     "rule":"%i==3",
-                                    "background-color":"#A0BE4A"
+                                    "background-color":"#184995"
                                 },
                                 {
                                     "rule":"%i==4",
-                                    "background-color":"#6FA6DF"
+                                    "background-color":"#1f5cb9"
                                 },
                                 {
                                     "rule":"%i==5",
-                                    "background-color":"#a200b2"
+                                    "background-color":"#2067d5"
                                 },
                                 {
                                     "rule":"%i==6",
-                                    "background-color":"#47f79f"
+                                    "background-color":"#2572e9"
                                 },
                                 {
                                     "rule":"%i==7",
-                                    "background-color":"#fc0aec"
+                                    "background-color":"#287bfd"
                                 },
                                 {
                                     "rule":"%i==8",
-                                    "background-color":"#ea8c7c"
+                                    "background-color":"#5a9bff"
                                 },
                                 {
                                     "rule":"%i==9",
-                                    "background-color":"#f9e154"
+                                    "background-color":"#86b3f9"
                                 },
                                 {
                                     "rule":"%i==10",
-                                    "background-color":"#f4ef58"
+                                    "background-color":"#b5d2fe"
                                 },
                                 {
                                     "rule":"%i==11",
@@ -1919,8 +2110,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#toolsValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#toolsName").empty().html(education[l].text);
+                        // $("#toolsValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#toolsName").empty().html(education[l].text);
+                        $("#newTools").empty().html(parseFloat(education[l].ver)+" % use "+education[l].text+" to access internet");
                     }
                 }
 
@@ -1933,8 +2125,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -1947,8 +2140,8 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
+                            fontSize: 12,
+                            bold:false
                         }],
                         "tooltip":{
                             "text":"%t: %v%",
@@ -1975,10 +2168,13 @@
             }
 
             function showAllWebsite(data){
-                var education=[];
-                var color=["#50ADF5","#FF7965","#a0a0a0","#ffc720","#557dcb"];
+                var labels=[];
+                var values=[];
                 var br="";
+                var no=0;
+                var alldata=[];
                 var allnilai=[];
+                var listdata=[];
 
                 data.sort(function(a, b){return b.totals_ver - a.totals_ver});
                 
@@ -1989,74 +2185,159 @@
 
                         if(n<=5){
                             br=b.brand_name;
-                            education.push({
-                                values:[parseFloat(b.totals_ver)],
-                                backgroundColor:color[n],
-                                ver:b.totals_ver,
-                                thousand:b.totals_thousand,
-                                text:b.subdemo_name
+
+                            listdata.push({
+                                values:parseFloat(b.totals_ver),
+                                labels:b.subdemo_name
                             })
+
+                            alldata.push({
+                                label:b.subdemo_name,
+                                value:b.totals_ver,
+                                thousand:b.totals_thousand
+                            });
 
                             allnilai.push(b.totals_thousand);
                         }
                     }
                 })
 
+                listdata.sort(function(a,b){return a.values - b.values });
+                
+                $.each(listdata,function(a,b){
+                    labels.push(b.labels);
+                    values.push(b.values);
+                })
+                
+
                 var tertinggi=Math.max.apply(Math,allnilai);
-                for(l=0;l<education.length;l++){
-                    if(education[l].thousand==tertinggi){
-                        $("#allWebsiteValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#allWebsiteName").empty().html(education[l].text);
+                for(l=0;l<alldata.length;l++){
+                    if(alldata[l].thousand==tertinggi){
+                        // $("#allWebsiteValue").empty().html(parseFloat(alldata[l].value)+" %");
+                        // $("#allWebsiteName").empty().html(alldata[l].label);
+                        $("#newAllWebsite").empty().html(alldata[l].label+" is the most often site visited by "+parseFloat(alldata[l].value)+" % of consumer");
                     }
                 }
 
-                var myConfig = {
-                    type: "pie3d",
-                    "plotarea": {
-                        "margin": "0 0"
-                    }, 
-                    title: {
-                        text: br,
-                        backgroundColor: "#fff",
-                        height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
-                    },
-                    backgroundColor: "#fff",
-                    "scale":{
-                        "layout":"1x1", //specify the layout by rows and columns
-                        "size-factor":0.6 //provide a decimal or percentage value
-                    },
-                    plot: {
-                        refAngle: 270,
-                        valueBox: [
-                        {
-                            placement: "out",
-                            text: "%t:%v%",
-                            fontColor: "#1A1B26",
-                            fontSize: 12
-                        }],
-                        "tooltip":{
-                            "text":"%t: %v%",
-                            "font-color":"black",
-                            "font-family":"Georgia",
-                            "text-alpha":1,
-                            "background-color":"white",
-                            "alpha":0.7,
-                            "border-width":1,
-                            "border-color":"#cccccc",
-                            "line-style":"dotted",
-                            "border-radius":"10px",
-                            "padding":"10%",
-                            // "placement":"node:out" //"node:out" or "node:center"
+                var chartConfig = {
+                    "type": "hbar",
+                    "plot": {
+                        "stacked": true,
+                        "valueBox":{
+                            "text":"%total%",
+                            "rules": [
+                                {
+                                    "rule": '%stack-top == 0',
+                                    "visible": 0
+                                }
+                            ]
                         }
                     },
-                    series : education
+                    "plotarea": {
+                        "margin": "2% 2% 15% 20%"
+                    },
+                    "backgroundColor": "#fff",
+                    "scaleX": {
+                        "values": labels,
+                        "lineWidth": 0,
+                        "lineColor":"none",
+                        "tick": {
+                            "visible": false
+                        },
+                        "guide": {
+                            "visible": false
+                        },
+                        "item": {
+                            "font-size": "9px",
+                            "font-color": "#222222"
+                        }
+                    },
+                    "scale-y":{
+                        "line-color":"#333",
+                        "guide":{
+                            "line-style":"solid",
+                            "line-color":"#c4c4c4",
+                            visible:false
+                        },
+                        "tick":{
+                            "line-color":"#333",
+                        }
+                    },
+                    "tooltip": {
+                        "htmlMode": true,
+                        "backgroundColor": "none",
+                        "padding": 0,
+                        "placement": "node:center",
+                        "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v %<\/div><\/div>"
+                    },
+                    "series": [
+                        {
+                            "values": values,
+                            "rules":[
+                                {
+                                    "rule":"%i==0",
+                                    "background-color":"#ob2347"
+                                },
+                                {
+                                    "rule":"%i==1",
+                                    "background-color":"#103061"
+                                },
+                                {
+                                    "rule":"%i==2",
+                                    "background-color":"#123770"
+                                },
+                                {
+                                    "rule":"%i==3",
+                                    "background-color":"#184995"
+                                },
+                                {
+                                    "rule":"%i==4",
+                                    "background-color":"#1f5cb9"
+                                },
+                                {
+                                    "rule":"%i==5",
+                                    "background-color":"#2067d5"
+                                },
+                                {
+                                    "rule":"%i==6",
+                                    "background-color":"#2572e9"
+                                },
+                                {
+                                    "rule":"%i==7",
+                                    "background-color":"#287bfd"
+                                },
+                                {
+                                    "rule":"%i==8",
+                                    "background-color":"#5a9bff"
+                                },
+                                {
+                                    "rule":"%i==9",
+                                    "background-color":"#86b3f9"
+                                },
+                                {
+                                    "rule":"%i==10",
+                                    "background-color":"#b5d2fe"
+                                },
+                                {
+                                    "rule":"%i==11",
+                                    "background-color":"#e057e0"
+                                }
+                            ]
+                        }
+                    ]
                 };
+
+                chartConfig.plot.animation = {
+                    'method': 'LINEAR',
+                    'delay': 0,
+                    'effect': 'ANIMATION_EXPAND_VERTICAL',
+                    'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                    'speed': 10
+                }
             
                 zingchart.render({ 
                     id : 'divAllWebsite', 
-                    data : myConfig
+                    data : chartConfig
                 });
             }
 
@@ -2086,8 +2367,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#frequensiRadioValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#frequensiRadioName").empty().html(education[l].text);
+                        // $("#frequensiRadioValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#frequensiRadioName").empty().html(education[l].text);
+                        $("#newFrequensiRadio").empty().html(parseFloat(education[l].ver)+" % consumer are listening to the radio "+education[l].text);
                     }
                 }
 
@@ -2100,8 +2382,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2114,7 +2397,6 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
                             fontSize: 9
                         }],
                         "tooltip":{
@@ -2167,8 +2449,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#placeValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#placeName").empty().html(education[l].text);
+                        // $("#placeValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#placeName").empty().html(education[l].text);
+                        $("#newPlace").empty().html(parseFloat(education[l].ver)+" % consumer are listening to the radio in their "+education[l].text);
                     }
                 }
 
@@ -2181,8 +2464,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2195,7 +2479,6 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
                             fontSize: 9
                         }],
                         "tooltip":{
@@ -2248,8 +2531,9 @@
                 var tertinggi=Math.max.apply(Math,allnilai);
                 for(l=0;l<education.length;l++){
                     if(education[l].thousand==tertinggi){
-                        $("#toolsListeningValue").empty().html(parseFloat(education[l].ver)+" %");
-                        $("#toolsListeningName").empty().html(education[l].text);
+                        // $("#toolsListeningValue").empty().html(parseFloat(education[l].ver)+" %");
+                        // $("#toolsListeningName").empty().html(education[l].text);
+                        $("#newToolsListening").empty().html(parseFloat(education[l].ver)+" % consumer are listening to the radio with his "+education[l].text);
                     }
                 }
 
@@ -2262,8 +2546,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2276,7 +2561,6 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
                             fontSize: 9
                         }],
                         "tooltip":{
@@ -2342,7 +2626,7 @@
                         backgroundColor: "#fff",
                         height: 40,
                         fontColor: "#1A1B26",
-                        fontSize: 16
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2420,8 +2704,9 @@
                         text: br,
                         backgroundColor: "#fff",
                         height: 40,
-                        fontColor: "#1A1B26",
-                        fontSize: 16
+                        "font-color":"#222222",
+                        bold:false,
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2434,7 +2719,6 @@
                         {
                             placement: "out",
                             text: "%t:%v%",
-                            fontColor: "#1A1B26",
                             fontSize: 7
                         }],
                         "tooltip":{
@@ -2500,7 +2784,7 @@
                         backgroundColor: "#fff",
                         height: 40,
                         fontColor: "#1A1B26",
-                        fontSize: 16
+                        fontSize: 14
                     },
                     backgroundColor: "#fff",
                     "scale":{
@@ -2695,7 +2979,10 @@
                                 "type":"line",
                                 "title":{
                                     "text":label,
-                                    "color":"#333",
+                                    "font-color":"#222222",
+                                    bold:false,
+                                    "font-size":14,
+                                    "font-weight":40,
                                     "background-color":"white",
                                     "text-align":"center",
                                 },
@@ -2852,14 +3139,14 @@
                         el+="<table class='table table-striped' style='color:#22222'>"+
                             '<thead>'+
                                 '<tr>'+
-                                    '<th>Rank</th>'+
-                                    '<th> : </th>'+
-                                    '<th>'+brandrank+'</th>'+
+                                    '<th style="color:#000">Rank</th>'+
+                                    '<th style="color:#000"> : </th>'+
+                                    '<th style="color:#000">'+brandrank+'</th>'+
                                 '</tr>'+
                                 '<tr>'+
-                                    '<th>Category</th>'+
-                                    '<th> : </th>'+
-                                    '<th>'+brandcategory+'</th>'+
+                                    '<th style="color:#000">Category</th>'+
+                                    '<th style="color:#000"> : </th>'+
+                                    '<th style="color:#000">'+brandcategory+'</th>'+
                                 '</tr>'+
                             '</thead>'+
                         '</table>';
@@ -2885,6 +3172,11 @@
                             "plotarea": {
                                 "margin": "2% 2% 15% 20%"
                             },
+                            source:{
+                                text: "* Dalam Ribu",
+                                fontColor:"#222222",
+                                // align: "center",
+                            },
                             "backgroundColor": "#fff",
                             "scaleX": {
                                 "values": labels,
@@ -2899,6 +3191,17 @@
                                 "item": {
                                     "font-size": "9px",
                                     "font-color": "#222222"
+                                }
+                            },
+                            "scale-y":{
+                                "line-color":"#333",
+                                "guide":{
+                                    "line-style":"solid",
+                                    "line-color":"#c4c4c4",
+                                    visible:false
+                                },
+                                "tick":{
+                                    "line-color":"#333",
                                 }
                             },
                             "tooltip": {
@@ -2950,123 +3253,112 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        'SUMMARY'+
+                        '<p class="card-title no-italics"><strong>SUMMARY</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
                         '</div>'+
                     '</div>'+
                     '<div class="card-body">'+
-                        '<h5>Pengguna Brand :  <b>'+namabrand+'</b></h5>'+
-                        '<p>Di dominasi oleh:</p>'+
-                        '<table width="60%">'+
-                            '<tbody>'+
-                                '<tr>'+
-                                    '<td width="35%"><b>GENDER</b></td>'+
-                                    '<td width="45%"><b><div id="genderName"></div></b></td>'+
-                                    '<td><div id="genderValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>SEC</b></td>'+
-                                    '<td><b><div id="secName"></div></b></td>'+
-                                    '<td><div id="secValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>AGE</b></td>'+
-                                    '<td><b><div id="ageName"></div></b></td>'+
-                                    '<td><div id="ageValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>EDUCATION</b></td>'+
-                                    '<td><b><div id="educationName"></div></b></td>'+
-                                    '<td><div id="educationValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>OCCUPATION</b></td>'+
-                                    '<td><b><div id="occupationName"></div></b></td>'+
-                                    '<td><div id="occupationValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>HOBBY</b></td>'+
-                                    '<td><b><div id="hobbyName"></div></b></td>'+
-                                    '<td><div id="hobbyValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td width="35%"><b>MEDIA</b></td>'+
-                                    '<td width="45%"><b><div id="mediaName"></div></b></td>'+
-                                    '<td><div id="mediaValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>KOTA</b></td>'+
-                                    '<td><b><div id="kotaName"></div></b></td>'+
-                                    '<td><div id="kotaValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>TIME SPENT OF USING INTERNET</b></td>'+
-                                    '<td><b><div id="timespentName"></div></b></td>'+
-                                    '<td><div id="timespentValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>FREQUENCY OF USING INTERNET</b></td>'+
-                                    '<td><b><div id="frequencyName"></div></b></td>'+
-                                    '<td><div id="frequencyValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>FUNCTION USED GENERAL</b></td>'+
-                                    '<td><b><div id="generalName"></div></b></td>'+
-                                    '<td><div id="generalValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>FUNCTION USED E-FINANCE</b></td>'+
-                                    '<td><b><div id="financeName"></div></b></td>'+
-                                    '<td><div id="financeValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>FUNCTION USED E-COMMERCE</b></td>'+
-                                    '<td><b><div id="commerceName"></div></b></td>'+
-                                    '<td><div id="commerceValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>TOOLS OF INTERNET ACCESS</b></td>'+
-                                    '<td><b><div id="toolsName"></div></b></td>'+
-                                    '<td><div id="toolsValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>ALL WEBSITE</b></td>'+
-                                    '<td><b><div id="allWebsiteName"></div></b></td>'+
-                                    '<td><div id="allWebsiteValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>FREQUENCY OF LISTENING</b></td>'+
-                                    '<td><b><div id="frequensiRadioName"></div></b></td>'+
-                                    '<td><div id="frequensiRadioValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>PLACE OF LISTENING RADIO</b></td>'+
-                                    '<td><b><div id="placeName"></div></b></td>'+
-                                    '<td><div id="placeValue"></div></td>'+
-                                '</tr>'+
-                                '<tr>'+
-                                    '<td><b>TOOLS OF LISTENING RADIO</b></td>'+
-                                    '<td><b><div id="toolsListeningName"></div></b></td>'+
-                                    '<td><div id="toolsListeningValue"></div></td>'+
-                                '</tr>'+
-                                // '<tr>'+
-                                //     '<td><b>DAY PART - ALL TIME</b></td>'+
-                                //     '<td><b><div id="allTimeName"></div></b></td>'+
-                                //     '<td><div id="allTimeValue"></div></td>'+
-                                // '</tr>'+
-                                // '<tr>'+
-                                //     '<td><b>DAY PART - PRIME TIME</b></td>'+
-                                //     '<td><b><div id="primeTimeName"></div></b></td>'+
-                                //     '<td><div id="primeTimeValue"></div></td>'+
-                                // '</tr>'+
-                                // '<tr>'+
-                                //     '<td><b>DAY PART - NON PRIME TIME</b></td>'+
-                                //     '<td><b><div id="nonprimetimeName"></div></b></td>'+
-                                //     '<td><div id="nonprimetimeValue"></div></td>'+
-                                // '</tr>'+
-                        '</table>'+
+                        '<h3><b>'+namabrand+'</b> <small>consumer is dominated by:</small></h3>'+
+                        '<hr>'+
+                        '<h6>DEMOGRAPHY</h6>'+
+                        '<div class="highlight" style="padding-top:10px;">'+
+                        '<ul class="summary">'+
+                            '<li><p id="newGender"></p></li>'+
+                            '<li><p id="newAge"></p></li>'+
+                            '<li><p id="newSec"></p></li>'+
+                            '<li><p id="newEducation"></p></li>'+
+                            '<li><p id="newOccupation"></p></li>'+
+                            '<li><p id="newHobby"></p></li>'+
+                        '</ul>'+ 
+                        '</div>'+
+                        '<h6>PENETRATION</h6>'+
+                        '<div class="highlight" style="padding-top:10px;">'+
+                        '<ul class="summary">'+
+                            '<li><p id="newMedia"></p></li>'+
+                            '<li><p id="newKota"></p></li>'+
+                        '</ul>'+ 
+                        '</div>'+
+                        '<h6>INTERNET</h6>'+
+                        '<div class="highlight" style="padding-top:10px;">'+
+                        '<ul class="summary">'+
+                            '<li><p id="newFrequencyName"></p></li>'+
+                            '<li><p id="newTimeSpent"></p></li>'+
+                            '<li><p id="newGeneral"></p></li>'+
+                            '<li><p id="newFinance"></p></li>'+
+                            '<li><p id="newCommerce"></p></li>'+
+                            '<li><p id="newTools"></p></li>'+
+                            '<li><p id="newAllWebsite"></p></li>'+
+                        '</ul>'+ 
+                        '</div>'+
+                        '<h6>RADIO</h6>'+
+                        '<div class="highlight" style="padding-top:10px;">'+
+                        '<ul class="summary">'+
+                            '<li><p id="newFrequensiRadio"></p></li>'+
+                            '<li><p id="newPlace"></p></li>'+
+                            '<li><p id="newToolsListening"></p></li>'+
+                        '</ul>'+ 
+                        '</div>'+
+                        // '<table width="60%">'+
+                        //     '<thead>'+
+                        //         '<tr>'+
+                        //             '<th colspan="3"><h6>DEMOGRAPHY</h6></th>'+
+                        //         '</tr>'+
+                        //     '</thead>'+
+                        //     '<tbody>'+
+                        //         '<tr>'+
+                        //             '<td width="2%">-</td>'+
+                        //             '<td width="8%"><strong><div id="genderValue"></div></strong></td>'+
+                        //             '<td width="45%"><strong><div id="genderName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="ageValue"></div></strong></td>'+
+                        //             '<td><strong><div id="ageName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="secValue"></div></strong></td>'+
+                        //             '<td><strong><div id="secName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="educationValue"></div></strong></td>'+
+                        //             '<td><strong><div id="educationName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="occupationValue"></div></strong></td>'+
+                        //             '<td><strong><div id="occupationName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="hobbyValue"></div></strong></td>'+
+                        //             '<td><strong><div id="hobbyName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //     '</tbody>'+
+                        // '</table>'+
+                        // '<hr>'+
+                        // '<table width="60%">'+
+                        //     '<thead>'+
+                        //         '<tr>'+
+                        //             '<th colspan="3"><h6>PENETRATION</h6></th>'+
+                        //         '</tr>'+
+                        //     '</thead>'+
+                        //     '<tbody>'+
+                        //         '<tr>'+
+                        //             '<td width="2%">-</td>'+
+                        //             '<td width="5%"><strong><div id="mediaValue"></div></strong></td>'+
+                        //             '<td width="45%"><strong><div id="mediaName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //         '<tr>'+
+                        //             '<td>-</td>'+
+                        //             '<td><strong><div id="kotaValue"></div></strong></td>'+
+                        //             '<td><strong><div id="kotaName"></div></strong></td>'+
+                        //         '</tr>'+
+                        //     '</tbody>'+
+                        // '</table>'+
                     '</div>'+
                 '</div>';
                 /* end summary */
@@ -3075,9 +3367,10 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        'TOP 10 BRAND'+
+                        '<p class="card-title"><strong>TOP 10 BRAND</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
+                            '<a href="#" class="card-options-fullscreen" data-toggle="card-fullscreen"><i class="fe fe-maximize"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
                         '</div>'+
                     '</div>'+
@@ -3106,7 +3399,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        '<p class="card-title">DEMOGRAPHY</p>'+
+                        '<p class="card-title"><strong>DEMOGRAPHY</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -3179,7 +3472,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                         '<div class="card-header">'+
-                            '<p class="card-title">PENETRATION</p>'+
+                            '<p class="card-title"><strong>PENETRATION</strong></p>'+
                             '<div class="card-options">'+
                                 '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                                 '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -3192,7 +3485,7 @@
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
-                                    '<p class="card-title">MEDIA</p>'+
+                                    '<p class="card-title"><strong>MEDIA</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divMedia"></div>'+
@@ -3201,7 +3494,7 @@
                             '<div class="card card-default">'+
                                 '<div class="card-status card-status-left bg-blue"></div>'+
                                 '<div class="card-header">'+
-                                    '<p class="card-title">CITIES</p>'+
+                                    '<p class="card-title"><strong>CITIES</strong></p>'+
                                 '</div>'+
                             '</div>'+
                             '<div id="divCity"></div>'+
@@ -3215,7 +3508,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        '<p class="card-title">INTERNET</p>'+
+                        '<p class="card-title"><strong>INTERNET</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -3227,7 +3520,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title" style="font-size:16px;">TIME SPENT OF USING INTERNET</p>'+
+                                        '<p class="card-title" style="font-size:16px;"><strong>TIME SPENT OF USING INTERNET</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divTimeSpent"></div>'+
@@ -3236,7 +3529,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title" style="font-size:16px;">FREQUENCY OF USING INTERNET</p>'+
+                                        '<p class="card-title" style="font-size:16px;"><strong>FREQUENCY OF USING INTERNET</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFrequency"></div>'+
@@ -3245,7 +3538,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">TOOLS OF INTERNET ACCESS</p>'+
+                                        '<p class="card-title"><strong>TOOLS OF INTERNET ACCESS</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divTools"></div>'+
@@ -3254,7 +3547,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">ALL WEBSITE</p>'+
+                                        '<p class="card-title"><strong>ALL WEBSITE</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divAllWebsite"></div>'+
@@ -3265,7 +3558,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">FUNCTION USED GENERAL</p>'+
+                                        '<p class="card-title"><strong>FUNCTION USED GENERAL</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divGeneral"></div>'+
@@ -3274,7 +3567,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">FUNCTION USED E-FINANCE</p>'+
+                                        '<p class="card-title"><strong>FUNCTION USED E-FINANCE</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFinance"></div>'+
@@ -3283,7 +3576,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">FUNCTION USED E-COMMERCE</p>'+
+                                        '<p class="card-title"><strong>FUNCTION USED E-COMMERCE</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divCommerce"></div>'+
@@ -3300,7 +3593,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        '<p class="card-title">RADIO</p>'+
+                        '<p class="card-title"><strong>RADIO</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -3312,7 +3605,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">FREQUENCY OF LISTENING</p>'+
+                                        '<p class="card-title"><strong>FREQUENCY OF LISTENING</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divFrequencyRadio"></div>'+
@@ -3321,7 +3614,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">PLACE OF LISTENING RADIO</p>'+
+                                        '<p class="card-title"><strong>PLACE OF LISTENING RADIO</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divPlace"></div>'+
@@ -3330,7 +3623,7 @@
                                 '<div class="card card-default">'+
                                     '<div class="card-status card-status-left bg-blue"></div>'+
                                     '<div class="card-header">'+
-                                        '<p class="card-title">TOOLS OF LISTENING RADIO</p>'+
+                                        '<p class="card-title"><strong>TOOLS OF LISTENING RADIO</strong></p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<div id="divToolsListeningRadio"></div>'+
@@ -3343,7 +3636,7 @@
                 el+='<div class="card card-primary">'+
                     '<div class="card-status bg-green"></div>'+
                     '<div class="card-header">'+
-                        '<p class="card-title">TV</p>'+
+                        '<p class="card-title"><strong>DAY PART</strong></p>'+
                         '<div class="card-options">'+
                             '<a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>'+
                             '<a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>'+
@@ -3379,8 +3672,8 @@
                         //         '<div id="divNonPrimeTime"></div>'+
                         //     '</div>'+
                         // '</div>'+
-                        '<div id="divTableDaypart"></div>'+
-                        '<hr>'+
+                        // '<div id="divTableDaypart"></div>'+
+                        // '<hr>'+
                         '<div id="divGrafikDaypart"></div>'+
                     '</div>'+
                 '</div>';
@@ -3409,6 +3702,10 @@
             width: 100%;
         }
 
+        #topBrand-license-text{
+            display:none;
+        } 
+
         #divGrafikDaypart{
             height: 100%;
             width: 100%;
@@ -3419,9 +3716,17 @@
             width: 100%;
         }
 
+        #divGender-license-text{
+            display:none;
+        } 
+
         #divAge {
             height: 100%;
             width: 100%;
+        }
+
+        #divAge-license-text{
+            display:none;
         }
 
         #divSec {
@@ -3429,9 +3734,17 @@
             width: 100%;
         }
 
+        #divSec-license-text{
+            display:none;
+        }
+
         #divEducation {
             height: 100%;
             width: 100%;
+        }
+
+        #divEducation-license-text{
+            display:none;
         }
 
         #divOccupation {
@@ -3439,9 +3752,17 @@
             width: 100%;
         }
 
+        #divOccupation-license-text{
+            display:none;
+        }
+
         #divHobby {
             height: 100%;
             width: 100%;
+        }
+
+        #divHobby-license-text{
+            display:none;
         }
 
         #divPsiko {
@@ -3449,9 +3770,17 @@
             width: 100%;
         }
 
+        #divPsiko-license-text{
+            display:none;
+        }
+
         #divMedia {
             height: 100%;
             width: 100%;
+        }
+
+        #divMedia-license-text{
+            display:none;
         }
 
         #divCity {
@@ -3459,9 +3788,17 @@
             width: 100%;
         }
 
+        #divCity-license-text{
+            display:none;
+        }
+
         #divTimeSpent{
             height: 100%;
             width: 100%;
+        }
+
+        #divTimeSpent-license-text{
+            display:none;
         }
 
         #divFrequency{
@@ -3469,10 +3806,19 @@
             width: 100%;
         }
 
+        #divFrequency-license-text{
+            display:none;
+        }
+
         /* #divGeneral{
             height: 100%;
             width: 100%;
         } */
+
+        #divGeneral-license-text{
+            display:none;
+        }
+        
 
         /* #divFinance{
             height: 100%;
@@ -3484,9 +3830,21 @@
             width: 100%;
         } */
 
+        #divFinance-license-text{
+            display:none;
+        }
+
+        #divCommerce-license-text{
+            display:none;
+        }
+
         #divTools{
             height: 100%;
             width: 100%;
+        }
+
+        #divTools-license-text{
+            display:none;
         }
 
         #divAllWebsite{
@@ -3494,9 +3852,17 @@
             width: 100%;
         }
 
+        #divAllWebsite-license-text{
+            display:none;
+        }
+
         #divFrequencyRadio{
             height: 100%;
             width: 100%;
+        }
+
+        #divFrequencyRadio-license-text{
+            display:none;
         }
 
         #divPlace{
@@ -3504,9 +3870,17 @@
             width: 100%;
         }
 
+        #divPlace-license-text{
+            display:none;
+        }
+
         #divToolsListeningRadio{
             height: 100%;
             width: 100%;
+        }
+
+        #divToolsListeningRadio-license-text{
+            display:none;
         }
 
         #divAllTime{
@@ -3514,14 +3888,30 @@
             width: 100%;
         }
 
+        #divAllTime-license-text{
+            display:none;
+        }
+
         #divPrimeTime{
             height: 100%;
             width: 100%;
         }
 
+        #divPrimeTime-license-text{
+            display:none;
+        }
+
         #divNonPrimeTime{
             height: 100%;
             width: 100%;
+        }
+
+        #divNonPrimeTime-license-text{
+            display:none;
+        }
+
+        #divGrafikDaypart-license-text{
+            display:none;
         }
 
         .zingchart-tooltip {
@@ -3555,7 +3945,7 @@
 @section('content')
     <div class="card card-default">
         <div class="card-header">
-            <h3 class="card-title"><span class="text-semibold">Brand</span> Chart</3>
+            <h3 class="card-title"><span class="text-semibold">Brand</span> Chart</h3>
         </div>
         <div class="card-body">
             <form id="formSearch" onsubmit="return false" name="formSearch">

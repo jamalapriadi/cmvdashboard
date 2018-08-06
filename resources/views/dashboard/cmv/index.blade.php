@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="page-header">
-        <h1 class="page-title">
+        <h1 class="page-title" style="font-style: normal;">
             Dashboard
         </h1>
     </div>
@@ -58,6 +58,16 @@
                 <div class="card-body p-3 text-center">
                     <div class="h1 m-0">{{number_format($variabel)}}</div>
                     <div class="text-muted mb-4">VARIABEL</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card card-default">
+                {{-- <div class="card-status bg-green"></div> --}}
+                <h4 class="card-titles p-3 text-center">TOTAL POPULASI</h4>
+                <div class="card-body p-3 text-center">
+                    <div class="h1 m-0">54,832,000</div>
                 </div>
             </div>
         </div>

@@ -514,4 +514,11 @@ class ReportController extends Controller
             );
         }
     }
+
+    public function list_quartal(Request $request){
+        $quartal=\App\Models\Dashboard\Cmv\Variabel::select(\DB::raw("distinct(quartal) as quartal"))
+            ->get();
+
+        return $quartal;
+    }
 }
