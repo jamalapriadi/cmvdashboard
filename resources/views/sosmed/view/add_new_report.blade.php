@@ -27,6 +27,9 @@
                 @elseif($sosmed=="instagram")
                     <th class='text-center' style='background:#a200b2;color:white'>Last Day</th>
                     <th class='text-center' style='background:#a200b2;color:white'>Today</th>
+                @elseif($sosmed=="youtube")
+                    <th class='text-center' style='background:#ff0000;color:white'>Last Day</th>
+                    <th class='text-center' style='background:#ff0000;color:white'>Today</th>
                 @else 
                     <th class='text-center' style='background:#008ef6;color:white'>Last Day</th>
                     <th class='text-center' style='background:#008ef6;color:white'>Today</th>

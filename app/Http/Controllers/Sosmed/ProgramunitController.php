@@ -446,7 +446,7 @@ class ProgramunitController extends Controller
             foreach($sosmed as $key=>$val){
                 array_push($list,$key);
             }
-
+            
             $cekfollower=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',date('Y-m-d',strtotime($request->input('tanggal'))))
                 ->whereIn('unit_sosmed_id',$list)
                 ->get();
