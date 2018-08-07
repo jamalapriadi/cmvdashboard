@@ -167,10 +167,13 @@ class HomeController extends Controller
                 $sekarang=date('Y-m-d');
                 $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
             }
+
+            $sosmed=\App\Models\Sosmed\Sosmed::all();
     
             return view('sosmed.daily_report')
                 ->with('sekarang',$sekarang)
-                ->with('kemarin',$kemarin);
+                ->with('kemarin',$kemarin)
+                ->with('sosmed',$sosmed);
         }
 
         return abort('403');
@@ -185,9 +188,12 @@ class HomeController extends Controller
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
         }
 
+        $sosmed=\App\Models\Sosmed\Sosmed::all();
+
         return view('sosmed.ranking_soc_med')
             ->with('sekarang',$sekarang)
-            ->with('kemarin',$kemarin);
+            ->with('kemarin',$kemarin)
+            ->with('sosmed',$sosmed);
     }
 
     public function sosmed_chart($param){

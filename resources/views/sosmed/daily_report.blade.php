@@ -6,6 +6,29 @@
         <div class="panel-body">
             <form class="form-horizontal" action="{{URL::to('sosmed/data/report/pdf-sosmed-daily-report')}}" method="GET" target="new target">
                 <div class="form-group">
+                    <label class="col-lg-2">Type Unit</label>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-archive"></i></span>
+                            <select name="typeunit" id="typeunit" class="form-control" required>
+                                <option value="TV">TV</option>
+                                <option value="Publisher">Publisher</option>
+                                <option value="Radio">Radio</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2">Social Media</label>
+                    <div class="col-lg-4">
+                        @foreach($sosmed as $row)
+                        <div class="checkbox">
+                            <label><input type="checkbox" name="sosmed[]" value="{{$row->id}}" checked="checked">{{$row->sosmed_name}}</label>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-lg-2">Date</label>
                     <div class="col-lg-4">
                         <div class="input-group">
