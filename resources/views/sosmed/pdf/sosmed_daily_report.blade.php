@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Socmed Daily Report {{date('d-m-Y')}}</title>
-
+    @php 
+        $besar=30+(20*count($sosmed));
+    @endphp
     <style>
         .page-break {
             page-break-after: always;
@@ -18,7 +20,11 @@
 
         table {
             border-collapse: collapse;
-            width: 100%;
+            width: {{$besar}}%;
+            margin: 0px auto;
+        }
+        th{
+            text-align:center;
         }
 
         th, td {
@@ -168,7 +174,7 @@
 
     <h3 class="text-center">OFFICIAL ACCOUNT ALL TV</h3>
     <br>
-    <table class="table table-striped table-bordered" width="100%">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>
@@ -546,7 +552,7 @@
 
     <h3 class="text-center">OVERALL ALL TV ( OFFICIAL & PROGRAM )</h3>
     <br>
-    <table class="table table-striped table-bordered" width="100%">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>
@@ -633,7 +639,7 @@
 
     <h3 class="text-center">OFFICIAL & PROGRAM MNC GROUP</h3>
     <br>
-    <table class='table table-striped table-bordered' width="100%">
+    <table class='table table-striped table-bordered'>
         <thead>
             <tr> 
                 <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">General Name</th>
@@ -692,7 +698,7 @@
         <small>( Socmed Account Name )</small>
     </h3>
     <br>
-    <table class='table table-striped table-bordered' width="100%">
+    <table class='table table-striped table-bordered'>
         <thead>
             <tr> 
                 <th width="20%" style="background:#419F51;color:white" class="align-middle text-white">General Name</th>
