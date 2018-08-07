@@ -604,6 +604,7 @@ class ProgramunitController extends Controller
                     break;
                 case 'instagram':
                         $sosmed=3;
+                    break;
                 case 'youtube':
                         $sosmed=4;
                     break;
@@ -949,6 +950,7 @@ class ProgramunitController extends Controller
                     break;
                 case 'instagram':
                         $sosmed=3;
+                    break;
                 case 'youtube':
                         $sosmed=4;
                     break;
