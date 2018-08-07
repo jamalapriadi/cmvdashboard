@@ -718,34 +718,65 @@
                             "<li>*Twitter*"+
                                 "<ul style='list-style-type:none'>";
                                 var no=0;
+                                var twitter=[];
+                                var cleantwitter=[];
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.tw==1 && result[a].follower.acv_tw > 50){
-                                        no++;
-                                        el+="<li>"+no+". "+result[a].unit_name+" "+result[a].follower.acv_tw+" % #"+result[a].follower.rank_tw+"</li>";
+                                        twitter.push({name:result[a].unit_name, acv_tw:result[a].follower.acv_tw, rank_tw:result[a].follower.rank_tw});
+                                        // no++;
+                                        // el+="<li>"+no+". "+result[a].unit_name+" "+result[a].follower.acv_tw+" % #"+result[a].follower.rank_tw+"</li>";
                                     }
                                 }
+                                cleantwitter = twitter.sort(function(a,b) {
+                                    return a['rank_tw'] - b['rank_tw'];
+                                });
+
+                                $.each(cleantwitter,function(a,b){
+                                    no++;
+                                    el+="<li>"+no+". "+b.name+" "+b.acv_tw+" % #"+b.rank_tw+"</li>";
+                                })
+
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Facebook*"+
                                 "<ul style='list-style-type:none'>";
                                 var nos=0;
+                                var facebook=[];
+                                var cleanfacebook=[];
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.fb==2 && result[a].follower.acv_fb > 50){
-                                        nos++;
-                                        el+="<li>"+nos+". "+result[a].unit_name+" "+result[a].follower.acv_fb+" % #"+result[a].follower.rank_fb+"</li>";
+                                        facebook.push({name:result[a].unit_name, acv_fb:result[a].follower.acv_fb, rank_fb:result[a].follower.rank_fb});
                                     }
                                 }
+                                cleanfacebook = facebook.sort(function(a,b) {
+                                    return a['rank_fb'] - b['rank_fb'];
+                                });
+
+                                $.each(cleanfacebook,function(a,b){
+                                    nos++;
+                                    el+="<li>"+nos+". "+b.name+" "+b.acv_fb+" % #"+b.rank_fb+"</li>";
+                                })
+
                                 el+="</ul>"+
                             "</li>"+
                             "<li>*Instagram*"+
                                 "<ul style='list-style-type:none'>";
                                 var nol=0;
+                                var instagram=[];
+                                var cleaninstagram=[];
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.acv_ig > 50){
-                                        nol++;
-                                        el+="<li>"+nol+". "+result[a].unit_name+" "+result[a].follower.acv_ig+" % #"+result[a].follower.rank_ig+"</li>";
+                                        // nol++;
+                                        // el+="<li>"+nol+". "+result[a].unit_name+" "+result[a].follower.acv_ig+" % #"+result[a].follower.rank_ig+"</li>";
+                                        instagram.push({name:result[a].unit_name, acv_ig:result[a].follower.acv_ig, rank_ig:result[a].follower.rank_ig});
                                     }
                                 }
+
+                                $.each(cleaninstagram,function(a,b){
+                                    nol++;
+                                    el+="<li>"+nol+". "+b.name+" "+b.acv_ig+" % #"+b.rank_ig+"</li>";
+                                })
+
                                 el+="</ul>"+
                             "</li>"+
                         "</ul>";
