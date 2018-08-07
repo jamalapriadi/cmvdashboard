@@ -1154,7 +1154,7 @@
                                     <th style="background:{{$cig}}">{{($rankIg5[$p->total_ig_sekarang] + 1)}}</th>
                                 @endif
 
-                                @if($sos->id==3)
+                                @if($sos->id==4)
                                     <th>{{round($p->total_growth_yt,2)}} %</th>
                                     <th>{{number_format($p->total_yt_sekarang)}}</th>
                                     <th style="background:{{$cyt}}">{{($rankYt5[$p->total_yt_sekarang] + 1)}}</th>
