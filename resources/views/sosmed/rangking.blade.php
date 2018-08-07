@@ -45,7 +45,7 @@
         <div class="panel-body">
             <div class="tabbable">
                 <ul class="nav nav-tabs nav-tabs-highlight">
-                    <li class="active"><a href="#highlight-tab1" data-toggle="tab">HIGLIGHT</a></li>
+                    <li class="active"><a href="#highlight-tab1" data-toggle="tab">HIGHLIGHT</a></li>
                     <li><a href="#highlighted-tab2" data-toggle="tab">ALL PROGRAM GROWTH</a></li>
                 </ul>
 

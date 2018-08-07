@@ -2985,7 +2985,7 @@ class ReportController extends Controller
 
         if($request->has('unit') && $request->input('unit')!=null){
             $unit=$request->input('unit');
-            $filterunit="where a.business_unit_id=$unit";
+            $filterunit="and a.business_unit_id=$unit";
         }else{
             $unit=1;
             $filterunit="";
@@ -3007,7 +3007,8 @@ class ReportController extends Controller
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
-            left join business_unit d on d.id=a.business_unit_id and d.type_unit='TV'
+            left join business_unit d on d.id=a.business_unit_id 
+            where d.type_unit='TV'
             $filterunit
             group by a.id order by d.id");
 
