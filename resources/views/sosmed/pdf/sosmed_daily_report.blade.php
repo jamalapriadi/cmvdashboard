@@ -168,12 +168,12 @@
 
     <h3 class="text-center">OFFICIAL ACCOUNT ALL TV</h3>
     <br>
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered" width="100%">
         <thead>
             <tr>
                 <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>
                 @foreach($sosmed as $row)
-                    <th colspan='3' class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    <th colspan='3' width="20%" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
                 @endforeach
             </tr>
             <tr>
@@ -546,12 +546,12 @@
 
     <h3 class="text-center">OVERALL ALL TV ( OFFICIAL & PROGRAM )</h3>
     <br>
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered" width="100%">
         <thead>
             <tr>
                 <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>
                 @foreach($sosmed as $row)
-                    <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    <th class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
                 @endforeach
             </tr>
             <tr>
@@ -633,12 +633,12 @@
 
     <h3 class="text-center">OFFICIAL & PROGRAM MNC GROUP</h3>
     <br>
-    <table class='table table-striped table-bordered'>
+    <table class='table table-striped table-bordered' width="100%">
         <thead>
             <tr> 
                 <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">General Name</th>
                 @foreach($sosmed as $row)
-                    <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    <th class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
                 @endforeach
             </tr>
             <tr>
@@ -692,12 +692,12 @@
         <small>( Socmed Account Name )</small>
     </h3>
     <br>
-    <table class='table table-striped table-bordered'>
+    <table class='table table-striped table-bordered' width="100%">
         <thead>
             <tr> 
                 <th width="20%" style="background:#419F51;color:white" class="align-middle text-white">General Name</th>
                 @foreach($sosmed as $row)
-                    <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}} Account Name</th>
+                    <th class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}} Account Name</th>
                 @endforeach
             </tr>
         </thead>
