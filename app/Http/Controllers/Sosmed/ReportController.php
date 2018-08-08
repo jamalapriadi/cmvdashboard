@@ -1778,6 +1778,7 @@ class ReportController extends Controller
             sum(terjadi.ig_sekarang) as total_ig_sekarang,
             ((sum(terjadi.ig_sekarang) / sum(terjadi.ig_kemarin) - 1) * 100) as total_growth_ig,
             (sum(terjadi.ig_sekarang) - sum(terjadi.ig_kemarin)) as total_num_of_growth_ig,
+            sum(terjadi.yt_kemarin) as total_yt_kemarin,
             sum(terjadi.yt_sekarang) as total_yt_sekarang,
             ((sum(terjadi.yt_sekarang) / sum(terjadi.yt_kemarin) - 1) * 100) as total_growth_yt,
             (sum(terjadi.yt_sekarang) - sum(terjadi.yt_kemarin)) as total_num_of_growth_yt 

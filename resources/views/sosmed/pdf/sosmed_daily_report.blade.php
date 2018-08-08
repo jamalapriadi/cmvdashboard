@@ -71,113 +71,135 @@
 </head>
 <body>
     <div style="margin-top:40%;"></div>
-    <h1 class="text-center">SOCMED DAILY REPORT</h1>
+    @if(count($sosmed)<2)
+        @foreach($sosmed as $row)
+            @if($row->id==4)
+                <h1 class="text-center">YOUTUBE DAILY REPORT</h1>
+            @endif
+        @endforeach
+    @else 
+        <h1 class="text-center">SOCMED DAILY REPORT</h1>
+    @endif
+    
     <p class="text-center">( {{date('d-m-Y',strtotime($sekarang))}} vs {{date('d-m-Y',strtotime($kemarin))}} )</p>
 
     <div class="page-break"></div>
-    @foreach($sosmed as $sos)
-        @if($sos->id==1)
-        <h3 class="text-center">TARGET VS ACHIEVEMENT</h3>
-        <br><br><br>
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th rowspan="2" width="20%" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>
-                    <th colspan='3' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
-                    <th colspan='3' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
-                </tr>
-                <tr>
-                    <th class='text-center' style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-                    <th class='text-center' style='background:#008ef6;color:white'>Target</th>
-                    <th class='text-center' style='background:#008ef6;color:white'>ACH</th>
 
-                    <th class='text-center' style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-                    <th class='text-center' style='background:#5054ab;color:white'>Target</th>
-                    <th class='text-center' style='background:#5054ab;color:white'>ACH</th>
+    @if($typeunit=="TV")
+        @foreach($sosmed as $sos)
+            @if($sos->id==1)
+            <h3 class="text-center">TARGET VS ACHIEVEMENT</h3>
+            <br><br><br>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th rowspan="2" width="20%" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>
+                        <th colspan='3' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
+                        <th colspan='3' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
+                        <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
+                    </tr>
+                    <tr>
+                        <th class='text-center' style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                        <th class='text-center' style='background:#008ef6;color:white'>Target</th>
+                        <th class='text-center' style='background:#008ef6;color:white'>ACH</th>
 
-                    <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>Target</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>ACH</th>
-                </tr>
-            </thead>
-            <tbody style="color:#222">
-                @foreach($targetVsAch as $row)
-                    @if($row->id==4)
-                        @for($a=0;$a<count($tambahanInews);$a++)
-                            @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->business_unit_id==$row->id)
+                        <th class='text-center' style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                        <th class='text-center' style='background:#5054ab;color:white'>Target</th>
+                        <th class='text-center' style='background:#5054ab;color:white'>ACH</th>
 
-                                <tr>
-                                    <td>{{$row->unit_name}}</td>
-                                    <td>{{number_format($tambahanInews[$a]->tw_sekarang+$row->follower_tw)}}</td>
-                                    <td>{{number_format($row->target_tw)}}</td>
-                                    <td>
-                                        @if($row->target_tw!=null)
-                                            @if($row->target_tw>0)
-                                                {{number_format(($tambahanInews[$a]->tw_sekarang / $row->target_tw) * 100,2)}} %
+                        <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                        <th class='text-center' style='background:#a200b2;color:white'>Target</th>
+                        <th class='text-center' style='background:#a200b2;color:white'>ACH</th>
+                    </tr>
+                </thead>
+                <tbody style="color:#222">
+                    @foreach($targetVsAch as $row)
+                        @if($row->id==4)
+                            @for($a=0;$a<count($tambahanInews);$a++)
+                                @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->business_unit_id==$row->id)
+
+                                    <tr>
+                                        <td>{{$row->unit_name}}</td>
+                                        <td>{{number_format($tambahanInews[$a]->tw_sekarang+$row->follower_tw)}}</td>
+                                        <td>{{number_format($row->target_tw)}}</td>
+                                        <td>
+                                            @if($row->target_tw!=null)
+                                                @if($row->target_tw>0)
+                                                    {{number_format(($tambahanInews[$a]->tw_sekarang / $row->target_tw) * 100,2)}} %
+                                                @else 
+                                                    %
+                                                @endif 
                                             @else 
                                                 %
-                                            @endif 
-                                        @else 
-                                            %
-                                        @endif
-                                    </td>
-                                    <td>{{number_format($tambahanInews[$a]->fb_sekarang+$row->follower_fb)}}</td>
-                                    <td>{{number_format($row->target_fb)}}</td>
-                                    <td>
-                                        @if($row->target_fb!=null)
-                                            @if($row->target_fb>0)
-                                                {{number_format(($tambahanInews[$a]->fb_sekarang / $row->target_fb) * 100,2)}} %
+                                            @endif
+                                        </td>
+                                        <td>{{number_format($tambahanInews[$a]->fb_sekarang+$row->follower_fb)}}</td>
+                                        <td>{{number_format($row->target_fb)}}</td>
+                                        <td>
+                                            @if($row->target_fb!=null)
+                                                @if($row->target_fb>0)
+                                                    {{number_format(($tambahanInews[$a]->fb_sekarang / $row->target_fb) * 100,2)}} %
+                                                @else 
+                                                    %
+                                                @endif 
                                             @else 
                                                 %
-                                            @endif 
-                                        @else 
-                                            %
-                                        @endif
-                                    </td>
-                                    <td>{{number_format($tambahanInews[$a]->ig_sekarang+$row->follower_ig)}}</td>
-                                    <td>{{number_format($row->target_ig)}}</td>
-                                    <td>
-                                        @if($row->target_ig!=null)
-                                            @if($row->target_ig>0)
-                                                {{number_format(($tambahanInews[$a]->ig_sekarang / $row->target_ig) * 100,2)}} %
+                                            @endif
+                                        </td>
+                                        <td>{{number_format($tambahanInews[$a]->ig_sekarang+$row->follower_ig)}}</td>
+                                        <td>{{number_format($row->target_ig)}}</td>
+                                        <td>
+                                            @if($row->target_ig!=null)
+                                                @if($row->target_ig>0)
+                                                    {{number_format(($tambahanInews[$a]->ig_sekarang / $row->target_ig) * 100,2)}} %
+                                                @else 
+                                                    %
+                                                @endif 
                                             @else 
                                                 %
-                                            @endif 
-                                        @else 
-                                            %
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endif
-                        @endfor
-                    @else
-                        <tr>
-                            <td>{{$row->unit_name}}</td>
-                            <td>{{number_format($row->follower_tw)}}</td>
-                            <td>{{number_format($row->target_tw)}}</td>
-                            <td>{{number_format($row->acv_tw,2)}} %</td>
-                            <td>{{number_format($row->follower_fb)}}</td>
-                            <td>{{number_format($row->target_fb)}}</td>
-                            <td>{{number_format($row->acv_fb,2)}} %</td>
-                            <td>{{number_format($row->follower_ig)}}</td>
-                            <td>{{number_format($row->target_ig)}}</td>
-                            <td>{{number_format($row->acv_ig,2)}} %</td>
-                        </tr>
-                    @endif
-                @endforeach
-            </tbody>
-        </table>
-        <div class="page-break"></div>
-        @endif
-    @endforeach
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endfor
+                        @else
+                            <tr>
+                                <td>{{$row->unit_name}}</td>
+                                <td>{{number_format($row->follower_tw)}}</td>
+                                <td>{{number_format($row->target_tw)}}</td>
+                                <td>{{number_format($row->acv_tw,2)}} %</td>
+                                <td>{{number_format($row->follower_fb)}}</td>
+                                <td>{{number_format($row->target_fb)}}</td>
+                                <td>{{number_format($row->acv_fb,2)}} %</td>
+                                <td>{{number_format($row->follower_ig)}}</td>
+                                <td>{{number_format($row->target_ig)}}</td>
+                                <td>{{number_format($row->acv_ig,2)}} %</td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="page-break"></div>
+            @endif
+        @endforeach
+    @endif
 
-    <h3 class="text-center">OFFICIAL ACCOUNT ALL TV</h3>
+    <h3 class="text-center">OFFICIAL ACCOUNT ALL {{strtoupper($typeunit)}}</h3>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>
+                <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">
+                    @if($typeunit=="TV")
+                        Channel
+                    @elseif($typeunit=="Radio")
+                        Station
+                    @elseif($typeunit=="Publisher")
+                        Website
+                    @else 
+
+                    @endif
+                </th>
                 @foreach($sosmed as $row)
                     <th colspan='3' width="20%" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
                 @endforeach
@@ -550,19 +572,40 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">OVERALL ALL TV ( OFFICIAL & PROGRAM )</h3>
+    @if($typeunit=="TV" || $typeunit=="Publisher")
+    <h3 class="text-center">OVERALL ALL  {{strtoupper($typeunit)}} ( OFFICIAL & PROGRAM )</h3>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>
+                <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">
+                    @if($typeunit=="TV")
+                        Channel
+                    @elseif($typeunit=="Radio")
+                        Station
+                    @elseif($typeunit=="Publisher")
+                        Website
+                    @else 
+
+                    @endif
+                </th>
                 @foreach($sosmed as $row)
-                    <th class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    @if($row->id==4)
+                        <th colspan="3" class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    @else 
+                        <th class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    @endif
                 @endforeach
             </tr>
             <tr>
                 @foreach($sosmed as $row)
-                    <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                    @if($row->id==4)
+                        <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
+                        <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                        <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>Growth From Yesterday</th>
+                    @else
+                        <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                    @endif
                 @endforeach
             </tr>
         </thead>
@@ -598,7 +641,9 @@
                                     @endif
 
                                     @if($row->id==4)
+                                        <td>{{number_format($of->total_yt_kemarin)}}</td>
                                         <td>{{number_format($of->total_yt_sekarang)}}</td>
+                                        <td>{{round($of->total_growth_yt,2)}} %</td>
                                     @endif
                                 @endforeach
                             </tr>
@@ -627,7 +672,9 @@
                             @endif
 
                             @if($row->id==4)
+                                <td>{{number_format($of->total_yt_kemarin)}}</td>
                                 <td>{{number_format($of->total_yt_sekarang)}}</td>
+                                <td>{{round($of->total_growth_yt,2)}} %</td>
                             @endif
                         @endforeach
                     </tr>
@@ -693,6 +740,7 @@
         </tbody>
     </table>
     <div class="page-break"></div>
+    @endif
 
     <h3 class="text-center">ATTACHMENT
         <small>( Socmed Account Name )</small>

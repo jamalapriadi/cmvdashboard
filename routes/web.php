@@ -79,6 +79,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::post('hapus-role-user','User\UserController@hapus_role_user');
         Route::get('list-user/{id}/handle-unit','User\UserController@user_handle_unit');
         Route::post('save-user-handle-unit','User\UserController@save_user_handle_unit');
+        Route::post('reset-password','User\UserController@reset_password');
     
         Route::resource('group-unit','Sosmed\GroupunitController');
         Route::get('list-group','Sosmed\GroupunitController@list_group');
