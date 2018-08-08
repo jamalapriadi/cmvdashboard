@@ -26,7 +26,9 @@ class UserController extends Controller
         ->addColumn('action',function($query){
             $html="<div class='btn-group'>";
             
-            $html.="<a href='#' class='btn btn-sm btn-info resetpassword' kode='".$query->id."' title='Reset Password'><i class='icon-reset'></i></a>";
+            if(auth()->user()->can('Reset Password')){
+                $html.="<a href='#' class='btn btn-sm btn-info resetpassword' kode='".$query->id."' title='Reset Password'><i class='icon-reset'></i></a>";
+            }
 
             if(auth()->user()->can('Setting Role')){
                 $html.="<a href='".\URL::to('sosmed/user/'.$query->id.'/role')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Role'><i class='icon-gear'></i></a>";
