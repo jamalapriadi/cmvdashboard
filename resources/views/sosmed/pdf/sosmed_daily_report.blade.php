@@ -324,7 +324,7 @@
                                 @endif
                             @endfor
                         @else   
-                            @if($of->group_id!=5)
+                            @if($of->group_id!=5 || $typeunit=="Publisher")
                                 <tr style="{{$color}}">
                                     <td>
                                         {{$nama}}
@@ -622,7 +622,7 @@
                             $nama=$of->group_name;
                             $color="background:#f2eff2;color:#222;font-weight:700";
                         ?>
-                        @if($of->group_id!=5)
+                        @if($of->group_id!=5 || $typeunit=="Publisher") 
                             <tr style="{{$color}}">
                                 <td>
                                     {{$nama}}

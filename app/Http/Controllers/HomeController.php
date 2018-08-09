@@ -149,10 +149,12 @@ class HomeController extends Controller
         if(auth()->user()->can('Pdf Rank')){
             $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
             $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
+            $sosmed=\App\Models\Sosmed\Sosmed::all();
 
             return view('sosmed.rangking')
                 ->with('group',$group)
-                ->with('unit',$unit);
+                ->with('unit',$unit)
+                ->with('sosmed',$sosmed);
         }
         
         return abort('403');

@@ -1762,7 +1762,7 @@ class ReportController extends Controller
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
             where a.type_unit='$typeunit'
-            group by a.group_unit_id,a.id
+            group by a.group_unit_id,a.id 
             with ROLLUP");
 
         $data['overallOfficialTv']=\DB::select("select terjadi.id, terjadi.unit_name, terjadi.group_id, terjadi.group_name,

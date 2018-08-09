@@ -766,16 +766,20 @@
                                 var cleaninstagram=[];
                                 for(a=0;a<result.length;a++){
                                     if(result[a].follower.ig==3 && result[a].follower.acv_ig > 50){
-                                        nol++;
-                                        el+="<li>"+nol+". "+result[a].unit_name+" "+result[a].follower.acv_ig+" % #"+result[a].follower.rank_ig+"</li>";
-                                        // instagram.push({name:result[a].unit_name, acv_ig:result[a].follower.acv_ig, rank_ig:result[a].follower.rank_ig});
+                                        // nol++;
+                                        // el+="<li>"+nol+". "+result[a].unit_name+" "+result[a].follower.acv_ig+" % #"+result[a].follower.rank_ig+"</li>";
+                                        instagram.push({name:result[a].unit_name, acv_ig:result[a].follower.acv_ig, rank_ig:result[a].follower.rank_ig});
                                     }
                                 }
 
-                                // $.each(cleaninstagram,function(a,b){
-                                //     nol++;
-                                //     el+="<li>"+nol+". "+b.name+" "+b.acv_ig+" % #"+b.rank_ig+"</li>";
-                                // })
+                                cleaninstagram = instagram.sort(function(a,b) {
+                                    return a['rank_ig'] - b['rank_ig'];
+                                });
+
+                                $.each(cleaninstagram,function(a,b){
+                                    nol++;
+                                    el+="<li>"+nol+". "+b.name+" "+b.acv_ig+" % #"+b.rank_ig+"</li>";
+                                })
 
                                 el+="</ul>"+
                             "</li>"+

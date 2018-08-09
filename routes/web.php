@@ -139,6 +139,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
             Route::get('highlight-program-account-all-tv','Sosmed\ReportController@higlight_program_account_all_tv');
             Route::get('highlight-target-achivement','Sosmed\ReportController@highlight_target_achivement');
             Route::get('all-program-growth','Sosmed\ReportController@all_program_growth');
+            Route::post('sosmed-highlight','Sosmed\ReportController@sosmed_highlight');
         });
 
         Route::group(['prefix'=>'chart'],function(){
