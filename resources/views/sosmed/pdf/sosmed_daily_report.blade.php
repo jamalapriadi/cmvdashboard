@@ -263,7 +263,7 @@
                             $color="background:#f2eff2;color:#222;font-weight:700";
                         ?>
 
-                        @if($of->group_id==1)
+                        @if($of->group_id==1 || $typeunit=="Publisher")
                             <!-- tambahkan untuk inews -->
                             @for($a=0;$a<count($tambahanInews);$a++)
                                 @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->group_unit_id==$of->group_id)
