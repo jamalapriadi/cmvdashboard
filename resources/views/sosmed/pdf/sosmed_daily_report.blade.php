@@ -263,7 +263,64 @@
                             $color="background:#f2eff2;color:#222;font-weight:700";
                         ?>
 
-                        @if($of->group_id==1 || $typeunit=="Publisher")
+                        @if($of->group_id==1)
+                            @if($typeunit=="Publisher")
+                                <tr style="{{$color}}">
+                                    <td>
+                                        {{$nama}}
+                                    </td>
+                                    @foreach($sosmed as $row)
+                                        @if($row->id==1)
+                                            <td>{{number_format($of->tw_kemarin)}}</td>
+                                            <td>{{number_format($of->tw_sekarang)}}</td>
+                                            <td>
+                                                @if($of->growth_tw>0)
+                                                    <a style="color:green;"> {{round($of->growth_tw,2)}} % </a>
+                                                @else
+                                                    <a style="color:red;"> {{round($of->growth_tw,2)}} % </a>
+                                                @endif
+                                            </td>
+                                        @endif
+
+                                        @if($row->id==2)
+                                            <td>{{number_format($of->fb_kemarin)}}</td>
+                                            <td>{{number_format($of->fb_sekarang)}}</td>
+                                            <td>
+                                                @if($of->growth_fb>0)
+                                                    <a style="color:green;"> {{round($of->growth_fb,2)}} % </a>
+                                                @else
+                                                    <a style="color:red;"> {{round($of->growth_fb,2)}} % </a>
+                                                @endif
+                                            </td>
+                                        @endif
+
+                                        @if($row->id==3)
+                                            <td>{{number_format($of->ig_kemarin)}}</td>
+                                            <td>{{number_format($of->ig_sekarang)}}</td>
+                                            <td>
+                                                @if($of->growth_ig>0)
+                                                    <a style="color:green;"> {{round($of->growth_ig,2)}} % </a>
+                                                @else
+                                                    <a style="color:red;"> {{round($of->growth_ig,2)}} % </a>
+                                                @endif
+                                            </td>
+                                        @endif
+
+                                        @if($row->id==4)
+                                            <td>{{number_format($of->yt_kemarin)}}</td>
+                                            <td>{{number_format($of->yt_sekarang)}}</td>
+                                            <td>
+                                                @if($of->growth_yt>0)
+                                                    <a style="color:green;"> {{round($of->growth_yt,2)}} % </a>
+                                                @else
+                                                    <a style="color:red;"> {{round($of->growth_yt,2)}} % </a>
+                                                @endif
+                                            </td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                            @endif
+
                             <!-- tambahkan untuk inews -->
                             @for($a=0;$a<count($tambahanInews);$a++)
                                 @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->group_unit_id==$of->group_id)
@@ -324,7 +381,7 @@
                                 @endif
                             @endfor
                         @else   
-                            @if($of->group_id!=5 || $typeunit=="Publisher")
+                            @if($of->group_id!=5)
                                 <tr style="{{$color}}">
                                     <td>
                                         {{$nama}}
@@ -622,7 +679,7 @@
                             $nama=$of->group_name;
                             $color="background:#f2eff2;color:#222;font-weight:700";
                         ?>
-                        @if($of->group_id!=5 || $typeunit=="Publisher") 
+                        @if($of->group_id!=5)
                             <tr style="{{$color}}">
                                 <td>
                                     {{$nama}}
