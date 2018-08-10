@@ -74,11 +74,19 @@
     @if(count($sosmed)<2)
         @foreach($sosmed as $row)
             @if($row->id==4)
-                <h1 class="text-center">YOUTUBE DAILY REPORT</h1>
+                <h1 class="text-center">{{strtoupper($typeunit)}} YOUTUBE REPORT</h1>
             @endif
         @endforeach
     @else 
-        <h1 class="text-center">SOCMED DAILY REPORT</h1>
+        @if($typeunit=="TV")
+            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED DAILY REPORT</h1>
+        @elseif($typeunit=="Radio")
+            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED REPORT</h1>
+        @elseif($typeunit=="Publisher")
+            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED REPORT</h1>
+        @else
+
+        @endif
     @endif
     
     <p class="text-center">( {{date('d-m-Y',strtotime($sekarang))}} vs {{date('d-m-Y',strtotime($kemarin))}} )</p>

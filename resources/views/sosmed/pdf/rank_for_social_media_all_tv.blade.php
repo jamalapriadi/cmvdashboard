@@ -32,7 +32,7 @@
 </head>
 <body>
     <div style="margin-top:40%;"></div>
-    <h1 class="text-center">RANK FOR SOCIAL MEDIA ALL TV</h1>
+    <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCIAL MEDIA</h1>
     <p class="text-center">( {{date('d-m-Y',strtotime($sekarang))}} vs {{date('d-m-Y',strtotime($kemarin))}} )</p>
 
     <div class="page-break"></div>
