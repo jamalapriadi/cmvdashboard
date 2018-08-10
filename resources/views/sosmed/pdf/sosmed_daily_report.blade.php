@@ -6,7 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Socmed Daily Report {{date('d-m-Y')}}</title>
     @php 
-        $besar=30+(20*count($sosmed));
+        if(count($sosmed)>3){
+            $besar=20+(15*count($sosmed));
+        }else{
+            $besar=30+(20*count($sosmed));
+        }
     @endphp
     <style>
         .page-break {
