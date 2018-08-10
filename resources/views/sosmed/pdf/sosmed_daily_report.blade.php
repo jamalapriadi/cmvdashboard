@@ -272,6 +272,7 @@
                         ?>
 
                         @if($of->group_id==1)
+                            <!-- menampilkan total group mncgroup di publisher -->
                             @if($typeunit=="Publisher")
                                 <tr style="{{$color}}">
                                     <td>
@@ -328,6 +329,7 @@
                                     @endforeach
                                 </tr>
                             @endif
+                            <!-- end menampilkan total group mncgroup di publisher -->
 
                             <!-- tambahkan untuk inews -->
                             @for($a=0;$a<count($tambahanInews);$a++)
@@ -388,63 +390,67 @@
                                     </tr>
                                 @endif
                             @endfor
-                        @else   
+                        @else  
+                            <!-- menampilkan total group selain others --> 
                             @if($of->group_id!=5)
-                                <tr style="{{$color}}">
-                                    <td>
-                                        {{$nama}}
-                                    </td>
-                                    @foreach($sosmed as $row)
-                                        @if($row->id==1)
-                                            <td>{{number_format($of->tw_kemarin)}}</td>
-                                            <td>{{number_format($of->tw_sekarang)}}</td>
-                                            <td>
-                                                @if($of->growth_tw>0)
-                                                    <a style="color:green;"> {{round($of->growth_tw,2)}} % </a>
-                                                @else
-                                                    <a style="color:red;"> {{round($of->growth_tw,2)}} % </a>
-                                                @endif
-                                            </td>
-                                        @endif
+                                @if($of->group_id!=12)
+                                    <tr style="{{$color}}">
+                                        <td>
+                                            {{$nama}}
+                                        </td>
+                                        @foreach($sosmed as $row)
+                                            @if($row->id==1)
+                                                <td>{{number_format($of->tw_kemarin)}}</td>
+                                                <td>{{number_format($of->tw_sekarang)}}</td>
+                                                <td>
+                                                    @if($of->growth_tw>0)
+                                                        <a style="color:green;"> {{round($of->growth_tw,2)}} % </a>
+                                                    @else
+                                                        <a style="color:red;"> {{round($of->growth_tw,2)}} % </a>
+                                                    @endif
+                                                </td>
+                                            @endif
 
-                                        @if($row->id==2)
-                                            <td>{{number_format($of->fb_kemarin)}}</td>
-                                            <td>{{number_format($of->fb_sekarang)}}</td>
-                                            <td>
-                                                @if($of->growth_fb>0)
-                                                    <a style="color:green;"> {{round($of->growth_fb,2)}} % </a>
-                                                @else
-                                                    <a style="color:red;"> {{round($of->growth_fb,2)}} % </a>
-                                                @endif
-                                            </td>
-                                        @endif
+                                            @if($row->id==2)
+                                                <td>{{number_format($of->fb_kemarin)}}</td>
+                                                <td>{{number_format($of->fb_sekarang)}}</td>
+                                                <td>
+                                                    @if($of->growth_fb>0)
+                                                        <a style="color:green;"> {{round($of->growth_fb,2)}} % </a>
+                                                    @else
+                                                        <a style="color:red;"> {{round($of->growth_fb,2)}} % </a>
+                                                    @endif
+                                                </td>
+                                            @endif
 
-                                        @if($row->id==3)
-                                            <td>{{number_format($of->ig_kemarin)}}</td>
-                                            <td>{{number_format($of->ig_sekarang)}}</td>
-                                            <td>
-                                                @if($of->growth_ig>0)
-                                                    <a style="color:green;"> {{round($of->growth_ig,2)}} % </a>
-                                                @else
-                                                    <a style="color:red;"> {{round($of->growth_ig,2)}} % </a>
-                                                @endif
-                                            </td>
-                                        @endif
+                                            @if($row->id==3)
+                                                <td>{{number_format($of->ig_kemarin)}}</td>
+                                                <td>{{number_format($of->ig_sekarang)}}</td>
+                                                <td>
+                                                    @if($of->growth_ig>0)
+                                                        <a style="color:green;"> {{round($of->growth_ig,2)}} % </a>
+                                                    @else
+                                                        <a style="color:red;"> {{round($of->growth_ig,2)}} % </a>
+                                                    @endif
+                                                </td>
+                                            @endif
 
-                                        @if($row->id==4)
-                                            <td>{{number_format($of->yt_kemarin)}}</td>
-                                            <td>{{number_format($of->yt_sekarang)}}</td>
-                                            <td>
-                                                @if($of->growth_yt>0)
-                                                    <a style="color:green;"> {{round($of->growth_yt,2)}} % </a>
-                                                @else
-                                                    <a style="color:red;"> {{round($of->growth_yt,2)}} % </a>
-                                                @endif
-                                            </td>
-                                        @endif
-                                    @endforeach
-                                </tr>
+                                            @if($row->id==4)
+                                                <td>{{number_format($of->yt_kemarin)}}</td>
+                                                <td>{{number_format($of->yt_sekarang)}}</td>
+                                                <td>
+                                                    @if($of->growth_yt>0)
+                                                        <a style="color:green;"> {{round($of->growth_yt,2)}} % </a>
+                                                    @else
+                                                        <a style="color:red;"> {{round($of->growth_yt,2)}} % </a>
+                                                    @endif
+                                                </td>
+                                            @endif
+                                        @endforeach
+                                    </tr>
+                                @endif
                             @endif
+                            <!-- menampilkan total group selain others -->
                         @endif
                     @endif
                 @else 
@@ -675,6 +681,10 @@
             </tr>
         </thead>
         <tbody style="color:#222">
+            @php 
+                $listprogram=array();
+                $listtotal=array();
+            @endphp
             @foreach($overallOfficialTv as $of)
                 @if($of->id=="SUBTOTAL")
                     @if($of->group_id=="TOTAL")
@@ -687,63 +697,114 @@
                             $nama=$of->group_name;
                             $color="background:#f2eff2;color:#222;font-weight:700";
                         ?>
+
+                        <!--tampilkan totalnya kecuali yang dari group others -->
                         @if($of->group_id!=5)
-                            <tr style="{{$color}}">
-                                <td>
-                                    {{$nama}}
-                                </td>
-                                @foreach($sosmed as $row)
-                                    @if($row->id==1)
-                                        <td>{{number_format($of->total_tw_sekarang)}}</td>
-                                    @endif
+                            @if($of->group_id!=12)
+                                <tr style="{{$color}}">
+                                    <td>
+                                        {{$nama}}
+                                    </td>
+                                    @foreach($sosmed as $row)
+                                        @if($row->id==1)
+                                            <td>{{number_format($of->total_tw_sekarang)}}</td>
+                                        @endif
 
-                                    @if($row->id==2)
-                                        <td>{{number_format($of->total_fb_sekarang)}}</td>
-                                    @endif
+                                        @if($row->id==2)
+                                            <td>{{number_format($of->total_fb_sekarang)}}</td>
+                                        @endif
 
-                                    @if($row->id==3)
-                                        <td>{{number_format($of->total_ig_sekarang)}}</td>
-                                    @endif
+                                        @if($row->id==3)
+                                            <td>{{number_format($of->total_ig_sekarang)}}</td>
+                                        @endif
 
-                                    @if($row->id==4)
-                                        <td>{{number_format($of->total_yt_kemarin)}}</td>
-                                        <td>{{number_format($of->total_yt_sekarang)}}</td>
-                                        <td>{{round($of->total_growth_yt,2)}} %</td>
-                                    @endif
-                                @endforeach
-                            </tr>
+                                        @if($row->id==4)
+                                            <td>{{number_format($of->total_yt_kemarin)}}</td>
+                                            <td>{{number_format($of->total_yt_sekarang)}}</td>
+                                            <td>{{round($of->total_growth_yt,2)}} %</td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                            @endif
+                            
                         @endif
                     @endif
                 @else 
+                    <!--jika unitnya adalah other publisher, maka data disimpan ke array dulu, karena nantinya
+                    data ini akan ditampilkan di list paling bawah -->
                     <?php 
                         $nama=$of->unit_name;
                         $color="";
                     ?>
-                    <tr style="{{$color}}">
-                        <td>
-                            {{$nama}}
-                        </td>
-                        @foreach($sosmed as $row)
-                            @if($row->id==1)
-                                <td>{{number_format($of->total_tw_sekarang)}}</td>
-                            @endif
 
-                            @if($row->id==2)
-                                <td>{{number_format($of->total_fb_sekarang)}}</td>
-                            @endif
+                    @if($of->group_id!=12)
+                        <!--tampilkan unitnya -->
+                        <tr style="{{$color}}">
+                            <td>
+                                {{$nama}}
+                            </td>
+                            @foreach($sosmed as $row)
+                                @if($row->id==1)
+                                    <td>{{number_format($of->total_tw_sekarang)}}</td>
+                                @endif
 
-                            @if($row->id==3)
-                                <td>{{number_format($of->total_ig_sekarang)}}</td>
-                            @endif
+                                @if($row->id==2)
+                                    <td>{{number_format($of->total_fb_sekarang)}}</td>
+                                @endif
 
-                            @if($row->id==4)
-                                <td>{{number_format($of->total_yt_kemarin)}}</td>
-                                <td>{{number_format($of->total_yt_sekarang)}}</td>
-                                <td>{{round($of->total_growth_yt,2)}} %</td>
-                            @endif
-                        @endforeach
-                    </tr>
+                                @if($row->id==3)
+                                    <td>{{number_format($of->total_ig_sekarang)}}</td>
+                                @endif
+
+                                @if($row->id==4)
+                                    <td>{{number_format($of->total_yt_kemarin)}}</td>
+                                    <td>{{number_format($of->total_yt_sekarang)}}</td>
+                                    <td>{{round($of->total_growth_yt,2)}} %</td>
+                                @endif
+                            @endforeach
+                        </tr>
+                    @else 
+                        <!--simpan unit other publisher ke dalam array -->
+                        @php 
+                            $listprogram[]=array(
+                                'nama'=>$nama,
+                                'color'=>$color,
+                                'tw_sekarang'=>number_format($of->total_tw_sekarang),
+                                'fb_sekarang'=>number_format($of->total_fb_sekarang),
+                                'ig_sekarang'=>number_format($of->total_ig_sekarang),
+                                'yt_kemarin'=>number_format($of->total_yt_kemarin),
+                                'yt_sekarang'=>number_format($of->total_yt_sekarang),
+                                'growth_yt'=>round($of->total_growth_yt,2)
+                            );
+                        @endphp 
+                    @endif
+
                 @endif
+            @endforeach
+            
+            @foreach($listprogram as $l)
+                <tr style="{{$l['color']}}">
+                    <td>{{$l['nama']}}</td>
+                    @foreach($sosmed as $row)
+                        @if($row->id==1)
+                            <td>{{$l['tw_sekarang']}}</td>
+                        @endif
+
+                        @if($row->id==2)
+                            <td>{{$l['fb_sekarang']}}</td>
+                        @endif
+
+                        @if($row->id==3)
+                            <td>{{$l['ig_sekarang']}}</td>
+                        @endif
+
+                        @if($row->id==4)
+                            <td>{{$l['yt_kemarin']}}</td>
+                            <td>{{$l['yt_sekarang']}}</td>
+                            <td>{{$l['growth_yt']}} %</td>
+                        @endif
+                    @endforeach
+                </tr>
             @endforeach
         </tbody>
     </table>
