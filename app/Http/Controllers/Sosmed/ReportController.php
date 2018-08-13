@@ -1962,6 +1962,12 @@ class ReportController extends Controller
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
         }
 
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
         $group=\DB::select("select b.id, b.unit_name,d.tanggal,
             sum(if(c.sosmed_id=1 and d.tanggal='$kemarin',d.follower,0)) as tw_kemarin,
             sum(if(c.sosmed_id=1 and d.tanggal='$sekarang',d.follower,0)) as tw_sekarang,
@@ -1974,11 +1980,15 @@ class ReportController extends Controller
             sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0)) as ig_kemarin,
             sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) as ig_sekarang,
             ((sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) / sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0)) -1) * 100) as growth_ig,
-            (sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) - sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0))) as num_of_growth_ig
+            (sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) - sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0))) as num_of_growth_ig,
+            sum(if(c.sosmed_id=4 and d.tanggal='$kemarin',d.follower,0)) as yt_kemarin,
+            sum(if(c.sosmed_id=4 and d.tanggal='$sekarang',d.follower,0)) as yt_sekarang,
+            ((sum(if(c.sosmed_id=4 and d.tanggal='$sekarang',d.follower,0)) / sum(if(c.sosmed_id=4 and d.tanggal='$kemarin',d.follower,0)) -1) * 100) as growth_yt,
+            (sum(if(c.sosmed_id=4 and d.tanggal='$sekarang',d.follower,0)) - sum(if(c.sosmed_id=4 and d.tanggal='$kemarin',d.follower,0))) as num_of_growth_yt
             FROM business_unit b
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
-            where b.type_unit='TV'
+            where b.type_unit='$typeunit'
             group by b.id");
 
         $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
@@ -1994,11 +2004,15 @@ class ReportController extends Controller
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) as ig_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig_sekarang,
             (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_ig,
-            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0))) as num_of_growth_ig
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0))) as num_of_growth_ig,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0)) as yt_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as yt_sekarang,
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0)) -1)*100 as growth_yt,
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0))) as num_of_growth_yt
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
-            left join business_unit d on d.id=a.business_unit_id and d.type_unit='TV'
+            left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
             where a.id in (89, 101, 95, 87)
             group by a.id
             with ROLLUP");
@@ -2008,6 +2022,7 @@ class ReportController extends Controller
         $arrTw=array();
         $arrFb=array();
         $arrIg=array();
+        $arrYt=array();
         foreach($group as $k){
             if($k->id==4){
                 foreach($tambahanInews as $in){
@@ -2015,25 +2030,30 @@ class ReportController extends Controller
                         array_push($arrTw,$in->tw_sekarang);
                         array_push($arrFb,$in->fb_sekarang);
                         array_push($arrIg,$in->ig_sekarang);        
+                        array_push($arrYt,$in->yt_sekarang);        
                     }
                 }
             }else{
                 array_push($arrTw,$k->tw_sekarang);
                 array_push($arrFb,$k->fb_sekarang);
                 array_push($arrIg,$k->ig_sekarang);
+                array_push($arrYt,$k->yt_sekarang);
             }
         }
         $rankTw=$arrTw;
         $rankFb=$arrFb;
         $rankIg=$arrIg;
+        $rankYt=$arrYt;
 
         rsort($rankTw);
         rsort($rankFb);
         rsort($rankIg);
+        rsort($rankYt);
 
         $rankTw=array_flip($rankTw);
         $rankFb=array_flip($rankFb);
         $rankIg=array_flip($rankIg);
+        $rankYt=array_flip($rankYt);
 
         foreach($group as $row){
             if($row->id==4){
@@ -2057,7 +2077,12 @@ class ReportController extends Controller
                                 'growth_ig'=>$ins->growth_ig,
                                 'ig_sekarang'=>$ins->ig_sekarang,
                                 'rank_ig'=>($rankIg[$ins->ig_sekarang]+1),
-                                'num_of_growth_ig'=>$ins->num_of_growth_ig
+                                'num_of_growth_ig'=>$ins->num_of_growth_ig,
+                                'yt'=>4,
+                                'growth_yt'=>$ins->growth_yt,
+                                'yt_sekarang'=>$ins->yt_sekarang,
+                                'rank_yt'=>($rankYt[$ins->yt_sekarang]+1),
+                                'num_of_growth_yt'=>$ins->num_of_growth_yt
                             )
                         );
                     }
@@ -2081,7 +2106,12 @@ class ReportController extends Controller
                         'growth_ig'=>$row->growth_ig." %",
                         'ig_sekarang'=>$row->ig_sekarang,
                         'rank_ig'=>($rankIg[$row->ig_sekarang] + 1),
-                        'num_of_growth_ig'=>$row->num_of_growth_ig
+                        'num_of_growth_ig'=>$row->num_of_growth_ig,
+                        'yt'=>4,
+                        'growth_yt'=>$row->growth_yt." %",
+                        'yt_sekarang'=>$row->yt_sekarang,
+                        'rank_yt'=>($rankYt[$row->yt_sekarang] + 1),
+                        'num_of_growth_yt'=>$row->num_of_growth_yt
                     )
                 );
             }
@@ -2136,6 +2166,12 @@ class ReportController extends Controller
             $group="where group_unit_id='".$request->input('group')."'";
         }
 
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
         $group=\DB::select("select a.id, a.group_name,d.tanggal,
             sum(if(c.sosmed_id=1 and d.tanggal='$kemarin',d.follower,0)) as tw_kemarin,
             sum(if(c.sosmed_id=1 and d.tanggal='$sekarang',d.follower,0)) as tw_sekarang,
@@ -2148,9 +2184,13 @@ class ReportController extends Controller
             sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0)) as ig_kemarin,
             sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) as ig_sekarang,
             ((sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) / sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0)) - 1) * 100) as growth_ig,
-            (sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) - sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0))) as num_of_growth_ig
+            (sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) - sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0))) as num_of_growth_ig,
+            sum(if(c.sosmed_id=4 and d.tanggal='$kemarin',d.follower,0)) as yt_kemarin,
+            sum(if(c.sosmed_id=4 and d.tanggal='$sekarang',d.follower,0)) as yt_sekarang,
+            ((sum(if(c.sosmed_id=4 and d.tanggal='$sekarang',d.follower,0)) / sum(if(c.sosmed_id=4 and d.tanggal='$kemarin',d.follower,0)) - 1) * 100) as growth_yt,
+            (sum(if(c.sosmed_id=4 and d.tanggal='$sekarang',d.follower,0)) - sum(if(c.sosmed_id=4 and d.tanggal='$kemarin',d.follower,0))) as num_of_growth_yt
             FROM group_unit a 
-            left join business_unit b on b.group_unit_id=a.id and b.type_unit='TV'
+            left join business_unit b on b.group_unit_id=a.id and b.type_unit='$typeunit'
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
             group by a.id");
@@ -2168,11 +2208,15 @@ class ReportController extends Controller
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) as ig_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig_sekarang,
             (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_ig,
-            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0))) as num_of_growth_ig
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0))) as num_of_growth_ig,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0)) as yt_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as yt_sekarang,
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0)) -1)*100 as growth_yt,
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0))) as num_of_growth_yt
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
-            left join business_unit d on d.id=a.business_unit_id and d.type_unit='TV'
+            left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
             where a.id in (89, 101, 95, 87)
             group by a.id
             with ROLLUP");
@@ -2189,7 +2233,11 @@ class ReportController extends Controller
             sum(terjadi.ig_kemarin) as total_ig_kemarin,
             sum(terjadi.ig_sekarang) as total_ig_sekarang,
             ((sum(terjadi.ig_sekarang) / sum(terjadi.ig_kemarin) - 1) * 100) as total_growth_ig,
-            (sum(terjadi.ig_sekarang) - sum(terjadi.ig_kemarin)) as total_num_of_growth_ig 
+            (sum(terjadi.ig_sekarang) - sum(terjadi.ig_kemarin)) as total_num_of_growth_ig,
+            sum(terjadi.yt_kemarin) as total_yt_kemarin,
+            sum(terjadi.yt_sekarang) as total_yt_sekarang,
+            ((sum(terjadi.yt_sekarang) / sum(terjadi.yt_kemarin) - 1) * 100) as total_growth_yt,
+            (sum(terjadi.yt_sekarang) - sum(terjadi.yt_kemarin)) as total_num_of_growth_yt  
             from
             (
                 select ifnull(a.id,'SUBTOTAL') as id, a.unit_name, 
@@ -2199,13 +2247,15 @@ class ReportController extends Controller
                 sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0)) as fb_kemarin,
                 sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb_sekarang,
                 sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) as ig_kemarin,
-                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) as yt_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt_sekarang
                 from 
                 business_unit a 
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.group_unit_id=5 and a.type_unit='TV'
+                where a.group_unit_id=5 and a.type_unit='$typeunit'
                 group by a.group_unit_id,a.id
             ) as terjadi
             group by terjadi.group_id,terjadi.id");
@@ -2215,6 +2265,7 @@ class ReportController extends Controller
         $arrTw=array();
         $arrFb=array();
         $arrIg=array();
+        $arrYt=array();
         foreach($group as $k){
             if($k->id==1){
                 foreach($tambahanInews as $in){
@@ -2222,6 +2273,7 @@ class ReportController extends Controller
                         array_push($arrTw,($in->tw_sekarang+$k->tw_sekarang));
                         array_push($arrFb,($in->fb_sekarang+$k->fb_sekarang));
                         array_push($arrIg,($in->ig_sekarang+$k->ig_sekarang));        
+                        array_push($arrYt,($in->yt_sekarang+$k->yt_sekarang));        
                     }
                 }
             }else if($k->id==5){
@@ -2229,24 +2281,29 @@ class ReportController extends Controller
                     array_push($arrTw,$ro->total_tw_sekarang);
                     array_push($arrFb,$ro->total_fb_sekarang);
                     array_push($arrIg,$ro->total_ig_sekarang);    
+                    array_push($arrYt,$ro->total_yt_sekarang);    
                 }
             }else{
                 array_push($arrTw,$k->tw_sekarang);
                 array_push($arrFb,$k->fb_sekarang);
                 array_push($arrIg,$k->ig_sekarang);
+                array_push($arrYt,$k->yt_sekarang);
             }
         }
         $rankTw=$arrTw;
         $rankFb=$arrFb;
         $rankIg=$arrIg;
+        $rankYt=$arrYt;
 
         rsort($rankTw);
         rsort($rankFb);
         rsort($rankIg);
+        rsort($rankYt);
 
         $rankTw=array_flip($rankTw);
         $rankFb=array_flip($rankFb);
         $rankIg=array_flip($rankIg);
+        $rankYt=array_flip($rankYt);
 
         foreach($group as $row){
             if($row->id==1){
@@ -2273,7 +2330,13 @@ class ReportController extends Controller
                                 'ig_kemarin'=>($in->ig_kemarin+$row->ig_kemarin),
                                 'growth_ig'=>number_format((($in->ig_sekarang+$row->ig_sekarang) / ($in->ig_kemarin+$row->ig_kemarin) -1)*100,4),
                                 'num_of_growth_ig'=>(($in->ig_sekarang+$row->ig_sekarang) - ($in->ig_kemarin+$row->ig_kemarin)),
-                                'rank_ig'=>($rankIg[($in->ig_sekarang+$row->ig_sekarang)]+1)
+                                'rank_ig'=>($rankIg[($in->ig_sekarang+$row->ig_sekarang)]+1),
+                                'yt'=>4,
+                                'yt_sekarang'=>($in->yt_sekarang+$row->yt_sekarang),
+                                'yt_kemarin'=>($in->yt_kemarin+$row->yt_kemarin),
+                                'growth_yt'=>number_format((($in->yt_sekarang+$row->yt_sekarang) / ($in->yt_kemarin+$row->yt_kemarin) -1)*100,4),
+                                'num_of_growth_yt'=>(($in->yt_sekarang+$row->yt_sekarang) - ($in->yt_kemarin+$row->yt_kemarin)),
+                                'rank_yt'=>($rankYt[($in->yt_sekarang+$row->yt_sekarang)]+1)
                             )
                         );
                     }
@@ -2301,7 +2364,13 @@ class ReportController extends Controller
                             'ig_kemarin'=>$ro->total_ig_kemarin,
                             'growth_ig'=>$ro->total_growth_ig,
                             'num_of_growth_ig'=>$ro->total_num_of_growth_ig,
-                            'rank_ig'=>($rankIg[$ro->total_ig_sekarang]+1)
+                            'rank_ig'=>($rankIg[$ro->total_ig_sekarang]+1),
+                            'yt'=>4,
+                            'yt_sekarang'=>$ro->total_yt_sekarang,
+                            'yt_kemarin'=>$ro->total_yt_kemarin,
+                            'growth_yt'=>$ro->total_growth_yt,
+                            'num_of_growth_yt'=>$ro->total_num_of_growth_yt,
+                            'rank_yt'=>($rankYt[$ro->total_yt_sekarang]+1)
                         )
                     );    
                 }
@@ -2327,7 +2396,13 @@ class ReportController extends Controller
                         'ig_kemarin'=>$row->ig_kemarin,
                         'growth_ig'=>$row->growth_ig,
                         'num_of_growth_ig'=>$row->num_of_growth_ig,
-                        'rank_ig'=>($rankIg[$row->ig_sekarang]+1)
+                        'rank_ig'=>($rankIg[$row->ig_sekarang]+1),
+                        'yt'=>4,
+                        'yt_sekarang'=>$row->yt_sekarang,
+                        'yt_kemarin'=>$row->yt_kemarin,
+                        'growth_yt'=>$row->growth_yt,
+                        'num_of_growth_yt'=>$row->num_of_growth_yt,
+                        'rank_yt'=>($rankYt[$row->yt_sekarang]+1)
                     )
                 );
             }
@@ -2382,6 +2457,12 @@ class ReportController extends Controller
             $group="";
         }
 
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
         $group=\DB::select("select terjadi.group_unit_id,terjadi.group_name,
             sum(terjadi.tw_kemarin) as total_tw_kemarin,
             sum(terjadi.tw_sekarang) as total_tw_sekarang,
@@ -2394,7 +2475,11 @@ class ReportController extends Controller
             sum(terjadi.ig_kemarin) as total_ig_kemarin,
             sum(terjadi.ig_sekarang) as total_ig_sekarang,
             ((sum(terjadi.ig_sekarang) / sum(terjadi.ig_kemarin) - 1) * 100) as total_growth_ig,
-            (sum(terjadi.ig_sekarang) - sum(terjadi.ig_kemarin)) as total_num_of_growth_ig
+            (sum(terjadi.ig_sekarang) - sum(terjadi.ig_kemarin)) as total_num_of_growth_ig,
+            sum(terjadi.yt_kemarin) as total_yt_kemarin,
+            sum(terjadi.yt_sekarang) as total_yt_sekarang,
+            ((sum(terjadi.yt_sekarang) / sum(terjadi.yt_kemarin) - 1) * 100) as total_growth_yt,
+            (sum(terjadi.yt_sekarang) - sum(terjadi.yt_kemarin)) as total_num_of_growth_yt
                 from (
                     select a.id, a.unit_name,c.unit_sosmed_name ,d.tanggal,  
                     a.group_unit_id,e.group_name,
@@ -2403,14 +2488,16 @@ class ReportController extends Controller
                     sum(if(d.tanggal='$kemarin' and c.sosmed_id=2,d.follower,0)) as fb_kemarin,
                     sum(if(d.tanggal='$sekarang' and c.sosmed_id=2,d.follower,0)) as fb_sekarang,
                     sum(if(d.tanggal='$kemarin' and c.sosmed_id=3,d.follower,0)) as ig_kemarin,
-                    sum(if(d.tanggal='$sekarang' and c.sosmed_id=3,d.follower,0)) as ig_sekarang
+                    sum(if(d.tanggal='$sekarang' and c.sosmed_id=3,d.follower,0)) as ig_sekarang,
+                    sum(if(d.tanggal='$kemarin' and c.sosmed_id=4,d.follower,0)) as yt_kemarin,
+                    sum(if(d.tanggal='$sekarang' and c.sosmed_id=4,d.follower,0)) as yt_sekarang
                     from 
                     business_unit a 
                     left join program_unit b on b.business_unit_id=a.id
                     left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                     left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                     left join group_unit e on e.id=a.group_unit_id
-                    where a.type_unit='TV'
+                    where a.type_unit='$typeunit'
                     group by a.id
                     union all 
                     select a.id, a.unit_name,b.unit_sosmed_name ,c.tanggal,  
@@ -2420,13 +2507,15 @@ class ReportController extends Controller
                     sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0)) as fb_kemarin,
                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb_sekarang,
                     sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) as ig_kemarin,
-                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang
+                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang,
+                    sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) as yt_kemarin,
+                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt_sekarang
                     from 
                     business_unit a 
                     left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                     left join group_unit e on e.id=a.group_unit_id
-                    where a.type_unit='TV'
+                    where a.type_unit='$typeunit'
                     group by a.id 
                 ) as terjadi
             group by terjadi.group_unit_id");
@@ -2443,7 +2532,11 @@ class ReportController extends Controller
             sum(terjadi.ig_kemarin) as total_ig_kemarin,
             sum(terjadi.ig_sekarang) as total_ig_sekarang,
             ((sum(terjadi.ig_sekarang) / sum(terjadi.ig_kemarin) - 1) * 100) as total_growth_ig,
-            (sum(terjadi.ig_sekarang) - sum(terjadi.ig_kemarin)) as total_num_of_growth_ig 
+            (sum(terjadi.ig_sekarang) - sum(terjadi.ig_kemarin)) as total_num_of_growth_ig,
+            sum(terjadi.yt_kemarin) as total_yt_kemarin,
+            sum(terjadi.yt_sekarang) as total_yt_sekarang,
+            ((sum(terjadi.yt_sekarang) / sum(terjadi.yt_kemarin) - 1) * 100) as total_growth_yt,
+            (sum(terjadi.yt_sekarang) - sum(terjadi.yt_kemarin)) as total_num_of_growth_yt  
             from
             (
                 select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
@@ -2453,7 +2546,9 @@ class ReportController extends Controller
                 sum(if(d.tanggal='$kemarin' and c.sosmed_id=2,d.follower,0)) as fb_kemarin,
                 sum(if(d.tanggal='$sekarang' and c.sosmed_id=2,d.follower,0)) as fb_sekarang,
                 sum(if(d.tanggal='$kemarin' and c.sosmed_id=3,d.follower,0)) as ig_kemarin,
-                sum(if(d.tanggal='$sekarang' and c.sosmed_id=3,d.follower,0)) as ig_sekarang
+                sum(if(d.tanggal='$sekarang' and c.sosmed_id=3,d.follower,0)) as ig_sekarang,
+                sum(if(d.tanggal='$kemarin' and c.sosmed_id=4,d.follower,0)) as yt_kemarin,
+                sum(if(d.tanggal='$sekarang' and c.sosmed_id=4,d.follower,0)) as yt_sekarang
                 from 
                 business_unit a 
                 left join program_unit b on b.business_unit_id=a.id
@@ -2461,7 +2556,7 @@ class ReportController extends Controller
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
                 where a.group_unit_id=5
-                and a.type_unit='TV'
+                and a.type_unit='$typeunit'
                 group by a.group_unit_id,a.id
                 union all 
                 select ifnull(a.id,'SUBTOTAL') as id, a.unit_name, 
@@ -2471,13 +2566,15 @@ class ReportController extends Controller
                 sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0)) as fb_kemarin,
                 sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb_sekarang,
                 sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) as ig_kemarin,
-                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) as yt_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt_sekarang
                 from 
                 business_unit a 
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.group_unit_id=5 and a.type_unit='TV'
+                where a.group_unit_id=5 and a.type_unit='$typeunit'
                 group by a.group_unit_id,a.id
             ) as terjadi
             group by terjadi.group_id,terjadi.id");
@@ -2487,30 +2584,36 @@ class ReportController extends Controller
         $arrTw=array();
         $arrFb=array();
         $arrIg=array();
+        $arrYt=array();
         foreach($group as $k){
             if($k->group_unit_id==5){
                 foreach($tambahanOverAllTvOthers as $ro){
                     array_push($arrTw,$ro->total_tw_sekarang);
                     array_push($arrFb,$ro->total_fb_sekarang);
                     array_push($arrIg,$ro->total_ig_sekarang);    
+                    array_push($arrYt,$ro->total_yt_sekarang);    
                 }
             }else{
                 array_push($arrTw,$k->total_tw_sekarang);
                 array_push($arrFb,$k->total_fb_sekarang);
                 array_push($arrIg,$k->total_ig_sekarang);
+                array_push($arrYt,$k->total_yt_sekarang);
             }
         }
         $rankTw=$arrTw;
         $rankFb=$arrFb;
         $rankIg=$arrIg;
+        $rankYt=$arrYt;
 
         rsort($rankTw);
         rsort($rankFb);
         rsort($rankIg);
+        rsort($rankYt);
 
         $rankTw=array_flip($rankTw);
         $rankFb=array_flip($rankFb);
         $rankIg=array_flip($rankIg);
+        $rankYt=array_flip($rankYt);
 
         foreach($group as $row){
             if($row->group_unit_id==5){
@@ -2536,7 +2639,13 @@ class ReportController extends Controller
                             'ig_kemarin'=>$ro->total_ig_kemarin,
                             'growth_ig'=>$ro->total_growth_ig,
                             'num_of_growth_ig'=>$ro->total_num_of_growth_ig,
-                            'rank_ig'=>($rankIg[$ro->total_ig_sekarang]+1)
+                            'rank_ig'=>($rankIg[$ro->total_ig_sekarang]+1),
+                            'yt'=>4,
+                            'yt_sekarang'=>$ro->total_yt_sekarang,
+                            'yt_kemarin'=>$ro->total_yt_kemarin,
+                            'growth_yt'=>$ro->total_growth_yt,
+                            'num_of_growth_yt'=>$ro->total_num_of_growth_yt,
+                            'rank_yt'=>($rankYt[$ro->total_yt_sekarang]+1)
                         )
                     );    
                 }
@@ -2562,7 +2671,13 @@ class ReportController extends Controller
                         'ig_kemarin'=>$row->total_ig_kemarin,
                         'growth_ig'=>$row->total_growth_ig,
                         'num_of_growth_ig'=>$row->total_num_of_growth_ig,
-                        'rank_ig'=>($rankIg[$row->total_ig_sekarang]+1)
+                        'rank_ig'=>($rankIg[$row->total_ig_sekarang]+1),
+                        'yt'=>4,
+                        'yt_sekarang'=>$row->total_yt_sekarang,
+                        'yt_kemarin'=>$row->total_yt_kemarin,
+                        'growth_yt'=>$row->total_growth_yt,
+                        'num_of_growth_yt'=>$row->total_num_of_growth_yt,
+                        'rank_yt'=>($rankYt[$row->total_yt_sekarang]+1)
                     )
                 );
             }
@@ -2612,6 +2727,12 @@ class ReportController extends Controller
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
         }
 
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
         $program=\DB::select("select b.id,e.unit_name, b.program_name,  
             sum(if(d.tanggal='$kemarin' and c.sosmed_id=1,d.follower,0)) as tw_kemarin,
             sum(if(d.tanggal='$sekarang' and c.sosmed_id=1,d.follower,0)) as tw_sekarang,
@@ -2651,33 +2772,51 @@ class ReportController extends Controller
                 sum(if(d.tanggal='$sekarang' and c.sosmed_id=3,d.follower,0)) 
                 - 
                 sum(if(d.tanggal='$kemarin' and c.sosmed_id=3,d.follower,0))
-            ) as num_of_growth_ig
+            ) as num_of_growth_ig,
+            sum(if(d.tanggal='$kemarin' and c.sosmed_id=4,d.follower,0)) as yt_kemarin,
+            sum(if(d.tanggal='$sekarang' and c.sosmed_id=4,d.follower,0)) as yt_sekarang,
+            ( 
+                sum(if(d.tanggal='$sekarang' and c.sosmed_id=4,d.follower,0)) 
+                / 
+                sum(if(d.tanggal='$kemarin' and c.sosmed_id=4,d.follower,0))
+                - 1
+            ) * 100 as growth_yt,
+            ( 
+                sum(if(d.tanggal='$sekarang' and c.sosmed_id=4,d.follower,0)) 
+                - 
+                sum(if(d.tanggal='$kemarin' and c.sosmed_id=4,d.follower,0))
+            ) as num_of_growth_yt
             from program_unit b
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
-            left join business_unit as e on e.id=b.business_unit_id and e.type_unit='TV'
+            left join business_unit as e on e.id=b.business_unit_id and e.type_unit='$typeunit'
             where b.id not in (89, 101, 95, 87)
             group by b.id");
 
         $arrTw=array();
         $arrFb=array();
         $arrIg=array();
+        $arrYt=array();
         foreach($program as $k){
             array_push($arrTw,$k->num_of_growth_tw);
             array_push($arrFb,$k->num_of_growth_fb);
             array_push($arrIg,$k->num_of_growth_ig);
+            array_push($arrYt,$k->num_of_growth_yt);
         }
         $rankTw=$arrTw;
         $rankFb=$arrFb;
         $rankIg=$arrIg;
+        $rankYt=$arrYt;
 
         rsort($rankTw);
         rsort($rankFb);
         rsort($rankIg);
+        rsort($rankYt);
 
         $rankTw=array_flip($rankTw);
         $rankFb=array_flip($rankFb);
         $rankIg=array_flip($rankIg);
+        $rankYt=array_flip($rankYt);
 
         $data=array();
 
@@ -2700,7 +2839,12 @@ class ReportController extends Controller
                     'growth_ig'=>$val->growth_ig,
                     'num_of_growth_ig'=>$val->num_of_growth_ig,
                     'ig_sekarang'=>$val->ig_sekarang,
-                    'rank_ig'=>($rankIg[$val->num_of_growth_ig] + 1)
+                    'rank_ig'=>($rankIg[$val->num_of_growth_ig] + 1),
+                    'yt'=>4,
+                    'growth_yt'=>$val->growth_yt,
+                    'num_of_growth_yt'=>$val->num_of_growth_yt,
+                    'yt_sekarang'=>$val->yt_sekarang,
+                    'rank_yt'=>($rankYt[$val->num_of_growth_yt] + 1)
                 )
             );
         }
@@ -2754,6 +2898,12 @@ class ReportController extends Controller
             $group=1;
         }
 
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit='TV';
+        }
+
         $target=\DB::select("select a.id, a.group_unit_id, a.unit_name, b.target_use, 
             sum(if(b.sosmed_id=1, c.target,0)) as target_tw,
             sum(if(d.tanggal='$sekarang' and b.sosmed_id=1, d.follower,0)) as follower_tw,
@@ -2763,12 +2913,15 @@ class ReportController extends Controller
             ( sum(if(d.tanggal='$sekarang' and b.sosmed_id=2, d.follower,0)) / sum(if(b.sosmed_id=2, c.target,0)) * 100) as acv_fb,
             sum(if(b.sosmed_id=3, c.target,0)) as target_ig,
             sum(if(d.tanggal='$sekarang' and b.sosmed_id=3, d.follower,0)) as follower_ig,
-            ( sum(if(d.tanggal='$sekarang' and b.sosmed_id=3, d.follower,0)) / sum(if(b.sosmed_id=3, c.target,0)) * 100) as acv_ig
+            ( sum(if(d.tanggal='$sekarang' and b.sosmed_id=3, d.follower,0)) / sum(if(b.sosmed_id=3, c.target,0)) * 100) as acv_ig,
+            sum(if(b.sosmed_id=4, c.target,0)) as target_yt,
+            sum(if(d.tanggal='$sekarang' and b.sosmed_id=4, d.follower,0)) as follower_yt,
+            ( sum(if(d.tanggal='$sekarang' and b.sosmed_id=4, d.follower,0)) / sum(if(b.sosmed_id=4, c.target,0)) * 100) as acv_yt
             from business_unit a
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_target c on c.unit_sosmed_id=b.id
             left join unit_sosmed_follower d on d.unit_sosmed_id=b.id and d.tanggal='$sekarang'
-            where a.type_unit='TV'
+            where a.type_unit='$typeunit'
             GROUP by a.id");
 
         $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
@@ -2781,11 +2934,14 @@ class ReportController extends Controller
             (sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=2, c.follower,0)) -1)*100 as growth_fb,
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) as ig_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig_sekarang,
-            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_ig
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_ig,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0)) as yt_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as yt_sekarang,
+            (sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_yt
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
-            left join business_unit d on d.id=a.business_unit_id and d.type_unit='TV'
+            left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
             where a.id in (89, 101, 95, 87)
             group by a.id
             with ROLLUP");
@@ -2793,6 +2949,7 @@ class ReportController extends Controller
         $arrTw=array();
         $arrFb=array();
         $arrIg=array();
+        $arrYt=array();
         foreach($target as $r){
             if($r->group_unit_id==1){
                 if($r->id==4){
@@ -2801,31 +2958,37 @@ class ReportController extends Controller
                             array_push($arrTw,$in->tw_sekarang);
                             array_push($arrFb,$in->fb_sekarang);
                             array_push($arrIg,$in->ig_sekarang);                
+                            array_push($arrYt,$in->yt_sekarang);                
                         }
                     }
                 }else{
                     array_push($arrTw,$r->follower_tw);
                     array_push($arrFb,$r->follower_fb);
                     array_push($arrIg,$r->follower_ig);
+                    array_push($arrYt,$r->follower_yt);
                 }
             }else{
                 array_push($arrTw,$r->follower_tw);
                 array_push($arrFb,$r->follower_fb);
                 array_push($arrIg,$r->follower_ig);
+                array_push($arrYt,$r->follower_yt);
             }
         }
 
         $rankTw=$arrTw;
         $rankFb=$arrFb;
         $rankIg=$arrIg;
+        $rankYt=$arrYt;
 
         rsort($rankTw);
         rsort($rankFb);
         rsort($rankIg);
+        rsort($rankYt);
 
         $rankTw=array_flip($rankTw);
         $rankFb=array_flip($rankFb);
         $rankIg=array_flip($rankIg);
+        $rankYt=array_flip($rankYt);
 
         $data=array();
         foreach($target as $row){
@@ -2833,6 +2996,13 @@ class ReportController extends Controller
                 if($row->id==4){
                     foreach($tambahanInews as $in){
                         if($in->id=="TOTAL"){
+                            
+                            if($row->target_yt){
+                                $act_yt=number_format(($row->follower_yt+$in->yt_sekarang) /  $row->target_yt * 100);
+                            }else{
+                                $act_yt=0;
+                            }
+
                             $data[]=array(
                                 'id'=>$row->id,
                                 'unit_name'=>$row->unit_name,
@@ -2851,12 +3021,23 @@ class ReportController extends Controller
                                     'target_ig'=>$row->target_ig,
                                     'ig_sekarang'=>($row->follower_ig+$in->ig_sekarang),
                                     'acv_ig'=>number_format(($row->follower_ig+$in->ig_sekarang) /  $row->target_ig * 100),
-                                    'rank_ig'=>($rankIg[$in->ig_sekarang]+1)
+                                    'rank_ig'=>($rankIg[$in->ig_sekarang]+1),
+                                    'yt'=>4,
+                                    'target_yt'=>$row->target_yt,
+                                    'yt_sekarang'=>($row->follower_yt+$in->yt_sekarang),
+                                    'acv_yt'=>$act_yt,
+                                    'rank_yt'=>($rankYt[$in->yt_sekarang]+1)
                                 )
                             );
                         }
                     }
                 }else{
+                    if($row->target_yt){
+                        $act_yt=number_format($row->follower_yt /  $row->target_yt * 100);
+                    }else{
+                        $act_yt=0;
+                    }
+
                     $data[]=array(
                         'id'=>$row->id,
                         'unit_name'=>$row->unit_name,
@@ -2875,7 +3056,12 @@ class ReportController extends Controller
                             'target_ig'=>$row->target_ig,
                             'ig_sekarang'=>$row->follower_ig,
                             'acv_ig'=>number_format($row->follower_ig /  $row->target_ig * 100),
-                            'rank_ig'=>($rankIg[$row->follower_ig]+1)
+                            'rank_ig'=>($rankIg[$row->follower_ig]+1),
+                            'yt'=>4,
+                            'target_yt'=>$row->target_yt,
+                            'yt_sekarang'=>$row->follower_yt,
+                            'acv_yt'=>$act_yt,
+                            'rank_yt'=>($rankYt[$row->follower_yt]+1)
                         )
                     );
                 }
