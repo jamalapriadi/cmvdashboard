@@ -78,16 +78,40 @@
     @if(count($sosmed)<2)
         @foreach($sosmed as $row)
             @if($row->id==4)
-                <h1 class="text-center">{{strtoupper($typeunit)}} YOUTUBE REPORT</h1>
+                <h1 class="text-center">
+                    @if($typeunit=="Publisher")
+                        HARDNEWS PUBLISHER YOUTUBE REPORT
+                    @else 
+                        {{strtoupper($typeunit)}} YOUTUBE REPORT
+                    @endif
+                </h1>
+            @else 
+                <h1 class="text-center">
+                    @if($typeunit=="Publisher")
+                        HARDNEWS PUBLISHER {{strtoupper($row->sosmed_name)}} REPORT
+                    @else 
+                        {{strtoupper($typeunit)}} {{strtoupper($row->sosmed_name)}} REPORT
+                    @endif
+                </h1>
             @endif
         @endforeach
+    @elseif(count($sosmed)>3)
+        @if($typeunit=="TV")
+            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE DAILY REPORT</h1>
+        @elseif($typeunit=="Radio")
+            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
+        @elseif($typeunit=="Publisher")
+            <h1 class="text-center">HARDNEWS PUBLISHER SOCMED & YOUTUBE REPORT</h1>
+        @else
+
+        @endif
     @else 
         @if($typeunit=="TV")
             <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED DAILY REPORT</h1>
         @elseif($typeunit=="Radio")
             <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @elseif($typeunit=="Publisher")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED REPORT</h1>
+            <h1 class="text-center">HARDNEWS PUBLISHER SOCMED REPORT</h1>
         @else
 
         @endif
@@ -196,7 +220,7 @@
         @endforeach
     @endif
 
-    <h3 class="text-center">OFFICIAL ACCOUNT ALL {{strtoupper($typeunit)}}</h3>
+    <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @else {{strtoupper($typeunit)}} @endif</h3>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
@@ -220,7 +244,7 @@
                 @foreach($sosmed as $row)
                 <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
                 <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-                <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth From Yesterday</th>
+                <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
                 @endforeach
             </tr>
         </thead>
@@ -648,7 +672,7 @@
     <div class="page-break"></div>
 
     @if($typeunit=="TV" || $typeunit=="Publisher")
-    <h3 class="text-center">OVERALL ALL  {{strtoupper($typeunit)}} ( OFFICIAL & PROGRAM )</h3>
+    <h3 class="text-center">OVERALL ALL  {{strtoupper($typeunit)}} ( OFFICIAL & @if($typeunit=="Publisher") CANAL @else PROGRAM @endif )</h3>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
@@ -668,7 +692,7 @@
                     @if($row->id==4)
                         <th colspan="3" class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
                     @else 
-                        <th class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                        <th colspan="3" class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
                     @endif
                 @endforeach
             </tr>
@@ -677,9 +701,11 @@
                     @if($row->id==4)
                         <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
                         <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-                        <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>Growth From Yesterday</th>
+                        <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>Growth</th>
                     @else
+                        <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
                         <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                        <th class="text-center" style='background:{{$row->sosmed_color}};color:white'>Growth</th>
                     @endif
                 @endforeach
             </tr>
@@ -711,15 +737,21 @@
                                     </td>
                                     @foreach($sosmed as $row)
                                         @if($row->id==1)
+                                            <td>{{number_format($of->total_tw_kemarin)}}</td>
                                             <td>{{number_format($of->total_tw_sekarang)}}</td>
+                                            <td>{{round($of->total_growth_tw,2)}} %</td>
                                         @endif
 
                                         @if($row->id==2)
+                                            <td>{{number_format($of->total_fb_kemarin)}}</td>
                                             <td>{{number_format($of->total_fb_sekarang)}}</td>
+                                            <td>{{round($of->total_growth_fb,2)}} %</td>
                                         @endif
 
                                         @if($row->id==3)
+                                            <td>{{number_format($of->total_ig_kemarin)}}</td>
                                             <td>{{number_format($of->total_ig_sekarang)}}</td>
+                                            <td>{{round($of->total_growth_ig,2)}} %</td>
                                         @endif
 
                                         @if($row->id==4)
@@ -749,15 +781,21 @@
                             </td>
                             @foreach($sosmed as $row)
                                 @if($row->id==1)
+                                    <td>{{number_format($of->total_tw_kemarin)}}</td>
                                     <td>{{number_format($of->total_tw_sekarang)}}</td>
+                                    <td>{{round($of->total_growth_tw,2)}} %</td>
                                 @endif
 
                                 @if($row->id==2)
+                                    <td>{{number_format($of->total_fb_kemarin)}}</td>
                                     <td>{{number_format($of->total_fb_sekarang)}}</td>
+                                    <td>{{round($of->total_growth_fb,2)}} %</td>
                                 @endif
 
                                 @if($row->id==3)
+                                    <td>{{number_format($of->total_ig_kemarin)}}</td>
                                     <td>{{number_format($of->total_ig_sekarang)}}</td>
+                                    <td>{{round($of->total_growth_ig,2)}} %</td>
                                 @endif
 
                                 @if($row->id==4)
@@ -773,9 +811,19 @@
                             $listprogram[]=array(
                                 'nama'=>$nama,
                                 'color'=>$color,
+
+                                'tw_kemarin'=>number_format($of->total_tw_kemarin),
                                 'tw_sekarang'=>number_format($of->total_tw_sekarang),
+                                'growth_tw'=>round($of->total_growth_tw,2),
+
+                                'fb_kemarin'=>number_format($of->total_fb_kemarin),
                                 'fb_sekarang'=>number_format($of->total_fb_sekarang),
+                                'growth_fb'=>round($of->total_growth_fb,2),
+
+                                'ig_kemarin'=>number_format($of->total_ig_kemarin),
                                 'ig_sekarang'=>number_format($of->total_ig_sekarang),
+                                'growth_ig'=>round($of->total_growth_ig,2),
+
                                 'yt_kemarin'=>number_format($of->total_yt_kemarin),
                                 'yt_sekarang'=>number_format($of->total_yt_sekarang),
                                 'growth_yt'=>round($of->total_growth_yt,2)
@@ -791,15 +839,21 @@
                     <td>{{$l['nama']}}</td>
                     @foreach($sosmed as $row)
                         @if($row->id==1)
+                            <td>{{$l['tw_kemarin']}}</td>
                             <td>{{$l['tw_sekarang']}}</td>
+                            <td>{{$l['growth_tw']}} %</td>
                         @endif
 
                         @if($row->id==2)
+                            <td>{{$l['fb_kemarin']}}</td>
                             <td>{{$l['fb_sekarang']}}</td>
+                            <td>{{$l['growth_fb']}} %</td>
                         @endif
 
                         @if($row->id==3)
+                            <td>{{$l['ig_kemarin']}}</td>
                             <td>{{$l['ig_sekarang']}}</td>
+                            <td>{{$l['growth_ig']}} %</td>
                         @endif
 
                         @if($row->id==4)

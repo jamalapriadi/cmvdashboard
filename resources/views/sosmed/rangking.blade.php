@@ -110,27 +110,7 @@
                             </div>
 
                             <div class="panel-body">
-                                <ul style="list-style-type:none">
-                                    <li>*1. Official* Account *All TV* By *Total Followers*
-                                        <div id="officalAccountAllTvByTotalFollowers"></div>
-                                    </li>
-                                    <li>*2. Group Official* Account by *Total Followers*
-                                        <div id="groupOfficialAccountByTotalFollowers"></div>
-                                    </li>
-                                    <li>*3. Group Overall* Accounts ( Official + Program ) by *Total Followers*
-                                        <div id="groupOverallAccount"></div>
-                                    </li>
-                                    <li>*4. Program* Accounts *ALL TV* by *Additional Followers* from yesterday
-                                        <div id="programAccountAllTv"></div>
-                                    </li>
-                                    <li>*5. 4TV's* Followers *Achievement below 50%*
-                                        <div id="tvAchievementbelow50"></div>
-                                    </li>
-                                    <li>*6. Our 4TV's* Followers *Official Accounts* for those *Achievement above 50%*
-                                        <div id="tvAchievementabove50"></div>
-                                        <br>
-                                    </li>
-                                </ul>
+                                <div id="showListData"></div>
                                 
                             </div>
                         </div>
@@ -974,32 +954,32 @@
                                 "</li>";
                             }
 
-                            if(s==4){
-                                el+="<li>*Youtube*"+
-                                    "<ul style='list-style-type:none'>";
-                                    var not=0;
-                                    var youtube=[];
-                                    var cleanyoutube=[];
-                                    for(a=0;a<result.length;a++){
-                                        if(result[a].follower.yt==4 && result[a].follower.acv_yt > 50){
-                                            // not++;
-                                            // el+="<li>"+not+". "+result[a].unit_name+" "+result[a].follower.acv_yt+" % #"+result[a].follower.rank_yt+"</li>";
-                                            youtube.push({name:result[a].unit_name, acv_yt:result[a].follower.acv_yt, rank_yt:result[a].follower.rank_yt});
-                                        }
-                                    }
+                            // if(s==4){
+                            //     el+="<li>*Youtube*"+
+                            //         "<ul style='list-style-type:none'>";
+                            //         var not=0;
+                            //         var youtube=[];
+                            //         var cleanyoutube=[];
+                            //         for(a=0;a<result.length;a++){
+                            //             if(result[a].follower.yt==4 && result[a].follower.acv_yt > 50){
+                            //                 // not++;
+                            //                 // el+="<li>"+not+". "+result[a].unit_name+" "+result[a].follower.acv_yt+" % #"+result[a].follower.rank_yt+"</li>";
+                            //                 youtube.push({name:result[a].unit_name, acv_yt:result[a].follower.acv_yt, rank_yt:result[a].follower.rank_yt});
+                            //             }
+                            //         }
 
-                                    cleanyoutube = youtube.sort(function(a,b) {
-                                        return a['rank_yt'] - b['rank_yt'];
-                                    });
+                            //         cleanyoutube = youtube.sort(function(a,b) {
+                            //             return a['rank_yt'] - b['rank_yt'];
+                            //         });
 
-                                    $.each(cleanyoutube,function(a,b){
-                                        not++;
-                                        el+="<li>"+not+". "+b.name+" "+b.acv_yt+" % #"+b.rank_yt+"</li>";
-                                    })
+                            //         $.each(cleanyoutube,function(a,b){
+                            //             not++;
+                            //             el+="<li>"+not+". "+b.name+" "+b.acv_yt+" % #"+b.rank_yt+"</li>";
+                            //         })
 
-                                    el+="</ul>"+
-                                "</li>";    
-                            }
+                            //         el+="</ul>"+
+                            //     "</li>";    
+                            // }
                         })
                             
                         el+="</ul>";
@@ -1116,9 +1096,13 @@
             })
             
             var sosmed=[];
+            var typeunit="";
 
             $(document).on("submit","#form",function(e){
                 var tanggal=$("#tanggal").val();
+                var el="";
+
+                typeunit=$("#typeunit").val();
 
                 if($('#pilih').is(':checked')){
                     var k=$("#kemarin").val();
@@ -1131,15 +1115,71 @@
                     return $(this).val();
                 }).get();
 
-                console.log(sosmed);
-
                 $("#panelShow").show();
+                
+                var nama="";
+                var program="";
+                switch(typeunit){
+                    case "TV":
+                            nama="TV";
+                            program="Program";
+                        break;
+                    case "Publisher":
+                            nama="HARDNEWS PUBLISHER";
+                            program="Canal";
+                        break;
+                    case "Radio":
+                            nama="Radio";
+                            program="Program";
+                        break;
+                    default:
+                            nama="TV";
+                            program="Program";
+                        break;
+                }
+
+                el+='<ul style="list-style-type:none">'+
+                    '<li>*1. Official* Account *All '+nama+'* By *Total Followers*'+
+                        '<div id="officalAccountAllTvByTotalFollowers"></div>'+
+                    '</li>'+
+                    '<li>*2. Group Official* Account by *Total Followers*'+
+                        '<div id="groupOfficialAccountByTotalFollowers"></div>'+
+                    '</li>';
+
+                    if(typeunit!="Radio"){
+                        el+='<li>*3. Group Overall* Accounts ( Official + '+program+' ) by *Total Followers*'+
+                            '<div id="groupOverallAccount"></div>'+
+                        '</li>'+
+                        '<li>*4. Program* Accounts *ALL '+nama+'* by *Additional Followers* from yesterday'+
+                            '<div id="programAccountAllTv"></div>'+
+                        '</li>';
+                    }
+                    
+                    if(typeunit=="TV"){
+                        el+="<li>*5. 4TV's* Followers *Achievement below 50%*"+
+                            '<div id="tvAchievementbelow50"></div>'+
+                        '</li>';
+                    }
+
+                    if(typeunit=="TV"){
+                        el+="<li>*6. Our 4TV's* Followers *Official Accounts* for those *Achievement above 50%*"+
+                            '<div id="tvAchievementabove50"></div>'+
+                            '<br>'+
+                        '</li>';
+                    }
+                    
+                el+='</ul>';
+
+                $("#showListData").empty().html(el);
                 officialAccountAllTvByTotalFollowers();
                 groupOfficialAccountByTotalFollowers();
                 groupOverallAccount();
                 programAccountAllTv();
-                tvAchievementbelow50();
-                tvAchievementabove50();
+                
+                if(typeunit=="TV"){
+                    tvAchievementbelow50();
+                    tvAchievementabove50();
+                }
             })
 
             showAllGrowthProgram();
