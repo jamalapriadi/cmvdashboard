@@ -76,10 +76,10 @@ class BusinessunitController extends Controller
     public function store(Request $request){
         $rules=[
             'name'=>'required|max:30',
-            'group'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
-            'type'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'group'=>'required|max:30',
+            'type'=>'required|max:30',
             'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
+            'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -162,10 +162,10 @@ class BusinessunitController extends Controller
     public function update(Request $request,$id){
         $rules=[
             'name'=>'required|max:30',
-            'group'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
-            'type'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'group'=>'required|max:30',
+            'type'=>'required|max:30',
             'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
+            'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
