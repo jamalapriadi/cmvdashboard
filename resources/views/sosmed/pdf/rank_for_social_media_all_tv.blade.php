@@ -37,38 +37,38 @@
             @if($row->id==4)
                 <h1 class="text-center">
                     @if($typeunit=="Publisher")
-                        HARDNEWS PUBLISHER YOUTUBE REPORT
+                        RANK FOR HARDNEWS PUBLISHER YOUTUBE REPORT
                     @else 
-                        {{strtoupper($typeunit)}} YOUTUBE REPORT
+                        RANK FOR {{strtoupper($typeunit)}} YOUTUBE REPORT
                     @endif
                 </h1>
             @else 
                 <h1 class="text-center">
                     @if($typeunit=="Publisher")
-                        HARDNEWS PUBLISHER {{strtoupper($row->sosmed_name)}} REPORT
+                        RANK FOR HARDNEWS PUBLISHER {{strtoupper($row->sosmed_name)}} REPORT
                     @else 
-                        {{strtoupper($typeunit)}} {{strtoupper($row->sosmed_name)}} REPORT
+                        RANK FOR {{strtoupper($typeunit)}} {{strtoupper($row->sosmed_name)}} REPORT
                     @endif
                 </h1>
             @endif
         @endforeach
     @elseif(count($sosmed)>3)
         @if($typeunit=="TV")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE DAILY REPORT</h1>
+            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE DAILY REPORT</h1>
         @elseif($typeunit=="Radio")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
+            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="Publisher")
-            <h1 class="text-center">HARDNEWS PUBLISHER SOCMED & YOUTUBE REPORT</h1>
+            <h1 class="text-center">RANK FOR HARDNEWS PUBLISHER SOCMED & YOUTUBE REPORT</h1>
         @else
 
         @endif
     @else 
         @if($typeunit=="TV")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED DAILY REPORT</h1>
+            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED DAILY REPORT</h1>
         @elseif($typeunit=="Radio")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED REPORT</h1>
+            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @elseif($typeunit=="Publisher")
-            <h1 class="text-center">HARDNEWS PUBLISHER SOCMED REPORT</h1>
+            <h1 class="text-center">RANK FOR HARDNEWS PUBLISHER SOCMED REPORT</h1>
         @else
 
         @endif
@@ -193,6 +193,7 @@
                                     $ttw=$ins->tw_sekarang+$row->tw_sekarang;
                                     $tfb=$ins->fb_sekarang+$row->fb_sekarang;
                                     $tig=$ins->ig_sekarang+$row->ig_sekarang;
+                                    $tyt=$ins->yt_sekarang+$row->yt_sekarang;
                                 ?>
 
                                 @foreach($sosmed as $sos)
@@ -243,6 +244,7 @@
                             $ttw=$row->tw_sekarang;
                             $tfb=$row->fb_sekarang;
                             $tig=$row->ig_sekarang;
+                            $tyt=$row->yt_sekarang;
                         ?>
 
                         @foreach($sosmed as $sos)
@@ -250,8 +252,8 @@
                                 @if(($rankTw[$ttw] + 1)==1 || ($rankTw[$ttw] + 1)==2 || ($rankTw[$ttw] + 1)==3)
                                     <?php 
                                         $colorTw="#f4a018"; 
-                                        $ttw=$row->tw_sekarang+$ins->tw_sekarang;
-                                        $growth_tw=$row->growth_tw+$ins->growth_tw;
+                                        $ttw=$row->tw_sekarang;
+                                        $growth_tw=$row->growth_tw;
                                     ?>
                                 @endif
                             @endif
@@ -260,8 +262,8 @@
                                 @if(($rankFb[$tfb] + 1)==1 || ($rankFb[$tfb] + 1)==2 || ($rankFb[$tfb] + 1)==3)
                                     <?php 
                                         $colorFb="#f4a018"; 
-                                        $tfb=$row->fb_sekarang+$ins->fb_sekarang;
-                                        $growth_fb=$row->growth_fb+$ins->growth_fb;
+                                        $tfb=$row->fb_sekarang;
+                                        $growth_fb=$row->growth_fb;
                                     ?>
                                 @endif
                             @endif
@@ -270,8 +272,8 @@
                                 @if(($rankIg[$tig] + 1)==1 || ($rankIg[$tig] + 1)==2 || ($rankIg[$tig] + 1)==3)
                                     <?php 
                                         $colorIg="#f4a018"; 
-                                        $tig=$row->ig_sekarang+$ins->ig_sekarang;
-                                        $growth_ig=$row->growth_ig+$ins->growth_ig;
+                                        $tig=$row->ig_sekarang;
+                                        $growth_ig=$row->growth_ig;
                                     ?>
                                 @endif
                             @endif
@@ -280,8 +282,8 @@
                                 @if(($rankYt[$tyt] + 1)==1 || ($rankYt[$tyt] + 1)==2 || ($rankYt[$tyt] + 1)==3)
                                     <?php 
                                         $colorYt="#f4a018"; 
-                                        $tyt=$row->yt_sekarang+$ins->yt_sekarang;
-                                        $growth_yt=$row->growth_yt+$ins->growth_yt;
+                                        $tyt=$row->yt_sekarang;
+                                        $growth_yt=$row->growth_yt;
                                     ?>
                                 @endif
                             @endif
@@ -1262,6 +1264,8 @@
             @endforeach
         </tbody>
     </table>
+
+    @if($typeunit!="Radio")
     <div class="page-break"></div>
 
     <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
@@ -1739,7 +1743,7 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @else {{strtoupper($typeunit)}} @endif <span style="color:red">BY % GROWTH FROM YESTERDAY</span></h3>
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL TV <span style="color:red">BY % GROWTH FROM YESTERDAY</span></h3>
     <br>
     <?php 
         $arrTw8=array();
@@ -1838,5 +1842,6 @@
             @endforeach
         </tbody>
     </table>
+    @endif
 </body>
 </html>

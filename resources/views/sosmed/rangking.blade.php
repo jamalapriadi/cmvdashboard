@@ -1150,19 +1150,19 @@
                         el+='<li>*3. Group Overall* Accounts ( Official + '+program+' ) by *Total Followers*'+
                             '<div id="groupOverallAccount"></div>'+
                         '</li>'+
-                        '<li>*4. Program* Accounts *ALL '+nama+'* by *Additional Followers* from yesterday'+
+                        '<li>*4. '+program+'* Accounts *ALL '+nama+'* by *Additional Followers* from yesterday'+
                             '<div id="programAccountAllTv"></div>'+
                         '</li>';
                     }
                     
                     if(typeunit=="TV"){
-                        el+="<li>*5. 4TV's* Followers *Achievement below 50%*"+
-                            '<div id="tvAchievementbelow50"></div>'+
-                        '</li>';
+                        // el+="<li>*5. 4TV's* Followers *Achievement below 50%*"+
+                        //     '<div id="tvAchievementbelow50"></div>'+
+                        // '</li>';
                     }
 
                     if(typeunit=="TV"){
-                        el+="<li>*6. Our 4TV's* Followers *Official Accounts* for those *Achievement above 50%*"+
+                        el+="<li>*5. Our 4TV's* Followers *Official Accounts* for those *Achievement above 50%*"+
                             '<div id="tvAchievementabove50"></div>'+
                             '<br>'+
                         '</li>';
@@ -1177,7 +1177,7 @@
                 programAccountAllTv();
                 
                 if(typeunit=="TV"){
-                    tvAchievementbelow50();
+                    // tvAchievementbelow50();
                     tvAchievementabove50();
                 }
             })

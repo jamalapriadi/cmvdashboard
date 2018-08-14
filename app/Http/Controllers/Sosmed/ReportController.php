@@ -1954,7 +1954,8 @@ class ReportController extends Controller
     public function highlight_of_official_account_all_tv(Request $request){
         $rules=[
             'tanggal'=>'date',
-            'kemarin'=>'nullable|date'
+            'kemarin'=>'nullable|date',
+            'typeunit'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -2152,7 +2153,8 @@ class ReportController extends Controller
         $rules=[
             'tanggal'=>'date',
             'kemarin'=>'nullable|date',
-            'group'=>'alpha_num'
+            'group'=>'alpha_num',
+            'typeunit'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -2200,6 +2202,28 @@ class ReportController extends Controller
             $typeunit="TV";
         }
 
+        switch($typeunit){
+            case "TV":
+                    $filtergroup="where a.id in(1,2,3,4,5)";
+                    $othergroup=5;
+                break;
+            case "Publisher":
+                    $filtergroup="where a.id in(1,3,9,10,11,12)";
+                    $othergroup=12;
+                break;
+            case "Radio":
+                    $filtergroup="where a.id in(6,7,8,9)";
+                    $othergroup=5;
+                break;
+            case "KOL":
+                    $filtergroup="";
+                break;  
+            default:
+                    $filtergroup="";
+                    $othergroup=5;
+                break;
+        }
+
         $group=\DB::select("select a.id, a.group_name,d.tanggal,
             sum(if(c.sosmed_id=1 and d.tanggal='$kemarin',d.follower,0)) as tw_kemarin,
             sum(if(c.sosmed_id=1 and d.tanggal='$sekarang',d.follower,0)) as tw_sekarang,
@@ -2221,6 +2245,7 @@ class ReportController extends Controller
             left join business_unit b on b.group_unit_id=a.id and b.type_unit='$typeunit'
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
+            $filtergroup
             group by a.id");
 
         $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
@@ -2283,7 +2308,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.group_unit_id=5 and a.type_unit='$typeunit'
+                where a.group_unit_id=$othergroup and a.type_unit='$typeunit'
                 group by a.group_unit_id,a.id
             ) as terjadi
             group by terjadi.group_id,terjadi.id");
@@ -2296,15 +2321,23 @@ class ReportController extends Controller
         $arrYt=array();
         foreach($group as $k){
             if($k->id==1){
-                foreach($tambahanInews as $in){
-                    if($in->id=="TOTAL"){
-                        array_push($arrTw,($in->tw_sekarang+$k->tw_sekarang));
-                        array_push($arrFb,($in->fb_sekarang+$k->fb_sekarang));
-                        array_push($arrIg,($in->ig_sekarang+$k->ig_sekarang));        
-                        array_push($arrYt,($in->yt_sekarang+$k->yt_sekarang));        
+                if($typeunit=="TV"){
+                    foreach($tambahanInews as $in){
+                        if($in->id=="TOTAL"){
+                            array_push($arrTw,($in->tw_sekarang+$k->tw_sekarang));
+                            array_push($arrFb,($in->fb_sekarang+$k->fb_sekarang));
+                            array_push($arrIg,($in->ig_sekarang+$k->ig_sekarang));        
+                            array_push($arrYt,($in->yt_sekarang+$k->yt_sekarang));        
+                        }
                     }
+                }else{
+                    array_push($arrTw,$k->tw_sekarang);
+                    array_push($arrFb,$k->fb_sekarang);
+                    array_push($arrIg,$k->ig_sekarang);
+                    array_push($arrYt,$k->yt_sekarang);    
                 }
-            }else if($k->id==5){
+                
+            }else if($k->id==5 || $k->id==12){
                 foreach($tambahanOverAllTvOthers as $ro){
                     array_push($arrTw,$ro->total_tw_sekarang);
                     array_push($arrFb,$ro->total_fb_sekarang);
@@ -2335,41 +2368,74 @@ class ReportController extends Controller
 
         foreach($group as $row){
             if($row->id==1){
-                foreach($tambahanInews as $in){
-                    if($in->id=="TOTAL"){
-                        $data[]=array(
-                            'id'=>$row->id,
-                            'group_name'=>$row->group_name,
-                            'follower'=>array(
-                                'tw'=>1,
-                                'tw_sekarang'=>($in->tw_sekarang+$row->tw_sekarang),
-                                'tw_kemarin'=>($in->tw_kemarin+$row->tw_kemarin),
-                                'growth_tw'=>number_format((($in->tw_sekarang+$row->tw_sekarang) / ($in->tw_kemarin+$row->tw_kemarin) -1)*100,4),
-                                'num_of_growth_tw'=>(($in->tw_sekarang+$row->tw_sekarang) - ($in->tw_kemarin+$row->tw_kemarin)),
-                                'rank_tw'=>($rankTw[($in->tw_sekarang+$row->tw_sekarang)]+1),
-                                'fb'=>2,
-                                'fb_sekarang'=>($in->fb_sekarang+$row->fb_sekarang),
-                                'fb_kemarin'=>($in->fb_kemarin+$row->fb_kemarin),
-                                'growth_fb'=>number_format((($in->fb_sekarang+$row->fb_sekarang) / ($in->fb_kemarin+$row->fb_kemarin) -1)*100,4),
-                                'num_of_growth_fb'=>(($in->fb_sekarang+$row->fb_sekarang) - ($in->fb_kemarin+$row->fb_kemarin)),
-                                'rank_fb'=>($rankFb[($in->fb_sekarang+$row->fb_sekarang)]+1),
-                                'ig'=>3,
-                                'ig_sekarang'=>($in->ig_sekarang+$row->ig_sekarang),
-                                'ig_kemarin'=>($in->ig_kemarin+$row->ig_kemarin),
-                                'growth_ig'=>number_format((($in->ig_sekarang+$row->ig_sekarang) / ($in->ig_kemarin+$row->ig_kemarin) -1)*100,4),
-                                'num_of_growth_ig'=>(($in->ig_sekarang+$row->ig_sekarang) - ($in->ig_kemarin+$row->ig_kemarin)),
-                                'rank_ig'=>($rankIg[($in->ig_sekarang+$row->ig_sekarang)]+1),
-                                'yt'=>4,
-                                'yt_sekarang'=>($in->yt_sekarang+$row->yt_sekarang),
-                                'yt_kemarin'=>($in->yt_kemarin+$row->yt_kemarin),
-                                'growth_yt'=>number_format((($in->yt_sekarang+$row->yt_sekarang) / ($in->yt_kemarin+$row->yt_kemarin) -1)*100,4),
-                                'num_of_growth_yt'=>(($in->yt_sekarang+$row->yt_sekarang) - ($in->yt_kemarin+$row->yt_kemarin)),
-                                'rank_yt'=>($rankYt[($in->yt_sekarang+$row->yt_sekarang)]+1)
-                            )
-                        );
+                if($typeunit=="TV"){
+                    foreach($tambahanInews as $in){
+                        if($in->id=="TOTAL"){
+                            $data[]=array(
+                                'id'=>$row->id,
+                                'group_name'=>$row->group_name,
+                                'follower'=>array(
+                                    'tw'=>1,
+                                    'tw_sekarang'=>($in->tw_sekarang+$row->tw_sekarang),
+                                    'tw_kemarin'=>($in->tw_kemarin+$row->tw_kemarin),
+                                    'growth_tw'=>number_format((($in->tw_sekarang+$row->tw_sekarang) / ($in->tw_kemarin+$row->tw_kemarin) -1)*100,4),
+                                    'num_of_growth_tw'=>(($in->tw_sekarang+$row->tw_sekarang) - ($in->tw_kemarin+$row->tw_kemarin)),
+                                    'rank_tw'=>($rankTw[($in->tw_sekarang+$row->tw_sekarang)]+1),
+                                    'fb'=>2,
+                                    'fb_sekarang'=>($in->fb_sekarang+$row->fb_sekarang),
+                                    'fb_kemarin'=>($in->fb_kemarin+$row->fb_kemarin),
+                                    'growth_fb'=>number_format((($in->fb_sekarang+$row->fb_sekarang) / ($in->fb_kemarin+$row->fb_kemarin) -1)*100,4),
+                                    'num_of_growth_fb'=>(($in->fb_sekarang+$row->fb_sekarang) - ($in->fb_kemarin+$row->fb_kemarin)),
+                                    'rank_fb'=>($rankFb[($in->fb_sekarang+$row->fb_sekarang)]+1),
+                                    'ig'=>3,
+                                    'ig_sekarang'=>($in->ig_sekarang+$row->ig_sekarang),
+                                    'ig_kemarin'=>($in->ig_kemarin+$row->ig_kemarin),
+                                    'growth_ig'=>number_format((($in->ig_sekarang+$row->ig_sekarang) / ($in->ig_kemarin+$row->ig_kemarin) -1)*100,4),
+                                    'num_of_growth_ig'=>(($in->ig_sekarang+$row->ig_sekarang) - ($in->ig_kemarin+$row->ig_kemarin)),
+                                    'rank_ig'=>($rankIg[($in->ig_sekarang+$row->ig_sekarang)]+1),
+                                    'yt'=>4,
+                                    'yt_sekarang'=>($in->yt_sekarang+$row->yt_sekarang),
+                                    'yt_kemarin'=>($in->yt_kemarin+$row->yt_kemarin),
+                                    'growth_yt'=>number_format((($in->yt_sekarang+$row->yt_sekarang) / ($in->yt_kemarin+$row->yt_kemarin) -1)*100,4),
+                                    'num_of_growth_yt'=>(($in->yt_sekarang+$row->yt_sekarang) - ($in->yt_kemarin+$row->yt_kemarin)),
+                                    'rank_yt'=>($rankYt[($in->yt_sekarang+$row->yt_sekarang)]+1)
+                                )
+                            );
+                        }
                     }
+                }else{
+                    $data[]=array(
+                        'id'=>$row->id,
+                        'group_name'=>$row->group_name,
+                        'follower'=>array(
+                            'tw'=>1,
+                            'tw_sekarang'=>$row->tw_sekarang,
+                            'tw_kemarin'=>$row->tw_kemarin,
+                            'growth_tw'=>$row->growth_tw,
+                            'num_of_growth_tw'=>$row->num_of_growth_tw,
+                            'rank_tw'=>($rankTw[$row->tw_sekarang]+1),
+                            'fb'=>2,
+                            'fb_sekarang'=>$row->fb_sekarang,
+                            'fb_kemarin'=>$row->fb_kemarin,
+                            'growth_fb'=>$row->growth_fb,
+                            'num_of_growth_fb'=>$row->num_of_growth_fb,
+                            'rank_fb'=>($rankFb[$row->fb_sekarang]+1),
+                            'ig'=>3,
+                            'ig_sekarang'=>$row->ig_sekarang,
+                            'ig_kemarin'=>$row->ig_kemarin,
+                            'growth_ig'=>$row->growth_ig,
+                            'num_of_growth_ig'=>$row->num_of_growth_ig,
+                            'rank_ig'=>($rankIg[$row->ig_sekarang]+1),
+                            'yt'=>4,
+                            'yt_sekarang'=>$row->yt_sekarang,
+                            'yt_kemarin'=>$row->yt_kemarin,
+                            'growth_yt'=>$row->growth_yt,
+                            'num_of_growth_yt'=>$row->num_of_growth_yt,
+                            'rank_yt'=>($rankYt[$row->yt_sekarang]+1)
+                        )
+                    );
                 }
-            }else if($row->id==5){
+            }else if($row->id==5 || $row->id==12){
                 foreach($tambahanOverAllTvOthers as $ro){
                     $data[]=array(
                         'id'=>$ro->id,
@@ -2443,7 +2509,8 @@ class ReportController extends Controller
         $rules=[
             'tanggal'=>'date',
             'kemarin'=>'nullable|date',
-            'group'=>'alpha_num'
+            'group'=>'alpha_num',
+            'typeunit'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -2489,6 +2556,28 @@ class ReportController extends Controller
             $typeunit=$request->input('typeunit');
         }else{
             $typeunit="TV";
+        }
+
+        switch($typeunit){
+            case "TV":
+                    $filtergroup="where a.id in(1,2,3,4,5)";
+                    $othergroup=5;
+                break;
+            case "Publisher":
+                    $filtergroup="where a.id in(1,3,9,10,11,12)";
+                    $othergroup=12;
+                break;
+            case "Radio":
+                    $filtergroup="where a.id in(6,7,8,9)";
+                    $othergroup=5;
+                break;
+            case "KOL":
+                    $filtergroup="";
+                break;  
+            default:
+                    $filtergroup="";
+                    $othergroup=5;
+                break;
         }
 
         $group=\DB::select("select terjadi.group_unit_id,terjadi.group_name,
@@ -2583,7 +2672,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.group_unit_id=5
+                where a.group_unit_id=$othergroup
                 and a.type_unit='$typeunit'
                 group by a.group_unit_id,a.id
                 union all 
@@ -2602,7 +2691,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.group_unit_id=5 and a.type_unit='$typeunit'
+                where a.group_unit_id=$othergroup and a.type_unit='$typeunit'
                 group by a.group_unit_id,a.id
             ) as terjadi
             group by terjadi.group_id,terjadi.id");
@@ -2614,7 +2703,7 @@ class ReportController extends Controller
         $arrIg=array();
         $arrYt=array();
         foreach($group as $k){
-            if($k->group_unit_id==5){
+            if($k->group_unit_id==5 || $k->group_unit_id==12){
                 foreach($tambahanOverAllTvOthers as $ro){
                     array_push($arrTw,$ro->total_tw_sekarang);
                     array_push($arrFb,$ro->total_fb_sekarang);
@@ -2644,7 +2733,7 @@ class ReportController extends Controller
         $rankYt=array_flip($rankYt);
 
         foreach($group as $row){
-            if($row->group_unit_id==5){
+            if($row->group_unit_id==5 || $row->group_unit_id==12){
                 foreach($tambahanOverAllTvOthers as $ro){
                     $data[]=array(
                         'id'=>$ro->id,
@@ -2719,7 +2808,8 @@ class ReportController extends Controller
         $rules=[
             'tanggal'=>'date',
             'kemarin'=>'nullable|date',
-            'group'=>'alpha_num'
+            'group'=>'alpha_num',
+            'typeunit'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -2759,6 +2849,32 @@ class ReportController extends Controller
             $typeunit=$request->input('typeunit');
         }else{
             $typeunit="TV";
+        }
+
+        switch($typeunit){
+            case "TV":
+                    $filtergroup="where e.group_unit_id in(1,2,3,4,5)  and b.id not in (89, 101, 95, 87)";
+                    $othergroup=5;
+                break;
+            case "Publisher":
+                    $filtergroup="where e.group_unit_id in(1,3,9,10,11,12)";
+                    $othergroup=12;
+                    $filtertv="";
+                break;
+            case "Radio":
+                    $filtergroup="where e.group_unit_id in(6,7,8,9)";
+                    $othergroup=5;
+                    $filtertv="";
+                break;
+            case "KOL":
+                    $filtergroup="";
+                    $filtertv="";
+                break;  
+            default:
+                    $filtergroup="";
+                    $othergroup=5;
+                    $filtertv="";
+                break;
         }
 
         $program=\DB::select("select b.id,e.unit_name, b.program_name,  
@@ -2818,7 +2934,7 @@ class ReportController extends Controller
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit as e on e.id=b.business_unit_id and e.type_unit='$typeunit'
-            where b.id not in (89, 101, 95, 87)
+            $filtergroup
             group by b.id");
 
         $arrTw=array();
@@ -2884,7 +3000,8 @@ class ReportController extends Controller
         $rules=[
             'tanggal'=>'date',
             'kemarin'=>'nullable|date',
-            'group'=>'alpha_num'
+            'group'=>'alpha_num',
+            'typeunit'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -2932,6 +3049,32 @@ class ReportController extends Controller
             $typeunit='TV';
         }
 
+        switch($typeunit){
+            case "TV":
+                    $filtergroup="and a.group_unit_id in(1,2,3,4,5)";
+                    $othergroup=5;
+                break;
+            case "Publisher":
+                    $filtergroup="and a.group_unit_id in(1,3,9,10,11,12)";
+                    $othergroup=12;
+                    $filtertv="";
+                break;
+            case "Radio":
+                    $filtergroup="and a.group_unit_id in(6,7,8,9)";
+                    $othergroup=5;
+                    $filtertv="";
+                break;
+            case "KOL":
+                    $filtergroup="";
+                    $filtertv="";
+                break;  
+            default:
+                    $filtergroup="";
+                    $othergroup=5;
+                    $filtertv="";
+                break;
+        }
+
         $target=\DB::select("select a.id, a.group_unit_id, a.unit_name, b.target_use, 
             sum(if(b.sosmed_id=1, c.target,0)) as target_tw,
             sum(if(d.tanggal='$sekarang' and b.sosmed_id=1, d.follower,0)) as follower_tw,
@@ -2949,7 +3092,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_target c on c.unit_sosmed_id=b.id
             left join unit_sosmed_follower d on d.unit_sosmed_id=b.id and d.tanggal='$sekarang'
-            where a.type_unit='$typeunit'
+            where a.type_unit='$typeunit' $filtergroup
             GROUP by a.id");
 
         $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
