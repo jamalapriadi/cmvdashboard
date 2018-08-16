@@ -131,6 +131,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
 
             Route::get('pdf-rank-for-sosical-media-all-tv','Sosmed\ReportController@pdf_rank_for_social_media_all_tv');
             Route::get('pdf-sosmed-daily-report','Sosmed\ReportController@pdf_sosmed_daily_report');
+            Route::get('pdf-sosmed-daily-report-by-group','Sosmed\ReportController@pdf_sosmed_daily_report_by_group');
 
             /* highlight */
             Route::get('highlight-of-official-account-all-tv','Sosmed\ReportController@highlight_of_official_account_all_tv');

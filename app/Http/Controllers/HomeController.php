@@ -171,11 +171,13 @@ class HomeController extends Controller
             }
 
             $sosmed=\App\Models\Sosmed\Sosmed::all();
+            $group=\App\Models\Sosmed\Groupunit::all();
     
             return view('sosmed.daily_report')
                 ->with('sekarang',$sekarang)
                 ->with('kemarin',$kemarin)
-                ->with('sosmed',$sosmed);
+                ->with('sosmed',$sosmed)
+                ->with('group',$group);
         }
 
         return abort('403');
