@@ -358,6 +358,7 @@
             @php 
                 $listprogram=array();
                 $listtotal=array();
+                $total2=array();
             @endphp
             @foreach($overallOfficialTv as $key=>$of)
                 @if($of->id=="SUBTOTAL")
@@ -378,6 +379,18 @@
                                 $nama=$of->group_name." ".$key;
                             }
                             $color="background:#f2eff2;color:#222;font-weight:700";
+
+                            $total2[]=array(
+                                'nama'=>'Total MNC Group',
+                                'tw_kemarin'=>$of->total_tw_kemarin,
+                                'tw_sekarang'=>$of->total_tw_sekarang,
+                                'fb_kemarin'=>$of->total_fb_kemarin,
+                                'fb_sekarang'=>$of->total_fb_sekarang,
+                                'ig_kemarin'=>$of->total_ig_kemarin,
+                                'ig_sekarang'=>$of->total_ig_sekarang,
+                                'yt_kemarin'=>$of->total_yt_kemarin,
+                                'yt_sekarang'=>$of->total_yt_sekarang
+                            );
                         ?>
 
                         <!--tampilkan totalnya kecuali yang dari group others -->
@@ -492,6 +505,28 @@
                     @endforeach
                 </tr>
             @endforeach
+
+            @php 
+                $pertama2=0;
+                $kedua2=0;
+                $ketiga2=0;
+                $keempat2=0;
+            @endphp
+            @foreach($total2 as $key=>$val)
+                @php 
+                    $pertama2+=$val['tw_sekarang'];
+                    $kedua2+=$val['fb_sekarang'];
+                    $ketiga2+=$val['ig_sekarang'];
+                    $keempat2+=$val['yt_sekarang'];
+                @endphp 
+            @endforeach
+            <tr style="background:#419F51;color:white;font-weight:700">
+                <td>TOTAL MNC GROUP</td>
+                <td>{{number_format($pertama2)}}</td>
+                <td>{{number_format($kedua2)}}</td>
+                <td>{{number_format($ketiga2)}}</td>
+                <td>{{number_format($keempat2)}}</td>
+            </tr>
         </tbody>
     </table>
 </body>
