@@ -81,7 +81,7 @@
     <div class="page-break"></div>
 
 
-    <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @else {{strtoupper($typeunit)}} @endif</h3>
+    <h3 class="text-center">OFFICIAL ACCOUNT ALL MNC GROUP</h3>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
@@ -341,7 +341,7 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">OVERALL ALL  {{strtoupper($typeunit)}} ( OFFICIAL & @if($typeunit=="Publisher") CANAL @else PROGRAM @endif )</h3>
+    <h3 class="text-center">OVERALL ALL  MNC GROUP</h3>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
