@@ -97,7 +97,7 @@
         @endforeach
     @elseif(count($sosmed)>3)
         @if($typeunit=="TV")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE DAILY REPORT</h1>
+            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="Radio")
             <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="Publisher")
