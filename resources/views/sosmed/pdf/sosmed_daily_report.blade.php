@@ -220,6 +220,7 @@
         @endforeach
     @endif
 
+    @if($typeunit=="TV" || $typeunit=="Publisher")
     <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @else {{strtoupper($typeunit)}} @endif</h3>
     <br>
     <table class="table table-striped table-bordered">
@@ -237,14 +238,18 @@
                     @endif
                 </th>
                 @foreach($sosmed as $row)
-                    <th colspan='3' width="20%" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    @if($row->id==1 || $row->id==2 || $row->id==3)
+                        <th colspan='3' width="20%" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    @endif
                 @endforeach
             </tr>
             <tr>
                 @foreach($sosmed as $row)
-                <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
-                <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-                <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
+                    @if($row->id==1 || $row->id==2 || $row->id==3)
+                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
+                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
+                    @endif
                 @endforeach
             </tr>
         </thead>
@@ -288,9 +293,9 @@
                                     <td colspan="3" class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{number_format(($of->ig_sekarang+$satu_ig)/13)}}</td>
                                 @endif
 
-                                @if($row->id==4)
+                                <!-- @if($row->id==4)
                                     <td colspan="3" class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{number_format(($of->yt_sekarang+$satu_yt)/13)}}</td>
-                                @endif
+                                @endif -->
                             @endforeach
                         </tr>
                     @else    
@@ -343,7 +348,7 @@
                                             </td>
                                         @endif
 
-                                        @if($row->id==4)
+                                        <!-- @if($row->id==4)
                                             <td>{{number_format($of->yt_kemarin)}}</td>
                                             <td>{{number_format($of->yt_sekarang)}}</td>
                                             <td>
@@ -353,7 +358,7 @@
                                                     <a style="color:red;"> {{round($of->growth_yt,2)}} % </a>
                                                 @endif
                                             </td>
-                                        @endif
+                                        @endif -->
                                     @endforeach
                                 </tr>
                             @endif
@@ -403,7 +408,7 @@
                                                 </td>
                                             @endif
 
-                                            @if($row->id==4)
+                                            <!-- @if($row->id==4)
                                                 <td>{{number_format($tambahanInews[$a]->yt_kemarin+$of->yt_kemarin)}}</td>
                                                 <td>{{number_format($tambahanInews[$a]->yt_sekarang+$of->yt_sekarang)}}</td>
                                                 <td>
@@ -413,7 +418,7 @@
                                                         <a style="color:red;"> {{round($of->growth_yt,2)}} % </a>
                                                     @endif
                                                 </td>
-                                            @endif
+                                            @endif -->
                                         @endforeach
                                     </tr>
                                 @endif
@@ -463,7 +468,7 @@
                                                 </td>
                                             @endif
 
-                                            @if($row->id==4)
+                                            <!-- @if($row->id==4)
                                                 <td>{{number_format($of->yt_kemarin)}}</td>
                                                 <td>{{number_format($of->yt_sekarang)}}</td>
                                                 <td>
@@ -473,7 +478,7 @@
                                                         <a style="color:red;"> {{round($of->growth_yt,2)}} % </a>
                                                     @endif
                                                 </td>
-                                            @endif
+                                            @endif -->
                                         @endforeach
                                     </tr>
                                 @endif
@@ -531,7 +536,7 @@
                                             </td>
                                         @endif
 
-                                        @if($row->id==4)
+                                        <!-- @if($row->id==4)
                                             <td>{{number_format($tambahanInews[$a]->yt_kemarin+$of->yt_kemarin)}}</td>
                                             <td>{{number_format($tambahanInews[$a]->yt_sekarang+$of->yt_sekarang)}}</td>
                                             <td>
@@ -541,7 +546,7 @@
                                                     <a style="color:red;"> {{round($tambahanInews[$a]->growth_yt,2)}} % </a>
                                                 @endif
                                             </td>
-                                        @endif
+                                        @endif -->
                                     @endforeach
                                 </tr>
                             @endif
@@ -589,7 +594,7 @@
                                     </td>
                                 @endif
 
-                                @if($row->id==4)
+                                <!-- @if($row->id==4)
                                     <td>{{number_format($of->yt_kemarin)}}</td>
                                     <td>{{number_format($of->yt_sekarang)}}</td>
                                     <td>
@@ -599,7 +604,7 @@
                                             <a style="color:red;"> {{round($of->growth_yt,2)}} % </a>
                                         @endif
                                     </td>
-                                @endif
+                                @endif -->
                             @endforeach
                         </tr>
                     @endif
@@ -647,7 +652,7 @@
                                             </td>
                                         @endif
 
-                                        @if($row->id==4)
+                                        <!-- @if($row->id==4)
                                             <td>{{number_format($t->yt_kemarin)}}</td>
                                             <td>{{number_format($t->yt_sekarang)}}</td>
                                             <td>
@@ -657,7 +662,7 @@
                                                     <a style="color:red;"> {{round($t->growth_yt,2)}} % </a>
                                                 @endif
                                             </td>
-                                        @endif
+                                        @endif -->
                                     @endforeach
                                 </tr>
                             @endif
@@ -670,8 +675,8 @@
         </tbody>
     </table>
     <div class="page-break"></div>
-
-    @if($typeunit=="TV" || $typeunit=="Publisher")
+    @endif
+    
     <h3 class="text-center">OVERALL ALL  {{strtoupper($typeunit)}} ( OFFICIAL & @if($typeunit=="Publisher") CANAL @else PROGRAM @endif )</h3>
     <br>
     <table class="table table-striped table-bordered">
@@ -868,6 +873,7 @@
     </table>
     <div class="page-break"></div>
 
+    @if($typeunit=="TV" || $typeunit=="Publisher")
     <h3 class="text-center">OFFICIAL & PROGRAM MNC GROUP</h3>
     <br>
     <table class='table table-striped table-bordered'>

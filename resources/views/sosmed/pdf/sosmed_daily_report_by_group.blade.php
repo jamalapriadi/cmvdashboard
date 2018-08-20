@@ -98,7 +98,9 @@
                     @endif
                 </th>
                 @foreach($sosmed as $row)
-                    <th width="20%" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    @if($row->id!=4)
+                        <th width="20%" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    @endif
                 @endforeach
             </tr>
         </thead>
@@ -157,9 +159,9 @@
                                             <td>{{number_format($of->ig_sekarang)}}</td>
                                         @endif
 
-                                        @if($row->id==4)
+                                        <!-- @if($row->id==4)
                                             <td>{{number_format($of->yt_sekarang)}}</td>
-                                        @endif
+                                        @endif -->
                                     @endforeach
                                 </tr>
                             @endif
@@ -185,9 +187,9 @@
                                                 <td>{{number_format($tambahanInews[$a]->ig_sekarang+$of->ig_sekarang)}}</td>
                                             @endif
 
-                                            @if($row->id==4)
+                                            <!-- @if($row->id==4)
                                                 <td>{{number_format($tambahanInews[$a]->yt_sekarang+$of->yt_sekarang)}}</td>
-                                            @endif
+                                            @endif -->
                                         @endforeach
                                     </tr>
                                 @endif
@@ -213,9 +215,9 @@
                                                 <td>{{number_format($of->ig_sekarang)}}</td>
                                             @endif
 
-                                            @if($row->id==4)
+                                            <!-- @if($row->id==4)
                                                 <td>{{number_format($of->yt_sekarang)}}</td>
-                                            @endif
+                                            @endif -->
                                         @endforeach
                                     </tr>
                                 @endif
@@ -251,9 +253,9 @@
                                             <td>{{number_format($tambahanInews[$a]->ig_sekarang+$of->ig_sekarang)}}</td>
                                         @endif
 
-                                        @if($row->id==4)
+                                        <!-- @if($row->id==4)
                                             <td>{{number_format($tambahanInews[$a]->yt_sekarang+$of->yt_sekarang)}}</td>
-                                        @endif
+                                        @endif -->
                                     @endforeach
                                 </tr>
                             @endif
@@ -277,9 +279,9 @@
                                     <td>{{number_format($of->ig_sekarang)}}</td>
                                 @endif
 
-                                @if($row->id==4)
+                                <!-- @if($row->id==4)
                                     <td>{{number_format($of->yt_sekarang)}}</td>
-                                @endif
+                                @endif -->
                             @endforeach
                         </tr>
                     @endif
@@ -303,9 +305,9 @@
                                             <td>{{number_format($t->ig_sekarang)}}</td>
                                         @endif
 
-                                        @if($row->id==4)
+                                        <!-- @if($row->id==4)
                                             <td>{{number_format($t->yt_sekarang)}}</td>
-                                        @endif
+                                        @endif -->
                                     @endforeach
                                 </tr>
                             @endif
@@ -335,7 +337,7 @@
                 <td>{{number_format($pertama)}}</td>
                 <td>{{number_format($kedua)}}</td>
                 <td>{{number_format($ketiga)}}</td>
-                <td>{{number_format($keempat)}}</td>
+                <!-- <td>{{number_format($keempat)}}</td> -->
             </tr>
         </tbody>
     </table>
