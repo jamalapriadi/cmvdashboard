@@ -60,7 +60,16 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('log/activity','HomeController@log_activity');
         Route::get('log/access-log','HomeController@access_log');
 
+        Route::get('connect/{provider}','Auth\SocialAccountController@redirectToProvider');
+        Route::get('connect/{provider}/callback','Auth\SocialAccountController@handleProviderCallback');
+
+        Route::get('login/{provider}','HomeController@connect_provider');
+
         Route::get('chart/{param}','HomeController@sosmed_chart');
+        Route::get('instagram','HomeController@sosmed_input_instagram');
+        Route::get('twitter','HomeController@sosmed_input_twitter');
+        Route::get('youtube','HomeController@sosmed_input_youtube');
+        Route::get('facebook','HomeController@sosmed_input_facebook');
     });
 
     Route::group(['prefix'=>'data'],function(){

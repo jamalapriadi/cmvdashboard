@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Youtube;
 
 class HomeController extends Controller
 {
@@ -272,5 +273,35 @@ class HomeController extends Controller
 
     public function change_password(){
         return view('user.change_password');
+    }
+
+    public function connect_provider($provider){
+        return view('sosmed.social.connect_provider')
+            ->with('provider',$provider);
+    }
+
+    public function sosmed_input_instagram(){
+        $id="jamalapriadi";
+
+        $raw = file_get_contents('https://www.instagram.com/'.$id); //replace with user
+        preg_match('/\"edge_followed_by\"\:\s?\{\"count\"\:\s?([0-9]+)/',$raw,$m);
+        echo intval($m[1]);
+    }
+
+    public function sosmed_input_twitter(){
+        $html=file_get_contents("https://twitter.com/trinastiti");
+        preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
+        echo $title = $match[1];
+    }
+
+    public function sosmed_input_youtube(){
+        return $playlists = Youtube::getPlaylistsByChannelId('UCk1SpWNzOs4MYmr0uICEntg');
+    }
+
+    public function sosmed_input_facebook(){
+        $json = file_get_contents('https://graph.facebook.com/gha16/insights/page_fans/lifetime?access_token=fae46204296e1d378701a37315ffe249');
+        $obj = json_decode($json);
+        $new_facebook_followers= $obj->data[0]->values[0]->value;
+        return $new_facebook_followers;
     }
 }
