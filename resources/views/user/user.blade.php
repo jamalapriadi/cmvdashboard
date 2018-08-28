@@ -58,7 +58,7 @@
                         {data: 'name', name: 'name',title:'Name',width:'30%'},
                         {data: 'email', name: 'email',title:'Email'},
                         {data: 'unitsosmed.unit_name', name: 'unitsosmed.unit_name',title:'Unit',width:'10%'},
-                        {data: 'action', name: 'action',title:'Action',searchable:false,width:'25%'}
+                        {data: 'action', name: 'action',title:'Action',searchable:false,width:'30%'}
                     ],
                     buttons: [
                         'copy', 'excel', 'pdf'
@@ -336,6 +336,80 @@
                     }
                 });
             });
+
+            $(document).on("click",".resetpassword",function(){
+                kode=$(this).attr("kode");
+
+                var el="";
+                el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                    '<div class="modal-dialog">'+
+                        '<form id="formResetPassword" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                            '<div class="modal-content">'+
+                                '<div class="modal-header bg-primary">'+
+                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                    '<h5 class="modal-title" id="modal-title">Form Reset Password</h5>'+
+                                '</div>'+
+
+                                '<div class="modal-body">'+
+                                    '<div id="pesan"></div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label">New Password</label>'+
+                                        '<input type="password" class="form-control" name="password" placeholder="New Password">'+
+                                    '</div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label">Password Confirm</label>'+
+                                        '<input type="password" class="form-control" name="password_confirmation" placeholder="New Password">'+
+                                    '</div>'+
+                                '</div>'+
+
+                                '<div class="modal-footer">'+
+                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                    '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
+                                '</div>'+
+                            '</div>'+
+                        '</form>'+
+                    '</div>'+
+                '</div>';
+
+                $("#divModal").empty().html(el);
+                $("#modal_default").modal("show");
+                $("#showForm").empty().html(el);
+            })
+
+            $(document).on("submit","#formResetPassword",function(e){
+                var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
+                data.append("user",kode);
+                if($("#formResetPassword")[0].checkValidity()) {
+                    //updateAllMessageForms();
+                    e.preventDefault();
+                    $.ajax({
+                        url         : "{{URL::to('sosmed/data/reset-password')}}",
+                        type        : 'post',
+                        data        : data,
+                        dataType    : 'JSON',
+                        contentType : false,
+                        cache       : false,
+                        processData : false,
+                        beforeSend  : function (){
+                            $('#pesan').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        },
+                        success : function (data) {
+                            $('#pesan').html('&nbsp;'+data.pesan);
+
+                            if(data.success==true){
+                                showData();
+                                $("#modal_default").modal("hide");
+                            }else{
+                                $("#pesan").empty().html("<pre>"+data.error+"</pre>");
+                            }
+                        },
+                        error   :function() {  
+                            $('#pesan').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                        }
+                    });
+                }else console.log("invalid form");
+            })
 
             showData();
         })

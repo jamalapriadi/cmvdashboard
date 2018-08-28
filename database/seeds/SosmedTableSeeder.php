@@ -103,6 +103,9 @@ class SosmedTableSeeder extends Seeder
                     ],
                     [
                         'sosmed_name'=>'Instagram'
+                    ],
+                    [
+                        'sosmed_name'=>'Youtube'
                     ]
                 ]
             );

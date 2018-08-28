@@ -79,6 +79,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::post('hapus-role-user','User\UserController@hapus_role_user');
         Route::get('list-user/{id}/handle-unit','User\UserController@user_handle_unit');
         Route::post('save-user-handle-unit','User\UserController@save_user_handle_unit');
+        Route::post('reset-password','User\UserController@reset_password');
     
         Route::resource('group-unit','Sosmed\GroupunitController');
         Route::get('list-group','Sosmed\GroupunitController@list_group');
@@ -130,6 +131,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
 
             Route::get('pdf-rank-for-sosical-media-all-tv','Sosmed\ReportController@pdf_rank_for_social_media_all_tv');
             Route::get('pdf-sosmed-daily-report','Sosmed\ReportController@pdf_sosmed_daily_report');
+            Route::get('pdf-sosmed-daily-report-by-group','Sosmed\ReportController@pdf_sosmed_daily_report_by_group');
 
             /* highlight */
             Route::get('highlight-of-official-account-all-tv','Sosmed\ReportController@highlight_of_official_account_all_tv');
@@ -138,6 +140,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
             Route::get('highlight-program-account-all-tv','Sosmed\ReportController@higlight_program_account_all_tv');
             Route::get('highlight-target-achivement','Sosmed\ReportController@highlight_target_achivement');
             Route::get('all-program-growth','Sosmed\ReportController@all_program_growth');
+            Route::post('sosmed-highlight','Sosmed\ReportController@sosmed_highlight');
         });
 
         Route::group(['prefix'=>'chart'],function(){

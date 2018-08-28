@@ -19,11 +19,17 @@ class UserController extends Controller
 
         $user=User::select('id','name','email','unit_id',
             \DB::raw('@rownum := @rownum + 1 AS no'))
-            ->with('unitsosmed');
+            ->with('unitsosmed')
+            ->where('id','<>',auth()->user()->id);
 
         return \Datatables::of($user)
         ->addColumn('action',function($query){
             $html="<div class='btn-group'>";
+            
+            if(auth()->user()->can('Reset Password')){
+                $html.="<a href='#' class='btn btn-sm btn-info resetpassword' kode='".$query->id."' title='Reset Password'><i class='icon-reset'></i></a>";
+            }
+
             if(auth()->user()->can('Setting Role')){
                 $html.="<a href='".\URL::to('sosmed/user/'.$query->id.'/role')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Role'><i class='icon-gear'></i></a>";
             }
@@ -352,5 +358,41 @@ class UserController extends Controller
             ->get();
 
         return $log;
+    }
+
+    public function reset_password(Request $request){
+        $rules=[
+            'user'=>'required',
+            'password'=>'required|alpha_num|min:6|max:18',
+            'password_confirmation'=>'required|same:password|alpha_num|min:6|max:18'
+        ];
+
+        $pesan=[
+            'user.required'=>'Pilih User',
+            'password.required'=>'Password harus diisi',
+            'password_confirmation.required'=>'Confirmasi password harus diisi'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules,$pesan);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi gagal',
+                'error'=>$validasi->errors()->all()
+            );
+        }else{
+            $user=\App\User::find($request->input('user'));
+            $user->password=\Bcrypt($request->input('password'));
+            $user->save();
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Password has been change',
+                'error'=>''
+            );
+        }
+
+        return $data;
     }
 }

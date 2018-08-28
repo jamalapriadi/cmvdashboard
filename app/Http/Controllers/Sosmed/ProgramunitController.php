@@ -446,7 +446,7 @@ class ProgramunitController extends Controller
             foreach($sosmed as $key=>$val){
                 array_push($list,$key);
             }
-
+            
             $cekfollower=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',date('Y-m-d',strtotime($request->input('tanggal'))))
                 ->whereIn('unit_sosmed_id',$list)
                 ->get();
@@ -605,6 +605,9 @@ class ProgramunitController extends Controller
                 case 'instagram':
                         $sosmed=3;
                     break;
+                case 'youtube':
+                        $sosmed=4;
+                    break;
             }
         }else{
             $type="Twitter";
@@ -633,7 +636,7 @@ class ProgramunitController extends Controller
                 ->whereIn('business_unit_id',$listUnit)
                 ->where('sosmed_id',$sosmed);
 
-                $daily=\DB::table('business_unit')
+        $daily=\DB::table('business_unit')
                 ->leftJoin('unit_sosmed',function($join){
                     $join->on('business_program_unit','=','business_unit.id')
                         ->where('type_sosmed','=','corporate');
@@ -658,7 +661,8 @@ class ProgramunitController extends Controller
                 ->get();
 
         return view('sosmed.view.daily_report')
-                ->with('daily',$daily);
+                ->with('daily',$daily)
+                ->with('sosmed',$sosmed);
     }
 
     public function daily_report_by_id($id){
@@ -946,6 +950,9 @@ class ProgramunitController extends Controller
                     break;
                 case 'instagram':
                         $sosmed=3;
+                    break;
+                case 'youtube':
+                        $sosmed=4;
                     break;
             }
         }else{

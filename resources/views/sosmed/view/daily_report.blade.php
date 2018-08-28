@@ -6,7 +6,7 @@
             <th>Type Sosmed</th>
             <th>Account Name</th>
             <th>Tanggal</th>
-            <th>Follower</th>
+            <th>@if($sosmed==4) Subscribe @else Follower @endif</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -19,7 +19,7 @@
                 <td>{{$row->unit_name}}</td>
                 <td>{{$row->type_sosmed}}</td>
                 <td>{{$row->unit_sosmed_name}}</td>
-                <td>{{date('d-m-Y',strtotime($row->tanggal))}}</td>
+                <td>@if($row->tanggal!=null) {{date('d-m-Y',strtotime($row->tanggal))}} @endif</td>
                 <td>{{number_format($row->follower)}}</td>
                 <td>
                     <div class='btn-group' data-toggle='buttons'>

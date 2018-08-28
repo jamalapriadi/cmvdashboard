@@ -72,7 +72,10 @@ class HomeController extends Controller
 
     public function sosmed_unit(){
         if(auth()->user()->can('Read Unit')){
-            return view('sosmed.unit');
+            $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+
+            return view('sosmed.unit')
+                ->with('group',$group);
         }
 
         return abort('403');
@@ -146,10 +149,12 @@ class HomeController extends Controller
         if(auth()->user()->can('Pdf Rank')){
             $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
             $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
+            $sosmed=\App\Models\Sosmed\Sosmed::all();
 
             return view('sosmed.rangking')
                 ->with('group',$group)
-                ->with('unit',$unit);
+                ->with('unit',$unit)
+                ->with('sosmed',$sosmed);
         }
         
         return abort('403');
@@ -164,10 +169,15 @@ class HomeController extends Controller
                 $sekarang=date('Y-m-d');
                 $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
             }
+
+            $sosmed=\App\Models\Sosmed\Sosmed::all();
+            $group=\App\Models\Sosmed\Groupunit::all();
     
             return view('sosmed.daily_report')
                 ->with('sekarang',$sekarang)
-                ->with('kemarin',$kemarin);
+                ->with('kemarin',$kemarin)
+                ->with('sosmed',$sosmed)
+                ->with('group',$group);
         }
 
         return abort('403');
@@ -182,9 +192,12 @@ class HomeController extends Controller
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
         }
 
+        $sosmed=\App\Models\Sosmed\Sosmed::all();
+
         return view('sosmed.ranking_soc_med')
             ->with('sekarang',$sekarang)
-            ->with('kemarin',$kemarin);
+            ->with('kemarin',$kemarin)
+            ->with('sosmed',$sosmed);
     }
 
     public function sosmed_chart($param){
@@ -225,12 +238,12 @@ class HomeController extends Controller
         $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
 
         return view('sosmed.input_report')
-            ->with('sosmed',$sosmed)
-            ->with('group',$group)
-            ->with('user',$user)
-            ->with('sekarang',$sekarang)
-            ->with('kemarin',$kemarin)
-            ->with('id',$id);
+                ->with('sosmed',$sosmed)
+                ->with('group',$group)
+                ->with('user',$user)
+                ->with('sekarang',$sekarang)
+                ->with('kemarin',$kemarin)
+                ->with('id',$id);
     }
 
     public function log_login(){

@@ -10,7 +10,7 @@ use \App\Models\Sosmed\Businessunit;
 
 class BusinessunitController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         if(!auth()->user()->can('Read Unit')){
             return abort('403');
         }
@@ -18,10 +18,22 @@ class BusinessunitController extends Controller
         \DB::statement(\DB::raw('set @rownum=0'));
 
         $var=Businessunit::with('groupunit','sosmed')
-            ->select('id','group_unit_id','unit_name',
+            ->select('id','group_unit_id','unit_name','type_unit',
             \DB::raw('@rownum := @rownum + 1 AS no'));
 
+
         return \Datatables::of($var)
+            ->filter(function($query) use($request){
+                if($request->has('type') && $request->input('type')!=null){
+                    $query->where('type_unit',$request->input('type'));
+                }
+
+                if($request->has('group') && $request->input('group')!=null){
+                    $group=$request->input('group');
+
+                    $query->where('group_unit_id',$group);
+                }
+            })
             ->addColumn('jumsosmed',function($q){
                 $jumsosmed=count($q->sosmed);
                 if(auth()->user()->can('Update Sosmed')){
@@ -63,10 +75,11 @@ class BusinessunitController extends Controller
 
     public function store(Request $request){
         $rules=[
-            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
-            'group'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'name'=>'required|max:30',
+            'group'=>'required|max:30',
+            'type'=>'required|max:30',
             'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
+            'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -80,6 +93,7 @@ class BusinessunitController extends Controller
         }else{
             $var=new Businessunit;
             $var->group_unit_id=$request->input('group');
+            $var->type_unit=$request->input('type');
             $var->unit_name=$request->input('name');
 
             if($request->hasFile('file')){
@@ -147,10 +161,11 @@ class BusinessunitController extends Controller
 
     public function update(Request $request,$id){
         $rules=[
-            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
-            'group'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'name'=>'required|max:30',
+            'group'=>'required|max:30',
+            'type'=>'required|max:30',
             'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
+            'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -164,6 +179,7 @@ class BusinessunitController extends Controller
         }else{
             $var=Businessunit::find($id);
             $var->group_unit_id=$request->input('group');
+            $var->type_unit=$request->input('type');
             $var->unit_name=$request->input('name');
 
             if($request->hasFile('file')){

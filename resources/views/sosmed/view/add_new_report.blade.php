@@ -11,6 +11,8 @@
                     <th colspan="2" class='text-center' style='background:#5054ab;color:white'>{{$sosmed}}</th>
                 @elseif($sosmed=="instagram")
                     <th colspan="2" class='text-center' style='background:#a200b2;color:white'>{{$sosmed}}</th>
+                @elseif($sosmed=="youtube")
+                    <th colspan="2" class='text-center' style='background:#ff0000;color:white'>{{$sosmed}}</th>
                 @else 
                     <th colspan="2" class="text-center">{{$sosmed}}</th>
                 @endif
@@ -25,6 +27,9 @@
                 @elseif($sosmed=="instagram")
                     <th class='text-center' style='background:#a200b2;color:white'>Last Day</th>
                     <th class='text-center' style='background:#a200b2;color:white'>Today</th>
+                @elseif($sosmed=="youtube")
+                    <th class='text-center' style='background:#ff0000;color:white'>Last Day</th>
+                    <th class='text-center' style='background:#ff0000;color:white'>Today</th>
                 @else 
                     <th class='text-center' style='background:#008ef6;color:white'>Last Day</th>
                     <th class='text-center' style='background:#008ef6;color:white'>Today</th>
