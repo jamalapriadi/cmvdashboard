@@ -48,3 +48,9 @@ function pipeline($number){
         return number_format($num,2)." Jt";
     }
 }
+
+function instagram_follower($id){
+    $raw = file_get_contents('https://www.instagram.com/'.$id); //replace with user
+    preg_match('/\"edge_followed_by\"\:\s?\{\"count\"\:\s?([0-9]+)/',$raw,$m);
+    echo intval($m[1]);
+}
