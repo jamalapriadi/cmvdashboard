@@ -23,7 +23,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
 
@@ -298,10 +298,23 @@ class HomeController extends Controller
         return $playlists = Youtube::getPlaylistsByChannelId('UCk1SpWNzOs4MYmr0uICEntg');
     }
 
-    public function sosmed_input_facebook(){
-        $json = file_get_contents('https://graph.facebook.com/gha16/insights/page_fans/lifetime?access_token=fae46204296e1d378701a37315ffe249');
-        $obj = json_decode($json);
-        $new_facebook_followers= $obj->data[0]->values[0]->value;
-        return $new_facebook_followers;
+    public function sosmed_input_facebook(Request $request){
+        $token=$request->session()->get('token_facebook');
+        // $json = file_get_contents('https://graph.facebook.com/PHP-Developer/103146756409401?access_token='.$token);
+        // $obj = json_decode($json);
+        // $new_facebook_followers= $obj->data[0]->values[0]->value;
+        // return $new_facebook_followers;
+        $fpageID = '133529600097002';
+        
+        $json_url ='https://graph.facebook.com/'.$fpageID.'?access_token='.$token;
+        $json = file_get_contents($json_url);
+        $json_output = json_decode($json);
+
+        //Extract the likes count from the JSON object
+        if($json_output->likes){
+            return $likes = $json_output->likes;
+        }else{
+            return 0;
+        }
     }
 }

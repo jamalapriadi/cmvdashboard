@@ -59,4 +59,8 @@ class User extends Authenticatable
         return $this->hasOne('App\Userloginactivity','user_id')
             ->orderBy('created_at','desc');
     }
+
+    public function accounts(){
+        return $this->hasMany('App\LinkedSocialAccount','user_id');
+    }
 }
