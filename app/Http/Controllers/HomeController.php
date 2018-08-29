@@ -295,7 +295,11 @@ class HomeController extends Controller
     }
 
     public function sosmed_input_youtube(){
-        return $playlists = Youtube::getPlaylistsByChannelId('UCk1SpWNzOs4MYmr0uICEntg');
+        $channel_id = "Tollywood";
+        $api_key = "API_KEY";
+        $api_response = file_get_contents('https://www.googleapis.com/youtube/v3/channels?part=statistics&id='.$channel_id.'&fields=items/statistics/subscriberCount&key='.$api_key);
+        $api_response_decoded = json_decode($api_response, true);
+        echo $api_response_decoded['items'][0]['statistics']['subscriberCount'];
     }
 
     public function sosmed_input_facebook(Request $request){

@@ -37,19 +37,19 @@ return [
 
     /* Social Media */
     'facebook' => [
-        'client_id'     => env('FB_ID'),
-        'client_secret' => env('FB_SECRET'),
-        'redirect'      => env('FB_URL'),
+        'client_id'     => env('FB_ID'), //330369550842883
+        'client_secret' => env('FB_SECRET'), //ec82b95bd572837b38b2f1525e04970f
+        'redirect'      => env('FB_URL'), //https://sm.mncgroup.local/intra-sm/sosmed/sosmed/connect/facebook/callback
     ],
     'twitter' => [
-        'client_id'     => env('TWITTER_ID'),
-        'client_secret' => env('TWITTER_SECRET'),
-        'redirect'      => env('TWITTER_URL'),
+        'client_id'     => env('TWITTER_ID'), //VlsK3OmrR8RI5H3gxLiDaa5vY
+        'client_secret' => env('TWITTER_SECRET'), //BMjg7RwIMzzZXzdzPHl2r6Sj1qb8M5uLBvAdeRVrsMoXna9kFN
+        'redirect'      => env('TWITTER_URL'), //https://sm.mncgroup.local/intra-sm/sosmed/sosmed/connect/twitter/callback
     ],
     'google' => [
-        'client_id'     => env('GOOGLE_ID'),
-        'client_secret' => env('GOOGLE_SECRET'),
-        'redirect'      => env('GOOGLE_URL'),
+        'client_id'     => env('GOOGLE_ID'), //557264382946-eerhgf8edmmot5jp3nd06vgicdr9cgmi.apps.googleusercontent.com
+        'client_secret' => env('GOOGLE_SECRET'), //yu54zFyWL2_HwwcnRWqHDHHN
+        'redirect'      => env('GOOGLE_URL'), //https://sm.mncgroup.local/intra-sm/sosmed/sosmed/connect/google/callback
     ],
 
 ];
