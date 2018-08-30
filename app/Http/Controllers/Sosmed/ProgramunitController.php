@@ -982,23 +982,43 @@ class ProgramunitController extends Controller
             from business_unit a
             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tgl'
-            where a.id=$id
+            where a.id=$id and b.sosmed_id='$sosmed'
             group by a.id
             union all 
             select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,
-            a.program_name,c.tanggal, 
+            b.unit_sosmed_name,c.tanggal, 
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
             sum(if(c.tanggal='$tgl' and b.sosmed_id=$sosmed, c.follower,0)) as follower
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tgl'
             left join business_unit d on d.id=a.business_unit_id
-            where d.id=$id
+            where d.id=$id and b.sosmed_id='$sosmed'
             group by a.id
             order by id, urut,type_sosmed");
 
         return view('sosmed.view.add_new_report')
             ->with('account',$account)
-            ->with('sosmed',$type);
+            ->with('sosmed',$type)
+            ->with('idsosmed',$sosmed);
+    }
+
+    public function twitter_follower($id){
+        $html=file_get_contents("https://twitter.com/".$id);
+        preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
+        return $title = (int)$match[1];
+    }
+
+    public function instagram_follower($id){
+        $raw = file_get_contents('https://www.instagram.com/'.$id); //replace with user
+        preg_match('/\"edge_followed_by\"\:\s?\{\"count\"\:\s?([0-9]+)/',$raw,$m);
+        return intval($m[1]);
+    }
+
+    public function youtube_follower($id){
+        $client = new \GuzzleHttp\Client();
+        $res = $client->request('GET', 'http://rctimobile.com/engine/ytsubs.php?id='.$id);
+
+        return $res->getBody();
     }
 }

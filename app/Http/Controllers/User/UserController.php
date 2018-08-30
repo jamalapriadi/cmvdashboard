@@ -19,8 +19,7 @@ class UserController extends Controller
 
         $user=User::select('id','name','email','unit_id',
             \DB::raw('@rownum := @rownum + 1 AS no'))
-            ->with('unitsosmed')
-            ->where('id','<>',auth()->user()->id);
+            ->with('unitsosmed');
 
         return \Datatables::of($user)
         ->addColumn('action',function($query){
@@ -34,13 +33,16 @@ class UserController extends Controller
                 $html.="<a href='".\URL::to('sosmed/user/'.$query->id.'/role')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Role'><i class='icon-gear'></i></a>";
             }
 
-            if(auth()->user()->can('Edit User')){
-                $html.="<a href='#' class='btn btn-sm btn-warning edit' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
+            if($query->id!=auth()->user()->id){
+                if(auth()->user()->can('Edit User')){
+                    $html.="<a href='#' class='btn btn-sm btn-warning edit' kode='".$query->id."' title='Edit'><i class='fa fa-edit'></i></a>";
+                }
+                
+                if(auth()->user()->can('Delete User')){
+                    $html.="<a href='#' class='btn btn-sm btn-danger hapus' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
+                }
             }
             
-            if(auth()->user()->can('Delete User')){
-                $html.="<a href='#' class='btn btn-sm btn-danger hapus' kode='".$query->id."' title='Hapus'><i class='fa fa-trash'></i></a>";
-            }
             $html.="</div>";
 
             return $html;
@@ -230,9 +232,12 @@ class UserController extends Controller
         return $data;
     }
 
-    public function user_handle_unit($id){
-        $user=User::with('unit')
-            ->find($id);
+    public function user_handle_unit(Request $request,$id){
+        $user=User::with(
+            [
+                'unit'
+            ]
+        )->find($id);
 
         $unit=\App\Models\Sosmed\Businessunit::all();
 
@@ -245,7 +250,7 @@ class UserController extends Controller
     public function save_user_handle_unit(Request $request){
         $rules=[
             'user'=>'required',
-            'unit'=>'required'
+            'type'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -259,19 +264,46 @@ class UserController extends Controller
         }else{
             $user=$request->input('user');
             $unit=$request->input('unit');
+            $type=$request->input('type');
 
-            \DB::table('user_handle_unit')
-                ->where('user_id',$user)
-                ->delete();
-
-            foreach($unit as $key=>$val){
+            if($type=="corporate"){
                 \DB::table('user_handle_unit')
-                    ->insert(
-                        [
-                            'user_id'=>$user,
-                            'business_unit_id'=>$key
-                        ]
+                    ->where('user_id',$user)
+                    ->delete();
+
+                foreach($unit as $key=>$val){
+                    \DB::table('user_handle_unit')
+                        ->insert(
+                            [
+                                'user_id'=>$user,
+                                'business_unit_id'=>$key,
+                                'type'=>$request->input('type')
+                            ]
+                        );
+                }
+            }else if($type=="sosmed"){
+                $cek=\DB::table('user_handle_unit')
+                    ->where('user_id',$user)
+                    ->where('business_unit_id',$request->input('sosmed'))
+                    ->where('type',$request->input('type'))
+                    ->count();
+
+                if($cek>0){
+                    return array(
+                        'success'=>true,
+                        'pesan'=>'Data ini sudah ada',
+                        'error'=>''
                     );
+                }else{
+                    \DB::table('user_handle_unit')
+                        ->insert(
+                            [
+                                'user_id'=>$user,
+                                'business_unit_id'=>$request->input('sosmed'),
+                                'type'=>$request->input('type')
+                            ]
+                        );
+                }
             }
 
             $data=array(
@@ -389,6 +421,30 @@ class UserController extends Controller
             $data=array(
                 'success'=>true,
                 'pesan'=>'Password has been change',
+                'error'=>''
+            );
+        }
+
+        return $data;
+    }
+
+    public function delete_user_handle_sosmed($user,$sosmed){
+        $cek=\DB::table('user_handle_unit')
+                    ->where('user_id',$user)
+                    ->where('business_unit_id',$sosmed)
+                    ->where('type','Sosmed')
+                    ->delete();
+
+        if($cek){
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil dihapus',
+                'error'=>''
+            );
+        }else{
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Data gagal dihapus',
                 'error'=>''
             );
         }

@@ -47,7 +47,24 @@ class User extends Authenticatable
                     'unit_name',
                     'logo'
                 ]
-            );
+            )->withPivot(
+                [
+                    'user_id',
+                    'business_unit_id',
+                    'type'
+                ]
+            )->where('type','corporate');
+    }
+
+    public function sosmed(){
+        return $this->belongsToMany('App\Models\Sosmed\Sosmed','user_handle_unit','user_id','business_unit_id')
+            ->withPivot(
+                [
+                    'user_id',
+                    'business_unit_id',
+                    'type'
+                ]
+            )->where('type','sosmed');
     }
 
     public function logins(){
