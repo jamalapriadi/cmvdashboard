@@ -976,7 +976,7 @@ class ProgramunitController extends Controller
         }
         
         $account=\DB::select("select 'corporate' as urut,a.id, a.group_unit_id, a.unit_name, 
-            b.type_sosmed, b.unit_sosmed_name, c.tanggal,
+            b.type_sosmed, b.unit_sosmed_account_id,b.unit_sosmed_name, c.tanggal,
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
             sum(if(c.tanggal='$tgl' and b.sosmed_id=$sosmed,c.follower,0)) as follower
             from business_unit a
@@ -985,8 +985,8 @@ class ProgramunitController extends Controller
             where a.id=$id and b.sosmed_id='$sosmed'
             group by a.id
             union all 
-            select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,
-            b.unit_sosmed_name,c.tanggal, 
+            select 'program' as urut,d.id, d.group_unit_id, d.unit_name, 
+            b.type_sosmed,b.unit_sosmed_account_id ,b.unit_sosmed_name,c.tanggal, 
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
             sum(if(c.tanggal='$tgl' and b.sosmed_id=$sosmed, c.follower,0)) as follower
             from program_unit a 
