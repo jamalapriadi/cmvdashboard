@@ -85,6 +85,13 @@
                         Connect Youtube
                     </a>
                 @break
+
+                @case('instagram')
+                    <a href="{{URL::to('sosmed/instagram')}}" class="btn social-instagram">
+                        <i class="icon-instagram-plus"></i>
+                        Connect Instagram
+                    </a>
+                @break
             @endswitch
         </div>
     </div>

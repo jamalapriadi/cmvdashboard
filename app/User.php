@@ -80,4 +80,8 @@ class User extends Authenticatable
     public function accounts(){
         return $this->hasMany('App\LinkedSocialAccount','user_id');
     }
+
+    public function instagram(){
+        return $this->hasOne('App\Models\Sosmed', 'user_id', 'id');
+    }
 }

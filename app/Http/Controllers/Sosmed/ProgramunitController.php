@@ -974,7 +974,7 @@ class ProgramunitController extends Controller
         }else{
             $tgl=date('Y-m-d');
         }
-
+        
         $account=\DB::select("select 'corporate' as urut,a.id, a.group_unit_id, a.unit_name, 
             b.type_sosmed, b.unit_sosmed_name, c.tanggal,
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,

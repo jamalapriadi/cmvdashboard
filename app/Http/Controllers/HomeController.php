@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Youtube;
+use GuzzleHttp\Client;
 
 class HomeController extends Controller
 {
@@ -16,6 +17,9 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->client = new Client([
+            'base_uri' => 'graph.facebook.com',
+        ]);
     }
 
     /**
@@ -25,6 +29,15 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        // $access_token=$request->session()->get('token_instagram');
+
+        // $response = $this->client->request('GET', '/users/jamalapriadi/media/recent', [
+        //     'query' => [
+        //         'access_token' =>  $access_token
+        //     ]
+        // ]);
+        // return  \Response::json($response->getBody()->getContents());
+
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
 
         return view('sosmed.dashboard')
@@ -316,6 +329,7 @@ class HomeController extends Controller
     }
 
     public function sosmed_input_twitter(){
+        return \Twitter::getUserTimeline(['screen_name' => 'ACI_TRANS7', 'count' => 20, 'format' => 'json']);
         $user=\App\User::with(
             [
                 'unit',

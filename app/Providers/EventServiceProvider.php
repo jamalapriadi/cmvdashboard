@@ -17,6 +17,11 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EventListener',
         ],
 
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            // add your listeners (aka providers) here
+            'SocialiteProviders\\Instagram\\InstagramExtendSocialite@handle',
+        ],
+
         'Illuminate\Auth\Events\Registered' => [
             'App\Listeners\LogRegisteredUser',
         ],
