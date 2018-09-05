@@ -181,6 +181,9 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Thujohn\Twitter\TwitterServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
+        \App\Providers\InstagramServiceProvider::class,
 
     ],
 
@@ -234,7 +237,9 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Datatables' => Yajra\DataTables\Facades\DataTables::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
+        'Instagram' => App\Facades\Instagram::class
 
     ],
 

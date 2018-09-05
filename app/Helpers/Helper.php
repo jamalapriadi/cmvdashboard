@@ -54,3 +54,16 @@ function instagram_follower($id){
     preg_match('/\"edge_followed_by\"\:\s?\{\"count\"\:\s?([0-9]+)/',$raw,$m);
     echo intval($m[1]);
 }
+
+function twitter_follower($id){
+    $html=file_get_contents("https://twitter.com/".$id);
+    preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
+    echo $title = $match[1];
+}
+
+function youtube_follower($id){
+    $client = new \GuzzleHttp\Client();
+    $res = $client->request('GET', 'http://rctimobile.com/engine/ytsubs.php?id='.$id);
+
+    echo $res->getBody();
+}

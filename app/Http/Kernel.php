@@ -58,5 +58,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'access-log-sosmed'=> \App\Http\Middleware\AccessLogSosmed::class,
+        'instagram' => \App\Http\Middleware\InstagramAPIMiddleware::class,
     ];
 }

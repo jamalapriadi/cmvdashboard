@@ -58,10 +58,21 @@
                         <a href="#subR" data-toggle="collapse" class="collapsed"><i class="lnr lnr-location"></i> <span>Input Report</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                         <div id="subR" class="collapse ">
                             <ul class="nav">
-                                <li><a href="{{URL::to('sosmed/input-report/twitter')}}"><i class="icon-twitter2"></i> Twitter</a></li>
-                                <li><a href="{{URL::to('sosmed/input-report/facebook')}}"><i class="icon-facebook2"></i> Facebook</a></li>
-                                <li><a href="{{URL::to('sosmed/input-report/instagram')}}"><i class="icon-instagram"></i> Instagram</a></li>
-                                <li><a href="{{URL::to('sosmed/input-report/youtube')}}"><i class="icon-youtube"></i> Youtube</a></li>
+                                @if(auth()->user()->can('Input Twitter'))
+                                    <li><a href="{{URL::to('sosmed/input-report/twitter')}}"><i class="icon-twitter2"></i> Twitter</a></li>
+                                @endif 
+
+                                @if(auth()->user()->can('Input Facebook'))
+                                    <li><a href="{{URL::to('sosmed/input-report/facebook')}}"><i class="icon-facebook2"></i> Facebook</a></li>
+                                @endif
+
+                                @if(auth()->user()->can('Input Instagram'))
+                                    <li><a href="{{URL::to('sosmed/input-report/instagram')}}"><i class="icon-instagram"></i> Instagram</a></li>
+                                @endif 
+
+                                @if(auth()->user()->can('Input Youtube'))
+                                    <li><a href="{{URL::to('sosmed/input-report/youtube')}}"><i class="icon-youtube"></i> Youtube</a></li>
+                                @endif
                             </ul>
                         </div>
                     </li>

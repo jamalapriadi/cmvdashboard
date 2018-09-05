@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Youtube;
+use GuzzleHttp\Client;
 
 class HomeController extends Controller
 {
@@ -16,6 +17,9 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->client = new Client([
+            'base_uri' => 'graph.facebook.com',
+        ]);
     }
 
     /**
@@ -34,7 +38,6 @@ class HomeController extends Controller
         //         'unit.followers.unitsosmed'
         //     ]
         // )->find(auth()->user()->id);
-
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
 
         return view('sosmed.dashboard')
@@ -66,8 +69,11 @@ class HomeController extends Controller
 
     public function user_role($id){
         if(auth()->user()->can('Setting Role')){
+            $sosmed=\App\Models\Sosmed\Sosmed::all();
+
             return view('user.user_role')
-                ->with('id',$id);
+                ->with('id',$id)
+                ->with('sosmed',$sosmed);
         }
 
         return abort('403');
@@ -248,6 +254,32 @@ class HomeController extends Controller
         $sekarang=date('Y-m-d');
         $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
 
+        switch($id){
+            case 'twitter':
+                    if(!auth()->user()->can('Input Twitter')){
+                        return abort('403');
+                    }
+                break;
+            case 'facebook':
+                    if(!auth()->user()->can('Input Facebook')){
+                        return abort('403');
+                    }
+                break;
+            case 'instagram':
+                    if(!auth()->user()->can('Input Instagram')){
+                        return abort('403');
+                    }
+                break;
+            case 'youtube':
+                    if(!auth()->user()->can('Input Youtube')){
+                        return abort('403');
+                    }
+                break;
+            default:
+
+                break;
+        }
+
         return view('sosmed.input_report')
                 ->with('sosmed',$sosmed)
                 ->with('group',$group)
@@ -290,26 +322,68 @@ class HomeController extends Controller
             ->with('provider',$provider);
     }
 
-    public function sosmed_input_instagram(){
-        $id="jamalapriadi";
-
+    public function instagram_follower($id){
         $raw = file_get_contents('https://www.instagram.com/'.$id); //replace with user
         preg_match('/\"edge_followed_by\"\:\s?\{\"count\"\:\s?([0-9]+)/',$raw,$m);
-        echo intval($m[1]);
+        return intval($m[1]);
     }
 
     public function sosmed_input_twitter(){
-        $html=file_get_contents("https://twitter.com/trinastiti");
-        preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
-        echo $title = $match[1];
+        return \Twitter::getUserTimeline(['screen_name' => 'ACI_TRANS7', 'count' => 20, 'format' => 'json']);
+        $user=\App\User::with(
+            [
+                'unit',
+                'unit.sosmed'=>function($q){
+                    $q->where('sosmed_id',4);
+                },
+                'unit.program',
+                'unit.program.sosmed'=>function($q){
+                    $q->where('sosmed_id',4);
+                }
+            ]
+        )->find(auth()->user()->id);
+
+        return $user;
+
+        $data=array();
+        foreach($user->unit as $key=>$val){
+            $sosmed=array();
+            foreach($val->sosmed as $row){
+                if($row->sosmed_id==1 && $row->business_program_unit!=4){
+                    $fol=$this->twitter_follower($row->unit_sosmed_name);
+                }elseif($row->sosmed_id==3 && $row->business_program_unit!=4){
+                    $fol=$this->instagram_follower($row->unit_sosmed_name);
+                }elseif($row->sosmed_id==4  && $row->business_program_unit!=4){
+                    $fol=$this->youtube_follower($row->unit_sosmed_name);
+                }
+
+                $sosmed[]=array(
+                    'sosmed_id'=>$row->sosmed_id,
+                    'account_name'=>$row->unit_sosmed_name,
+                    'follower'=>$fol
+                );
+            }
+            $data[]=array(
+                'unit_name'=>$val->unit_name,
+                'sosmed'=>$sosmed
+            );
+        }
+
+        return $data;
+        return $user;
     }
 
-    public function sosmed_input_youtube(){
-        $channel_id = "Tollywood";
-        $api_key = "API_KEY";
-        $api_response = file_get_contents('https://www.googleapis.com/youtube/v3/channels?part=statistics&id='.$channel_id.'&fields=items/statistics/subscriberCount&key='.$api_key);
-        $api_response_decoded = json_decode($api_response, true);
-        echo $api_response_decoded['items'][0]['statistics']['subscriberCount'];
+    public function twitter_follower($id){
+        $html=file_get_contents("https://twitter.com/".$id);
+        preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
+        return $title = (int)$match[1];
+    }
+
+    public function youtube_follower($id){
+        $client = new \GuzzleHttp\Client();
+        $res = $client->request('GET', 'http://rctimobile.com/engine/ytsubs.php?id='.$id);
+
+        return $res->getBody();
     }
 
     public function sosmed_input_facebook(Request $request){

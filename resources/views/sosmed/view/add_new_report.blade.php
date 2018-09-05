@@ -62,7 +62,17 @@
                     <td>
                         @if($row->idsosmed!=0)
                             <input type="hidden" name="official[{{$row->idsosmed}}]" value="{{$row->unit_sosmed_name}}">
-                            <input type="number" class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" required>
+                            @if($idsosmed==1)
+                                <input type="number" readonly class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" value="{{twitter_follower($row->unit_sosmed_name)}}" required>
+                            @elseif($idsosmed==2)
+                                <input type="number" class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" required>
+                            @elseif($idsosmed==3)
+                                <input type="number" readonly class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" value="{{instagram_follower($row->unit_sosmed_name)}}" required>
+                            @elseif($idsosmed==4)
+                                <input type="number" readonly class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" value="{{youtube_follower($row->unit_sosmed_account_id)}}" required>
+                            @else 
+
+                            @endif
                         @endif
                     </td>
                 </tr>

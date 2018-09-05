@@ -66,10 +66,13 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('login/{provider}','HomeController@connect_provider');
 
         Route::get('chart/{param}','HomeController@sosmed_chart');
-        Route::get('instagram','HomeController@sosmed_input_instagram');
+        // Route::get('instagram','HomeController@sosmed_input_instagram');
         Route::get('twitter','HomeController@sosmed_input_twitter');
-        Route::get('youtube','HomeController@sosmed_input_youtube');
+        Route::get('youtube/{id}','HomeController@youtube_follower');
         Route::get('facebook','HomeController@sosmed_input_facebook');
+
+        Route::get('instagram', 'Sosmed\InstagramController@redirectToInstagramProvider');
+        Route::get('instagram/callback', 'Sosmed\InstagramController@handleProviderInstagramCallback');
     });
 
     Route::group(['prefix'=>'data'],function(){
@@ -88,6 +91,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::post('hapus-role-user','User\UserController@hapus_role_user');
         Route::get('list-user/{id}/handle-unit','User\UserController@user_handle_unit');
         Route::post('save-user-handle-unit','User\UserController@save_user_handle_unit');
+        Route::delete('hapus-sosmed-hadle/{user}/{sosmed}','User\UserController@delete_user_handle_sosmed');
         Route::post('reset-password','User\UserController@reset_password');
     
         Route::resource('group-unit','Sosmed\GroupunitController');
