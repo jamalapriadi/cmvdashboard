@@ -25,6 +25,16 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        // $user=\App\User::with(
+        //     [
+        //         'unit',
+        //         'unit.followers'=>function($q){
+        //             $q->where('tanggal','2018-08-08');
+        //         },
+        //         'unit.followers.unitsosmed'
+        //     ]
+        // )->find(auth()->user()->id);
+
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
 
         return view('sosmed.dashboard')

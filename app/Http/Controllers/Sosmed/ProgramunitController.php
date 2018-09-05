@@ -999,6 +999,7 @@ class ProgramunitController extends Controller
 
         return view('sosmed.view.add_new_report')
             ->with('account',$account)
-            ->with('sosmed',$type);
+            ->with('sosmed',$type)
+            ->with('idsosmed',$sosmed);
     }
 }
