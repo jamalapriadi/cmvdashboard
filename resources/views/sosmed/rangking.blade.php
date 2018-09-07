@@ -61,6 +61,7 @@
                                             <option value="TV">TV</option>
                                             <option value="Publisher">Publisher</option>
                                             <option value="Radio">Radio</option>
+                                            <option value="KOL">KOL</option>
                                         </select>
                                     </div>
                                 </div>

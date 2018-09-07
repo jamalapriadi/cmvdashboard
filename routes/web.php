@@ -73,6 +73,8 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
 
         Route::get('instagram', 'Sosmed\InstagramController@redirectToInstagramProvider');
         Route::get('instagram/callback', 'Sosmed\InstagramController@handleProviderInstagramCallback');
+
+        Route::get('otomatisasi-cek-sosmed','Sosmed\OtomatisasiController@cek_sosmed');
     });
 
     Route::group(['prefix'=>'data'],function(){

@@ -56,6 +56,10 @@ class User extends Authenticatable
             )->where('type','corporate');
     }
 
+    public function program(){
+        return $this->hasManyThrough('App\Models\Sosmed\Programunit','App\Models\Sosmed\Userhandleunit','user_id','business_unit_id','id','business_unit_id');
+    }
+
     public function sosmed(){
         return $this->belongsToMany('App\Models\Sosmed\Sosmed','user_handle_unit','user_id','business_unit_id')
             ->withPivot(

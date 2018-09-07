@@ -59,6 +59,8 @@
             <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="Publisher")
             <h1 class="text-center">RANK FOR HARDNEWS PUBLISHER SOCMED & YOUTUBE REPORT</h1>
+        @elseif($typeunit=="KOL")
+            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @else
 
         @endif
@@ -69,6 +71,8 @@
             <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @elseif($typeunit=="Publisher")
             <h1 class="text-center">RANK FOR HARDNEWS PUBLISHER SOCMED REPORT</h1>
+        @elseif($typeunit=="KOL")
+            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @else
 
         @endif

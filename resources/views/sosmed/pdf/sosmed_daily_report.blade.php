@@ -102,6 +102,8 @@
             <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="Publisher")
             <h1 class="text-center">HARDNEWS PUBLISHER SOCMED & YOUTUBE REPORT</h1>
+        @elseif($typeunit=="KOL")
+            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @else
 
         @endif
@@ -112,6 +114,8 @@
             <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @elseif($typeunit=="Publisher")
             <h1 class="text-center">HARDNEWS PUBLISHER SOCMED REPORT</h1>
+        @elseif($typeunit=="KOL")
+            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @else
 
         @endif
@@ -220,7 +224,7 @@
         @endforeach
     @endif
 
-    @if($typeunit=="TV" || $typeunit=="Publisher")
+    @if($typeunit=="TV" || $typeunit=="Publisher" || $typeunit=="KOL")
     <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @else {{strtoupper($typeunit)}} @endif</h3>
     <br>
     <table class="table table-striped table-bordered">
@@ -233,6 +237,8 @@
                         Station
                     @elseif($typeunit=="Publisher")
                         Website
+                    @elseif($typeunit=="KOL")
+                        Artist
                     @else 
 
                     @endif
@@ -689,6 +695,8 @@
                         Station
                     @elseif($typeunit=="Publisher")
                         Website
+                    @elseif($typeunit=="KOL")
+                        Artist
                     @else 
 
                     @endif
@@ -873,8 +881,14 @@
     </table>
     <div class="page-break"></div>
 
-    @if($typeunit=="TV" || $typeunit=="Publisher")
-    <h3 class="text-center">OFFICIAL & PROGRAM MNC GROUP</h3>
+    @if($typeunit=="TV" || $typeunit=="Publisher" || $typeunit=="KOL")
+        @if($typeunit=="TV" || $typeunit=="Publisher")
+            <h3 class="text-center">OFFICIAL & PROGRAM MNC GROUP</h3>
+        @elseif($typeunit=="KOL")
+            <h3 class="text-center">OFFICIAL & ARTIST MNC GROUP</h3>
+        @else 
+
+        @endif
     <br>
     <table class='table table-striped table-bordered'>
         <thead>
