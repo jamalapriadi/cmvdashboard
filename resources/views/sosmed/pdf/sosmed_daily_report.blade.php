@@ -103,7 +103,7 @@
         @elseif($typeunit=="Publisher")
             <h1 class="text-center">HARDNEWS PUBLISHER SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="KOL")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
+            <h1 class="text-center">ARTIS SMN SOCMED & YOUTUBE REPORT</h1>
         @else
 
         @endif
@@ -115,7 +115,7 @@
         @elseif($typeunit=="Publisher")
             <h1 class="text-center">HARDNEWS PUBLISHER SOCMED REPORT</h1>
         @elseif($typeunit=="KOL")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED REPORT</h1>
+            <h1 class="text-center">ARTIS SMN SOCMED REPORT</h1>
         @else
 
         @endif
@@ -225,7 +225,7 @@
     @endif
 
     @if($typeunit=="TV" || $typeunit=="Publisher" || $typeunit=="KOL")
-    <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @else {{strtoupper($typeunit)}} @endif</h3>
+    <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @elseif($typeunit=="KOL") ARTIS SMN @else {{strtoupper($typeunit)}} @endif</h3>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
@@ -683,7 +683,7 @@
     <div class="page-break"></div>
     @endif
     
-    <h3 class="text-center">OVERALL ALL  {{strtoupper($typeunit)}} ( OFFICIAL & @if($typeunit=="Publisher") CANAL @else PROGRAM @endif )</h3>
+    <h3 class="text-center">OVERALL ALL  @if($typeunit!="KOL") {{strtoupper($typeunit)}} @else ARTIS SMN @endif ( OFFICIAL & @if($typeunit=="Publisher") CANAL @else PROGRAM @endif )</h3>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
