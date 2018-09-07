@@ -1133,6 +1133,10 @@
                             nama="Radio";
                             program="Program";
                         break;
+                    case "KOL":
+                            nama="KOL";
+                            program="Artists";
+                        break;
                     default:
                             nama="TV";
                             program="Program";
@@ -1140,18 +1144,18 @@
                 }
 
                 el+='<ul style="list-style-type:none">'+
-                    '<li>*1. Official* Account *All '+nama+'* By *Total Followers*'+
+                    '<li>*1. Official* Account *Socmed All '+nama+'* By *Total Followers*'+
                         '<div id="officalAccountAllTvByTotalFollowers"></div>'+
                     '</li>'+
-                    '<li>*2. Group Official* Account by *Total Followers*'+
+                    '<li>*2. Group Official* Account *Socmed* by *Total Followers*'+
                         '<div id="groupOfficialAccountByTotalFollowers"></div>'+
                     '</li>';
 
                     if(typeunit!="Radio"){
-                        el+='<li>*3. Group Overall* Accounts ( Official + '+program+' ) by *Total Followers*'+
+                        el+='<li>*3. Group Overall* Accounts ( Official + '+program+' ) *Socmed* by *Total Followers*'+
                             '<div id="groupOverallAccount"></div>'+
                         '</li>'+
-                        '<li>*4. '+program+'* Accounts *ALL '+nama+'* by *Additional Followers* from yesterday'+
+                        '<li>*4. '+program+'* Accounts *Socmed ALL '+nama+'* by *Additional Followers* from yesterday'+
                             '<div id="programAccountAllTv"></div>'+
                         '</li>';
                     }
@@ -1163,7 +1167,7 @@
                     }
 
                     if(typeunit=="TV"){
-                        el+="<li>*5. Our 4TV's* Followers *Official Accounts* for those *Achievement above 50%*"+
+                        el+="<li>*5. Our 4TV's* Followers *Socmed Official Accounts* for those *Achievement above 50%*"+
                             '<div id="tvAchievementabove50"></div>'+
                             '<br>'+
                         '</li>';
