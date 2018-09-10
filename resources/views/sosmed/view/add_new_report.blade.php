@@ -43,7 +43,19 @@
                 <tr>
                     <td>{{$no}}</td>
                     <td>{{$row->type_sosmed}}</td>
-                    <td>{{$row->unit_sosmed_name}}</td>
+                    <td>
+                        @if($idsosmed==1)
+                            <a href="https://twitter.com/{{$row->unit_sosmed_name}}" target="new target">{{$row->unit_sosmed_name}}</a>
+                        @elseif($idsosmed==2)
+                            <a href="#" target="new target">{{$row->unit_sosmed_name}}</a>
+                        @elseif($idsosmed==3)
+                            <a href="https://www.instagram.com/{{$row->unit_sosmed_name}}" target="new target">{{$row->unit_sosmed_name}}</a>
+                        @elseif($idsosmed==4)
+                            <a href="https://www.youtube.com/{{$row->unit_sosmed_account_id}}" target="new target">{{$row->unit_sosmed_name}}</a>
+                        @else 
+
+                        @endif
+                    </td>
                     <td>{{number_format($row->follower)}}
                         <input type="hidden" name="last[{{$row->idsosmed}}]" value="{{$row->follower}}">
                     </td>
