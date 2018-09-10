@@ -18,43 +18,43 @@ class BusinessunitController extends Controller
         \DB::statement(\DB::raw('set @rownum=0'));
 
         $var=Businessunit::with('groupunit','sosmed')
-            ->select('id','group_unit_id','unit_name','type_unit',
+            ->select('id','group_unit_id','unit_name','type_unit','tier',
             \DB::raw('@rownum := @rownum + 1 AS no'));
+
+        if($request->has('type') && $request->input('type')!=null){
+            $var=$var->where('type_unit',$request->input('type'));
+        }
+
+        if($request->has('group') && $request->input('group')!=null){
+            $group=$request->input('group');
+
+            $var=$var->where('group_unit_id',$group);
+        }
 
 
         return \Datatables::of($var)
-            ->filter(function($query) use($request){
-                if($request->has('type') && $request->input('type')!=null){
-                    $query->where('type_unit',$request->input('type'));
-                }
-
-                if($request->has('group') && $request->input('group')!=null){
-                    $group=$request->input('group');
-
-                    $query->where('group_unit_id',$group);
-                }
-            })
-            ->addColumn('jumsosmed',function($q){
-                $jumsosmed=count($q->sosmed);
-                if(auth()->user()->can('Update Sosmed')){
-                    if($jumsosmed>=4){
-                        return "<label class='label label-danger editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
-                    }else if($jumsosmed>=3){
-                        return "<label class='label label-success editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
-                    }else if($jumsosmed>=2){
-                        return "<label class='label label-warning editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
-                    }else{
-                        return "<label class='label label-info editsosmed' kode='".$q->id."'>".count($q->sosmed)." Jumlah Sosmed</label>";
-                    }
-                }else{
-                    return "<label class='label label-default' disabled>".$jumsosmed." Jumlah Sosmed</label>";
-                }
-            })
+            
+            // ->addColumn('jumsosmed',function($q){
+            //     $jumsosmed=count($q->sosmed);
+            //     if(auth()->user()->can('Update Sosmed')){
+            //         if($jumsosmed>=4){
+            //             return "<label class='label label-danger editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+            //         }else if($jumsosmed>=3){
+            //             return "<label class='label label-success editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+            //         }else if($jumsosmed>=2){
+            //             return "<label class='label label-warning editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+            //         }else{
+            //             return "<label class='label label-info editsosmed' kode='".$q->id."'>".count($q->sosmed)." Jumlah Sosmed</label>";
+            //         }
+            //     }else{
+            //         return "<label class='label label-default' disabled>".$jumsosmed." Jumlah Sosmed</label>";
+            //     }
+            // })
             ->addColumn('action',function($query){
                 $html="<div class='btn-group'>";
 
                 if(auth()->user()->can('Summary Unit')){
-                    $html.="<a href='".\URL::to('sosmed/business-unit/'.$query->id.'/summary')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Summary'><i class='icon-stats-dots'></i></a>";
+                    $html.="<a href='".\URL::to('sosmed/business-unit/'.$query->id.'/summary')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Summary'><i class='icon-gear'></i></a>";
                 }
 
                 if(auth()->user()->can('Edit Unit')){
@@ -69,7 +69,6 @@ class BusinessunitController extends Controller
 
                 return $html;
             })
-            ->rawColumns(['jumsosmed','action'])
             ->make(true);
     }
 
@@ -77,9 +76,9 @@ class BusinessunitController extends Controller
         $rules=[
             'name'=>'required|max:30',
             'group'=>'required|max:30',
-            'type'=>'required|max:30',
-            'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60'
+            'type'=>'required|max:30'
+            // 'sosmed'=>'required|array|min:3',
+            // 'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -95,6 +94,7 @@ class BusinessunitController extends Controller
             $var->group_unit_id=$request->input('group');
             $var->type_unit=$request->input('type');
             $var->unit_name=$request->input('name');
+            $var->tier=$request->input('tier');
 
             if($request->hasFile('file')){
                 if (!is_dir('uploads/logo/bu/')) {
@@ -113,20 +113,20 @@ class BusinessunitController extends Controller
 
             if($simpan){
 
-                if($request->has('sosmed')){
-                    $sosmed=$request->input('sosmed');
+                // if($request->has('sosmed')){
+                //     $sosmed=$request->input('sosmed');
 
-                    foreach($sosmed as $key=>$val){
-                        if($val!=null){
-                            $s=new \App\Models\Sosmed\Unitsosmed;
-                            $s->type_sosmed="corporate";
-                            $s->business_program_unit=$var->id;
-                            $s->sosmed_id=$key;
-                            $s->unit_sosmed_name=$val;
-                            $s->save();
-                        }
-                    }
-                }
+                //     foreach($sosmed as $key=>$val){
+                //         if($val!=null){
+                //             $s=new \App\Models\Sosmed\Unitsosmed;
+                //             $s->type_sosmed="corporate";
+                //             $s->business_program_unit=$var->id;
+                //             $s->sosmed_id=$key;
+                //             $s->unit_sosmed_name=$val;
+                //             $s->save();
+                //         }
+                //     }
+                // }
 
                 $data=array(
                     'success'=>true,
@@ -163,9 +163,9 @@ class BusinessunitController extends Controller
         $rules=[
             'name'=>'required|max:30',
             'group'=>'required|max:30',
-            'type'=>'required|max:30',
-            'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60'
+            'type'=>'required|max:30'
+            // 'sosmed'=>'required|array|min:3',
+            // 'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -181,6 +181,7 @@ class BusinessunitController extends Controller
             $var->group_unit_id=$request->input('group');
             $var->type_unit=$request->input('type');
             $var->unit_name=$request->input('name');
+            $var->tier=$request->input('tier');
 
             if($request->hasFile('file')){
                 if (!is_dir('uploads/logo/bu/')) {
@@ -199,32 +200,32 @@ class BusinessunitController extends Controller
 
             if($simpan){
 
-                if($request->has('sosmed')){
-                    $sosmed=$request->input('sosmed');
+                // if($request->has('sosmed')){
+                //     $sosmed=$request->input('sosmed');
 
-                    foreach($sosmed as $key=>$val){
-                        if($val!=null){
-                            $ceksosmed=\App\Models\Sosmed\Unitsosmed::where('sosmed_id',$key)
-                                ->where('business_program_unit',$id)
-                                ->where('type_sosmed','corporate')
-                                ->first();
+                //     foreach($sosmed as $key=>$val){
+                //         if($val!=null){
+                //             $ceksosmed=\App\Models\Sosmed\Unitsosmed::where('sosmed_id',$key)
+                //                 ->where('business_program_unit',$id)
+                //                 ->where('type_sosmed','corporate')
+                //                 ->first();
                             
-                            if($ceksosmed!=null){
-                                $s=\App\Models\Sosmed\Unitsosmed::find($ceksosmed->id);
-                                $s->type_sosmed="corporate";
-                                $s->unit_sosmed_name=$val;
-                                $s->save();
-                            }else{
-                                $s=new \App\Models\Sosmed\Unitsosmed;
-                                $s->type_sosmed="corporate";
-                                $s->business_program_unit=$var->id;
-                                $s->sosmed_id=$key;
-                                $s->unit_sosmed_name=$val;
-                                $s->save();
-                            }
-                        }
-                    }
-                }
+                //             if($ceksosmed!=null){
+                //                 $s=\App\Models\Sosmed\Unitsosmed::find($ceksosmed->id);
+                //                 $s->type_sosmed="corporate";
+                //                 $s->unit_sosmed_name=$val;
+                //                 $s->save();
+                //             }else{
+                //                 $s=new \App\Models\Sosmed\Unitsosmed;
+                //                 $s->type_sosmed="corporate";
+                //                 $s->business_program_unit=$var->id;
+                //                 $s->sosmed_id=$key;
+                //                 $s->unit_sosmed_name=$val;
+                //                 $s->save();
+                //             }
+                //         }
+                //     }
+                // }
 
 
                 $data=array(
