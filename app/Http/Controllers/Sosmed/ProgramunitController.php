@@ -75,10 +75,10 @@ class ProgramunitController extends Controller
 
     public function store(Request $request){
         $rules=[
-            'unit'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
-            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'unit'=>'required|max:30',
+            'name'=>'required|max:30',
             'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
+            'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -148,10 +148,10 @@ class ProgramunitController extends Controller
 
     public function update(Request $request,$id){
         $rules=[
-            'unit'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
-            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'unit'=>'required|max:30',
+            'name'=>'required|max:30',
             'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
+            'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -1001,24 +1001,5 @@ class ProgramunitController extends Controller
             ->with('account',$account)
             ->with('sosmed',$type)
             ->with('idsosmed',$sosmed);
-    }
-
-    public function twitter_follower($id){
-        $html=file_get_contents("https://twitter.com/".$id);
-        preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
-        return $title = (int)$match[1];
-    }
-
-    public function instagram_follower($id){
-        $raw = file_get_contents('https://www.instagram.com/'.$id); //replace with user
-        preg_match('/\"edge_followed_by\"\:\s?\{\"count\"\:\s?([0-9]+)/',$raw,$m);
-        return intval($m[1]);
-    }
-
-    public function youtube_follower($id){
-        $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'http://rctimobile.com/engine/ytsubs.php?id='.$id);
-
-        return $res->getBody();
     }
 }

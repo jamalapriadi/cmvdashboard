@@ -1409,7 +1409,8 @@ class ReportController extends Controller
                     $othergroup=5;
                 break;
             case "KOL":
-                    $filtergroup="";
+                    $filtergroup="where a.id=46";
+                    $othergroup=5;
                 break;  
             default:
                     $filtergroup="";
@@ -2791,6 +2792,11 @@ class ReportController extends Controller
                 if($typeunit=="TV"){
                     foreach($tambahanInews as $in){
                         if($in->id=="TOTAL"){
+                            if($in->yt_kemarin+$row->yt_kemarin >0){
+                                $growth_yt=(($in->yt_sekarang+$row->yt_sekarang) / ($in->yt_kemarin+$row->yt_kemarin) -1)*100;
+                            }else{
+                                $growth_yt=0;
+                            }
                             $data[]=array(
                                 'id'=>$row->id,
                                 'group_name'=>$row->group_name,
@@ -2816,7 +2822,7 @@ class ReportController extends Controller
                                     'yt'=>4,
                                     'yt_sekarang'=>($in->yt_sekarang+$row->yt_sekarang),
                                     'yt_kemarin'=>($in->yt_kemarin+$row->yt_kemarin),
-                                    'growth_yt'=>number_format((($in->yt_sekarang+$row->yt_sekarang) / ($in->yt_kemarin+$row->yt_kemarin) -1)*100,4),
+                                    'growth_yt'=>number_format($growth_yt,4),
                                     'num_of_growth_yt'=>(($in->yt_sekarang+$row->yt_sekarang) - ($in->yt_kemarin+$row->yt_kemarin)),
                                     'rank_yt'=>($rankYt[($in->yt_sekarang+$row->yt_sekarang)]+1)
                                 )

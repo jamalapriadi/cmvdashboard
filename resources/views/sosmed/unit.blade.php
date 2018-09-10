@@ -227,6 +227,11 @@
                                 '<input class="form-control" name="name" id="name" placeholder="Business Unit Name" required>'+
                             '</div>'+
 
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Tier</label>'+
+                                '<input class="form-control" name="tier" id="tier" placeholder="Tier" required>'+
+                            '</div>'+
+
                             '<hr>'+
                             '<fieldset>'+
                                 '<legend>Sosial Media Official</legend>';

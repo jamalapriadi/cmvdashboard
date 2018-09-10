@@ -29,18 +29,15 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $id="aqilajayaservice";
-        $appid="330369550842883";
-        $appsecret="ec82b95bd572837b38b2f1525e04970f";
-        $json_url ='https://graph.facebook.com/'.$id.'?access_token='.$appid.'|'.$appsecret.'&fields=fan_count';
-        $json = file_get_contents($json_url);
-        $json_output = json_decode($json);
-        //Extract the likes count from the JSON object
-        if($json_output->fan_count){
-            return $fan_count = $json_output->fan_count;
-        }else{
-            return 0;
-        }
+        // $user=\App\User::with(
+        //     [
+        //         'unit',
+        //         'unit.followers'=>function($q){
+        //             $q->where('tanggal','2018-08-08');
+        //         },
+        //         'unit.followers.unitsosmed'
+        //     ]
+        // )->find(auth()->user()->id);
 
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
 

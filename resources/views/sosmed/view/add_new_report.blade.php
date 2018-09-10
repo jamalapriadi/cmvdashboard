@@ -45,15 +45,15 @@
                     <td>{{$row->type_sosmed}}</td>
                     <td>
                         @if($idsosmed==1)
-                            <a href="https://twitter.com/{{$row->unit_sosmed_name}}" target="new target">{{$row->unit_sosmed_name}}</a>
+                            <a href="https://www.twitter.com/{{$row->unit_sosmed_name}}" target="new target">{{$row->unit_sosmed_name}}</a>
                         @elseif($idsosmed==2)
                             <a href="#" target="new target">{{$row->unit_sosmed_name}}</a>
                         @elseif($idsosmed==3)
                             <a href="https://www.instagram.com/{{$row->unit_sosmed_name}}" target="new target">{{$row->unit_sosmed_name}}</a>
                         @elseif($idsosmed==4)
-                            <a href="https://www.youtube.com/{{$row->unit_sosmed_account_id}}" target="new target">{{$row->unit_sosmed_name}}</a>
+                            <a href="https://youtube.com/{{$row->unit_sosmed_name}}" target="new target">{{$row->unit_sosmed_name}}</a>
                         @else 
-
+                            {{$row->unit_sosmed_name}}
                         @endif
                     </td>
                     <td>{{number_format($row->follower)}}
