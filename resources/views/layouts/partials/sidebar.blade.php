@@ -109,7 +109,12 @@
                                     Rank Social Media
                                 </a>
                             </li>
-                            @endif 
+                            @endif
+
+                            <li><a href="{{URL::to('sosmed/export-excel')}}">
+                                    Export Excel
+                                </a>
+                            </li> 
 
                             @if(auth()->user()->can('Backup Excel'))
                                 <li><a href="{{URL::to('sosmed/data/backup-excel')}}">

@@ -61,6 +61,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('log/access-log','HomeController@access_log');
 
         Route::get('chart/{param}','HomeController@sosmed_chart');
+        Route::get('export-excel','HomeController@sosmed_export_excel');
     });
 
     Route::group(['prefix'=>'data'],function(){
@@ -112,6 +113,8 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('list-official-and-program/{id}','Sosmed\ProgramunitController@list_official_and_program');
 
         Route::get('backup-excel','Sosmed\ProgramunitController@import');
+
+        Route::get('export-excel','Sosmed\ReportController@export_excel');
 
         Route::group(['prefix'=>'report'],function(){
             Route::get('target-vs-achievement','Sosmed\ReportController@target_vs_achievement');

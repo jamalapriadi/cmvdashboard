@@ -54,8 +54,8 @@ class UserController extends Controller
             'unit'=>'required|max:15|regex:/^[a-zA-Z0-9_\- ]*$/',
             'name'=>'required|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/',
             'email'=>'required|min:5|max:45|regex:/^[a-zA-Z0-9_\-@. ]*$/|email|unique:users,email',
-            'password'=>'required|min:12|max:18|regex:/^[a-zA-Z0-9_\- ]*$/',
-            'password_confirm'=>'required|min:12|max:18|regex:/^[a-zA-Z0-9_\- ]*$/|same:password'
+            'password'=>'required|min:6|max:18|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'password_confirm'=>'required|min:6|max:18|regex:/^[a-zA-Z0-9_\- ]*$/|same:password'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -72,6 +72,7 @@ class UserController extends Controller
             $user->unit_id=$request->input('unit');
             $user->email=$request->input('email');
             $user->password=bcrypt($request->input('password'));
+            $user->status_active='Y';
             
             $simpan=$user->save();
 

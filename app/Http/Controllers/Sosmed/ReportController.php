@@ -3488,4 +3488,48 @@ class ReportController extends Controller
         return array('labels'=>$labels,'series'=>$data);
     }
     /* end chart */
+
+    public function export_excel(Request $request){
+        // return array(
+        //     'typeunit'=>$request->input('typeunit'),
+        //     'typeaccount'=>$request->input('typeaccount'),
+        //     'start'=>date('Y-m-d',strtotime($request->input('start'))),
+        //     'end'=>date('Y-m-d',strtotime($request->input('end')))
+        // );
+
+        if($request->has('typeunit') && $request->input('typeunit')!=null){
+            return "type unit ada";
+        }
+
+        if($request->has('typeaccount') && $request->input('typeaccount')!=null){
+            return "type account ada";
+        }
+
+        return "tidak ada semua";
+
+        $corporate=\DB::select("SELECT
+                a.group_unit_id,
+                a.unit_name,
+                a.type_unit,
+                IF(
+                    b.type_sosmed = 'corporate',
+                    'corporate',
+                    'program'
+                ) AS TYPE,
+                b.sosmed_id,
+                b.unit_sosmed_name,
+                c.tanggal,
+                c.follower
+            FROM
+                business_unit a
+            LEFT JOIN unit_sosmed b ON
+                b.business_program_unit = a.id AND b.type_sosmed = 'corporate'
+            LEFT JOIN unit_sosmed_follower c ON
+                c.unit_sosmed_id = b.id
+            ORDER BY
+                a.id,
+                c.tanggal");
+
+        return $corporate;
+    }
 }

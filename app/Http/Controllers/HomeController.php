@@ -215,6 +215,10 @@ class HomeController extends Controller
         }
     }
 
+    public function sosmed_export_excel(Request $request){
+        return view('sosmed.export_excel');
+    }
+
     public function official_and_program(Request $request){
         $group=\App\Models\Sosmed\Groupunit::with(
             [
