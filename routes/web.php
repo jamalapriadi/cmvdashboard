@@ -60,8 +60,25 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('log/activity','HomeController@log_activity');
         Route::get('log/access-log','HomeController@access_log');
 
+        Route::get('connect/{provider}','Auth\SocialAccountController@redirectToProvider');
+        Route::get('connect/{provider}/callback','Auth\SocialAccountController@handleProviderCallback');
+
+        Route::get('login/{provider}','HomeController@connect_provider');
+
         Route::get('chart/{param}','HomeController@sosmed_chart');
+<<<<<<< HEAD
         Route::get('export-excel','HomeController@sosmed_export_excel');
+=======
+        // Route::get('instagram','HomeController@sosmed_input_instagram');
+        Route::get('twitter','HomeController@sosmed_input_twitter');
+        Route::get('youtube/{id}','HomeController@youtube_follower');
+        Route::get('facebook','HomeController@sosmed_input_facebook');
+
+        Route::get('instagram', 'Sosmed\InstagramController@redirectToInstagramProvider');
+        Route::get('instagram/callback', 'Sosmed\InstagramController@handleProviderInstagramCallback');
+
+        Route::get('otomatisasi-cek-sosmed','Sosmed\OtomatisasiController@cek_sosmed');
+>>>>>>> 307e2f35a9e6beee76e0a854b2c5dac681acc45a
     });
 
     Route::group(['prefix'=>'data'],function(){
@@ -80,6 +97,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::post('hapus-role-user','User\UserController@hapus_role_user');
         Route::get('list-user/{id}/handle-unit','User\UserController@user_handle_unit');
         Route::post('save-user-handle-unit','User\UserController@save_user_handle_unit');
+        Route::delete('hapus-sosmed-hadle/{user}/{sosmed}','User\UserController@delete_user_handle_sosmed');
         Route::post('reset-password','User\UserController@reset_password');
     
         Route::resource('group-unit','Sosmed\GroupunitController');
@@ -134,6 +152,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
 
             Route::get('pdf-rank-for-sosical-media-all-tv','Sosmed\ReportController@pdf_rank_for_social_media_all_tv');
             Route::get('pdf-sosmed-daily-report','Sosmed\ReportController@pdf_sosmed_daily_report');
+            Route::get('pdf-sosmed-daily-report-by-group','Sosmed\ReportController@pdf_sosmed_daily_report_by_group');
 
             /* highlight */
             Route::get('highlight-of-official-account-all-tv','Sosmed\ReportController@highlight_of_official_account_all_tv');

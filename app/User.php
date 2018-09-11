@@ -47,7 +47,28 @@ class User extends Authenticatable
                     'unit_name',
                     'logo'
                 ]
-            );
+            )->withPivot(
+                [
+                    'user_id',
+                    'business_unit_id',
+                    'type'
+                ]
+            )->where('type','corporate');
+    }
+
+    public function program(){
+        return $this->hasManyThrough('App\Models\Sosmed\Programunit','App\Models\Sosmed\Userhandleunit','user_id','business_unit_id','id','business_unit_id');
+    }
+
+    public function sosmed(){
+        return $this->belongsToMany('App\Models\Sosmed\Sosmed','user_handle_unit','user_id','business_unit_id')
+            ->withPivot(
+                [
+                    'user_id',
+                    'business_unit_id',
+                    'type'
+                ]
+            )->where('type','sosmed');
     }
 
     public function logins(){
@@ -58,5 +79,13 @@ class User extends Authenticatable
     public function lastlogin(){
         return $this->hasOne('App\Userloginactivity','user_id')
             ->orderBy('created_at','desc');
+    }
+
+    public function accounts(){
+        return $this->hasMany('App\LinkedSocialAccount','user_id');
+    }
+
+    public function instagram(){
+        return $this->hasOne('App\Models\Sosmed', 'user_id', 'id');
     }
 }

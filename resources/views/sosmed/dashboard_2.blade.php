@@ -11,365 +11,68 @@
 @section('content')
 <div class="container-fluid">
     <!-- OVERVIEW -->
-    <div class="panel panel-primary">
+    <div class="panel panel-headline">
         <div class="panel-heading">
-            <h3 class="panel-title text-center">SUMMARY</h3>
+            <h3 class="panel-title">Weekly Overview</h3>
+            <p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>
         </div>
         <div class="panel-body">
-            <div class="tabbable">
-                <ul class="nav nav-tabs nav-tabs-highlight">
-                    <li class="active"><a href="#highlight-tab1" data-toggle="tab">TARGET VS ACHIEVEMENT</a></li>
-                    <li><a href="#highlighted-tab2" data-toggle="tab">OFFICIAL ACCOUNT ALL TV</a></li>
-                    <li><a href="#highlighted-tab3" data-toggle="tab">SOSMED OFFICIAL AND PROGRAM</a></li>
-                    <li><a href="#highlighted-tab4" data-toggle="tab">DETAIL OFFICIAL AND PROGRAM</a></li>
-                    
-                </ul>
 
-                <div class="tab-content">
-                    <div class="tab-pane active" id="highlight-tab1">
-                        <form id="formTargetAchievement" onsubmit="return false">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Group</label>
-                                        <select name="form-control" name="group" id="group" class="form-control">
-                                            @foreach($group as $row)
-                                                <option value="{{$row->id}}">{{$row->group_name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Periode</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" id="tanggal" name="tanggal" class="form-control daterange-single">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <button class='btn btn-primary' style="margin-top:25px;">
-                                        <i class="icon-filter4"></i> &nbsp;
-                                        Filter 
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div style="margin-top:10px;"></div>
-
-                        <div class="table-responsive">
-                            <div id="divTargetVsAchievement"></div>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane" id="highlighted-tab2">
-                        <form id="formofficialAccountAllTv" onsubmit="return false">
-                            <div class="row">
-                                <!-- <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Group</label>
-                                        <select name="form-control" id="group2" name="group" class="form-control">
-                                            <option value="">--Select Group--</option>
-                                            @foreach($group as $row)
-                                                <option value="{{$row->id}}">{{$row->group_name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div> -->
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Periode</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="tanggal" id="tanggal2" class="form-control daterange-single">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <button class='btn btn-primary' style="margin-top:25px;">
-                                        <i class="icon-filter4"></i> &nbsp;
-                                        Filter 
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                        <div class="table-responsive">
-                            <div id="divofficialAccountAllTv"></div>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane" id="highlighted-tab3">
-                        <form id="formsosmedOfficialAndProgram" onsubmit="return false">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Periode</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="tanggal" id="tanggal3" class="form-control daterange-single">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <button class='btn btn-primary' style="margin-top:25px;">
-                                        <i class="icon-filter4"></i> &nbsp;
-                                        Filter 
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-
-                        <div class="table-responsive">
-                            <div id="sosmedOfficialAndProgram"></div>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane" id="highlighted-tab4">
-                        <form id="formofficialAndProgram" onsubmit="return false">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Group</label>
-                                        <select name="form-control" id="group4" name="group" class="form-control">
-                                            @foreach($group as $row)
-                                                <option value="{{$row->id}}">{{$row->group_name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Periode</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="tanggal" id="tanggal4" class="form-control daterange-single">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <button class='btn btn-primary' style="margin-top:25px;">
-                                        <i class="icon-filter4"></i> &nbsp;
-                                        Filter 
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div class="table-responsive">
-                            <div id="officialAndProgram"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-    <!-- END OVERVIEW -->
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h6 class="panel-title text-center">RANGKING</h6>
-        </div>
-        <div class="panel-body">
-            <form id="formRangking" onsubmit="return false">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label class="control-label">Periode</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                <input type="text" name="tanggal" id="tanggal5" class="form-control daterange-single">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <button class='btn btn-primary' style="margin-top:25px;">
-                            <i class="icon-filter4"></i> &nbsp;
-                            Filter 
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <div class="panel panel-flat">
+    <div class="row">
+        <div class="col-md-6">
+            <!-- RECENT PURCHASES -->
+            <div class="panel">
                 <div class="panel-heading">
-                    <h6 class="panel-title text-center">1. RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY TOTAL FOLLOWERS</span></h6>
-                </div>
-
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <div id="rangAllAccountGroup"></div>
+                    <h3 class="panel-title">Official Account Follower Today</h3>
+                    <div class="right">
+                        <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+                        <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
                     </div>
+                </div>
+                <div class="panel-body no-padding">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Unit</th>
+                                <th>Twitter</th>
+                                <th>Facebook</th>
+                                <th>Instagram</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $no=0;@endphp
+                            @foreach($user->unit as $row)
+                                @php $no++; @endphp 
+                                <tr>
+                                    <td>{{$no}}</td>
+                                    <td>{{$row->unit_name}}</td>
+                                    @foreach($row->followers as $fol)
+                                        @if($fol->unitsosmed->sosmed_id==1)
+                                            <td>{{number_format($fol->follower)}}</td>
+                                        @endif
+
+                                        @if($fol->unitsosmed->sosmed_id==2)
+                                            <td>{{number_format($fol->follower)}}</td>
+                                        @endif
+
+                                        @if($fol->unitsosmed->sosmed_id==3)
+                                            <td>{{number_format($fol->follower)}}</td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
-            <div class="panel panel-flat">
-                <div class="panel-heading">
-                    <h6 class="panel-title text-center">2. RANK OF OFFICIAL ACCOUNT ALL TV <span style="color:red">BY TOTAL FOLLOWERS</span></h6>
-                </div>
-
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <div id="rangAllAccountTv"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-flat">
-                <div class="panel-heading">
-                    <h6 class="panel-title text-center">3. RANK OF GROWTH FROM YESTERDAY OFFICIAL ACCOUNT <span style="color:red">ALL TV BY % GROWTH</span></h6>
-                </div>
-
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <div id="growthAllAccountTv"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-flat">
-                <div class="panel-heading">
-                    <h6 class="panel-title text-center">4. RANK OF GROWTH FROM YESTERDAY OFFICIAL ACCOUNT <span style="color:red"> ALL GROUP BY % GROWTH</span></h6>
-                </div>
-
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <div id="growthAllGrowthTv"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-flat">
-                <div class="panel-heading">
-                    <h6 class="panel-title text-center">5. RANK OF OVERALL ACCOUNT <span style="color:red"> ALL BY TV % FOLLOWERS</span></h6>
-                </div>
-
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <div id="rankOfOverallAccountAllTv"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-flat">
-                <div class="panel-heading">
-                    <h6 class="panel-title text-center">6. RANK OF OVERALL ACCOUNT <span style="color:red"> ALL GROUP TOTAL FOLLOWERS</span></h6>
-                </div>
-
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <div id="rankOfOverallGroup"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-flat">
-                <div class="panel-heading">
-                    <h6 class="panel-title text-center">7. RANK OF OVERALL ACCOUNT <span style="color:red"> ALL TV BY % GROWTH FROM YESTERDAY</span></h6>
-                </div>
-
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <div id="rankOfOverallAccountByFollower"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-flat">
-                <div class="panel-heading">
-                    <h6 class="panel-title text-center">8. RANK OF OVERALL ACCOUNT <span style="color:red"> AS GROUP BY % GROWTH FROM YESTERDAY</span></h6>
-                </div>
-
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <div id="rankOfOverallAsGroup"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="background:red;height:10px;width:100%"></div>
-
-            <div class="panel panel-flat">
-                <div class="panel-heading">
-                    <h6 class="panel-title text-center">RANK OF OFFICIAL ACCOUNT  <span style="color:red"> AMONG 4TV BY TOTAL FOLLOWERS</span></h6>
-                </div>
-
-                <div class="panel-body">
-                    <form id="formrankOfficialAccountAmong4Tv" onsubmit="return false">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label class="control-label">Group</label>
-                                    <select name="form-control" id="group6" name="group" class="form-control">
-                                        @foreach($group as $row)
-                                            <option value="{{$row->id}}">{{$row->group_name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label class="control-label">Periode</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                        <input type="text" name="tanggal" id="tanggal6" class="form-control daterange-single">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <button class='btn btn-primary' style="margin-top:25px;">
-                                    <i class="icon-filter4"></i> &nbsp;
-                                    Filter 
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <div class="table-responsive">
-                        <div id="rankOfficialAccountAmong4Tv"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-flat">
-                <div class="panel-heading">
-                    <h6 class="panel-title text-center">RANK OF GROWTH FROM YESTERDAY <span style="color:red"> OFFICIAL ACCOUNT AMONG 4 TV BY % GROWTH</span></h6>
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <div id="rankOfficialAccountAmong4TvFromYesterday"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-flat">
-                <div class="panel-heading">
-                    <h6 class="panel-title text-center">RANK OF OVERALL ACCOUNT AMONG 4 TV <span style="color:red"> BY % GROWTH</span></h6>
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <div id="rankOverallAmong4Tv"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-flat">
-                <div class="panel-heading">
-                    <h6 class="panel-title text-center">RANK OF OVERALL ACCOUNT AMONG 4 TV <span style="color:red"> BY % GROWTH FROM YESTERDAY</span></h6>
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                        <div id="rankOverallAmong4TvYesterday"></div>
-                    </div>
-                </div>
-            </div>
+        </div> 
     </div>
+
 </div>
-
-<div id="divModal"></div>
 @endsection
 
 

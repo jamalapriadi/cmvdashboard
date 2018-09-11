@@ -43,14 +43,36 @@
                 <tr>
                     <td>{{$no}}</td>
                     <td>{{$row->type_sosmed}}</td>
-                    <td>{{$row->unit_sosmed_name}}</td>
+                    <td>
+                        @if($idsosmed==1)
+                            <a href="https://www.twitter.com/{{$row->unit_sosmed_name}}" target="new target">{{$row->unit_sosmed_name}}</a>
+                        @elseif($idsosmed==2)
+                            <a href="#" target="new target">{{$row->unit_sosmed_name}}</a>
+                        @elseif($idsosmed==3)
+                            <a href="https://www.instagram.com/{{$row->unit_sosmed_name}}" target="new target">{{$row->unit_sosmed_name}}</a>
+                        @elseif($idsosmed==4)
+                            <a href="https://youtube.com/{{$row->unit_sosmed_name}}" target="new target">{{$row->unit_sosmed_name}}</a>
+                        @else 
+                            {{$row->unit_sosmed_name}}
+                        @endif
+                    </td>
                     <td>{{number_format($row->follower)}}
                         <input type="hidden" name="last[{{$row->idsosmed}}]" value="{{$row->follower}}">
                     </td>
                     <td>
                         @if($row->idsosmed!=0)
                             <input type="hidden" name="official[{{$row->idsosmed}}]" value="{{$row->unit_sosmed_name}}">
-                            <input type="number" class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" required>
+                            @if($idsosmed==1)
+                                <input type="number" readonly class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" value="{{twitter_follower($row->unit_sosmed_name)}}" required>
+                            @elseif($idsosmed==2)
+                                <input type="number" class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" required>
+                            @elseif($idsosmed==3)
+                                <input type="number" readonly class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" value="{{instagram_follower($row->unit_sosmed_name)}}" required>
+                            @elseif($idsosmed==4)
+                                <input type="number" readonly class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" value="{{youtube_follower($row->unit_sosmed_account_id)}}" required>
+                            @else 
+
+                            @endif
                         @endif
                     </td>
                 </tr>

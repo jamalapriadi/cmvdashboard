@@ -232,9 +232,20 @@
                                 '<legend>Sosial Media Official</legend>';
                                 $.each(result.sosmed,function(a,b){
                                     el+='<div class="form-group">'+
-                                        '<label class="control-label">'+b.sosmed_name+'</label>'+
-                                        '<input class="form-control" name="sosmed['+b.id+']" class="form-control" placeholder="'+b.sosmed_name+'">'+
-                                    '</div>';
+                                        '<label class="control-label">'+b.sosmed_name+'</label>';
+                                        if(b.id==4){
+                                            el+='<div class="row">'+
+                                                '<div class="col-lg-6">'+
+                                                    '<input class="form-control" name="sosmed['+b.id+']" class="form-control" placeholder="'+b.sosmed_name+'">'+
+                                                '</div>'+
+                                                '<div class="col-lg-6">'+
+                                                    '<input class="form-control" name="sosmedid['+b.id+']" class="form-control" placeholder="Sosmed ID">'+
+                                                '</div>'+
+                                            '</div>';
+                                        }else{
+                                            el+='<input class="form-control" name="sosmed['+b.id+']" class="form-control" placeholder="'+b.sosmed_name+'">';
+                                        }
+                                    el+='</div>';
                                 })
                             el+='</fieldset>';
 

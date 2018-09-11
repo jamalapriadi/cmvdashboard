@@ -75,10 +75,10 @@ class ProgramunitController extends Controller
 
     public function store(Request $request){
         $rules=[
-            'unit'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
-            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'unit'=>'required|max:30',
+            'name'=>'required|max:30',
             'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
+            'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -148,10 +148,10 @@ class ProgramunitController extends Controller
 
     public function update(Request $request,$id){
         $rules=[
-            'unit'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
-            'name'=>'required|max:30|regex:/^[a-zA-Z0-9_\- ]*$/',
+            'unit'=>'required|max:30',
+            'name'=>'required|max:30',
             'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60|regex:/^[a-zA-Z0-9_\- ]*$/'
+            'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -974,31 +974,32 @@ class ProgramunitController extends Controller
         }else{
             $tgl=date('Y-m-d');
         }
-
+        
         $account=\DB::select("select 'corporate' as urut,a.id, a.group_unit_id, a.unit_name, 
-            b.type_sosmed, b.unit_sosmed_name, c.tanggal,
+            b.type_sosmed, b.unit_sosmed_account_id,b.unit_sosmed_name, c.tanggal,
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
             sum(if(c.tanggal='$tgl' and b.sosmed_id=$sosmed,c.follower,0)) as follower
             from business_unit a
             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tgl'
-            where a.id=$id
+            where a.id=$id and b.sosmed_id='$sosmed'
             group by a.id
             union all 
-            select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,
-            a.program_name,c.tanggal, 
+            select 'program' as urut,d.id, d.group_unit_id, d.unit_name, 
+            b.type_sosmed,b.unit_sosmed_account_id ,b.unit_sosmed_name,c.tanggal, 
             sum(if(b.sosmed_id=$sosmed,b.id,'')) as idsosmed,
             sum(if(c.tanggal='$tgl' and b.sosmed_id=$sosmed, c.follower,0)) as follower
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tgl'
             left join business_unit d on d.id=a.business_unit_id
-            where d.id=$id
+            where d.id=$id and b.sosmed_id='$sosmed'
             group by a.id
             order by id, urut,type_sosmed");
 
         return view('sosmed.view.add_new_report')
             ->with('account',$account)
-            ->with('sosmed',$type);
+            ->with('sosmed',$type)
+            ->with('idsosmed',$sosmed);
     }
 }

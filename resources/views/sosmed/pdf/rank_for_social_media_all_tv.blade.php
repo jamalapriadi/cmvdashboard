@@ -59,6 +59,8 @@
             <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="Publisher")
             <h1 class="text-center">RANK FOR HARDNEWS PUBLISHER SOCMED & YOUTUBE REPORT</h1>
+        @elseif($typeunit=="KOL")
+            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @else
 
         @endif
@@ -69,6 +71,8 @@
             <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @elseif($typeunit=="Publisher")
             <h1 class="text-center">RANK FOR HARDNEWS PUBLISHER SOCMED REPORT</h1>
+        @elseif($typeunit=="KOL")
+            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @else
 
         @endif
@@ -77,7 +81,8 @@
     <p class="text-center">( {{date('d-m-Y',strtotime($sekarang))}} vs {{date('d-m-Y',strtotime($kemarin))}} )</p>
 
     <div class="page-break"></div>
-
+    
+    @if($typeunit!="Radio")
     <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
     <br><br><br>
     <?php 
@@ -136,14 +141,18 @@
             <tr>
                 <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                 @foreach($sosmed as $row)
-                    <th colspan='3' class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    @if($row->id!=4)
+                        <th colspan='3' class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    @endif
                 @endforeach
             </tr>
             <tr>
                 @foreach($sosmed as $row)
-                    <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>% Growth</th>
-                    <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>TOTAL</th>
-                    <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>RANK</th>
+                    @if($row->id!=4)
+                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>% Growth</th>
+                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>TOTAL</th>
+                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>RANK</th>
+                    @endif
                 @endforeach
             </tr>
         </thead>
@@ -353,11 +362,11 @@
                                     <th style="background:{{$cig}}">{{($rankIg[$p->ig_sekarang] + 1)}}</th>
                                 @endif
 
-                                @if($sos->id==4)
+                                <!-- @if($sos->id==4)
                                     <th>{{round($p->growth_yt,2)}} %</th>
                                     <th>{{number_format($p->yt_sekarang)}}</th>
                                     <th style="background:{{$cyt}}">{{($rankYt[$p->yt_sekarang] + 1)}}</th>
-                                @endif
+                                @endif -->
                             @endforeach
                         </tr>
                     @endforeach
@@ -383,11 +392,11 @@
                                 <th style="background:{{$colorIg}}">{{($rankIg[$tig] + 1)}}</th>
                             @endif
 
-                            @if($sos->id==4)
+                            <!-- @if($sos->id==4)
                                 <th>{{round($row->growth_yt,2)}} %</th>
                                 <th>{{number_format($tyt)}}</th>
                                 <th style="background:{{$colorYt}}">{{($rankYt[$tyt] + 1)}}</th>
-                            @endif
+                            @endif -->
                         @endforeach
                     </tr>
                 @else
@@ -412,11 +421,11 @@
                                 <th style="background:{{$colorIg}}">{{($rankIg[$row->ig_sekarang] + 1)}}</th>
                             @endif
 
-                            @if($sos->id==4)
+                            <!-- @if($sos->id==4)
                                 <th>{{round($row->growth_yt,2)}} %</th>
                                 <th>{{number_format($row->yt_sekarang)}}</th>
                                 <th style="background:{{$colorYt}}">{{($rankYt[$row->yt_sekarang] + 1)}}</th>
-                            @endif
+                            @endif -->
                         @endforeach
                     </tr>
                 @endif
@@ -471,14 +480,18 @@
             <tr>
                 <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                 @foreach($sosmed as $sos)
-                    <th colspan='3' class='text-center' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
+                    @if($sos->id!=4)
+                        <th colspan='3' class='text-center' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
+                    @endif
                 @endforeach
             </tr>
             <tr>
                 @foreach($sosmed as $sos)
+                    @if($sos->id!=4)
                     <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>% Growth</th>
                     <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>TOTAL</th>
                     <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>RANK</th>
+                    @endif
                 @endforeach
             </tr>
         </thead>
@@ -553,11 +566,11 @@
                                         <th style="background:{{$colorIg}}">{{($rankIg2[$ins->ig_sekarang] + 1)}}</th>
                                     @endif
 
-                                    @if($sos->id==4)
+                                    <!-- @if($sos->id==4)
                                         <th>{{round($ins->growth_yt,2)}} %</th>
                                         <th>{{number_format($ins->yt_sekarang)}}</th>
                                         <th style="background:{{$colorYt}}">{{($rankYt2[$ins->yt_sekarang] + 1)}}</th>
-                                    @endif
+                                    @endif -->
                                 @endforeach
                             </tr>
                         @endif
@@ -584,11 +597,11 @@
                                 <th style="background:{{$colorIg}}">{{($rankIg2[$row->ig_sekarang] + 1)}}</th>
                             @endif
 
-                            @if($sos->id==4)
+                            <!-- @if($sos->id==4)
                                 <th>{{round($row->growth_yt,2)}} %</th>
                                 <th>{{number_format($row->yt_sekarang)}}</th>
                                 <th style="background:{{$colorYt}}">{{($rankYt2[$row->yt_sekarang] + 1)}}</th>
-                            @endif
+                            @endif -->
                         @endforeach
                     </tr>
                 @endif
@@ -721,14 +734,18 @@
             <tr>
                 <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                 @foreach($sosmed as $sos)
-                    <th colspan='3' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
+                    @if($sos->id!=4)
+                        <th colspan='3' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
+                    @endif
                 @endforeach
             </tr>
             <tr>
                 @foreach($sosmed as $sos)
-                    <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>Num Of Growth</th>
-                    <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>% Growth</th>
-                    <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>RANK</th>
+                    @if($sos->id!=4)
+                        <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>Num Of Growth</th>
+                        <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>% Growth</th>
+                        <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>RANK</th>
+                    @endif
                 @endforeach
             </tr>
         </thead>
@@ -1019,11 +1036,11 @@
                                     <th style="background:{{$cig}}">{{($rankIg3[$p->growth_ig] + 1)}}</th>
                                 @endif
 
-                                @if($sos->id==4)
+                                <!-- @if($sos->id==4)
                                     <th>{{number_format($p->num_of_growth_yt)}}</th>
                                     <th>{{round($p->growth_yt,2)}} %</th>
                                     <th style="background:{{$cyt}}">{{($rankYt3[$p->growth_yt] + 1)}}</th>
-                                @endif
+                                @endif -->
                             @endforeach
                         </tr>
                     @endforeach
@@ -1049,11 +1066,11 @@
                                 <th style="background:{{$colorIg}}">{{($rankIg3[$tig3]+1)}}</th>
                             @endif
 
-                            @if($sos->id==4)
+                            <!-- @if($sos->id==4)
                                 <th>{{number_format($row->num_of_growth_yt)}}</th>
                                 <th>{{round($row->growth_yt,2)}} %</th>
                                 <th style="background:{{$colorYt}}">{{($rankYt3[$tyt3]+1)}}</th>
-                            @endif
+                            @endif -->
                         @endforeach
                     </tr>
                 @else
@@ -1078,11 +1095,11 @@
                                 <th style="background:{{$colorIg}}">{{($rankIg3[$row->growth_ig] + 1)}}</th>
                             @endif
 
-                            @if($sos->id==4)
+                            <!-- @if($sos->id==4)
                                 <th>{{number_format($row->num_of_growth_yt)}}</th>
                                 <th>{{round($row->growth_yt,2)}} %</th>
                                 <th style="background:{{$colorYt}}">{{($rankYt3[$row->growth_yt] + 1)}}</th>
-                            @endif
+                            @endif -->
                         @endforeach
                     </tr>
                 @endif
@@ -1137,14 +1154,18 @@
             <tr>
                 <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                 @foreach($sosmed as $sos)
-                    <th colspan='3' class='text-center' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
+                    @if($sos->id!=4)
+                        <th colspan='3' class='text-center' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
+                    @endif
                 @endforeach
             </tr>
             <tr>
                 @foreach($sosmed as $sos)
-                <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>Num Of Growth</th>
-                <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>% Growth</th>
-                <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>RANK</th>
+                    @if($sos->id!=4)
+                        <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>Num Of Growth</th>
+                        <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>% Growth</th>
+                        <th class='text-center' style='background:{{$sos->sosmed_color}};color:white'>RANK</th>
+                    @endif
                 @endforeach
             </tr>
         </thead>
@@ -1222,11 +1243,11 @@
                                         <th style="background:{{$colorIg}}">{{($rankIg4[(string)$ins->growth_ig] + 1)}}</th>
                                     @endif
 
-                                    @if($sos->id==4)
+                                    <!-- @if($sos->id==4)
                                         <th>{{number_format($ins->num_of_growth_yt)}}</th>
                                         <th>{{round($ins->growth_yt,2)}} %</th>
                                         <th style="background:{{$colorYt}}">{{($rankYt4[(string)$ins->growth_yt] + 1)}}</th>
-                                    @endif
+                                    @endif -->
                                 @endforeach
                             </tr>
                         @endif
@@ -1253,11 +1274,11 @@
                                 <th style="background:{{$colorIg}}">{{($rankIg4[(string)$row->growth_ig] + 1)}}</th>
                             @endif
 
-                            @if($sos->id==4)
+                            <!-- @if($sos->id==4)
                                 <th>{{number_format($row->num_of_growth_yt)}}</th>
                                 <th>{{round($row->growth_yt,2)}} %</th>
                                 <th style="background:{{$colorYt}}">{{($rankYt4[(string)$row->growth_yt] + 1)}}</th>
-                            @endif
+                            @endif -->
                         @endforeach
                     </tr>
                 @endif 
@@ -1265,8 +1286,9 @@
         </tbody>
     </table>
 
-    @if($typeunit!="Radio")
+    
     <div class="page-break"></div>
+    @endif
 
     <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
     <br><br><br>
@@ -1842,6 +1864,5 @@
             @endforeach
         </tbody>
     </table>
-    @endif
 </body>
 </html>

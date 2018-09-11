@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Youtube;
+use GuzzleHttp\Client;
 
 class HomeController extends Controller
 {
@@ -15,6 +17,9 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->client = new Client([
+            'base_uri' => 'graph.facebook.com',
+        ]);
     }
 
     /**
@@ -22,8 +27,17 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // $user=\App\User::with(
+        //     [
+        //         'unit',
+        //         'unit.followers'=>function($q){
+        //             $q->where('tanggal','2018-08-08');
+        //         },
+        //         'unit.followers.unitsosmed'
+        //     ]
+        // )->find(auth()->user()->id);
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
 
         return view('sosmed.dashboard')
@@ -55,8 +69,11 @@ class HomeController extends Controller
 
     public function user_role($id){
         if(auth()->user()->can('Setting Role')){
+            $sosmed=\App\Models\Sosmed\Sosmed::all();
+
             return view('user.user_role')
-                ->with('id',$id);
+                ->with('id',$id)
+                ->with('sosmed',$sosmed);
         }
 
         return abort('403');
@@ -171,11 +188,13 @@ class HomeController extends Controller
             }
 
             $sosmed=\App\Models\Sosmed\Sosmed::all();
+            $group=\App\Models\Sosmed\Groupunit::all();
     
             return view('sosmed.daily_report')
                 ->with('sekarang',$sekarang)
                 ->with('kemarin',$kemarin)
-                ->with('sosmed',$sosmed);
+                ->with('sosmed',$sosmed)
+                ->with('group',$group);
         }
 
         return abort('403');
@@ -239,6 +258,32 @@ class HomeController extends Controller
         $sekarang=date('Y-m-d');
         $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
 
+        switch($id){
+            case 'twitter':
+                    if(!auth()->user()->can('Input Twitter')){
+                        return abort('403');
+                    }
+                break;
+            case 'facebook':
+                    if(!auth()->user()->can('Input Facebook')){
+                        return abort('403');
+                    }
+                break;
+            case 'instagram':
+                    if(!auth()->user()->can('Input Instagram')){
+                        return abort('403');
+                    }
+                break;
+            case 'youtube':
+                    if(!auth()->user()->can('Input Youtube')){
+                        return abort('403');
+                    }
+                break;
+            default:
+
+                break;
+        }
+
         return view('sosmed.input_report')
                 ->with('sosmed',$sosmed)
                 ->with('group',$group)
@@ -274,5 +319,94 @@ class HomeController extends Controller
 
     public function change_password(){
         return view('user.change_password');
+    }
+
+    public function connect_provider($provider){
+        return view('sosmed.social.connect_provider')
+            ->with('provider',$provider);
+    }
+
+    public function instagram_follower($id){
+        $raw = file_get_contents('https://www.instagram.com/'.$id); //replace with user
+        preg_match('/\"edge_followed_by\"\:\s?\{\"count\"\:\s?([0-9]+)/',$raw,$m);
+        return intval($m[1]);
+    }
+
+    public function sosmed_input_twitter(){
+        return \Twitter::getUserTimeline(['screen_name' => 'ACI_TRANS7', 'count' => 20, 'format' => 'json']);
+        $user=\App\User::with(
+            [
+                'unit',
+                'unit.sosmed'=>function($q){
+                    $q->where('sosmed_id',4);
+                },
+                'unit.program',
+                'unit.program.sosmed'=>function($q){
+                    $q->where('sosmed_id',4);
+                }
+            ]
+        )->find(auth()->user()->id);
+
+        return $user;
+
+        $data=array();
+        foreach($user->unit as $key=>$val){
+            $sosmed=array();
+            foreach($val->sosmed as $row){
+                if($row->sosmed_id==1 && $row->business_program_unit!=4){
+                    $fol=$this->twitter_follower($row->unit_sosmed_name);
+                }elseif($row->sosmed_id==3 && $row->business_program_unit!=4){
+                    $fol=$this->instagram_follower($row->unit_sosmed_name);
+                }elseif($row->sosmed_id==4  && $row->business_program_unit!=4){
+                    $fol=$this->youtube_follower($row->unit_sosmed_name);
+                }
+
+                $sosmed[]=array(
+                    'sosmed_id'=>$row->sosmed_id,
+                    'account_name'=>$row->unit_sosmed_name,
+                    'follower'=>$fol
+                );
+            }
+            $data[]=array(
+                'unit_name'=>$val->unit_name,
+                'sosmed'=>$sosmed
+            );
+        }
+
+        return $data;
+        return $user;
+    }
+
+    public function twitter_follower($id){
+        $html=file_get_contents("https://twitter.com/".$id);
+        preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
+        return $title = (int)$match[1];
+    }
+
+    public function youtube_follower($id){
+        $client = new \GuzzleHttp\Client();
+        $res = $client->request('GET', 'http://rctimobile.com/engine/ytsubs.php?id='.$id);
+
+        return $res->getBody();
+    }
+
+    public function sosmed_input_facebook(Request $request){
+        $token=$request->session()->get('token_facebook');
+        // $json = file_get_contents('https://graph.facebook.com/PHP-Developer/103146756409401?access_token='.$token);
+        // $obj = json_decode($json);
+        // $new_facebook_followers= $obj->data[0]->values[0]->value;
+        // return $new_facebook_followers;
+        $fpageID = '133529600097002';
+        
+        $json_url ='https://graph.facebook.com/'.$fpageID.'?access_token='.$token;
+        $json = file_get_contents($json_url);
+        $json_output = json_decode($json);
+
+        //Extract the likes count from the JSON object
+        if($json_output->likes){
+            return $likes = $json_output->likes;
+        }else{
+            return 0;
+        }
     }
 }
