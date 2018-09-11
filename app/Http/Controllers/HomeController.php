@@ -38,6 +38,7 @@ class HomeController extends Controller
         //         'unit.followers.unitsosmed'
         //     ]
         // )->find(auth()->user()->id);
+
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
 
         return view('sosmed.dashboard')

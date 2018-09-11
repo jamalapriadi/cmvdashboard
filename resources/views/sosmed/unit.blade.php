@@ -130,9 +130,10 @@
                     columns: [
                         {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
                         {data: 'groupunit.group_name', name: 'groupunit.group_name',title:'Group Name',width:'20%'},
-                        {data: 'unit_name', name: 'unit_name',title:'Unit Name'},
+                        {data: 'unit_name', name: 'unit_name',title:'Unit Name',width:'20%',searchable:true},
                         {data: 'type_unit', name: 'type_unit',title:'Type Unit'},
-                        {data: 'jumsosmed', name: 'jumsosmed',title:'Jumlah Sosmed',width:'20%'},
+                        {data: 'tier', name: 'tier',title:'Tier'},
+                        // {data: 'jumsosmed', name: 'jumsosmed',title:'Jumlah Sosmed',width:'20%'},
                         {data: 'action', name: 'action',title:'Action',searchable:false,width:'25%'}
                     ],
                     buttons: [
@@ -227,27 +228,32 @@
                                 '<input class="form-control" name="name" id="name" placeholder="Business Unit Name" required>'+
                             '</div>'+
 
-                            '<hr>'+
-                            '<fieldset>'+
-                                '<legend>Sosial Media Official</legend>';
-                                $.each(result.sosmed,function(a,b){
-                                    el+='<div class="form-group">'+
-                                        '<label class="control-label">'+b.sosmed_name+'</label>';
-                                        if(b.id==4){
-                                            el+='<div class="row">'+
-                                                '<div class="col-lg-6">'+
-                                                    '<input class="form-control" name="sosmed['+b.id+']" class="form-control" placeholder="'+b.sosmed_name+'">'+
-                                                '</div>'+
-                                                '<div class="col-lg-6">'+
-                                                    '<input class="form-control" name="sosmedid['+b.id+']" class="form-control" placeholder="Sosmed ID">'+
-                                                '</div>'+
-                                            '</div>';
-                                        }else{
-                                            el+='<input class="form-control" name="sosmed['+b.id+']" class="form-control" placeholder="'+b.sosmed_name+'">';
-                                        }
-                                    el+='</div>';
-                                })
-                            el+='</fieldset>';
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Tier</label>'+
+                                '<input class="form-control" name="tier" id="tier" placeholder="Tier" required>'+
+                            '</div>';
+
+                            // '<hr>'+
+                            // '<fieldset>'+
+                            //     '<legend>Sosial Media Official</legend>';
+                            //     $.each(result.sosmed,function(a,b){
+                            //         el+='<div class="form-group">'+
+                            //             '<label class="control-label">'+b.sosmed_name+'</label>';
+                            //             if(b.id==4){
+                            //                 el+='<div class="row">'+
+                            //                     '<div class="col-lg-6">'+
+                            //                         '<input class="form-control" name="sosmed['+b.id+']" class="form-control" placeholder="'+b.sosmed_name+'">'+
+                            //                     '</div>'+
+                            //                     '<div class="col-lg-6">'+
+                            //                         '<input class="form-control" name="sosmedid['+b.id+']" class="form-control" placeholder="Sosmed ID">'+
+                            //                     '</div>'+
+                            //                 '</div>';
+                            //             }else{
+                            //                 el+='<input class="form-control" name="sosmed['+b.id+']" class="form-control" placeholder="'+b.sosmed_name+'">';
+                            //             }
+                            //         el+='</div>';
+                            //     })
+                            // el+='</fieldset>';
 
                         $("#showForm").empty().html(el);
                     },
@@ -349,33 +355,37 @@
                                 '<label class="control-label text-semibold">Business Unit Name</label>'+
                                 '<input class="form-control" name="name" value="'+result.unit.unit_name+'" id="name" placeholder="Business Unit Name" required>'+
                             '</div>'+
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Tier</label>'+
+                                '<input class="form-control" name="tier" value="'+result.unit.tier+'" id="tier" placeholder="Tier">'+
+                            '</div>';
 
-                            '<hr>'+
-                            '<fieldset>'+
-                                '<legend>Sosial Media Official</legend>';
-                                $.each(result.sosmed,function(c,d){
-                                    if(result.unit.sosmed.length>0){
-                                        var isi="";
+                            // '<hr>'+
+                            // '<fieldset>'+
+                            //     '<legend>Sosial Media Official</legend>';
+                            //     $.each(result.sosmed,function(c,d){
+                            //         if(result.unit.sosmed.length>0){
+                            //             var isi="";
 
-                                        for(a=0; a<result.unit.sosmed.length;a++){
-                                            if(result.unit.sosmed[a].sosmed_id==d.id){
-                                                isi=result.unit.sosmed[a].unit_sosmed_name;
-                                            }
-                                        }
+                            //             for(a=0; a<result.unit.sosmed.length;a++){
+                            //                 if(result.unit.sosmed[a].sosmed_id==d.id){
+                            //                     isi=result.unit.sosmed[a].unit_sosmed_name;
+                            //                 }
+                            //             }
                                         
 
-                                        el+='<div class="form-group">'+
-                                            '<label class="control-label">'+d.sosmed_name+'</label>'+
-                                            '<input class="form-control" name="sosmed['+d.id+']" value="'+isi+'" class="form-control" placeholder="'+d.sosmed_name+'">'+
-                                        '</div>';
-                                    }else{
-                                        el+='<div class="form-group">'+
-                                            '<label class="control-label">'+d.sosmed_name+'</label>'+
-                                            '<input class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed_name+'">'+
-                                        '</div>';
-                                    }
-                                })
-                            el+='</fieldset>';
+                            //             el+='<div class="form-group">'+
+                            //                 '<label class="control-label">'+d.sosmed_name+'</label>'+
+                            //                 '<input class="form-control" name="sosmed['+d.id+']" value="'+isi+'" class="form-control" placeholder="'+d.sosmed_name+'">'+
+                            //             '</div>';
+                            //         }else{
+                            //             el+='<div class="form-group">'+
+                            //                 '<label class="control-label">'+d.sosmed_name+'</label>'+
+                            //                 '<input class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed_name+'">'+
+                            //             '</div>';
+                            //         }
+                            //     })
+                            // el+='</fieldset>';
 
                         $("#showForm").empty().html(el);
 
@@ -479,7 +489,7 @@
                     data:"type=corporate",
                     beforeSend:function(){
                         el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
-                            '<div class="modal-dialog">'+
+                            '<div class="modal-dialog modal-lg">'+
                                 '<form id="form" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
@@ -505,26 +515,47 @@
                         $("#showForm").empty().html(el);
                     },
                     success:function(result){
-                        el+="<table class='table table-striped'>"+
-                            "<thead>"+
-                                "<tr>"+
-                                    "<th rowspan='2'>Account</th>"+
-                                    "<th rowspan='2'>Official Account</th>"+
-                                    "<th rowspan='2'>Total Activity ( 1 Week )</th>"+
-                                    "<th rowspan='2'>Action</th>"+
-                                "</tr>"+
-                            "</thead>"+
-                            "<tbody>";
-                                $.each(result.unit.sosmed,function(a,b){
-                                    el+="<tr>"+
-                                        "<td>"+b.sosmed.sosmed_name+"</td>"+
-                                        "<td>"+b.unit_sosmed_name+"</td>"+
-                                        "<td class='text-center'>"+b.followers.length+"</td>"+
-                                        "<td><a class='btn btn-sm btn-danger hapusosmed' sosmedid='"+b.id+"'><i class='icon-trash'></i></td>"+
-                                    "</tr>";
-                                })
-                            el+="</tbody>"+
-                        "</table>";
+                        el+='<fieldset>'+
+                                "<form onsubmit='return false'>"+
+                                    '<div class="row">'+
+                                        "<div class='col-lg-3'>"+
+                                            "<div class='form-group'>"+
+                                                '<label class="control-label">Social Media</label>'+
+                                                '<select name="sosmed" id="sosmed" class="form-control">'+
+                                                    '<option value="" disabled selected>--Pilih Social Media--</option>';
+                                                    $.each(result.sosmed,function(a,b){
+                                                        el+="<option value='"+b.id+"'>"+b.sosmed_name+"</option>";
+                                                    })
+                                                el+='</select>'+
+                                            "</div>"+
+                                        "</div>"+
+                                        "<div class='col-lg-3'>"+
+                                            "<label class='control-label'>Account Name</label>"+
+                                            "<input class='form-control'>"+
+                                        "</div>"+
+                                    '</div>'+
+                                "</form>"+
+                            "</fieldset>"+
+                            "<table class='table table-striped'>"+
+                                "<thead>"+
+                                    "<tr>"+
+                                        "<th rowspan='2'>Account</th>"+
+                                        "<th rowspan='2'>Official Account</th>"+
+                                        "<th rowspan='2'>Total Activity ( 1 Week )</th>"+
+                                        "<th rowspan='2'>Action</th>"+
+                                    "</tr>"+
+                                "</thead>"+
+                                "<tbody>";
+                                    $.each(result.unit.sosmed,function(a,b){
+                                        el+="<tr>"+
+                                            "<td>"+b.sosmed.sosmed_name+"</td>"+
+                                            "<td>"+b.unit_sosmed_name+"</td>"+
+                                            "<td class='text-center'>"+b.followers.length+"</td>"+
+                                            "<td><a class='btn btn-sm btn-danger hapusosmed' sosmedid='"+b.id+"'><i class='icon-trash'></i></td>"+
+                                        "</tr>";
+                                    })
+                                el+="</tbody>"+
+                            "</table>";
 
                         $("#showForm").empty().html(el);
                     },

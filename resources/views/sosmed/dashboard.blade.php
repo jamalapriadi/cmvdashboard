@@ -1,4 +1,4 @@
-@extends('layouts.sosmed')
+@extends('layouts.sufe.main')
 
 @section('title')
     Dashboard
@@ -19,22 +19,23 @@
 @section('content')
 <div class="container-fluid">
     <!-- OVERVIEW -->
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title text-center">SUMMARY</h3>
+    <div class="card card-primary">
+        <div class="card-header">
+            <h5 class="card-title text-center">SUMMARY</h5>
         </div>
-        <div class="panel-body">
-            <div class="tabbable">
-                <ul class="nav nav-tabs nav-tabs-highlight">
-                    <li class="active"><a href="#highlight-tab1" data-toggle="tab">TARGET VS ACHIEVEMENT</a></li>
-                    <li><a href="#highlighted-tab2" data-toggle="tab">OFFICIAL ACCOUNT ALL TV</a></li>
-                    <li><a href="#highlighted-tab3" data-toggle="tab">SOCMED OFFICIAL AND PROGRAM</a></li>
-                    <li><a href="#highlighted-tab4" data-toggle="tab">DETAIL OFFICIAL AND PROGRAM</a></li>
-                    <li><a href="#highlighted-tab5" data-toggle="tab">RANKING</a></li>
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane active" id="highlight-tab1">
+        <div class="card-body">
+            <div class="default-tab">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#highlight-tab1" role="tab" aria-controls="nav-home" aria-selected="true">TARGET VS ACHIEVEMENT</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#highlight-tab2" role="tab" aria-controls="nav-profile" aria-selected="false">OFFICIAL ACCOUNT ALL TV</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab3" role="tab" aria-controls="nav-contact" aria-selected="false">SOCMED OFFICIAL AND PROGRAM</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab4" role="tab" aria-controls="nav-contact" aria-selected="false">DETAIL OFFICIAL AND PROGRAM</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab5" role="tab" aria-controls="nav-contact" aria-selected="false">RANKING</a>
+                    </div>
+                </nav>
+                <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="highlight-tab1" role="tabpanel" aria-labelledby="nav-home-tab">
                         <form id="formTargetAchievement" onsubmit="return false">
                             <div class="row">
                                 <div class="col-lg-3">
@@ -71,8 +72,7 @@
                             <div id="divTargetVsAchievement"></div>
                         </div>
                     </div>
-
-                    <div class="tab-pane" id="highlighted-tab2">
+                    <div class="tab-pane fade" id="highlight-tab2" role="tabpanel" aria-labelledby="nav-profile-tab">
                         <form id="formofficialAccountAllTv" onsubmit="return false">
                             <div class="row">
                                 <!-- <div class="col-lg-3">
@@ -114,8 +114,7 @@
                             <div id="divofficialAccountAllTv"></div>
                         </div>
                     </div>
-
-                    <div class="tab-pane" id="highlighted-tab3">
+                    <div class="tab-pane fade" id="highlight-tab3" role="tabpanel" aria-labelledby="nav-contact-tab">
                         <form id="formsosmedOfficialAndProgram" onsubmit="return false">
                             <div class="row">
                                 <div class="col-lg-3">
@@ -141,8 +140,7 @@
                             <div id="sosmedOfficialAndProgram"></div>
                         </div>
                     </div>
-
-                    <div class="tab-pane" id="highlighted-tab4">
+                    <div class="tab-pane fade" id="highlight-tab4" role="tabpanel" aria-labelledby="nav-contact-tab">
                         <form id="formofficialAndProgram" onsubmit="return false">
                             <div class="row">
                                 <div class="col-lg-3">
@@ -177,8 +175,7 @@
                             <div id="officialAndProgram"></div>
                         </div>
                     </div>
-
-                    <div class="tab-pane" id="highlighted-tab5">
+                    <div class="tab-pane fade" id="highlight-tab5" role="tabpanel" aria-labelledby="nav-contact-tab">
                         <form id="formRangking" onsubmit="return false">
                             <div class="row">
                                 <div class="col-lg-4">

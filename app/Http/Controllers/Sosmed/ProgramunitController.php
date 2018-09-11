@@ -404,6 +404,8 @@ class ProgramunitController extends Controller
                             }
                         ]
                     )->find($id);
+
+                    $sosmed=\App\Models\Sosmed\Sosmed::all();
                 break;
             case 'corporate':
                     $unit=\App\Models\Sosmed\Businessunit::with(
@@ -415,13 +417,16 @@ class ProgramunitController extends Controller
                             }
                         ]
                     )->find($id);
+
+                    $sosmed=\App\Models\Sosmed\Sosmed::all();
                 break;
         }
 
         return array(
             'unit'=>$unit,
             'kemarin'=>$kemarin,
-            'sekarang'=>$sekarang
+            'sekarang'=>$sekarang,
+            'sosmed'=>$sosmed
         );
     }
 

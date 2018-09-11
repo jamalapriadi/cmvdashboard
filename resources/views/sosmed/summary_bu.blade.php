@@ -1,34 +1,44 @@
 @extends('layouts.sosmed')
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">Summary Business Unit</div>
-        <div class="panel-body">
-            <ul class="nav nav-tabs nav-tabs-highlight">
-                <li class="active"><a href="#highlighted-tab1" data-toggle="tab">Summary</a></li>
-                <li><a href="#highlighted-tab2" data-toggle="tab">Sosial Media</a></li>
-                <li><a href="#highlighted-tab3" data-toggle="tab">Target</a></li>
-            </ul>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Social Media</div>
+            </div>
+        </div>
 
-            <div class="tab-content">
-                <div class="tab-pane active" id="highlighted-tab1">
-                    Highlight top border of the active tab by adding <code>.nav-tabs-highlight</code> class.
-                </div>
-
-                <div class="tab-pane" id="highlighted-tab2">
-                    <div id="divSosmed"></div>
-                </div>
-
-                <div class="tab-pane" id="highlighted-tab3">
-                    <a class="btn btn-primary" id="tambahtarget">
-                        <i class="icon-add"></i> &nbsp; Add New Target 
-                    </a>
-                    <hr>
-                    <div id="divTarget"></div>
-                </div>
-
-                <div class="tab-pane" id="highlighted-tab4">
-                    Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Summary Business Unit</div>
+                <div class="panel-body">
+                    <ul class="nav nav-tabs nav-tabs-highlight">
+                        <li class="active"><a href="#highlighted-tab1" data-toggle="tab">Summary</a></li>
+                        <li><a href="#highlighted-tab2" data-toggle="tab">Sosial Media</a></li>
+                        <li><a href="#highlighted-tab3" data-toggle="tab">Target</a></li>
+                    </ul>
+        
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="highlighted-tab1">
+                            Highlight top border of the active tab by adding <code>.nav-tabs-highlight</code> class.
+                        </div>
+        
+                        <div class="tab-pane" id="highlighted-tab2">
+                            <div id="divSosmed"></div>
+                        </div>
+        
+                        <div class="tab-pane" id="highlighted-tab3">
+                            <a class="btn btn-primary" id="tambahtarget">
+                                <i class="icon-add"></i> &nbsp; Add New Target 
+                            </a>
+                            <hr>
+                            <div id="divTarget"></div>
+                        </div>
+        
+                        <div class="tab-pane" id="highlighted-tab4">
+                            Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
