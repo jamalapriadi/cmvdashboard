@@ -1,4 +1,4 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('extra-style')
 <style>
@@ -28,21 +28,22 @@
 @stop
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">Program</div>
-        <div class="panel-body">
+    <div class="card card-default">
+        <div class="card-header">Program</div>
+        <div class="card-body">
             @if(auth()->user()->can('Add Program'))
-            <a class="btn btn-primary" id="tambah">
+            <a class="btn btn-primary text-white" id="tambah">
                 <i class="icon-add"></i> &nbsp;
                 Add New Program
             </a>
             @endif
             <br><br>
 
-            <fieldset>
+            <fieldset style="margin-bottom:30px;">
                 <legend>Filter</legend>
-                <div class="row" style="padding-left:10px;">
-                    <form id="formSearch" onsubmit="return false;">
+                
+                <form id="formSearch" onsubmit="return false;">
+                    <div class="row" style="padding-left:10px;">
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="" class="control-label">Group</label>
@@ -73,18 +74,20 @@
                                 <i class="icon-filter4"></i> Filter
                             </button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </fieldset>
             
-            <table class="table table-striped datatable-colvis-basic"></table>
+            <div class="table-responsive">
+                <table class="table table-striped datatable-colvis-basic"></table>
+            </div>
         </div>
     </div>
 
     <div id="divModal"></div>
 @stop
 
-@push('extra-script')
+@section('js')
     <script>
         $(function(){
             var kode="";
@@ -176,8 +179,8 @@
                                 '<form id="form" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                             '<h5 class="modal-title" id="modal-title">Add New Program</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -279,8 +282,8 @@
                                 '<form id="formUpdate" onsubmit="return false;" enctype="multipart/form-data">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                             '<h5 class="modal-title" id="modal-title">Edit Program Unit</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -405,16 +408,12 @@
                 swal({
                     title: "Are you sure?",
                     text: "You will delete data!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, cancel!",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                function(isConfirm){
-                    if (isConfirm) {
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
                         $.ajax({
                             url:"{{URL::to('sosmed/data/program-unit')}}/"+kode,
                             type:"DELETE",
@@ -429,7 +428,7 @@
                             }
                         })
                     } else {
-                        swal("Cancelled", "Your data is safe :)", "error");
+                        swal("Your data is safe!");
                     }
                 });
             });
@@ -504,8 +503,8 @@
                                 '<form id="form" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                             '<h5 class="modal-title" id="modal-title">Last Activity</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -562,16 +561,12 @@
                 swal({
                     title: "Are you sure?",
                     text: "You will delete data!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, cancel!",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                function(isConfirm){
-                    if (isConfirm) {
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
                         $.ajax({
                             url:"{{URL::to('sosmed/data/unit-sosmed')}}/"+sosmedid,
                             type:"DELETE",
@@ -587,7 +582,7 @@
                             }
                         })
                     } else {
-                        swal("Cancelled", "Your data is safe :)", "error");
+                        swal("Your data is safe!");
                     }
                 });
             })
@@ -595,4 +590,4 @@
             showData();
         })
     </script>
-@endpush
+@stop

@@ -66,9 +66,6 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('login/{provider}','HomeController@connect_provider');
 
         Route::get('chart/{param}','HomeController@sosmed_chart');
-<<<<<<< HEAD
-        Route::get('export-excel','HomeController@sosmed_export_excel');
-=======
         // Route::get('instagram','HomeController@sosmed_input_instagram');
         Route::get('twitter','HomeController@sosmed_input_twitter');
         Route::get('youtube/{id}','HomeController@youtube_follower');
@@ -78,7 +75,6 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('instagram/callback', 'Sosmed\InstagramController@handleProviderInstagramCallback');
 
         Route::get('otomatisasi-cek-sosmed','Sosmed\OtomatisasiController@cek_sosmed');
->>>>>>> 307e2f35a9e6beee76e0a854b2c5dac681acc45a
     });
 
     Route::group(['prefix'=>'data'],function(){

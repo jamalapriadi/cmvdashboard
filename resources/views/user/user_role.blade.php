@@ -1,37 +1,27 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card card-default">
+        <div class="card-header">
             List Role 
         </div>
-        <div class="panel-body">
-            <div class="tabbable">
-                <ul class="nav nav-tabs nav-tabs-highlight">
-                    <li class="active"><a href="#highlighted-tab1" data-toggle="tab">Role</a></li>
-                    {{-- <li><a href="#highlighted-tab4" data-toggle="tab">Socmed Handle</a></li> --}}
-                    <li><a href="#highlighted-tab2" data-toggle="tab">Unit Handle</a></li>
-                    {{-- <li><a href="#highlighted-tab3" data-toggle="tab">Program Handle</a></li> --}}
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane active" id="highlighted-tab1">
+        <div class="card-body">
+            <div class="default-tab">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#highlight-tab1" role="tab" aria-controls="nav-home" aria-selected="true">ROLE</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#highlight-tab2" role="tab" aria-controls="nav-profile" aria-selected="false">UNIT HANDLE</a>
+                    </div>
+                </nav>
+                <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="highlight-tab1" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div id="pesan"></div>
                         <div id="divRole"></div>
                     </div>
 
-                    <div class="tab-pane" id="highlighted-tab2">
+                    <div class="tab-pane fade" id="highlight-tab2" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div id="pesanHandleUnit"></div>
                         <div id="showUnit"></div>
-                    </div>
-
-                    <div class="tab-pane" id="highlighted-tab3">
-                        
-                    </div>
-
-                    <div class="tab-pane" id="highlighted-tab4">
-                        <div id="formSosmed"></div>
-                        <div id="showSosmed"></div>
                     </div>
                 </div>
             </div>
@@ -39,7 +29,7 @@
     </div>
 @stop
 
-@push('extra-script')
+@section('js')
     <script>
         $(function(){
             var id="{{$id}}";
@@ -435,4 +425,4 @@
             showSocmed();
         })
     </script>
-@endpush
+@stop

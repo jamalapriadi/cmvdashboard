@@ -1,17 +1,18 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">Export Daily Report</div>
-        <div class="panel-body">
-            <div class="tabbable">
-                <ul class="nav nav-tabs nav-tabs-highlight">
-                    <li class="active"><a href="#highlight-tab1" data-toggle="tab">ALL</a></li>
-                    <li><a href="#highlighted-tab2" data-toggle="tab">BY GROUP</a></li>
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane active" id="highlight-tab1">
+    <div class="card card-default">
+        <div class="card-header">Export Daily Report</div>
+        <div class="card-body">
+            <div class="default-tab">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#highlight-tab1" role="tab" aria-controls="nav-home" aria-selected="true">ALL</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#highlight-tab2" role="tab" aria-controls="nav-profile" aria-selected="false">BY GROUP</a>
+                    </div>
+                </nav>
+                <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="highlight-tab1" role="tabpanel" aria-labelledby="nav-home-tab">
                         <form class="form-horizontal" action="{{URL::to('sosmed/data/report/pdf-sosmed-daily-report')}}" method="GET" target="new target">
                             <div class="form-group">
                                 <label class="col-lg-2">Type Unit</label>
@@ -62,10 +63,10 @@
                                     </button>
                                 </div>
                             </div>
-                        </form>     
+                        </form> 
                     </div>
 
-                    <div class="tab-pane" id="highlighted-tab2">
+                    <div class="tab-pane fade" id="highlight-tab2" role="tabpanel" aria-labelledby="nav-home-tab">
                         <form class="form-horizontal" action="{{URL::to('sosmed/data/report/pdf-sosmed-daily-report-by-group')}}" method="GET" target="new target">
                             <div class="form-group">
                                 <label for="" class="col-lg-2">Group</label>
@@ -128,17 +129,7 @@
     <div id="divModal"></div>
 @stop
 
-@push('extra-script')
-    <script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/datepicker.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/effects.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/notifications/jgrowl.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/ui/moment/moment.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/daterangepicker.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/anytime.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.date.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.time.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/legacy.js')}}"></script>
+@section('js')
     <script>
         $(function(){
             var sekarang = new Date();
@@ -219,4 +210,4 @@
             })
         })
     </script>
-@endpush
+@stop

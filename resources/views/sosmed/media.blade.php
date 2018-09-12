@@ -1,9 +1,9 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">Sosial Media</div>
-        <div class="panel-body">
+    <div class="card card-default">
+        <div class="card-header">Sosial Media</div>
+        <div class="card-body">
             @if(auth()->user()->can('Add Sosmed'))
             <a class="btn btn-primary" id="tambah">
                 <i class="icon-add"></i> &nbsp;
@@ -18,7 +18,7 @@
     <div id="divModal"></div>
 @stop
 
-@push('extra-script')
+@section('js')
     <script>
         $(function(){
             var kode="";
@@ -288,4 +288,4 @@
             showData();
         })
     </script>
-@endpush
+@stop

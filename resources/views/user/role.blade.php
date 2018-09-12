@@ -1,10 +1,10 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">Data Role</div>
-        <div class="panel-body">
-            <a class="btn btn-primary" id="tambah">
+    <div class="card card-default">
+        <div class="card-header">Data Role</div>
+        <div class="card-body">
+            <a class="btn btn-primary text-white" id="tambah">
                 <i class="icon-add"></i> &nbsp;
                 Add New Role
             </a>
@@ -16,7 +16,7 @@
     <div id="divModal"></div>
 @stop
 
-@push('extra-script')
+@section('js')
     <script>
         $(function(){
             var kode="";
@@ -94,8 +94,8 @@
                         '<form id="form" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                             '<div class="modal-content">'+
                                 '<div class="modal-header bg-primary">'+
-                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                     '<h5 class="modal-title" id="modal-title">Add New Role</h5>'+
+                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                 '</div>'+
 
                                 '<div class="modal-body">'+
@@ -166,8 +166,8 @@
                                 '<form id="formUpdate" onsubmit="return false;" enctype="multipart/form-data">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                             '<h5 class="modal-title" id="modal-title">Edit Role</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -254,16 +254,12 @@
                 swal({
                     title: "Are you sure?",
                     text: "You will delete data!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, cancel!",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                function(isConfirm){
-                    if (isConfirm) {
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
                         $.ajax({
                             url:"{{URL::to('sosmed/data/roles')}}/"+kode,
                             type:"DELETE",
@@ -278,7 +274,7 @@
                             }
                         })
                     } else {
-                        swal("Cancelled", "Your data is safe :)", "error");
+                        swal("Your data is safe!");
                     }
                 });
             });
@@ -286,4 +282,4 @@
             showData();
         })
     </script>
-@endpush
+@stop

@@ -21,20 +21,19 @@ class ProgramunitController extends Controller
             ->select('id','business_unit_id','program_name',
             \DB::raw('@rownum := @rownum + 1 AS no'));
 
+        if($request->has('unit') && $request->input('unit')!=null){
+            $var=$var->where('business_unit_id',$request->input('unit'));
+        }
+
+        if($request->has('group') && $request->input('group')!=null){
+            $group=$request->input('group');
+
+            $var=$var->whereHas('businessunit',function($q) use($group){
+                $q->where('group_unit_id',$group);
+            });
+        }
+
         return \Datatables::of($var)
-            ->filter(function($query) use($request){
-                if($request->has('unit') && $request->input('unit')!=null){
-                    $query->where('business_unit_id',$request->input('unit'));
-                }
-
-                if($request->has('group') && $request->input('group')!=null){
-                    $group=$request->input('group');
-
-                    $query->whereHas('businessunit',function($q) use($group){
-                        $q->where('group_unit_id',$group);
-                    });
-                }
-            })
             ->addColumn('jumsosmed',function($q){
                 $jumsosmed=count($q->sosmed);
                 if(auth()->user()->can('Update Sosmed Program')){

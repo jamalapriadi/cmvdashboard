@@ -1,4 +1,4 @@
-@extends('layouts.sufe.main')
+@extends('layouts.coreui.main')
 
 @section('title')
     Dashboard
@@ -53,7 +53,7 @@
                                         <label class="control-label">Periode</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" id="tanggal" name="tanggal" class="form-control daterange-single">
+                                            <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
                                         </div>
                                     </div>
                                 </div>
@@ -86,12 +86,12 @@
                                         </select>
                                     </div>
                                 </div> -->
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="control-label">Periode</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="tanggal" id="tanggal2" class="form-control daterange-single">
+                                            <input type="text" name="tanggal" id="tanggal2" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
                                         </div>
                                         <div class="checkbox">
                                             <label>
@@ -122,7 +122,7 @@
                                         <label class="control-label">Periode</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="tanggal" id="tanggal3" class="form-control daterange-single">
+                                            <input type="text" name="tanggal" id="tanggal3" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
                                         </div>
                                     </div>
                                 </div>
@@ -158,7 +158,7 @@
                                         <label class="control-label">Periode</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="tanggal" id="tanggal4" class="form-control daterange-single">
+                                            <input type="text" name="tanggal" id="tanggal4" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
                                         </div>
                                     </div>
                                 </div>
@@ -178,12 +178,12 @@
                     <div class="tab-pane fade" id="highlight-tab5" role="tabpanel" aria-labelledby="nav-contact-tab">
                         <form id="formRangking" onsubmit="return false">
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="control-label">Periode</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="icon-calendar5"></i></span>
-                                            <input type="text" name="tanggal" id="tanggal5" class="form-control daterange-single">
+                                            <input type="text" name="tanggal" id="tanggal5" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
                                         </div>
                                         <div class="checkbox">
                                             <label>
@@ -214,17 +214,7 @@
 @endsection
 
 
-@push('extra-script')
-    <script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/datepicker.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/effects.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/notifications/jgrowl.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/ui/moment/moment.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/daterangepicker.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/anytime.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.date.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.time.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/legacy.js')}}"></script>
+@section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/floatthead/2.1.1/jquery.floatThead.js"></script>
     <script>
         $(function(){
@@ -243,13 +233,10 @@
                 selectYears: true
             });
 
-            $('.daterange-single').daterangepicker({ 
-                singleDatePicker: true,
-                selectMonths: true,
-                selectYears: true,
-                locale: {
-                    format: 'DD-MM-YYYY'
-                }
+            $('.daterange-single').pickadate({
+                format: 'yyyy/mm/dd',
+                formatSubmit: 'yyyy/mm/dd',
+                max:true,
             });
 
             function addKoma(nStr)
@@ -268,25 +255,23 @@
             $(document).on("click","#pilih",function(){
                 if($(this).is(':checked')){
                     var el="";
-                    el+='<div class="col-lg-3">'+
-                        '<div class="form-group">'+
-                            '<label class="control-label">Compare With</label>'+
-                            '<div class="input-group">'+
-                                '<span class="input-group-addon"><i class="icon-calendar"></i></span>'+
-                                '<input class="form-control daterange-single-kemarin" name="kemarin" id="kemarin">'+
+                    el+='<div class="form-group">'+
+                        '<label class="control-label">Compare With</label>'+
+                        '<div class="input-group mb-3">'+
+                            '<div class="input-group-prepend">'+
+                                '<span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>'+
                             '</div>'+
+                            '<input class="form-control daterange-single-kemarin" data-value="'+kemarin+'" name="kemarin" id="kemarin">'+
                         '</div>'+
                     '</div>';
 
                     $("#anotherDate").empty().html(el);
 
-                    $('.daterange-single-kemarin').datepicker({ 
-                        singleDatePicker: true,
-                        selectMonths: true,
-                        selectYears: true
+                    $('.daterange-single-kemarin').pickadate({
+                        format: 'yyyy/mm/dd',
+                        formatSubmit: 'yyyy/mm/dd',
+                        max:true,
                     });
-
-                    $('.daterange-single-kemarin').datepicker('setDate',kemarin);
                 }else{
                     $("#anotherDate").empty();
                 }
@@ -295,25 +280,23 @@
             $(document).on("click","#pilih2",function(){
                 if($(this).is(':checked')){
                     var el="";
-                    el+='<div class="col-lg-3">'+
-                        '<div class="form-group">'+
-                            '<label class="control-label">Compare With</label>'+
-                            '<div class="input-group">'+
-                                '<span class="input-group-addon"><i class="icon-calendar"></i></span>'+
-                                '<input class="form-control daterange-single-kemarin" name="kemarin" id="kemarin2">'+
+                    el+='<div class="form-group">'+
+                        '<label class="control-label">Compare With</label>'+
+                        '<div class="input-group mb-3">'+
+                            '<div class="input-group-prepend">'+
+                                '<span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>'+
                             '</div>'+
+                            '<input class="form-control daterange-single-kemarin" data-value="'+kemarin+'" name="kemarin" id="kemarin2">'+
                         '</div>'+
                     '</div>';
 
                     $("#anotherDate2").empty().html(el);
 
-                    $('.daterange-single-kemarin').datepicker({ 
-                        singleDatePicker: true,
-                        selectMonths: true,
-                        selectYears: true
+                    $('.daterange-single-kemarin').pickadate({
+                        format: 'yyyy/mm/dd',
+                        formatSubmit: 'yyyy/mm/dd',
+                        max:true,
                     });
-
-                    $('.daterange-single-kemarin').datepicker('setDate',kemarin);
                 }else{
                     $("#anotherDate").empty();
                 }
@@ -550,4 +533,4 @@
             })
         })
     </script>
-@endpush
+@stop
