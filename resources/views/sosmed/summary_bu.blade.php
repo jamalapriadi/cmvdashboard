@@ -1,42 +1,40 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('content')
     <div class="row">
         <div class="col-lg-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Social Media</div>
+            <div class="card card-primary">
+                <div class="card-header">Social Media</div>
+                <div id="showSosmed"></div>
             </div>
         </div>
 
         <div class="col-lg-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">Summary Business Unit</div>
-                <div class="panel-body">
-                    <ul class="nav nav-tabs nav-tabs-highlight">
-                        <li class="active"><a href="#highlighted-tab1" data-toggle="tab">Summary</a></li>
-                        <li><a href="#highlighted-tab2" data-toggle="tab">Sosial Media</a></li>
-                        <li><a href="#highlighted-tab3" data-toggle="tab">Target</a></li>
-                    </ul>
-        
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="highlighted-tab1">
-                            Highlight top border of the active tab by adding <code>.nav-tabs-highlight</code> class.
+            <div class="card card-default">
+                <div class="card-header">Summary Business Unit</div>
+                <div class="card-body">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#highlight-tab1" role="tab" aria-controls="nav-home" aria-selected="true">SUMMARY</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#highlight-tab2" role="tab" aria-controls="nav-profile" aria-selected="false">SOCIAL MEDIA</a>
+                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab3" role="tab" aria-controls="nav-contact" aria-selected="false">TARGET</a>
                         </div>
-        
-                        <div class="tab-pane" id="highlighted-tab2">
+                    </nav>
+                    <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="highlight-tab1" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                        </div>
+
+                        <div class="tab-pane fade" id="highlight-tab2" role="tabpanel" aria-labelledby="nav-home-tab">
                             <div id="divSosmed"></div>
                         </div>
-        
-                        <div class="tab-pane" id="highlighted-tab3">
+
+                        <div class="tab-pane fade" id="highlight-tab3" role="tabpanel" aria-labelledby="nav-home-tab">
                             <a class="btn btn-primary" id="tambahtarget">
                                 <i class="icon-add"></i> &nbsp; Add New Target 
                             </a>
                             <hr>
                             <div id="divTarget"></div>
-                        </div>
-        
-                        <div class="tab-pane" id="highlighted-tab4">
-                            Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
                         </div>
                     </div>
                 </div>
@@ -44,16 +42,52 @@
         </div>
     </div>
 
+    <div class="row">
+        @foreach($bu->sosmed as $row)
+            @if($row->sosmed_id==1)
+                <div class="col-lg-3">
+                    <a class="twitter-timeline" data-height="600" data-theme="light" data-link-color="#E81C4F" href="https://twitter.com/{{$row->unit_sosmed_name}}?ref_src=twsrc%5Etfw">Tweets by {{$row->unit_sosmed_name}}</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+            @endif
+
+            @if($row->sosmed_id==2)
+                <div class="col-lg-3">
+                        <div id="fb-root"></div>
+                        <div class="fb-page" data-href="https://www.facebook.com/{{$row->unit_sosmed_account_id}}/" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/{{$row->unit_sosmed_account_id}}/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/{{$row->unit_sosmed_account_id}}/">Into The Wild</a></blockquote></div>
+                </div>
+            @endif
+        @endforeach
+    </div>
+
     <div id="divModal"></div>
 @stop
 
-@push('extra-script')
+@section('js')
+<script>
+        window.fbAsyncInit = function() {
+   FB.init({
+     appId            : '326236844797670',
+     autoLogAppEvents : true,
+     xfbml            : true,
+     version          : 'v3.1'
+   });
+ };
+
+ (function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+      </script>
     <script>
         $(function(){
             var id="{{$id}}";
             var kode="";
             var idunitsosmed="";
             var unitsosmedtarget="";
+            var sos=@json($bu);
 
             // Setting datatable defaults
             $.extend( $.fn.dataTable.defaults, {
@@ -77,6 +111,34 @@
                     $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
                 }
             });
+
+            function showSosmed(){
+                var el="";
+                el+="<table class='table table-striped'>"+
+                    "<thead>"+
+                        "<tr>"+
+                            "<th>No.</th>"+
+                            "<th>Sosmed Name</th>"+
+                            "<th>Account Name</th>"+
+                            "<th></th>"+
+                        "</tr>"+
+                    "</thead>"+
+                    "<tbody>";
+                    var no=0;
+                    $.each(sos.sosmed,function(a,b){
+                        no++;
+                        el+="<tr>"+
+                            "<td>"+no+"</td>"+
+                            "<td>"+b.sosmed.sosmed_name+"</td>"+
+                            "<td>"+b.unit_sosmed_name+"</td>"+
+                            "<td><a class='btn btn-danger btn-sm' kode='"+b.id+"'><i class='icon-trash'></i></a></td>"+
+                        "</tr>";
+                    })
+                    el+="</tbody>"+
+                "</table>";
+
+                $("#showSosmed").empty().html(el);
+            }
 
             function sosmed(){
                 $.ajax({
@@ -209,8 +271,8 @@
                                 '<form id="formTarget" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                             '<h5 class="modal-title" id="modal-title">Add New Target</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -309,8 +371,8 @@
                                 '<form id="formSetTarget" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                             '<h5 class="modal-title" id="modal-title">Set Target</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -408,8 +470,8 @@
                                 '<form id="formSetTarget" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                             '<h5 class="modal-title" id="modal-title">Set Target</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -465,6 +527,7 @@
 
             sosmed();
             target();
+            showSosmed();
         })
     </script>
-@endpush
+@stop

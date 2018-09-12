@@ -1,4 +1,4 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('extra-style')
 <style>
@@ -34,9 +34,9 @@
 @stop
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">Add New Daily Report # {{$id}}</div>
-        <div class="panel-body">
+    <div class="card card-default">
+        <div class="card-header">Add New Daily Report # {{$id}}</div>
+        <div class="card-body">
             <div id="pesansukses"></div>
             <div id="showKonfirmasi"></div>
             <div id="showForm"></div>
@@ -46,17 +46,10 @@
     <div id="divModal"></div>
 @stop
 
-@push('extra-script')
-    <script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/datepicker.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/effects.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/notifications/jgrowl.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/ui/moment/moment.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/daterangepicker.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/anytime.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.date.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.time.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/legacy.js')}}"></script>
+@section('js')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     {{Html::script('limitless1/assets/js/plugins/jquery-number/jquery.number.min.js')}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/floatthead/2.1.1/jquery.floatThead.js"></script>
     <script>
@@ -84,8 +77,8 @@
                                 '<form id="form" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                             '<h5 class="modal-title" id="modal-title">Add New Daily Report</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -626,4 +619,4 @@
             showForm();
         })
     </script>
-@endpush
+@stop

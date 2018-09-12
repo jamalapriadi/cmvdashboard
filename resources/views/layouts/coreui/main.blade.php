@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="{{asset('js/pickadate/lib/themes/default.date.css')}}" id="theme_date">
     <link rel="stylesheet" href="{{asset('js/pickadate/lib/themes/default.time.css')}}" id="theme_time">
 
+    {{Html::style('css/icons/icomoon/styles.css')}}
+
     @yield('extra-style')
 
 </head>

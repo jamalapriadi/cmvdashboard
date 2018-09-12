@@ -1,4 +1,4 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('extra-style')
 <style>
@@ -29,14 +29,14 @@
 @stop
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card card-default">
+        <div class="card-header">
             Daily Report {{$id}}
         </div>
-        <div class="panel-body">
-            <div class="row">
-                <form id="formSearch" onsubmit="return false;">
-                    <div style="float:left;margin-right:3px; width:160px">
+        <div class="card-body">  
+            <form id="formSearch" onsubmit="return false;">
+                <div class="row">
+                    <div class="col-lg-3">
                         <div id="divsearchunit">
                             <div class="form-group">
                                 <label for="" class="control-label">Unit</label>
@@ -49,12 +49,8 @@
                             </div>
                         </div>
                     </div>
-                    <div style="float:left;margin-right:3px; width:160px">
-                        <div id="divsearchprogram">
 
-                        </div>
-                    </div>
-                    <div style="float:left;margin-right:3px; width:180px">
+                    <div class="col-lg-3">
                         <div class="form-group">
                             <label class="control-label">Periode</label>
                             <div class="input-group">
@@ -63,21 +59,27 @@
                             </div>
                         </div>
                     </div>
-                    <div style="float:left;margin-right:3px; width:160px">
+
+                    <div class="col-lg-2">
                         <div class="form-group">
                             <button class="btn btn-primary" style="margin-top:25px;">
                                 <i class="icon-filter4"></i> Filter 
                             </button>
                         </div>
                     </div>
-                </form>
-            </div>
+                    {{-- <div style="float:left;margin-right:3px; width:160px">
+                        <div id="divsearchprogram">
+
+                        </div>
+                    </div> --}}
+                </div>
+            </form>
         </div>
     </div>
 
-    <div class="panel panel-flat">
+    <div class="card card-flat">
         @if(auth()->user()->can('Add Daily Report'))
-        <div class="panel-heading">
+        <div class="card-header">
             <a class="btn btn-primary" href="{{URL::to('sosmed/add-new-report-harian/'.$id)}}">
                 <i class="icon-add"></i> &nbsp;
                 Add New Report
@@ -89,7 +91,7 @@
             </a>
         </div>
         @endif
-        <div class="panel-body">
+        <div class="card-body">
             <!-- <table class="table table-striped datatable-colvis-basic"></table> -->
             <div class="table-responsive">
                 <div id="showData"></div>
@@ -100,17 +102,10 @@
     <div id="divModal"></div>
 @stop
 
-@push('extra-script')
-    <script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/datepicker.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/effects.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/notifications/jgrowl.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/ui/moment/moment.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/daterangepicker.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/anytime.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.date.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.time.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/legacy.js')}}"></script>
+@section('js')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script>
         $(function(){
             var kode="";
@@ -883,4 +878,4 @@
             showData();
         })
     </script>
-@endpush
+@stop

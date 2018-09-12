@@ -1,4 +1,4 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('extra-style')
 <style>
@@ -30,11 +30,11 @@
 @stop
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card card-default">
+        <div class="card-header">
             Daily Report
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             <div class="row">
                 <form id="formSearch" onsubmit="return false;">
                     <div style="float:left;margin-right:3px; width:160px">
@@ -87,9 +87,9 @@
         </div>
     </div>
 
-    <div class="panel panel-flat">
+    <div class="card card-flat">
         @if(auth()->user()->can('Add Daily Report'))
-        <div class="panel-heading">
+        <div class="card-heading">
             <a class="btn btn-primary" href="{{URL::to('sosmed/add-new-report-harian')}}">
                 <i class="icon-add"></i> &nbsp;
                 Add New Report
@@ -101,7 +101,7 @@
             </a>
         </div>
         @endif
-        <div class="panel-body">
+        <div class="card-body">
             <!-- <table class="table table-striped datatable-colvis-basic"></table> -->
             <div class="table-responsive">
                 <table class='table table-striped datatable-colvis-basic'></table>

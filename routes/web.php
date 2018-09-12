@@ -47,6 +47,9 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('input-report-harian','HomeController@sosmed_input_report_harian');
         Route::get('add-new-report-harian/{id}','HomeController@add_new_report_harian');
 
+        /*dashboard */
+        Route::get('dashboard-chart/{id}','HomeController@dashboard_chart');
+
         Route::get('daily-report','HomeController@sosmed_daily_report');
         Route::get('ranking-soc-med','HomeController@sosmed_ranking_soc_med');
         Route::get('input-report/{id}','HomeController@sosmed_input_report');
@@ -164,6 +167,8 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
             Route::get('daily-chart/{id}/program','Sosmed\ReportController@daily_chart_program');
             Route::get('all-tier','Sosmed\ReportController@all_tier');
             Route::get('official-tv','Sosmed\ReportController@chart_official_tv');
+            Route::get('chart-by-tier/{id}','Sosmed\ReportController@chart_by_tier');
+            Route::get('official-by-tier','Sosmed\ReportController@official_by_tier');
         });
     });
 });

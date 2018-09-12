@@ -126,7 +126,14 @@ class HomeController extends Controller
     }
 
     public function sosmed_summary_bu($id){
+        $bu=\App\Models\Sosmed\Businessunit::with(
+                [
+                    'sosmed',
+                    'sosmed.sosmed'
+                ]
+            )->find($id);
         return view('sosmed.summary_bu')
+            ->with('bu',$bu)
             ->with('id',$id);
     }
 
@@ -408,6 +415,26 @@ class HomeController extends Controller
             return $likes = $json_output->likes;
         }else{
             return 0;
+        }
+    }
+
+    public function dashboard_chart(Request $request,$id){
+        switch($id){
+            case 'twitter':
+                    return view('sosmed.dashboard_chart_twitter');
+                break;
+            case 'facebook':
+
+                break;
+            case 'instagram':
+
+                break;
+            case 'youtube':
+
+                break;
+            default:
+
+                break;
         }
     }
 }

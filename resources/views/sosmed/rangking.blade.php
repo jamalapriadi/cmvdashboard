@@ -1,4 +1,4 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('title')
     Dashboard
@@ -40,19 +40,20 @@
 @stop
 
 @section('content')
-    <div class="panel panel-primary">
-        <div class="panel-heading">Highlight</div>
-        <div class="panel-body">
-            <div class="tabbable">
-                <ul class="nav nav-tabs nav-tabs-highlight">
-                    <li class="active"><a href="#highlight-tab1" data-toggle="tab">HIGHLIGHT</a></li>
-                    <li><a href="#highlighted-tab2" data-toggle="tab">ALL PROGRAM GROWTH</a></li>
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane active" id="highlight-tab1">
+    <div class="card card-primary">
+        <div class="card-header">Highlight</div>
+        <div class="card-body">
+            <div class="default-tab">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#highlight-tab1" role="tab" aria-controls="nav-home" aria-selected="true">HIGHLIGHT</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#highlight-tab2" role="tab" aria-controls="nav-profile" aria-selected="false">ALL PROGRAM GROWTH</a>
+                    </div>
+                </nav>
+                <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="highlight-tab1" role="tabpanel" aria-labelledby="nav-home-tab">
                         <form class="form-horizontal" target="new target" id="form" onsubmit="return false;">
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-lg-2">Type Unit</label>
                                 <div class="col-lg-4">
                                     <div class="input-group">
@@ -66,7 +67,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-lg-2">Social Media</label>
                                 <div class="col-lg-4">
                                     @foreach($sosmed as $row)
@@ -76,12 +77,14 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="col-lg-2">Date</label>
                                 <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="icon-calendar"></i></span>
-                                        <input class="form-control daterange-single-sekarang" name="tanggal" id="tanggal">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                                        </div>
+                                        <input class="form-control daterange-single-sekarang" data-value="{{date('Y/m/d')}}" name="tanggal" id="tanggal">
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +96,7 @@
                                 </label>
                             </div>
                             <br>
-                            <div class="form-group well">
+                            <div class="form-group row well">
                                 <label class="col-lg-2"></label>
                                 <div class="col-lg-4">
                                     <button class='btn btn-primary'>
@@ -115,13 +118,14 @@
                                 
                             </div>
                         </div>
-
                     </div>
-                    <div class="tab-pane" id="highlighted-tab2">
+
+                    <div class="tab-pane fade" id="highlight-tab2" role="tabpanel" aria-labelledby="nav-home-tab">
                         <fieldset>
                             <legend>Filter</legend>
-                            <div class="row" style="padding-left:10px;">
-                                <form id="formSearch" onsubmit="return false;">
+                            
+                            <form id="formSearch" onsubmit="return false;">
+                                <div class="row" style="padding-left:10px;">
                                     <div class="col-lg-3">
                                         <div id="divsearchunit">
                                             <div class="form-group">
@@ -137,12 +141,12 @@
                                     </div>
 
                                     <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label class="control-label">Date</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="icon-calendar"></i></span>
-                                                <input class="form-control daterange-single-sekarang" name="tanggal2" id="tanggal2">
+                                        <label class="control-label">Date</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
                                             </div>
+                                            <input class="form-control daterange-single-sekarang" data-value="{{date('Y/m/d')}}" name="tanggal2" id="tanggal2">
                                         </div>
                                     </div>
 
@@ -161,29 +165,19 @@
                                             </label>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </fieldset>
                         <br>
                         <div id="growthProgram"></div>
                     </div>
                 </div>
-            </div>  
+            </div> 
         </div>
     </div>
 @endsection
 
-@push('extra-script')
-    <script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/datepicker.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/core/libraries/jquery_ui/effects.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/notifications/jgrowl.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/ui/moment/moment.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/daterangepicker.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/anytime.min.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.date.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/picker.time.js')}}"></script>
-	<script type="text/javascript" src="{{URL::asset('assets/js/plugins/pickers/pickadate/legacy.js')}}"></script>
+@section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/floatthead/2.1.1/jquery.floatThead.js"></script>
     <script>
         $(function(){
@@ -191,38 +185,34 @@
             var kemarin = new Date(sekarang);
             kemarin.setDate(sekarang.getDate() - 1);
 
-            $('.daterange-single-sekarang').datepicker({ 
-                singleDatePicker: true,
-                selectMonths: true,
-                selectYears: true,
-                dateFormat: 'dd-mm-yy'
+            $('.daterange-single-sekarang').pickadate({ 
+                format: 'yyyy/mm/dd',
+                formatSubmit: 'yyyy/mm/dd',
+                max:true,
             });
-
-            $('.daterange-single-sekarang').datepicker('setDate',sekarang);
             
             $(document).on("click","#pilih",function(){
                 if($(this).is(':checked')){
                     var el="";
-                    el+='<div class="form-group">'+
-                        '<label class="col-lg-2">Compare With</label>'+
+                    el+='<div class="form-group row">'+
+                        '<label class="col-lg-2 control-label">Compare With</label>'+
                         '<div class="col-lg-4">'+
-                            '<div class="input-group">'+
-                                '<span class="input-group-addon"><i class="icon-calendar"></i></span>'+
-                                '<input class="form-control daterange-single-kemarin" name="kemarin" id="kemarin">'+
+                            '<div class="input-group mb-3">'+
+                                '<div class="input-group-prepend">'+
+                                    '<span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>'+
+                                '</div>'+
+                                '<input class="form-control daterange-single-kemarin" data-value="'+kemarin+'" name="kemarin" id="kemarin">'+
                             '</div>'+
                         '</div>'+
                     '</div>';
 
                     $("#anotherDate").empty().html(el);
 
-                    $('.daterange-single-kemarin').datepicker({ 
-                        singleDatePicker: true,
-                        selectMonths: true,
-                        selectYears: true,
-                        dateFormat: 'dd-mm-yy'
+                    $('.daterange-single-kemarin').pickadate({ 
+                        format: 'yyyy/mm/dd',
+                        formatSubmit: 'yyyy/mm/dd',
+                        max:true,
                     });
-
-                    $('.daterange-single-kemarin').datepicker('setDate',kemarin);
                 }else{
                     $("#anotherDate").empty();
                 }
@@ -230,27 +220,26 @@
 
             $(document).on("click","#pilih2",function(){
                 if($(this).is(':checked')){
-                    var el="";
-                    el+='<div class="col-lg-3"><div class="form-group">'+
+                    var el="<div class='col-lg-8'>";
+                    el+='<div class="form-group row">'+
                         '<label class="control-label">Compare With</label>'+
-                        '<div class="input-group">'+
-                            '<span class="input-group-addon"><i class="icon-calendar"></i></span>'+
-                            '<input class="form-control daterange-single-kemarin2" name="kemarin2" id="kemarin2">'+
+                        '<div class="input-group mb-3">'+
+                            '<div class="input-group-prepend">'+
+                                '<span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>'+
+                            '</div>'+
+                            '<input class="form-control daterange-single-kemarin2" data-value="'+kemarin+'" name="kemarin2" id="kemarin2">'+
                         '</div>'+
                     '</div></div>';
 
                     $("#anotherDate2").empty().html(el);
 
-                    $('.daterange-single-kemarin2').datepicker({ 
-                        singleDatePicker: true,
-                        selectMonths: true,
-                        selectYears: true,
-                        dateFormat: 'dd-mm-yy'
+                    $('.daterange-single-kemarin2').pickadate({ 
+                        format: 'yyyy/mm/dd',
+                        formatSubmit: 'yyyy/mm/dd',
+                        max:true,
                     });
-
-                    $('.daterange-single-kemarin2').datepicker('setDate',kemarin);
                 }else{
-                    $("#anotherDate").empty();
+                    $("#anotherDate2").empty();
                 }
             })
 
@@ -1191,4 +1180,4 @@
             
         })
     </script>
-@endpush
+@stop

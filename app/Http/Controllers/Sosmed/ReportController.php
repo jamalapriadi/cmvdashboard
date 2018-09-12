@@ -160,6 +160,12 @@ class ReportController extends Controller
             'group'=>'alpha_num'
         ];
 
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
         $validasi=\Validator::make($request->all(),$rules);
 
         if($validasi->fails()){
@@ -217,7 +223,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit e on e.id=a.group_unit_id
-                where a.type_unit='TV'
+                where a.type_unit='$typeunit'
                 group by a.group_unit_id,a.id
                 with ROLLUP");
 
@@ -263,6 +269,12 @@ class ReportController extends Controller
             );
         }
 
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
             $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
@@ -300,7 +312,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='TV'
+                where a.type_unit='$typeunit'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -317,7 +329,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='TV'
+                where a.type_unit='$typeunit'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -345,11 +357,18 @@ class ReportController extends Controller
             );
         }
 
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
         }else{
             $sekarang=date('Y-m-d');
         }
+        
 
         if($request->has('group')){
             $group=$request->input('group');
@@ -363,7 +382,7 @@ class ReportController extends Controller
             from business_unit a
             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-            where a.group_unit_id='$group' and a.type_unit='TV'
+            where a.group_unit_id='$group' and a.type_unit='$typeunit'
             group by a.id
             union all 
             select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,a.program_name,c.tanggal, 
@@ -373,7 +392,7 @@ class ReportController extends Controller
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-            left join business_unit d on d.id=a.business_unit_id and d.type_unit='TV'
+            left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
             where d.group_unit_id='$group'
             group by a.id
             union all 
@@ -389,7 +408,7 @@ class ReportController extends Controller
                     from business_unit a
                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                    where a.group_unit_id='$group' and a.type_unit='TV'
+                    where a.group_unit_id='$group' and a.type_unit='$typeunit'
                     group by a.id
                     union all 
                     select d.id,d.group_unit_id, d.unit_name, b.type_sosmed,a.program_name,c.tanggal, 
@@ -399,7 +418,7 @@ class ReportController extends Controller
                     from program_unit a 
                     left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                    left join business_unit d on d.id=a.business_unit_id and d.type_unit='TV'
+                    left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
                     where d.group_unit_id='$group'
                     group by a.id
                 ) as semua 
@@ -3957,5 +3976,74 @@ class ReportController extends Controller
                 c.tanggal");
 
         return $corporate;
+    }
+
+    public function chart_by_tier(Request $request,$id){
+        $sekarang=date('Y-m-d');
+
+        $chart=\DB::select("select total.id,total.unit_name,
+            total.tier,
+            sum(total.twitter) as total_twitter,
+            sum(total.facebook) as total_facebook,
+            sum(total.instagram) as total_instagram,
+            sum(total.youtube) as total_youtube
+            from 
+            (
+            select a.id, a.tier, a.unit_name, b.sosmed_id, c.tanggal, 
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+            from business_unit a
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+            where a.type_unit='TV'
+            group by a.id
+            UNION ALL 
+            select if(a.id is null, 'tidak', a.id) as idnya,d.tier,  a.program_name, b.sosmed_id, c.tanggal, 
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+            from program_unit a
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+            left join business_unit d on d.id=a.business_unit_id
+            where d.type_unit='TV'
+            group by a.id
+            with ROLLUP
+            HAVING idnya='tidak'
+            ) as total
+            where total.tier in (1,2,3,4)
+            group by total.tier,total.id");
+
+        return $chart;
+    }
+
+    public function official_by_tier(Request $request){
+        $unit=\App\Models\Sosmed\Businessunit::where('tier',1)
+            ->with(
+                [
+                    'followers'=>function($q){
+                        $q->where(\DB::raw("date_format(tanggal,'%Y-%m')"),date('Y-m'))
+                            ->with(['unitsosmed'=>function($r){
+                                $r->where('sosmed_id',1);
+                            }])
+                            ->whereHas('unitsosmed');
+                    },
+                    'followers.unitsosmed'
+                ]
+            )->whereHas('followers.unitsosmed')->get();
+
+        return $unit;
+        $chart=\DB::select("select a.id, a.tier, a.unit_name, b.sosmed_id, c.tanggal, c.follower
+        from business_unit a
+        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
+        where a.type_unit='TV' and date_format(c.tanggal,'%Y-%m')='2018-09'
+        and b.sosmed_id=1 and a.tier=1
+        group by a.id,b.sosmed_id,day(c.tanggal)");
+
+        return $chart;
     }
 }

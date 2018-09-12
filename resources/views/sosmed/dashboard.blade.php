@@ -28,7 +28,7 @@
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#highlight-tab1" role="tab" aria-controls="nav-home" aria-selected="true">TARGET VS ACHIEVEMENT</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#highlight-tab2" role="tab" aria-controls="nav-profile" aria-selected="false">OFFICIAL ACCOUNT ALL TV</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#highlight-tab2" role="tab" aria-controls="nav-profile" aria-selected="false">OFFICIAL ACCOUNT ALL</a>
                         <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab3" role="tab" aria-controls="nav-contact" aria-selected="false">SOCMED OFFICIAL AND PROGRAM</a>
                         <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab4" role="tab" aria-controls="nav-contact" aria-selected="false">DETAIL OFFICIAL AND PROGRAM</a>
                         <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab5" role="tab" aria-controls="nav-contact" aria-selected="false">RANKING</a>
@@ -51,8 +51,10 @@
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="control-label">Periode</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                                            </div>
                                             <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
                                         </div>
                                     </div>
@@ -89,8 +91,10 @@
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="control-label">Periode</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                                            </div>
                                             <input type="text" name="tanggal" id="tanggal2" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
                                         </div>
                                         <div class="checkbox">
@@ -100,6 +104,24 @@
                                         </div>  
                                     </div>
                                 </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="control-label">Type Unit</label>
+                                        <div class="input-group mb3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-archive"></i></span>
+                                            </div>
+                                            <select name="typeunit" id="typeunit1" class="form-control" required>
+                                                <option value="TV">TV</option>
+                                                <option value="Publisher">Publisher</option>
+                                                <option value="Radio">Radio</option>
+                                                <option value="KOL">KOL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div id="anotherDate"></div>
 
                                 <div class="col-lg-3">
@@ -120,12 +142,31 @@
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="control-label">Periode</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                                            </div>
                                             <input type="text" name="tanggal" id="tanggal3" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="control-label">Type Unit</label>
+                                        <div class="input-group mb3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-archive"></i></span>
+                                            </div>
+                                            <select name="typeunit" id="typeunit2" class="form-control" required>
+                                                <option value="TV">TV</option>
+                                                <option value="Publisher">Publisher</option>
+                                                <option value="Radio">Radio</option>
+                                                <option value="KOL">KOL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-lg-3">
                                     <button class='btn btn-primary' style="margin-top:25px;">
                                         <i class="icon-filter4"></i> &nbsp;
@@ -156,12 +197,32 @@
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="control-label">Periode</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                                            </div>
                                             <input type="text" name="tanggal" id="tanggal4" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="control-label">Type Unit</label>
+                                        <div class="input-group mb3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-archive"></i></span>
+                                            </div>
+                                            <select name="typeunit" id="typeunit3" class="form-control" required>
+                                                <option value="TV">TV</option>
+                                                <option value="Publisher">Publisher</option>
+                                                <option value="Radio">Radio</option>
+                                                <option value="KOL">KOL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-lg-3">
                                     <button class='btn btn-primary' style="margin-top:25px;">
                                         <i class="icon-filter4"></i> &nbsp;
@@ -181,8 +242,10 @@
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="control-label">Periode</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-calendar5"></i></span>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                                            </div>
                                             <input type="text" name="tanggal" id="tanggal5" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
                                         </div>
                                         <div class="checkbox">
@@ -362,11 +425,12 @@
             function officialAndProgram(){
                 var group=$("#group4 option:selected").val();
                 var tanggal=$("#tanggal4").val();
+                var typeunit=$("#typeunit3").val();
 
                 $.ajax({
                     url:"{{URL::to('sosmed/data/report/official-and-program')}}",
                     type:"GET",
-                    data:"group="+group+"&tanggal="+tanggal,
+                    data:"group="+group+"&tanggal="+tanggal+"&typeunit="+typeunit,
                     beforeSend:function(){
                         $("#officialAndProgram").empty().html("<div class='alert alert-info'>Please Wait . . . </div>");
                     },
@@ -387,6 +451,7 @@
             $(document).on("submit","#formofficialAccountAllTv",function(e){
                 var group=$("#group2 option:selected").val();
                 var tanggal=$("#tanggal2").val();
+                var typeunit=$("#typeunit1").val();
                 
                 if($("#pilih").is(':checked')){
                     var pilih=$("#pilih").val();
@@ -403,7 +468,7 @@
                     $.ajax({
                         url:"{{URL::to('sosmed/data/report/official-account-all-tv')}}",
                         type:"GET",
-                        data:"group="+group+"&tanggal="+tanggal+"&pilih="+pilih+"&kemarin="+kemarin,
+                        data:"group="+group+"&tanggal="+tanggal+"&pilih="+pilih+"&kemarin="+kemarin+"&typeunit="+typeunit,
                         beforeSend:function(){
                             $("#divofficialAccountAllTv").empty().html("<div class='alert alert-info'>Please Wait...</div>");
                         },
@@ -421,6 +486,7 @@
             $(document).on("submit","#formsosmedOfficialAndProgram",function(e){
                 var group=$("#group3 option:selected").val();
                 var tanggal=$("#tanggal3").val();
+                var typeunit=$("#typeunit2").val();
 
                 var el="";
                 if($("#formsosmedOfficialAndProgram")[0].checkValidity()) {
@@ -429,7 +495,7 @@
                     $.ajax({
                         url:"{{URL::to('sosmed/data/report/sosmed-official-and-program')}}",
                         type:"GET",
-                        data:"tanggal="+tanggal,
+                        data:"tanggal="+tanggal+"&typeunit="+typeunit,
                         beforeSend:function(){
                             $("#sosmedOfficialAndProgram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
                         },
