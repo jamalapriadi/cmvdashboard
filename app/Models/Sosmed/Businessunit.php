@@ -60,4 +60,16 @@ class Businessunit extends Model
 			)->where('type_sosmed','corporate');
 	}
 
+	public function follower_twitter(){
+		return $this->hasManyThrough('\App\Models\Sosmed\Unitsosmedfollower','\App\Models\Sosmed\Unitsosmed','business_program_unit','unit_sosmed_id')
+			->select(
+				[
+					'unit_sosmed_id',
+					'tanggal',
+					'follower'
+				]
+			)->where('type_sosmed','corporate')
+			->where('sosmed_id',1);
+	}
+
 }

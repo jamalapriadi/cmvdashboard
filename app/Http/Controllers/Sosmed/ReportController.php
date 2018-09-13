@@ -3979,7 +3979,7 @@ class ReportController extends Controller
     }
 
     public function chart_by_tier(Request $request,$id){
-        $sekarang=date('Y-m-d');
+        $sekarang='2018-09-12';
 
         $chart=\DB::select("select total.id,total.unit_name,
             total.tier,
@@ -4021,19 +4021,14 @@ class ReportController extends Controller
     }
 
     public function official_by_tier(Request $request){
-        $unit=\App\Models\Sosmed\Businessunit::where('tier',1)
-            ->with(
+        $unit=\App\Models\Sosmed\Businessunit::with(
                 [
-                    'followers'=>function($q){
-                        $q->where(\DB::raw("date_format(tanggal,'%Y-%m')"),date('Y-m'))
-                            ->with(['unitsosmed'=>function($r){
-                                $r->where('sosmed_id',1);
-                            }])
-                            ->whereHas('unitsosmed');
+                    'follower_twitter'=>function($q){
+                        $q->where(\DB::raw("date_format(tanggal,'%Y-%m')"),'2018-08');
                     },
-                    'followers.unitsosmed'
+                    'follower_twitter.unitsosmed'
                 ]
-            )->whereHas('followers.unitsosmed')->get();
+            )->whereHas('follower_twitter')->get();
 
         return $unit;
         $chart=\DB::select("select a.id, a.tier, a.unit_name, b.sosmed_id, c.tanggal, c.follower
