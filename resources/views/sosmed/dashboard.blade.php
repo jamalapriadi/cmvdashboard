@@ -1,602 +1,608 @@
 @extends('layouts.coreui.main')
 
-@section('title')
-    Dashboard
-@endsection
-
 @section('extra-style')
     <style>
-        table.floatThead-table {
-            border-top: none;
-            border-bottom: none;
-            background-color: #fff;
+        #zingchart-1 {
+            height: 400px;
+            width: 960px;
         }
-        .daterangepicker{z-index:1151 !important;}
-        #ui-datepicker-div{z-index:1151 !important;}
+
+        .zingchart-tooltip {
+            padding: 7px 5px;
+            border-radius: 1px;
+            line-height: 20px;
+            background-color: #fff;
+            border: 1px solid #dcdcdc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            -webkit-font-smoothing: antialiased;
+        }
+        .zingchart-tooltip .scalex-value {
+            font-size: 14px !important;
+            font-weight: normal !important;
+            line-height: 24px;
+            color: #838383;
+        }
+        .zingchart-tooltip .scaley-value {
+            color: #4184f3;
+            font-size: 24px !important;
+            font-weight: normal !important;
+        }
+
+        .zc-ref {
+            display: none;
+        }
     </style>
-@endsection
+@stop
 
 @section('content')
-<div class="container-fluid">
-    <!-- OVERVIEW -->
     <div class="card card-primary">
         <div class="card-header">
-            <h5 class="card-title text-center">SUMMARY</h5>
-        </div>
-        <div class="card-body">
-            <div class="default-tab">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#highlight-tab1" role="tab" aria-controls="nav-home" aria-selected="true">TARGET VS ACHIEVEMENT</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#highlight-tab2" role="tab" aria-controls="nav-profile" aria-selected="false">OFFICIAL ACCOUNT ALL</a>
-                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab3" role="tab" aria-controls="nav-contact" aria-selected="false">SOCMED OFFICIAL AND PROGRAM</a>
-                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab4" role="tab" aria-controls="nav-contact" aria-selected="false">DETAIL OFFICIAL AND PROGRAM</a>
-                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab5" role="tab" aria-controls="nav-contact" aria-selected="false">RANKING</a>
-                    </div>
-                </nav>
-                <div class="tab-content pl-3 pt-2" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="highlight-tab1" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <form id="formTargetAchievement" onsubmit="return false">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Group</label>
-                                        <select name="form-control" name="group" id="group" class="form-control">
-                                            @foreach($group as $row)
-                                                <option value="{{$row->id}}">{{$row->group_name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Periode</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
-                                            </div>
-                                            <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <button class='btn btn-primary' style="margin-top:25px;">
-                                        <i class="icon-filter4"></i> &nbsp;
-                                        Filter 
-                                    </button>
-                                </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <h4 class="card-title mb-0">CROSS CHANNEL</h4>
+                    <div class="small text-muted">{{date('d F Y')}}</div>
+                </div>
+                
+                <div class="col-sm-7 d-none d-md-block">
+                    <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
                             </div>
-                        </form>
-
-                        <div style="margin-top:10px;"></div>
-
-                        <div class="table-responsive">
-                            <div id="divTargetVsAchievement"></div>
+                            <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="highlight-tab2" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <form id="formofficialAccountAllTv" onsubmit="return false">
-                            <div class="row">
-                                <!-- <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Group</label>
-                                        <select name="form-control" id="group2" name="group" class="form-control">
-                                            <option value="">--Select Group--</option>
-                                            @foreach($group as $row)
-                                                <option value="{{$row->id}}">{{$row->group_name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div> -->
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Periode</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
-                                            </div>
-                                            <input type="text" name="tanggal" id="tanggal2" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" name="pilih" id="pilih"> <small>check to compare data with another date?</small>
-                                            </label>
-                                        </div>  
-                                    </div>
-                                </div>
 
-                                <div class="col-lg-3">
-                                    <div class="form-group row">
-                                        <label class="control-label">Type Unit</label>
-                                        <div class="input-group mb3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="icon-archive"></i></span>
-                                            </div>
-                                            <select name="typeunit" id="typeunit1" class="form-control" required>
-                                                <option value="TV">TV</option>
-                                                <option value="Publisher">Publisher</option>
-                                                <option value="Radio">Radio</option>
-                                                <option value="KOL">KOL</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="anotherDate"></div>
-
-                                <div class="col-lg-3">
-                                    <button class='btn btn-primary' style="margin-top:25px;">
-                                        <i class="icon-filter4"></i> &nbsp;
-                                        Filter 
-                                    </button>
-                                </div>
+                    <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
                             </div>
-                        </form>
-                        <div class="table-responsive">
-                            <div id="divofficialAccountAllTv"></div>
+                            <select name="filter" id="filter" class="form-control bg-primary">
+                                <option value="all">All</option>
+                                <option value="official">Official</option>
+                                <option value="program">Program</option>
+                            </select>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="highlight-tab3" role="tabpanel" aria-labelledby="nav-contact-tab">
-                        <form id="formsosmedOfficialAndProgram" onsubmit="return false">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Periode</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
-                                            </div>
-                                            <input type="text" name="tanggal" id="tanggal3" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group row">
-                                        <label class="control-label">Type Unit</label>
-                                        <div class="input-group mb3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="icon-archive"></i></span>
-                                            </div>
-                                            <select name="typeunit" id="typeunit2" class="form-control" required>
-                                                <option value="TV">TV</option>
-                                                <option value="Publisher">Publisher</option>
-                                                <option value="Radio">Radio</option>
-                                                <option value="KOL">KOL</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <button class='btn btn-primary' style="margin-top:25px;">
-                                        <i class="icon-filter4"></i> &nbsp;
-                                        Filter 
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-
-                        <div class="table-responsive">
-                            <div id="sosmedOfficialAndProgram"></div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="highlight-tab4" role="tabpanel" aria-labelledby="nav-contact-tab">
-                        <form id="formofficialAndProgram" onsubmit="return false">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Group</label>
-                                        <select name="form-control" id="group4" name="group" class="form-control">
-                                            @foreach($group as $row)
-                                                <option value="{{$row->id}}">{{$row->group_name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Periode</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
-                                            </div>
-                                            <input type="text" name="tanggal" id="tanggal4" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group row">
-                                        <label class="control-label">Type Unit</label>
-                                        <div class="input-group mb3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="icon-archive"></i></span>
-                                            </div>
-                                            <select name="typeunit" id="typeunit3" class="form-control" required>
-                                                <option value="TV">TV</option>
-                                                <option value="Publisher">Publisher</option>
-                                                <option value="Radio">Radio</option>
-                                                <option value="KOL">KOL</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <button class='btn btn-primary' style="margin-top:25px;">
-                                        <i class="icon-filter4"></i> &nbsp;
-                                        Filter 
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div class="table-responsive">
-                            <div id="officialAndProgram"></div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="highlight-tab5" role="tabpanel" aria-labelledby="nav-contact-tab">
-                        <form id="formRangking" onsubmit="return false">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Periode</label>
-                                        <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
-                                            </div>
-                                            <input type="text" name="tanggal" id="tanggal5" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" name="pilih" id="pilih2"> <small>check to compare data with another date?</small>
-                                            </label>
-                                        </div>  
-                                    </div>
-                                </div>
-                                <div id="anotherDate2"></div>
-                                <div class="col-lg-3">
-                                    <button class='btn btn-primary' style="margin-top:25px;">
-                                        <i class="icon-filter4"></i> &nbsp;
-                                        Filter 
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div id="rangAllAccountGroup"></div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="card-body">
+            <div id="zingchart-1"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
+        </div>
     </div>
-</div>
-
-<div id="divModal"></div>
-@endsection
-
+@stop
 
 @section('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/floatthead/2.1.1/jquery.floatThead.js"></script>
+    <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
     <script>
         $(function(){
-            var kode="";
-
-            var sekarang = new Date();
-            var kemarin = new Date(sekarang);
-            kemarin.setDate(sekarang.getDate() - 1);    
-
-            $('.pickadate-accessibility').pickadate({
-                labelMonthNext: 'Go to the next month',
-                labelMonthPrev: 'Go to the previous month',
-                labelMonthSelect: 'Pick a month from the dropdown',
-                labelYearSelect: 'Pick a year from the dropdown',
-                selectMonths: true,
-                selectYears: true
-            });
-
             $('.daterange-single').pickadate({
                 format: 'yyyy/mm/dd',
                 formatSubmit: 'yyyy/mm/dd',
                 max:true,
             });
 
-            function addKoma(nStr)
-            {
-                nStr += '';
-                x = nStr.split('.');
-                x1 = x[0];
-                x2 = x.length > 1 ? '.' + x[1] : '';
-                var rgx = /(\d+)(\d{3})/;
-                while (rgx.test(x1)) {
-                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
-                }
-                return x1 + x2;
-            }
-
-            $(document).on("click","#pilih",function(){
-                if($(this).is(':checked')){
-                    var el="";
-                    el+='<div class="form-group">'+
-                        '<label class="control-label">Compare With</label>'+
-                        '<div class="input-group mb-3">'+
-                            '<div class="input-group-prepend">'+
-                                '<span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>'+
-                            '</div>'+
-                            '<input class="form-control daterange-single-kemarin" data-value="'+kemarin+'" name="kemarin" id="kemarin">'+
-                        '</div>'+
-                    '</div>';
-
-                    $("#anotherDate").empty().html(el);
-
-                    $('.daterange-single-kemarin').pickadate({
-                        format: 'yyyy/mm/dd',
-                        formatSubmit: 'yyyy/mm/dd',
-                        max:true,
-                    });
-                }else{
-                    $("#anotherDate").empty();
-                }
-            })
-
-            $(document).on("click","#pilih2",function(){
-                if($(this).is(':checked')){
-                    var el="";
-                    el+='<div class="form-group">'+
-                        '<label class="control-label">Compare With</label>'+
-                        '<div class="input-group mb-3">'+
-                            '<div class="input-group-prepend">'+
-                                '<span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>'+
-                            '</div>'+
-                            '<input class="form-control daterange-single-kemarin" data-value="'+kemarin+'" name="kemarin" id="kemarin2">'+
-                        '</div>'+
-                    '</div>';
-
-                    $("#anotherDate2").empty().html(el);
-
-                    $('.daterange-single-kemarin').pickadate({
-                        format: 'yyyy/mm/dd',
-                        formatSubmit: 'yyyy/mm/dd',
-                        max:true,
-                    });
-                }else{
-                    $("#anotherDate").empty();
-                }
-            })
-
-            function targetVsAchievement(){
-                var group=$("#group option:selected").val();
+            function showTear1(){
                 var tanggal=$("#tanggal").val();
-
-                var el="";
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/report/target-vs-achievement')}}",
-                    type:"GET",
-                    data:"group="+group+"&tanggal="+tanggal,
-                    beforeSend:function(){
-                        $("#divTargetVsAchievement").empty().html("<div class='alert alert-info'>Please Wait...</div>");
-                    },
-                    success:function(result){
-                        $("#divTargetVsAchievement").empty().append(result);
-                    },
-                    error:function(){
-
-                    }
-                })
-            }
-
-            function officialAccountAllTv(){
-                var el="";
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/report/official-account-all-tv')}}",
-                    type:"GET",
-                    beforeSend:function(){
-                        $("#divofficialAccountAllTv").empty().html("<div class='alert alert-info'>Please Wait...</div>");
-                    },
-                    success:function(result){
-                        $("#divofficialAccountAllTv").empty().append(result);
-                        $(".sticky-header").floatThead({scrollingTop:50});
-                    },
-                    error:function(){
-
-                    }
-                })
-            }
-
-            function sosmedOfficialAndProgram(){
-                var el="";
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/report/sosmed-official-and-program')}}",
-                    type:"GET",
-                    beforeSend:function(){
-                        $("#sosmedOfficialAndProgram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
-                    },
-                    success:function(result){
-                        $("#sosmedOfficialAndProgram").empty().append(result);
-                        $(".sticky-header").floatThead({scrollingTop:50});
-                    },
-                    error:function(){
-
-                    }
-                })
-            }
-
-            function officialAndProgram(){
-                var group=$("#group4 option:selected").val();
-                var tanggal=$("#tanggal4").val();
-                var typeunit=$("#typeunit3").val();
+                var filter=$("#filter").val();
 
                 $.ajax({
-                    url:"{{URL::to('sosmed/data/report/official-and-program')}}",
+                    url:"{{URL::to('sosmed/data/chart/chart-by-tier')}}",
                     type:"GET",
-                    data:"group="+group+"&tanggal="+tanggal+"&typeunit="+typeunit,
+                    data:"tanggal="+tanggal+"&filter="+filter+"&typeunit=TV",
                     beforeSend:function(){
-                        $("#officialAndProgram").empty().html("<div class='alert alert-info'>Please Wait . . . </div>");
+                        $("#zingchart-1").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
                     },
                     success:function(result){
-                        $("#officialAndProgram").empty().append(result);
-                        $(".sticky-header").floatThead({scrollingTop:50});
-                    },
-                    error:function(){
+                        $("#zingchart-1").empty();
+                        var primaryColor = "#4184F3";
+                        var primaryColorHover = "#3a53c5";
+                        var secondaryColor = '#DCDCDC'
+                        var scaleTextColor = '#999';
 
-                    }
-                })
-            }
+                        var labels1=[];
+                        var facebook1=[];
+                        var twitter1=[];
+                        var instagram1=[];
+                        var youtube1=[];
 
-            $(document).on("submit","#formTargetAchievement",function(e){
-                targetVsAchievement();
-            });
+                        var labels2=[];
+                        var facebook2=[];
+                        var twitter2=[];
+                        var instagram2=[];
 
-            $(document).on("submit","#formofficialAccountAllTv",function(e){
-                var group=$("#group2 option:selected").val();
-                var tanggal=$("#tanggal2").val();
-                var typeunit=$("#typeunit1").val();
-                
-                if($("#pilih").is(':checked')){
-                    var pilih=$("#pilih").val();
-                    var kemarin=$("#kemarin").val();
-                }else{
-                    var pilih="";
-                    var kemarin="";
-                }
+                        var labels3=[];
+                        var facebook3=[];
+                        var twitter3=[];
+                        var instagram3=[];
 
-                var el="";
-                if($("#formofficialAccountAllTv")[0].checkValidity()) {
-                    //updateAllMessageForms();
-                    e.preventDefault();
-                    $.ajax({
-                        url:"{{URL::to('sosmed/data/report/official-account-all-tv')}}",
-                        type:"GET",
-                        data:"group="+group+"&tanggal="+tanggal+"&pilih="+pilih+"&kemarin="+kemarin+"&typeunit="+typeunit,
-                        beforeSend:function(){
-                            $("#divofficialAccountAllTv").empty().html("<div class='alert alert-info'>Please Wait...</div>");
-                        },
-                        success:function(result){
-                            $("#divofficialAccountAllTv").empty().append(result);
-                            $(".sticky-header").floatThead({scrollingTop:50});
-                        },
-                        error:function(){
+                        var labels4=[];
+                        var facebook4=[];
+                        var twitter4=[];
+                        var instagram4=[];
+                        console.log(result);
+                        $.each(result.chart,function(a,b){
+                            // if(b.tier==1){
+                                
+                            // }
 
+                            // if(b.tier==2){
+                            //     if(b.id!='tidak'){
+                            //         labels2.push(b.unit_name);
+
+                            //         facebook2.push(parseFloat(b.total_facebook));
+                            //         twitter2.push(parseFloat(b.total_twitter));
+                            //         instagram2.push(parseFloat(b.total_instagram));
+                            //     }
+                            // }
+
+                            // if(b.tier==3){
+                            //     labels3.push(b.unit_name);
+
+                            //     facebook3.push(parseFloat(b.total_facebook));
+                            //     twitter3.push(parseFloat(b.total_twitter));
+                            //     instagram3.push(parseFloat(b.total_instagram));
+                            // }
+
+                            // if(b.tier==4){
+                            //     labels4.push(b.unit_name);
+
+                            //     facebook4.push(parseFloat(b.total_facebook));
+                            //     twitter4.push(parseFloat(b.total_twitter));
+                            //     instagram4.push(parseFloat(b.total_instagram));
+                            // }
+                            if(b.id!='tidak'){
+                                if(b.id!=4){
+                                    labels1.push(b.unit_name);
+
+                                    facebook1.push(parseFloat(b.total_facebook));
+                                    twitter1.push(parseFloat(b.total_twitter));
+                                    instagram1.push(parseFloat(b.total_instagram));
+                                    youtube1.push(parseFloat(b.total_youtube));
+                                }else{
+                                    $.each(result.inews,function(a,b){
+                                        labels1.push("INEWS 4TV");
+
+                                        facebook1.push(parseFloat(b.total_facebook));
+                                        twitter1.push(parseFloat(b.total_twitter));
+                                        instagram1.push(parseFloat(b.total_instagram));
+                                        youtube1.push(parseFloat(b.total_youtube));
+                                    })
+                                }
+                                
+                            }
+                        })
+                        
+                        /* tear 1 */
+                        var chartConfig1 = {
+                            "type": "hbar",
+                            "plot": {
+                                "stacked": true,
+                                "valueBox":{
+                                    "text":"%total",
+                                    "rules": [
+                                        {
+                                            "rule": '%stack-top == 0',
+                                            "visible": 0
+                                        }
+                                    ]
+                                }
+                            },
+                            "plotarea": {
+                                // "margin": "2% 2% 15% 20%"
+                                margin: 'dynamic dynamic dynamic dynamic',
+                            },
+                            "backgroundColor": "#fff",
+                            "scaleX": {
+                                "values": labels1,
+                                "lineWidth": 0,
+                                "lineColor":"none",
+                                "tick": {
+                                    "visible": false
+                                },
+                                "guide": {
+                                    "visible": false
+                                },
+                                "item": {
+                                    "font-size": "9px",
+                                    "font-color": "#222222"
+                                }
+                            },
+                            "scale-y":{
+                                "line-color":"#333",
+                                "guide":{
+                                    "line-style":"solid",
+                                    "line-color":"#c4c4c4",
+                                    visible:false
+                                },
+                                "tick":{
+                                    "line-color":"#333",
+                                }
+                            },
+                            "legend": {
+                                "layout": "float",
+                                "toggle-action":"remove",
+                                "shadow": 0,
+                                "adjust-layout": true,
+                                "align": "center",
+                                "vertical-align": "bottom",
+                                "marker": {
+                                    "type": "match",
+                                    "show-line": true,
+                                    "line-width": 4,
+                                    "shadow": "none"
+                                }
+                            },
+                            "tooltip": {
+                                "htmlMode": true,
+                                "backgroundColor": "none",
+                                "padding": 0,
+                                "placement": "node:center",
+                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v <\/div><\/div>"
+                            },
+                            "series": [
+                                {
+                                    "values": twitter1,
+                                    "text": "Twitter",
+                                    "background-color": "#008ef6"
+                                },
+                                {
+                                    "values": facebook1,
+                                    "text": "Facebook",
+                                    "background-color": "#5054ab"
+                                },
+                                {
+                                    "values": instagram1,
+                                    "text": "Instagram",
+                                    "background-color": "#a200b2"
+                                },
+                                {
+                                    "values": youtube1,
+                                    "text": "Youtube",
+                                    "background-color": "#222222"
+                                }
+                            ]
+                        };
+
+                        chartConfig1.plot.animation = {
+                            'method': 'LINEAR',
+                            'delay': 0,
+                            'effect': 'ANIMATION_EXPAND_VERTICAL',
+                            'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                            'speed': 10
                         }
-                    })
-                }else console.log("invalid form");
-            })
 
-            $(document).on("submit","#formsosmedOfficialAndProgram",function(e){
-                var group=$("#group3 option:selected").val();
-                var tanggal=$("#tanggal3").val();
-                var typeunit=$("#typeunit2").val();
+                        zingchart.render({
+                            id: 'zingchart-1',
+                            data: chartConfig1,
+                            output: 'canvas',
+                            height:'100%',
+                            width:'100%'
+                        });
+                        /* end tear 1 */
+                        
+                        /* tear 2 */
+                        // var chartConfig2 = {
+                        //     "type": "hbar",
+                        //     "plot": {
+                        //         "stacked": true,
+                        //         "valueBox":{
+                        //             "text":"%total%",
+                        //             "rules": [
+                        //                 {
+                        //                     "rule": '%stack-top == 0',
+                        //                     "visible": 0
+                        //                 }
+                        //             ]
+                        //         }
+                        //     },
+                        //     "plotarea": {
+                        //         // "margin": "2% 2% 15% 20%"
+                        //         margin: 'dynamic dynamic dynamic dynamic',
+                        //     },
+                        //     "backgroundColor": "#fff",
+                        //     "scaleX": {
+                        //         "values": labels2,
+                        //         "lineWidth": 0,
+                        //         "lineColor":"none",
+                        //         "tick": {
+                        //             "visible": false
+                        //         },
+                        //         "guide": {
+                        //             "visible": false
+                        //         },
+                        //         "item": {
+                        //             "font-size": "9px",
+                        //             "font-color": "#222222"
+                        //         }
+                        //     },
+                        //     "scale-y":{
+                        //         "line-color":"#333",
+                        //         "guide":{
+                        //             "line-style":"solid",
+                        //             "line-color":"#c4c4c4",
+                        //             visible:false
+                        //         },
+                        //         "tick":{
+                        //             "line-color":"#333",
+                        //         }
+                        //     },
+                        //     "legend": {
+                        //         "layout": "float",
+                        //         "toggle-action":"remove",
+                        //         "shadow": 0,
+                        //         "adjust-layout": true,
+                        //         "align": "center",
+                        //         "vertical-align": "bottom",
+                        //         "marker": {
+                        //             "type": "match",
+                        //             "show-line": true,
+                        //             "line-width": 4,
+                        //             "shadow": "none"
+                        //         }
+                        //     },
+                        //     "tooltip": {
+                        //         "htmlMode": true,
+                        //         "backgroundColor": "none",
+                        //         "padding": 0,
+                        //         "placement": "node:center",
+                        //         "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v <\/div><\/div>"
+                        //     },
+                        //     "series": [
+                        //         {
+                        //             "values": twitter2,
+                        //             "text": "Twitter",
+                        //             "background-color": "#008ef6"
+                        //         },
+                        //         {
+                        //             "values": facebook2,
+                        //             "text": "Facebook",
+                        //             "background-color": "#5054ab"
+                        //         },
+                        //         {
+                        //             "values": instagram2,
+                        //             "text": "Instagram",
+                        //             "background-color": "#a200b2"
+                        //         }
+                        //     ]
+                        // };
 
-                var el="";
-                if($("#formsosmedOfficialAndProgram")[0].checkValidity()) {
-                    //updateAllMessageForms();
-                    e.preventDefault();
-                    $.ajax({
-                        url:"{{URL::to('sosmed/data/report/sosmed-official-and-program')}}",
-                        type:"GET",
-                        data:"tanggal="+tanggal+"&typeunit="+typeunit,
-                        beforeSend:function(){
-                            $("#sosmedOfficialAndProgram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
-                        },
-                        success:function(result){
-                            $("#sosmedOfficialAndProgram").empty().append(result);
-                        },
-                        error:function(){
+                        // chartConfig2.plot.animation = {
+                        //     'method': 'LINEAR',
+                        //     'delay': 0,
+                        //     'effect': 'ANIMATION_EXPAND_VERTICAL',
+                        //     'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                        //     'speed': 10
+                        // }
 
-                        }
-                    })
-                }else console.log("invalid form");
-            })
+                        // zingchart.render({
+                        //     id: 'zingchart-2',
+                        //     data: chartConfig2,
+                        //     output: 'canvas',
+                        //     height:'100%',
+                        //     width:'100%'
+                        // });
+                        // /* end tear 2 */ 
 
-            $(document).on("submit","#formofficialAndProgram",function(e){
-                officialAndProgram();
-            });
+                        // /*tear 3 */
+                        // var chartConfig3 = {
+                        //     "type": "hbar",
+                        //     "plot": {
+                        //         "stacked": true,
+                        //         "valueBox":{
+                        //             "text":"%total%",
+                        //             "rules": [
+                        //                 {
+                        //                     "rule": '%stack-top == 0',
+                        //                     "visible": 0
+                        //                 }
+                        //             ]
+                        //         }
+                        //     },
+                        //     "plotarea": {
+                        //         // "margin": "2% 2% 15% 20%"
+                        //         margin: 'dynamic dynamic dynamic dynamic',
+                        //     },
+                        //     "backgroundColor": "#fff",
+                        //     "scaleX": {
+                        //         "values": labels3,
+                        //         "lineWidth": 0,
+                        //         "lineColor":"none",
+                        //         "tick": {
+                        //             "visible": false
+                        //         },
+                        //         "guide": {
+                        //             "visible": false
+                        //         },
+                        //         "item": {
+                        //             "font-size": "9px",
+                        //             "font-color": "#222222"
+                        //         }
+                        //     },
+                        //     "scale-y":{
+                        //         "line-color":"#333",
+                        //         "guide":{
+                        //             "line-style":"solid",
+                        //             "line-color":"#c4c4c4",
+                        //             visible:false
+                        //         },
+                        //         "tick":{
+                        //             "line-color":"#333",
+                        //         }
+                        //     },
+                        //     "legend": {
+                        //         "layout": "float",
+                        //         "toggle-action":"remove",
+                        //         "shadow": 0,
+                        //         "adjust-layout": true,
+                        //         "align": "center",
+                        //         "vertical-align": "bottom",
+                        //         "marker": {
+                        //             "type": "match",
+                        //             "show-line": true,
+                        //             "line-width": 4,
+                        //             "shadow": "none"
+                        //         }
+                        //     },
+                        //     "tooltip": {
+                        //         "htmlMode": true,
+                        //         "backgroundColor": "none",
+                        //         "padding": 0,
+                        //         "placement": "node:center",
+                        //         "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v <\/div><\/div>"
+                        //     },
+                        //     "series": [
+                        //         {
+                        //             "values": twitter3,
+                        //             "text": "Twitter",
+                        //             "background-color": "#008ef6"
+                        //         },
+                        //         {
+                        //             "values": facebook3,
+                        //             "text": "Facebook",
+                        //             "background-color": "#5054ab"
+                        //         },
+                        //         {
+                        //             "values": instagram3,
+                        //             "text": "Instagram",
+                        //             "background-color": "#a200b2"
+                        //         }
+                        //     ]
+                        // };
 
-            targetVsAchievement();
-            officialAccountAllTv();
-            sosmedOfficialAndProgram();
-            officialAndProgram();
+                        // chartConfig3.plot.animation = {
+                        //     'method': 'LINEAR',
+                        //     'delay': 0,
+                        //     'effect': 'ANIMATION_EXPAND_VERTICAL',
+                        //     'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                        //     'speed': 10
+                        // }
 
+                        // zingchart.render({
+                        //     id: 'zingchart-3',
+                        //     data: chartConfig3,
+                        //     output: 'canvas',
+                        //     height:'100%',
+                        //     width:'100%'
+                        // });    
+                        // /* end tear 3 */
 
-            /* ranking */
-            function rangAllAccountGroup(){
-                var tanggal=$("#tanggal5").val();
+                        // /* tear 4 */ 
+                        // var chartConfig4 = {
+                        //     "type": "hbar",
+                        //     "plot": {
+                        //         "stacked": true,
+                        //         "valueBox":{
+                        //             "text":"%total%",
+                        //             "rules": [
+                        //                 {
+                        //                     "rule": '%stack-top == 0',
+                        //                     "visible": 0
+                        //                 }
+                        //             ]
+                        //         }
+                        //     },
+                        //     "plotarea": {
+                        //         // "margin": "2% 2% 15% 20%"
+                        //         margin: 'dynamic dynamic dynamic dynamic',
+                        //     },
+                        //     "backgroundColor": "#fff",
+                        //     "scaleX": {
+                        //         "values": labels4,
+                        //         "lineWidth": 0,
+                        //         "lineColor":"none",
+                        //         "tick": {
+                        //             "visible": false
+                        //         },
+                        //         "guide": {
+                        //             "visible": false
+                        //         },
+                        //         "item": {
+                        //             "font-size": "9px",
+                        //             "font-color": "#222222"
+                        //         }
+                        //     },
+                        //     "scale-y":{
+                        //         "line-color":"#333",
+                        //         "guide":{
+                        //             "line-style":"solid",
+                        //             "line-color":"#c4c4c4",
+                        //             visible:false
+                        //         },
+                        //         "tick":{
+                        //             "line-color":"#333",
+                        //         }
+                        //     },
+                        //     "legend": {
+                        //         "layout": "float",
+                        //         "toggle-action":"remove",
+                        //         "shadow": 0,
+                        //         "adjust-layout": true,
+                        //         "align": "center",
+                        //         "vertical-align": "bottom",
+                        //         "marker": {
+                        //             "type": "match",
+                        //             "show-line": true,
+                        //             "line-width": 4,
+                        //             "shadow": "none"
+                        //         }
+                        //     },
+                        //     "tooltip": {
+                        //         "htmlMode": true,
+                        //         "backgroundColor": "none",
+                        //         "padding": 0,
+                        //         "placement": "node:center",
+                        //         "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v <\/div><\/div>"
+                        //     },
+                        //     "series": [
+                        //         {
+                        //             "values": twitter4,
+                        //             "text": "Twitter",
+                        //             "background-color": "#008ef6"
+                        //         },
+                        //         {
+                        //             "values": facebook4,
+                        //             "text": "Facebook",
+                        //             "background-color": "#5054ab"
+                        //         },
+                        //         {
+                        //             "values": instagram4,
+                        //             "text": "Instagram",
+                        //             "background-color": "#a200b2"
+                        //         }
+                        //     ]
+                        // };
 
-                if($("#pilih2").is(':checked')){
-                    var pilih=$("#pilih2").val();
-                    var kemarin=$("#kemarin2").val();
-                }else{
-                    var pilih="";
-                    var kemarin="";
-                }
+                        // chartConfig4.plot.animation = {
+                        //     'method': 'LINEAR',
+                        //     'delay': 0,
+                        //     'effect': 'ANIMATION_EXPAND_VERTICAL',
+                        //     'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                        //     'speed': 10
+                        // }
 
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/report/rank-of-official-account-all-group')}}",
-                    type:"GET",
-                    data:"tanggal="+tanggal+"&pilih="+pilih+"&kemarin="+kemarin,
-                    beforeSend:function(){
-                        $("#rangAllAccountGroup").empty().html("<div class='alert alert-info'>Please Wait . . .</div>");
-                    },
-                    success:function(result){
-                        $("#rangAllAccountGroup").empty().append(result);
-                    },
-                    error:function(){
+                        // zingchart.render({
+                        //     id: 'zingchart-4',
+                        //     data: chartConfig4,
+                        //     output: 'canvas',
+                        //     height:'100%',
+                        //     width:'100%'
+                        // });    
+                        /* end tear 4 */
 
                     }
                 })
             }
 
-            /* rank */
-            rangAllAccountGroup();
-
-            $(document).on("submit","#formRangking",function(){
-                rangAllAccountGroup(); 
+            $(document).on("change","#filter",function(){
+                showTear1();
             })
 
-            $(document).on("click","#exportpdf",function(){
-                var el="";
-                el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
-                    '<div class="modal-dialog">'+
-                        '<form id="formExportPdf" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
-                            '<div class="modal-content">'+
-                                '<div class="modal-header bg-primary">'+
-                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
-                                    '<h5 class="modal-title" id="modal-title">Export PDF</h5>'+
-                                '</div>'+
-
-                                '<div class="modal-body">'+
-                                    '<div id="pesan"></div>'+
-                                    '<div class="form-group">'+
-                                        '<label class="control-label text-semibold">Date</label>'+
-                                        '<input class="form-control" name="tanggal" id="tanggal" placeholder="Date" required>'+
-                                    '</div>'+
-
-                                    '<div class="form-group">'+
-                                        '<label class="control-label text-semibold">Compare Date</label>'+
-                                        '<input class="form-control" name="compare" id="compare" placeholder="Compare Date" required>'+
-                                    '</div>'+
-                                '</div>'+
-
-                                '<div class="modal-footer">'+
-                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
-                                    '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner" > <span class="ladda-label"><i class="icon-file-pdf"></i> Export File</span> </button>'+
-                                '</div>'+
-                            '</div>'+
-                        '</form>'+
-                    '</div>'+
-                '</div>';
-
-                $("#divModal").empty().html(el);
-                $("#modal_default").modal("show");
-            })
-
-            $(document).on("submit","#formExportPdf",function(e){
-                var data = new FormData(this);
-                if($("#formExportPdf")[0].checkValidity()) {
-
-                }else console.log("invalid form");
-            })
+            showTear1();
         })
     </script>
 @stop

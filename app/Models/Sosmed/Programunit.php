@@ -50,4 +50,16 @@ class Programunit extends Model
 				]
 			)->where('type_sosmed','program');
 	}
+
+	public function follower_twitter(){
+		return $this->hasManyThrough('\App\Models\Sosmed\Unitsosmedfollower','\App\Models\Sosmed\Unitsosmed','business_program_unit','unit_sosmed_id')
+			->select(
+				[
+					'unit_sosmed_id',
+					'tanggal',
+					'follower'
+				]
+			)->where('type_sosmed','program')
+			->where('sosmed_id',1);
+	}
 }

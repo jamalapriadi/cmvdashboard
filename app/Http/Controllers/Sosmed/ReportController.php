@@ -3978,67 +3978,485 @@ class ReportController extends Controller
         return $corporate;
     }
 
-    public function chart_by_tier(Request $request,$id){
-        $sekarang='2018-09-12';
+    public function chart_by_tier(Request $request){
+        if($request->has('tanggal')){
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+        }else{
+            $sekarang=date('Y-m-d');
+        }
 
-        $chart=\DB::select("select total.id,total.unit_name,
-            total.tier,
-            sum(total.twitter) as total_twitter,
-            sum(total.facebook) as total_facebook,
-            sum(total.instagram) as total_instagram,
-            sum(total.youtube) as total_youtube
-            from 
-            (
-            select a.id, a.tier, a.unit_name, b.sosmed_id, c.tanggal, 
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
-            from business_unit a
-            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-            where a.type_unit='TV'
-            group by a.id
-            UNION ALL 
-            select if(a.id is null, 'tidak', a.id) as idnya,d.tier,  a.program_name, b.sosmed_id, c.tanggal, 
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
-            from program_unit a
-            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-            left join business_unit d on d.id=a.business_unit_id
-            where d.type_unit='TV'
-            group by a.id
-            with ROLLUP
-            HAVING idnya='tidak'
-            ) as total
-            where total.tier in (1,2,3,4)
-            group by total.tier,total.id");
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
 
-        return $chart;
+        $filter=$request->input('filter');
+
+        switch($filter){
+            case "all":
+                    /**
+                     * chart all, gabungan official dan program
+                     */
+                    $chart=\DB::select("select total.id,total.unit_name,
+                        sum(total.twitter) as total_twitter,
+                        sum(total.facebook) as total_facebook,
+                        sum(total.instagram) as total_instagram,
+                        sum(total.youtube) as total_youtube
+                        from 
+                        (
+                            select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                            from business_unit a
+                            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                            where a.type_unit='$typeunit'
+                            group by a.id
+                            UNION ALL 
+                            select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                            from program_unit a
+                            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                            left join business_unit d on d.id=a.business_unit_id
+                            where d.type_unit='$typeunit'
+                            group by a.business_unit_id
+                        ) as total
+                        group by total.id
+                        order by total.group_unit_id,total.id desc");
+                break;
+            case "official":
+            default:
+                    $chart=\DB::select("select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) total_youtube
+                        from business_unit a
+                        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                        where a.type_unit='$typeunit'
+                        group by a.id
+                        order by a.group_unit_id");
+                break;
+            case "program":
+                    $chart=\DB::select("select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) total_youtube
+                        from program_unit a
+                        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                        left join business_unit d on d.id=a.business_unit_id
+                        where d.type_unit='$typeunit'
+                        group by a.business_unit_id");
+                break;
+        }
+
+        $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as idnya, a.business_unit_id,
+                d.group_unit_id, a.program_name,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as total_twitter,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as total_facebook,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as total_instagram,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as total_youtube
+                from program_unit a 
+                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                left join business_unit d on d.id=a.business_unit_id and d.type_unit='TV'
+                where a.id in (89, 101, 95, 87)
+                group by a.id
+                with ROLLUP
+                HAVING idnya='TOTAL'");
+
+        return array('chart'=>$chart,'inews'=>$tambahanInews);
     }
 
     public function official_by_tier(Request $request){
-        $unit=\App\Models\Sosmed\Businessunit::with(
-                [
-                    'follower_twitter'=>function($q){
-                        $q->where(\DB::raw("date_format(tanggal,'%Y-%m')"),'2018-08');
-                    },
-                    'follower_twitter.unitsosmed'
-                ]
-            )->whereHas('follower_twitter')->get();
+        if($request->has('idsosmed')){
+            $idsosmed=$request->input('idsosmed');
+        }else{
+            $idsosmed=1;
+        }
 
-        return $unit;
-        $chart=\DB::select("select a.id, a.tier, a.unit_name, b.sosmed_id, c.tanggal, c.follower
-        from business_unit a
-        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
-        where a.type_unit='TV' and date_format(c.tanggal,'%Y-%m')='2018-09'
-        and b.sosmed_id=1 and a.tier=1
-        group by a.id,b.sosmed_id,day(c.tanggal)");
+        if($request->input('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
 
-        return $chart;
+        if($request->has('periode')){
+            $periode=$request->input('periode');
+        }else{
+            $periode=date('Y-m');
+        }
+
+        $follower=\DB::select("select a.id, a.unit_name, c.tanggal, 
+            @kemarin:=(
+                select cc.follower from business_unit aa
+                left join unit_sosmed bb on bb.business_program_unit=aa.id and bb.type_sosmed='corporate'
+                left join unit_sosmed_follower cc on cc.unit_sosmed_id=bb.id
+                where bb.sosmed_id=$idsosmed
+                and aa.id=a.id
+                and cc.tanggal < c.tanggal
+                order by cc.tanggal desc
+                limit 1
+            ) as kemarin,
+            c.follower,
+            ((c.follower / @kemarin) - 1)*100 as growth,
+            (c.follower - @kemarin) num_of_growth
+            from business_unit a
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
+            where b.sosmed_id=$idsosmed
+            and a.type_unit='$typeunit'
+            and date_format(c.tanggal,'%Y-%m')='$periode'
+            order by a.id");
+
+        $unit=\App\Models\Sosmed\Businessunit::where('type_unit',$typeunit)
+                ->get();
+
+        $warna=array("#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff","#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2");
+
+        $data=array();
+        foreach($unit as $key=>$val){
+            $fol=array();
+            for($a=0;$a<count($follower);$a++){
+                if($follower[$a]->id==$val->id){
+                    $fol[]=array(
+                        'tanggal'=>$follower[$a]->tanggal,
+                        'follower'=>$follower[$a]->follower,
+                        'growth'=>$follower[$a]->growth,
+                        'num_of_growth'=>$follower[$a]->num_of_growth
+                    );
+                }
+            }
+
+            $data[]=array(
+                'id'=>$val->id,
+                'warna'=>$warna[$key],
+                'unit_name'=>$val->unit_name,
+                'follower'=>$fol
+            );
+        }
+
+        return $data;
+    }
+
+    public function program_by_tier(Request $request){
+        if($request->has('idsosmed')){
+            $idsosmed=$request->input('idsosmed');
+        }else{
+            $idsosmed=1;
+        }
+
+        if($request->input('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
+        if($request->has('periode')){
+            $periode=date('Y-m-d',strtotime($request->input('periode')));
+        }else{
+            $periode=date('Y-m');
+        }
+
+        $program=\App\Models\Sosmed\Programunit::leftJoin('business_unit','business_unit.id','=','program_unit.business_unit_id')
+            ->where('business_unit.type_unit','TV')
+            ->get();
+
+        $follower=\DB::select("select a.id, a.program_name, c.tanggal, 
+            @kemarin:=(
+                select cc.follower from program_unit aa
+                left join unit_sosmed bb on bb.business_program_unit=aa.id and bb.type_sosmed='program'
+                left join unit_sosmed_follower cc on cc.unit_sosmed_id=bb.id
+                left join business_unit dd on dd.id=aa.business_unit_id
+                where bb.sosmed_id=$idsosmed
+                and aa.id=a.id
+                and cc.tanggal < c.tanggal
+                and dd.type_unit='TV'
+                order by cc.tanggal desc
+                limit 1
+            ) as kemarin,
+            c.follower,
+            ((c.follower / @kemarin) - 1)*100 as growth,
+            (c.follower - @kemarin) as num_of_growth
+            from program_unit a
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
+            left join business_unit d on d.id=a.business_unit_id
+            where b.sosmed_id=$idsosmed
+            and d.type_unit='$typeunit'
+            and date_format(c.tanggal,'%Y-%m')='$periode'
+            order by a.id");
+
+        $data=array();
+        foreach($program as $key=>$val){
+            $fol=array();
+            for($a=0;$a<count($follower);$a++){
+                if($follower[$a]->id==$val->id){
+                    $fol[]=array(
+                        'tanggal'=>$follower[$a]->tanggal,
+                        'follower'=>$follower[$a]->follower,
+                        'growth'=>$follower[$a]->growth,
+                        'num_of_growth'=>$follower[$a]->num_of_growth
+                    );
+                }
+            }
+
+            $data[]=array(
+                'id'=>$val->id,
+                'program_name'=>$val->program_name,
+                'follower'=>$fol
+            );
+        }
+
+        return $data;
+    }
+
+    public function top_official_twitter_today(Request $request){
+        if($request->input('tanggal')){
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+        }else{
+            $sekarang=date('Y-m-d');
+        }
+
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
+        if($request->has('idsosmed')){
+            $idsosmed=$request->input('idsosmed');
+            switch($idsosmed){
+                case 1:
+                        $unit=\App\Models\Sosmed\Businessunit::with(
+                            [
+                                'follower_twitter'=>function($q) use($sekarang){
+                                    $q->where(\DB::raw("date_format(tanggal,'%Y-%m-%d')"),$sekarang)
+                                            ->orderBy('follower','desc');
+                                },
+                                'follower_twitter.unitsosmed'
+                            ]
+                        )
+                        ->where('type_unit',$typeunit)
+                        ->whereHas('follower_twitter')->get();
+                    break;
+                case 2:
+                        $unit=\App\Models\Sosmed\Businessunit::with(
+                            [
+                                'follower_facebook'=>function($q) use($sekarang){
+                                    $q->where(\DB::raw("date_format(tanggal,'%Y-%m-%d')"),$sekarang)
+                                            ->orderBy('follower','desc');
+                                },
+                                'follower_facebook.unitsosmed'
+                            ]
+                        )
+                        ->where('type_unit',$typeunit)
+                        ->whereHas('follower_facebook')->get();
+                    break;
+                case 3:
+                        $unit=\App\Models\Sosmed\Businessunit::with(
+                            [
+                                'follower_instagram'=>function($q) use($sekarang){
+                                    $q->where(\DB::raw("date_format(tanggal,'%Y-%m-%d')"),$sekarang)
+                                            ->orderBy('follower','desc');
+                                },
+                                'follower_instagram.unitsosmed'
+                            ]
+                        )
+                        ->where('type_unit',$typeunit)
+                        ->whereHas('follower_instagram')->get();
+                    break;
+                case 4:
+                        $unit=\App\Models\Sosmed\Businessunit::with(
+                            [
+                                'follower_youtube'=>function($q) use($sekarang){
+                                    $q->where(\DB::raw("date_format(tanggal,'%Y-%m-%d')"),$sekarang)
+                                            ->orderBy('follower','desc');
+                                },
+                                'follower_youtube.unitsosmed'
+                            ]
+                        )
+                        ->where('type_unit',$typeunit)
+                        ->whereHas('follower_youtube')->get();
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
+        $data=array();
+        foreach($unit as $row){
+            $fol=0;
+            switch($idsosmed){
+                case 1:
+                        if(count($row->follower_twitter)>0){
+                            $fol=$row->follower_twitter[0]->follower;
+                        }
+                    break;
+                case 2:
+                        if(count($row->follower_facebook)>0){
+                            $fol=$row->follower_facebook[0]->follower;
+                        }
+                    break;
+                case 3:
+                        if(count($row->follower_instagram)>0){
+                            $fol=$row->follower_instagram[0]->follower;
+                        }
+                    break;
+                case 4:
+                        if(count($row->follower_youtube)>0){
+                            $fol=$row->follower_youtube[0]->follower;
+                        }
+                    break;
+            }
+            
+            $data[]=array(
+                'id'=>$row->id,
+                'unit_name'=>$row->unit_name,
+                'follower'=>$fol
+            );
+        }
+
+        usort($data, function($a, $b) {
+            return $b['follower'] <=> $a['follower'];
+        });
+
+        return $data;
+    }
+
+    public function top_program_twitter_today(Request $request){
+        if($request->input('tanggal')){
+            $sekarang=$request->input('tanggal');
+        }else{
+            $sekarang=date('Y-m-d');
+        }
+
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
+        if($request->has('idsosmed')){
+            $idsosmed=$request->input('idsosmed');
+
+            switch($idsosmed){
+                case 1:
+                        $program=\App\Models\Sosmed\Programunit::leftJoin('business_unit','business_unit.id','=','program_unit.business_unit_id')
+                            ->where('business_unit.type_unit',$typeunit)
+                            ->select('program_unit.id','program_unit.business_unit_id','program_unit.program_name')
+                            ->with(
+                                [
+                                    'follower_twitter'=>function($q) use($sekarang){
+                                        $q->where(\DB::raw("date_format(tanggal,'%Y-%m-%d')"),$sekarang)
+                                            ->orderBy('follower','desc');
+                                    },
+                                    'follower_twitter.unitsosmed'
+                                ]
+                            )
+                            ->whereHas('follower_twitter')
+                            ->get();
+                    break;
+                case 2:
+                    $program=\App\Models\Sosmed\Programunit::leftJoin('business_unit','business_unit.id','=','program_unit.business_unit_id')
+                        ->where('business_unit.type_unit',$typeunit)
+                        ->select('program_unit.id','program_unit.business_unit_id','program_unit.program_name')
+                        ->with(
+                            [
+                                'follower_facebook'=>function($q) use($sekarang){
+                                    $q->where(\DB::raw("date_format(tanggal,'%Y-%m-%d')"),$sekarang)
+                                        ->orderBy('follower','desc');
+                                },
+                                'follower_facebook.unitsosmed'
+                            ]
+                        )
+                        ->whereHas('follower_facebook')
+                        ->get();       
+                    break;
+                case 3:
+                    $program=\App\Models\Sosmed\Programunit::leftJoin('business_unit','business_unit.id','=','program_unit.business_unit_id')
+                        ->where('business_unit.type_unit',$typeunit)
+                        ->select('program_unit.id','program_unit.business_unit_id','program_unit.program_name')
+                        ->with(
+                            [
+                                'follower_instagram'=>function($q) use($sekarang){
+                                    $q->where(\DB::raw("date_format(tanggal,'%Y-%m-%d')"),$sekarang)
+                                        ->orderBy('follower','desc');
+                                },
+                                'follower_instagram.unitsosmed'
+                            ]
+                        )
+                        ->whereHas('follower_instagram')
+                        ->get();
+                    break;
+                case 4:
+                    $program=\App\Models\Sosmed\Programunit::leftJoin('business_unit','business_unit.id','=','program_unit.business_unit_id')
+                        ->where('business_unit.type_unit',$typeunit)
+                        ->select('program_unit.id','program_unit.business_unit_id','program_unit.program_name')
+                        ->with(
+                            [
+                                'follower_youtube'=>function($q) use($sekarang){
+                                    $q->where(\DB::raw("date_format(tanggal,'%Y-%m-%d')"),$sekarang)
+                                        ->orderBy('follower','desc');
+                                },
+                                'follower_youtube.unitsosmed'
+                            ]
+                        )
+                        ->whereHas('follower_youtube')
+                        ->get();
+                    break;
+            }
+        }
+
+
+        $data=array();
+        foreach($program as $row){
+            $fol=0;
+            switch($idsosmed){
+                case 1:
+                        if(count($row->follower_twitter)>0){
+                            $fol=$row->follower_twitter[0]->follower;
+                        }
+                    break;
+                case 2:
+                        if(count($row->follower_facebook)>0){
+                            $fol=$row->follower_facebook[0]->follower;
+                        }
+                    break;
+                case 3:
+                        if(count($row->follower_instagram)>0){
+                            $fol=$row->follower_instagram[0]->follower;
+                        }
+                    break;
+                case 4:
+                        if(count($row->follower_youtube)>0){
+                            $fol=$row->follower_youtube[0]->follower;
+                        }
+                    break;
+            }
+
+            $data[]=array(
+                'id'=>$row->id,
+                'program_name'=>$row->program_name,
+                'follower'=>$fol
+            );
+        }
+
+        usort($data, function($a, $b) {
+            return $b['follower'] <=> $a['follower'];
+        });
+
+        return $data;
     }
 }

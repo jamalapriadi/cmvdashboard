@@ -48,6 +48,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('add-new-report-harian/{id}','HomeController@add_new_report_harian');
 
         /*dashboard */
+        Route::get('dashboard-summary','HomeController@dashboard_summary');
         Route::get('dashboard-chart/{id}','HomeController@dashboard_chart');
 
         Route::get('daily-report','HomeController@sosmed_daily_report');
@@ -81,6 +82,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
     });
 
     Route::group(['prefix'=>'data'],function(){
+        Route::get('periode','HomeController@periode');
         Route::get('list-activity-user','User\UserController@list_activity_user');
         Route::get('recent-login-user','User\UserController@recent_login_user');
         Route::get('recent-access-log','User\UserController@recent_access_log');
@@ -167,8 +169,11 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
             Route::get('daily-chart/{id}/program','Sosmed\ReportController@daily_chart_program');
             Route::get('all-tier','Sosmed\ReportController@all_tier');
             Route::get('official-tv','Sosmed\ReportController@chart_official_tv');
-            Route::get('chart-by-tier/{id}','Sosmed\ReportController@chart_by_tier');
+            Route::get('chart-by-tier','Sosmed\ReportController@chart_by_tier');
             Route::get('official-by-tier','Sosmed\ReportController@official_by_tier');
+            Route::get('program-by-tier','Sosmed\ReportController@program_by_tier');
+            Route::get('top-official-twitter-today','Sosmed\ReportController@top_official_twitter_today');
+            Route::get('top-program-twitter-today','Sosmed\ReportController@top_program_twitter_today');
         });
     });
 });

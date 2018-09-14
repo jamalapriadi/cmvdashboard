@@ -39,9 +39,13 @@ class HomeController extends Controller
         //     ]
         // )->find(auth()->user()->id);
 
+        return view('sosmed.dashboard');
+    }
+
+    public function dashboard_summary(){
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
 
-        return view('sosmed.dashboard')
+        return view('sosmed.dashboard_summary')
             ->with('group',$group);
     }
 
@@ -421,20 +425,46 @@ class HomeController extends Controller
     public function dashboard_chart(Request $request,$id){
         switch($id){
             case 'twitter':
-                    return view('sosmed.dashboard_chart_twitter');
+                    $idsosmed=1;
                 break;
             case 'facebook':
-
+                    $idsosmed=2;
                 break;
             case 'instagram':
-
+                    $idsosmed=3;
                 break;
             case 'youtube':
-
+                    $idsosmed=4;
                 break;
             default:
 
                 break;
         }
+
+        return view('sosmed.dashboard_chart_twitter')
+            ->with('idsosmed',$idsosmed);
+    }
+
+    public function periode(){
+        $thisDate=date("10-M-Y",strtotime(date('YmdHis')));
+        $startmonth=strtotime("-10 month",strtotime($thisDate));
+        $dateNow=date('Y-m');
+
+        $periode=array();
+        $pilih="tidak";
+        for($i=0;$i<15;$i++){
+            // if($dateNow==date('Y-m',strtotime('+'.$i.' month',$startmonth))){
+            //     $pilih="ada";
+            // }else{
+            //     $pilih="tidak";
+            // }
+            $periode[]=array(
+                'key'=>date('Y-m',strtotime('+'.$i.' month',$startmonth)),
+                'value'=>date('M-Y',strtotime('+'.$i.' month',$startmonth)),
+                'status'=>$pilih
+            );
+        }
+
+        return $periode;
     }
 }

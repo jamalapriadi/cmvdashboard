@@ -65,6 +65,12 @@
                                         <option value="Publisher">Publisher</option>
                                         <option value="Radio">Radio</option>
                                         <option value="KOL">KOL</option>
+                                        <option value="Animation Production">Animation Production</option>
+                                        <option value="Production House">Production House</option>
+                                        <option value="PAYTV,IPTV,OOT">PAYTV,IPTV,OOT</option>
+                                        <option value="Newspaper">Newspaper</option>
+                                        <option value="Magazine">Magazine</option>
+                                        <option value="SMN Channel">SMN Channel</option>
                                     </select>
                                 </div>
                             </div>
@@ -222,6 +228,12 @@
                                     "<option value='Publisher'>Publisher</option>"+
                                     "<option value='Radio'>Radio</option>"+
                                     "<option value=KOL'>KOL</option>"+
+                                    '<option value="Animation Production">Animation Production</option>'+
+                                    '<option value="Production House">Production House</option>'+
+                                    '<option value="PAYTV,IPTV,OOT">PAYTV,IPTV,OOT</option>'+
+                                    '<option value="Newspaper">Newspaper</option>'+
+                                    '<option value="Magazine">Magazine</option>'+
+                                    '<option value="SMN Channel">SMN Channel</option>'+
                                 '</select>'+
                             '</div>'+
                             '<div class="form-group">'+
@@ -350,6 +362,12 @@
                                     "<option value='Publisher'>Publisher</option>"+
                                     "<option value='Radio'>Radio</option>"+
                                     "<option value=KOL'>KOL</option>"+
+                                    '<option value="Animation Production">Animation Production</option>'+
+                                    '<option value="Production House">Production House</option>'+
+                                    '<option value="PAYTV,IPTV,OOT">PAYTV,IPTV,OOT</option>'+
+                                    '<option value="Newspaper">Newspaper</option>'+
+                                    '<option value="Magazine">Magazine</option>'+
+                                    '<option value="SMN Channel">SMN Channel</option>'+
                                 '</select>'+
                             '</div>'+
                             '<div class="form-group">'+

@@ -2,14 +2,66 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-4">
-            <div class="card card-primary">
-                <div class="card-header">Social Media</div>
-                <div id="showSosmed"></div>
-            </div>
-        </div>
+        @foreach($bu->sosmed as $row)
+            @if($row->sosmed_id==1)
+                <div class="col-sm-6 col-lg-3">
+                    <div class="brand-card">
+                        <div class="brand-card-header bg-facebook">
+                            <i class="fa fa-facebook"></i>
+                            <div class="chart-wrapper">
+                                <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                    <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                    </div>
+                                    <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                    </div>
+                                </div>
+                                <canvas id="social-box-chart-1" height="96" width="387" class="chartjs-render-monitor" style="display: block; width: 387px; height: 96px;"></canvas>
+                            </div>
+                        </div>
+                        <div class="brand-card-body">
+                            <div>
+                                <div class="text-value">89k</div>
+                                <div class="text-uppercase text-muted small">friends</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
-        <div class="col-lg-8">
+            @if($row->sosmed_id==2)
+                <div class="col-sm-6 col-lg-3">
+                    <div class="brand-card">
+                        <div class="brand-card-header bg-facebook">
+                            <i class="fa fa-facebook"></i>
+                            <div class="chart-wrapper">
+                                <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                    <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                    </div>
+                                    <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                    </div>
+                                </div>
+                                <canvas id="social-box-chart-1" height="96" width="387" class="chartjs-render-monitor" style="display: block; width: 387px; height: 96px;"></canvas>
+                            </div>
+                        </div>
+                        <div class="brand-card-body">
+                            <div>
+                                <div class="text-value">89k</div>
+                                <div class="text-uppercase text-muted small">friends</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        @endforeach
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-12">
             <div class="card card-default">
                 <div class="card-header">Summary Business Unit</div>
                 <div class="card-body">
@@ -45,42 +97,81 @@
     <div class="row">
         @foreach($bu->sosmed as $row)
             @if($row->sosmed_id==1)
-                <div class="col-lg-3">
-                    <a class="twitter-timeline" data-height="600" data-theme="light" data-link-color="#E81C4F" href="https://twitter.com/{{$row->unit_sosmed_name}}?ref_src=twsrc%5Etfw">Tweets by {{$row->unit_sosmed_name}}</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <div class="col-lg-4">
+                    <div class="card card-default">
+                        <div class="card-header">Twitter</div>
+                        <div class="card-body">
+                            <a class="twitter-timeline" data-height="560" data-theme="light" data-link-color="#E81C4F" href="https://twitter.com/{{$row->unit_sosmed_name}}?ref_src=twsrc%5Etfw">Tweets by {{$row->unit_sosmed_name}}</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        </div>
+                    </div>
                 </div>
             @endif
 
             @if($row->sosmed_id==2)
-                <div class="col-lg-3">
-                        <div id="fb-root"></div>
-                        <div class="fb-page" data-href="https://www.facebook.com/{{$row->unit_sosmed_account_id}}/" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/{{$row->unit_sosmed_account_id}}/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/{{$row->unit_sosmed_account_id}}/">Into The Wild</a></blockquote></div>
+                <div class="col-lg-4">
+                    <div class="card card-default">
+                        <div class="card-header">Facebook</div>
+                        <div class="card-body">
+                            <div id="fb-root"></div>
+        
+                            <div class="fb-page" data-href="https://www.facebook.com/OfficialRCTI.TV/" data-tabs="timeline" data-height="560" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/OfficialRCTI.TV/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/OfficialRCTI.TV/">Official RCTI</a></blockquote></div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @if($row->sosmed_id==3)
+                <div class="col-lg-4">
+                    <div class="card card-default">
+                        <div class="card-header">Instagram</div>
+                        <div class="card-body" style="height:600px;">
+                            <script src="https://apps.elfsight.com/p/platform.js" defer></script>
+                            <div class="elfsight-app-5c80d96b-e512-43ab-9c2b-e55ee38a0acc" style="max-height:100px;"></div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @if($row->sosmed_id==4)
+                <div class="col-lg-4">
+                    <div class="card card-default">
+                        <div class="card-header">Youtube</div>
+                        <div class="card-body">
+                            <iframe src="http://youtube.com/embed/?listType=user_uploads&list=RCTIOfficialChannel" height="560px" frameborder="o"></iframe>
+                        </div>
+                    </div>
                 </div>
             @endif
         @endforeach
     </div>
 
     <div id="divModal"></div>
+     
 @stop
 
 @section('js')
-<script>
+<!-- Ini untuk script Facebook API -->
+    <script>
         window.fbAsyncInit = function() {
-   FB.init({
-     appId            : '326236844797670',
-     autoLogAppEvents : true,
-     xfbml            : true,
-     version          : 'v3.1'
-   });
- };
+            FB.init({
+                appId            : '326236844797670',
+                autoLogAppEvents : true,
+                xfbml            : true,
+                version          : 'v3.1'
+            });
+        };
 
- (function(d, s, id){
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement(s); js.id = id;
-    js.src = "https://connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-      </script>
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    
+   </div>
+
     <script>
         $(function(){
             var id="{{$id}}";

@@ -72,4 +72,40 @@ class Businessunit extends Model
 			->where('sosmed_id',1);
 	}
 
+	public function follower_facebook(){
+		return $this->hasManyThrough('\App\Models\Sosmed\Unitsosmedfollower','\App\Models\Sosmed\Unitsosmed','business_program_unit','unit_sosmed_id')
+			->select(
+				[
+					'unit_sosmed_id',
+					'tanggal',
+					'follower'
+				]
+			)->where('type_sosmed','corporate')
+			->where('sosmed_id',2);
+	}
+
+	public function follower_instagram(){
+		return $this->hasManyThrough('\App\Models\Sosmed\Unitsosmedfollower','\App\Models\Sosmed\Unitsosmed','business_program_unit','unit_sosmed_id')
+			->select(
+				[
+					'unit_sosmed_id',
+					'tanggal',
+					'follower'
+				]
+			)->where('type_sosmed','corporate')
+			->where('sosmed_id',3);
+	}
+
+	public function follower_youtube(){
+		return $this->hasManyThrough('\App\Models\Sosmed\Unitsosmedfollower','\App\Models\Sosmed\Unitsosmed','business_program_unit','unit_sosmed_id')
+			->select(
+				[
+					'unit_sosmed_id',
+					'tanggal',
+					'follower'
+				]
+			)->where('type_sosmed','corporate')
+			->where('sosmed_id',4);
+	}
+
 }

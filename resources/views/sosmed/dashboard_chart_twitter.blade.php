@@ -3,8 +3,8 @@
 @section('extra-style')
     <style>
         #zingchart-1 {
-            height: 200px;
-            width: 480px;
+            height: 400px;
+            width: 960px;
         }
 
         #zingchart-2 {
@@ -33,6 +33,16 @@
         }
 
         #officialTwitter{
+            height: 400px;
+            width: 480px;
+        }
+
+        #top10TwitterProgram{
+            height: 400px;
+            width: 480px;
+        }
+
+        #top10TwitterOfficial{
             height: 400px;
             width: 480px;
         }
@@ -70,15 +80,29 @@
 @stop
 
 @section('content')
-    <div class="card card-primary">
-        <div class="card-header">
+    <div class="card card-default">
+        <div class="card-header">Official</div>
+        <div class="card-body">
             <div class="row">
-                <div class="col-sm-5">
-                    <h4 class="card-title mb-0">CROSS CHANNEL</h4>
-                    <div class="small text-muted">{{date('d F Y')}}</div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="" class="control-label">Periode</label>
+                        <div id="divPeriode"></div>
+                    </div>
                 </div>
-                
-                <div class="col-sm-7 d-none d-md-block">
+            </div>
+            
+            <hr>
+            <div id="chartOfficial"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card card-default">
+                <div class="card-header">
+                    Official Twitter All TV
+
                     <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -88,68 +112,25 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="card card-default">
-                        <div class="card-header">Tear 1</div>
-                        <div class="card-body">
-                            <div id="zingchart-1"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="card card-default">
-                        <div class="card-header">Tear 2</div>
-                        <div class="card-body">
-                            <div id="zingchart-2"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="card card-default">
-                        <div class="card-header">Tear 3</div>
-                        <div class="card-body">
-                            <div id="zingchart-3"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="card card-default">
-                        <div class="card-header">Tear 4</div>
-                        <div class="card-body">
-                            <div id="zingchart-4"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card card-default">
-        <div class="card-header">Official</div>
-        <div class="card-body">
-            <div id="chartOfficial"></div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card card-default">
-                <div class="card-header">Official Twitter All TV</div>
-                <div id="officialTwitter"></div>
+                <div id="top10TwitterOfficial"></div>
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="card card-default">
-                <div class="card-header">TOP 10 Twitter Program</div>
-                <div id="top10"></div>
+                <div class="card-header">
+                    TOP 10 Twitter Program
+
+                    <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                            </div>
+                            <input type="text" id="tanggal2" data-value="{{date('Y/m/d')}}" name="tanggal2" class="form-control daterange-single">
+                        </div>
+                    </div>
+                </div>
+                <div id="top10TwitterProgram"></div>
             </div>
         </div>
     </div>
@@ -167,514 +148,131 @@
 
     <script>
         $(function(){
+            var idsosmed="{{$idsosmed}}";
+
             $('.daterange-single').pickadate({
                 format: 'yyyy/mm/dd',
                 formatSubmit: 'yyyy/mm/dd',
                 max:true,
             });
 
-            function showTear1(){
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/chart/chart-by-tier/1')}}",
-                    type:"GET",
-                    beforeSend:function(){
-
-                    },
-                    success:function(result){
-                        var primaryColor = "#4184F3";
-                        var primaryColorHover = "#3a53c5";
-                        var secondaryColor = '#DCDCDC'
-                        var scaleTextColor = '#999';
-
-                        var labels1=[];
-                        var facebook1=[];
-                        var twitter1=[];
-                        var instagram1=[];
-
-                        var labels2=[];
-                        var facebook2=[];
-                        var twitter2=[];
-                        var instagram2=[];
-
-                        var labels3=[];
-                        var facebook3=[];
-                        var twitter3=[];
-                        var instagram3=[];
-
-                        var labels4=[];
-                        var facebook4=[];
-                        var twitter4=[];
-                        var instagram4=[];
-                        console.log(result);
-                        $.each(result,function(a,b){
-                            if(b.tier==1){
-                                labels1.push(b.unit_name);
-
-                                facebook1.push(parseFloat(b.total_facebook));
-                                twitter1.push(parseFloat(b.total_twitter));
-                                instagram1.push(parseFloat(b.total_instagram));
-                            }
-
-                            if(b.tier==2){
-                                if(b.id!='tidak'){
-                                    labels2.push(b.unit_name);
-
-                                    facebook2.push(parseFloat(b.total_facebook));
-                                    twitter2.push(parseFloat(b.total_twitter));
-                                    instagram2.push(parseFloat(b.total_instagram));
-                                }
-                            }
-
-                            if(b.tier==3){
-                                labels3.push(b.unit_name);
-
-                                facebook3.push(parseFloat(b.total_facebook));
-                                twitter3.push(parseFloat(b.total_twitter));
-                                instagram3.push(parseFloat(b.total_instagram));
-                            }
-
-                            if(b.tier==4){
-                                labels4.push(b.unit_name);
-
-                                facebook4.push(parseFloat(b.total_facebook));
-                                twitter4.push(parseFloat(b.total_twitter));
-                                instagram4.push(parseFloat(b.total_instagram));
-                            }
-                        })
-                        
-                        /* tear 1 */
-                        var chartConfig1 = {
-                            "type": "hbar",
-                            "plot": {
-                                "stacked": true,
-                                "valueBox":{
-                                    "text":"%total%",
-                                    "rules": [
-                                        {
-                                            "rule": '%stack-top == 0',
-                                            "visible": 0
-                                        }
-                                    ]
-                                }
-                            },
-                            "plotarea": {
-                                // "margin": "2% 2% 15% 20%"
-                                margin: 'dynamic dynamic dynamic dynamic',
-                            },
-                            "backgroundColor": "#fff",
-                            "scaleX": {
-                                "values": labels1,
-                                "lineWidth": 0,
-                                "lineColor":"none",
-                                "tick": {
-                                    "visible": false
-                                },
-                                "guide": {
-                                    "visible": false
-                                },
-                                "item": {
-                                    "font-size": "9px",
-                                    "font-color": "#222222"
-                                }
-                            },
-                            "scale-y":{
-                                "line-color":"#333",
-                                "guide":{
-                                    "line-style":"solid",
-                                    "line-color":"#c4c4c4",
-                                    visible:false
-                                },
-                                "tick":{
-                                    "line-color":"#333",
-                                }
-                            },
-                            "legend": {
-                                "layout": "float",
-                                "toggle-action":"remove",
-                                "shadow": 0,
-                                "adjust-layout": true,
-                                "align": "center",
-                                "vertical-align": "bottom",
-                                "marker": {
-                                    "type": "match",
-                                    "show-line": true,
-                                    "line-width": 4,
-                                    "shadow": "none"
-                                }
-                            },
-                            "tooltip": {
-                                "htmlMode": true,
-                                "backgroundColor": "none",
-                                "padding": 0,
-                                "placement": "node:center",
-                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v <\/div><\/div>"
-                            },
-                            "series": [
-                                {
-                                    "values": twitter1,
-                                    "text": "Twitter",
-                                    "background-color": "#008ef6"
-                                },
-                                {
-                                    "values": facebook1,
-                                    "text": "Facebook",
-                                    "background-color": "#5054ab"
-                                },
-                                {
-                                    "values": instagram1,
-                                    "text": "Instagram",
-                                    "background-color": "#a200b2"
-                                }
-                            ]
-                        };
-
-                        chartConfig1.plot.animation = {
-                            'method': 'LINEAR',
-                            'delay': 0,
-                            'effect': 'ANIMATION_EXPAND_VERTICAL',
-                            'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
-                            'speed': 10
-                        }
-
-                        zingchart.render({
-                            id: 'zingchart-1',
-                            data: chartConfig1,
-                            output: 'canvas',
-                            height:'100%',
-                            width:'100%'
-                        });
-                        /* end tear 1 */
-                        
-                        /* tear 2 */
-                        var chartConfig2 = {
-                            "type": "hbar",
-                            "plot": {
-                                "stacked": true,
-                                "valueBox":{
-                                    "text":"%total%",
-                                    "rules": [
-                                        {
-                                            "rule": '%stack-top == 0',
-                                            "visible": 0
-                                        }
-                                    ]
-                                }
-                            },
-                            "plotarea": {
-                                // "margin": "2% 2% 15% 20%"
-                                margin: 'dynamic dynamic dynamic dynamic',
-                            },
-                            "backgroundColor": "#fff",
-                            "scaleX": {
-                                "values": labels2,
-                                "lineWidth": 0,
-                                "lineColor":"none",
-                                "tick": {
-                                    "visible": false
-                                },
-                                "guide": {
-                                    "visible": false
-                                },
-                                "item": {
-                                    "font-size": "9px",
-                                    "font-color": "#222222"
-                                }
-                            },
-                            "scale-y":{
-                                "line-color":"#333",
-                                "guide":{
-                                    "line-style":"solid",
-                                    "line-color":"#c4c4c4",
-                                    visible:false
-                                },
-                                "tick":{
-                                    "line-color":"#333",
-                                }
-                            },
-                            "legend": {
-                                "layout": "float",
-                                "toggle-action":"remove",
-                                "shadow": 0,
-                                "adjust-layout": true,
-                                "align": "center",
-                                "vertical-align": "bottom",
-                                "marker": {
-                                    "type": "match",
-                                    "show-line": true,
-                                    "line-width": 4,
-                                    "shadow": "none"
-                                }
-                            },
-                            "tooltip": {
-                                "htmlMode": true,
-                                "backgroundColor": "none",
-                                "padding": 0,
-                                "placement": "node:center",
-                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v <\/div><\/div>"
-                            },
-                            "series": [
-                                {
-                                    "values": twitter2,
-                                    "text": "Twitter",
-                                    "background-color": "#008ef6"
-                                },
-                                {
-                                    "values": facebook2,
-                                    "text": "Facebook",
-                                    "background-color": "#5054ab"
-                                },
-                                {
-                                    "values": instagram2,
-                                    "text": "Instagram",
-                                    "background-color": "#a200b2"
-                                }
-                            ]
-                        };
-
-                        chartConfig2.plot.animation = {
-                            'method': 'LINEAR',
-                            'delay': 0,
-                            'effect': 'ANIMATION_EXPAND_VERTICAL',
-                            'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
-                            'speed': 10
-                        }
-
-                        zingchart.render({
-                            id: 'zingchart-2',
-                            data: chartConfig2,
-                            output: 'canvas',
-                            height:'100%',
-                            width:'100%'
-                        });
-                        /* end tear 2 */ 
-
-                        /*tear 3 */
-                        var chartConfig3 = {
-                            "type": "hbar",
-                            "plot": {
-                                "stacked": true,
-                                "valueBox":{
-                                    "text":"%total%",
-                                    "rules": [
-                                        {
-                                            "rule": '%stack-top == 0',
-                                            "visible": 0
-                                        }
-                                    ]
-                                }
-                            },
-                            "plotarea": {
-                                // "margin": "2% 2% 15% 20%"
-                                margin: 'dynamic dynamic dynamic dynamic',
-                            },
-                            "backgroundColor": "#fff",
-                            "scaleX": {
-                                "values": labels3,
-                                "lineWidth": 0,
-                                "lineColor":"none",
-                                "tick": {
-                                    "visible": false
-                                },
-                                "guide": {
-                                    "visible": false
-                                },
-                                "item": {
-                                    "font-size": "9px",
-                                    "font-color": "#222222"
-                                }
-                            },
-                            "scale-y":{
-                                "line-color":"#333",
-                                "guide":{
-                                    "line-style":"solid",
-                                    "line-color":"#c4c4c4",
-                                    visible:false
-                                },
-                                "tick":{
-                                    "line-color":"#333",
-                                }
-                            },
-                            "legend": {
-                                "layout": "float",
-                                "toggle-action":"remove",
-                                "shadow": 0,
-                                "adjust-layout": true,
-                                "align": "center",
-                                "vertical-align": "bottom",
-                                "marker": {
-                                    "type": "match",
-                                    "show-line": true,
-                                    "line-width": 4,
-                                    "shadow": "none"
-                                }
-                            },
-                            "tooltip": {
-                                "htmlMode": true,
-                                "backgroundColor": "none",
-                                "padding": 0,
-                                "placement": "node:center",
-                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v <\/div><\/div>"
-                            },
-                            "series": [
-                                {
-                                    "values": twitter3,
-                                    "text": "Twitter",
-                                    "background-color": "#008ef6"
-                                },
-                                {
-                                    "values": facebook3,
-                                    "text": "Facebook",
-                                    "background-color": "#5054ab"
-                                },
-                                {
-                                    "values": instagram3,
-                                    "text": "Instagram",
-                                    "background-color": "#a200b2"
-                                }
-                            ]
-                        };
-
-                        chartConfig3.plot.animation = {
-                            'method': 'LINEAR',
-                            'delay': 0,
-                            'effect': 'ANIMATION_EXPAND_VERTICAL',
-                            'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
-                            'speed': 10
-                        }
-
-                        zingchart.render({
-                            id: 'zingchart-3',
-                            data: chartConfig3,
-                            output: 'canvas',
-                            height:'100%',
-                            width:'100%'
-                        });    
-                        /* end tear 3 */
-
-                        /* tear 4 */ 
-                        var chartConfig4 = {
-                            "type": "hbar",
-                            "plot": {
-                                "stacked": true,
-                                "valueBox":{
-                                    "text":"%total%",
-                                    "rules": [
-                                        {
-                                            "rule": '%stack-top == 0',
-                                            "visible": 0
-                                        }
-                                    ]
-                                }
-                            },
-                            "plotarea": {
-                                // "margin": "2% 2% 15% 20%"
-                                margin: 'dynamic dynamic dynamic dynamic',
-                            },
-                            "backgroundColor": "#fff",
-                            "scaleX": {
-                                "values": labels4,
-                                "lineWidth": 0,
-                                "lineColor":"none",
-                                "tick": {
-                                    "visible": false
-                                },
-                                "guide": {
-                                    "visible": false
-                                },
-                                "item": {
-                                    "font-size": "9px",
-                                    "font-color": "#222222"
-                                }
-                            },
-                            "scale-y":{
-                                "line-color":"#333",
-                                "guide":{
-                                    "line-style":"solid",
-                                    "line-color":"#c4c4c4",
-                                    visible:false
-                                },
-                                "tick":{
-                                    "line-color":"#333",
-                                }
-                            },
-                            "legend": {
-                                "layout": "float",
-                                "toggle-action":"remove",
-                                "shadow": 0,
-                                "adjust-layout": true,
-                                "align": "center",
-                                "vertical-align": "bottom",
-                                "marker": {
-                                    "type": "match",
-                                    "show-line": true,
-                                    "line-width": 4,
-                                    "shadow": "none"
-                                }
-                            },
-                            "tooltip": {
-                                "htmlMode": true,
-                                "backgroundColor": "none",
-                                "padding": 0,
-                                "placement": "node:center",
-                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v <\/div><\/div>"
-                            },
-                            "series": [
-                                {
-                                    "values": twitter4,
-                                    "text": "Twitter",
-                                    "background-color": "#008ef6"
-                                },
-                                {
-                                    "values": facebook4,
-                                    "text": "Facebook",
-                                    "background-color": "#5054ab"
-                                },
-                                {
-                                    "values": instagram4,
-                                    "text": "Instagram",
-                                    "background-color": "#a200b2"
-                                }
-                            ]
-                        };
-
-                        chartConfig4.plot.animation = {
-                            'method': 'LINEAR',
-                            'delay': 0,
-                            'effect': 'ANIMATION_EXPAND_VERTICAL',
-                            'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
-                            'speed': 10
-                        }
-
-                        zingchart.render({
-                            id: 'zingchart-4',
-                            data: chartConfig4,
-                            output: 'canvas',
-                            height:'100%',
-                            width:'100%'
-                        });    
-                        /* end tear 4 */
-
-                    }
-                })
-            }
-
             function showOfficial(){
+                var periode=$("#periode").val();
+
                 $.ajax({
                     url:"{{URL::to('sosmed/data/chart/official-by-tier')}}",
                     type:"GET",
+                    data:"idsosmed="+idsosmed,
                     beforeSend:function(){
-
+                        $("#chartOfficial").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
                     },
                     success:function(result){
+                        $("#chartOfficial").empty();
                         var series=[];
+                        var tanggal=[];
                         $.each(result,function(a,b){
                             var values=[];
-                            $.each(b.follower_twitter,function(c,d){
-                                values.push(d.follower);
+                            $.each(b.follower,function(c,d){
+                                values.push(d.num_of_growth);
+                                // tanggal.push(d.tanggal);
+                                if ($.inArray(d.tanggal, tanggal) == -1) tanggal.push(d.tanggal);
                             })
                             series.push({
                                     "values":values,
                                     "text":b.unit_name,
+                                    "line-color":b.warna,
+                                    "marker":{
+                                        "background-color":b.warna,
+                                        "border-color":b.warna
+                                    }
+                                });
+                        })
+                        tanggal.sort(function(a,b){
+                            return new Date(a) - new Date(b);
+                        });
+                        console.log(tanggal);
+
+                        zingchart.THEME="classic";
+                        var myConfig = {
+                            "background-color":"white",
+                            "type":"line",
+                            "legend":{
+                                "layout":"x1",
+                                "margin-top":"5%",
+                                "border-width":"0",
+                                "shadow":false,
+                                "marker":{
+                                    "cursor":"hand",
+                                    "border-width":"0"
+                                },
+                                "background-color":"white",
+                                "item":{
+                                    "cursor":"hand"
+                                },
+                                "toggle-action":"remove"
+                            },
+                            "scaleX":{
+                                "values":tanggal
+                            },
+                            "scaleY":{
+                                "line-color":"#333"
+                            },
+                            "tooltip":{
+                                "text":"%t: %v outbreaks in %k"
+                            },
+                            "plot":{
+                                "line-width":3,
+                                "marker":{
+                                    "size":2
+                                },
+                                "selection-mode":"multiple",
+                                "background-mode":"graph",
+                                "selected-state":{
+                                    "line-width":4
+                                },
+                                "background-state":{
+                                    "line-color":"#eee",
+                                    "marker":{
+                                        "background-color":"none"
+                                    }
+                                }
+                            },
+                            "plotarea":{
+                                "margin":"15% 25% 10% 7%"
+                            },
+                            "series":series
+                        };
+                        
+                        
+                        zingchart.render({ 
+                            id : 'chartOfficial', 
+                            data : myConfig, 
+                            height: '100%', 
+                            width: '100%' 
+                        });
+                    }
+                })
+            }
+
+            function growthProgram(){
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/chart/program-by-tier')}}",
+                    type:"GET",
+                    data:"idsosmed="+idsosmed,
+                    beforeSend:function(){
+                        $("#growthProgram").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        $("#growthProgram").empty();
+                        var series=[];
+                        $.each(result,function(a,b){
+                            var values=[];
+                            $.each(b.follower,function(c,d){
+                                values.push(d.num_of_growth);
+                            })
+                            series.push({
+                                    "values":values,
+                                    "text":b.program_name,
                                     "line-color":"#a6cee3",
                                     "marker":{
                                         "background-color":"#a6cee3",
@@ -733,7 +331,7 @@
                         
                         
                         zingchart.render({ 
-                            id : 'chartOfficial', 
+                            id : 'growthProgram', 
                             data : myConfig, 
                             height: '100%', 
                             width: '100%' 
@@ -742,13 +340,376 @@
                 })
             }
 
-            
+            function top10TwitterProgram(){
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/chart/top-program-twitter-today')}}",
+                    type:"GET",
+                    data:"idsosmed="+idsosmed,
+                    beforeSend:function(){
+                        $("#top10TwitterProgram").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        $("#top10TwitterProgram").empty();
+                        var primaryColor = "#4184F3";
+                        var primaryColorHover = "#3a53c5";
+                        var secondaryColor = '#DCDCDC';
+                        var scaleTextColor = '#999';
 
-            showTear1();
+                        var labels=[];
+                        var values=[];
+                        
+                        var filterbrand=result.slice(0,10);
+                        filterbrand.reverse();
+                        $.each(filterbrand,function(a,b){
+                            labels.push(b.program_name);
+                            values.push(b.follower);
+                        })
+
+                        var chartConfig = {
+                            "type": "hbar",
+                            "plot": {
+                                "stacked": true,
+                                "valueBox":{
+                                    "text":"%total",
+                                    "rules": [
+                                        {
+                                            "rule": '%stack-top == 0',
+                                            "visible": 0
+                                        }
+                                    ]
+                                }
+                            },
+                            "plotarea": {
+                                "margin": "2% 2% 15% 20%"
+                            },
+                            source:{
+                                // text: "* Dalam Ribu",
+                                fontColor:"#222222",
+                                // align: "center",
+                            },
+                            "backgroundColor": "#fff",
+                            "scaleX": {
+                                "values": labels,
+                                "lineWidth": 0,
+                                "lineColor":"none",
+                                "tick": {
+                                    "visible": false
+                                },
+                                "guide": {
+                                    "visible": false
+                                },
+                                "item": {
+                                    "font-size": "9px",
+                                    "font-color": "#222222"
+                                }
+                            },
+                            "scale-y":{
+                                "line-color":"#333",
+                                "guide":{
+                                    "line-style":"solid",
+                                    "line-color":"#c4c4c4",
+                                    visible:false
+                                },
+                                "tick":{
+                                    "line-color":"#333",
+                                }
+                            },
+                            "tooltip": {
+                                "htmlMode": true,
+                                "backgroundColor": "none",
+                                "padding": 0,
+                                "placement": "node:center",
+                                "text": "<div class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v<\/div><\/div>"
+                            },
+                            "series": [
+                                {
+                                    "values": values,
+                                    "alpha": 1,
+                                    "background-color": "#fb8072",
+                                    "hover-state": {
+                                        "backgroundColor": "#2956A0"
+                                    }
+                                }
+                            ]
+                        };
+
+                        chartConfig.plot.animation = {
+                            'method': 'LINEAR',
+                            'delay': 0,
+                            'effect': 'ANIMATION_EXPAND_VERTICAL',
+                            'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                            'speed': 10
+                        }
+                        
+                        zingchart.render({
+                            id: 'top10TwitterProgram',
+                            data: chartConfig,
+                            output: 'canvas',
+                            height:'100%',
+                            width:'100%'
+                        });
+                    },
+                    errors:function(){
+
+                    }
+                })
+            }
+
+            function top10TwitterOfficial(){
+                var tanggal=$("#tanggal").val();
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/chart/top-official-twitter-today')}}",
+                    type:"GET",
+                    data:"idsosmed="+idsosmed+"&tanggal="+tanggal,
+                    beforeSend:function(){
+                        $("#top10TwitterOfficial").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        $("#top10TwitterOfficial").empty();
+                        var primaryColor = "#4184F3";
+                        var primaryColorHover = "#3a53c5";
+                        var secondaryColor = '#DCDCDC';
+                        var scaleTextColor = '#999';
+
+                        var labels=[];
+                        var values=[];
+                        
+                        var filterbrand=result.slice(0,10);
+                        filterbrand.reverse();
+                        $.each(filterbrand,function(a,b){
+                            labels.push(b.unit_name);
+                            values.push(b.follower);
+                        })
+
+                        var chartConfig = {
+                            "type": "hbar",
+                            "plot": {
+                                "stacked": true,
+                                "valueBox":{
+                                    "text":"%total",
+                                    "rules": [
+                                        {
+                                            "rule": '%stack-top == 0',
+                                            "visible": 0
+                                        }
+                                    ]
+                                }
+                            },
+                            "plotarea": {
+                                "margin": "2% 2% 15% 20%"
+                            },
+                            source:{
+                                // text: "* Dalam Ribu",
+                                fontColor:"#222222",
+                                // align: "center",
+                            },
+                            "backgroundColor": "#fff",
+                            "scaleX": {
+                                "values": labels,
+                                "lineWidth": 0,
+                                "lineColor":"none",
+                                "tick": {
+                                    "visible": false
+                                },
+                                "guide": {
+                                    "visible": false
+                                },
+                                "item": {
+                                    "font-size": "9px",
+                                    "font-color": "#222222"
+                                }
+                            },
+                            "scale-y":{
+                                "line-color":"#333",
+                                "guide":{
+                                    "line-style":"solid",
+                                    "line-color":"#c4c4c4",
+                                    visible:false
+                                },
+                                "tick":{
+                                    "line-color":"#333",
+                                }
+                            },
+                            "tooltip": {
+                                "htmlMode": true,
+                                "backgroundColor": "none",
+                                "padding": 0,
+                                "placement": "node:center",
+                                "text": "<div class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v<\/div><\/div>"
+                            },
+                            "series": [
+                                {
+                                    "values": values,
+                                    "alpha": 1,
+                                    "background-color": "#fb8072",
+                                    "hover-state": {
+                                        "backgroundColor": "#2956A0"
+                                    }
+                                }
+                            ]
+                        };
+
+                        chartConfig.plot.animation = {
+                            'method': 'LINEAR',
+                            'delay': 0,
+                            'effect': 'ANIMATION_EXPAND_VERTICAL',
+                            'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                            'speed': 10
+                        }
+                        
+                        zingchart.render({
+                            id: 'top10TwitterOfficial',
+                            data: chartConfig,
+                            output: 'canvas',
+                            height:'100%',
+                            width:'100%'
+                        });
+                    },
+                    errors:function(){
+
+                    }
+                })
+            }
+
+            $(document).on("change","#periode",function(){
+                showOfficial();
+            })
+
+            function periode(){
+				var pilih=""
+				$.ajax({
+					url:"{{URL::to('sosmed/data/periode')}}",
+					type:"GET",
+					success:function(result){
+						console.log(result);
+
+						var p="<select name='periode' id='periode' class='form-control'>"+
+							"<option value='' selected='selected'>--Periode--</option>";
+							$.each(result,function(a,b){
+
+								p+="<option value='"+b.key+"'>"+b.value+"</option>";
+							})
+						p+="</select>";
+
+
+						$("#divPeriode").empty().html(p);
+					}
+				})
+			}
+
+            $(document).on("change","#tanggal",function(){
+                top10TwitterOfficial();
+            })
+            
+            $(document).on("change","#tanggal2",function(){
+
+            })
+
+            $(document).on("change","#periode",function(){
+                var periode=$("#periode").val();
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/chart/official-by-tier')}}",
+                    type:"GET",
+                    data:"idsosmed="+idsosmed+"&periode="+periode,
+                    beforeSend:function(){
+                        $("#chartOfficial").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        $("#chartOfficial").empty();
+                        var series=[];
+                        var tanggal=[];
+                        $.each(result,function(a,b){
+                            var values=[];
+                            $.each(b.follower,function(c,d){
+                                values.push(d.num_of_growth);
+                                // tanggal.push(d.tanggal);
+                                if ($.inArray(d.tanggal, tanggal) == -1) tanggal.push(d.tanggal);
+                            })
+                            series.push({
+                                    "values":values,
+                                    "text":b.unit_name,
+                                    "line-color":b.warna,
+                                    "marker":{
+                                        "background-color":b.warna,
+                                        "border-color":b.warna
+                                    }
+                                });
+                        })
+                        tanggal.sort(function(a,b){
+                            return new Date(a) - new Date(b);
+                        });
+                        console.log(tanggal);
+
+                        zingchart.THEME="classic";
+                        var myConfig = {
+                            "background-color":"white",
+                            "type":"line",
+                            "legend":{
+                                "layout":"x1",
+                                "margin-top":"5%",
+                                "border-width":"0",
+                                "shadow":false,
+                                "marker":{
+                                    "cursor":"hand",
+                                    "border-width":"0"
+                                },
+                                "background-color":"white",
+                                "item":{
+                                    "cursor":"hand"
+                                },
+                                "toggle-action":"remove"
+                            },
+                            "scaleX":{
+                                "values":tanggal
+                            },
+                            "scaleY":{
+                                "line-color":"#333"
+                            },
+                            "tooltip":{
+                                "text":"%t: %v outbreaks in %k"
+                            },
+                            "plot":{
+                                "line-width":3,
+                                "marker":{
+                                    "size":2
+                                },
+                                "selection-mode":"multiple",
+                                "background-mode":"graph",
+                                "selected-state":{
+                                    "line-width":4
+                                },
+                                "background-state":{
+                                    "line-color":"#eee",
+                                    "marker":{
+                                        "background-color":"none"
+                                    }
+                                }
+                            },
+                            "plotarea":{
+                                "margin":"15% 25% 10% 7%"
+                            },
+                            "series":series
+                        };
+                        
+                        
+                        zingchart.render({ 
+                            id : 'chartOfficial', 
+                            data : myConfig, 
+                            height: '100%', 
+                            width: '100%' 
+                        });
+                    }
+                })
+            })
+
+            
             showOfficial();
-            // officialTwitter();
-            // top10();
-            // growthProgram();
+            top10TwitterProgram();
+            top10TwitterOfficial();
+            growthProgram();
+            periode();
         })
     </script>
 @stop
