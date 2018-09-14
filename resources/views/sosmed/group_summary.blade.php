@@ -79,9 +79,12 @@
 
 
             function showUnit(){
+                var tanggal=$("#tanggal").val();
+                var filter=$("#filter").val();
+
                 $.ajax({
                     url:"{{URL::to('sosmed/data/list-official-program-by-group')}}/"+id,
-                    // data:"tanggal="+tanggal+"&filter="+filter,
+                    data:"tanggal="+tanggal+"&filter="+filter,
                     type:"GET",
                     beforeSend:function(){
                         $("#showUnit").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
