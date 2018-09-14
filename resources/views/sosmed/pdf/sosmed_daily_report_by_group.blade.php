@@ -112,10 +112,22 @@
                     <?php 
                             if($key==5){
                                 $nama="TOTAL 4 TV";
-                            }elseif($key==10){
+                            }elseif($key==10 || $key==9){
                                 $nama="TOTAL PUBLISHER";
-                            }elseif($key==16){
+                            }elseif($key==16 || $key==15){
                                 $nama="TOTAL RADIO";
+                            }elseif($key==18){
+                                $nama="SMN ARTISTS";
+                            }elseif($key==21){
+                                $nama="TOTAL PRODUCTION HOUSE";
+                            }elseif($key==26){
+                                $nama="PAYTV,IPTV,OOT";
+                            }elseif($key==29){
+                                $nama="TOTAL NEWSPAPER";
+                            }elseif($key==33){
+                                $nama="TOTAL MAGAZINE";
+                            }elseif($key==36){
+                                $nama="TOTAL ANIMATION PRODUCTION";
                             }else{
                                 $nama=$of->group_name." - ".$key;
                             }
@@ -373,10 +385,22 @@
                         <?php 
                             if($key==4){
                                 $nama="TOTAL 4 TV";
-                            }elseif($key==9){
+                            }elseif($key==9 || $key==8){
                                 $nama="TOTAL PUBLISHER";
-                            }elseif($key==15){
+                            }elseif($key==15 || $key==14){
                                 $nama="TOTAL RADIO";
+                            }elseif($key==17){
+                                $nama="TOTAL SMN ARTISTS";
+                            }elseif($key==20){
+                                $nama="TOTAL PRODUCTION HOUSE";
+                            }elseif($key==25){
+                                $nama="PAYTV,IPTV,OOT";
+                            }elseif($key==28){
+                                $nama="TOTAL NEWSPAPER";
+                            }elseif($key==32){
+                                $nama="TOTAL MAGAZINE";
+                            }elseif($key==35){
+                                $nama="TOTAL ANIMATION PRODUCTION";
                             }else{
                                 $nama=$of->group_name." ".$key;
                             }
