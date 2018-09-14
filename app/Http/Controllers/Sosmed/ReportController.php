@@ -2030,7 +2030,7 @@ class ReportController extends Controller
         $data['sekarang']=$sekarang;
         $data['kemarin']=$kemarin;
 
-        $data['officialTv']=\DB::select("select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
+        $data['officialTv']=\DB::select("select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,a.type_unit,  
             ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
@@ -2055,7 +2055,7 @@ class ReportController extends Controller
 
             union all 
 
-            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
+            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  a.type_unit,
             ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
@@ -2080,7 +2080,7 @@ class ReportController extends Controller
 
             union all
 
-            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
+            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name, a.type_unit, 
             ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
@@ -2105,7 +2105,7 @@ class ReportController extends Controller
             
             union all 
             
-            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
+            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  a.type_unit,
             ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
@@ -2130,7 +2130,7 @@ class ReportController extends Controller
             
             union all 
             
-            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
+            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,a.type_unit,  
             ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
@@ -2155,7 +2155,7 @@ class ReportController extends Controller
             
             union all 
             
-            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
+            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  a.type_unit,
             ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
@@ -2180,7 +2180,7 @@ class ReportController extends Controller
             
             union all 
             
-            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
+            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name, a.type_unit, 
             ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
@@ -2205,7 +2205,7 @@ class ReportController extends Controller
 
             union all 
 
-            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
+            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  a.type_unit,
             ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
@@ -2230,7 +2230,7 @@ class ReportController extends Controller
             
             union all 
             
-            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
+            select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  a.type_unit,
             ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
             sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
