@@ -44,6 +44,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('program','HomeController@sosmed_program');
         Route::get('program/{id}/summary','HomeController@sosmed_summary_program');
         Route::get('business-unit/{id}/summary','HomeController@sosmed_summary_bu');
+        Route::get('group/{id}/summary','HomeController@sosmed_group_summary');
         Route::get('input-report-harian','HomeController@sosmed_input_report_harian');
         Route::get('add-new-report-harian/{id}','HomeController@add_new_report_harian');
 
@@ -102,6 +103,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::post('reset-password','User\UserController@reset_password');
     
         Route::resource('group-unit','Sosmed\GroupunitController');
+        Route::get('list-official-program-by-group/{id}','Sosmed\GroupunitController@list_official_program_by_group');
         Route::get('list-group','Sosmed\GroupunitController@list_group');
         Route::resource('business-unit','Sosmed\BusinessunitController');
         Route::get('list-unit','Sosmed\BusinessunitController@list_unit');

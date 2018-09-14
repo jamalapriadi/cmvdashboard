@@ -23,9 +23,9 @@ class GroupunitController extends Controller
 
         return \Datatables::of($group)
             ->addColumn('action',function($query){
-                $html="<div class='btn-group' data-toggle='buttons'>";
+                $html="<div class='btn-group'>";
                 if(auth()->user()->can('Summary Group')){
-                    $html.="<a href='#' class='btn btn-sm btn-success' kode='".$query->id."' title='Summary'><i class='icon-stats-dots'></i></a>";
+                    $html.="<a href='".\URL::to('sosmed/group/'.$query->id.'/summary')."' class='btn btn-sm btn-success' title='Summary'><i class='icon-stats-dots'></i></a>";
                 }
 
                 if(auth()->user()->can('Edit Group')){
@@ -209,5 +209,102 @@ class GroupunitController extends Controller
                 $sheet->fromArray($var);
             });
         })->export('xlsx');
+    }
+
+    public function list_official_program_by_group(Request $request,$id){
+        $sekarang=date('Y-m-d');
+
+        if($request->has('tanggal')){
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+        }else{
+            $sekarang=date('Y-m-d');
+        }
+
+        if($request->has('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
+        $filter=$request->input('filter');
+
+        switch($filter){
+            default:
+            case "all":
+                $unit=\DB::select("select total.id,total.unit_name,
+                    sum(total.twitter) as total_twitter,
+                    sum(total.facebook) as total_facebook,
+                    sum(total.instagram) as total_instagram,
+                    sum(total.youtube) as total_youtube
+                    from 
+                    (
+                        select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                        from business_unit a
+                        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                        where a.group_unit_id=$id
+                        group by a.id
+                        UNION ALL 
+                        select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                        from program_unit a
+                        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                        left join business_unit d on d.id=a.business_unit_id
+                        where d.group_unit_id=$id
+                        group by a.business_unit_id
+                    ) as total
+                    group by total.id");
+                break;
+            case 'official':
+                    $unit=\DB::select("select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                        from business_unit a
+                        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                        where a.group_unit_id=$id
+                        group by a.id");
+                break;
+            case 'program':
+                    $unit=\DB::select("select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                        from program_unit a
+                        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                        left join business_unit d on d.id=a.business_unit_id
+                        where d.group_unit_id=$id
+                        group by a.business_unit_id");
+                break;
+        }
+
+        $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as idnya, a.business_unit_id,
+                d.group_unit_id, a.program_name,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as total_twitter,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as total_facebook,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as total_instagram,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as total_youtube
+                from program_unit a 
+                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                left join business_unit d on d.id=a.business_unit_id and d.type_unit='TV'
+                where a.id in (89, 101, 95, 87)
+                group by a.id
+                with ROLLUP
+                HAVING idnya='TOTAL'");
+
+        return array('chart'=>$unit,'inews'=>$tambahanInews);
     }
 }

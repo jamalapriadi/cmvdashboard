@@ -6,71 +6,45 @@
             height: 400px;
             width: 960px;
         }
-
-        .zingchart-tooltip {
-            padding: 7px 5px;
-            border-radius: 1px;
-            line-height: 20px;
-            background-color: #fff;
-            border: 1px solid #dcdcdc;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            -webkit-font-smoothing: antialiased;
-        }
-        .zingchart-tooltip .scalex-value {
-            font-size: 14px !important;
-            font-weight: normal !important;
-            line-height: 24px;
-            color: #838383;
-        }
-        .zingchart-tooltip .scaley-value {
-            color: #4184f3;
-            font-size: 24px !important;
-            font-weight: normal !important;
-        }
-
-        .zc-ref {
-            display: none;
-        }
     </style>
 @stop
 
 @section('content')
-    <div class="card card-primary">
+    <div class="card">
         <div class="card-header">
-            <div class="row">
-                <div class="col-sm-5">
-                    <h4 class="card-title mb-0">CROSS CHANNEL</h4>
-                    <div class="small text-muted">{{date('d F Y')}}</div>
-                </div>
-                
-                <div class="col-sm-7 d-none d-md-block">
-                    <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
-                            </div>
-                            <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
-                        </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h4 class="card-title mb-0">{{$group->group_name}}</h4>
+                        <div class="small text-muted">{{date('d F Y')}}</div>
                     </div>
+                    
+                    <div class="col-sm-7 d-none d-md-block">
+                        <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                                </div>
+                                <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
+                            </div>
+                        </div>
 
-                    <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                        <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                                </div>
+                                <select name="filter" id="filter" class="form-control bg-primary">
+                                    <option value="all">All</option>
+                                    <option value="official">Official</option>
+                                    <option value="program">Program</option>
+                                </select>
                             </div>
-                            <select name="filter" id="filter" class="form-control bg-primary">
-                                <option value="all">All</option>
-                                <option value="official">Official</option>
-                                <option value="program">Program</option>
-                            </select>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
         <div class="card-body">
-            <div id="zingchart-1"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
-
+            <div id="zingchart-1"></div>
             <div id="showUnit"></div>
         </div>
     </div>
@@ -82,6 +56,8 @@
     ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
     <script>
         $(function(){
+            var id="{{$group->id}}";
+
             $('.daterange-single').pickadate({
                 format: 'yyyy/mm/dd',
                 formatSubmit: 'yyyy/mm/dd',
@@ -101,19 +77,16 @@
                 return x1 + x2;
             }
 
-            function showTear1(){
-                var tanggal=$("#tanggal").val();
-                var filter=$("#filter").val();
 
+            function showUnit(){
                 $.ajax({
-                    url:"{{URL::to('sosmed/data/chart/chart-by-tier')}}",
+                    url:"{{URL::to('sosmed/data/list-official-program-by-group')}}/"+id,
+                    // data:"tanggal="+tanggal+"&filter="+filter,
                     type:"GET",
-                    data:"tanggal="+tanggal+"&filter="+filter+"&typeunit=TV",
                     beforeSend:function(){
-                        $("#zingchart-1").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
+                        $("#showUnit").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
                     success:function(result){
-                        var el="";
                         $("#zingchart-1").empty();
                         var primaryColor = "#4184F3";
                         var primaryColorHover = "#3a53c5";
@@ -140,56 +113,24 @@
                         var facebook4=[];
                         var twitter4=[];
                         var instagram4=[];
-                        console.log(result);
+                        
                         $.each(result.chart,function(a,b){
-                            // if(b.tier==1){
-                                
-                            // }
+                            if(b.id!=4){
+                                labels1.push(b.unit_name);
 
-                            // if(b.tier==2){
-                            //     if(b.id!='tidak'){
-                            //         labels2.push(b.unit_name);
-
-                            //         facebook2.push(parseFloat(b.total_facebook));
-                            //         twitter2.push(parseFloat(b.total_twitter));
-                            //         instagram2.push(parseFloat(b.total_instagram));
-                            //     }
-                            // }
-
-                            // if(b.tier==3){
-                            //     labels3.push(b.unit_name);
-
-                            //     facebook3.push(parseFloat(b.total_facebook));
-                            //     twitter3.push(parseFloat(b.total_twitter));
-                            //     instagram3.push(parseFloat(b.total_instagram));
-                            // }
-
-                            // if(b.tier==4){
-                            //     labels4.push(b.unit_name);
-
-                            //     facebook4.push(parseFloat(b.total_facebook));
-                            //     twitter4.push(parseFloat(b.total_twitter));
-                            //     instagram4.push(parseFloat(b.total_instagram));
-                            // }
-                            if(b.id!='tidak'){
-                                if(b.id!=4){
-                                    labels1.push(b.unit_name);
+                                facebook1.push(parseFloat(b.total_facebook));
+                                twitter1.push(parseFloat(b.total_twitter));
+                                instagram1.push(parseFloat(b.total_instagram));
+                                youtube1.push(parseFloat(b.total_youtube));
+                            }else{
+                                $.each(result.inews,function(a,b){
+                                    labels1.push("INEWS 4TV");
 
                                     facebook1.push(parseFloat(b.total_facebook));
                                     twitter1.push(parseFloat(b.total_twitter));
                                     instagram1.push(parseFloat(b.total_instagram));
                                     youtube1.push(parseFloat(b.total_youtube));
-                                }else{
-                                    $.each(result.inews,function(a,b){
-                                        labels1.push("INEWS 4TV");
-
-                                        facebook1.push(parseFloat(b.total_facebook));
-                                        twitter1.push(parseFloat(b.total_twitter));
-                                        instagram1.push(parseFloat(b.total_instagram));
-                                        youtube1.push(parseFloat(b.total_youtube));
-                                    })
-                                }
-                                
+                                })
                             }
                         })
                         
@@ -299,8 +240,8 @@
                             height:'100%',
                             width:'100%'
                         });
-                        /* end tear 1 */
-                        
+
+                        var el="";
                         el+='<div class="table-responsive">'+
                             '<table id="tableunit" class="table table-responsive-sm table-hover table-outline mb-0">'+
                                 '<thead class="thead-light">'+
@@ -317,29 +258,26 @@
                                     var no=0;
                                     $.each(result.chart,function(a,b){
                                         no++;
-                                        if(b.id!='tidak'){
-                                            if(b.id!=4){
-                                                el+="<tr>"+
-                                                    "<td>"+no+"</td>"+
-                                                    "<td>"+b.unit_name+"</td>"+
-                                                    "<td>"+addKoma(b.total_twitter)+"</td>"+
-                                                    "<td>"+addKoma(b.total_facebook)+"</td>"+
-                                                    "<td>"+addKoma(b.total_instagram)+"</td>"+
-                                                    "<td>"+addKoma(b.total_youtube)+"</td>"+
-                                                "</tr>";
-                                            }else{
-                                                $.each(result.inews,function(a,b){
-                                                        el+="<tr>"+
-                                                            "<td>"+no+"</td>"+
-                                                            "<td>INEWS 4TV</td>"+
-                                                            "<td>"+b.total_twitter+"</td>"+
-                                                            "<td>"+b.total_facebook+"</td>"+
-                                                            "<td>"+b.total_instagram+"</td>"+
-                                                            "<td>"+b.total_youtube+"</td>"+
-                                                        "</tr>";
-                                                })
-                                            }
-                                            
+                                        if(b.id!=4){
+                                            el+="<tr>"+
+                                                "<td>"+no+"</td>"+
+                                                "<td>"+b.unit_name+"</td>"+
+                                                "<td>"+addKoma(b.total_twitter)+"</td>"+
+                                                "<td>"+addKoma(b.total_facebook)+"</td>"+
+                                                "<td>"+addKoma(b.total_instagram)+"</td>"+
+                                                "<td>"+addKoma(b.total_youtube)+"</td>"+
+                                            "</tr>";
+                                        }else{
+                                            $.each(result.inews,function(a,b){
+                                                    el+="<tr>"+
+                                                        "<td>"+no+"</td>"+
+                                                        "<td>INEWS 4TV</td>"+
+                                                        "<td>"+b.total_twitter+"</td>"+
+                                                        "<td>"+b.total_facebook+"</td>"+
+                                                        "<td>"+b.total_instagram+"</td>"+
+                                                        "<td>"+b.total_youtube+"</td>"+
+                                                    "</tr>";
+                                            })
                                         }
                                     })
                                 el+='</tbody>'+
@@ -349,16 +287,18 @@
                         $("#showUnit").empty().html(el);
 
                         $("#tableunit").DataTable();
+                    },
+                    errors:function(){
 
                     }
                 })
             }
 
             $(document).on("change","#filter",function(){
-                showTear1();
+                showUnit();
             })
 
-            showTear1();
+            showUnit();
         })
     </script>
 @stop

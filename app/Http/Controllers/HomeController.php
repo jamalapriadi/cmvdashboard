@@ -52,6 +52,13 @@ class HomeController extends Controller
             ->with('group',$group);
     }
 
+    public function sosmed_group_summary($id){
+        $group=\App\Models\Sosmed\Groupunit::with('unit')->find($id);
+
+        return view('sosmed.group_summary')
+            ->with('group',$group);
+    }
+
     public function role(){
         if(auth()->user()->can('Read Role')){
             return view('user.role');

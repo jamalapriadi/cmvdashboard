@@ -14,7 +14,8 @@ class Groupunit extends Model
                 [
                     'id',
                     'group_unit_id',
-                    'unit_name'
+                    'unit_name',
+                    'type_unit'
                 ]
             );
     }
