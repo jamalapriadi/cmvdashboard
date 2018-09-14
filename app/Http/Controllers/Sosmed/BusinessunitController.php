@@ -278,6 +278,10 @@ class BusinessunitController extends Controller
             $var=$var->where('group_unit_id',$request->input('group'));
         }
 
+        if($request->has('typeunit')){
+            $var=$var->where('type_unit',$request->input('typeunit'));
+        }
+
         $var=$var->get();
 
         return $var;

@@ -29,11 +29,14 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        // $sekarang=date('Y-m-d');
+        // $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+
         // $user=\App\User::with(
         //     [
         //         'unit',
-        //         'unit.followers'=>function($q){
-        //             $q->where('tanggal','2018-08-08');
+        //         'unit.followers'=>function($q) use($sekarang){
+        //             $q->where('tanggal',$sekarang);
         //         },
         //         'unit.followers.unitsosmed'
         //     ]
@@ -440,9 +443,11 @@ class HomeController extends Controller
 
                 break;
         }
+        $group=\App\Models\Sosmed\Groupunit::all();
 
         return view('sosmed.dashboard_chart_twitter')
-            ->with('idsosmed',$idsosmed);
+            ->with('idsosmed',$idsosmed)
+            ->with('group',$group);
     }
 
     public function periode(){

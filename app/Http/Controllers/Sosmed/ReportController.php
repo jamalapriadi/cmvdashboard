@@ -4122,7 +4122,10 @@ class ReportController extends Controller
         $unit=\App\Models\Sosmed\Businessunit::where('type_unit',$typeunit)
                 ->get();
 
-        $warna=array("#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff","#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2");
+        $warna=array("#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff",
+                "#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2",
+                "#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff",
+                "#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2");
 
         $data=array();
         foreach($unit as $key=>$val){
@@ -4168,8 +4171,19 @@ class ReportController extends Controller
             $periode=date('Y-m');
         }
 
+        if($request->has('unit')){
+            $unit=$request->input('unit');
+        }else{
+            $unit=1;
+        }
+
         $program=\App\Models\Sosmed\Programunit::leftJoin('business_unit','business_unit.id','=','program_unit.business_unit_id')
             ->where('business_unit.type_unit','TV')
+            ->where('business_unit_id',$unit)
+            ->select(
+                'program_unit.id',
+                'program_unit.program_name'
+            )
             ->get();
 
         $follower=\DB::select("select a.id, a.program_name, c.tanggal, 
@@ -4182,6 +4196,7 @@ class ReportController extends Controller
                 and aa.id=a.id
                 and cc.tanggal < c.tanggal
                 and dd.type_unit='TV'
+                and aa.business_unit_id=$unit
                 order by cc.tanggal desc
                 limit 1
             ) as kemarin,
@@ -4195,7 +4210,15 @@ class ReportController extends Controller
             where b.sosmed_id=$idsosmed
             and d.type_unit='$typeunit'
             and date_format(c.tanggal,'%Y-%m')='$periode'
+            and a.business_unit_id=$unit
             order by a.id");
+
+        $warna=array("#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff",
+            "#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2",
+            "#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff",
+            "#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2",
+            "#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff",
+            "#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2");
 
         $data=array();
         foreach($program as $key=>$val){
@@ -4213,12 +4236,127 @@ class ReportController extends Controller
 
             $data[]=array(
                 'id'=>$val->id,
+                'warna'=>$warna[$key],
                 'program_name'=>$val->program_name,
                 'follower'=>$fol
             );
         }
 
-        return $data;
+        return array('success'=>true,'data'=>$data);
+    }
+
+    public function post_program_by_tier(Request $request){
+        $rules=[
+            'idsosmed'=>'required',
+            'typeunit'=>'required',
+            'periode'=>'required',
+            'group'=>'required',
+            'unit'=>'required'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>"Validasi error",
+                'errors'=>$validasi->errors()->all()
+            );
+
+            return $data;
+        }
+
+
+        if($request->has('idsosmed')){
+            $idsosmed=$request->input('idsosmed');
+        }else{
+            $idsosmed=1;
+        }
+
+        if($request->input('typeunit')){
+            $typeunit=$request->input('typeunit');
+        }else{
+            $typeunit="TV";
+        }
+
+        if($request->has('periode')){
+            $periode=date('Y-m',strtotime($request->input('periode')));
+        }else{
+            $periode=date('Y-m');
+        }
+
+        if($request->has('unit')){
+            $unit=$request->input('unit');
+        }else{
+            $unit=1;
+        }
+
+        $program=\App\Models\Sosmed\Programunit::leftJoin('business_unit','business_unit.id','=','program_unit.business_unit_id')
+            ->where('business_unit.type_unit','TV')
+            ->where('business_unit_id',$unit)
+            ->select(
+                'program_unit.id',
+                'program_unit.program_name'
+            )
+            ->get();
+
+        $follower=\DB::select("select a.id, a.program_name, c.tanggal, 
+            @kemarin:=(
+                select cc.follower from program_unit aa
+                left join unit_sosmed bb on bb.business_program_unit=aa.id and bb.type_sosmed='program'
+                left join unit_sosmed_follower cc on cc.unit_sosmed_id=bb.id
+                left join business_unit dd on dd.id=aa.business_unit_id
+                where bb.sosmed_id=$idsosmed
+                and aa.id=a.id
+                and cc.tanggal < c.tanggal
+                and dd.type_unit='TV'
+                and aa.business_unit_id=$unit
+                order by cc.tanggal desc
+                limit 1
+            ) as kemarin,
+            c.follower,
+            ((c.follower / @kemarin) - 1)*100 as growth,
+            (c.follower - @kemarin) as num_of_growth
+            from program_unit a
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
+            left join business_unit d on d.id=a.business_unit_id
+            where b.sosmed_id=$idsosmed
+            and d.type_unit='$typeunit'
+            and date_format(c.tanggal,'%Y-%m')='$periode'
+            and a.business_unit_id=$unit
+            order by a.id");
+
+        $warna=array("#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff",
+            "#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2",
+            "#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff",
+            "#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2",
+            "#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff",
+            "#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2");
+
+        $data=array();
+        foreach($program as $key=>$val){
+            $fol=array();
+            for($a=0;$a<count($follower);$a++){
+                if($follower[$a]->id==$val->id){
+                    $fol[]=array(
+                        'tanggal'=>$follower[$a]->tanggal,
+                        'follower'=>$follower[$a]->follower,
+                        'growth'=>$follower[$a]->growth,
+                        'num_of_growth'=>$follower[$a]->num_of_growth
+                    );
+                }
+            }
+
+            $data[]=array(
+                'id'=>$val->id,
+                'warna'=>$warna[$key],
+                'program_name'=>$val->program_name,
+                'follower'=>$fol
+            );
+        }
+
+        return array('success'=>true,'data'=>$data);
     }
 
     public function top_official_twitter_today(Request $request){
@@ -4337,7 +4475,7 @@ class ReportController extends Controller
 
     public function top_program_twitter_today(Request $request){
         if($request->input('tanggal')){
-            $sekarang=$request->input('tanggal');
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
         }else{
             $sekarang=date('Y-m-d');
         }

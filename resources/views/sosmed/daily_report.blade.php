@@ -93,6 +93,34 @@
                                     <div class="checkbox">
                                         <label><input type="checkbox" name="media[]" value="Radio" checked="checked">Radio</label>
                                     </div>
+                                    
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" name="media[]" value="KOL" checked="checked">KOL</label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" name="media[]" value="Animation Production" checked="checked">Animation Production</label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" name="media[]" value="Production House" checked="checked">Production House</label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" name="media[]" value="PAYTV,IPTV,OOT" checked="checked">PAYTV,IPTV,OOT</label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" name="media[]" value="Newspaper" checked="checked">Newspaper</label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" name="media[]" value="Magazine" checked="checked">Magazine</label>
+                                    </div>
+
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" name="media[]" value="SMN Channel" checked="checked">SMN Channel</label>
+                                    </div>
                                 </div>
                             </div>
 

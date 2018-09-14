@@ -172,6 +172,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
             Route::get('chart-by-tier','Sosmed\ReportController@chart_by_tier');
             Route::get('official-by-tier','Sosmed\ReportController@official_by_tier');
             Route::get('program-by-tier','Sosmed\ReportController@program_by_tier');
+            Route::post('program-by-tier','Sosmed\ReportController@post_program_by_tier');
             Route::get('top-official-twitter-today','Sosmed\ReportController@top_official_twitter_today');
             Route::get('top-program-twitter-today','Sosmed\ReportController@top_program_twitter_today');
         });

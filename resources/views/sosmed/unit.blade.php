@@ -136,7 +136,7 @@
                     },
                     columns: [
                         {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
-                        {data: 'groupunit.group_name', name: 'groupunit.group_name',title:'Group Name',width:'20%'},
+                        {data: 'groupunit.group_name', name: 'groupunit.group_name',title:'Group Name',width:'20%',defaultContent: "Data Not Found"},
                         {data: 'unit_name', name: 'unit_name',title:'Unit Name',width:'20%',searchable:true},
                         {data: 'type_unit', name: 'type_unit',title:'Type Unit'},
                         {data: 'tier', name: 'tier',title:'Tier'},
