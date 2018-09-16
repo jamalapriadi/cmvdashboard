@@ -20,7 +20,8 @@ class UnitsosmedController extends Controller
         $rules=[
             'type'=>'required',
             'program_unit'=>'required',
-            'name_sosmed'=>'required'
+            'name_sosmed'=>'required',
+            'sosmedid'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -32,10 +33,22 @@ class UnitsosmedController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
+            $cek=Unitsosmed::where('type_sosmed',$request->input('type'))
+                ->where('sosmed_id',$request->input('sosmedid'))
+                ->where('business_program_unit',$request->input('program_unit'))
+                ->get();
+
+            if(count($cek)>0){
+                return array('success'=>false,'error'=>'Data sosmed ini sudah ada');
+            }
+
             $var=new Unitsosmed;
             $var->type_sosmed=$request->input('type');
             $var->business_program_unit=$request->input('program_unit');
             $var->unit_sosmed_name=$request->input('name_sosmed');
+            $var->unit_sosmed_account_id=$request->input('account_id');
+            $var->sosmed_id=$request->input('sosmedid');
+            $var->status_active='Y';
 
             $simpan=$var->save();
 
@@ -63,8 +76,14 @@ class UnitsosmedController extends Controller
         return $var;
     }
 
-    public function show($id){
-        $var=Unitsosmed::findOrFail($id);
+    public function show(Request $request,$id){
+        if($request->input('type')=="corporate"){
+            $var=Unitsosmed::with('businessunit')->findOrFail($id);
+        }elseif($request->input('type')=='program'){
+            $var=Unitsosmed::with('program')->findOrFail($id);
+        }else{
+            $var=Unitsosmed::findOrFail($id);
+        }
 
         return $var;
     }
@@ -87,8 +106,9 @@ class UnitsosmedController extends Controller
         }else{
             $var=Unitsosmed::find($id);
             $var->type_sosmed=$request->input('type');
-            $var->business_program_unit=$request->input('program_unit');
             $var->unit_sosmed_name=$request->input('name_sosmed');
+            $var->unit_sosmed_account_id=$request->input('account_id');
+            $var->sosmed_id=$request->input('sosmedid');
 
             $simpan=$var->save();
 
@@ -132,5 +152,15 @@ class UnitsosmedController extends Controller
         }
 
         return $data;
+    }
+
+    public function live_socmed_by_id(Request $request,$id){
+        $var=Unitsosmed::where('business_program_unit',$id)
+            ->where('type_sosmed',$request->input('type'))
+            ->orderBy('sosmed_id')
+            ->get();
+
+        return view('sosmed.view.live_socmed')
+            ->with('sosmed',$var);
     }
 }

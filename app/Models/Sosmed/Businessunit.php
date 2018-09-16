@@ -40,6 +40,8 @@ class Businessunit extends Model
 					'business_program_unit',
 					'sosmed_id',
 					'unit_sosmed_name',
+					'unit_sosmed_account_id',
+					'status_active',
 					'target_use'
 				]
 			);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cff03a37021cd6a1ec6c39bd93a89d30",
+    "content-hash": "95712021184924a5e2eced08143b0dfc",
     "packages": [
         {
             "name": "alaouy/youtube",
@@ -4401,6 +4401,55 @@
                 "environment"
             ],
             "time": "2018-07-29T20:33:41+00:00"
+        },
+        {
+            "name": "xmhafiz/fb-page-feed",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xmhafiz/fb-page-feed.git",
+                "reference": "115601827c3ef00bb88dcfb6c6647355ecbd241d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xmhafiz/fb-page-feed/zipball/115601827c3ef00bb88dcfb6c6647355ecbd241d",
+                "reference": "115601827c3ef00bb88dcfb6c6647355ecbd241d",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~5.7",
+                "vlucas/phpdotenv": "~2.2"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Xmhafiz\\FbFeed\\": "src/"
+                },
+                "files": [
+                    "helper/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohd Hafiz",
+                    "email": "xmhafiz@gmail.com",
+                    "homepage": "https://github.com/xmhafiz"
+                }
+            ],
+            "description": "Simple wrapper class to get any Facebook Page posts",
+            "keywords": [
+                "facebook",
+                "php"
+            ],
+            "time": "2018-04-03T15:17:35+00:00"
         },
         {
             "name": "yajra/laravel-datatables-buttons",

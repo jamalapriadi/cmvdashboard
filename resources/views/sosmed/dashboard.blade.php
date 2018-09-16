@@ -45,6 +45,20 @@
                 
                 <div class="col-sm-7 d-none d-md-block">
                     <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                        
+                    </div>
+
+                    <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="" class="control-label">Tanggal</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
@@ -52,8 +66,10 @@
                             <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
                         </div>
                     </div>
-
-                    <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="" class="control-label">Filter</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
@@ -66,12 +82,55 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="" class="control-label">Type Unit</label>
+                        <select name="typeunit" id="typeunit" class="form-control">
+                            <option value="TV">TV</option>
+                            <option value="Publisher">Publisher</option>
+                            <option value="Radio">Radio</option>
+                            <option value="KOL">KOL</option>
+                            <option value="Animation Production">Animation Production</option>
+                            <option value="Production House">Production House</option>
+                            <option value="PAYTV,IPTV,OOT">PAYTV,IPTV,OOT</option>
+                            <option value="Newspaper">Newspaper</option>
+                            <option value="Magazine">Magazine</option>
+                            <option value="SMN Channel">SMN Channel</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="" class="control-label"></label>
+                        <button class="btn btn-primary" id="filterOfficial" style="margin-top:25px;"><i class="icon-filter3"></i> Filter</button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="card-body">
+            
+            <hr>
             <div id="zingchart-1"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
 
             <div id="showUnit"></div>
+        </div>
+    </div>
+    
+    <div class="card card-primary">
+        <div class="card-header">SOCMED LIVE</div>
+        <div class="card-body">
+            <form action="#">
+                <div class="form-group">
+                    <label for="" class="col-lg-2 control-label">Unit</label>
+                    <div class="col-lg-3">
+                        <select name="unit" id="unit" class="form-control">
+                            @foreach($user->unit as $row)
+                                <option value="{{$row->id}}">{{$row->unit_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <div id="divLiveSocmed"></div>
         </div>
     </div>
 @stop
@@ -82,6 +141,7 @@
     ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
     <script>
         $(function(){
+
             $('.daterange-single').pickadate({
                 format: 'yyyy/mm/dd',
                 formatSubmit: 'yyyy/mm/dd',
@@ -104,11 +164,12 @@
             function showTear1(){
                 var tanggal=$("#tanggal").val();
                 var filter=$("#filter").val();
+                var typeunit=$("#typeunit").val();
 
                 $.ajax({
                     url:"{{URL::to('sosmed/data/chart/chart-by-tier')}}",
                     type:"GET",
-                    data:"tanggal="+tanggal+"&filter="+filter+"&typeunit=TV",
+                    data:"tanggal="+tanggal+"&filter="+filter+"&typeunit="+typeunit,
                     beforeSend:function(){
                         $("#zingchart-1").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
                     },
@@ -315,6 +376,9 @@
                                 '</thead>'+
                                 '<tbody>';
                                     var no=0;
+                                    result.chart.sort(function(a, b) {
+                                        return a['group_unit_id'] - b['group_unit_id'];
+                                    });
                                     $.each(result.chart,function(a,b){
                                         no++;
                                         if(b.id!='tidak'){
@@ -354,11 +418,35 @@
                 })
             }
 
-            $(document).on("change","#filter",function(){
+            function liveSocmed(){
+                var unit=$("#unit").val();
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/live-socmed-by-id')}}/"+unit,
+                    type:"GET",
+                    data:"type=corporate",
+                    beforeSend:function(){
+                        $("#divLiveSocmed").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        $("#divLiveSocmed").empty().html(result);
+                    },
+                    errors:function(){
+
+                    }
+                })
+            }
+
+            $(document).on("click","#filterOfficial",function(){
                 showTear1();
             })
 
+            $(document).on("change","#unit",function(){
+                liveSocmed();
+            })
+
             showTear1();
+            liveSocmed();
         })
     </script>
 @stop

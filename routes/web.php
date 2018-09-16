@@ -106,6 +106,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('list-official-program-by-group/{id}','Sosmed\GroupunitController@list_official_program_by_group');
         Route::get('list-group','Sosmed\GroupunitController@list_group');
         Route::resource('business-unit','Sosmed\BusinessunitController');
+        Route::get('growth_unit_by_id/{id}','Sosmed\BusinessunitController@growth_unit');
         Route::get('list-unit','Sosmed\BusinessunitController@list_unit');
         Route::resource('program-unit','Sosmed\ProgramunitController');
         Route::resource('sosmed','Sosmed\SosmedController');
@@ -136,6 +137,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('backup-excel','Sosmed\ProgramunitController@import');
 
         Route::get('export-excel','Sosmed\ReportController@export_excel');
+        Route::get('live-socmed-by-id/{id}','Sosmed\UnitsosmedController@live_socmed_by_id');
 
         Route::group(['prefix'=>'report'],function(){
             Route::get('target-vs-achievement','Sosmed\ReportController@target_vs_achievement');

@@ -31,18 +31,26 @@ class HomeController extends Controller
     {
         // $sekarang=date('Y-m-d');
         // $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
+        // $fbAppId="330369550842883";
+        // $fbSecretKey="ec82b95bd572837b38b2f1525e04970f";
+        // $fbPageName="aqilajayaservice";
 
-        // $user=\App\User::with(
-        //     [
-        //         'unit',
-        //         'unit.followers'=>function($q) use($sekarang){
-        //             $q->where('tanggal',$sekarang);
-        //         },
-        //         'unit.followers.unitsosmed'
-        //     ]
-        // )->find(auth()->user()->id);
+        // $data = fb_feed()->setAppId($fbAppId)
+        // ->setSecretKey($fbSecretKey)
+        // ->setPage($fbPageName)
+        // ->fetch();
 
-        return view('sosmed.dashboard');
+        // return $data;
+
+        $user=\App\User::with(
+            [
+                'unit',
+                'unit.groupunit'
+            ]
+        )->find(auth()->user()->id);
+
+        return view('sosmed.dashboard')
+            ->with('user',$user);
     }
 
     public function dashboard_summary(){
@@ -454,6 +462,7 @@ class HomeController extends Controller
 
         return view('sosmed.dashboard_chart_twitter')
             ->with('idsosmed',$idsosmed)
+            ->with('id',$id)
             ->with('group',$group);
     }
 

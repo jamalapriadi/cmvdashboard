@@ -4377,17 +4377,19 @@ class ReportController extends Controller
             (sum(if(b.sosmed_id=1,c.follower,0)) + sum(if(b.sosmed_id=2,c.follower,0)) + sum(if(b.sosmed_id=3,c.follower,0))) as total
             from business_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-            left JOIN unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='2018-03-16'
+            left JOIN unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tanggal'
             GROUP by a.id");
 
         return $chart;
     }
 
     public function chart_official_tv(Request $request){
+        $sekarang=date('Y-m');
+
         $chart=\App\Models\Sosmed\Businessunit::with(
             [
-                'followers'=>function($q){
-                    $q->where(\DB::Raw("date_format(tanggal,'%Y-%m')"),'2018-03')
+                'followers'=>function($q) use($sekarang){
+                    $q->where(\DB::Raw("date_format(tanggal,'%Y-%m')"),$sekarang)
                         ->where('type_sosmed','corporate')
                         ->where('sosmed_id',1);
                 }
@@ -4524,7 +4526,7 @@ class ReportController extends Controller
                     /**
                      * chart all, gabungan official dan program
                      */
-                    $chart=\DB::select("select total.id,total.unit_name,
+                    $chart=\DB::select("select total.id,total.unit_name,total.group_unit_id,
                         sum(total.twitter) as total_twitter,
                         sum(total.facebook) as total_facebook,
                         sum(total.instagram) as total_instagram,
@@ -4556,6 +4558,10 @@ class ReportController extends Controller
                         ) as total
                         group by total.id
                         order by total.group_unit_id,total.id desc");
+
+                        usort($chart, function($a, $b) {
+                            return $b->group_unit_id <=> $a->group_unit_id;
+                        });
                 break;
             case "official":
             default:
@@ -4569,10 +4575,14 @@ class ReportController extends Controller
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         where a.type_unit='$typeunit'
                         group by a.id
-                        order by a.group_unit_id");
+                        order by a.group_unit_id, a.id desc");
+
+                    usort($chart, function($a, $b) {
+                        return $b->group_unit_id <=> $a->group_unit_id;
+                    });
                 break;
             case "program":
-                    $chart=\DB::select("select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
+                    $chart=\DB::select("select if(a.id is null, 'tidak', a.business_unit_id) as idnya, a.business_unit_id,d.group_unit_id, d.unit_name, c.tanggal, 
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
@@ -4582,7 +4592,11 @@ class ReportController extends Controller
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         left join business_unit d on d.id=a.business_unit_id
                         where d.type_unit='$typeunit'
-                        group by a.business_unit_id");
+                        group by d.group_unit_id,a.business_unit_id desc");
+
+                    usort($chart, function($a, $b) {
+                        return $b->group_unit_id <=> $a->group_unit_id;
+                    });
                 break;
         }
 

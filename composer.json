@@ -21,6 +21,7 @@
         "socialiteproviders/instagram": "^3.0",
         "spatie/laravel-permission": "^2.9",
         "thujohn/twitter": "^2.2",
+        "xmhafiz/fb-page-feed": "^1.1",
         "yajra/laravel-datatables-buttons": "3.*",
         "yajra/laravel-datatables-oracle": "8.*",
         "yaroslavmolchan/rbac": "^1.0"

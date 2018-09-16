@@ -125,7 +125,7 @@
         <div class="col-lg-6">
             <div class="card card-default">
                 <div class="card-header">
-                    Official Twitter All TV
+                    Official {{strtoupper($id)}} All TV
 
                     <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
                         <div class="input-group mb-3">
@@ -143,7 +143,7 @@
         <div class="col-lg-6">
             <div class="card card-default">
                 <div class="card-header">
-                    TOP 10 Twitter Program
+                    TOP 10 {{strtoupper($id)}} Program
 
                     <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
                         <div class="input-group mb-3">
@@ -160,7 +160,7 @@
     </div>
 
     <div class="card card-default">
-        <div class="card-header">Growth Twitter Program</div>
+        <div class="card-header">Growth {{strtoupper($id)}} Program</div>
         <div class="card-body">
             <div id="pesan"></div>
             
