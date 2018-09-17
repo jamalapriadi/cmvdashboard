@@ -63,7 +63,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label for="" class="control-label">Tanggal</label>
+                        <label for="" class="control-label">Date</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label for="" class="control-label">Filter</label>
+                        <label for="" class="control-label">Socmed Type</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
@@ -89,7 +89,7 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label for="" class="control-label">Type Unit</label>
+                        <label for="" class="control-label">Unit Type</label>
                         <select name="typeunit" id="typeunit" class="form-control">
                             <option value="TV">TV</option>
                             <option value="Publisher">Publisher</option>
@@ -184,7 +184,7 @@
 
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label for="" class="control-label">Tanggal</label>
+                        <label for="" class="control-label">Date</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
@@ -396,8 +396,8 @@
                                 }
                             },
                             "plotarea": {
-                                // "margin": "2% 2% 15% 20%"
-                                margin: 'dynamic dynamic dynamic dynamic',
+                                "margin": "2% 15% 15% 10%"
+                                // margin: 'dynamic dynamic dynamic dynamic',
                             },
                             "backgroundColor": "#fff",
                             "scaleX": {
@@ -446,7 +446,7 @@
                                 "backgroundColor": "none",
                                 "padding": 0,
                                 "placement": "node:center",
-                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v <\/div><\/div>"
+                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt - %t<\/div><div class='scaley-value'>%v <\/div><\/div>"
                             },
                             "series": [
                                 {
@@ -616,25 +616,48 @@
                         
                         $.each(result.chart,function(a,b){
                             /* id null adalah totalnya */
-                            if(b.id!=null){
-                                if(b.id!=4){
-                                    labels1.push(b.unit_name);
+                            if(filter!="program"){
+                                if(b.id!=null){
+                                    if(b.id!=4){
+                                        labels1.push(b.unit_name);
 
-                                    facebook1.push(parseFloat(b.total_facebook));
-                                    twitter1.push(parseFloat(b.total_twitter));
-                                    instagram1.push(parseFloat(b.total_instagram));
-                                    youtube1.push(parseFloat(b.total_youtube));
-                                }else{
-                                    $.each(result.inews,function(c,d){
-                                        labels1.push("INEWS 4TV");
+                                        facebook1.push(parseFloat(b.total_facebook));
+                                        twitter1.push(parseFloat(b.total_twitter));
+                                        instagram1.push(parseFloat(b.total_instagram));
+                                        youtube1.push(parseFloat(b.total_youtube));
+                                    }else{
+                                        $.each(result.inews,function(c,d){
+                                            labels1.push("INEWS 4TV");
 
-                                        facebook1.push(parseFloat(d.total_facebook));
-                                        twitter1.push(parseFloat(d.total_twitter));
-                                        instagram1.push(parseFloat(d.total_instagram));
-                                        youtube1.push(parseFloat(d.total_youtube));
-                                    })
+                                            facebook1.push(parseFloat(d.total_facebook));
+                                            twitter1.push(parseFloat(d.total_twitter));
+                                            instagram1.push(parseFloat(d.total_instagram));
+                                            youtube1.push(parseFloat(d.total_youtube));
+                                        })
+                                    }
+                                }
+                            }else{
+                                if(b.idnya!=null){
+                                    if(b.idnya!=4){
+                                        labels1.push(b.unit_name);
+
+                                        facebook1.push(parseFloat(b.total_facebook));
+                                        twitter1.push(parseFloat(b.total_twitter));
+                                        instagram1.push(parseFloat(b.total_instagram));
+                                        youtube1.push(parseFloat(b.total_youtube));
+                                    }else{
+                                        $.each(result.inews,function(c,d){
+                                            labels1.push("INEWS 4TV");
+
+                                            facebook1.push(parseFloat(d.total_facebook));
+                                            twitter1.push(parseFloat(d.total_twitter));
+                                            instagram1.push(parseFloat(d.total_instagram));
+                                            youtube1.push(parseFloat(d.total_youtube));
+                                        })
+                                    }
                                 }
                             }
+                            
                             
                         })
                         
@@ -655,8 +678,8 @@
                                 }
                             },
                             "plotarea": {
-                                // "margin": "2% 2% 15% 20%"
-                                margin: 'dynamic dynamic dynamic dynamic',
+                                "margin": "2% 15% 15% 10%"
+                                // margin: 'dynamic dynamic dynamic dynamic',
                             },
                             "backgroundColor": "#fff",
                             "scaleX": {
@@ -705,7 +728,7 @@
                                 "backgroundColor": "none",
                                 "padding": 0,
                                 "placement": "node:center",
-                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v <\/div><\/div>"
+                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt - %t<\/div><div class='scaley-value'>%v <\/div><\/div>"
                             },
                             "series": [
                                 {
@@ -774,35 +797,68 @@
                                     }
 
                                     $.each(result.chart,function(a,b){
-                                        if(b.id!=null){
-                                            no++;
-                                            if(b.id!=4){
-                                                el+="<tr>"+
-                                                    "<td>"+no+"</td>"+
-                                                    "<td>"+b.unit_name+"</td>"+
-                                                    "<td>"+addKoma(b.total_twitter)+"</td>"+
-                                                    "<td>"+addKoma(b.total_facebook)+"</td>"+
-                                                    "<td>"+addKoma(b.total_instagram)+"</td>"+
-                                                    "<td>"+addKoma(b.total_youtube)+"</td>"+
-                                                "</tr>";
+                                        if(filter!="program"){
+                                            if(b.id!=null){
+                                                no++;
+                                                if(b.id!=4){
+                                                    el+="<tr>"+
+                                                        "<td>"+no+"</td>"+
+                                                        "<td>"+b.unit_name+"</td>"+
+                                                        "<td>"+addKoma(b.total_twitter)+"</td>"+
+                                                        "<td>"+addKoma(b.total_facebook)+"</td>"+
+                                                        "<td>"+addKoma(b.total_instagram)+"</td>"+
+                                                        "<td>"+addKoma(b.total_youtube)+"</td>"+
+                                                    "</tr>";
+                                                }else{
+                                                    $.each(result.inews,function(c,d){
+                                                            el+="<tr>"+
+                                                                "<td>"+no+"</td>"+
+                                                                "<td>INEWS 4TV</td>"+
+                                                                "<td>"+addKoma(d.total_twitter)+"</td>"+
+                                                                "<td>"+addKoma(d.total_facebook)+"</td>"+
+                                                                "<td>"+addKoma(d.total_instagram)+"</td>"+
+                                                                "<td>"+addKoma(d.total_youtube)+"</td>"+
+                                                            "</tr>";
+                                                    })
+                                                }    
                                             }else{
-                                                $.each(result.inews,function(c,d){
-                                                        el+="<tr>"+
-                                                            "<td>"+no+"</td>"+
-                                                            "<td>INEWS 4TV</td>"+
-                                                            "<td>"+addKoma(d.total_twitter)+"</td>"+
-                                                            "<td>"+addKoma(d.total_facebook)+"</td>"+
-                                                            "<td>"+addKoma(d.total_instagram)+"</td>"+
-                                                            "<td>"+addKoma(d.total_youtube)+"</td>"+
-                                                        "</tr>";
-                                                })
-                                            }    
+                                                
+                                                $("#total_twitter_group").html(addKoma(b.total_twitter));
+                                                $("#total_facebook_group").html(addKoma(b.total_facebook));
+                                                $("#total_instagram_group").html(addKoma(b.total_instagram));
+                                                $("#total_youtube_group").html(addKoma(b.total_youtube));
+                                            }
                                         }else{
-                                            
-                                            $("#total_twitter_group").html(addKoma(b.total_twitter));
-                                            $("#total_facebook_group").html(addKoma(b.total_facebook));
-                                            $("#total_instagram_group").html(addKoma(b.total_instagram));
-                                            $("#total_youtube_group").html(addKoma(b.total_youtube));
+                                            if(b.idnya!=null){
+                                                no++;
+                                                if(b.idnya!=4){
+                                                    el+="<tr>"+
+                                                        "<td>"+no+"</td>"+
+                                                        "<td>"+b.unit_name+"</td>"+
+                                                        "<td>"+addKoma(b.total_twitter)+"</td>"+
+                                                        "<td>"+addKoma(b.total_facebook)+"</td>"+
+                                                        "<td>"+addKoma(b.total_instagram)+"</td>"+
+                                                        "<td>"+addKoma(b.total_youtube)+"</td>"+
+                                                    "</tr>";
+                                                }else{
+                                                    $.each(result.inews,function(c,d){
+                                                            el+="<tr>"+
+                                                                "<td>"+no+"</td>"+
+                                                                "<td>INEWS 4TV</td>"+
+                                                                "<td>"+addKoma(d.total_twitter)+"</td>"+
+                                                                "<td>"+addKoma(d.total_facebook)+"</td>"+
+                                                                "<td>"+addKoma(d.total_instagram)+"</td>"+
+                                                                "<td>"+addKoma(d.total_youtube)+"</td>"+
+                                                            "</tr>";
+                                                    })
+                                                }    
+                                            }else{
+                                                
+                                                $("#total_twitter_group").html(addKoma(b.total_twitter));
+                                                $("#total_facebook_group").html(addKoma(b.total_facebook));
+                                                $("#total_instagram_group").html(addKoma(b.total_instagram));
+                                                $("#total_youtube_group").html(addKoma(b.total_youtube));
+                                            }
                                         }
                                         
                                     })

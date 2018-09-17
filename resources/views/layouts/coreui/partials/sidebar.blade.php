@@ -202,7 +202,7 @@
       @if(auth()->user()->can('Highlight'))
       <li class="nav-item {{ Request::path() == 'sosmed/highlight' ? 'active' : '' }}">
         <a class="nav-link" href="{{URL::to('sosmed/highlight')}}">
-          <i class="nav-icon icon-highlight"></i> Higlight</a>
+          <i class="nav-icon icon-highlight"></i> Highlight</a>
       </li>
       @endif
     </ul>
