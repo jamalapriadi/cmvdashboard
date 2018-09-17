@@ -410,10 +410,13 @@
                                 "guide": {
                                     "visible": false
                                 },
+                                // "item": {
+                                //     "font-size": "9px",
+                                //     "font-color": "#222222"
+                                // }
                                 "item": {
-                                    "font-size": "9px",
-                                    "font-color": "#222222"
-                                }
+                                    "color": "#fff"
+                                },
                             },
                             "scale-y":{
                                 "line-color":"#333",
@@ -467,7 +470,7 @@
                                 {
                                     "values": youtube1,
                                     "text": "Youtube",
-                                    "background-color": "#f06261"
+                                    "background-color": "#222222"
                                 }
                             ]
                         };
@@ -749,7 +752,7 @@
                                 {
                                     "values": youtube1,
                                     "text": "Youtube",
-                                    "background-color": "#f06261"
+                                    "background-color": "#222222"
                                 }
                             ]
                         };
