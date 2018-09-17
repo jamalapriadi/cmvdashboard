@@ -4543,6 +4543,7 @@ class ReportController extends Controller
                             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                             where a.type_unit='$typeunit'
                             group by a.id
+                            WITH ROLLUP
                             UNION ALL 
                             select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
                             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
@@ -4555,6 +4556,7 @@ class ReportController extends Controller
                             left join business_unit d on d.id=a.business_unit_id
                             where d.type_unit='$typeunit'
                             group by a.business_unit_id
+                            WITH ROLLUP
                         ) as total
                         group by total.id
                         order by total.group_unit_id,total.id desc");
@@ -4565,7 +4567,7 @@ class ReportController extends Controller
                 break;
             case "official":
             default:
-                    $chart=\DB::select("select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
+                    $chart=\DB::select("select total.* from (select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
@@ -4575,14 +4577,15 @@ class ReportController extends Controller
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         where a.type_unit='$typeunit'
                         group by a.id
-                        order by a.group_unit_id, a.id desc");
+                        WITH ROLLUP) AS total
+                        order by total.group_unit_id, total.id desc");
 
                     usort($chart, function($a, $b) {
                         return $b->group_unit_id <=> $a->group_unit_id;
                     });
                 break;
             case "program":
-                    $chart=\DB::select("select if(a.id is null, 'tidak', a.business_unit_id) as idnya, a.business_unit_id,d.group_unit_id, d.unit_name, c.tanggal, 
+                    $chart=\DB::select("select total.* from (select if(a.id is null, 'tidak', a.business_unit_id) as id, a.business_unit_id,d.group_unit_id, d.unit_name, c.tanggal, 
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
@@ -4592,7 +4595,9 @@ class ReportController extends Controller
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         left join business_unit d on d.id=a.business_unit_id
                         where d.type_unit='$typeunit'
-                        group by d.group_unit_id,a.business_unit_id desc");
+                        group by a.business_unit_id
+                        WITH ROLLUP) as total
+                        order by total.group_unit_id,total.business_unit_id desc");
 
                     usort($chart, function($a, $b) {
                         return $b->group_unit_id <=> $a->group_unit_id;

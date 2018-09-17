@@ -49,8 +49,11 @@ class HomeController extends Controller
             ]
         )->find(auth()->user()->id);
 
+        $group=\App\Models\Sosmed\Groupunit::all();
+
         return view('sosmed.dashboard')
-            ->with('user',$user);
+            ->with('user',$user)
+            ->with('group',$group);
     }
 
     public function dashboard_summary(){

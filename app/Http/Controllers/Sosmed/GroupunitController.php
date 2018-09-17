@@ -247,6 +247,7 @@ class GroupunitController extends Controller
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         where a.group_unit_id=$id
+                        and a.type_unit!='KOL'
                         group by a.id
                         UNION ALL 
                         select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
@@ -257,11 +258,16 @@ class GroupunitController extends Controller
                         from program_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                        left join business_unit d on d.id=a.business_unit_id
+                        left join business_unit d on d.id=a.business_unit_id and d.type_unit!='KOL'
                         where d.group_unit_id=$id
                         group by a.business_unit_id
                     ) as total
-                    group by total.id");
+                    group by total.id
+                    with ROLLUP");
+
+                    usort($unit, function($a, $b) {
+                        return $b->id <=> $a->id;
+                    });
                 break;
             case 'official':
                     $unit=\DB::select("select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
@@ -273,10 +279,16 @@ class GroupunitController extends Controller
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         where a.group_unit_id=$id
-                        group by a.id");
+                        and a.type_unit!='KOL'
+                        group by a.id
+                        with ROLLUP");
+
+                    usort($unit, function($a, $b) {
+                        return $b->id <=> $a->id;
+                    });
                 break;
             case 'program':
-                    $unit=\DB::select("select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
+                    $unit=\DB::select("select if(a.id is null, 'tidak', a.business_unit_id) as idnya,a.business_unit_id,d.group_unit_id, d.unit_name, c.tanggal, 
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
@@ -284,9 +296,53 @@ class GroupunitController extends Controller
                         from program_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                        left join business_unit d on d.id=a.business_unit_id
+                        left join business_unit d on d.id=a.business_unit_id and d.type_unit!='KOL'
                         where d.group_unit_id=$id
-                        group by a.business_unit_id");
+                        group by a.business_unit_id
+                        WITH ROLLUP");
+
+                    usort($unit, function($a, $b) {
+                        return $b->business_unit_id <=> $a->business_unit_id;
+                    });
+                break;
+            case 'artist':
+                $unit=\DB::select("select total.id,total.unit_name,
+                    sum(total.twitter) as total_twitter,
+                    sum(total.facebook) as total_facebook,
+                    sum(total.instagram) as total_instagram,
+                    sum(total.youtube) as total_youtube
+                    from 
+                    (
+                        select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                        from business_unit a
+                        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                        where a.group_unit_id=$id
+                        and a.type_unit='KOL'
+                        group by a.id
+                        UNION ALL 
+                        select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                        from program_unit a
+                        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                        left join business_unit d on d.id=a.business_unit_id and d.type_unit='KOL'
+                        where d.group_unit_id=$id
+                        group by a.business_unit_id
+                    ) as total
+                    group by total.id
+                    WITH ROLLUP");
+
+                    usort($unit, function($a, $b) {
+                        return $b->id <=> $a->id;
+                    });
                 break;
         }
 

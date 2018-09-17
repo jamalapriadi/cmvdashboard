@@ -37,6 +37,7 @@
                                     <option value="all">All</option>
                                     <option value="official">Official</option>
                                     <option value="program">Program</option>
+                                    <option value="artist">Artist</option>
                                 </select>
                             </div>
                         </div>
@@ -46,6 +47,30 @@
         <div class="card-body">
             <div id="zingchart-1"></div>
             <div id="showUnit"></div>
+        </div>
+
+        <div class="card-footer">
+            <div class="row text-center">
+                <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                    <div class="text-muted">TOTAL TWITTER</div>
+                    <strong id="total_twitter_group">29.703</strong>
+                </div>
+
+                <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                    <div class="text-muted">TOTAL FACEBOOK</div>
+                    <strong id="total_facebook_group">24.093</strong>
+                </div>
+
+                <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                    <div class="text-muted">TOTAL INSTAGRAM</div>
+                    <strong id="total_instagram_group">78.706</strong>
+                </div>
+
+                <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                    <div class="text-muted">TOTAL YOUTUBE</div>
+                    <strong id="total_youtube_group">22.123</strong>
+                </div>
+            </div>
         </div>
     </div>
 @stop
@@ -118,22 +143,24 @@
                         var instagram4=[];
                         
                         $.each(result.chart,function(a,b){
-                            if(b.id!=4){
-                                labels1.push(b.unit_name);
-
-                                facebook1.push(parseFloat(b.total_facebook));
-                                twitter1.push(parseFloat(b.total_twitter));
-                                instagram1.push(parseFloat(b.total_instagram));
-                                youtube1.push(parseFloat(b.total_youtube));
-                            }else{
-                                $.each(result.inews,function(a,b){
-                                    labels1.push("INEWS 4TV");
+                            if(b.id!=null){
+                                if(b.id!=4){
+                                    labels1.push(b.unit_name);
 
                                     facebook1.push(parseFloat(b.total_facebook));
                                     twitter1.push(parseFloat(b.total_twitter));
                                     instagram1.push(parseFloat(b.total_instagram));
                                     youtube1.push(parseFloat(b.total_youtube));
-                                })
+                                }else{
+                                    $.each(result.inews,function(a,b){
+                                        labels1.push("INEWS 4TV");
+
+                                        facebook1.push(parseFloat(b.total_facebook));
+                                        twitter1.push(parseFloat(b.total_twitter));
+                                        instagram1.push(parseFloat(b.total_instagram));
+                                        youtube1.push(parseFloat(b.total_youtube));
+                                    })
+                                }
                             }
                         })
                         
@@ -259,28 +286,46 @@
                                 '</thead>'+
                                 '<tbody>';
                                     var no=0;
+                                    if(filter=="program"){
+                                        result.chart.sort(function(a, b) {
+                                            return b['businesss_unit_id'] - a['businesss_unit_id'];
+                                        });
+                                    }else{
+                                        result.chart.sort(function(a, b) {
+                                            return a['id'] - b['id'];
+                                        });
+                                    }
+                                    
                                     $.each(result.chart,function(a,b){
                                         no++;
-                                        if(b.id!=4){
-                                            el+="<tr>"+
-                                                "<td>"+no+"</td>"+
-                                                "<td>"+b.unit_name+"</td>"+
-                                                "<td>"+addKoma(b.total_twitter)+"</td>"+
-                                                "<td>"+addKoma(b.total_facebook)+"</td>"+
-                                                "<td>"+addKoma(b.total_instagram)+"</td>"+
-                                                "<td>"+addKoma(b.total_youtube)+"</td>"+
-                                            "</tr>";
+                                        if(b.id!=null){
+                                            if(b.id!=4){
+                                                el+="<tr>"+
+                                                    "<td>"+no+"</td>"+
+                                                    "<td>"+b.unit_name+"</td>"+
+                                                    "<td>"+addKoma(b.total_twitter)+"</td>"+
+                                                    "<td>"+addKoma(b.total_facebook)+"</td>"+
+                                                    "<td>"+addKoma(b.total_instagram)+"</td>"+
+                                                    "<td>"+addKoma(b.total_youtube)+"</td>"+
+                                                "</tr>";
+                                            }else{
+                                                $.each(result.inews,function(c,d){
+                                                        el+="<tr>"+
+                                                            "<td>"+no+"</td>"+
+                                                            "<td>INEWS 4TV</td>"+
+                                                            "<td>"+d.total_twitter+"</td>"+
+                                                            "<td>"+d.total_facebook+"</td>"+
+                                                            "<td>"+d.total_instagram+"</td>"+
+                                                            "<td>"+d.total_youtube+"</td>"+
+                                                        "</tr>";
+                                                })
+                                            }    
                                         }else{
-                                            $.each(result.inews,function(a,b){
-                                                    el+="<tr>"+
-                                                        "<td>"+no+"</td>"+
-                                                        "<td>INEWS 4TV</td>"+
-                                                        "<td>"+b.total_twitter+"</td>"+
-                                                        "<td>"+b.total_facebook+"</td>"+
-                                                        "<td>"+b.total_instagram+"</td>"+
-                                                        "<td>"+b.total_youtube+"</td>"+
-                                                    "</tr>";
-                                            })
+                                            
+                                            $("#total_twitter_group").html(addKoma(b.total_twitter));
+                                            $("#total_facebook_group").html(addKoma(b.total_facebook));
+                                            $("#total_instagram_group").html(addKoma(b.total_instagram));
+                                            $("#total_youtube_group").html(addKoma(b.total_youtube));
                                         }
                                     })
                                 el+='</tbody>'+
@@ -298,6 +343,10 @@
             }
 
             $(document).on("change","#filter",function(){
+                showUnit();
+            })
+
+            $(document).on("change","#tanggal",function(){
                 showUnit();
             })
 
