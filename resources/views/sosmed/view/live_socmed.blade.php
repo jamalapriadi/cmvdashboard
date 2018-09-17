@@ -1,7 +1,7 @@
 <div class="row">
     @foreach($sosmed as $row)
         @if($row->sosmed_id==1)
-            <div class="col-lg-3">
+            <div class="col-lg-6">
                 <div class="card card-accent-success">
                     <div class="card-header" bg-info>Twitter</div>
                     <div class="card-body">
@@ -12,7 +12,7 @@
         @endif
 
         @if($row->sosmed_id==2)
-            <div class="col-lg-3">
+            <div class="col-lg-6">
                 <div class="card card-accent-primary">
                     <div class="card-header">Facebook</div>
                     <div class="card-body">
@@ -25,7 +25,7 @@
         @endif
 
         @if($row->sosmed_id==3)
-            <div class="col-lg-3">
+            <div class="col-lg-6">
                 <div class="card card-accent-warning">
                     <div class="card-header">Instagram</div>
                     <div class="card-body">
@@ -36,11 +36,11 @@
         @endif
 
         @if($row->sosmed_id==4)
-            <div class="col-lg-3">
+            <div class="col-lg-6">
                 <div class="card card-accent-danger">
                     <div class="card-header">Youtube</div>
                     <div class="card-body">
-                        <iframe src="http://youtube.com/embed/?listType=user_uploads&list={{$row->unit_sosmed_account_id}}" height="600px" frameborder="o"></iframe>
+                        <iframe src="http://youtube.com/embed/?listType=user_uploads&list={{$row->unit_sosmed_account_id}}" width="100%" height="600px" frameborder="o"></iframe>
                     </div>
                 </div>
             </div>

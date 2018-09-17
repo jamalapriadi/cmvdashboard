@@ -122,22 +122,22 @@
             <div class="row text-center">
                 <div class="col-sm-12 col-md mb-sm-3 mb-0">
                     <div class="text-muted">TOTAL TWITTER</div>
-                    <strong id="total_twitter_tier">29.703</strong>
+                    <strong id="total_twitter_tier">0</strong>
                 </div>
 
                 <div class="col-sm-12 col-md mb-sm-3 mb-0">
                     <div class="text-muted">TOTAL FACEBOOK</div>
-                    <strong id="total_facebook_tier">24.093</strong>
+                    <strong id="total_facebook_tier">0</strong>
                 </div>
 
                 <div class="col-sm-12 col-md mb-sm-3 mb-0">
                     <div class="text-muted">TOTAL INSTAGRAM</div>
-                    <strong id="total_instagram_tier">78.706</strong>
+                    <strong id="total_instagram_tier">0</strong>
                 </div>
 
                 <div class="col-sm-12 col-md mb-sm-3 mb-0">
                     <div class="text-muted">TOTAL YOUTUBE</div>
-                    <strong id="total_youtube_tier">22.123</strong>
+                    <strong id="total_youtube_tier">0</strong>
                 </div>
             </div>
         </div>
@@ -212,22 +212,22 @@
             <div class="row text-center">
                 <div class="col-sm-12 col-md mb-sm-3 mb-0">
                     <div class="text-muted">TOTAL TWITTER</div>
-                    <strong id="total_twitter_group">29.703</strong>
+                    <strong id="total_twitter_group">0</strong>
                 </div>
 
                 <div class="col-sm-12 col-md mb-sm-3 mb-0">
                     <div class="text-muted">TOTAL FACEBOOK</div>
-                    <strong id="total_facebook_group">24.093</strong>
+                    <strong id="total_facebook_group">0</strong>
                 </div>
 
                 <div class="col-sm-12 col-md mb-sm-3 mb-0">
                     <div class="text-muted">TOTAL INSTAGRAM</div>
-                    <strong id="total_instagram_group">78.706</strong>
+                    <strong id="total_instagram_group">0</strong>
                 </div>
 
                 <div class="col-sm-12 col-md mb-sm-3 mb-0">
                     <div class="text-muted">TOTAL YOUTUBE</div>
-                    <strong id="total_youtube_group">22.123</strong>
+                    <strong id="total_youtube_group">0</strong>
                 </div>
             </div>
         </div>
@@ -524,16 +524,17 @@
                                                             el+="<tr>"+
                                                                 "<td>"+no+"</td>"+
                                                                 "<td>INEWS 4TV</td>"+
-                                                                "<td>"+d.total_twitter+"</td>"+
-                                                                "<td>"+d.total_facebook+"</td>"+
-                                                                "<td>"+d.total_instagram+"</td>"+
-                                                                "<td>"+d.total_youtube+"</td>"+
+                                                                "<td>"+addKoma(d.total_twitter)+"</td>"+
+                                                                "<td>"+addKoma(d.total_facebook)+"</td>"+
+                                                                "<td>"+addKoma(d.total_instagram)+"</td>"+
+                                                                "<td>"+addKoma(d.total_youtube)+"</td>"+
                                                             "</tr>";
                                                     })
                                                 }
                                                 
                                             }
                                         }else{
+                                            
                                             $("#total_twitter_tier").html(addKoma(b.total_twitter));
                                             $("#total_facebook_tier").html(addKoma(b.total_facebook));
                                             $("#total_instagram_tier").html(addKoma(b.total_instagram));
@@ -789,10 +790,10 @@
                                                         el+="<tr>"+
                                                             "<td>"+no+"</td>"+
                                                             "<td>INEWS 4TV</td>"+
-                                                            "<td>"+d.total_twitter+"</td>"+
-                                                            "<td>"+d.total_facebook+"</td>"+
-                                                            "<td>"+d.total_instagram+"</td>"+
-                                                            "<td>"+d.total_youtube+"</td>"+
+                                                            "<td>"+addKoma(d.total_twitter)+"</td>"+
+                                                            "<td>"+addKoma(d.total_facebook)+"</td>"+
+                                                            "<td>"+addKoma(d.total_instagram)+"</td>"+
+                                                            "<td>"+addKoma(d.total_youtube)+"</td>"+
                                                         "</tr>";
                                                 })
                                             }    
