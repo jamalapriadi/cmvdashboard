@@ -107,7 +107,7 @@
 
                                 <div class="col-lg-3">
                                     <div class="form-group row">
-                                        <label class="control-label">Type Unit</label>
+                                        <label class="control-label">Unit Type</label>
                                         <div class="input-group mb3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="icon-archive"></i></span>
@@ -152,7 +152,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group row">
-                                        <label class="control-label">Type Unit</label>
+                                        <label class="control-label">Unit Type</label>
                                         <div class="input-group mb3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="icon-archive"></i></span>
@@ -208,7 +208,7 @@
 
                                 <div class="col-lg-3">
                                     <div class="form-group row">
-                                        <label class="control-label">Type Unit</label>
+                                        <label class="control-label">Unit Type</label>
                                         <div class="input-group mb3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="icon-archive"></i></span>
@@ -396,7 +396,7 @@
                     },
                     success:function(result){
                         $("#divofficialAccountAllTv").empty().append(result);
-                        $(".sticky-header").floatThead({scrollingTop:50});
+                        // $(".sticky-header").floatThead({scrollingTop:50});
                     },
                     error:function(){
 
@@ -414,7 +414,7 @@
                     },
                     success:function(result){
                         $("#sosmedOfficialAndProgram").empty().append(result);
-                        $(".sticky-header").floatThead({scrollingTop:50});
+                        // $(".sticky-header").floatThead({scrollingTop:50});
                     },
                     error:function(){
 
@@ -436,7 +436,7 @@
                     },
                     success:function(result){
                         $("#officialAndProgram").empty().append(result);
-                        $(".sticky-header").floatThead({scrollingTop:50});
+                        // $(".sticky-header").floatThead({scrollingTop:50});
                     },
                     error:function(){
 
@@ -474,7 +474,7 @@
                         },
                         success:function(result){
                             $("#divofficialAccountAllTv").empty().append(result);
-                            $(".sticky-header").floatThead({scrollingTop:50});
+                            // $(".sticky-header").floatThead({scrollingTop:50});
                         },
                         error:function(){
 

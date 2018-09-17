@@ -112,6 +112,7 @@
                     data:"tanggal="+tanggal+"&filter="+filter,
                     type:"GET",
                     beforeSend:function(){
+                        $("#zingchart-1").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                         $("#showUnit").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
                     success:function(result){
@@ -169,6 +170,7 @@
                             "type": "hbar",
                             "plot": {
                                 "stacked": true,
+                                "thousands-separator":",",
                                 "valueBox":{
                                     "text":"%total",
                                     "rules": [
@@ -180,8 +182,8 @@
                                 }
                             },
                             "plotarea": {
-                                // "margin": "2% 2% 15% 20%"
-                                margin: 'dynamic dynamic dynamic dynamic',
+                                "margin": "2% 15% 15% 10%"
+                                // margin: 'dynamic dynamic dynamic dynamic',
                             },
                             "backgroundColor": "#fff",
                             "scaleX": {
@@ -229,7 +231,7 @@
                                 "backgroundColor": "none",
                                 "padding": 0,
                                 "placement": "node:center",
-                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt<\/div><div class='scaley-value'>%v <\/div><\/div>"
+                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt - %t<\/div><div class='scaley-value'>%v <\/div><\/div>"
                             },
                             "series": [
                                 {
@@ -250,7 +252,7 @@
                                 {
                                     "values": youtube1,
                                     "text": "Youtube",
-                                    "background-color": "#222222"
+                                    "background-color": "#ff0000"
                                 }
                             ]
                         };

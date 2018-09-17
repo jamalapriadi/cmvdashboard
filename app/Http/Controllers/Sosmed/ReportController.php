@@ -217,7 +217,10 @@ class ReportController extends Controller
                 ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0)) - 1) * 100) as growth_fb,
                 sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) as ig_kemarin,
                 sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang,
-                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) - 1) * 100) as growth_ig
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) - 1) * 100) as growth_ig,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) as yt_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt_sekarang,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) - 1) * 100) as growth_yt
                 from 
                 business_unit a 
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
@@ -237,7 +240,10 @@ class ReportController extends Controller
                 (sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=2, c.follower,0)) -1)*100 as growth_fb,
                 sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) as ig_kemarin,
                 sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig_sekarang,
-                (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_ig
+                (sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_ig,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0)) as yt_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as yt_sekarang,
+                (sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0)) -1)*100 as growth_yt
                 from program_unit a 
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
@@ -295,7 +301,11 @@ class ReportController extends Controller
             sum(terjadi.ig_kemarin) as total_ig_kemarin,
             sum(terjadi.ig_sekarang) as total_ig_sekarang,
             ((sum(terjadi.ig_sekarang) / sum(terjadi.ig_kemarin) - 1) * 100) as total_growth_ig,
-            (sum(terjadi.ig_sekarang) - sum(terjadi.ig_kemarin)) as total_num_of_growth_ig 
+            (sum(terjadi.ig_sekarang) - sum(terjadi.ig_kemarin)) as total_num_of_growth_ig,
+            sum(terjadi.yt_kemarin) as total_yt_kemarin,
+            sum(terjadi.yt_sekarang) as total_yt_sekarang,
+            ((sum(terjadi.yt_sekarang) / sum(terjadi.yt_kemarin) - 1) * 100) as total_growth_yt,
+            (sum(terjadi.yt_sekarang) - sum(terjadi.yt_kemarin)) as total_num_of_growth_yt 
             from
             (
                 select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
@@ -305,7 +315,9 @@ class ReportController extends Controller
                 sum(if(d.tanggal='$kemarin' and c.sosmed_id=2,d.follower,0)) as fb_kemarin,
                 sum(if(d.tanggal='$sekarang' and c.sosmed_id=2,d.follower,0)) as fb_sekarang,
                 sum(if(d.tanggal='$kemarin' and c.sosmed_id=3,d.follower,0)) as ig_kemarin,
-                sum(if(d.tanggal='$sekarang' and c.sosmed_id=3,d.follower,0)) as ig_sekarang
+                sum(if(d.tanggal='$sekarang' and c.sosmed_id=3,d.follower,0)) as ig_sekarang,
+                sum(if(d.tanggal='$kemarin' and c.sosmed_id=4,d.follower,0)) as yt_kemarin,
+                sum(if(d.tanggal='$sekarang' and c.sosmed_id=4,d.follower,0)) as yt_sekarang
                 from 
                 business_unit a 
                 left join program_unit b on b.business_unit_id=a.id
@@ -323,7 +335,9 @@ class ReportController extends Controller
                 sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0)) as fb_kemarin,
                 sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb_sekarang,
                 sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) as ig_kemarin,
-                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) as yt_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt_sekarang
                 from 
                 business_unit a 
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
@@ -378,7 +392,8 @@ class ReportController extends Controller
             b.type_sosmed, b.unit_sosmed_name, c.tanggal, 
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt
             from business_unit a
             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -388,7 +403,8 @@ class ReportController extends Controller
             select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,a.program_name,c.tanggal, 
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as tw,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as fb,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as yt
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -399,12 +415,14 @@ class ReportController extends Controller
             select 'total' as urut,semua.id, semua.group_unit_id, semua.unit_name, semua.type_sosmed, semua.unit_sosmed_name, semua.tanggal,
                 sum(tw) as total_tw,
                 sum(fb) as total_fb,
-                sum(ig) as total_ig
+                sum(ig) as total_ig,
+                sum(yt) as total_yt
                 from (
                     select a.id,a.group_unit_id, a.unit_name, b.type_sosmed, b.unit_sosmed_name, c.tanggal, 
                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw,
                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb,
-                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig
+                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig,
+                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt
                     from business_unit a
                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -414,7 +432,8 @@ class ReportController extends Controller
                     select d.id,d.group_unit_id, d.unit_name, b.type_sosmed,a.program_name,c.tanggal, 
                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as tw,
                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as fb,
-                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig
+                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig,
+                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as yt
                     from program_unit a 
                     left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'

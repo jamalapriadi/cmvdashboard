@@ -5,11 +5,13 @@
             <th class='text-center' style='background:#008ef6;color:white'>Twitter</th>
             <th class='text-center' style='background:#5054ab;color:white'>Facebook</th>
             <th class='text-center' style='background:#a200b2;color:white'>Instagram</th>
+            <th class='text-center' style='background:#ff0000;color:white'>Youtube</th>
         </tr>
         <tr>
             <th class='text-center' style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
             <th class='text-center' style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
             <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+            <th class='text-center' style='background:#ff0000;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
         </tr>
     </thead>
     <tbody style="color:#222">
@@ -33,6 +35,7 @@
                 <td>{{number_format($b->tw)}}</td>
                 <td>{{number_format($b->fb)}}</td>
                 <td>{{number_format($b->ig)}}</td>
+                <td>{{number_format($b->yt)}}</td>
             </tr>
         @endforeach
     </tbody>

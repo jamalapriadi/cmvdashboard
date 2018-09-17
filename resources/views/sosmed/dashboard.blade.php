@@ -467,7 +467,7 @@
                                 {
                                     "values": youtube1,
                                     "text": "Youtube",
-                                    "background-color": "#222222"
+                                    "background-color": "#ff0000"
                                 }
                             ]
                         };
@@ -749,7 +749,7 @@
                                 {
                                     "values": youtube1,
                                     "text": "Youtube",
-                                    "background-color": "#222222"
+                                    "background-color": "#ff0000"
                                 }
                             ]
                         };
