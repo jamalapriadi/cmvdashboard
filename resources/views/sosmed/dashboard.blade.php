@@ -410,13 +410,10 @@
                                 "guide": {
                                     "visible": false
                                 },
-                                // "item": {
-                                //     "font-size": "9px",
-                                //     "font-color": "#222222"
-                                // }
                                 "item": {
-                                    "color": "#fff"
-                                },
+                                    "font-size": "9px",
+                                    "font-color": "#222222"
+                                }
                             },
                             "scale-y":{
                                 "line-color":"#333",
