@@ -507,8 +507,8 @@
                                         return a['group_unit_id'] - b['group_unit_id'];
                                     });
                                     $.each(result.chart,function(a,b){
-                                        no++;
                                         if(b.id!=null){
+                                            no++;
                                             if(b.id!='tidak'){
                                                 if(b.id!=4){
                                                     el+="<tr>"+
@@ -774,8 +774,8 @@
                                     }
 
                                     $.each(result.chart,function(a,b){
-                                        no++;
                                         if(b.id!=null){
+                                            no++;
                                             if(b.id!=4){
                                                 el+="<tr>"+
                                                     "<td>"+no+"</td>"+
