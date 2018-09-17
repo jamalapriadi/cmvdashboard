@@ -4,14 +4,14 @@
                 <th width="18%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>
                 <th class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                 <th class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                <th class='text-center' style='background:#a200b2;color:white'>Instagram</th>
-                <th class='text-center' style='background:#ff0000;color:white'>Youtube</th>
+                <th class='text-center' style='background:#a958a5;color:white'>Instagram</th>
+                <th class='text-center' style='background:#f06261;color:white'>Youtube</th>
             </tr>
             <tr>
                 <th class="text-center" style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
                 <th class="text-center" style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-                <th class="text-center" style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-                <th class="text-center" style='background:#ff0000;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                <th class="text-center" style='background:#a958a5;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                <th class="text-center" style='background:#f06261;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
             </tr>
         </thead>
         <tbody style="color:#222">

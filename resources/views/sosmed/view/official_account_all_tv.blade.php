@@ -4,8 +4,8 @@
                 <th width="18%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">Channel</th>
                 <th colspan='3' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                 <th colspan='3' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
-                <th colspan='3' class='text-center' style='background:#ff0000;color:white'>Youtube</th>
+                <th colspan='3' class='text-center' style='background:#a958a5;color:white'>Instagram</th>
+                <th colspan='3' class='text-center' style='background:#f06261;color:white'>Youtube</th>
             </tr>
             <tr>
                 <th class='text-center' style='background:#008ef6;color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
@@ -16,13 +16,13 @@
                 <th class='text-center' style='background:#5054ab;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
                 <th class='text-center' style='background:#5054ab;color:white'>Growth From Yesterday</th>
 
-                <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
-                <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-                <th class='text-center' style='background:#a200b2;color:white'>Growth From Yesterday</th>
+                <th class='text-center' style='background:#a958a5;color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
+                <th class='text-center' style='background:#a958a5;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                <th class='text-center' style='background:#a958a5;color:white'>Growth From Yesterday</th>
 
-                <th class='text-center' style='background:#ff0000;color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
-                <th class='text-center' style='background:#ff0000;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-                <th class='text-center' style='background:#ff0000;color:white'>Growth From Yesterday</th>
+                <th class='text-center' style='background:#f06261;color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
+                <th class='text-center' style='background:#f06261;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                <th class='text-center' style='background:#f06261;color:white'>Growth From Yesterday</th>
             </tr>
         </thead>
         <tbody style="color:#222">
@@ -54,8 +54,8 @@
                             </td>
                             <td colspan="3" class="text-center" style='background:#008ef6;color:white'>{{number_format(($of->tw_sekarang+$satu_tw)/13)}}</td>
                             <td colspan="3" class="text-center" style='background:#5054ab;color:white'>{{number_format(($of->fb_sekarang+$satu_fb)/13)}}</td>
-                            <td colspan="3" class="text-center" style='background:#a200b2;color:white'>{{number_format(($of->ig_sekarang+$satu_ig)/13)}}</td>
-                            <td colspan="3" class="text-center" style='background:#ff0000;color:white'>{{number_format(($of->yt_sekarang+$satu_yt)/13)}}</td>
+                            <td colspan="3" class="text-center" style='background:#a958a5;color:white'>{{number_format(($of->ig_sekarang+$satu_ig)/13)}}</td>
+                            <td colspan="3" class="text-center" style='background:#f06261;color:white'>{{number_format(($of->yt_sekarang+$satu_yt)/13)}}</td>
                         </tr>
                     @else    
                         <?php 

@@ -47,7 +47,7 @@
                     <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
+                    <th colspan='3' class='text-center' style='background:#a958a5;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>% Growth</th>
@@ -56,9 +56,9 @@
                     <th class='text-center' style='background:#5054ab;color:white'>% Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>TOTAL</th>
                     <th class='text-center' style='background:#5054ab;color:white'>RANK</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>% Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>TOTAL</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>RANK</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>% Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>TOTAL</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>RANK</th>
                 </tr>
             </thead>
             <tbody>
@@ -250,7 +250,7 @@
                     <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a958a5;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>% Growth</th>
@@ -259,9 +259,9 @@
                     <th class='text-center' style='background:#5054ab;color:white'>% Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>TOTAL</th>
                     <th class='text-center' style='background:#5054ab;color:white'>RANK</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>% Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>TOTAL</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>RANK</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>% Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>TOTAL</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>RANK</th>
                 </tr>
             </thead>
             <tbody>
@@ -403,7 +403,7 @@
                     <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
+                    <th colspan='3' class='text-center' style='background:#a958a5;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>Num Of Growth</th>
@@ -412,9 +412,9 @@
                     <th class='text-center' style='background:#5054ab;color:white'>Num Of Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>% Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>RANK</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>Num Of Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>% Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>RANK</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>Num Of Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>% Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>RANK</th>
                 </tr>
             </thead>
             <tbody>
@@ -621,7 +621,7 @@
                     <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a958a5;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>Num Of Growth</th>
@@ -630,9 +630,9 @@
                     <th class='text-center' style='background:#5054ab;color:white'>Num Of Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>% Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>RANK</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>Num Of Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>% Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>RANK</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>Num Of Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>% Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>RANK</th>
                 </tr>
             </thead>
             <tbody>
@@ -756,7 +756,7 @@
                     <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a958a5;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>% Growth</th>
@@ -765,9 +765,9 @@
                     <th class='text-center' style='background:#5054ab;color:white'>% Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>TOTAL</th>
                     <th class='text-center' style='background:#5054ab;color:white'>RANK</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>% Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>TOTAL</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>RANK</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>% Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>TOTAL</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>RANK</th>
                 </tr>
             </thead>
             <tbody>
@@ -895,7 +895,7 @@
                     <th width="18%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a958a5;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>% Growth</th>
@@ -904,9 +904,9 @@
                     <th class='text-center' style='background:#5054ab;color:white'>% Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>TOTAL</th>
                     <th class='text-center' style='background:#5054ab;color:white'>RANK</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>% Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>TOTAL</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>RANK</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>% Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>TOTAL</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>RANK</th>
                 </tr>
             </thead>
             <tbody>
@@ -990,7 +990,7 @@
                     <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a958a5;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>Nom Of Growth</th>
@@ -999,9 +999,9 @@
                     <th class='text-center' style='background:#5054ab;color:white'>Nom Of Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>% Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>RANK</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>Nom Of Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>% Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>RANK</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>Nom Of Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>% Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>RANK</th>
                 </tr>
             </thead>
             <tbody>
@@ -1128,7 +1128,7 @@
                     <th width="18%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#008ef6;color:white'>Twitter</th>
                     <th colspan='3' class='text-center' class='text-center' style='background:#5054ab;color:white'>Facebook</th>
-                    <th colspan='3' class='text-center' class='text-center' style='background:#a200b2;color:white'>Instagram</th>
+                    <th colspan='3' class='text-center' class='text-center' style='background:#a958a5;color:white'>Instagram</th>
                 </tr>
                 <tr>
                     <th class='text-center' style='background:#008ef6;color:white'>Num Of Growth</th>
@@ -1137,9 +1137,9 @@
                     <th class='text-center' style='background:#5054ab;color:white'>Num Of Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>% Growth</th>
                     <th class='text-center' style='background:#5054ab;color:white'>RANK</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>Num Of Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>% Growth</th>
-                    <th class='text-center' style='background:#a200b2;color:white'>RANK</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>Num Of Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>% Growth</th>
+                    <th class='text-center' style='background:#a958a5;color:white'>RANK</th>
                 </tr>
             </thead>
             <tbody>

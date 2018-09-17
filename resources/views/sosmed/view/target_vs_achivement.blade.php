@@ -15,9 +15,9 @@
             <th class='text-center' style='background:#5054ab;color:white'>Target</th>
             <th class='text-center' style='background:#5054ab;color:white'>ACH</th>
 
-            <th class='text-center' style='background:#a200b2;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-            <th class='text-center' style='background:#a200b2;color:white'>Target</th>
-            <th class='text-center' style='background:#a200b2;color:white'>ACH</th>
+            <th class='text-center' style='background:#a958a5;color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+            <th class='text-center' style='background:#a958a5;color:white'>Target</th>
+            <th class='text-center' style='background:#a958a5;color:white'>ACH</th>
         </tr>
     </thead>
     <tbody style="color:#222">

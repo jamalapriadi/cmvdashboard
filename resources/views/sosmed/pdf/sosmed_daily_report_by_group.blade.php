@@ -353,6 +353,7 @@
                 $listprogram=array();
                 $listtotal=array();
                 $total2=array();
+                $totalKol=array();
             @endphp
             @foreach($overallOfficialTv as $key=>$of)
                 @if($of->id=="SUBTOTAL")
@@ -366,44 +367,60 @@
                             $nama="TOTAL ".strtoupper($of->type_unit);
                             $color="background:#f2eff2;color:#222;font-weight:700";
 
-                            $total2[]=array(
-                                'nama'=>'Total MNC Group',
-                                'tw_kemarin'=>$of->total_tw_kemarin,
-                                'tw_sekarang'=>$of->total_tw_sekarang,
-                                'fb_kemarin'=>$of->total_fb_kemarin,
-                                'fb_sekarang'=>$of->total_fb_sekarang,
-                                'ig_kemarin'=>$of->total_ig_kemarin,
-                                'ig_sekarang'=>$of->total_ig_sekarang,
-                                'yt_kemarin'=>$of->total_yt_kemarin,
-                                'yt_sekarang'=>$of->total_yt_sekarang
-                            );
+                            if($of->type_unit!="KOL"){
+                                $total2[]=array(
+                                    'nama'=>'Total MNC Group',
+                                    'tw_kemarin'=>$of->total_tw_kemarin,
+                                    'tw_sekarang'=>$of->total_tw_sekarang,
+                                    'fb_kemarin'=>$of->total_fb_kemarin,
+                                    'fb_sekarang'=>$of->total_fb_sekarang,
+                                    'ig_kemarin'=>$of->total_ig_kemarin,
+                                    'ig_sekarang'=>$of->total_ig_sekarang,
+                                    'yt_kemarin'=>$of->total_yt_kemarin,
+                                    'yt_sekarang'=>$of->total_yt_sekarang
+                                );
+                            }else{
+                                $totalKol[]=array(
+                                    'nama'=>'Total KOL',
+                                    'tw_kemarin'=>$of->total_tw_kemarin,
+                                    'tw_sekarang'=>$of->total_tw_sekarang,
+                                    'fb_kemarin'=>$of->total_fb_kemarin,
+                                    'fb_sekarang'=>$of->total_fb_sekarang,
+                                    'ig_kemarin'=>$of->total_ig_kemarin,
+                                    'ig_sekarang'=>$of->total_ig_sekarang,
+                                    'yt_kemarin'=>$of->total_yt_kemarin,
+                                    'yt_sekarang'=>$of->total_yt_sekarang
+                                );
+                            }
                         ?>
 
                         <!--tampilkan totalnya kecuali yang dari group others -->
                         @if($of->group_id!=5)
                             @if($of->group_id!=12)
-                                <tr style="{{$color}}">
-                                    <td>
-                                        {{$nama}}
-                                    </td>
-                                    @foreach($sosmed as $row)
-                                        @if($row->id==1)
-                                            <td>{{number_format($of->total_tw_sekarang)}}</td>
-                                        @endif
+                                @if($of->type_unit!="KOL")
+                                    <tr style="{{$color}}">
+                                        <td>
+                                            {{$nama}}
+                                        </td>
+                                        @foreach($sosmed as $row)
+                                            @if($row->id==1)
+                                                <td>{{number_format($of->total_tw_sekarang)}}</td>
+                                            @endif
 
-                                        @if($row->id==2)
-                                            <td>{{number_format($of->total_fb_sekarang)}}</td>
-                                        @endif
+                                            @if($row->id==2)
+                                                <td>{{number_format($of->total_fb_sekarang)}}</td>
+                                            @endif
 
-                                        @if($row->id==3)
-                                            <td>{{number_format($of->total_ig_sekarang)}}</td>
-                                        @endif
+                                            @if($row->id==3)
+                                                <td>{{number_format($of->total_ig_sekarang)}}</td>
+                                            @endif
 
-                                        @if($row->id==4)
-                                            <td>{{number_format($of->total_yt_sekarang)}}</td>
-                                        @endif
-                                    @endforeach
-                                </tr>
+                                            @if($row->id==4)
+                                                <td>{{number_format($of->total_yt_sekarang)}}</td>
+                                            @endif
+                                        @endforeach
+                                    </tr>
+                                @endif
                             @endif
                             
                         @endif
@@ -418,51 +435,55 @@
 
                     @if($of->group_id!=12)
                         <!--tampilkan unitnya -->
-                        <tr style="{{$color}}">
-                            <td>
-                                {{$nama}}
-                            </td>
-                            @foreach($sosmed as $row)
-                                @if($row->id==1)
-                                    <td>{{number_format($of->total_tw_sekarang)}}</td>
-                                @endif
+                        @if($of->type_unit!="KOL")
+                            <tr style="{{$color}}">
+                                <td>
+                                    {{$nama}}
+                                </td>
+                                @foreach($sosmed as $row)
+                                    @if($row->id==1)
+                                        <td>{{number_format($of->total_tw_sekarang)}}</td>
+                                    @endif
 
-                                @if($row->id==2)
-                                    <td>{{number_format($of->total_fb_sekarang)}}</td>
-                                @endif
+                                    @if($row->id==2)
+                                        <td>{{number_format($of->total_fb_sekarang)}}</td>
+                                    @endif
 
-                                @if($row->id==3)
-                                    <td>{{number_format($of->total_ig_sekarang)}}</td>
-                                @endif
+                                    @if($row->id==3)
+                                        <td>{{number_format($of->total_ig_sekarang)}}</td>
+                                    @endif
 
-                                @if($row->id==4)
-                                    <td>{{number_format($of->total_yt_sekarang)}}</td>
-                                @endif
-                            @endforeach
-                        </tr>
+                                    @if($row->id==4)
+                                        <td>{{number_format($of->total_yt_sekarang)}}</td>
+                                    @endif
+                                @endforeach
+                            </tr>
+                        @endif
                     @else 
                         <!--simpan unit other publisher ke dalam array -->
                         @php 
-                            $listprogram[]=array(
-                                'nama'=>$nama,
-                                'color'=>$color,
+                            if($of->type_unit!="KOL"){
+                                $listprogram[]=array(
+                                    'nama'=>$nama,
+                                    'color'=>$color,
 
-                                'tw_kemarin'=>number_format($of->total_tw_kemarin),
-                                'tw_sekarang'=>number_format($of->total_tw_sekarang),
-                                'growth_tw'=>round($of->total_growth_tw,2),
+                                    'tw_kemarin'=>number_format($of->total_tw_kemarin),
+                                    'tw_sekarang'=>number_format($of->total_tw_sekarang),
+                                    'growth_tw'=>round($of->total_growth_tw,2),
 
-                                'fb_kemarin'=>number_format($of->total_fb_kemarin),
-                                'fb_sekarang'=>number_format($of->total_fb_sekarang),
-                                'growth_fb'=>round($of->total_growth_fb,2),
+                                    'fb_kemarin'=>number_format($of->total_fb_kemarin),
+                                    'fb_sekarang'=>number_format($of->total_fb_sekarang),
+                                    'growth_fb'=>round($of->total_growth_fb,2),
 
-                                'ig_kemarin'=>number_format($of->total_ig_kemarin),
-                                'ig_sekarang'=>number_format($of->total_ig_sekarang),
-                                'growth_ig'=>round($of->total_growth_ig,2),
+                                    'ig_kemarin'=>number_format($of->total_ig_kemarin),
+                                    'ig_sekarang'=>number_format($of->total_ig_sekarang),
+                                    'growth_ig'=>round($of->total_growth_ig,2),
 
-                                'yt_kemarin'=>number_format($of->total_yt_kemarin),
-                                'yt_sekarang'=>number_format($of->total_yt_sekarang),
-                                'growth_yt'=>round($of->total_growth_yt,2)
-                            );
+                                    'yt_kemarin'=>number_format($of->total_yt_kemarin),
+                                    'yt_sekarang'=>number_format($of->total_yt_sekarang),
+                                    'growth_yt'=>round($of->total_growth_yt,2)
+                                );
+                            }
                         @endphp 
                     @endif
 
@@ -512,6 +533,15 @@
                 <td>{{number_format($kedua2)}}</td>
                 <td>{{number_format($ketiga2)}}</td>
                 <td>{{number_format($keempat2)}}</td>
+            </tr>
+            <tr style="background:#419F51;color:white;font-weight:700">
+                <td>TOTAL SMN ARTIST</td>
+                @foreach($totalKol as $k)
+                    <td>{{number_format($k['tw_sekarang'])}}</td>
+                    <td>{{number_format($k['fb_sekarang'])}}</td>
+                    <td>{{number_format($k['ig_sekarang'])}}</td>
+                    <td>{{number_format($k['yt_sekarang'])}}</td>
+                @endforeach
             </tr>
         </tbody>
     </table>

@@ -462,12 +462,12 @@
                                 {
                                     "values": instagram1,
                                     "text": "Instagram",
-                                    "background-color": "#a200b2"
+                                    "background-color": "#a958a5"
                                 },
                                 {
                                     "values": youtube1,
                                     "text": "Youtube",
-                                    "background-color": "#ff0000"
+                                    "background-color": "#f06261"
                                 }
                             ]
                         };
@@ -744,12 +744,12 @@
                                 {
                                     "values": instagram1,
                                     "text": "Instagram",
-                                    "background-color": "#a200b2"
+                                    "background-color": "#a958a5"
                                 },
                                 {
                                     "values": youtube1,
                                     "text": "Youtube",
-                                    "background-color": "#ff0000"
+                                    "background-color": "#f06261"
                                 }
                             ]
                         };
