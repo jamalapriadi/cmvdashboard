@@ -67,3 +67,25 @@ function youtube_follower($id){
 
     echo $res->getBody();
 }
+
+function youtubeUrl($uri){
+    $url = 'https://www.youtube.com/watch?v='.$uri;
+    preg_match('/[\\?\\&]v=([^\\?\\&]+)/', $url, $matches);
+    $id = $matches[1];
+    $width = '230px';
+    $height = '150px';
+    
+    $html='<iframe id="ytplayer" type="text/html" width="'.$width.'" height="'.$height.'"
+    src="https://www.youtube.com/embed/'.$id.'?rel=0&showinfo=0&color=white&iv_load_policy=3"
+    frameborder="0" allowfullscreen></iframe>';
+
+    echo $html;
+}
+
+function facebookFrame($url){
+    $html='<iframe src="https://www.facebook.com/plugins/page.php?href=https://www.facebook.com/'.$url.'&tabs=timeline&width=460&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
+        width="460" height="600" style="border:none;overflow:hidden" scrolling="no" 
+        frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>';
+
+    echo $html;
+}

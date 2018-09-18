@@ -1,83 +1,287 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('extra-style')
     <style>
+        #zingchart-1 {
+            height: 400px;
+            width: 960px;
+        }
+
+        #zingchart-2 {
+            height: 200px;
+            width: 480px;
+        }
+
+        #zingchart-3 {
+            height: 200px;
+            width: 480px;
+        }
+
+        #zingchart-4 {
+            height: 200px;
+            width: 480px;
+        }
+
+        #chartOfficial{
+            height: 400px;
+            width: 960px;
+        }
+
+        #growthProgram{
+            height: 400px;
+            width: 960px;
+        }
+
+        #officialTwitter{
+            height: 400px;
+            width: 480px;
+        }
+
+        #top10TwitterProgram{
+            height: 400px;
+            width: 480px;
+        }
+
+        #top10TwitterOfficial{
+            height: 400px;
+            width: 480px;
+        }
+
+        #top10{
+            height: 400px;
+            width: 480px;
+        }
+
+        .zingchart-tooltip {
+            padding: 7px 5px;
+            border-radius: 1px;
+            line-height: 20px;
+            background-color: #fff;
+            border: 1px solid #dcdcdc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            -webkit-font-smoothing: antialiased;
+        }
+        .zingchart-tooltip .scalex-value {
+            font-size: 14px !important;
+            font-weight: normal !important;
+            line-height: 24px;
+            color: #838383;
+        }
+        .zingchart-tooltip .scaley-value {
+            color: #4184f3;
+            font-size: 24px !important;
+            font-weight: normal !important;
+        }
+
         .zc-ref {
             display: none;
         }
-        #myChart{
-            height:100%;
-            width:100%;
-        }
     </style>
-@endsection
+@stop
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">Summary Program</div>
-        <div class="panel-body">
-            <ul class="nav nav-tabs nav-tabs-highlight">
-                <li class="active"><a href="#highlighted-tab1" data-toggle="tab">Summary</a></li>
-                <li><a href="#highlighted-tab2" data-toggle="tab">Sosial Media</a></li>
-                <li><a href="#highlighted-tab3" data-toggle="tab">Target</a></li>
-            </ul>
-
-            <div class="tab-content">
-                <div class="tab-pane active" id="highlighted-tab1">
-                    Highlight top border of the active tab by adding <code>.nav-tabs-highlight</code> class.
+    <!-- <div class="row">
+        @foreach($bu->sosmed as $row)
+            @if($row->sosmed_id==1)
+                <div class="col-sm-6 col-lg-3">
+                    <div class="brand-card">
+                        <div class="brand-card-header bg-facebook">
+                            <i class="fa fa-facebook"></i>
+                            <div class="chart-wrapper">
+                                <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                    <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                    </div>
+                                    <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                    </div>
+                                </div>
+                                <canvas id="social-box-chart-1" height="96" width="387" class="chartjs-render-monitor" style="display: block; width: 387px; height: 96px;"></canvas>
+                            </div>
+                        </div>
+                        <div class="brand-card-body">
+                            <div>
+                                <div class="text-value">89k</div>
+                                <div class="text-uppercase text-muted small">friends</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            @endif
 
-                <div class="tab-pane" id="highlighted-tab2">
-                    <div id="divSosmed"></div>
+            @if($row->sosmed_id==2)
+                <div class="col-sm-6 col-lg-3">
+                    <div class="brand-card">
+                        <div class="brand-card-header bg-facebook">
+                            <i class="fa fa-facebook"></i>
+                            <div class="chart-wrapper">
+                                <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
+                                    <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
+                                    </div>
+                                    <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
+                                        <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
+                                    </div>
+                                </div>
+                                <canvas id="social-box-chart-1" height="96" width="387" class="chartjs-render-monitor" style="display: block; width: 387px; height: 96px;"></canvas>
+                            </div>
+                        </div>
+                        <div class="brand-card-body">
+                            <div>
+                                <div class="text-value">89k</div>
+                                <div class="text-uppercase text-muted small">friends</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            @endif
+        @endforeach
+    </div> -->
 
-                <div class="tab-pane" id="highlighted-tab3">
-                    <a class="btn btn-primary" id="tambahtarget">
-                        <i class="icon-add"></i> &nbsp; Add New Target 
-                    </a>
-                    <hr>
-                    <div id="divTarget"></div>
-                </div>
 
-                <div class="tab-pane" id="highlighted-tab4">
-                    Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-default">
+                <div class="card-header">Program #{{$bu->program_name}}</div>
+                <div class="card-body">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#highlight-tab1" role="tab" aria-controls="nav-home" aria-selected="true">SUMMARY</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#highlight-tab2" role="tab" aria-controls="nav-profile" aria-selected="false">SOCIAL MEDIA</a>
+                            {{-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab3" role="tab" aria-controls="nav-contact" aria-selected="false">TARGET</a> --}}
+                        </div>
+                    </nav>
+                    <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="highlight-tab1" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="" class="control-label">Periode</label>
+                                        <div id="divPeriode"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="" class="control-label"></label>
+                                        <button class="btn btn-primary" id="filterOfficial" style="margin-top:25px;"><i class="icon-filter3"></i> Filter</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div id="chartOfficial"></div>
+                        </div>
+
+                        <div class="tab-pane fade" id="highlight-tab2" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <a href="#" class="btn btn-primary" id="tambahsosmed">
+                                <i class="icon-add"></i> Add New Account
+                            </a>
+                            <hr>
+
+                            <div id="divSosmed"></div>
+                        </div>
+
+                        {{-- <div class="tab-pane fade" id="highlight-tab3" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <a class="btn btn-primary" id="tambahtarget">
+                                <i class="icon-add"></i> &nbsp; Add New Target 
+                            </a>
+                            <hr>
+                            <div id="divTarget"></div>
+                        </div> --}}
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="card card-primary">
+        <div class="card-header">SOCMED LIVE</div>
+        <div class="card-body">
+
+            <div id="divLiveSocmed"></div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Recent Activity
+        @foreach($bu->sosmed as $row)
+            @if($row->sosmed_id==4)
+                <div class="col-lg-6">
+                    <div class="card card-default">
+                        <div class="card-header">Youtube</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <img src="{{$youtube->snippet->thumbnails->default->url}}" alt="" class="img-fluid">
+                                </div>
+                                <div class="col-lg-6">
+                                    <a href="https://youtube.com/{{$youtube->snippet->customUrl}}" target="new target">
+                                        <h3>{{$youtube->snippet->title}}</h3>
+                                    </a>
+                                    <p class="text-muted">{{number_format($youtube->statistics->subscriberCount)}} subscriber</p>
+                                </div>
+                                <div class="col-lg-3">
+                                    <a href="#" class="btn btn-youtube">SUBSCRIBE {{number_format($youtube->statistics->subscriberCount)}}</a></a>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h5>Statistik</h5>
+                                    <p class="small">Bergabung pada : {{date('Y-m-d',strtotime($youtube->snippet->publishedAt))}}</p>
+                                    <p>{{number_format($youtube->statistics->viewCount)}} x penayangan</p>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <h5>Detail</h5>
+                                    <p class="text-muted">Lokasi : {{$youtube->snippet->country}}</p>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div id="showYoutube">
+                                <div class="row">
+                                    @foreach($activity as $row)
+                                        <div class="col-lg-6" style="margin-bottom:10px;">
+                                            {{youtubeUrl($row->contentDetails->upload->videoId)}}
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <div id="myChart"></div>
+            @else
+                <div class="col-lg-6">
+                    <div class="card card-default">
+                        <div class="card card-accent-success">
+                            <div class="card-header" bg-info>Twitter</div>
+                            <div class="card-body">
+                                <a class="twitter-timeline" data-height="700" data-theme="light" data-link-color="#E81C4F" href="https://twitter.com/officialrcti?ref_src=twsrc%5Etfw">Tweets by officialrcti</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            @endif
+        @endforeach
     </div>
 
     <div id="divModal"></div>
+     
 @stop
 
-@push('extra-script')
-    <script src="https://cdn.datatables.net/rowreorder/1.2.3/js/dataTables.rowReorder.min.js"></script>
-	<script src="https://cdn.datatables.net/responsive/2.2.0/js/dataTables.responsive.min.js"></script>
-    {{Html::script('limitless1/assets/js/plugins/tables/datatables/extensions/fixed_columns.min.js')}}
-
+@section('js')
     <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
-	<script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
-	ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
-	<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-	<script src="https://www.amcharts.com/lib/3/pie.js"></script>
+    <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
+
     <script>
         $(function(){
             var id="{{$id}}";
             var kode="";
             var idunitsosmed="";
             var unitsosmedtarget="";
+            var sos=@json($bu);
+            var bulan="{{date('Y-m')}}";
 
             // Setting datatable defaults
             $.extend( $.fn.dataTable.defaults, {
@@ -102,9 +306,38 @@
                 }
             });
 
+            function showSosmed(){
+                var el="";
+                el+="<table class='table table-striped'>"+
+                    "<thead>"+
+                        "<tr>"+
+                            "<th>No.</th>"+
+                            "<th>Sosmed Name</th>"+
+                            "<th>Account Name</th>"+
+                            "<th></th>"+
+                        "</tr>"+
+                    "</thead>"+
+                    "<tbody>";
+                    var no=0;
+                    $.each(sos.sosmed,function(a,b){
+                        no++;
+                        el+="<tr>"+
+                            "<td>"+no+"</td>"+
+                            "<td>"+b.sosmed.sosmed_name+"</td>"+
+                            "<td>"+b.unit_sosmed_name+"</td>"+
+                            "<td><a class='btn btn-danger btn-sm' kode='"+b.id+"'><i class='icon-trash'></i></a></td>"+
+                        "</tr>";
+                    })
+                    el+="</tbody>"+
+                "</table>";
+
+                $("#showSosmed").empty().html(el);
+            }
+
             function sosmed(){
                 $.ajax({
                     url:"{{URL::to('sosmed/data/target-sosmed-program')}}/"+id,
+                    data:"type=program",
                     beforeSend:function(){
 
                     },
@@ -114,9 +347,11 @@
                             '<thead>'+
                                 '<tr>'+
                                     '<th width="5%">No.</th>'+
-                                    '<th width="20%">Sosial Media</th>'+
+                                    '<th width="15%">Sosial Media</th>'+
                                     '<th width="20%">Official Account</th>'+
-                                    '<th width="15%">Target</th>'+
+                                    '<th width="10%">Active</th>'+
+                                    // '<th width="15%">Target</th>'+
+                                    '<th width="15%"></th>'+
                                 '</tr>'+
                             '</thead>'+
                             '<tbody>';
@@ -126,13 +361,20 @@
                                     el+="<tr>"+
                                         "<td>"+no+"</td>"+
                                         "<td>"+b.sosmed.sosmed_name+"</td>"+
-                                        "<td>"+b.unit_sosmed_name+"</td>";
-                                        if(b.target!=null){
-                                            el+="<td><a class='setupdatetarget' kode='"+b.id+"' utarget='"+b.target.id+"'><label class='label label-info'>"+b.target.target+"</label></a></td>";
-                                        }else{
-                                            el+="<td><a class='settarget' kode='"+b.id+"'><label class='label label-warning'><i class='fa fa-spinner icon-gear'></i> Please Set Target</label></a></td>";
-                                        }
-                                    el+="</tr>";
+                                        "<td>"+b.unit_sosmed_name+"</td>"+
+                                        "<td>"+b.status_active+"</td>";
+                                        // if(b.target!=null){
+                                        //     el+="<td><a class='setupdatetarget' kode='"+b.id+"' utarget='"+b.target.id+"'><label class='label label-info'>"+b.target.target+"</label></a></td>";
+                                        // }else{
+                                        //     el+="<td><a class='settarget' kode='"+b.id+"'><label class='label label-warning'><i class='fa fa-spinner icon-gear'></i> Please Set Target</label></a></td>";
+                                        // }
+                                        el+="<td>"+
+                                            "<div class='btn-group'>"+
+                                                "<a class='btn btn-warning editsosmed' kode='"+b.id+"'><i class='icon-pencil4'></i></a>"+
+                                                "<a class='btn btn-danger hapusosmed' kode='"+b.id+"'><i class='icon-trash'></i></a>"+
+                                            "</div>"+
+                                        "</td>"+
+                                    "</tr>";
                                 })
                             el+='</tbody>'+
                         '</table>';
@@ -174,194 +416,21 @@
                 })
             }
 
-            function target(){
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/alltarget-sosmed-program')}}/"+id,
-                    beforeSend:function(){
-
-                    },
-                    success:function(result){
-                        var el=""
-                        el+='<table class="table table-striped table-bordered" id="tabeltarget">'+
-                            '<thead>'+
-                                '<tr>'+
-                                    '<th width="5%" rowspan="2">No.</th>'+
-                                    '<th width="20%" rowspan="2">Tahun</th>'+
-                                    '<th width="20%" colspan="'+result.program.sosmed.length+'" class="text-center">Sosial Media</th>'+
-                                '</tr>'+
-                                '<tr>';
-                                    $.each(result.program.sosmed,function(a,b){
-                                        el+="<th>"+b.sosmed.sosmed_name+"</th>";
-                                    })
-                                el+='</tr>';
-                            '</thead>'+
-                            '<tbody>';
-                                var no=0;
-                                $.each(result.result,function(c,d){
-                                    no++;
-                                    el+="<tr>"+
-                                        "<td>"+no+"</td>"+
-                                        "<td>"+d.tahun+"</td>";
-                                        $.each(d.sosmed,function(e,f){
-                                            el+="<td>"+f.target+"</td>";
-                                        })
-                                    el+="</tr>";
-                                })
-                            el+='</tbody>'+
-                        '</table>';
-
-                        $("#divTarget").empty().html(el); 
-                    },
-                    error:function(){
-
-                    }
-                })
-            }
-
-            function showChart(){
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/chart/daily-chart')}}/"+id+"/program",
-                    type:"GET",
-                    beforeSend:function(){
-
-                    },
-                    success:function(result){
-                        var myConfig ={
-                            type: "area",
-                            stacked: true,
-                            title:{
-                                text: "Monthly Apparel Sales",
-                                fontColor: "#424242",
-                                adjustLayout: true,
-                                marginTop: 15
-                            },
-                            subtitle:{
-                                text: "In thousands (k)",
-                                fontColor: "#616161",
-                                adjustLayout: true,
-                                marginTop: 45
-                            },
-                            plot:{
-                                aspect: "spline",
-                                alphaArea: 0.6
-                            },
-                            plotarea:{
-                                margin: "dynamic"
-                            },
-                            tooltip:{visible:false},
-                            scaleY:{
-                                short:true,
-                                shortUnit:'k',
-                                lineColor: "#AAA5A5",
-                            tick:{
-                                lineColor: "#AAA5A5"
-                            },
-                            item:{
-                                fontColor: "#616161",
-                                paddingRight: 5
-                            },
-                            guide:{
-                                lineStyle: "dotted",
-                                lineColor: "#AAA5A5"
-                            },
-                            label:{
-                                text: "Quantity",
-                                fontColor: "#616161"
-                            }
-                            },
-                            scaleX:{
-                                lineColor: "#AAA5A5",
-                                labels:result.tanggal,
-                                tick:{
-                                    lineColor: "#AAA5A5"
-                                },
-                                item:{
-                                    fontColor: "#616161",
-                                    paddingTop: 5
-                                },
-                                label:{
-                                    text: "2016",
-                                    fontColor: "#616161"
-                                }
-                            },
-                            crosshairX:{
-                            lineColor: "#AAA5A5",
-                            plotLabel:{
-                                backgroundColor:"#EBEBEC",
-                                borderColor: "#AAA5A5",
-                                borderWidth: 2,
-                                borderRadius: 2, 	
-                                thousandsSeparator:',',
-                                fontColor:'#616161'
-                            },
-                            scaleLabel:{
-                                backgroundColor: "#EBEBEC",
-                                borderColor: "#AAA5A5",
-                                fontColor: "#424242"
-                            }
-                            },
-                            series : [
-                                {
-                                    values : result.tw,
-                                    text: "Twitter",
-                                    backgroundColor: "#4CAF50",
-                                    lineColor: "#4CAF50",
-                                    marker:{
-                                    backgroundColor: "#4CAF50",
-                                    borderColor: "#4CAF50"
-                        
-                                    }
-                                },
-                                {
-                                    values : result.fb,
-                                    text: "Facebook",
-                                    backgroundColor: "#E53935",
-                                    lineColor: "#E53935",
-                                    marker:{
-                                    backgroundColor: "#E53935",
-                                    borderColor: "#E53935"
-                        
-                                    }
-                                },
-                                {
-                                    values : result.ig,
-                                    text: "Instagram",
-                                    backgroundColor: "#00BCD4",
-                                    lineColor: "#00BCD4",
-                                    marker:{
-                                    backgroundColor: "#00BCD4",
-                                    borderColor: "#00BCD4"
-                        
-                                    }
-                                }
-                            ]
-                        };
-                        
-                        zingchart.render({ 
-                            id : 'myChart', 
-                            data : myConfig 
-                        });
-                    },
-                    error:function(){
-
-                    }
-                })
-            }
-
             $(document).on("click","#tambahtarget",function(){
                 var el="";
 
                 $.ajax({
                     url:"{{URL::to('sosmed/data/target-sosmed-program')}}/"+id,
                     type:"GET",
+                    data:"type=program",
                     beforeSend:function(){
                         el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
                             '<div class="modal-dialog">'+
                                 '<form id="formTarget" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                             '<h5 class="modal-title" id="modal-title">Add New Target</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -460,8 +529,8 @@
                                 '<form id="formSetTarget" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                             '<h5 class="modal-title" id="modal-title">Set Target</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -559,8 +628,8 @@
                                 '<form id="formSetTarget" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
                                     '<div class="modal-content">'+
                                         '<div class="modal-header bg-primary">'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                             '<h5 class="modal-title" id="modal-title">Set Target</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
                                         '</div>'+
 
                                         '<div class="modal-body">'+
@@ -614,9 +683,559 @@
                 })
             })
 
+            function showOfficial(){
+                var periode=$("#periode").val();
+                var typeunit=$("#typeunit").val();
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/growth_program_by_id')}}/"+id,
+                    type:"GET",
+                    data:"type=program",
+                    beforeSend:function(){
+                        $("#chartOfficial").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        console.log(result);
+                        $("#chartOfficial").empty();
+                        var series=[];
+                        var tanggal=[];
+                        var facebook=[];
+                        var twitter=[];
+                        var instagram=[];
+                        var youtube=[];
+
+                        $.each(result.follower,function(a,b){
+                            if(b.sosmed_id==1){
+                                twitter.push(b.num_of_growth);
+                                tanggal.push(b.tanggal);
+                            }
+
+                            if(b.sosmed_id==2){
+                                facebook.push(b.num_of_growth);
+                            }
+
+                            if(b.sosmed_id==3){
+                                instagram.push(b.num_of_growth);
+                            }   
+
+                            if(b.sosmed_id==4){
+                                youtube.push(b.num_of_growth);
+                            }
+                        })
+
+                        series.push({
+                            "values":twitter,
+                            "text":"Twitter",
+                            "line-color":"#008ef6",
+                            "marker":{
+                                "background-color":"#008ef6",
+                                "border-color":"#008ef6"
+                            }
+                        });
+
+                        series.push({
+                            "values":facebook,
+                            "text":"Facebook",
+                            "line-color":"#5054ab",
+                            "marker":{
+                                "background-color":"#5054ab",
+                                "border-color":"#5054ab"
+                            }
+                        });
+
+                        series.push({
+                            "values":instagram,
+                            "text":"Instagram",
+                            "line-color":"#a200b2",
+                            "marker":{
+                                "background-color":"#a200b2",
+                                "border-color":"#a200b2"
+                            }
+                        });
+
+                        series.push({
+                            "values":youtube,
+                            "text":"Youtube",
+                            "line-color":"#222222",
+                            "marker":{
+                                "background-color":"#222222",
+                                "border-color":"#222222"
+                            }
+                        });
+
+                        zingchart.THEME="classic";
+                        var myConfig = {
+                            "background-color":"white",
+                            "type":"line",
+                            "legend":{
+                                "layout":"x1",
+                                "margin-top":"5%",
+                                "border-width":"0",
+                                "shadow":false,
+                                "marker":{
+                                    "cursor":"hand",
+                                    "border-width":"0"
+                                },
+                                "background-color":"white",
+                                "item":{
+                                    "cursor":"hand"
+                                },
+                                "toggle-action":"remove"
+                            },
+                            "scaleX":{
+                                "values":tanggal
+                            },
+                            "scaleY":{
+                                "line-color":"#333"
+                            },
+                            "tooltip":{
+                                "text":"%t: %v outbreaks in %k"
+                            },
+                            "plot":{
+                                "line-width":3,
+                                "marker":{
+                                    "size":2
+                                },
+                                "selection-mode":"multiple",
+                                "background-mode":"graph",
+                                "selected-state":{
+                                    "line-width":4
+                                },
+                                "background-state":{
+                                    "line-color":"#eee",
+                                    "marker":{
+                                        "background-color":"none"
+                                    }
+                                }
+                            },
+                            "plotarea":{
+                                "margin":"15% 25% 10% 7%"
+                            },
+                            "series":series
+                        };
+                        
+                        
+                        zingchart.render({ 
+                            id : 'chartOfficial', 
+                            data : myConfig, 
+                            height: '100%', 
+                            width: '100%' 
+                        });
+                    }
+                })
+            }
+            
+            function periode(){
+				var pilih=""
+				$.ajax({
+					url:"{{URL::to('sosmed/data/periode')}}",
+					type:"GET",
+                    beforeSend:function(){
+                        $("#divPeriode").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+					success:function(result){
+						console.log(result);
+
+						var p="<select name='periode' id='periode' class='form-control'>"+
+							"<option value='' selected='selected'>--Periode--</option>";
+							$.each(result,function(a,b){
+
+								p+="<option value='"+b.key+"'>"+b.value+"</option>";
+							})
+						p+="</select>";
+
+
+						$("#divPeriode").empty().html(p);
+                        $("#periode").val(bulan);
+					}
+				})
+            }
+            
+            $(document).on("click",'#filterOfficial',function(){
+                var periode=$("#periode").val();
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/growth_program_by_id')}}/"+id,
+                    type:"GET",
+                    data:"type=program&periode="+periode,
+                    beforeSend:function(){
+                        $("#chartOfficial").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        $("#chartOfficial").empty();
+                        var series=[];
+                        var tanggal=[];
+                        var facebook=[];
+                        var twitter=[];
+                        var instagram=[];
+                        var youtube=[];
+
+                        $.each(result.follower,function(a,b){
+                            if(b.sosmed_id==1){
+                                twitter.push(b.num_of_growth);
+                                tanggal.push(b.tanggal);
+                            }
+
+                            if(b.sosmed_id==2){
+                                facebook.push(b.num_of_growth);
+                            }
+
+                            if(b.sosmed_id==3){
+                                instagram.push(b.num_of_growth);
+                            }   
+
+                            if(b.sosmed_id==4){
+                                youtube.push(b.num_of_growth);
+                            }
+                        })
+
+                        series.push({
+                            "values":twitter,
+                            "text":"Twitter",
+                            "line-color":"#008ef6",
+                            "marker":{
+                                "background-color":"#008ef6",
+                                "border-color":"#008ef6"
+                            }
+                        });
+
+                        series.push({
+                            "values":facebook,
+                            "text":"Facebook",
+                            "line-color":"#5054ab",
+                            "marker":{
+                                "background-color":"#5054ab",
+                                "border-color":"#5054ab"
+                            }
+                        });
+
+                        series.push({
+                            "values":instagram,
+                            "text":"Instagram",
+                            "line-color":"#a200b2",
+                            "marker":{
+                                "background-color":"#a200b2",
+                                "border-color":"#a200b2"
+                            }
+                        });
+
+                        series.push({
+                            "values":youtube,
+                            "text":"Youtube",
+                            "line-color":"#222222",
+                            "marker":{
+                                "background-color":"#222222",
+                                "border-color":"#222222"
+                            }
+                        });
+
+                        zingchart.THEME="classic";
+                        var myConfig = {
+                            "background-color":"white",
+                            "type":"line",
+                            "legend":{
+                                "layout":"x1",
+                                "margin-top":"5%",
+                                "border-width":"0",
+                                "shadow":false,
+                                "marker":{
+                                    "cursor":"hand",
+                                    "border-width":"0"
+                                },
+                                "background-color":"white",
+                                "item":{
+                                    "cursor":"hand"
+                                },
+                                "toggle-action":"remove"
+                            },
+                            "scaleX":{
+                                "values":tanggal
+                            },
+                            "scaleY":{
+                                "line-color":"#333"
+                            },
+                            "tooltip":{
+                                "text":"%t: %v outbreaks in %k"
+                            },
+                            "plot":{
+                                "line-width":3,
+                                "marker":{
+                                    "size":2
+                                },
+                                "selection-mode":"multiple",
+                                "background-mode":"graph",
+                                "selected-state":{
+                                    "line-width":4
+                                },
+                                "background-state":{
+                                    "line-color":"#eee",
+                                    "marker":{
+                                        "background-color":"none"
+                                    }
+                                }
+                            },
+                            "plotarea":{
+                                "margin":"15% 25% 10% 7%"
+                            },
+                            "series":series
+                        };
+                        
+                        
+                        zingchart.render({ 
+                            id : 'chartOfficial', 
+                            data : myConfig, 
+                            height: '100%', 
+                            width: '100%' 
+                        });
+                    }
+                })
+            })
+
+            $(document).on("click","#tambahsosmed",function(){
+                var el="";
+                el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                    '<div class="modal-dialog">'+
+                        '<form id="formSosmed" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                            '<div class="modal-content">'+
+                                '<div class="modal-header bg-primary">'+
+                                    '<h5 class="modal-title" id="modal-title">Add New Social Media</h5>'+
+                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                '</div>'+
+
+                                '<div class="modal-body">'+
+                                    '<div id="pesan"></div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Social Media</label>'+
+                                        '<select name="sosmedid" id="sosmedid" class="form-control">'+
+                                            '<option disabled selected>--Pilih Socmed--</option>'+       
+                                            '<option value="1">Twitter</option>'+
+                                            '<option value="2">Facebook</option>'+
+                                            '<option value="3">Instagram</option>'+
+                                            '<option value="4">Youtube</option>'+
+                                        '</select>'+
+                                    '</div>'+
+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Account Name</label>'+
+                                        '<input class="form-control" name="name_sosmed" id="name_sosmed" placeholder="Account Name" required>'+
+                                    '</div>'+
+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Account ID</label>'+
+                                        '<input class="form-control" name="account_id" id="account_id" placeholder="Account ID" required>'+
+                                    '</div>'+
+                                '</div>'+
+
+                                '<div class="modal-footer">'+
+                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                    '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
+                                '</div>'+
+                            '</div>'+
+                        '</form>'+
+                    '</div>'+
+                '</div>';
+
+                $("#divModal").empty().html(el);
+                $("#modal_default").modal("show");
+            })
+
+            $(document).on("submit","#formSosmed",function(e){
+                var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
+                data.append("type","program");
+                data.append("program_unit",id);
+                if($("#formSosmed")[0].checkValidity()) {
+                    //updateAllMessageForms();
+                    e.preventDefault();
+                    $.ajax({
+                        url         : "{{URL::to('sosmed/data/unit-sosmed')}}",
+                        type        : 'post',
+                        data        : data,
+                        dataType    : 'JSON',
+                        contentType : false,
+                        cache       : false,
+                        processData : false,
+                        beforeSend  : function (){
+                            $('#pesan').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        },
+                        success : function (data) {
+                            $('#pesan').html('&nbsp;'+data.pesan);
+
+                            if(data.success==true){
+                                sosmed();
+                                liveSocmed();
+                                $("#modal_default").modal("hide");
+                            }else{
+                                $("#pesan").empty().html("<pre>"+data.error+"</pre>");
+                            }
+                        },
+                        error   :function() {  
+                            $('#pesan').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                        }
+                    });
+                }else console.log("invalid form");
+            })
+
+            $(document).on("click",".editsosmed",function(){
+                var el="";
+                kode=$(this).attr("kode");
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/unit-sosmed')}}/"+kode,
+                    type:"GET",
+                    data:"type=program",
+                    beforeSend:function(){
+                        el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                            '<div class="modal-dialog">'+
+                                '<form id="formSosmedUpdate" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                                    '<div class="modal-content">'+
+                                        '<div class="modal-header bg-primary">'+
+                                            '<h5 class="modal-title" id="modal-title">Add New Social Media</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                        '</div>'+
+
+                                        '<div class="modal-body">'+
+                                            '<div id="pesan"></div>'+
+                                            '<div id="showProgress"></div>'+
+                                        '</div>'+
+
+                                        '<div class="modal-footer">'+
+                                            '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                            '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</form>'+
+                            '</div>'+
+                        '</div>';
+
+                        $("#divModal").empty().html(el);
+                        $("#modal_default").modal("show");
+                        $("#showProgress").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        el+='<div class="form-group">'+
+                            '<label class="control-label text-semibold">Social Media</label>'+
+                            '<select name="sosmedid" id="sosmedid" class="form-control" readonly>'+
+                                '<option disabled selected>--Pilih Socmed--</option>'+       
+                                '<option value="1">Twitter</option>'+
+                                '<option value="2">Facebook</option>'+
+                                '<option value="3">Instagram</option>'+
+                                '<option value="4">Youtube</option>'+
+                            '</select>'+
+                        '</div>'+
+
+                        '<div class="form-group">'+
+                            '<label class="control-label text-semibold">Account Name</label>'+
+                            '<input class="form-control" value="'+result.unit_sosmed_name+'" name="name_sosmed" id="name_sosmed" placeholder="Account Name" required>'+
+                        '</div>'+
+
+                        '<div class="form-group">'+
+                            '<label class="control-label text-semibold">Account ID</label>'+
+                            '<input class="form-control" value="'+result.unit_sosmed_account_id+'" name="account_id" id="account_id" placeholder="Account ID" required>'+
+                        '</div>';
+
+
+                        $("#showProgress").empty().html(el);
+                        $("#sosmedid").val(result.sosmed_id);
+                    },
+                    errors:function(){
+
+                    }
+                })
+            })
+
+            $(document).on("submit","#formSosmedUpdate",function(e){
+                var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
+                data.append("type","program");
+                data.append("program_unit",id);
+                data.append("_method","PUT");
+                if($("#formSosmedUpdate")[0].checkValidity()) {
+                    //updateAllMessageForms();
+                    e.preventDefault();
+                    $.ajax({
+                        url         : "{{URL::to('sosmed/data/unit-sosmed')}}/"+kode,
+                        type        : 'post',
+                        data        : data,
+                        dataType    : 'JSON',
+                        contentType : false,
+                        cache       : false,
+                        processData : false,
+                        beforeSend  : function (){
+                            $('#pesan').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        },
+                        success : function (data) {
+                            $('#pesan').html('&nbsp;'+data.pesan);
+
+                            if(data.success==true){
+                                sosmed();
+                                liveSocmed();
+                                $("#modal_default").modal("hide");
+                            }else{
+                                $("#pesan").empty().html("<pre>"+data.error+"</pre>");
+                            }
+                        },
+                        error   :function() {  
+                            $('#pesan').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                        }
+                    });
+                }else console.log("invalid form");
+            })
+
+            $(document).on("click",".hapusosmed",function(){
+                kode=$(this).attr("kode");
+
+                swal({
+                    title: "Are you sure?",
+                    text: "You will delete data!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url:"{{URL::to('sosmed/data/unit-sosmed')}}/"+kode,
+                            type:"DELETE",
+                            data:"_token={{ csrf_token() }}",
+                            success:function(result){
+                                if(result.success=true){
+                                    swal("Deleted!", result.pesan, "success");
+                                    sosmed();
+                                    liveSocmed();
+                                }else{
+                                    swal("Error!", result.pesan, "error");
+                                }
+                            }
+                        })
+                    } else {
+                        swal("Your data is safe!");
+                    }
+                });
+            })
+
+            function liveSocmed(){
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/live-socmed-by-id')}}/"+id,
+                    type:"GET",
+                    data:"type=program",
+                    beforeSend:function(){
+                        $("#divLiveSocmed").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        $("#divLiveSocmed").empty().html(result);
+                    },
+                    errors:function(){
+
+                    }
+                })
+            }
+            
+            periode();
             sosmed();
-            target();
-            showChart();
+            showSosmed();
+            showOfficial();
+            liveSocmed();
         })
     </script>
-@endpush
+@stop

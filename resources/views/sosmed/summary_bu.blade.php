@@ -142,7 +142,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card card-default">
-                <div class="card-header">Summary Business Unit</div>
+                <div class="card-header">Summary Business Unit - {{$bu->unit_name}}</div>
                 <div class="card-body">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">

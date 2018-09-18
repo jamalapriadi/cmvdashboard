@@ -239,6 +239,24 @@
                     <div class="tab-pane fade" id="highlight-tab5" role="tabpanel" aria-labelledby="nav-contact-tab">
                         <form id="formRangking" onsubmit="return false">
                             <div class="row">
+
+                                <div class="col-lg-3">
+                                    <div class="form-group row">
+                                        <label class="control-label">Unit Type</label>
+                                        <div class="input-group mb3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-archive"></i></span>
+                                            </div>
+                                            <select name="typeunit" id="typeunit5" class="form-control" required>
+                                                <option value="TV">TV</option>
+                                                <option value="Publisher">Publisher</option>
+                                                <option value="Radio">Radio</option>
+                                                <option value="KOL">KOL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label class="control-label">Periode</label>
@@ -247,14 +265,10 @@
                                                 <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
                                             </div>
                                             <input type="text" name="tanggal" id="tanggal5" data-value="{{date('Y/m/d')}}" class="form-control daterange-single">
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" name="pilih" id="pilih2"> <small>check to compare data with another date?</small>
-                                            </label>
-                                        </div>  
+                                        </div> 
                                     </div>
                                 </div>
+
                                 <div id="anotherDate2"></div>
                                 <div class="col-lg-3">
                                     <button class='btn btn-primary' style="margin-top:25px;">
@@ -263,6 +277,11 @@
                                     </button>
                                 </div>
                             </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="pilih" id="pilih2"> <small>check to compare data with another date?</small>
+                                </label>
+                            </div> 
                         </form>
 
                         <div id="rangAllAccountGroup"></div>
@@ -361,7 +380,7 @@
                         max:true,
                     });
                 }else{
-                    $("#anotherDate").empty();
+                    $("#anotherDate2").empty();
                 }
             })
 
@@ -522,6 +541,7 @@
             /* ranking */
             function rangAllAccountGroup(){
                 var tanggal=$("#tanggal5").val();
+                var typeunit=$("#typeunit5").val();
 
                 if($("#pilih2").is(':checked')){
                     var pilih=$("#pilih2").val();
@@ -534,7 +554,7 @@
                 $.ajax({
                     url:"{{URL::to('sosmed/data/report/rank-of-official-account-all-group')}}",
                     type:"GET",
-                    data:"tanggal="+tanggal+"&pilih="+pilih+"&kemarin="+kemarin,
+                    data:"tanggal="+tanggal+"&pilih="+pilih+"&kemarin="+kemarin+"&typeunit="+typeunit,
                     beforeSend:function(){
                         $("#rangAllAccountGroup").empty().html("<div class='alert alert-info'>Please Wait . . .</div>");
                     },

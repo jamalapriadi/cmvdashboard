@@ -35,6 +35,7 @@ class Programunit extends Model
 					'business_program_unit',
 					'sosmed_id',
 					'unit_sosmed_name',
+					'status_active',
 					'target_use'
 				]
 			);

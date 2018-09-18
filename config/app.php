@@ -184,6 +184,7 @@ return [
         Thujohn\Twitter\TwitterServiceProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
         \App\Providers\InstagramServiceProvider::class,
+        Alaouy\Youtube\YoutubeServiceProvider::class,
 
     ],
 
@@ -239,7 +240,8 @@ return [
         'Datatables' => Yajra\DataTables\Facades\DataTables::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
-        'Instagram' => App\Facades\Instagram::class
+        'Instagram' => App\Facades\Instagram::class,
+        'Youtube' => Alaouy\Youtube\Facades\Youtube::class,
 
     ],
 

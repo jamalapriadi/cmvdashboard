@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <div id="fb-root"></div>
     
-                        {!! $row->unit_sosmed_account_id !!}
+                        {!! facebookFrame($row->unit_sosmed_account_id) !!}
                     </div>
                 </div>
             </div>
@@ -40,30 +40,47 @@
                 <div class="card card-accent-danger">
                     <div class="card-header">Youtube</div>
                     <div class="card-body">
-                        <iframe src="http://youtube.com/embed/?listType=user_uploads&list={{$row->unit_sosmed_account_id}}" width="100%" height="600px" frameborder="o"></iframe>
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <img src="{{$youtube->snippet->thumbnails->default->url}}" alt="" class="img-fluid">
+                            </div>
+                            <div class="col-lg-6">
+                                <a href="https://youtube.com/{{$youtube->snippet->customUrl}}" target="new target">
+                                    <h3>{{$youtube->snippet->title}}</h3>
+                                </a>
+                                <p class="text-muted">{{number_format($youtube->statistics->subscriberCount)}} subscriber</p>
+                            </div>
+                            <div class="col-lg-3">
+                                <a href="#" class="btn btn-youtube">SUBSCRIBE {{number_format($youtube->statistics->subscriberCount)}}</a></a>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h5>Statistik</h5>
+                                <p class="small">Bergabung pada : {{date('d F Y',strtotime($youtube->snippet->publishedAt))}}</p>
+                                <p>{{number_format($youtube->statistics->viewCount)}} x penayangan</p>
+                            </div>
+    
+                            <div class="col-lg-6">
+                                <h5>Detail</h5>
+                                <p class="text-muted">Lokasi : {{$youtube->snippet->country}}</p>
+                            </div>
+                        </div>
+    
+                        <hr>
+                        <div id="showYoutube">
+                            <div class="row">
+                                @foreach($activity as $row)
+                                    <div class="col-lg-6" style="margin-bottom:10px;">
+                                        {{youtubeUrl($row->contentDetails->upload->videoId)}}
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         @endif
     @endforeach
 </div>
-
-<!-- Ini untuk script Facebook API -->
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId            : '326236844797670',
-            autoLogAppEvents : true,
-            xfbml            : true,
-            version          : 'v3.1'
-        });
-    };
-
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>

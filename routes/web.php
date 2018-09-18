@@ -107,6 +107,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('list-group','Sosmed\GroupunitController@list_group');
         Route::resource('business-unit','Sosmed\BusinessunitController');
         Route::get('growth_unit_by_id/{id}','Sosmed\BusinessunitController@growth_unit');
+        Route::get('growth_program_by_id/{id}','Sosmed\ProgramunitController@growth_program');
         Route::get('list-unit','Sosmed\BusinessunitController@list_unit');
         Route::resource('program-unit','Sosmed\ProgramunitController');
         Route::resource('sosmed','Sosmed\SosmedController');

@@ -143,8 +143,30 @@ class HomeController extends Controller
 
     public function sosmed_summary_program($id){
         if(auth()->user()->can('Summary Program')){
+            $bu=\App\Models\Sosmed\Programunit::with(
+                [
+                    'sosmed',
+                    'sosmed.sosmed'
+                ]
+            )->find($id);
+
+            $channel=array();
+            $activities=array();
+            foreach($bu->sosmed as $row){
+                if($row->sosmed_id==4){
+                    $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+
+                    $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+
+                    return $row->unit_sosmed_account_id;
+                }
+            }
+
             return view('sosmed.summary_program')
-                ->with('id',$id);
+                ->with('bu',$bu)
+                ->with('id',$id)
+                ->with('youtube',$channel)
+                ->with('activity',$activities);
         }
 
         return abort('403');

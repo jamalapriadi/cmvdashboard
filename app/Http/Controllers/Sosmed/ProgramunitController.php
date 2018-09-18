@@ -1006,4 +1006,35 @@ class ProgramunitController extends Controller
             ->with('sosmed',$type)
             ->with('idsosmed',$sosmed);
     }
+
+    public function growth_program(Request $request,$id){
+        if($request->has('periode')){
+            $periode=$request->input('periode');
+        }else{
+            $periode=date('Y-m');
+        }
+
+        $follower=\DB::select("select a.id, a.program_name, b.sosmed_id,c.tanggal, 
+                @kemarin:=(
+                    select cc.follower from program_unit aa
+                    left join unit_sosmed bb on bb.business_program_unit=aa.id and bb.type_sosmed='program'
+                    left join unit_sosmed_follower cc on cc.unit_sosmed_id=bb.id
+                    where aa.id=a.id
+                    and cc.tanggal < c.tanggal
+                    and bb.sosmed_id=b.sosmed_id
+                    order by cc.tanggal desc
+                    limit 1
+                ) as kemarin,
+                c.follower,
+                ((c.follower / @kemarin) - 1)*100 as growth,
+                (c.follower - @kemarin) num_of_growth
+                from program_unit a
+                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
+                where a.id=$id
+                and date_format(c.tanggal,'%Y-%m')='$periode'
+                order by a.id");
+
+        return array('follower'=>$follower);
+    }
 }

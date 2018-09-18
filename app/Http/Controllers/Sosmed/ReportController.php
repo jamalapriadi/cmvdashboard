@@ -514,9 +514,10 @@ class ReportController extends Controller
             ((sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) / sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0)) - 1) * 100) as growth_ig,
             (sum(if(c.sosmed_id=3 and d.tanggal='$sekarang',d.follower,0)) - sum(if(c.sosmed_id=3 and d.tanggal='$kemarin',d.follower,0))) as num_of_growth_ig
             FROM group_unit a 
-            left join business_unit b on b.group_unit_id=a.id and b.type_unit='$typeunit'
+            left join business_unit b on b.group_unit_id=a.id
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
+            where b.type_unit='$typeunit'
             group by a.id");
 
         $rankOfOfficialAccountAllTvByFollowers=\DB::select("select b.id, b.unit_name,d.tanggal,
@@ -673,6 +674,7 @@ class ReportController extends Controller
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
             where a.id in (89, 101, 95, 87)
+            and weekday(c.tanggal) <= 6
             group by a.id
             with ROLLUP");
 

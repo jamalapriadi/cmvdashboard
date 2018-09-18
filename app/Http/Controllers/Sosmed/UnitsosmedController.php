@@ -46,8 +46,29 @@ class UnitsosmedController extends Controller
             $var->type_sosmed=$request->input('type');
             $var->business_program_unit=$request->input('program_unit');
             $var->unit_sosmed_name=$request->input('name_sosmed');
-            $var->unit_sosmed_account_id=$request->input('account_id');
             $var->sosmed_id=$request->input('sosmedid');
+
+            if($request->input('sosmedid')==4){
+                $params = [
+                    'q'             => $request->input('account_id'),
+                    'part'          => 'id, snippet',
+                    'maxResults'    => 1
+                ];
+                
+                // Make intial call. with second argument to reveal page info such as page tokens
+                $search = \Youtube::searchAdvanced($params);
+                
+                $youtube=array();
+                
+                foreach($search as $key=>$val){
+                    $youtube=$val->id->channelId;
+                }
+        
+                $var->unit_sosmed_account_id=$youtube;
+            }else{
+                $var->unit_sosmed_account_id=$request->input('account_id');
+            }
+            
             $var->status_active='Y';
 
             $simpan=$var->save();
@@ -107,8 +128,28 @@ class UnitsosmedController extends Controller
             $var=Unitsosmed::find($id);
             $var->type_sosmed=$request->input('type');
             $var->unit_sosmed_name=$request->input('name_sosmed');
-            $var->unit_sosmed_account_id=$request->input('account_id');
             $var->sosmed_id=$request->input('sosmedid');
+
+            if($request->input('sosmedid')==4){
+                $params = [
+                    'q'             => $request->input('account_id'),
+                    'part'          => 'id, snippet',
+                    'maxResults'    => 1
+                ];
+                
+                // Make intial call. with second argument to reveal page info such as page tokens
+                $search = \Youtube::searchAdvanced($params);
+                
+                $youtube=array();
+                
+                foreach($search as $key=>$val){
+                    $youtube=$val->id->channelId;
+                }
+        
+                $var->unit_sosmed_account_id=$youtube;
+            }else{
+                $var->unit_sosmed_account_id=$request->input('account_id');
+            }
 
             $simpan=$var->save();
 
@@ -159,8 +200,20 @@ class UnitsosmedController extends Controller
             ->where('type_sosmed',$request->input('type'))
             ->orderBy('sosmed_id')
             ->get();
+        
+        $channel=array();
+        $activities=array();
+        foreach($var as $row){
+            if($row->sosmed_id==4){
+                $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+
+                $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+            }
+        }
 
         return view('sosmed.view.live_socmed')
-            ->with('sosmed',$var);
+            ->with('sosmed',$var)
+            ->with('youtube',$channel)
+            ->with('activity',$activities);
     }
 }
