@@ -97,7 +97,7 @@
                             <option value="KOL">KOL</option>
                             <option value="Animation Production">Animation Production</option>
                             <option value="Production House">Production House</option>
-                            <option value="PAYTV,IPTV,OOT">PAYTV,IPTV,OOT</option>
+                            <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
                             <option value="Newspaper">Newspaper</option>
                             <option value="Magazine">Magazine</option>
                             <option value="SMN Channel">SMN Channel</option>
@@ -232,41 +232,6 @@
             </div>
         </div>
     </div>
-    
-    <div class="card card-primary">
-        <div class="card-header">SOCMED LIVE</div>
-        <div class="card-body">
-            <form action="#">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label for="" class="control-label">Unit</label>
-                            <select name="unit" id="unit" class="form-control">
-                                @foreach($user->unit as $row)
-                                    <option value="{{$row->id}}">{{$row->unit_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label for="" class="control-label">Account Type</label>
-                            <select name="accounttype" id="accounttype" class="form-control">
-                                <option value="official">Official</option>
-                                <option value="program">Program</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div id="accountprogram"></div>
-                    </div>
-                </div>
-            </form>
-
-            <div id="divLiveSocmed"></div>
-        </div>
-    </div>
 @stop
 
 @section('js')
@@ -341,55 +306,23 @@
                         var instagram4=[];
                         console.log(result);
                         $.each(result.chart,function(a,b){
-                            // if(b.tier==1){
-                                
-                            // }
-
-                            // if(b.tier==2){
-                            //     if(b.id!='tidak'){
-                            //         labels2.push(b.unit_name);
-
-                            //         facebook2.push(parseFloat(b.total_facebook));
-                            //         twitter2.push(parseFloat(b.total_twitter));
-                            //         instagram2.push(parseFloat(b.total_instagram));
-                            //     }
-                            // }
-
-                            // if(b.tier==3){
-                            //     labels3.push(b.unit_name);
-
-                            //     facebook3.push(parseFloat(b.total_facebook));
-                            //     twitter3.push(parseFloat(b.total_twitter));
-                            //     instagram3.push(parseFloat(b.total_instagram));
-                            // }
-
-                            // if(b.tier==4){
-                            //     labels4.push(b.unit_name);
-
-                            //     facebook4.push(parseFloat(b.total_facebook));
-                            //     twitter4.push(parseFloat(b.total_twitter));
-                            //     instagram4.push(parseFloat(b.total_instagram));
-                            // }
                             if(b.id!=null){
-                                if(b.id!='tidak'){
-                                    if(b.id!=4){
-                                        labels1.push(b.unit_name);
+                                if(b.id!=4){
+                                    labels1.push(b.unit_name);
+
+                                    facebook1.push(parseFloat(b.total_facebook));
+                                    twitter1.push(parseFloat(b.total_twitter));
+                                    instagram1.push(parseFloat(b.total_instagram));
+                                    youtube1.push(parseFloat(b.total_youtube));
+                                }else{
+                                    $.each(result.inews,function(a,b){
+                                        labels1.push("INEWS 4TV");
 
                                         facebook1.push(parseFloat(b.total_facebook));
                                         twitter1.push(parseFloat(b.total_twitter));
                                         instagram1.push(parseFloat(b.total_instagram));
                                         youtube1.push(parseFloat(b.total_youtube));
-                                    }else{
-                                        $.each(result.inews,function(c,d){
-                                            labels1.push("INEWS 4TV");
-
-                                            facebook1.push(parseFloat(d.total_facebook));
-                                            twitter1.push(parseFloat(d.total_twitter));
-                                            instagram1.push(parseFloat(d.total_instagram));
-                                            youtube1.push(parseFloat(d.total_youtube));
-                                        })
-                                    }
-                                    
+                                    })
                                 }
                             }
                         })
@@ -402,6 +335,7 @@
                                 "thousands-separator":",",
                                 "valueBox":{
                                     "text":"%total",
+                                    "color":"#222222",
                                     "rules": [
                                         {
                                             "rule": '%stack-top == 0',
@@ -427,12 +361,11 @@
                                 },
                                 "item": {
                                     "font-size": "9px",
-                                    "font-color": "#222222"
+                                    "font-color": "#f06261"
                                 }
                             },
                             "scale-y":{
                                 "line-color":"#333",
-                                "thousands-separator":",",
                                 "guide":{
                                     "line-style":"solid",
                                     "line-color":"#c4c4c4",
@@ -482,7 +415,7 @@
                                 {
                                     "values": youtube1,
                                     "text": "Youtube",
-                                    "background-color": "#222222"
+                                    "background-color": "#f06261"
                                 }
                             ]
                         };
@@ -684,6 +617,7 @@
                                 "thousands-separator":",",
                                 "valueBox":{
                                     "text":"%total",
+                                    "color":"#222222",
                                     "rules": [
                                         {
                                             "rule": '%stack-top == 0',
@@ -764,7 +698,7 @@
                                 {
                                     "values": youtube1,
                                     "text": "Youtube",
-                                    "background-color": "#222222"
+                                    "background-color": "#f06261"
                                 }
                             ]
                         };

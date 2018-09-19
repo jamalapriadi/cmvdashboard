@@ -15,6 +15,12 @@
                                 <option value="Publisher">Publisher</option>
                                 <option value="Radio">Radio</option>
                                 <option value="KOL">KOL</option>
+                                <option value="Animation Production">Animation Production</option>
+                                <option value="Production House">Production House</option>
+                                <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
+                                <option value="Newspaper">Newspaper</option>
+                                <option value="Magazine">Magazine</option>
+                                <option value="SMN Channel">SMN Channel</option>
                             </select>
                         </div>
                     </div>

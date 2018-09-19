@@ -150,23 +150,9 @@ class HomeController extends Controller
                 ]
             )->find($id);
 
-            $channel=array();
-            $activities=array();
-            foreach($bu->sosmed as $row){
-                if($row->sosmed_id==4){
-                    $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
-
-                    $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
-
-                    return $row->unit_sosmed_account_id;
-                }
-            }
-
             return view('sosmed.summary_program')
                 ->with('bu',$bu)
-                ->with('id',$id)
-                ->with('youtube',$channel)
-                ->with('activity',$activities);
+                ->with('id',$id);
         }
 
         return abort('403');
@@ -370,6 +356,21 @@ class HomeController extends Controller
         }
 
         return abort('403');
+    }
+
+    public function live_socmed(){
+        $user=\App\User::with(
+            [
+                'unit',
+                'unit.groupunit'
+            ]
+        )->find(auth()->user()->id);
+
+        $group=\App\Models\Sosmed\Groupunit::all();
+
+        return view('sosmed.live_socmed')
+            ->with('user',$user)
+            ->with('group',$group);
     }
 
     public function change_password(){

@@ -51,6 +51,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         /*dashboard */
         Route::get('dashboard-summary','HomeController@dashboard_summary');
         Route::get('dashboard-chart/{id}','HomeController@dashboard_chart');
+        Route::get('live-socmed','HomeController@live_socmed');
 
         Route::get('daily-report','HomeController@sosmed_daily_report');
         Route::get('ranking-soc-med','HomeController@sosmed_ranking_soc_med');

@@ -33,23 +33,22 @@ class BusinessunitController extends Controller
 
 
         return \Datatables::of($var)
-            
-            // ->addColumn('jumsosmed',function($q){
-            //     $jumsosmed=count($q->sosmed);
-            //     if(auth()->user()->can('Update Sosmed')){
-            //         if($jumsosmed>=4){
-            //             return "<label class='label label-danger editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
-            //         }else if($jumsosmed>=3){
-            //             return "<label class='label label-success editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
-            //         }else if($jumsosmed>=2){
-            //             return "<label class='label label-warning editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
-            //         }else{
-            //             return "<label class='label label-info editsosmed' kode='".$q->id."'>".count($q->sosmed)." Jumlah Sosmed</label>";
-            //         }
-            //     }else{
-            //         return "<label class='label label-default' disabled>".$jumsosmed." Jumlah Sosmed</label>";
-            //     }
-            // })
+            ->addColumn('jumsosmed',function($q){
+                $jumsosmed=count($q->sosmed);
+                if(auth()->user()->can('Update Sosmed')){
+                    if($jumsosmed>=4){
+                        return "<label class='label label-danger editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+                    }else if($jumsosmed>=3){
+                        return "<label class='label label-success editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+                    }else if($jumsosmed>=2){
+                        return "<label class='label label-warning editsosmed' kode='".$q->id."'>".count($q->sosmed)." Sosmed Account</label>";
+                    }else{
+                        return "<label class='label label-info editsosmed' kode='".$q->id."'>".count($q->sosmed)." Jumlah Sosmed</label>";
+                    }
+                }else{
+                    return "<label class='label label-default' disabled>".$jumsosmed." Jumlah Sosmed</label>";
+                }
+            })
             ->addColumn('action',function($query){
                 $html="<div class='btn-group'>";
 
@@ -69,6 +68,7 @@ class BusinessunitController extends Controller
 
                 return $html;
             })
+            ->rawColumns(['jumsosmed','action'])
             ->make(true);
     }
 

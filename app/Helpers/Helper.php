@@ -68,6 +68,18 @@ function youtube_follower($id){
     echo $res->getBody();
 }
 
+function facebook_follower($id){
+    $ch = curl_init('https://www.facebook.com/'.$id);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1');
+    $page = curl_exec($ch);
+    $ex   = preg_replace('#(.*)<div>(.*)orang menyukai ini<\/div\>(.*)#', '$1', $page);
+    $ex   = explode("people like this", $page);
+    $ex   = explode("<div>", $ex[0]);
+    $count = count($ex)-1;
+    echo $ex[$count];
+}
+
 function youtubeUrl($uri){
     $url = 'https://www.youtube.com/watch?v='.$uri;
     preg_match('/[\\?\\&]v=([^\\?\\&]+)/', $url, $matches);

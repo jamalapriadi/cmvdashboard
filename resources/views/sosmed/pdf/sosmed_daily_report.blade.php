@@ -103,9 +103,9 @@
         @elseif($typeunit=="Publisher")
             <h1 class="text-center">HARDNEWS PUBLISHER SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="KOL")
-            <h1 class="text-center">ARTIS SMN SOCMED & YOUTUBE REPORT</h1>
+            <h1 class="text-center">SMN ARTIST SOCMED & YOUTUBE REPORT</h1>
         @else
-
+            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @endif
     @else 
         @if($typeunit=="TV")
@@ -115,9 +115,9 @@
         @elseif($typeunit=="Publisher")
             <h1 class="text-center">HARDNEWS PUBLISHER SOCMED REPORT</h1>
         @elseif($typeunit=="KOL")
-            <h1 class="text-center">ARTIS SMN SOCMED REPORT</h1>
+            <h1 class="text-center">SMN ARTIST SOCMED REPORT</h1>
         @else
-
+            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @endif
     @endif
     
@@ -225,7 +225,7 @@
     @endif
 
     @if($typeunit=="TV" || $typeunit=="Publisher")
-        <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @elseif($typeunit=="KOL") ARTIS SMN @else {{strtoupper($typeunit)}} @endif</h3>
+        <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @elseif($typeunit=="KOL") SMN ARTIST @else {{strtoupper($typeunit)}} @endif</h3>
         <br>
         <table class="table table-striped table-bordered">
             <thead>
@@ -238,9 +238,9 @@
                         @elseif($typeunit=="Publisher")
                             Website
                         @elseif($typeunit=="KOL")
-                            Artist
+                            Artists
                         @else 
-
+                            {{$typeunit}}
                         @endif
                     </th>
                     @foreach($sosmed as $row)
@@ -683,7 +683,7 @@
         <div class="page-break"></div>      
     @endif
     
-    <h3 class="text-center">OVERALL ALL  @if($typeunit!="KOL") {{strtoupper($typeunit)}} @else ARTIS SMN @endif ( OFFICIAL & @if($typeunit=="Publisher") CANAL @else PROGRAM @endif )</h3>
+    <h3 class="text-center">OVERALL ALL  @if($typeunit!="KOL") {{strtoupper($typeunit)}} @else SMN ARTIST @endif ( OFFICIAL & @if($typeunit=="Publisher") CANAL @else PROGRAM @endif )</h3>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
@@ -696,9 +696,9 @@
                     @elseif($typeunit=="Publisher")
                         Website
                     @elseif($typeunit=="KOL")
-                        Artist
+                        Artists
                     @else 
-
+                        {{$typeunit}}
                     @endif
                 </th>
                 @foreach($sosmed as $row)
@@ -887,13 +887,19 @@
         @elseif($typeunit=="KOL")
             <h3 class="text-center">OFFICIAL & ARTIST MNC GROUP</h3>
         @else 
-
+            <h3 class="text-center">OFFICIAL & PROGRAM MNC GROUP</h3>
         @endif
     <br>
     <table class='table table-striped table-bordered'>
         <thead>
             <tr> 
-                <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">General Name</th>
+                <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">
+                    @if($typeunit!="KOL")
+                        General Name
+                    @else 
+                        Artist
+                    @endif
+                </th>
                 @foreach($sosmed as $row)
                     <th class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
                 @endforeach
@@ -953,7 +959,13 @@
     <table class='table table-striped table-bordered'>
         <thead>
             <tr> 
-                <th width="20%" style="background:#419F51;color:white" class="align-middle text-white">General Name</th>
+                <th width="20%" style="background:#419F51;color:white" class="align-middle text-white">
+                    @if($typeunit!="KOL")
+                        General Name
+                    @else 
+                        Artist
+                    @endif
+                </th>
                 @foreach($sosmed as $row)
                     <th class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}} Account Name</th>
                 @endforeach

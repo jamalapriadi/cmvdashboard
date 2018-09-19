@@ -11,6 +11,10 @@
       @endif
       <li class="nav-title">Dashboard</li>
       <li class="nav-item">
+        <a class="nav-link {{ Request::path() == 'sosmed/live-socmed' ? 'active' : '' }}" href="{{URL::to('sosmed/live-socmed')}}">
+          <i class="nav-icon icon-tv"></i> Live Socmed</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link {{ Request::path() == 'sosmed/dashboard-summary' ? 'active' : '' }}" href="{{URL::to('sosmed/dashboard-summary')}}">
           <i class="nav-icon icon-stats-growth"></i> Summary</a>
       </li>

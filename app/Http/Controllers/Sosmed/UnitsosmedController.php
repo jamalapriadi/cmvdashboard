@@ -143,7 +143,11 @@ class UnitsosmedController extends Controller
                 $youtube=array();
                 
                 foreach($search as $key=>$val){
-                    $youtube=$val->id->channelId;
+                    if(isset($val->id->channelId)){
+                        $youtube=$val->id->channelId;
+                    }else{
+                        $youtube=$val->snippet->channelId;
+                    }
                 }
         
                 $var->unit_sosmed_account_id=$youtube;

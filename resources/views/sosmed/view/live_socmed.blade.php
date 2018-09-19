@@ -45,7 +45,16 @@
                                 <img src="{{$youtube->snippet->thumbnails->default->url}}" alt="" class="img-fluid">
                             </div>
                             <div class="col-lg-6">
-                                <a href="https://youtube.com/{{$youtube->snippet->customUrl}}" target="new target">
+                                @if(isset($youtube->snippet->customUrl))
+                                    @php 
+                                        $url=$youtube->snippet->customUrl;
+                                    @endphp 
+                                @else 
+                                    @php 
+                                        $url="";
+                                    @endphp
+                                @endif
+                                <a href="https://youtube.com/{{$url}}" target="new target">
                                     <h3>{{$youtube->snippet->title}}</h3>
                                 </a>
                                 <p class="text-muted">{{number_format($youtube->statistics->subscriberCount)}} subscriber</p>
@@ -61,20 +70,26 @@
                                 <p class="small">Bergabung pada : {{date('d F Y',strtotime($youtube->snippet->publishedAt))}}</p>
                                 <p>{{number_format($youtube->statistics->viewCount)}} x penayangan</p>
                             </div>
-    
-                            <div class="col-lg-6">
-                                <h5>Detail</h5>
-                                <p class="text-muted">Lokasi : {{$youtube->snippet->country}}</p>
-                            </div>
+                            
+                            @if(isset($youtube->snippet->country))
+                                <div class="col-lg-6">
+                                    <h5>Detail</h5>
+                                    <p class="text-muted">Lokasi : {{$youtube->snippet->country}}</p>
+                                </div>
+                            @endif
                         </div>
     
                         <hr>
                         <div id="showYoutube">
                             <div class="row">
-                                @foreach($activity as $row)
-                                    <div class="col-lg-6" style="margin-bottom:10px;">
-                                        {{youtubeUrl($row->contentDetails->upload->videoId)}}
-                                    </div>
+                                @foreach($activity as $key=>$row)
+                                    @if($key<4)
+                                        <div class="col-lg-6" style="margin-bottom:10px;">
+                                            @if(isset($row->contentDetails->upload))
+                                                {{youtubeUrl($row->contentDetails->upload->videoId)}}
+                                            @endif
+                                        </div>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>

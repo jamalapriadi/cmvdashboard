@@ -2171,7 +2171,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='PAYTV,IPTV,OOT' and a.group_unit_id=1
+            where a.type_unit='PAYTV,IPTV,OTT' and a.group_unit_id=1
             group by a.group_unit_id,a.id
             with ROLLUP
             
@@ -2645,7 +2645,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='PAYTV,IPTV,OOT' and a.group_unit_id=1
+                where a.type_unit='PAYTV,IPTV,OTT' and a.group_unit_id=1
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -2664,7 +2664,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='PAYTV,IPTV,OOT' and a.group_unit_id=1
+                where a.type_unit='PAYTV,IPTV,OTT' and a.group_unit_id=1
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi

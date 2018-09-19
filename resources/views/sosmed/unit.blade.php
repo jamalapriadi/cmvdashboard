@@ -67,7 +67,7 @@
                                         <option value="KOL">KOL</option>
                                         <option value="Animation Production">Animation Production</option>
                                         <option value="Production House">Production House</option>
-                                        <option value="PAYTV,IPTV,OOT">PAYTV,IPTV,OOT</option>
+                                        <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
                                         <option value="Newspaper">Newspaper</option>
                                         <option value="Magazine">Magazine</option>
                                         <option value="SMN Channel">SMN Channel</option>
@@ -140,7 +140,7 @@
                         {data: 'unit_name', name: 'unit_name',title:'Unit Name',width:'20%',searchable:true},
                         {data: 'type_unit', name: 'type_unit',title:'Type Unit'},
                         {data: 'tier', name: 'tier',title:'Tier'},
-                        // {data: 'jumsosmed', name: 'jumsosmed',title:'Jumlah Sosmed',width:'20%'},
+                        {data: 'jumsosmed', name: 'jumsosmed',title:'Jumlah Sosmed',width:'15%'},
                         {data: 'action', name: 'action',title:'Action',searchable:false,width:'25%'}
                     ],
                     buttons: [
@@ -230,7 +230,7 @@
                                     "<option value=KOL'>KOL</option>"+
                                     '<option value="Animation Production">Animation Production</option>'+
                                     '<option value="Production House">Production House</option>'+
-                                    '<option value="PAYTV,IPTV,OOT">PAYTV,IPTV,OOT</option>'+
+                                    '<option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>'+
                                     '<option value="Newspaper">Newspaper</option>'+
                                     '<option value="Magazine">Magazine</option>'+
                                     '<option value="SMN Channel">SMN Channel</option>'+
@@ -364,7 +364,7 @@
                                     "<option value=KOL'>KOL</option>"+
                                     '<option value="Animation Production">Animation Production</option>'+
                                     '<option value="Production House">Production House</option>'+
-                                    '<option value="PAYTV,IPTV,OOT">PAYTV,IPTV,OOT</option>'+
+                                    '<option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>'+
                                     '<option value="Newspaper">Newspaper</option>'+
                                     '<option value="Magazine">Magazine</option>'+
                                     '<option value="SMN Channel">SMN Channel</option>'+
@@ -530,34 +530,12 @@
                         $("#showForm").empty().html(el);
                     },
                     success:function(result){
-                        el+='<fieldset>'+
-                                "<form onsubmit='return false'>"+
-                                    '<div class="row">'+
-                                        "<div class='col-lg-3'>"+
-                                            "<div class='form-group'>"+
-                                                '<label class="control-label">Social Media</label>'+
-                                                '<select name="sosmed" id="sosmed" class="form-control">'+
-                                                    '<option value="" disabled selected>--Pilih Social Media--</option>';
-                                                    $.each(result.sosmed,function(a,b){
-                                                        el+="<option value='"+b.id+"'>"+b.sosmed_name+"</option>";
-                                                    })
-                                                el+='</select>'+
-                                            "</div>"+
-                                        "</div>"+
-                                        "<div class='col-lg-3'>"+
-                                            "<label class='control-label'>Account Name</label>"+
-                                            "<input class='form-control'>"+
-                                        "</div>"+
-                                    '</div>'+
-                                "</form>"+
-                            "</fieldset>"+
-                            "<table class='table table-striped'>"+
+                        el+="<table class='table table-striped'>"+
                                 "<thead>"+
                                     "<tr>"+
                                         "<th rowspan='2'>Account</th>"+
                                         "<th rowspan='2'>Official Account</th>"+
                                         "<th rowspan='2'>Total Activity ( 1 Week )</th>"+
-                                        "<th rowspan='2'>Action</th>"+
                                     "</tr>"+
                                 "</thead>"+
                                 "<tbody>";
@@ -566,7 +544,6 @@
                                             "<td>"+b.sosmed.sosmed_name+"</td>"+
                                             "<td>"+b.unit_sosmed_name+"</td>"+
                                             "<td class='text-center'>"+b.followers.length+"</td>"+
-                                            "<td><a class='btn btn-sm btn-danger hapusosmed' sosmedid='"+b.id+"'><i class='icon-trash'></i></td>"+
                                         "</tr>";
                                     })
                                 el+="</tbody>"+

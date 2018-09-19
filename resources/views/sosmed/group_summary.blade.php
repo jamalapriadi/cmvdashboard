@@ -6,6 +6,31 @@
             height: 400px;
             width: 960px;
         }
+
+        .zingchart-tooltip {
+            padding: 7px 5px;
+            border-radius: 1px;
+            line-height: 20px;
+            background-color: #fff;
+            border: 1px solid #dcdcdc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            -webkit-font-smoothing: antialiased;
+        }
+        .zingchart-tooltip .scalex-value {
+            font-size: 14px !important;
+            font-weight: normal !important;
+            line-height: 24px;
+            color: #838383;
+        }
+        .zingchart-tooltip .scaley-value {
+            color: #4184f3;
+            font-size: 24px !important;
+            font-weight: normal !important;
+        }
+
+        .zc-ref {
+            display: none;
+        }
     </style>
 @stop
 
@@ -173,6 +198,7 @@
                                 "thousands-separator":",",
                                 "valueBox":{
                                     "text":"%total",
+                                    "color":"#222222",
                                     "rules": [
                                         {
                                             "rule": '%stack-top == 0',
@@ -198,7 +224,7 @@
                                 },
                                 "item": {
                                     "font-size": "9px",
-                                    "font-color": "#f06261"
+                                    "font-color": "#222222"
                                 }
                             },
                             "scale-y":{
@@ -256,6 +282,7 @@
                                 }
                             ]
                         };
+
 
                         chartConfig1.plot.animation = {
                             'method': 'LINEAR',

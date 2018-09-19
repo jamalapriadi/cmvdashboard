@@ -203,66 +203,7 @@
     </div>
 
     <div class="row">
-        @foreach($bu->sosmed as $row)
-            @if($row->sosmed_id==4)
-                <div class="col-lg-6">
-                    <div class="card card-default">
-                        <div class="card-header">Youtube</div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-2">
-                                    <img src="{{$youtube->snippet->thumbnails->default->url}}" alt="" class="img-fluid">
-                                </div>
-                                <div class="col-lg-6">
-                                    <a href="https://youtube.com/{{$youtube->snippet->customUrl}}" target="new target">
-                                        <h3>{{$youtube->snippet->title}}</h3>
-                                    </a>
-                                    <p class="text-muted">{{number_format($youtube->statistics->subscriberCount)}} subscriber</p>
-                                </div>
-                                <div class="col-lg-3">
-                                    <a href="#" class="btn btn-youtube">SUBSCRIBE {{number_format($youtube->statistics->subscriberCount)}}</a></a>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <h5>Statistik</h5>
-                                    <p class="small">Bergabung pada : {{date('Y-m-d',strtotime($youtube->snippet->publishedAt))}}</p>
-                                    <p>{{number_format($youtube->statistics->viewCount)}} x penayangan</p>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <h5>Detail</h5>
-                                    <p class="text-muted">Lokasi : {{$youtube->snippet->country}}</p>
-                                </div>
-                            </div>
-
-                            <hr>
-                            <div id="showYoutube">
-                                <div class="row">
-                                    @foreach($activity as $row)
-                                        <div class="col-lg-6" style="margin-bottom:10px;">
-                                            {{youtubeUrl($row->contentDetails->upload->videoId)}}
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @else
-                <div class="col-lg-6">
-                    <div class="card card-default">
-                        <div class="card card-accent-success">
-                            <div class="card-header" bg-info>Twitter</div>
-                            <div class="card-body">
-                                <a class="twitter-timeline" data-height="700" data-theme="light" data-link-color="#E81C4F" href="https://twitter.com/officialrcti?ref_src=twsrc%5Etfw">Tweets by officialrcti</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-        @endforeach
+        
     </div>
 
     <div id="divModal"></div>

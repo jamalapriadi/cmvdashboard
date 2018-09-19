@@ -62,7 +62,7 @@
         @elseif($typeunit=="KOL")
             <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @else
-
+            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @endif
     @else 
         @if($typeunit=="TV")
@@ -74,7 +74,7 @@
         @elseif($typeunit=="KOL")
             <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @else
-
+            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @endif
     @endif
 
@@ -139,7 +139,19 @@
     <table class='table table-striped'>
         <thead>
             <tr>
-                <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
+                <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">
+                    @if($typeunit=="TV")
+                        Channel
+                    @elseif($typeunit=="Radio")
+                        Station
+                    @elseif($typeunit=="Publisher")
+                        Website
+                    @elseif($typeunit=="KOL")
+                        Artists
+                    @else 
+                        {{$typeunit}}
+                    @endif
+                </th>
                 @foreach($sosmed as $row)
                     @if($row->id!=4)
                         <th colspan='3' class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
@@ -478,7 +490,19 @@
     <table class='table table-striped'>
         <thead>
             <tr>
-                <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
+                <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">
+                    @if($typeunit=="TV")
+                        Channel
+                    @elseif($typeunit=="Radio")
+                        Station
+                    @elseif($typeunit=="Publisher")
+                        Website
+                    @elseif($typeunit=="KOL")
+                        Artists
+                    @else 
+                        {{$typeunit}}
+                    @endif
+                </th>
                 @foreach($sosmed as $sos)
                     @if($sos->id!=4)
                         <th colspan='3' class='text-center' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
@@ -732,7 +756,19 @@
     <table class='table table-striped'>
         <thead>
             <tr>
-                <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
+                <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">
+                    @if($typeunit=="TV")
+                        Channel
+                    @elseif($typeunit=="Radio")
+                        Station
+                    @elseif($typeunit=="Publisher")
+                        Website
+                    @elseif($typeunit=="KOL")
+                        Artists
+                    @else 
+                        {{$typeunit}}
+                    @endif
+                </th>
                 @foreach($sosmed as $sos)
                     @if($sos->id!=4)
                         <th colspan='3' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
@@ -1152,7 +1188,19 @@
     <table class='table table-striped'>
         <thead>
             <tr>
-                <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
+                <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">
+                    @if($typeunit=="TV")
+                        Channel
+                    @elseif($typeunit=="Radio")
+                        Station
+                    @elseif($typeunit=="Publisher")
+                        Website
+                    @elseif($typeunit=="KOL")
+                        Artists
+                    @else 
+                        {{$typeunit}}
+                    @endif
+                </th>
                 @foreach($sosmed as $sos)
                     @if($sos->id!=4)
                         <th colspan='3' class='text-center' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
@@ -1331,7 +1379,19 @@
     <table class='table table-striped'>
         <thead>
             <tr>
-                <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
+                <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">
+                    @if($typeunit=="TV")
+                        Channel
+                    @elseif($typeunit=="Radio")
+                        Station
+                    @elseif($typeunit=="Publisher")
+                        Website
+                    @elseif($typeunit=="KOL")
+                        Artists
+                    @else 
+                        {{$typeunit}}
+                    @endif
+                </th>
                 @foreach($sosmed as $sos)
                     <th colspan='3' class='text-center' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
                 @endforeach
@@ -1509,7 +1569,19 @@
     <table class='table table-striped'>
         <thead>
             <tr>
-                <th width="18%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
+                <th width="18%" rowspan='2' style="background:#419F51;color:white" class="text-center">
+                    @if($typeunit=="TV")
+                        Channel
+                    @elseif($typeunit=="Radio")
+                        Station
+                    @elseif($typeunit=="Publisher")
+                        Website
+                    @elseif($typeunit=="KOL")
+                        Artists
+                    @else 
+                        {{$typeunit}}
+                    @endif
+                </th>
                 @foreach($sosmed as $sos)
                     <th colspan='3' class='text-center' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
                 @endforeach
@@ -1619,7 +1691,19 @@
     <table class='table table-striped'>
         <thead>
             <tr>
-                <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
+                <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">
+                    @if($typeunit=="TV")
+                        Channel
+                    @elseif($typeunit=="Radio")
+                        Station
+                    @elseif($typeunit=="Publisher")
+                        Website
+                    @elseif($typeunit=="KOL")
+                        Artists
+                    @else 
+                        {{$typeunit}}
+                    @endif
+                </th>
                 @foreach($sosmed as $sos)
                     <th colspan='3' class='text-center' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
                 @endforeach
@@ -1796,7 +1880,19 @@
     <table class='table table-striped'>
         <thead>
             <tr>
-                <th width="18%" rowspan='2' style="background:#419F51;color:white" class="text-center">Channel</th>
+                <th width="18%" rowspan='2' style="background:#419F51;color:white" class="text-center">
+                    @if($typeunit=="TV")
+                        Channel
+                    @elseif($typeunit=="Radio")
+                        Station
+                    @elseif($typeunit=="Publisher")
+                        Website
+                    @elseif($typeunit=="KOL")
+                        Artists
+                    @else 
+                        {{$typeunit}}
+                    @endif
+                </th>
                 @foreach($sosmed as $sos)
                     <th colspan='3' class='text-center' class='text-center' style='background:{{$sos->sosmed_color}};color:white'>{{$sos->sosmed_name}}</th>
                 @endforeach
