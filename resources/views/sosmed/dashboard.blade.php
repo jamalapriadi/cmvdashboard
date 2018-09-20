@@ -8,7 +8,7 @@
         }
 
         #zingchart-2 {
-            height: 400px;
+            height: 700px;
             width: 960px;
         }
 
