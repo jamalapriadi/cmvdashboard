@@ -360,8 +360,7 @@
                                     "visible": false
                                 },
                                 "item": {
-                                    "font-size": "9px",
-                                    "font-color": "#f06261"
+                                    "font-size": "9px"
                                 }
                             },
                             "scale-y":{

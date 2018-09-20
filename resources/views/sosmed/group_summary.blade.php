@@ -223,8 +223,7 @@
                                     "visible": false
                                 },
                                 "item": {
-                                    "font-size": "9px",
-                                    "font-color": "#222222"
+                                    "font-size": "9px"
                                 }
                             },
                             "scale-y":{

@@ -917,35 +917,69 @@
                 @else 
                     <?php $warna="";?>
                 @endif
-                
-                <tr style="{{$warna}}">
-                    <td>
-                        @if($b->urut=="total")
-                            Total
-                        @elseif($b->urut=="corporate")
-                            {{$b->unit_name}} Official
-                        @else
-                            {{$b->unit_sosmed_name}}
-                        @endif
-                    </td>
-                    @foreach($sosmed as $row)
-                        @if($row->id==1)
-                            <td>{{number_format($b->tw)}}</td>
-                        @endif
 
-                        @if($row->id==2)
-                            <td>{{number_format($b->fb)}}</td>
-                        @endif
+                @if($typeunit=="KOL")
+                    <!-- menghilangkan smn offcial -->
+                    @if($b->urut=="total" || $b->urut=="program")
+                        <tr style="{{$warna}}">
+                            <td>
+                                @if($b->urut=="total")
+                                    Total
+                                @elseif($b->urut=="corporate")
+                                    {{$b->unit_name}} Official
+                                @else
+                                    {{$b->unit_sosmed_name}}
+                                @endif
+                            </td>
+                            @foreach($sosmed as $row)
+                                @if($row->id==1)
+                                    <td>{{number_format($b->tw)}}</td>
+                                @endif
 
-                        @if($row->id==3)
-                            <td>{{number_format($b->ig)}}</td>
-                        @endif
+                                @if($row->id==2)
+                                    <td>{{number_format($b->fb)}}</td>
+                                @endif
 
-                        @if($row->id==4)
-                            <td>{{number_format($b->yt)}}</td>
-                        @endif
-                    @endforeach
-                </tr>
+                                @if($row->id==3)
+                                    <td>{{number_format($b->ig)}}</td>
+                                @endif
+
+                                @if($row->id==4)
+                                    <td>{{number_format($b->yt)}}</td>
+                                @endif
+                            @endforeach
+                        </tr>
+                    @endif
+                @else 
+                    <tr style="{{$warna}}">
+                        <td>
+                            @if($b->urut=="total")
+                                Total
+                            @elseif($b->urut=="corporate")
+                                {{$b->unit_name}} Official
+                            @else
+                                {{$b->unit_sosmed_name}}
+                            @endif
+                        </td>
+                        @foreach($sosmed as $row)
+                            @if($row->id==1)
+                                <td>{{number_format($b->tw)}}</td>
+                            @endif
+
+                            @if($row->id==2)
+                                <td>{{number_format($b->fb)}}</td>
+                            @endif
+
+                            @if($row->id==3)
+                                <td>{{number_format($b->ig)}}</td>
+                            @endif
+
+                            @if($row->id==4)
+                                <td>{{number_format($b->yt)}}</td>
+                            @endif
+                        @endforeach
+                    </tr>
+                @endif
             @endforeach
         </tbody>
     </table>
@@ -973,25 +1007,27 @@
         </thead>
         <tbody style="color:#222">';
             @foreach($attachment as $row)
-                <tr style="background:#f2eff2;color:#222;font-weight:700">
-                    <td>{{$row->unit_name}} Official</td>
-                    @if(count($row->sosmed)>0)
-                        @foreach($sosmed as $sa)
-                            <?php $h="-";?>
-                            @for($c=0;$c<count($row->sosmed);$c++)
-                                @if($row->sosmed[$c]->sosmed_id==$sa->id)
-                                    <?php $h=$row->sosmed[$c]->unit_sosmed_name;?>
-                                @endif
-                            @endfor
-                            <td>{{$h}}</td>
-                        @endforeach
-                    @else 
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                    @endif
-                </tr>
+                @if($typeunit!="KOL")
+                    <tr style="background:#f2eff2;color:#222;font-weight:700">
+                        <td>{{$row->unit_name}} Official</td>
+                        @if(count($row->sosmed)>0)
+                            @foreach($sosmed as $sa)
+                                <?php $h="-";?>
+                                @for($c=0;$c<count($row->sosmed);$c++)
+                                    @if($row->sosmed[$c]->sosmed_id==$sa->id)
+                                        <?php $h=$row->sosmed[$c]->unit_sosmed_name;?>
+                                    @endif
+                                @endfor
+                                <td>{{$h}}</td>
+                            @endforeach
+                        @else 
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        @endif
+                    </tr>
+                @endif
                 @foreach($row->program as $p)
                     <tr>
                         <td>{{$p->program_name}}</td>
