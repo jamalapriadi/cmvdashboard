@@ -1959,6 +1959,78 @@ class ReportController extends Controller
                     'program.sosmed'
                 ]
             )->where('type_unit',$typeunit)->get();
+
+        $data['inewsidprogram']=\DB::select("select a.id, a.business_unit_id, a.program_name, b.sosmed_id,
+                b.unit_sosmed_name, b.unit_sosmed_account_id, 
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as tw_sekarang,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_tw,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_tw,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=2, c.follower,0)) as fb_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as fb_sekarang,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0)) -1) * 100) as growth_fb,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0))) ) as num_of_growth_fb,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) as ig_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig_sekarang,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) -1) * 100) as growth_ig,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0))) ) as num_of_growth_ig,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0)) as yt_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as yt_sekarang,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) -1) * 100) as growth_yt,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0))) ) as num_of_growth_yt
+                from program_unit a
+                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
+                where c.tanggal BETWEEN '$kemarin' and '$sekarang'
+                and a.id=89");
+
+            $data['cnnprogram']=\DB::select("select a.id, a.business_unit_id, a.program_name, b.sosmed_id,
+                b.unit_sosmed_name, b.unit_sosmed_account_id, 
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as tw_sekarang,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_tw,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_tw,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=2, c.follower,0)) as fb_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as fb_sekarang,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0)) -1) * 100) as growth_fb,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0))) ) as num_of_growth_fb,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) as ig_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as ig_sekarang,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) -1) * 100) as growth_ig,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0))) ) as num_of_growth_ig,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0)) as yt_kemarin,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as yt_sekarang,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) -1) * 100) as growth_yt,
+                ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0))) ) as num_of_growth_yt
+                from program_unit a
+                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
+                where c.tanggal BETWEEN '$kemarin' and '$sekarang'
+                and a.id=108");
+
+            $data['metrofficial']=\DB::select("select a.id, a.unit_name, b.sosmed_id,
+                b.unit_sosmed_name, b.unit_sosmed_account_id, 
+                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
+                sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as tw_sekarang,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_tw,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_tw,
+                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as fb_kemarin,
+                sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as fb_sekarang,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_fb,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_fb,
+                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as ig_kemarin,
+                sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as ig_sekarang,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_ig,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_ig,
+                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as yt_kemarin,
+                sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as yt_sekarang,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_yt,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_yt
+                from business_unit a
+                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
+                where c.tanggal BETWEEN '2018-09-18' and '2018-09-19'
+                and a.id=11");
         
         $data['sosmed']=\App\Models\Sosmed\Sosmed::whereIn('id',$listsosmed)->get();
 
@@ -1985,7 +2057,7 @@ class ReportController extends Controller
             where a.id in (89, 101, 95, 87)
             group by a.id
             with ROLLUP");
-
+        
         $pdf = \PDF::loadView('sosmed.pdf.sosmed_daily_report', $data)
             ->setPaper('a4', 'landscape')->setWarnings(false);
 
