@@ -376,27 +376,29 @@
                                     el+="</ul>"+
                                 "</li>";
                             }
-
-                            if(s==4){
-                                el+="<li>*Youtube*"+
-                                    "<ul style='list-style-type:none'>";
-                                    for(a=0;a<result.length;a++){
-                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
-                                            el+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                            
+                            if(typeunit!="Publisher" || typeunit!="Radio"){
+                                if(s==4){
+                                    el+="<li>*Youtube*"+
+                                        "<ul style='list-style-type:none'>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
+                                                el+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
                                         }
-                                    }
-                                    for(a=0;a<result.length;a++){
-                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
-                                            el+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
+                                                el+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
                                         }
-                                    }
-                                    for(a=0;a<result.length;a++){
-                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
-                                            el+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
+                                                el+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
                                         }
-                                    }
-                                    el+="</ul>"+
-                                "</li>";
+                                        el+="</ul>"+
+                                    "</li>";
+                                }
                             }
                         })
                         el+="</ul>";
@@ -496,27 +498,29 @@
                                     el+="</ul>"+
                                 "</li>";
                             }
-
-                            if(s==4){
-                                el+="<li>*Youtube*"+
-                                    "<ul style='list-style-type:none'>";
-                                    for(a=0;a<result.length;a++){
-                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
-                                            el+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                            
+                            if(typeunit!="Publisher" || typeunit!="Radio"){
+                                if(s==4){
+                                    el+="<li>*Youtube*"+
+                                        "<ul style='list-style-type:none'>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
+                                                el+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
                                         }
-                                    }
-                                    for(a=0;a<result.length;a++){
-                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
-                                            el+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
+                                                el+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
                                         }
-                                    }
-                                    for(a=0;a<result.length;a++){
-                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
-                                            el+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
+                                                el+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
                                         }
-                                    }
-                                    el+="</ul>"+
-                                "</li>";
+                                        el+="</ul>"+
+                                    "</li>";
+                                }
                             }
                         })
                             
@@ -551,6 +555,7 @@
                     success:function(result){
                         var el="";
                         el+="<ul style='list-style-type:none'>";
+                        var ep="<ul style='list-style-type:none'>";
                         $.each(sosmed,function(p,s){
                             if(s==1){
                                 el+="<li>*Twitter*"+
@@ -617,7 +622,7 @@
                                     el+="</ul>"+
                                 "</li>";
                             }
-
+                            
                             if(s==4){
                                 el+="<li>*Youtube*"+
                                     "<ul style='list-style-type:none'>";
@@ -638,10 +643,31 @@
                                     }
                                     el+="</ul>"+
                                 "</li>";
+
+                                ep+="<li>*Youtube*"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
+                                            ep+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
+                                            ep+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
+                                            ep+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    ep+="</ul>"+
+                                "</li>";
                             }
                         })
                         el+="</ul>";
                         $("#groupOverallAccount").empty().html(el);
+                        $("#overallAccountYoutube").empty().html(ep);
                     },
                     error:function(){
                         $("#groupOverallAccount").empty().html("<div class='alert alert-danger'>Data failed to load</div>");
@@ -737,27 +763,29 @@
                                     el+="</ul>"+
                                 "</li>";
                             }
-
-                            if(s==4){
-                                el+="<li>*Youtube*"+
-                                    "<ul style='list-style-type:none'>";
-                                    for(a=0;a<result.length;a++){
-                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
-                                            el+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                            
+                            if(typeunit!="Publisher" || typeunit!="Radio"){
+                                if(s==4){
+                                    el+="<li>*Youtube*"+
+                                        "<ul style='list-style-type:none'>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
+                                                el+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
                                         }
-                                    }
-                                    for(a=0;a<result.length;a++){
-                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
-                                            el+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
+                                                el+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
                                         }
-                                    }
-                                    for(a=0;a<result.length;a++){
-                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
-                                            el+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
+                                                el+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
                                         }
-                                    }
-                                    el+="</ul>"+
-                                "</li>";
+                                        el+="</ul>"+
+                                    "</li>";
+                                }
                             }
                         })
                             
@@ -828,17 +856,19 @@
                                     el+="</ul>"+
                                 "</li>";
                             }
-
-                            if(s==4){
-                                el+="<li>*Youtube*"+
-                                    "<ul style='list-style-type:none'>";
-                                    for(a=0;a<result.length;a++){
-                                        if(result[a].follower.yt==4 && result[a].follower.acv_yt < 50){
-                                            el+="<li>1. "+result[a].unit_name+" "+result[a].follower.acv_yt+" %</li>";
+                            
+                            if(typeunit!="Publisher" || typeunit!="Radio"){
+                                if(s==4){
+                                    el+="<li>*Youtube*"+
+                                        "<ul style='list-style-type:none'>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.acv_yt < 50){
+                                                el+="<li>1. "+result[a].unit_name+" "+result[a].follower.acv_yt+" %</li>";
+                                            }
                                         }
-                                    }
-                                    el+="</ul>"+
-                                "</li>";
+                                        el+="</ul>"+
+                                    "</li>";
+                                }
                             }
                         })
                         el+="</ul>";
@@ -1167,6 +1197,28 @@
                             '<br>'+
                         '</li>';
                     }
+
+                    if(typeunit=="TV" || typeunit=="Publisher" || typeunit=="Radio"){
+                        var label6="";
+                        var label7="";
+                        if(typeunit=="TV"){
+                            label6="*6. Overall* Accounts *Youtube All TV* by *Total Followers*";
+                            label7="*7. Group Overall* Accounts ( Official + Program ) *Youtube* by *Total Followers*";
+                        }else if(typeunit=="Publisher"){
+                            label6="*5. Group Overall* Accounts ( Official + Canal ) *Youtube* by *Total Followers*";
+                            label7="*6. Our Publisher's Youtube Overall Accounts* Followers";
+                        }else if(typeunit=="Radio"){
+                            label6="*6. Our Radio's Youtube Overall Accounts* Followers";
+                        }else{
+
+                        }
+
+                        el+="<li>"+label6+"<div id='groupOverallYoutube'></div><br><li>";
+                        
+                        if(typeunit!="Radio"){
+                            el+="<li>"+label7+"<div id='overallAccountYoutube'></div><br></li>";
+                        }
+                    }
                     
                 el+='</ul>';
 
@@ -1175,12 +1227,68 @@
                 groupOfficialAccountByTotalFollowers();
                 groupOverallAccount();
                 programAccountAllTv();
+                groupOverallYoutube();
                 
                 if(typeunit=="TV"){
                     // tvAchievementbelow50();
                     tvAchievementabove50();
                 }
             })
+
+            function groupOverallYoutube(){
+                var tanggal=$("#tanggal").val();
+                var typeunit=$("#typeunit").val();
+                
+                if($("#pilih").is(':checked')){
+                    var pilih=$("#pilih").val();
+                    var k=$("#kemarin").val();
+                }else{
+                    var pilih="";
+                    var k="";
+                }
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/report/highlight-unit-overall-account')}}",
+                    type:"GET",
+                    data:"tanggal="+tanggal+"&kemarin="+k+"&pilih="+pilih+"&typeunit="+typeunit,
+                    beforeSend:function(){
+                        $("#groupOverallYoutube").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                    },
+                    success:function(result){
+                        var el="";
+                        el+="<ul style='list-style-type:none'>";
+                        $.each(sosmed,function(p,s){
+                            if(s==4){
+                                el+="<li>*Youtube*"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
+                                            el+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
+                                            el+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
+                                            el+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    el+="</ul>"+
+                                "</li>";
+                            }
+                        })
+                        el+="</ul>";
+
+                        $("#groupOverallYoutube").empty().html(el);
+                    },
+                    errors:function(){
+                        
+                    }
+                })
+            }
 
             showAllGrowthProgram();
             

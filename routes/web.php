@@ -166,6 +166,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
             Route::get('highlight-group-official-account-by-total-followers','Sosmed\ReportController@highlight_group_official_account_by_total_followers');
             Route::get('highlight-group-overall-account','Sosmed\ReportController@highlight_group_overall_account');
             Route::get('highlight-program-account-all-tv','Sosmed\ReportController@higlight_program_account_all_tv');
+            Route::get('highlight-unit-overall-account','Sosmed\ReportController@highlight_unit_overall_account');
             Route::get('highlight-target-achivement','Sosmed\ReportController@highlight_target_achivement');
             Route::get('all-program-growth','Sosmed\ReportController@all_program_growth');
             Route::post('sosmed-highlight','Sosmed\ReportController@sosmed_highlight');
