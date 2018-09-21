@@ -65,7 +65,7 @@
                             @if($idsosmed==1)
                                 <input type="number" class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" value="{{twitter_follower($row->unit_sosmed_name)}}" required>
                             @elseif($idsosmed==2)
-                                <input type="number" class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" required>
+                                <input type="number" class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" value="{{facebook_follower($row->unit_sosmed_account_id)}}" required>
                             @elseif($idsosmed==3)
                                 <input type="number" class="form-control follower" name="sosmed[{{$row->idsosmed}}]" placeholder="{{$row->unit_sosmed_name}}" value="{{instagram_follower($row->unit_sosmed_name)}}" required>
                             @elseif($idsosmed==4)
