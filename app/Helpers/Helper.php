@@ -52,13 +52,23 @@ function pipeline($number){
 function instagram_follower($id){
     $raw = file_get_contents('https://www.instagram.com/'.$id); //replace with user
     preg_match('/\"edge_followed_by\"\:\s?\{\"count\"\:\s?([0-9]+)/',$raw,$m);
-    echo intval($m[1]);
+
+    if($m[1]){
+        echo intval($m[1]);
+    }else{
+        echo 0;
+    }
 }
 
 function twitter_follower($id){
     $html=file_get_contents("https://twitter.com/".$id);
     preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
-    echo $title = $match[1];
+
+    if(isset($match[1])){
+        echo $title = $match[1];
+    }else{
+        echo 0;
+    }
 }
 
 function youtube_follower($id){
