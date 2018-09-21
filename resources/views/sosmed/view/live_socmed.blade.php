@@ -29,7 +29,7 @@
                 <div class="card card-accent-warning">
                     <div class="card-header">Instagram</div>
                     <div class="card-body">
-                        {!! $row->unit_sosmed_account_id !!}
+                        {!! instagramFrame($row->unit_sosmed_account_id) !!}
                     </div>
                 </div>
             </div>

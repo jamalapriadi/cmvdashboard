@@ -29,19 +29,6 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        // $sekarang=date('Y-m-d');
-        // $kemarin = date('Y-m-d', strtotime('-1 day', strtotime($sekarang)));
-        // $fbAppId="330369550842883";
-        // $fbSecretKey="ec82b95bd572837b38b2f1525e04970f";
-        // $fbPageName="aqilajayaservice";
-
-        // $data = fb_feed()->setAppId($fbAppId)
-        // ->setSecretKey($fbSecretKey)
-        // ->setPage($fbPageName)
-        // ->fetch();
-
-        // return $data;
-
         $user=\App\User::with(
             [
                 'unit',
