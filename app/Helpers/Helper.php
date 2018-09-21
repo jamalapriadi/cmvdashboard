@@ -84,9 +84,16 @@ function facebook_follower($id){
     curl_setopt_array( $ch, $options );    // Set Opsi
     $page = curl_exec( $ch );           // Eksekusi Curl
     preg_match("'<img class=\"_3-91 _1579 img\" src=\"https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/dsGlZIZMa30.png\" alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) orang mengikuti ini</div></div>'", $page, $match);
+    preg_match("'<img class=\"_3-91 _1579 img\" src=\"https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/dsGlZIZMa30.png\" alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) people like this</div></div>'", $page, $match2);
 
     //print_r($match);
-    print_r(str_replace('.', '', $match[1]));
+    if(isset($match[1])){
+        print_r(str_replace('.', '', $match[1]));
+    }elseif(isset($match2[1])){
+        print_r(str_replace('.', '', $match2[1]));
+    }else{
+        echo 0;
+    }
 
 }
 
