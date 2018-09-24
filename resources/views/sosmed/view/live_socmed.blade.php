@@ -82,15 +82,17 @@
                         <hr>
                         <div id="showYoutube">
                             <div class="row">
-                                @foreach($activity as $key=>$row)
-                                    @if($key<4)
-                                        <div class="col-lg-6" style="margin-bottom:10px;">
-                                            @if(isset($row->contentDetails->upload))
-                                                {{youtubeUrl($row->contentDetails->upload->videoId)}}
-                                            @endif
-                                        </div>
-                                    @endif
-                                @endforeach
+                                @if(!isset($activity))
+                                    @foreach($activity as $key=>$row)
+                                        @if($key<4)
+                                            <div class="col-lg-6" style="margin-bottom:10px;">
+                                                @if(isset($row->contentDetails->upload))
+                                                    {{youtubeUrl($row->contentDetails->upload->videoId)}}
+                                                @endif
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -72,6 +72,10 @@
     <script src="{{asset('js/pickadate/lib/picker.time.js')}}"></script>
     <script src="{{asset('js/pickadate/lib/legacy.js')}}"></script>
 
+    <!-- pnotify -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/3.2.1/pnotify.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pnotify/3.2.1/pnotify.js"></script>
+
     @yield('js')
 </body>
 </html>

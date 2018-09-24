@@ -4984,13 +4984,14 @@ class ReportController extends Controller
         switch($filter){
             case "all":
                     /**
-                     * chart all, gabungan official dan program
-                     */
+                        * chart all, gabungan official dan program
+                        */
                     $chart=\DB::select("select total.id,total.unit_name,total.group_unit_id,
                         sum(total.twitter) as total_twitter,
                         sum(total.facebook) as total_facebook,
                         sum(total.instagram) as total_instagram,
-                        sum(total.youtube) as total_youtube
+                        sum(total.youtube) as total_youtube,
+                        (sum(total.twitter) + sum(total.facebook) + sum(total.instagram) + sum(total.youtube)) as total_all
                         from 
                         (
                             select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
@@ -5020,9 +5021,13 @@ class ReportController extends Controller
                         ) as total
                         group by total.id
                         order by total.group_unit_id,total.id desc");
-
+        
+                        // usort($chart, function($a, $b) {
+                        //     return $b->group_unit_id <=> $a->group_unit_id;
+                        // });
+        
                         usort($chart, function($a, $b) {
-                            return $b->group_unit_id <=> $a->group_unit_id;
+                            return $a->total_all <=> $b->total_all;
                         });
                 break;
             case "official":
@@ -5031,7 +5036,10 @@ class ReportController extends Controller
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) total_youtube
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) total_youtube,
+                        ( sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) + sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) 
+                        + sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))) as total_all
                         from business_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -5039,9 +5047,13 @@ class ReportController extends Controller
                         group by a.id
                         WITH ROLLUP) AS total
                         order by total.group_unit_id, total.id desc");
-
+        
+                    // usort($chart, function($a, $b) {
+                    //     return $b->group_unit_id <=> $a->group_unit_id;
+                    // });
+        
                     usort($chart, function($a, $b) {
-                        return $b->group_unit_id <=> $a->group_unit_id;
+                        return $a->total_all <=> $b->total_all;
                     });
                 break;
             case "program":
@@ -5049,7 +5061,10 @@ class ReportController extends Controller
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) total_youtube
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) total_youtube,
+                        ( sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) + sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) 
+                        + sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))) as total_all
                         from program_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -5058,9 +5073,13 @@ class ReportController extends Controller
                         group by a.business_unit_id
                         WITH ROLLUP) as total
                         order by total.group_unit_id,total.business_unit_id desc");
-
+        
+                    // usort($chart, function($a, $b) {
+                    //     return $b->group_unit_id <=> $a->group_unit_id;
+                    // });
+        
                     usort($chart, function($a, $b) {
-                        return $b->group_unit_id <=> $a->group_unit_id;
+                        return $a->total_all <=> $b->total_all;
                     });
                 break;
         }

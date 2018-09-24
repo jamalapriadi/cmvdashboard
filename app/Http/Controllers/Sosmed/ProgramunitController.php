@@ -148,9 +148,9 @@ class ProgramunitController extends Controller
     public function update(Request $request,$id){
         $rules=[
             'unit'=>'required|max:30',
-            'name'=>'required|max:30',
-            'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60'
+            'name'=>'required|max:30'
+            // 'sosmed'=>'required|array|min:3',
+            // 'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);

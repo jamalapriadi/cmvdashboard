@@ -226,22 +226,22 @@
                         success	: function (result) {
                             if(result.success==true){
                                 $('#pesan').html('&nbsp;'+result.pesan);
-                                new PNotify({
-                                    title: 'Info notice',
-                                    text: result.pesan,
-                                    addclass: 'alert-styled-left',
-                                    type: 'info'
-                                });
+                                // new PNotify({
+                                //     title: 'Info notice',
+                                //     text: result.pesan,
+                                //     addclass: 'alert-styled-left',
+                                //     type: 'info'
+                                // });
                                 $("#modal_default").modal("hide");
                                 showData();
                             }else{
                                 $('#pesan').empty().html("<pre>"+result.error+"</pre><br>");
-                                new PNotify({
-                                    title: 'Info notice',
-                                    text: result.pesan,
-                                    addclass: 'alert-styled-left',
-                                    type: 'error'
-                                });
+                                // new PNotify({
+                                //     title: 'Info notice',
+                                //     text: result.pesan,
+                                //     addclass: 'alert-styled-left',
+                                //     type: 'error'
+                                // });
                             }
                         },
                         error	:function() {  

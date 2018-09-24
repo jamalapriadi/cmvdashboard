@@ -365,6 +365,7 @@
                             },
                             "scale-y":{
                                 "line-color":"#333",
+                                "thousands-separator":",",
                                 "guide":{
                                     "line-style":"solid",
                                     "line-color":"#c4c4c4",
@@ -451,7 +452,7 @@
                                 '<tbody>';
                                     var no=0;
                                     result.chart.sort(function(a, b) {
-                                        return a['group_unit_id'] - b['group_unit_id'];
+                                        return b['total_all'] - a['total_all'];
                                     });
                                     $.each(result.chart,function(a,b){
                                         if(b.id!=null){
@@ -736,11 +737,13 @@
 
                                     if(filter=="program"){
                                         result.chart.sort(function(a, b) {
-                                            return b['businesss_unit_id'] - a['businesss_unit_id'];
+                                            // return b['businesss_unit_id'] - a['businesss_unit_id'];
+                                            return b['total_all'] - a['total_all'];
                                         });
                                     }else{
                                         result.chart.sort(function(a, b) {
-                                            return a['id'] - b['id'];
+                                            // return a['id'] - b['id'];
+                                            return b['total_all'] - a['total_all'];
                                         });
                                     }
 

@@ -415,12 +415,12 @@
                                 $("#showKonfirmasi").show();
                                 /* end tampilkan data konfirmasi */
                             }else{
-                                new PNotify({
-                                    title: 'Error!',
-                                    text: data.pesan,
-                                    addclass: 'alert-styled-right',
-                                    type: 'error'
-                                });
+                                // new PNotify({
+                                //     title: 'Error!',
+                                //     text: data.pesan,
+                                //     addclass: 'alert-styled-right',
+                                //     type: 'error'
+                                // });
 
                                 $("#pesan").empty().html("<div class='alert alert-danger'>"+data.pesan+"</div>");
                             }
@@ -457,12 +457,12 @@
                                 showForm();
                                 $('#pesansukses').empty().html('<div class="alert alert-success">&nbsp;'+data.pesan+"</div>");
                             }else{
-                                new PNotify({
-                                    title: 'Error!',
-                                    text: data.pesan,
-                                    addclass: 'alert-styled-right',
-                                    type: 'error'
-                                });
+                                // new PNotify({
+                                //     title: 'Error!',
+                                //     text: data.pesan,
+                                //     addclass: 'alert-styled-right',
+                                //     type: 'error'
+                                // });
 
                                 $("#pesansukses").empty().html("<div class='alert alert-danger'>"+data.pesan+"</div>");
                             }
@@ -591,22 +591,22 @@
                         success	: function (result) {
                             if(result.success==true){
                                 $('#pesan').html('&nbsp;'+result.pesan);
-                                new PNotify({
-                                    title: 'Info notice',
-                                    text: result.pesan,
-                                    addclass: 'alert-styled-left',
-                                    type: 'info'
-                                });
+                                // new PNotify({
+                                //     title: 'Info notice',
+                                //     text: result.pesan,
+                                //     addclass: 'alert-styled-left',
+                                //     type: 'info'
+                                // });
                                 $("#modal_default").modal("hide");
                                 showData();
                             }else{
                                 $('#pesan').empty().html("<pre>"+result.error+"</pre><br>");
-                                new PNotify({
-                                    title: 'Info notice',
-                                    text: result.pesan,
-                                    addclass: 'alert-styled-left',
-                                    type: 'error'
-                                });
+                                // new PNotify({
+                                //     title: 'Info notice',
+                                //     text: result.pesan,
+                                //     addclass: 'alert-styled-left',
+                                //     type: 'error'
+                                // });
                             }
                         },
                         error	:function() {  

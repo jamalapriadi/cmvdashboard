@@ -53,7 +53,7 @@
         }
 
         .zingchart-tooltip {
-            padding: 7px 5px;
+                padding: 7px 5px;
             border-radius: 1px;
             line-height: 20px;
             background-color: #fff;
@@ -80,65 +80,6 @@
 @stop
 
 @section('content')
-    <!-- <div class="row">
-        @foreach($bu->sosmed as $row)
-            @if($row->sosmed_id==1)
-                <div class="col-sm-6 col-lg-3">
-                    <div class="brand-card">
-                        <div class="brand-card-header bg-facebook">
-                            <i class="fa fa-facebook"></i>
-                            <div class="chart-wrapper">
-                                <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-                                    <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                        <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
-                                    </div>
-                                    <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                        <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
-                                    </div>
-                                </div>
-                                <canvas id="social-box-chart-1" height="96" width="387" class="chartjs-render-monitor" style="display: block; width: 387px; height: 96px;"></canvas>
-                            </div>
-                        </div>
-                        <div class="brand-card-body">
-                            <div>
-                                <div class="text-value">89k</div>
-                                <div class="text-uppercase text-muted small">friends</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-            @if($row->sosmed_id==2)
-                <div class="col-sm-6 col-lg-3">
-                    <div class="brand-card">
-                        <div class="brand-card-header bg-facebook">
-                            <i class="fa fa-facebook"></i>
-                            <div class="chart-wrapper">
-                                <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-                                    <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                        <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
-                                    </div>
-                                    <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                                        <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
-                                    </div>
-                                </div>
-                                <canvas id="social-box-chart-1" height="96" width="387" class="chartjs-render-monitor" style="display: block; width: 387px; height: 96px;"></canvas>
-                            </div>
-                        </div>
-                        <div class="brand-card-body">
-                            <div>
-                                <div class="text-value">89k</div>
-                                <div class="text-uppercase text-muted small">friends</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endif
-        @endforeach
-    </div> -->
-
-
     <div class="row">
         <div class="col-lg-12">
             <div class="card card-default">

@@ -317,34 +317,34 @@
                             '<div class="form-group">'+
                                 '<label class="control-label text-semibold">Program Name</label>'+
                                 '<input class="form-control" name="name" id="name" value="'+result.program.program_name+'" placeholder="Program Name" required>'+
-                            '</div>'+
+                            '</div>';
 
-                            '<hr>'+
-                            '<fieldset>'+
-                                '<legend>Sosial Media Official</legend>';
-                                $.each(result.sosmed,function(c,d){
-                                    if(result.program.sosmed.length>0){
-                                        var isi="";
+                            // '<hr>'+
+                            // '<fieldset>'+
+                            //     '<legend>Sosial Media Official</legend>';
+                            //     $.each(result.sosmed,function(c,d){
+                            //         if(result.program.sosmed.length>0){
+                            //             var isi="";
 
-                                        for(a=0; a<result.program.sosmed.length;a++){
-                                            if(result.program.sosmed[a].sosmed_id==d.id){
-                                                isi=result.program.sosmed[a].unit_sosmed_name;
-                                            }
-                                        }
+                            //             for(a=0; a<result.program.sosmed.length;a++){
+                            //                 if(result.program.sosmed[a].sosmed_id==d.id){
+                            //                     isi=result.program.sosmed[a].unit_sosmed_name;
+                            //                 }
+                            //             }
                                         
 
-                                        el+='<div class="form-group">'+
-                                            '<label class="control-label">'+d.sosmed_name+'</label>'+
-                                            '<input class="form-control" name="sosmed['+d.id+']" value="'+isi+'" class="form-control" placeholder="'+d.sosmed_name+'">'+
-                                        '</div>';
-                                    }else{
-                                        el+='<div class="form-group">'+
-                                            '<label class="control-label">'+d.sosmed_name+'</label>'+
-                                            '<input class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed_name+'">'+
-                                        '</div>';
-                                    }
-                                })
-                            el+='</fieldset>';
+                            //             el+='<div class="form-group">'+
+                            //                 '<label class="control-label">'+d.sosmed_name+'</label>'+
+                            //                 '<input class="form-control" name="sosmed['+d.id+']" value="'+isi+'" class="form-control" placeholder="'+d.sosmed_name+'">'+
+                            //             '</div>';
+                            //         }else{
+                            //             el+='<div class="form-group">'+
+                            //                 '<label class="control-label">'+d.sosmed_name+'</label>'+
+                            //                 '<input class="form-control" name="sosmed['+d.id+']" class="form-control" placeholder="'+d.sosmed_name+'">'+
+                            //             '</div>';
+                            //         }
+                            //     })
+                            // el+='</fieldset>';
 
                         $("#showForm").empty().html(el);
 
@@ -377,22 +377,22 @@
                         success	: function (result) {
                             if(result.success==true){
                                 $('#pesan').html('&nbsp;'+result.pesan);
-                                new PNotify({
-                                    title: 'Info notice',
-                                    text: result.pesan,
-                                    addclass: 'alert-styled-left',
-                                    type: 'info'
-                                });
+                                // new PNotify({
+                                //     title: 'Info notice',
+                                //     text: result.pesan,
+                                //     addclass: 'alert-styled-left',
+                                //     type: 'info'
+                                // });
                                 $("#modal_default").modal("hide");
                                 showData();
                             }else{
                                 $('#pesan').empty().html("<pre>"+result.error+"</pre><br>");
-                                new PNotify({
-                                    title: 'Info notice',
-                                    text: result.pesan,
-                                    addclass: 'alert-styled-left',
-                                    type: 'error'
-                                });
+                                // new PNotify({
+                                //     title: 'Info notice',
+                                //     text: result.pesan,
+                                //     addclass: 'alert-styled-left',
+                                //     type: 'error'
+                                // });
                             }
                         },
                         error	:function() {  
@@ -531,7 +531,7 @@
                                     "<th rowspan='2'>Account</th>"+
                                     "<th rowspan='2'>Official Account</th>"+
                                     "<th rowspan='2'>Total Activity ( 1 Week )</th>"+
-                                    "<th rowspan='2'>Action</th>"+
+                                    // "<th rowspan='2'>Action</th>"+
                                 "</tr>"+
                             "</thead>"+
                             "<tbody>";
@@ -540,7 +540,7 @@
                                         "<td>"+b.sosmed.sosmed_name+"</td>"+
                                         "<td>"+b.unit_sosmed_name+"</td>"+
                                         "<td class='text-center'>"+b.followers.length+"</td>"+
-                                        "<td><a class='btn btn-sm btn-danger hapusosmed' sosmedid='"+b.id+"'><i class='icon-trash'></i></td>"+
+                                        // "<td><a class='btn btn-sm btn-danger hapusosmed' sosmedid='"+b.id+"'><i class='icon-trash'></i></td>"+
                                     "</tr>";
                                 })
                             el+="</tbody>"+
