@@ -142,6 +142,13 @@
                 <i class="nav-icon icon-arrow-right22"></i> Youtube</a>
               </li>
             @endif
+            
+            @if(auth()->user()->can('Input Single Report'))
+              <li class="nav-item {{ Request::path() == 'sosmed/input-report/single-report' ? 'active' : '' }}">
+                <a class="nav-link" href="{{URL::to('sosmed/single-report')}}">
+                <i class="nav-icon icon-arrow-right22"></i> Single Report</a>
+              </li>
+            @endif
           </ul>
       </li>
       @endif

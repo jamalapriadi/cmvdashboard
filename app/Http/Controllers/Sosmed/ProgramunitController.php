@@ -1037,4 +1037,109 @@ class ProgramunitController extends Controller
 
         return array('follower'=>$follower);
     }
+
+    public function save_single_report(Request $request){
+        $rules=[
+            'tanggal'=>'required',
+            'socmed'=>'required',
+            'unit'=>'required',
+            'accounttype'=>'required',
+            'follower'=>'required'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'error'=>$validasi->errors()->all()
+            );
+        }else{
+            $accounttype=$request->input('accounttype');
+            $tanggal=date('Y-m-d',strtotime($request->input('tanggal')));
+
+            if($accounttype=="corporate"){
+                $unitsosmed=\App\Models\Sosmed\Unitsosmed::where('type_sosmed',$accounttype)
+                    ->where('sosmed_id',$request->input('socmed'))
+                    ->where('business_program_unit',$request->input('unit'))
+                    ->with(
+                        [
+                            'followers'=>function($q) use($tanggal){
+                                $q->where('tanggal',$tanggal);
+                            }
+                        ]
+                    )->first();
+
+                if($unitsosmed){
+                    if(count($unitsosmed->followers)>0){
+                        return array(
+                            'success'=>false,
+                            'pesan'=>'Data ditanggal ini sudah ada',
+                            'errors'=>''
+                        );
+                    }else{
+                        $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                        $new->unit_sosmed_id=$unitsosmed->id;
+                        $new->tanggal=$tanggal;
+                        $new->follower=$request->input('follower');
+                        $new->insert_user=auth()->user()->email;
+                        $new->save();
+
+                        return array(
+                            'success'=>true,
+                            'pesan'=>'Data berhasil disimpan',
+                            'errors'=>''
+                        );
+                    }
+                }else{
+                    return array(
+                        'success'=>false,
+                        'pesan'=>'Data unit sosmed tidak ada',
+                        'errors'=>''
+                    );
+                }
+            }else{
+                $unitsosmed=\App\Models\Sosmed\Unitsosmed::where('type_sosmed',$accounttype)
+                    ->where('sosmed_id',$request->input('socmed'))
+                    ->where('business_program_unit',$request->input('program'))
+                    ->with(
+                        [
+                            'followers'=>function($q) use($tanggal){
+                                $q->where('tanggal',$tanggal);
+                            }
+                        ]
+                    )->first();
+
+                if($unitsosmed){
+                    if(count($unitsosmed->followers)>0){
+                        return array(
+                            'success'=>false,
+                            'pesan'=>'Data ditanggal ini sudah ada',
+                            'errors'=>''
+                        );
+                    }else{
+                        $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                        $new->unit_sosmed_id=$unitsosmed->id;
+                        $new->tanggal=$tanggal;
+                        $new->follower=$request->input('follower');
+                        $new->insert_user=auth()->user()->email;
+                        $new->save();
+
+                        return array(
+                            'success'=>true,
+                            'pesan'=>'Data berhasil disimpan',
+                            'errors'=>''
+                        );
+                    }
+                }else{
+                    return array(
+                        'success'=>false,
+                        'pesan'=>'Data unit sosmed tidak ada',
+                        'errors'=>''
+                    );
+                }
+            }
+        }
+    }
 }

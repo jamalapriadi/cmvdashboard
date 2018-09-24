@@ -321,6 +321,22 @@ class HomeController extends Controller
                 ->with('id',$id);
     }
 
+    public function sosmed_single_report(Request $request){
+        if(!auth()->user()->can('Input Single Report')){
+            return abort('403');
+        }
+        
+        $user=\App\User::with(
+            [
+                'unit',
+                'unit.groupunit'
+            ]
+        )->find(auth()->user()->id);
+
+        return view('sosmed.single_input_report')
+                ->with('user',$user);
+    }
+
     public function log_login(){
         if(auth()->user()->can('Access Log')){
             return view('sosmed.log.login');

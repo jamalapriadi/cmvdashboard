@@ -56,6 +56,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('daily-report','HomeController@sosmed_daily_report');
         Route::get('ranking-soc-med','HomeController@sosmed_ranking_soc_med');
         Route::get('input-report/{id}','HomeController@sosmed_input_report');
+        Route::get('single-report','HomeController@sosmed_single_report');
 
         Route::get('role','HomeController@role');
         Route::get('role/{id}/permission','HomeController@permission');
@@ -135,6 +136,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::post('import-daily-report','Sosmed\ProgramunitController@daily_report_import');
         Route::get('sample-daily-report','Sosmed\ProgramunitController@daily_report_sample');
         Route::get('list-official-and-program/{id}','Sosmed\ProgramunitController@list_official_and_program');
+        Route::post('save-single-report','Sosmed\ProgramunitController@save_single_report');
 
         Route::get('backup-excel','Sosmed\ProgramunitController@import');
 
