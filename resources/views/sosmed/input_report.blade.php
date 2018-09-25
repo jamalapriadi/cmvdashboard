@@ -573,16 +573,12 @@
                 swal({
                     title: "Are you sure?",
                     text: "You will delete data!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "No, cancel!",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                function(isConfirm){
-                    if (isConfirm) {
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
                         $.ajax({
                             url:"{{URL::to('sosmed/data/daily-report')}}/"+kode,
                             type:"DELETE",
@@ -597,7 +593,7 @@
                             }
                         })
                     } else {
-                        swal("Cancelled", "Your data is safe :)", "error");
+                        swal("Your data is safe!");
                     }
                 });
             })
