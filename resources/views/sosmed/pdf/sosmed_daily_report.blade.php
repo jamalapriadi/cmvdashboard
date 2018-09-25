@@ -1598,12 +1598,14 @@
                     @endif
                 </th>
                 @foreach($sosmed as $row)
-                    <th class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    <th colspan='3' width="20%" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
                 @endforeach
             </tr>
             <tr>
                 @foreach($sosmed as $row)
+                    <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
                     <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                    <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
                 @endforeach
             </tr>
         </thead>
@@ -1630,19 +1632,51 @@
                             </td>
                             @foreach($sosmed as $row)
                                 @if($row->id==1)
-                                    <td>{{number_format($b->tw)}}</td>
+                                    <td>{{number_format($b->tw_kemarin)}}</td>
+                                    <td>{{number_format($b->tw_kemarin)}}</td>
+                                    <td>
+                                        @if($b->growth_tw>0)
+                                            <a style="color:green;"> {{round($b->growth_tw,2)}} % </a>
+                                        @else
+                                            <a style="color:red;"> {{round($b->growth_tw,2)}} % </a>
+                                        @endif
+                                    </td>
                                 @endif
 
                                 @if($row->id==2)
-                                    <td>{{number_format($b->fb)}}</td>
+                                    <td>{{number_format($b->fb_kemarin)}}</td>
+                                    <td>{{number_format($b->fb_kemarin)}}</td>
+                                    <td>
+                                        @if($b->growth_fb>0)
+                                            <a style="color:green;"> {{round($b->growth_fb,2)}} % </a>
+                                        @else
+                                            <a style="color:red;"> {{round($b->growth_fb,2)}} % </a>
+                                        @endif
+                                    </td>
                                 @endif
 
                                 @if($row->id==3)
-                                    <td>{{number_format($b->ig)}}</td>
+                                    <td>{{number_format($b->ig_kemarin)}}</td>
+                                    <td>{{number_format($b->ig_kemarin)}}</td>
+                                    <td>
+                                        @if($b->growth_ig>0)
+                                            <a style="color:green;"> {{round($b->growth_ig,2)}} % </a>
+                                        @else
+                                            <a style="color:red;"> {{round($b->growth_ig,2)}} % </a>
+                                        @endif
+                                    </td>
                                 @endif
 
                                 @if($row->id==4)
-                                    <td>{{number_format($b->yt)}}</td>
+                                    <td>{{number_format($b->yt_kemarin)}}</td>
+                                    <td>{{number_format($b->yt_kemarin)}}</td>
+                                    <td>
+                                        @if($b->growth_yt>0)
+                                            <a style="color:green;"> {{round($b->growth_yt,2)}} % </a>
+                                        @else
+                                            <a style="color:red;"> {{round($b->growth_yt,2)}} % </a>
+                                        @endif
+                                    </td>
                                 @endif
                             @endforeach
                         </tr>
@@ -1659,21 +1693,53 @@
                             @endif
                         </td>
                         @foreach($sosmed as $row)
-                            @if($row->id==1)
-                                <td>{{number_format($b->tw)}}</td>
+                        @if($row->id==1)
+                        <td>{{number_format($b->tw_kemarin)}}</td>
+                        <td>{{number_format($b->tw_kemarin)}}</td>
+                        <td>
+                            @if($b->growth_tw>0)
+                                <a style="color:green;"> {{round($b->growth_tw,2)}} % </a>
+                            @else
+                                <a style="color:red;"> {{round($b->growth_tw,2)}} % </a>
                             @endif
+                        </td>
+                    @endif
 
-                            @if($row->id==2)
-                                <td>{{number_format($b->fb)}}</td>
-                            @endif
+                    @if($row->id==2)
+                        <td>{{number_format($b->fb_kemarin)}}</td>
+                            <td>{{number_format($b->fb_kemarin)}}</td>
+                            <td>
+                                @if($b->growth_fb>0)
+                                    <a style="color:green;"> {{round($b->growth_fb,2)}} % </a>
+                                @else
+                                    <a style="color:red;"> {{round($b->growth_fb,2)}} % </a>
+                                @endif
+                            </td>
+                        @endif
 
-                            @if($row->id==3)
-                                <td>{{number_format($b->ig)}}</td>
-                            @endif
+                        @if($row->id==3)
+                            <td>{{number_format($b->ig_kemarin)}}</td>
+                            <td>{{number_format($b->ig_kemarin)}}</td>
+                            <td>
+                                @if($b->growth_ig>0)
+                                    <a style="color:green;"> {{round($b->growth_ig,2)}} % </a>
+                                @else
+                                    <a style="color:red;"> {{round($b->growth_ig,2)}} % </a>
+                                @endif
+                            </td>
+                        @endif
 
-                            @if($row->id==4)
-                                <td>{{number_format($b->yt)}}</td>
-                            @endif
+                        @if($row->id==4)
+                            <td>{{number_format($b->yt_kemarin)}}</td>
+                            <td>{{number_format($b->yt_kemarin)}}</td>
+                            <td>
+                                @if($b->growth_yt>0)
+                                    <a style="color:green;"> {{round($b->growth_yt,2)}} % </a>
+                                @else
+                                    <a style="color:red;"> {{round($b->growth_yt,2)}} % </a>
+                                @endif
+                            </td>
+                        @endif
                         @endforeach
                     </tr>
                 @endif

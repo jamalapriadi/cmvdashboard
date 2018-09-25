@@ -461,6 +461,7 @@
                             "type": "hbar",
                             "plot": {
                                 "stacked": true,
+                                "thousands-separator":",",
                                 "valueBox":{
                                     "text":"%total",
                                     "rules": [
@@ -472,7 +473,7 @@
                                 }
                             },
                             "plotarea": {
-                                "margin": "2% 2% 15% 20%"
+                                "margin": "2% 15% 15% 30%"
                             },
                             source:{
                                 // text: "* Dalam Ribu",
@@ -482,6 +483,7 @@
                             "backgroundColor": "#fff",
                             "scaleX": {
                                 "values": labels,
+                                "thousands-separator":",",
                                 "lineWidth": 0,
                                 "lineColor":"none",
                                 "tick": {
@@ -497,6 +499,7 @@
                             },
                             "scale-y":{
                                 "line-color":"#333",
+                                "thousands-separator":",",
                                 "guide":{
                                     "line-style":"solid",
                                     "line-color":"#c4c4c4",
@@ -578,6 +581,7 @@
                             "type": "hbar",
                             "plot": {
                                 "stacked": true,
+                                "thousands-separator":",",
                                 "valueBox":{
                                     "text":"%total",
                                     "rules": [
@@ -589,7 +593,7 @@
                                 }
                             },
                             "plotarea": {
-                                "margin": "2% 2% 15% 20%"
+                                "margin": "2% 15% 15% 20%"
                             },
                             source:{
                                 // text: "* Dalam Ribu",
@@ -599,6 +603,7 @@
                             "backgroundColor": "#fff",
                             "scaleX": {
                                 "values": labels,
+                                "thousands-separator":",",
                                 "lineWidth": 0,
                                 "lineColor":"none",
                                 "tick": {
@@ -614,6 +619,7 @@
                             },
                             "scale-y":{
                                 "line-color":"#333",
+                                "thousands-separator":",",
                                 "guide":{
                                     "line-style":"solid",
                                     "line-color":"#c4c4c4",

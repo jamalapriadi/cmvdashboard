@@ -26,66 +26,66 @@
                     success:function(result){
                         if(result.length>0){
                             var el='';
-
+                            
+                            el+='<div class="row">';
                             $.each(result,function(a,b){
-                                el+='<div class="row">'+
-                                    '<div class="col-lg-6">'+
-                                        '<div class="card card-default">'+
-                                            '<div class="card-header">'+b.title+
-                                                '<div class="card-header-actions">'+
-                                                    '<a class="card-header-action btn-setting edit" kode="'+b.id+'" href="#">'+
-                                                        '<i class="icon-pencil4"></i>'+
-                                                    '</a>'+
-                                                    '<a class="card-header-action btn-close hapus" kode="'+b.id+'" href="#">'+
-                                                        '<i class="icon-trash"></i>'+
-                                                    '</a>'+
-                                                '</div>'+
+                                el+='<div class="col-lg-6">'+
+                                    '<div class="card card-default">'+
+                                        '<div class="card-header">'+b.title+
+                                            '<div class="card-header-actions">'+
+                                                '<a class="card-header-action btn-setting edit" kode="'+b.id+'" href="#">'+
+                                                    '<i class="icon-pencil4"></i>'+
+                                                '</a>'+
+                                                '<a class="card-header-action btn-close hapus" kode="'+b.id+'" href="#">'+
+                                                    '<i class="icon-trash"></i>'+
+                                                '</a>'+
                                             '</div>'+
-                                            '<div class="card-body">';
-                                                if(b.detail.length>0){
-                                                    el+='<div class="carousel slide" id="carouselExampleIndicators" data-ride="carousel">'+
-                                                        '<ol class="carousel-indicators">';
+                                        '</div>'+
+                                        '<div class="card-body">';
+                                            if(b.detail.length>0){
+                                                el+='<div class="carousel slide" id="carouselExampleIndicators" data-ride="carousel">'+
+                                                    '<ol class="carousel-indicators">';
+                                                $.each(b.detail,function(c,d){
+                                                    var active="";
+                                                    if(c==0){
+                                                        active="class='active'";
+                                                    }else{
+                                                        active="";
+                                                    }
+                                                    el+='<li class="" data-target="#carouselExampleIndicators" data-slide-to='+c+' '+active+'></li>';
+                                                })
+                                                el+='</ol>'+
+                                                '<div class="carousel-inner">';
                                                     $.each(b.detail,function(c,d){
-                                                        var active="";
+                                                        var act="";
                                                         if(c==0){
-                                                            active="class='active'";
+                                                            act="active";
                                                         }else{
-                                                            active="";
+                                                            act="";
                                                         }
-                                                        el+='<li class="" data-target="#carouselExampleIndicators" data-slide-to='+c+' '+active+'></li>';
-                                                    })
-                                                    el+='</ol>'+
-                                                    '<div class="carousel-inner">';
-                                                        $.each(b.detail,function(c,d){
-                                                            var act="";
-                                                            if(c==0){
-                                                                act="active";
-                                                            }else{
-                                                                act="";
-                                                            }
-                                                            var url="{{asset('uploads/insight/')}}/"+d.insight_id+"/"+d.nama_file;
+                                                        var url="{{asset('uploads/insight/')}}/"+d.insight_id+"/"+d.nama_file;
 
-                                                            el+='<div class="carousel-item '+act+'">'+
-                                                                '<img class="d-block w-100" src='+url+' data-holder-rendered="true">'+
-                                                            '</div>';
-                                                        })      
-                                                    el+='</div>'+
-                                                    '<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">'+
-                                                        '<span class="carousel-control-prev-icon" aria-hidden="true"></span>'+
-                                                        '<span class="sr-only">Previous</span>'+
-                                                    '</a>'+
-                                                    '<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">'+
-                                                        '<span class="carousel-control-next-icon" aria-hidden="true"></span>'+
-                                                        '<span class="sr-only">Next</span>'+
-                                                    '</a>'+
-                                                    '</div>';
-                                                }
-                                                el+='<hr>'+b.teaser+
-                                            '</div>'+
+                                                        el+='<div class="carousel-item '+act+'">'+
+                                                            '<img class="d-block w-100" src='+url+' data-holder-rendered="true">'+
+                                                        '</div>';
+                                                    })      
+                                                el+='</div>'+
+                                                '<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">'+
+                                                    '<span class="carousel-control-prev-icon" aria-hidden="true"></span>'+
+                                                    '<span class="sr-only">Previous</span>'+
+                                                '</a>'+
+                                                '<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">'+
+                                                    '<span class="carousel-control-next-icon" aria-hidden="true"></span>'+
+                                                    '<span class="sr-only">Next</span>'+
+                                                '</a>'+
+                                                '</div>';
+                                            }
+                                            el+='<hr>'+b.teaser+
                                         '</div>'+
                                     '</div>'+
                                 '</div>';
                             })
+                            el+="</div>";
 
                             $("#showData").empty().html(el);
                         }else{
