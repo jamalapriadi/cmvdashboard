@@ -37,7 +37,7 @@
             @if($row->id==4)
                 <h1 class="text-center">
                     @if($typeunit=="Publisher")
-                        RANK FOR HARDNEWS PUBLISHER YOUTUBE REPORT
+                        RANK FOR HARDNEWS PORTAL YOUTUBE REPORT
                     @else 
                         RANK FOR {{strtoupper($typeunit)}} YOUTUBE REPORT
                     @endif
@@ -45,7 +45,7 @@
             @else 
                 <h1 class="text-center">
                     @if($typeunit=="Publisher")
-                        RANK FOR HARDNEWS PUBLISHER {{strtoupper($row->sosmed_name)}} REPORT
+                        RANK FOR HARDNEWS PORTAL {{strtoupper($row->sosmed_name)}} REPORT
                     @else 
                         RANK FOR {{strtoupper($typeunit)}} {{strtoupper($row->sosmed_name)}} REPORT
                     @endif
@@ -58,7 +58,7 @@
         @elseif($typeunit=="Radio")
             <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="Publisher")
-            <h1 class="text-center">RANK FOR HARDNEWS PUBLISHER SOCMED & YOUTUBE REPORT</h1>
+            <h1 class="text-center">RANK FOR HARDNEWS PORTAL SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="KOL")
             <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @else
@@ -70,7 +70,7 @@
         @elseif($typeunit=="Radio")
             <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @elseif($typeunit=="Publisher")
-            <h1 class="text-center">RANK FOR HARDNEWS PUBLISHER SOCMED REPORT</h1>
+            <h1 class="text-center">RANK FOR HARDNEWS PORTAL SOCMED REPORT</h1>
         @elseif($typeunit=="KOL")
             <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @else
@@ -446,7 +446,7 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @else {{strtoupper($typeunit)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
+    <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PORTAL @else {{strtoupper($typeunit)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
     <br>
 
     <?php
@@ -1144,7 +1144,7 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @else {{strtoupper($typeunit)}} @endif <span style="color:red">BY % GROWTH YESTERDAY</span></h3>
+    <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PORTAL @else {{strtoupper($typeunit)}} @endif <span style="color:red">BY % GROWTH YESTERDAY</span></h3>
     <br>
 
     <?php
@@ -1538,7 +1538,7 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @else {{strtoupper($typeunit)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL @if($typeunit=="Publisher") HARDNEWS PORTAL @else {{strtoupper($typeunit)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
     <br>
     <?php 
         $arrTw6=array();

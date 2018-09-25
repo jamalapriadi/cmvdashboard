@@ -325,7 +325,7 @@ class HomeController extends Controller
         if(!auth()->user()->can('Input Single Report')){
             return abort('403');
         }
-        
+
         $user=\App\User::with(
             [
                 'unit',
@@ -335,6 +335,10 @@ class HomeController extends Controller
 
         return view('sosmed.single_input_report')
                 ->with('user',$user);
+    }
+
+    public function sosmed_insight(){
+        return view('sosmed.insight');
     }
 
     public function log_login(){

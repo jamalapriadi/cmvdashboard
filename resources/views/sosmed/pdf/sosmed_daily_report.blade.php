@@ -80,7 +80,7 @@
             @if($row->id==4)
                 <h1 class="text-center">
                     @if($typeunit=="Publisher")
-                        HARDNEWS PUBLISHER YOUTUBE REPORT
+                        HARDNEWS PORTAL YOUTUBE REPORT
                     @else 
                         {{strtoupper($typeunit)}} YOUTUBE REPORT
                     @endif
@@ -88,7 +88,7 @@
             @else 
                 <h1 class="text-center">
                     @if($typeunit=="Publisher")
-                        HARDNEWS PUBLISHER {{strtoupper($row->sosmed_name)}} REPORT
+                        HARDNEWS PORTAL {{strtoupper($row->sosmed_name)}} REPORT
                     @else 
                         {{strtoupper($typeunit)}} {{strtoupper($row->sosmed_name)}} REPORT
                     @endif
@@ -101,7 +101,7 @@
         @elseif($typeunit=="Radio")
             <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="Publisher")
-            <h1 class="text-center">HARDNEWS PUBLISHER SOCMED & YOUTUBE REPORT</h1>
+            <h1 class="text-center">HARDNEWS PORTAL SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit=="KOL")
             <h1 class="text-center">SMN ARTIST SOCMED & YOUTUBE REPORT</h1>
         @else
@@ -113,7 +113,7 @@
         @elseif($typeunit=="Radio")
             <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED REPORT</h1>
         @elseif($typeunit=="Publisher")
-            <h1 class="text-center">HARDNEWS PUBLISHER SOCMED REPORT</h1>
+            <h1 class="text-center">HARDNEWS PORTAL SOCMED REPORT</h1>
         @elseif($typeunit=="KOL")
             <h1 class="text-center">SMN ARTIST SOCMED REPORT</h1>
         @else
@@ -225,7 +225,7 @@
     @endif
 
     @if($typeunit=="TV" || $typeunit=="Publisher")
-        <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PUBLISHER @elseif($typeunit=="KOL") SMN ARTIST @else {{strtoupper($typeunit)}} @endif</h3>
+        <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PORTAL @elseif($typeunit=="KOL") SMN ARTIST @else {{strtoupper($typeunit)}} @endif</h3>
         <br>
         <table class="table table-striped table-bordered">
             <thead>
@@ -318,7 +318,7 @@
                                     @endphp
 
                                     <tr>
-                                        <td>{{$metro->unit_name}}</td>
+                                        <td>METROTVNEWS.COM</td>
 
                                         @foreach($sosmed as $metrosos)
                                             @if($metrosos->id==1)
@@ -428,7 +428,7 @@
                                     @endphp
 
                                     <tr>
-                                        <td>{{$inew->program_name}}</td>
+                                        <td>INEWS.ID</td>
 
                                         @foreach($sosmed as $inewsos)
                                             @if($inewsos->id==1)
@@ -497,7 +497,7 @@
                                     @endphp
 
                                     <tr>
-                                        <td>{{$cnn->program_name}}</td>
+                                        <td>CNNINDONESIA.COM</td>
 
                                         @foreach($sosmed as $cnnsos)
                                             @if($cnnsos->id==1)
@@ -1071,7 +1071,7 @@
                                     @endphp
 
                                     <tr>
-                                        <td>{{$inew->program_name}}</td>
+                                        <td>INEWS.ID</td>
 
                                         @foreach($sosmed as $inewsos)
                                             @if($inewsos->id==1)
@@ -1140,7 +1140,7 @@
                                     @endphp
 
                                     <tr>
-                                        <td>{{$cnn->program_name}}</td>
+                                        <td>CNNINDONESIA.COM</td>
 
                                         @foreach($sosmed as $cnnsos)
                                             @if($cnnsos->id==1)

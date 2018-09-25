@@ -47,6 +47,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('group/{id}/summary','HomeController@sosmed_group_summary');
         Route::get('input-report-harian','HomeController@sosmed_input_report_harian');
         Route::get('add-new-report-harian/{id}','HomeController@add_new_report_harian');
+        Route::get('insight','HomeController@sosmed_insight');
 
         /*dashboard */
         Route::get('dashboard-summary','HomeController@dashboard_summary');
@@ -91,6 +92,9 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('recent-access-log','User\UserController@recent_access_log');
         Route::post('change-password','User\UserController@change_password');
         Route::get('official-and-program-account-all-tv','HomeController@official_and_program');
+
+        Route::resource('insight','Sosmed\InsightController');
+        Route::delete('insight-detail/{id}','Sosmed\InsightController@delete_detail');
 
         Route::resource('users','User\UserController');
         Route::resource('roles','User\RoleController');

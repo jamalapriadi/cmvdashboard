@@ -8,6 +8,12 @@
             <span class="badge badge-primary">NEW</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link {{ Request::path() == 'sosmed/insight' ? 'active' : '' }}" href="{{URL::to('sosmed/insight')}}">
+            <i class="nav-icon icon-info22"></i> Insight
+            <span class="badge badge-info">NEW</span>
+          </a>
+        </li>
       @endif
       <li class="nav-title">Dashboard</li>
       <li class="nav-item">

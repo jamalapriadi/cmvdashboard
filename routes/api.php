@@ -17,6 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('list-unit-by-name/{id}','Api\SosmedapiController@list_unit_by_name');
+
 Route::group(['prefix'=>'sosmed','middleware'=>'auth:api'],function(){
     Route::resource('group-unit','Sosmed\GroupunitController');
     Route::resource('business-unit','Sosmed\BusinessunitController');
