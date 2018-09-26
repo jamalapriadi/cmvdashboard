@@ -43,17 +43,17 @@
                                         '</div>'+
                                         '<div class="card-body">';
                                             if(b.detail.length>0){
-                                                el+='<div class="carousel slide" id="carouselExampleIndicators" data-ride="carousel">'+
+                                                el+='<div class="carousel slide" id="carouselExampleIndicators'+b.id+'" data-ride="carousel">'+
                                                     '<ol class="carousel-indicators">';
-                                                $.each(b.detail,function(c,d){
-                                                    var active="";
-                                                    if(c==0){
-                                                        active="class='active'";
-                                                    }else{
-                                                        active="";
-                                                    }
-                                                    el+='<li class="" data-target="#carouselExampleIndicators" data-slide-to='+c+' '+active+'></li>';
-                                                })
+                                                        $.each(b.detail,function(c,d){
+                                                            var active="";
+                                                            if(c==0){
+                                                                active="class='active'";
+                                                            }else{
+                                                                active="";
+                                                            }
+                                                            el+='<li class="" data-target="#carouselExampleIndicators'+b.id+'" data-slide-to='+c+' '+active+'></li>';
+                                                        })
                                                 el+='</ol>'+
                                                 '<div class="carousel-inner">';
                                                     $.each(b.detail,function(c,d){
@@ -70,11 +70,11 @@
                                                         '</div>';
                                                     })      
                                                 el+='</div>'+
-                                                '<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">'+
+                                                '<a class="carousel-control-prev" href="#carouselExampleIndicators'+b.id+'" role="button" data-slide="prev">'+
                                                     '<span class="carousel-control-prev-icon" aria-hidden="true"></span>'+
                                                     '<span class="sr-only">Previous</span>'+
                                                 '</a>'+
-                                                '<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">'+
+                                                '<a class="carousel-control-next" href="#carouselExampleIndicators'+b.id+'" role="button" data-slide="next">'+
                                                     '<span class="carousel-control-next-icon" aria-hidden="true"></span>'+
                                                     '<span class="sr-only">Next</span>'+
                                                 '</a>'+
