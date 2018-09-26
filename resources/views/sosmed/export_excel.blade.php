@@ -37,7 +37,7 @@
                                         <select name="typeunit" id="typeunit" class="form-control">
                                             <option value="">--Pilih Unit--</option>
                                             <option value="TV">TV</option>
-                                            <option value="Publisher">Publisher</option>
+                                            <option value="Publisher">Hardnews Portal</option>
                                             <option value="Radio">Radio</option>
                                         </select>
                                     </div>

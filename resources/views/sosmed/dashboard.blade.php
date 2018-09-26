@@ -87,24 +87,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="form-group">
                         <label for="" class="control-label">Unit Type</label>
                         <select name="typeunit" id="typeunit" class="form-control">
                             <option value="TV">TV</option>
-                            <option value="Publisher">Publisher</option>
+                            <option value="Publisher">Hardnews Portal</option>
                             <option value="Radio">Radio</option>
                             <option value="KOL">KOL</option>
                             <option value="Animation Production">Animation Production</option>
                             <option value="Production House">Production House</option>
                             <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
-                            <option value="Newspaper">Newspaper</option>
+                            {{-- <option value="Newspaper">Newspaper</option> --}}
                             <option value="Magazine">Magazine</option>
                             <option value="SMN Channel">SMN Channel</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="" class="control-label">Sort By</label>
+                        <select name="sortby" id="sortby" class="form-control">
+                            <option value="hight">High</option>
+                            <option value="low">Low</option>
+                            <option value="group">Group</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-2">
                     <div class="form-group">
                         <label for="" class="control-label"></label>
                         <button class="btn btn-primary" id="filterOfficial" style="margin-top:25px;"><i class="icon-filter3"></i> Filter</button>
@@ -182,7 +192,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="form-group">
                         <label for="" class="control-label">Date</label>
                         <div class="input-group mb-3">
@@ -194,7 +204,18 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3">
+                {{-- <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="" class="control-label">Sort By</label>
+                        <select name="sortby2" id="sortby2" class="form-control">
+                            <option value="hight">High</option>
+                            <option value="low">Low</option>
+                            <option value="group">Group</option>
+                        </select>
+                    </div>
+                </div> --}}
+
+                <div class="col-lg-2">
                     <div class="form-group">
                         <label for="" class="control-label"></label>
                         <button class="btn btn-primary" id="filtergroup" style="margin-top:25px;"><i class="icon-filter3"></i> Filter</button>
@@ -242,6 +263,8 @@
         $(function(){
             var group=$("#group").val();
             var namagroup=$("#group option:selected").text();
+            var listchart=[];
+            var listtable=[];
 
             $("#namagroup").html(namagroup);
 
@@ -268,11 +291,19 @@
                 var tanggal=$("#tanggal").val();
                 var filter=$("#filter").val();
                 var typeunit=$("#typeunit").val();
+                var sortby=$("#sortby option:selected").val();
+
+                var param={
+                    tanggal:tanggal,
+                    filter:filter,
+                    typeunit:typeunit,
+                    sortby:sortby
+                };
 
                 $.ajax({
                     url:"{{URL::to('sosmed/data/chart/chart-by-tier')}}",
                     type:"GET",
-                    data:"tanggal="+tanggal+"&filter="+filter+"&typeunit="+typeunit,
+                    data:param,
                     beforeSend:function(){
                         $("#zingchart-1").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
                     },
@@ -304,8 +335,26 @@
                         var facebook4=[];
                         var twitter4=[];
                         var instagram4=[];
-                        console.log(result);
-                        $.each(result.chart,function(a,b){
+                        
+                        if(sortby=="hight"){
+                            listchart=result.chart.sort(function(a, b) {
+                                return a['total_all'] - b['total_all'];
+                            });
+                        }else if(sortby=="low"){
+                            listchart=result.chart.sort(function(a, b) {
+                                return b['total_all'] - a['total_all'];
+                            });
+                        }else if(sortby=="group"){
+                            listchart=result.chart.sort(function(a, b) {
+                                return b['group_unit_id'] - a['group_unit_id'];
+                            });
+                        }else{
+                            listchart=result.chart.sort(function(a, b) {
+                                return a['total_all'] - b['total_all'];
+                            });
+                        }
+
+                        $.each(listchart,function(a,b){
                             if(b.id!=null){
                                 if(b.id!=4){
                                     labels1.push(b.unit_name);
@@ -451,10 +500,26 @@
                                 '</thead>'+
                                 '<tbody>';
                                     var no=0;
-                                    result.chart.sort(function(a, b) {
-                                        return b['total_all'] - a['total_all'];
-                                    });
-                                    $.each(result.chart,function(a,b){
+                                    
+                                    if(sortby=="hight"){
+                                        listtable=result.chart.sort(function(a, b) {
+                                            return b['total_all'] - a['total_all'];
+                                        });
+                                    }else if(sortby=="low"){
+                                        listtable=result.chart.sort(function(a, b) {
+                                            return a['total_all'] - b['total_all'];
+                                        });
+                                    }else if(sortby=="group"){
+                                        listtable=result.chart.sort(function(a, b) {
+                                            return a['group_unit_id'] - b['group_unit_id'];
+                                        });
+                                    }else{
+                                        listtable=result.chart.sort(function(a, b) {
+                                            return b['total_all'] - a['total_all'];
+                                        });
+                                    }
+
+                                    $.each(listtable,function(a,b){
                                         if(b.id!=null){
                                             no++;
                                             if(b.id!='tidak'){
@@ -526,9 +591,14 @@
                 var group=$("#group").val();
                 $("#grouptanggal").empty().html(tanggal);
 
+                var param={
+                    tanggal:tanggal,
+                    filter:filter
+                };
+
                 $.ajax({
                     url:"{{URL::to('sosmed/data/list-official-program-by-group')}}/"+group,
-                    data:"tanggal="+tanggal+"&filter="+filter,
+                    data:param,
                     type:"GET",
                     beforeSend:function(){
                         $("#zingchart-2").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
@@ -627,7 +697,7 @@
                                 }
                             },
                             "plotarea": {
-                                "margin": "2% 15% 15% 10%"
+                                "margin": "2% 15% 15% 15%"
                                 // margin: 'dynamic dynamic dynamic dynamic',
                             },
                             "backgroundColor": "#fff",

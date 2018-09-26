@@ -12,7 +12,7 @@
                             <span class="input-group-addon"><i class="icon-archive"></i></span>
                             <select name="typeunit" id="typeunit" class="form-control" required>
                                 <option value="TV">TV</option>
-                                <option value="Publisher">Publisher</option>
+                                <option value="Publisher">Hardnews Portal</option>
                                 <option value="Radio">Radio</option>
                                 <option value="KOL">KOL</option>
                                 <option value="Animation Production">Animation Production</option>

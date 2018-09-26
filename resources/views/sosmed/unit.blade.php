@@ -62,7 +62,7 @@
                                     <select name="searchtype" id="searchtype" class="form-control">
                                         <option value="" disabled selected>--Select Type Unit--</option>
                                         <option value="TV">TV</option>
-                                        <option value="Publisher">Publisher</option>
+                                        <option value="Publisher">HARDNEWS PORTAL</option>
                                         <option value="Radio">Radio</option>
                                         <option value="KOL">KOL</option>
                                         <option value="Animation Production">Animation Production</option>

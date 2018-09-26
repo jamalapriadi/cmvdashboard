@@ -114,7 +114,7 @@
                                             </div>
                                             <select name="typeunit" id="typeunit1" class="form-control" required>
                                                 <option value="TV">TV</option>
-                                                <option value="Publisher">Publisher</option>
+                                                <option value="Publisher">Hardnews Portal</option>
                                                 <option value="Radio">Radio</option>
                                                 <option value="KOL">KOL</option>
                                                 <option value="Animation Production">Animation Production</option>
@@ -165,7 +165,7 @@
                                             </div>
                                             <select name="typeunit" id="typeunit2" class="form-control" required>
                                                 <option value="TV">TV</option>
-                                                <option value="Publisher">Publisher</option>
+                                                <option value="Publisher">Hardnews Portal</option>
                                                 <option value="Radio">Radio</option>
                                                 <option value="KOL">KOL</option>
                                                 <option value="Animation Production">Animation Production</option>
@@ -227,7 +227,7 @@
                                             </div>
                                             <select name="typeunit" id="typeunit3" class="form-control" required>
                                                 <option value="TV">TV</option>
-                                                <option value="Publisher">Publisher</option>
+                                                <option value="Publisher">Hardnews Portal</option>
                                                 <option value="Radio">Radio</option>
                                                 <option value="KOL">KOL</option>
                                                 <option value="Animation Production">Animation Production</option>
@@ -267,7 +267,7 @@
                                             </div>
                                             <select name="typeunit" id="typeunit5" class="form-control" required>
                                                 <option value="TV">TV</option>
-                                                <option value="Publisher">Publisher</option>
+                                                <option value="Publisher">Hardnews Portal</option>
                                                 <option value="Radio">Radio</option>
                                                 <option value="KOL">KOL</option>
                                                 <option value="Animation Production">Animation Production</option>

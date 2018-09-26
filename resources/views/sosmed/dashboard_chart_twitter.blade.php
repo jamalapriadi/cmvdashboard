@@ -96,7 +96,7 @@
                         <select name="typeunit" id="typeunit" class="form-control">
                             {{-- <option value="" disabled selected>--Select Type Unit--</option> --}}
                             <option value="TV">TV</option>
-                            <option value="Publisher">Publisher</option>
+                            <option value="Publisher">Hardnews Portal</option>
                             <option value="Radio">Radio</option>
                             <option value="KOL">KOL</option>
                             <option value="Animation Production">Animation Production</option>
@@ -178,7 +178,7 @@
                             <select name="typeunit" id="typeunit2" class="form-control">
                                 {{-- <option value="" disabled selected>--Select Type Unit--</option> --}}
                                 <option value="TV">TV</option>
-                                <option value="Publisher">Publisher</option>
+                                <option value="Publisher">Hardnews Portal</option>
                                 <option value="Radio">Radio</option>
                                 <option value="KOL">KOL</option>
                                 <option value="Animation Production">Animation Production</option>
