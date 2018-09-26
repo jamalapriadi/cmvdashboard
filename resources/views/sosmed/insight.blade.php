@@ -15,6 +15,7 @@
     <script>
         $(function(){
             var kode="";
+            var alldata="";
 
             function showData(){
                 $.ajax({
@@ -26,12 +27,13 @@
                     success:function(result){
                         if(result.length>0){
                             var el='';
+                            alldata=result;
                             
                             el+='<div class="row">';
                             $.each(result,function(a,b){
                                 el+='<div class="col-lg-6">'+
                                     '<div class="card card-default">'+
-                                        '<div class="card-header">'+b.title+
+                                        '<div class="card-header"><a href="#" class="showslide" kode="'+b.id+'">'+b.title+'</a>'+
                                             '<div class="card-header-actions">'+
                                                 '<a class="card-header-action btn-setting edit" kode="'+b.id+'" href="#">'+
                                                     '<i class="icon-pencil4"></i>'+
@@ -43,7 +45,7 @@
                                         '</div>'+
                                         '<div class="card-body">';
                                             if(b.detail.length>0){
-                                                el+='<div class="carousel slide" id="carouselExampleIndicators'+b.id+'" data-ride="carousel">'+
+                                                el+='<div class="carousel slide" id="carouselExampleIndicators'+b.id+'" data-ride="carousel" data-interval="false" data-wrap="false">'+
                                                     '<ol class="carousel-indicators">';
                                                         $.each(b.detail,function(c,d){
                                                             var active="";
@@ -382,6 +384,76 @@
                         }
                     });
                 }else console.log("invalid form");
+            })
+
+            $(document).on("click",".showslide",function(){
+                var id=$(this).attr("kode");
+                var el="";
+                $.each(alldata,function(a,b){
+                    if(b.id==id){
+                        el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                            '<div class="modal-dialog modal-lg">'+
+                                '<form id="form" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                                    '<div class="modal-content">'+
+                                        '<div class="modal-header bg-primary">'+
+                                            '<h5 class="modal-title" id="modal-title">'+b.title+'</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                        '</div>'+
+
+                                        '<div class="modal-body">';
+                                            if(b.detail.length>0){
+                                                el+='<div class="carousel slide" id="carouselExampleIndicators2'+b.id+'" data-ride="carousel" data-interval="false" data-wrap="false">'+
+                                                    '<ol class="carousel-indicators">';
+                                                        $.each(b.detail,function(c,d){
+                                                            var active="";
+                                                            if(c==0){
+                                                                active="class='active'";
+                                                            }else{
+                                                                active="";
+                                                            }
+                                                            el+='<li class="" data-target="#carouselExampleIndicators2'+b.id+'" data-slide-to='+c+' '+active+'></li>';
+                                                        })
+                                                el+='</ol>'+
+                                                '<div class="carousel-inner">';
+                                                    $.each(b.detail,function(c,d){
+                                                        var act="";
+                                                        if(c==0){
+                                                            act="active";
+                                                        }else{
+                                                            act="";
+                                                        }
+                                                        var url="{{asset('uploads/insight/')}}/"+d.insight_id+"/"+d.nama_file;
+
+                                                        el+='<div class="carousel-item '+act+'">'+
+                                                            '<img class="d-block w-100" src='+url+' data-holder-rendered="true">'+
+                                                        '</div>';
+                                                    })      
+                                                el+='</div>'+
+                                                '<a class="carousel-control-prev" href="#carouselExampleIndicators2'+b.id+'" role="button" data-slide="prev">'+
+                                                    '<span class="carousel-control-prev-icon" aria-hidden="true"></span>'+
+                                                    '<span class="sr-only">Previous</span>'+
+                                                '</a>'+
+                                                '<a class="carousel-control-next" href="#carouselExampleIndicators2'+b.id+'" role="button" data-slide="next">'+
+                                                    '<span class="carousel-control-next-icon" aria-hidden="true"></span>'+
+                                                    '<span class="sr-only">Next</span>'+
+                                                '</a>'+
+                                                '</div>';
+                                            }
+                                            el+='<hr>'+b.teaser+
+                                        '</div>'+
+
+                                        '<div class="modal-footer">'+
+                                            '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</form>'+
+                            '</div>'+
+                        '</div>';
+
+                        $("#divModal").empty().html(el);
+                        $("#modal_default").modal("show");
+                    }
+                })
             })
 
             showData();
