@@ -2054,6 +2054,10 @@ class ReportController extends Controller
 
         /* official and program mnc group */
         
+        // usort($data['overallOfficialTv'], function($a, $b) {
+        //     return $a->group_id <=> $b->group_id;
+        // });
+
         $data['officialAndProgram']=\DB::select("select 'corporate' as urut,a.id, a.group_unit_id, a.unit_name, 
                 b.type_sosmed, b.unit_sosmed_name, c.tanggal, 
                 sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
@@ -2203,7 +2207,7 @@ class ReportController extends Controller
                 where c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 and a.id=89");
 
-            $data['cnnprogram']=\DB::select("select a.id, a.business_unit_id, a.program_name, b.sosmed_id,
+        $data['cnnprogram']=\DB::select("select a.id, a.business_unit_id, a.program_name, b.sosmed_id,
                 b.unit_sosmed_name, b.unit_sosmed_account_id, 
                 sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
                 sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as tw_sekarang,
@@ -2411,7 +2415,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='Radio' and a.group_unit_id=6
+            where a.type_unit='Radio' and a.group_unit_id=1
             group by a.group_unit_id,a.id
             with ROLLUP
             
@@ -2750,7 +2754,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Radio' and a.group_unit_id=6
+                where a.type_unit='Radio' and a.group_unit_id=1
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -2769,7 +2773,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Radio' and a.group_unit_id=6
+                where a.type_unit='Radio' and a.group_unit_id=1
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -5839,5 +5843,103 @@ class ReportController extends Controller
         });
 
         return $data;
+    }
+
+    function chart_by_type_unit(Request $request){
+        $rules=['filter'=>'required'];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi Error'
+            );
+
+            return $data;
+        }else{
+            $filter=$request->input('filter');
+
+            if($request->has('tanggal')){
+                $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+            }else{
+                $sekarang=date('Y-m-d');
+            }
+
+            if($request->has('group')){
+                $group=$request->input('group');
+            }else{
+                $group=1;
+            }
+
+            switch($filter){
+                default:
+                case 'all':
+                        $chart=\DB::select("select semua.type_unit, 
+                        sum(twitter) as twitter,
+                        sum(facebook) as facebook,
+                        sum(instagram) as instagram,
+                        sum(youtube) as youtube,
+                        ( sum(twitter) + sum(facebook) + sum(instagram) + sum(youtube) ) as total
+                        from 
+                        (
+                            select a.type_unit, c.tanggal, 
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                            from business_unit a
+                            left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                            where a.group_unit_id=$group
+                            group by a.type_unit
+                            union all
+                            select d.type_unit,c.tanggal, 
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                            from program_unit a 
+                            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                            left join business_unit d on d.id=a.business_unit_id
+                            where d.group_unit_id=$group
+                            group by d.type_unit
+                        ) as semua
+                        group by semua.type_unit");
+                    break;
+                case 'official':
+                        $chart=\DB::select("select a.type_unit, c.tanggal, 
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                        from business_unit a
+                        left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                        where a.group_unit_id=$group
+                        group by a.type_unit");
+                    break;
+                case 'program':
+                        $chart=\DB::select("select d.type_unit,c.tanggal, 
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb_sekarang,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt_sekarang
+                        from program_unit a 
+                        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                        left join business_unit d on d.id=a.business_unit_id
+                        where d.group_unit_id=$group
+                        group by d.type_unit");
+                    break;
+            }
+
+            usort($chart, function($a, $b) {
+                return $a->total <=> $b->total;
+            });
+
+            return $chart;
+        }
     }
 }

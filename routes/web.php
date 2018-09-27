@@ -179,6 +179,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         });
 
         Route::group(['prefix'=>'chart'],function(){
+            Route::get('chart-by-type-unit','Sosmed\ReportController@chart_by_type_unit');
             Route::get('daily-chart/{id}/program','Sosmed\ReportController@daily_chart_program');
             Route::get('all-tier','Sosmed\ReportController@all_tier');
             Route::get('official-tv','Sosmed\ReportController@chart_official_tv');
