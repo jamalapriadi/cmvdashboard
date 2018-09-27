@@ -75,9 +75,9 @@ class ProgramunitController extends Controller
     public function store(Request $request){
         $rules=[
             'unit'=>'required|max:30',
-            'name'=>'required|max:30',
-            'sosmed'=>'required|array|min:3',
-            'sosmed.*'=>'nullable|string|min:3|max:60'
+            'name'=>'required|max:30'
+            // 'sosmed'=>'required|array|min:3',
+            // 'sosmed.*'=>'nullable|string|min:3|max:60'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -96,23 +96,23 @@ class ProgramunitController extends Controller
             $simpan=$var->save();
 
             if($simpan){
-                if($request->has('sosmed')){
-                    $sosmed=$request->input('sosmed');
+                // if($request->has('sosmed')){
+                //     $sosmed=$request->input('sosmed');
                     
-                    //add db transaction
-                    \DB::transaction(function() use($sosmed,$var){
-                        foreach($sosmed as $key=>$val){
-                            if($val!=null){
-                                $s=new \App\Models\Sosmed\Unitsosmed;
-                                $s->type_sosmed="program";
-                                $s->business_program_unit=$var->id;
-                                $s->sosmed_id=$key;
-                                $s->unit_sosmed_name=$val;
-                                $s->save();
-                            }
-                        }
-                    });
-                }
+                //     //add db transaction
+                //     \DB::transaction(function() use($sosmed,$var){
+                //         foreach($sosmed as $key=>$val){
+                //             if($val!=null){
+                //                 $s=new \App\Models\Sosmed\Unitsosmed;
+                //                 $s->type_sosmed="program";
+                //                 $s->business_program_unit=$var->id;
+                //                 $s->sosmed_id=$key;
+                //                 $s->unit_sosmed_name=$val;
+                //                 $s->save();
+                //             }
+                //         }
+                //     });
+                // }
 
                 $data=array(
                     'success'=>true,

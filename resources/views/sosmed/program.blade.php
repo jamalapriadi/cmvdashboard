@@ -214,18 +214,18 @@
                             '<div class="form-group">'+
                                 '<label class="control-label text-semibold">Program Name</label>'+
                                 '<input class="form-control" name="name" id="name" placeholder="Program Name" required>'+
-                            '</div>'+
+                            '</div>';
 
-                            '<hr>'+
-                            '<fieldset>'+
-                                '<legend>Sosial Media Official</legend>';
-                                $.each(result.sosmed,function(a,b){
-                                    el+='<div class="form-group">'+
-                                        '<label class="control-label">'+b.sosmed_name+'</label>'+
-                                        '<input class="form-control" name="sosmed['+b.id+']" class="form-control" placeholder="'+b.sosmed_name+'">'+
-                                    '</div>';
-                                })
-                            el+='</fieldset>';
+                            // '<hr>'+
+                            // '<fieldset>'+
+                            //     '<legend>Sosial Media Official</legend>';
+                            //     $.each(result.sosmed,function(a,b){
+                            //         el+='<div class="form-group">'+
+                            //             '<label class="control-label">'+b.sosmed_name+'</label>'+
+                            //             '<input class="form-control" name="sosmed['+b.id+']" class="form-control" placeholder="'+b.sosmed_name+'">'+
+                            //         '</div>';
+                            //     })
+                            // el+='</fieldset>';
 
                         $("#showForm").empty().html(el);
                     },

@@ -1193,6 +1193,7 @@
                             if(data.success==true){
                                 sosmed();
                                 // liveSocmed();
+                                location.reload();
                                 $("#modal_default").modal("hide");
                             }else{
                                 $("#pesan").empty().html("<pre>"+data.error+"</pre>");
@@ -1226,6 +1227,7 @@
                                     swal("Deleted!", result.pesan, "success");
                                     sosmed();
                                     // liveSocmed();
+                                    location.reload();
                                 }else{
                                     swal("Error!", result.pesan, "error");
                                 }

@@ -4,14 +4,14 @@
     <div class="card card-primary">
         <div class="card-header">SOCMED LIVE</div>
         <div class="card-body">
-            <form action="#">
+            <form action="{{URL::to('sosmed/live-socmed')}}" method="get">
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label for="" class="control-label">Unit</label>
                             <select name="unit" id="unit" class="form-control">
                                 @foreach($user->unit as $row)
-                                    <option value="{{$row->id}}">{{$row->unit_name}}</option>
+                                    <option value="{{$row->id}}" @if($unit==$row->id) selected='selected' @endif>{{$row->unit_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -21,18 +21,126 @@
                         <div class="form-group">
                             <label for="" class="control-label">Account Type</label>
                             <select name="accounttype" id="accounttype" class="form-control">
-                                <option value="official">Official</option>
-                                <option value="program">Program</option>
+                                <option value="official" @if($accounttype=="official") selected='selected' @endif>Official</option>
+                                <option value="program" @if($accounttype=="program") selected='selected' @endif>Program</option>
                             </select>
                         </div>
                     </div>
+                    
+                    <div id="accountprogram"></div>
+
                     <div class="col-lg-3">
-                        <div id="accountprogram"></div>
+                        <button class="btn btn-primary" style="margin-top:25px;">
+                            <i class="icon-display4"></i> Show
+                        </button>
                     </div>
                 </div>
             </form>
 
-            <div id="divLiveSocmed"></div>
+            <div class="row">
+                @foreach($bu->sosmed as $row)
+                    @if($row->sosmed_id==1)
+                        <div class="col-lg-6">
+                            <div class="card card-accent-success">
+                                <div class="card-header" bg-info>Twitter</div>
+                                <div class="card-body">
+                                    <a class="twitter-timeline" data-height="600" data-theme="light" data-link-color="#E81C4F" href="https://twitter.com/{{$row->unit_sosmed_name}}?ref_src=twsrc%5Etfw">Tweets by {{$row->unit_sosmed_name}}</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+            
+                    @if($row->sosmed_id==2)
+                        <div class="col-lg-6">
+                            <div class="card card-accent-primary">
+                                <div class="card-header">Facebook</div>
+                                <div class="card-body">
+                                    <div id="fb-root"></div>
+                
+                                    {!! facebookFrame($row->unit_sosmed_account_id) !!}
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+            
+                    @if($row->sosmed_id==3)
+                        <div class="col-lg-6">
+                            <div class="card card-accent-warning">
+                                <div class="card-header">Instagram</div>
+                                <div class="card-body">
+                                    {!! $row->unit_sosmed_account_id !!}
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+            
+                    @if($row->sosmed_id==4)
+                        <div class="col-lg-6">
+                            <div class="card card-accent-danger">
+                                <div class="card-header">Youtube</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-2">
+                                            <img src="{{$youtube->snippet->thumbnails->default->url}}" alt="" class="img-fluid">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            @if(isset($youtube->snippet->customUrl))
+                                                @php 
+                                                    $url=$youtube->snippet->customUrl;
+                                                @endphp 
+                                            @else 
+                                                @php 
+                                                    $url="";
+                                                @endphp
+                                            @endif
+                                            <a href="https://youtube.com/{{$url}}" target="new target">
+                                                <h3>{{$youtube->snippet->title}}</h3>
+                                            </a>
+                                            <p class="text-muted">{{number_format($youtube->statistics->subscriberCount)}} subscriber</p>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <a href="#" class="btn btn-youtube">SUBSCRIBE {{number_format($youtube->statistics->subscriberCount)}}</a></a>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h5>Statistik</h5>
+                                            <p class="small">Bergabung pada : {{date('d F Y',strtotime($youtube->snippet->publishedAt))}}</p>
+                                            <p>{{number_format($youtube->statistics->viewCount)}} x penayangan</p>
+                                        </div>
+                                        
+                                        @if(isset($youtube->snippet->country))
+                                            <div class="col-lg-6">
+                                                <h5>Detail</h5>
+                                                <p class="text-muted">Lokasi : {{$youtube->snippet->country}}</p>
+                                            </div>
+                                        @endif
+                                    </div>
+                
+                                    <hr>
+                                    <div id="showYoutube">
+                                        <div class="row">
+                                            @if(isset($activity))
+                                                @foreach($activity as $key=>$row)
+                                                    @if($key<4)
+                                                        <div class="col-lg-6" style="margin-bottom:10px;">
+                                                            @if(isset($row->contentDetails->upload))
+                                                                {{youtubeUrl($row->contentDetails->upload->videoId)}}
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+            
         </div>
     </div>
 @stop
@@ -40,6 +148,7 @@
 @section('js')
     <script>
         $(function(){
+
             function liveSocmed(){
                 var unit=$("#unit").val();
 
@@ -102,7 +211,7 @@
                         $("#accountprogram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
                     },
                     success:function(result){
-                        var el="";
+                        var el="<div class='col-lg-12'>";
                         el+="<div class='form-group'>"+
                             '<label class="control-label">Program</label>'+
                             "<select name='program' id='program' class='form-control'>"+
@@ -111,7 +220,7 @@
                                     el+="<option value='"+b.id+"'>"+b.program_name+"</option>";
                                 })
                             el+="</select>"+
-                        "</div>";
+                        "</div></div>";
 
                         $("#accountprogram").empty().html(el);
                     },
@@ -121,26 +230,70 @@
                 })
             }
 
-            $(document).on("change","#program",function(){
-                var program=$("#program option:selected").val();
+            function pilihProgram(){
+                var accounttype="{{$accounttype}}";
+                if(accounttype=="program"){
+                    var p="{{$program}}";
+                    
+                    var accounttype=$("#accounttype option:selected").val();
+                    var unit=$("#unit option:selected").val();
 
-                $.ajax({
-                    url:"{{URL::to('sosmed/data/live-socmed-by-id')}}/"+program,
-                    type:"GET",
-                    data:"type=program",
-                    beforeSend:function(){
-                        $("#divLiveSocmed").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
-                    },
-                    success:function(result){
-                        $("#divLiveSocmed").empty().html(result);
-                    },
-                    errors:function(){
+                    $.ajax({
+                        url:"{{URL::to('sosmed/data/list-program-by-unit')}}/"+unit,
+                        type:"GET",
+                        beforeSend:function(){
+                            $("#divLiveSocmed").empty();
+                            $("#accountprogram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                        },
+                        success:function(result){
+                            var el="<div class='col-lg-12'>";
+                            el+="<div class='form-group'>"+
+                                '<label class="control-label">Program</label>'+
+                                "<select name='program' id='program' class='form-control'>"+
+                                    '<option value="" disabled selected>--Select Program--</option>';
+                                    $.each(result,function(a,b){
+                                        var pilih="";
+                                        if(b.id==p){
+                                            pilih="selected='selected'";
+                                        }else{
+                                            pilih="";
+                                        }
 
-                    }
-                })
-            })
+                                        el+="<option value='"+b.id+"' "+pilih+">"+b.program_name+"</option>";
+                                    })
+                                el+="</select>"+
+                            "</div></div>";
 
-            liveSocmed();
+                            $("#accountprogram").empty().html(el);
+                        },
+                        errors:function(){
+                            $("#accountprogram").empty().html("<div class='alert alert-danger'>Failed to load data...</div>");
+                        }
+                    })
+                }
+            }
+
+            // $(document).on("change","#program",function(){
+            //     var program=$("#program option:selected").val();
+
+            //     $.ajax({
+            //         url:"{{URL::to('sosmed/data/live-socmed-by-id')}}/"+program,
+            //         type:"GET",
+            //         data:"type=program",
+            //         beforeSend:function(){
+            //             $("#divLiveSocmed").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+            //         },
+            //         success:function(result){
+            //             $("#divLiveSocmed").empty().html(result);
+            //         },
+            //         errors:function(){
+
+            //         }
+            //     })
+            // })
+
+            // liveSocmed();
+            pilihProgram();
         })
     </script>
 @stop

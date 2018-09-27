@@ -137,9 +137,21 @@ class HomeController extends Controller
                 ]
             )->find($id);
 
+            $channel=array();
+            $activities=array();
+            foreach($bu->sosmed as $row){
+                if($row->sosmed_id==4){
+                    $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+
+                    $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+                }
+            }
+
             return view('sosmed.summary_program')
                 ->with('bu',$bu)
-                ->with('id',$id);
+                ->with('id',$id)
+                ->with('youtube',$channel)
+                ->with('activity',$activities);
         }
 
         return abort('403');
@@ -378,7 +390,7 @@ class HomeController extends Controller
         return abort('403');
     }
 
-    public function live_socmed(){
+    public function live_socmed(Request $request){
         $user=\App\User::with(
             [
                 'unit',
@@ -386,11 +398,75 @@ class HomeController extends Controller
             ]
         )->find(auth()->user()->id);
 
+        $channel=array();
+        $activities=array();
+
         $group=\App\Models\Sosmed\Groupunit::all();
+
+        if($request->has('unit')){
+            $unit=$request->input('unit');
+        }else{
+            $unit=1;
+        }
+
+        if($request->has('program')){
+            $program=$request->input('program');
+        }else{
+            $program="";
+        }
+
+        if($request->has('accounttype')){
+            $accountype=$request->input('accounttype');
+
+            switch($accountype){
+                default:
+                case 'official':
+                        $bu=\App\Models\Sosmed\Businessunit::with(
+                            [
+                                'sosmed',
+                                'sosmed.sosmed'
+                            ]
+                        )->find($unit);
+                    break;
+                case 'program':
+                        $bu=\App\Models\Sosmed\Programunit::with(
+                            [
+                                'sosmed',
+                                'sosmed.sosmed'
+                            ]
+                        )->find($program);
+                    break;
+            }
+        }else{
+            $bu=\App\Models\Sosmed\Businessunit::with(
+                [
+                    'sosmed',
+                    'sosmed.sosmed'
+                ]
+            )->find($unit);
+
+            $accountype="official";
+        }
+
+        
+        foreach($bu->sosmed as $row){
+            if($row->sosmed_id==4){
+                $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+
+                $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+            }
+        }
+        
 
         return view('sosmed.live_socmed')
             ->with('user',$user)
-            ->with('group',$group);
+            ->with('group',$group)
+            ->with('accounttype',$accountype)
+            ->with('unit',$unit)
+            ->with('bu',$bu)
+            ->with('youtube',$channel)
+            ->with('program',$program)
+            ->with('activity',$activities);
     }
 
     public function change_password(){

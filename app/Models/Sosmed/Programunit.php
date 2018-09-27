@@ -36,6 +36,7 @@ class Programunit extends Model
 					'sosmed_id',
 					'unit_sosmed_name',
 					'status_active',
+					'unit_sosmed_account_id',
 					'target_use'
 				]
 			);
