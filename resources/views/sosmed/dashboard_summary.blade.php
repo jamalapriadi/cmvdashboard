@@ -114,9 +114,9 @@
                                             </div>
                                             <select name="typeunit" id="typeunit1" class="form-control" required>
                                                 <option value="TV">TV</option>
-                                                <option value="Publisher">Hardnews Portal</option>
+                                                <option value="Publisher">Hardnews Portal & Print</option>
                                                 <option value="Radio">Radio</option>
-                                                <option value="KOL">KOL</option>
+                                                <option value="KOL">Artist</option>
                                                 <option value="Animation Production">Animation Production</option>
                                                 <option value="Production House">Production House</option>
                                                 <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
@@ -165,9 +165,9 @@
                                             </div>
                                             <select name="typeunit" id="typeunit2" class="form-control" required>
                                                 <option value="TV">TV</option>
-                                                <option value="Publisher">Hardnews Portal</option>
+                                                <option value="Publisher">Hardnews Portal & Print</option>
                                                 <option value="Radio">Radio</option>
-                                                <option value="KOL">KOL</option>
+                                                <option value="KOL">Artist</option>
                                                 <option value="Animation Production">Animation Production</option>
                                                 <option value="Production House">Production House</option>
                                                 <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
@@ -227,9 +227,9 @@
                                             </div>
                                             <select name="typeunit" id="typeunit3" class="form-control" required>
                                                 <option value="TV">TV</option>
-                                                <option value="Publisher">Hardnews Portal</option>
+                                                <option value="Publisher">Hardnews Portal & Print</option>
                                                 <option value="Radio">Radio</option>
-                                                <option value="KOL">KOL</option>
+                                                <option value="KOL">Artist</option>
                                                 <option value="Animation Production">Animation Production</option>
                                                 <option value="Production House">Production House</option>
                                                 <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
@@ -267,9 +267,9 @@
                                             </div>
                                             <select name="typeunit" id="typeunit5" class="form-control" required>
                                                 <option value="TV">TV</option>
-                                                <option value="Publisher">Hardnews Portal</option>
+                                                <option value="Publisher">Hardnews Portal & Print</option>
                                                 <option value="Radio">Radio</option>
-                                                <option value="KOL">KOL</option>
+                                                <option value="KOL">Artist</option>
                                                 <option value="Animation Production">Animation Production</option>
                                                 <option value="Production House">Production House</option>
                                                 <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>

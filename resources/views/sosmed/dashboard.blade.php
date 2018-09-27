@@ -167,9 +167,9 @@
                                 <label for="" class="control-label">Unit Type</label>
                                 <select name="typeunit" id="typeunit" class="form-control">
                                     <option value="TV">TV</option>
-                                    <option value="Publisher">Hardnews Portal</option>
+                                    <option value="Publisher">Hardnews Portal & Print</option>
                                     <option value="Radio">Radio</option>
-                                    <option value="KOL">KOL</option>
+                                    <option value="KOL">Artist</option>
                                     <option value="Animation Production">Animation Production</option>
                                     <option value="Production House">Production House</option>
                                     <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
@@ -682,7 +682,16 @@
 
                         $.each(result,function(a,b){
                             if(b.type_unit!='tidak'){
-                                labels1.push(b.type_unit);
+                                var na="";
+                                if(b.type_unit=="Publisher"){
+                                    na="Hardnews Portal & Print";
+                                }else if(b.type_unit=="KOL"){
+                                    na="Artist";
+                                }else{
+                                    na=b.type_unit;
+                                }
+
+                                labels1.push(na);
 
                                 facebook1.push(parseFloat(b.facebook));
                                 twitter1.push(parseFloat(b.twitter));
@@ -821,10 +830,19 @@
                                     });
                                     $.each(result,function(a,b){
                                         if(b.type_unit!='tidak'){
+                                            var na="";
+                                            if(b.type_unit=="Publisher"){
+                                                na="Hardnews Portal & Print";
+                                            }else if(b.type_unit=="KOL"){
+                                                na="Artist";
+                                            }else{
+                                                na=b.type_unit;
+                                            }
+
                                             no++;
                                             el+="<tr>"+
                                                 "<td>"+no+"</td>"+
-                                                "<td>"+b.type_unit+"</td>"+
+                                                "<td>"+na+"</td>"+
                                                 "<td>"+addKoma(b.twitter)+"</td>"+
                                                 "<td>"+addKoma(b.facebook)+"</td>"+
                                                 "<td>"+addKoma(b.instagram)+"</td>"+
