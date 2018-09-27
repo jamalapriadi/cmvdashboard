@@ -12,6 +12,11 @@
             width: 960px;
         }
 
+        #zingchart-typeunit{
+            height: 400px;
+            width: 960px;
+        }
+
         .zingchart-tooltip {
             padding: 7px 5px;
             border-radius: 1px;
@@ -123,31 +128,41 @@
             </div>
             
             <hr>
-            <div id="zingchart-1"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
-
-            <div id="showUnit"></div>
-        </div>
-
-        <div class="card-footer">
-            <div class="row text-center">
-                <div class="col-sm-12 col-md mb-sm-3 mb-0">
-                    <div class="text-muted">TOTAL TWITTER</div>
-                    <strong id="total_twitter_tier">0</strong>
+            <div class="card">
+                <div class="card-header text-center">MEDIA PLATFORM</div>
+                <div class="card-body">
+                    <div id="zingchart-typeunit"></div>
                 </div>
+            </div>
 
-                <div class="col-sm-12 col-md mb-sm-3 mb-0">
-                    <div class="text-muted">TOTAL FACEBOOK</div>
-                    <strong id="total_facebook_tier">0</strong>
+            <div class="card">
+                <div class="card-body">
+                    <div id="zingchart-1"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
+
+                    <div id="showUnit"></div>
                 </div>
-
-                <div class="col-sm-12 col-md mb-sm-3 mb-0">
-                    <div class="text-muted">TOTAL INSTAGRAM</div>
-                    <strong id="total_instagram_tier">0</strong>
-                </div>
-
-                <div class="col-sm-12 col-md mb-sm-3 mb-0">
-                    <div class="text-muted">TOTAL YOUTUBE</div>
-                    <strong id="total_youtube_tier">0</strong>
+                <div class="card-footer">
+                    <div class="row text-center">
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL TWITTER</div>
+                            <strong id="total_twitter_tier">0</strong>
+                        </div>
+        
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL FACEBOOK</div>
+                            <strong id="total_facebook_tier">0</strong>
+                        </div>
+        
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL INSTAGRAM</div>
+                            <strong id="total_instagram_tier">0</strong>
+                        </div>
+        
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL YOUTUBE</div>
+                            <strong id="total_youtube_tier">0</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -566,6 +581,163 @@
                 })
             }
 
+            function showChartByTypeUnit(){
+                var tanggal=$("#tanggal").val();
+                var filter=$("#filter").val();
+                var typeunit=$("#typeunit").val();
+                var sortby=$("#sortby option:selected").val();
+
+                var param={
+                    tanggal:tanggal,
+                    filter:filter,
+                    typeunit:typeunit,
+                    sortby:sortby
+                };
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/chart/chart-by-type-unit')}}",
+                    type:"GET",
+                    data:param,
+                    beforeSend:function(){
+                        $("#zingchart-typeunit").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        var el="";
+                        $("#zingchart-typeunit").empty();
+                        var primaryColor = "#4184F3";
+                        var primaryColorHover = "#3a53c5";
+                        var secondaryColor = '#DCDCDC'
+                        var scaleTextColor = '#999';
+
+                        var labels1=[];
+                        var facebook1=[];
+                        var twitter1=[];
+                        var instagram1=[];
+                        var youtube1=[];
+
+                        $.each(result,function(a,b){
+                            labels1.push(b.type_unit);
+
+                            facebook1.push(parseFloat(b.facebook));
+                            twitter1.push(parseFloat(b.twitter));
+                            instagram1.push(parseFloat(b.instagram));
+                            youtube1.push(parseFloat(b.youtube));
+                        })
+                        
+                        /* tear 1 */
+                        var chartConfig1 = {
+                            "type": "hbar",
+                            "plot": {
+                                "stacked": true,
+                                "thousands-separator":",",
+                                "valueBox":{
+                                    "text":"%total",
+                                    "color":"#222222",
+                                    "rules": [
+                                        {
+                                            "rule": '%stack-top == 0',
+                                            "visible": 0
+                                        }
+                                    ]
+                                }
+                            },
+                            "plotarea": {
+                                "margin": "2% 15% 15% 15%"
+                                // margin: 'dynamic dynamic dynamic dynamic',
+                            },
+                            "backgroundColor": "#fff",
+                            "scaleX": {
+                                "values": labels1,
+                                "lineWidth": 0,
+                                "lineColor":"none",
+                                "tick": {
+                                    "visible": false
+                                },
+                                "guide": {
+                                    "visible": false
+                                },
+                                "item": {
+                                    "font-size": "9px"
+                                }
+                            },
+                            "scale-y":{
+                                "line-color":"#333",
+                                "thousands-separator":",",
+                                "guide":{
+                                    "line-style":"solid",
+                                    "line-color":"#c4c4c4",
+                                    visible:false
+                                },
+                                "tick":{
+                                    "line-color":"#333",
+                                }
+                            },
+                            "legend": {
+                                "layout": "float",
+                                "toggle-action":"remove",
+                                "shadow": 0,
+                                "adjust-layout": true,
+                                "align": "center",
+                                "vertical-align": "bottom",
+                                "marker": {
+                                    "type": "match",
+                                    "show-line": true,
+                                    "line-width": 4,
+                                    "shadow": "none"
+                                }
+                            },
+                            "tooltip": {
+                                "htmlMode": true,
+                                "backgroundColor": "none",
+                                "padding": 0,
+                                "placement": "node:center",
+                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt - %t<\/div><div class='scaley-value'>%v <\/div><\/div>"
+                            },
+                            "series": [
+                                {
+                                    "values": twitter1,
+                                    "text": "Twitter",
+                                    "background-color": "#008ef6"
+                                },
+                                {
+                                    "values": facebook1,
+                                    "text": "Facebook",
+                                    "background-color": "#5054ab"
+                                },
+                                {
+                                    "values": instagram1,
+                                    "text": "Instagram",
+                                    "background-color": "#a958a5"
+                                },
+                                {
+                                    "values": youtube1,
+                                    "text": "Youtube",
+                                    "background-color": "#f06261"
+                                }
+                            ]
+                        };
+
+                        chartConfig1.plot.animation = {
+                            'method': 'LINEAR',
+                            'delay': 0,
+                            'effect': 'ANIMATION_EXPAND_VERTICAL',
+                            'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                            'speed': 10
+                        }
+
+                        zingchart.render({
+                            id: 'zingchart-typeunit',
+                            data: chartConfig1,
+                            output: 'canvas',
+                            height:'100%',
+                            width:'100%'
+                        });
+                        /* end tear 1 */
+
+                    }
+                })
+            }
+
             function liveSocmed(){
                 var unit=$("#unit").val();
 
@@ -898,6 +1070,7 @@
             }
 
             $(document).on("click","#filterOfficial",function(){
+                showChartByTypeUnit();
                 showTear1();
             })
 
@@ -981,7 +1154,8 @@
                     }
                 })
             })
-
+            
+            showChartByTypeUnit();
             showTear1();
             showgroup();
             liveSocmed();
