@@ -152,9 +152,22 @@ class HomeController extends Controller
                     'sosmed.sosmed'
                 ]
             )->find($id);
+
+        $channel=array();
+        $activities=array();
+        foreach($bu->sosmed as $row){
+            if($row->sosmed_id==4){
+                $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+
+                $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+            }
+        }
+
         return view('sosmed.summary_bu')
             ->with('bu',$bu)
-            ->with('id',$id);
+            ->with('id',$id)
+            ->with('youtube',$channel)
+            ->with('activity',$activities);
     }
 
     public function sosmed_input_report_harian(){

@@ -138,7 +138,6 @@
     <div class="card card-primary">
         <div class="card-header">SOCMED LIVE</div>
         <div class="card-body">
-
             <div id="divLiveSocmed"></div>
         </div>
     </div>
@@ -904,7 +903,7 @@
 
                                     '<div class="form-group">'+
                                         '<label class="control-label text-semibold">Account ID</label>'+
-                                        '<input class="form-control" name="account_id" id="account_id" placeholder="Account ID" required>'+
+                                        '<textarea name="account_id" rows="10" cols="50" id="accoount_id" class="form-control" required></textarea>'+
                                     '</div>'+
                                 '</div>'+
 
@@ -1013,7 +1012,7 @@
 
                         '<div class="form-group">'+
                             '<label class="control-label text-semibold">Account ID</label>'+
-                            '<input class="form-control" value="'+result.unit_sosmed_account_id+'" name="account_id" id="account_id" placeholder="Account ID" required>'+
+                            '<textarea name="account_id" rows="10" cols="50" id="accoount_id" class="form-control" required>'+result.unit_sosmed_account_id+'</textarea>'+
                         '</div>';
 
 
