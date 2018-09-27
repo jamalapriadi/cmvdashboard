@@ -5904,7 +5904,8 @@ class ReportController extends Controller
                             left join business_unit d on d.id=a.business_unit_id
                             group by d.type_unit
                         ) as semua
-                        group by semua.type_unit");
+                        group by semua.type_unit
+                        with rollup");
                     break;
                 case 'official':
                         $chart=\DB::select("select a.type_unit, c.tanggal, 
@@ -5921,7 +5922,8 @@ class ReportController extends Controller
                         from business_unit a
                         left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                        group by a.type_unit");
+                        group by a.type_unit
+                        with rollup");
                     break;
                 case 'program':
                         $chart=\DB::select("select d.type_unit,c.tanggal, 
@@ -5939,7 +5941,8 @@ class ReportController extends Controller
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         left join business_unit d on d.id=a.business_unit_id
-                        group by d.type_unit");
+                        group by d.type_unit
+                        with rollup");
                     break;
             }
 

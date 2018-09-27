@@ -65,78 +65,139 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="form-group">
-                        <label for="" class="control-label">Date</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
-                            </div>
-                            <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="form-group">
-                        <label for="" class="control-label">Socmed Type</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
-                            </div>
-                            <select name="filter" id="filter" class="form-control bg-primary">
-                                <option value="all">All</option>
-                                <option value="official">Official</option>
-                                <option value="program">Program</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="form-group">
-                        <label for="" class="control-label">Unit Type</label>
-                        <select name="typeunit" id="typeunit" class="form-control">
-                            <option value="TV">TV</option>
-                            <option value="Publisher">Hardnews Portal</option>
-                            <option value="Radio">Radio</option>
-                            <option value="KOL">KOL</option>
-                            <option value="Animation Production">Animation Production</option>
-                            <option value="Production House">Production House</option>
-                            <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
-                            {{-- <option value="Newspaper">Newspaper</option> --}}
-                            <option value="Magazine">Magazine</option>
-                            <option value="SMN Channel">SMN Channel</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="form-group">
-                        <label for="" class="control-label">Sort By</label>
-                        <select name="sortby" id="sortby" class="form-control">
-                            <option value="hight">High</option>
-                            <option value="low">Low</option>
-                            <option value="group">Group</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="form-group">
-                        <label for="" class="control-label"></label>
-                        <button class="btn btn-primary" id="filterOfficial" style="margin-top:25px;"><i class="icon-filter3"></i> Filter</button>
-                    </div>
-                </div>
-            </div>
-            
-            <hr>
             <div class="card">
-                <div class="card-header text-center">MEDIA PLATFORM</div>
+                <div class="card-header text-center">BY MEDIA PLATFORM</div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="" class="control-label">Date</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                                    </div>
+                                    <input type="text" id="tanggalMediaPlatform" data-value="{{date('Y/m/d')}}" name="tanggalMediaPlatform" class="form-control daterange-single">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="" class="control-label">Socmed Type</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                                    </div>
+                                    <select name="filterMediaPlatform" id="filterMediaPlatform" class="form-control bg-primary">
+                                        <option value="all">All</option>
+                                        <option value="official">Official</option>
+                                        <option value="program">Program</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="" class="control-label"></label>
+                                <button class="btn btn-primary" id="filterMediaFlatformSearch" style="margin-top:25px;"><i class="icon-filter3"></i> Filter</button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
                     <div id="zingchart-typeunit"></div>
+                    <hr>
+                    <div id="showTypeUnit"></div>
+                </div>
+                <div class="card-footer">
+                    <div class="row text-center">
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL TWITTER</div>
+                            <strong id="total_twitter_media_platform">0</strong>
+                        </div>
+        
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL FACEBOOK</div>
+                            <strong id="total_facebook_media_platform">0</strong>
+                        </div>
+        
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL INSTAGRAM</div>
+                            <strong id="total_instagram_media_platform">0</strong>
+                        </div>
+        
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL YOUTUBE</div>
+                            <strong id="total_youtube_media_platform">0</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="card">
+                <div class="card-header text-center">BY UNIT MEDIA TYPE</div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="" class="control-label">Date</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                                    </div>
+                                    <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="" class="control-label">Socmed Type</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                                    </div>
+                                    <select name="filter" id="filter" class="form-control bg-primary">
+                                        <option value="all">All</option>
+                                        <option value="official">Official</option>
+                                        <option value="program">Program</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="" class="control-label">Unit Type</label>
+                                <select name="typeunit" id="typeunit" class="form-control">
+                                    <option value="TV">TV</option>
+                                    <option value="Publisher">Hardnews Portal</option>
+                                    <option value="Radio">Radio</option>
+                                    <option value="KOL">KOL</option>
+                                    <option value="Animation Production">Animation Production</option>
+                                    <option value="Production House">Production House</option>
+                                    <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
+                                    {{-- <option value="Newspaper">Newspaper</option> --}}
+                                    <option value="Magazine">Magazine</option>
+                                    <option value="SMN Channel">SMN Channel</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="" class="control-label">Sort By</label>
+                                <select name="sortby" id="sortby" class="form-control">
+                                    <option value="hight">High</option>
+                                    <option value="low">Low</option>
+                                    <option value="group">Group</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="" class="control-label"></label>
+                                <button class="btn btn-primary" id="filterOfficial" style="margin-top:25px;"><i class="icon-filter3"></i> Filter</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
                     <div id="zingchart-1"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
 
                     <div id="showUnit"></div>
@@ -165,6 +226,13 @@
                     </div>
                 </div>
             </div>
+
+            {{-- <div class="card">
+                <div class="card-header text-center">BY GROUP MEDIA TYPE</div>
+                <div class="card-body">
+
+                </div>
+            </div> --}}
         </div>
     </div>
 
@@ -582,16 +650,12 @@
             }
 
             function showChartByTypeUnit(){
-                var tanggal=$("#tanggal").val();
-                var filter=$("#filter").val();
-                var typeunit=$("#typeunit").val();
-                var sortby=$("#sortby option:selected").val();
+                var tanggal=$("#tanggalMediaPlatform").val();
+                var filter=$("#filterMediaPlatform").val();
 
                 var param={
                     tanggal:tanggal,
-                    filter:filter,
-                    typeunit:typeunit,
-                    sortby:sortby
+                    filter:filter
                 };
 
                 $.ajax({
@@ -599,6 +663,7 @@
                     type:"GET",
                     data:param,
                     beforeSend:function(){
+                        $("#showTypeUnit").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                         $("#zingchart-typeunit").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
                     },
                     success:function(result){
@@ -616,12 +681,14 @@
                         var youtube1=[];
 
                         $.each(result,function(a,b){
-                            labels1.push(b.type_unit);
+                            if(b.type_unit!=null){
+                                labels1.push(b.type_unit);
 
-                            facebook1.push(parseFloat(b.facebook));
-                            twitter1.push(parseFloat(b.twitter));
-                            instagram1.push(parseFloat(b.instagram));
-                            youtube1.push(parseFloat(b.youtube));
+                                facebook1.push(parseFloat(b.facebook));
+                                twitter1.push(parseFloat(b.twitter));
+                                instagram1.push(parseFloat(b.instagram));
+                                youtube1.push(parseFloat(b.youtube));
+                            }
                         })
                         
                         /* tear 1 */
@@ -733,6 +800,50 @@
                             width:'100%'
                         });
                         /* end tear 1 */
+
+                        el+='<div class="table-responsive">'+
+                            '<table id="tabletypeunit" class="table table-responsive-sm table-hover table-outline mb-0">'+
+                                '<thead class="thead-light">'+
+                                    '<tr class="text-center">'+
+                                        '<th>No.</th>'+
+                                        '<th>Unit Type</th>'+
+                                        '<th>Twitter</th>'+
+                                        '<th>Facebook</th>'+
+                                        '<th>Instagram</th>'+
+                                        '<th>Youtube</th>'+
+                                    '</tr>'+
+                                '</thead>'+
+                                '<tbody>';
+                                    var no=0;
+                                    
+                                    result.sort(function(a, b) {
+                                        return b['total'] - a['total'];
+                                    });
+                                    $.each(result,function(a,b){
+                                        if(b.type_unit!=null){
+                                            no++;
+                                            el+="<tr>"+
+                                                "<td>"+no+"</td>"+
+                                                "<td>"+b.type_unit+"</td>"+
+                                                "<td>"+addKoma(b.twitter)+"</td>"+
+                                                "<td>"+addKoma(b.facebook)+"</td>"+
+                                                "<td>"+addKoma(b.instagram)+"</td>"+
+                                                "<td>"+addKoma(b.youtube)+"</td>"+
+                                            "</tr>";
+                                        }else{
+                                            $("#total_twitter_media_platform").empty().html(addKoma(b.twitter));
+                                            $("#total_facebook_media_platform").empty().html(addKoma(b.facebook));
+                                            $("#total_instagram_media_platform").empty().html(addKoma(b.instagram));
+                                            $("#total_youtube_media_platform").empty().html(addKoma(b.youtube));
+                                        }
+                                    })
+                                el+='</tbody>'+
+                            '</table>'+
+                        '</div>';
+
+                        $("#showTypeUnit").empty().html(el);
+
+                        $("#tabletypeunit").DataTable();
 
                     }
                 })
@@ -1070,9 +1181,12 @@
             }
 
             $(document).on("click","#filterOfficial",function(){
-                showChartByTypeUnit();
                 showTear1();
             })
+
+            $(document).on("click","#filterMediaFlatformSearch",function(){
+                showChartByTypeUnit();
+            });
 
             $(document).on("change","#unit",function(){
                 var accounttype=$("#accounttype option:selected").val();
