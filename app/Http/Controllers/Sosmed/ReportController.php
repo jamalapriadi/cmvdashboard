@@ -5875,7 +5875,7 @@ class ReportController extends Controller
             switch($filter){
                 default:
                 case 'all':
-                        $chart=\DB::select("select semua.type_unit, 
+                        $chart=\DB::select("select ifnull(semua.type_unit,'tidak') as type_unit, 
                         sum(twitter) as twitter,
                         sum(facebook) as facebook,
                         sum(instagram) as instagram,
@@ -5908,7 +5908,7 @@ class ReportController extends Controller
                         with rollup");
                     break;
                 case 'official':
-                        $chart=\DB::select("select a.type_unit, c.tanggal, 
+                        $chart=\DB::select("select ifnull(a.type_unit,'tidak') as type_unit, c.tanggal, 
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
@@ -5926,7 +5926,7 @@ class ReportController extends Controller
                         with rollup");
                     break;
                 case 'program':
-                        $chart=\DB::select("select d.type_unit,c.tanggal, 
+                        $chart=\DB::select("select ifnull(d.type_unit,'tidak') as type_unit,c.tanggal, 
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb_sekarang,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang,

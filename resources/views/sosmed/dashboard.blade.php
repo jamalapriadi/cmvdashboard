@@ -651,7 +651,7 @@
 
             function showChartByTypeUnit(){
                 var tanggal=$("#tanggalMediaPlatform").val();
-                var filter=$("#filterMediaPlatform").val();
+                var filter=$("#filterMediaPlatform option:selected").val();
 
                 var param={
                     tanggal:tanggal,
@@ -681,7 +681,7 @@
                         var youtube1=[];
 
                         $.each(result,function(a,b){
-                            if(b.type_unit!=null){
+                            if(b.type_unit!='tidak'){
                                 labels1.push(b.type_unit);
 
                                 facebook1.push(parseFloat(b.facebook));
@@ -820,7 +820,7 @@
                                         return b['total'] - a['total'];
                                     });
                                     $.each(result,function(a,b){
-                                        if(b.type_unit!=null){
+                                        if(b.type_unit!='tidak'){
                                             no++;
                                             el+="<tr>"+
                                                 "<td>"+no+"</td>"+
