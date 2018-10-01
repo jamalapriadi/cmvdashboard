@@ -1,49 +1,5 @@
 @extends('layouts.coreui.main')
 
-@section('extra-style')
-    <style>
-        #zingchart-1 {
-            height: 400px;
-            width: 960px;
-        }
-
-        #zingchart-2 {
-            height: 700px;
-            width: 960px;
-        }
-
-        #zingchart-typeunit{
-            height: 400px;
-            width: 960px;
-        }
-
-        .zingchart-tooltip {
-            padding: 7px 5px;
-            border-radius: 1px;
-            line-height: 20px;
-            background-color: #fff;
-            border: 1px solid #dcdcdc;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            -webkit-font-smoothing: antialiased;
-        }
-        .zingchart-tooltip .scalex-value {
-            font-size: 14px !important;
-            font-weight: normal !important;
-            line-height: 24px;
-            color: #838383;
-        }
-        .zingchart-tooltip .scaley-value {
-            color: #4184f3;
-            font-size: 24px !important;
-            font-weight: normal !important;
-        }
-
-        .zc-ref {
-            display: none;
-        }
-    </style>
-@stop
-
 @section('content')
     <div class="card card-primary">
         <div class="card-header">

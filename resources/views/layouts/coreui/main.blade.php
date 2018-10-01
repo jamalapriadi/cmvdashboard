@@ -11,6 +11,7 @@
     <link href="{{asset('template/coreui/node_modules/simple-line-icons/css/simple-line-icons.css')}}" rel="stylesheet">
     <!-- Main styles for this application-->
     <link href="{{asset('template/coreui/css/style.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('template/media-query.css')}}">
     <link href="{{asset('template/coreui/vendors/pace-progress/css/pace.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
@@ -19,6 +20,7 @@
     <link rel="stylesheet" href="{{asset('js/pickadate/lib/themes/default.css')}}" id="theme_base">
     <link rel="stylesheet" href="{{asset('js/pickadate/lib/themes/default.date.css')}}" id="theme_date">
     <link rel="stylesheet" href="{{asset('js/pickadate/lib/themes/default.time.css')}}" id="theme_time">
+
 
     {{Html::style('css/icons/icomoon/styles.css')}}
 
