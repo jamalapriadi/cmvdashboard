@@ -5,17 +5,22 @@
 @media (min-width: 1281px) {
     #zingchart-1 {
         height: 400px;
-        width: 1400px;
+        width: 960px;
     }
 
     #zingchart-2 {
         height: 700px;
-        width: 1400px;
+        width: 960px;
     }
 
     #zingchart-typeunit{
         height: 400px;
-        width: 1400px;
+        width: 960px;
+    }
+
+    #zingchart-groupMediaType{
+        height: 400px;
+        width: 960px;
     }
 
     .zingchart-tooltip {

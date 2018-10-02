@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="card">
+            <div class="card card-accent-primary">
                 <div class="card-header text-center">BY MEDIA PLATFORM</div>
                 <div class="card-body">
                     <div class="row">
@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card card-accent-primary">
                 <div class="card-header text-center">BY UNIT MEDIA TYPE</div>
                 <div class="card-body">
                     <div class="row">
@@ -183,16 +183,96 @@
                 </div>
             </div>
 
-            {{-- <div class="card">
-                <div class="card-header text-center">BY GROUP MEDIA TYPE</div>
+            <div class="card card-accent-primary">
+                <div class="card-header text-center">GROUP BY MEDIA TYPE</div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="" class="control-label">Date</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                                    </div>
+                                    <input type="text" id="tanggalType" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="" class="control-label">Socmed Type</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                                    </div>
+                                    <select name="type" id="type2" class="form-control bg-primary">
+                                        <option value="all">All</option>
+                                        <option value="official">Official</option>
+                                        <option value="program">Program</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="" class="control-label">Unit Type</label>
+                                <select name="typeunit" id="typeunit2" class="form-control">
+                                    <option value="TV">TV</option>
+                                    <option value="Publisher">Hardnews Portal & Print</option>
+                                    <option value="Radio">Radio</option>
+                                    <option value="KOL">Artist</option>
+                                    <option value="Animation Production">Animation Production</option>
+                                    <option value="Production House">Production House</option>
+                                    <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
+                                    {{-- <option value="Newspaper">Newspaper</option> --}}
+                                    <option value="Magazine">Magazine</option>
+                                    <option value="SMN Channel">SMN Channel</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="" class="control-label"></label>
+                                <button class="btn btn-primary" id="filterType" style="margin-top:25px;"><i class="icon-filter3"></i> Filter</button>
+                            </div>
+                        </div>
+                    </div>
 
+                    <hr>
+
+                    <div id="zingchart-groupMediaType"></div>
+
+                    <div id="groupMediaType"></div>
                 </div>
-            </div> --}}
+
+                <div class="card-footer">
+                    <div class="row text-center">
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL TWITTER</div>
+                            <strong id="total_twitter_group_type">0</strong>
+                        </div>
+        
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL FACEBOOK</div>
+                            <strong id="total_facebook_group_type">0</strong>
+                        </div>
+        
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL INSTAGRAM</div>
+                            <strong id="total_instagram_group_type">0</strong>
+                        </div>
+        
+                        <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                            <div class="text-muted">TOTAL YOUTUBE</div>
+                            <strong id="total_youtube_group_type">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="card card-primary">
+    <div class="card card-accent-success">
         <div class="card-header">
             <div class="row">
                 <div class="col-sm-5">
@@ -1154,6 +1234,217 @@
                 })
             }
 
+            function groupMediaType(){
+                var tanggal=$("#tanggalType").val();
+                var type=$("#type2 option:selected").val();
+                var typeunit=$("#typeunit2 option:selected").val();
+                
+                var param={
+                    tanggal:tanggal,
+                    type:type,
+                    typeunit:typeunit
+                };
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/chart/type-unit-by-group')}}",
+                    type:"GET",
+                    data:param,
+                    beforeSend:function(){
+                        $("#groupMediaType").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                        $("#zingchart-groupMediaType").empty().html("<div class='alert alert-info'>Please wait. . .</div>");
+                    },
+                    success:function(result){
+                        var el="";
+                        $("#zingchart-groupMediaType").empty();
+                        var primaryColor = "#4184F3";
+                        var primaryColorHover = "#3a53c5";
+                        var secondaryColor = '#DCDCDC'
+                        var scaleTextColor = '#999';
+
+                        var labels1=[];
+                        var facebook1=[];
+                        var twitter1=[];
+                        var instagram1=[];
+                        var youtube1=[];
+
+                        var chartTypeGroup=[];
+
+                        chartTypeGroup=result.sort(function(a, b) {
+                            return a['total'] - b['total'];
+                        });
+
+                        $.each(chartTypeGroup,function(a,b){
+                            if(b.group_unit_id!=null){
+                                labels1.push(b.group_name);
+
+                                facebook1.push(parseFloat(b.facebook));
+                                twitter1.push(parseFloat(b.twitter));
+                                instagram1.push(parseFloat(b.instagram));
+                                youtube1.push(parseFloat(b.youtube));
+                            }
+                        })
+                        
+                        /* tear 1 */
+                        var chartConfig1 = {
+                            "type": "hbar",
+                            "plot": {
+                                "stacked": true,
+                                "thousands-separator":",",
+                                "valueBox":{
+                                    "text":"%total",
+                                    "color":"#222222",
+                                    "rules": [
+                                        {
+                                            "rule": '%stack-top == 0',
+                                            "visible": 0
+                                        }
+                                    ]
+                                }
+                            },
+                            "plotarea": {
+                                "margin": "2% 15% 15% 10%"
+                                // margin: 'dynamic dynamic dynamic dynamic',
+                            },
+                            "backgroundColor": "#fff",
+                            "scaleX": {
+                                "values": labels1,
+                                "lineWidth": 0,
+                                "lineColor":"none",
+                                "tick": {
+                                    "visible": false
+                                },
+                                "guide": {
+                                    "visible": false
+                                },
+                                "item": {
+                                    "font-size": "9px"
+                                }
+                            },
+                            "scale-y":{
+                                "line-color":"#333",
+                                "thousands-separator":",",
+                                "guide":{
+                                    "line-style":"solid",
+                                    "line-color":"#c4c4c4",
+                                    visible:false
+                                },
+                                "tick":{
+                                    "line-color":"#333",
+                                }
+                            },
+                            "legend": {
+                                "layout": "float",
+                                "toggle-action":"remove",
+                                "shadow": 0,
+                                "adjust-layout": true,
+                                "align": "center",
+                                "vertical-align": "bottom",
+                                "marker": {
+                                    "type": "match",
+                                    "show-line": true,
+                                    "line-width": 4,
+                                    "shadow": "none"
+                                }
+                            },
+                            "tooltip": {
+                                "htmlMode": true,
+                                "backgroundColor": "none",
+                                "padding": 0,
+                                "placement": "node:center",
+                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt - %t<\/div><div class='scaley-value'>%v <\/div><\/div>"
+                            },
+                            "series": [
+                                {
+                                    "values": twitter1,
+                                    "text": "Twitter",
+                                    "background-color": "#008ef6"
+                                },
+                                {
+                                    "values": facebook1,
+                                    "text": "Facebook",
+                                    "background-color": "#5054ab"
+                                },
+                                {
+                                    "values": instagram1,
+                                    "text": "Instagram",
+                                    "background-color": "#a958a5"
+                                },
+                                {
+                                    "values": youtube1,
+                                    "text": "Youtube",
+                                    "background-color": "#f06261"
+                                }
+                            ]
+                        };
+
+                        chartConfig1.plot.animation = {
+                            'method': 'LINEAR',
+                            'delay': 0,
+                            'effect': 'ANIMATION_EXPAND_VERTICAL',
+                            'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                            'speed': 10
+                        }
+
+                        zingchart.render({
+                            id: 'zingchart-groupMediaType',
+                            data: chartConfig1,
+                            output: 'canvas',
+                            height:'100%',
+                            width:'100%'
+                        });
+                        /* end tear 1 */
+
+                        el+='<div class="table-responsive">'+
+                            '<table id="tablegrouptype" class="table table-responsive-sm table-hover table-outline mb-0">'+
+                                '<thead class="thead-light">'+
+                                    '<tr class="text-center">'+
+                                        '<th>No.</th>'+
+                                        '<th>Unit Name</th>'+
+                                        '<th>Twitter</th>'+
+                                        '<th>Facebook</th>'+
+                                        '<th>Instagram</th>'+
+                                        '<th>Youtube</th>'+
+                                    '</tr>'+
+                                '</thead>'+
+                                '<tbody>';
+                                    var no=0;
+                                    var tabelTypeGroup=[];
+
+                                    tabelTypeGroup=result.sort(function(a, b) {
+                                        return b['total'] - a['total'];
+                                    });
+
+                                    $.each(tabelTypeGroup,function(a,b){
+                                        if(b.group_unit_id!=null){
+                                            no++;
+                                            el+="<tr>"+
+                                                "<td>"+no+"</td>"+
+                                                "<td>"+b.group_name+"</td>"+
+                                                "<td>"+addKoma(b.twitter)+"</td>"+
+                                                "<td>"+addKoma(b.facebook)+"</td>"+
+                                                "<td>"+addKoma(b.instagram)+"</td>"+
+                                                "<td>"+addKoma(b.youtube)+"</td>"+
+                                            "</tr>";
+                                        }else{
+                                            $("#total_twitter_group_type").html(addKoma(b.twitter));
+                                            $("#total_facebook_group_type").html(addKoma(b.facebook));
+                                            $("#total_instagram_group_type").html(addKoma(b.instagram));
+                                            $("#total_youtube_group_type").html(addKoma(b.youtube));
+                                        }
+                                    })
+                                el+='</tbody>'+
+                            '</table>'+
+                        '</div>';
+
+                        $("#groupMediaType").empty().html(el);
+                        $("#tablegrouptype").DataTable();
+                    },
+                    errors:function(){
+
+                    }
+                })
+            }
+
             $(document).on("click","#filterOfficial",function(){
                 showTear1();
             })
@@ -1178,6 +1469,10 @@
                 $("#namagroup").empty().html(nm);
 
                 showgroup();
+            })
+
+            $(document).on("click","#filterType",function(){
+                groupMediaType();
             })
 
             $(document).on("change","#accounttype",function(){
@@ -1247,6 +1542,8 @@
             showTear1();
             showgroup();
             liveSocmed();
+
+            groupMediaType();
         })
     </script>
 @stop
