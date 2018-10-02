@@ -41,7 +41,7 @@
                 @foreach($bu->sosmed as $row)
                     @if($row->sosmed_id==1)
                         <div class="col-lg-6">
-                            <div class="card card-accent-success">
+                            <div class="card card-accent-success" style="overflow:scroll">
                                 <div class="card-header" bg-info>Twitter</div>
                                 <div class="card-body">
                                     <a class="twitter-timeline" data-height="600" data-theme="light" data-link-color="#E81C4F" href="https://twitter.com/{{$row->unit_sosmed_name}}?ref_src=twsrc%5Etfw">Tweets by {{$row->unit_sosmed_name}}</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -52,7 +52,7 @@
             
                     @if($row->sosmed_id==2)
                         <div class="col-lg-6">
-                            <div class="card card-accent-primary">
+                            <div class="card card-accent-primary" style="overflow:scroll">
                                 <div class="card-header">Facebook</div>
                                 <div class="card-body">
                                     <div id="fb-root"></div>
@@ -65,7 +65,7 @@
             
                     @if($row->sosmed_id==3)
                         <div class="col-lg-6">
-                            <div class="card card-accent-warning">
+                            <div class="card card-accent-warning" style="overflow:scroll">
                                 <div class="card-header">Instagram</div>
                                 <div class="card-body">
                                     {!! $row->unit_sosmed_account_id !!}
@@ -76,7 +76,7 @@
             
                     @if($row->sosmed_id==4)
                         <div class="col-lg-6">
-                            <div class="card card-accent-danger">
+                            <div class="card card-accent-danger" style="overflow:scroll">
                                 <div class="card-header">Youtube</div>
                                 <div class="card-body">
                                     <div class="row">
