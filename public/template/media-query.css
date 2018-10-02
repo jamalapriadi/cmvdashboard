@@ -23,6 +23,16 @@
         width: 960px;
     }
 
+    #chartOfficial{
+        height: 400px;
+        width: 960px;
+    }
+
+    #growthProgram{
+        height: 400px;
+        width: 960px;
+    }
+
     .zingchart-tooltip {
         padding: 7px 5px;
         border-radius: 1px;
@@ -64,6 +74,21 @@
     }
 
     #zingchart-typeunit{
+        height: 400px;
+        width: 960px;
+    }
+
+    #zingchart-groupMediaType{
+        height: 400px;
+        width: 960px;
+    }
+
+    #chartOfficial{
+        height: 400px;
+        width: 960px;
+    }
+
+    #growthProgram{
         height: 400px;
         width: 960px;
     }
@@ -113,6 +138,21 @@
         width: 768px;
     }
 
+    #zingchart-groupMediaType{
+        height: 400px;
+        width: 768px;
+    }
+
+    #chartOfficial{
+        height: 400px;
+        width: 768px;
+    }
+
+    #growthProgram{
+        height: 400px;
+        width: 768px;
+    }
+
     .zingchart-tooltip {
         padding: 7px 5px;
         border-radius: 1px;
@@ -154,6 +194,21 @@
     }
 
     #zingchart-typeunit{
+        height: 400px;
+        width: 720px;
+    }
+
+    #zingchart-groupMediaType{
+        height: 400px;
+        width: 720px;
+    }
+
+    #chartOfficial{
+        height: 400px;
+        width: 720px;
+    }
+
+    #growthProgram{
         height: 400px;
         width: 720px;
     }
@@ -203,6 +258,21 @@
         width: 620px;
     }
 
+    #zingchart-groupMediaType{
+        height: 400px;
+        width: 620px;
+    }
+
+    #chartOfficial{
+        height: 400px;
+        width: 620px;
+    }
+
+    #growthProgram{
+        height: 400px;
+        width: 620px;
+    }
+
     .zingchart-tooltip {
         padding: 7px 5px;
         border-radius: 1px;
@@ -244,6 +314,21 @@
     }
 
     #zingchart-typeunit{
+        height: 400px;
+        width: 240px;
+    }
+
+    #zingchart-groupMediaType{
+        height: 400px;
+        width: 240px;
+    }
+
+    #chartOfficial{
+        height: 400px;
+        width: 240px;
+    }
+
+    #growthProgram{
         height: 400px;
         width: 240px;
     }

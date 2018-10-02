@@ -207,6 +207,91 @@ class ReportController extends Controller
                 $group="where group_unit_id='".$gr."'";
             }
 
+            // switch($typeunit){
+            //     default:
+            //     case 'TV':
+            //             $unit=\DB::select("select ifnull(official.id,'SUBTOTAL') as id, official.unit_name, 
+            //                 ifnull(official.group_unit_id,'TOTAL') as group_id,
+            //                 official.tanggal,
+            //                 sum(tw_kemarin) as tw_kemarin,
+            //                 sum(tw_sekarang) as tw_sekarang,
+            //                 sum(fb_kemarin) as fb_kemarin,
+            //                 sum(fb_sekarang) as fb_sekarang,
+            //                 sum(ig_kemarin) as ig_kemarin,
+            //                 sum(ig_sekarang) as ig_sekarang,
+            //                 sum(yt_kemarin) as yt_kemarin,
+            //                 sum(yt_sekarang) as yt_sekarang
+            //                 from 
+            //                 (
+            //                     select ifnull(semua.id,'SUBTOTAL') as id, semua.unit_name, semua.group_unit_id,semua.tanggal,
+            //                     sum(tw_kemarin) as tw_kemarin,
+            //                     sum(tw_sekarang) as tw_sekarang,
+            //                     sum(fb_kemarin) as fb_kemarin,
+            //                     sum(fb_sekarang) as fb_sekarang,
+            //                     sum(ig_kemarin) as ig_kemarin,
+            //                     sum(ig_kemarin) as ig_sekarang,
+            //                     sum(yt_kemarin) as yt_kemarin,
+            //                     sum(yt_kemarin) as yt_sekarang
+            //                     from
+            //                     (
+            //                         select a.id, a.unit_name, a.group_unit_id, c.tanggal, 
+            //                         sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
+            //                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
+            //                         sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0)) as fb_kemarin,
+            //                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb_sekarang,
+            //                         sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) as ig_kemarin,
+            //                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang,
+            //                         sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) as yt_kemarin,
+            //                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt_sekarang
+            //                         from business_unit a
+            //                         left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            //                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal between '$kemarin' and '$sekarang'
+            //                         left join group_unit d on d.id=a.group_unit_id
+            //                         where a.type_unit='TV' and a.group_unit_id=1
+            //                         group by a.id
+            //                         union all 
+            //                         select a.id, a.program_name, d.group_unit_id, c.tanggal, 
+            //                         sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
+            //                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
+            //                         sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0)) as fb_kemarin,
+            //                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb_sekarang,
+            //                         sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) as ig_kemarin,
+            //                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang,
+            //                         sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) as yt_kemarin,
+            //                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt_sekarang
+            //                         from program_unit a
+            //                         left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
+            //                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal between '$kemarin' and '$sekarang'
+            //                         left join business_unit d on d.id=a.business_unit_id
+            //                         where d.type_unit='TV' and d.group_unit_id=1 and a.id in (89, 101, 95, 87)
+            //                         group by a.id
+            //                     ) as semua
+            //                     group by semua.id
+            //                     union all 
+            //                     select ifnull(a.id,'SUBTOTAL') as id, a.unit_name, a.group_unit_id, c.tanggal, 
+            //                     sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,
+            //                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
+            //                     sum(if(c.tanggal='$kemarin' and b.sosmed_id=2,c.follower,0)) as fb_kemarin,
+            //                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb_sekarang,
+            //                     sum(if(c.tanggal='$kemarin' and b.sosmed_id=3,c.follower,0)) as ig_kemarin,
+            //                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang,
+            //                     sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) as yt_kemarin,
+            //                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt_sekarang
+            //                     from business_unit a
+            //                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            //                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal between '$kemarin' and '$sekarang'
+            //                     left join group_unit d on d.id=a.group_unit_id
+            //                     where a.type_unit='TV' and a.group_unit_id!=1
+            //                     group by a.group_unit_id, a.id
+            //                 ) as official
+            //                 group by official.group_unit_id, official.id
+            //                 with rollup");
+            //         break;
+            //     case 'Publisher':
+
+            //         break;
+            // }
+
             $unit=\DB::select("select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
                 ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
                 sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) as tw_kemarin,

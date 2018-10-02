@@ -2,15 +2,6 @@
 
 @section('extra-style')
     <style>
-        #zingchart-1 {
-            height: 400px;
-            width: 960px;
-        }
-
-        #zingchart-2 {
-            height: 200px;
-            width: 480px;
-        }
 
         #zingchart-3 {
             height: 200px;
@@ -20,16 +11,6 @@
         #zingchart-4 {
             height: 200px;
             width: 480px;
-        }
-
-        #chartOfficial{
-            height: 400px;
-            width: 960px;
-        }
-
-        #growthProgram{
-            height: 400px;
-            width: 960px;
         }
 
         #officialTwitter{
@@ -50,31 +31,6 @@
         #top10{
             height: 400px;
             width: 480px;
-        }
-
-        .zingchart-tooltip {
-            padding: 7px 5px;
-            border-radius: 1px;
-            line-height: 20px;
-            background-color: #fff;
-            border: 1px solid #dcdcdc;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            -webkit-font-smoothing: antialiased;
-        }
-        .zingchart-tooltip .scalex-value {
-            font-size: 14px !important;
-            font-weight: normal !important;
-            line-height: 24px;
-            color: #838383;
-        }
-        .zingchart-tooltip .scaley-value {
-            color: #4184f3;
-            font-size: 24px !important;
-            font-weight: normal !important;
-        }
-
-        .zc-ref {
-            display: none;
         }
     </style>
 @stop
@@ -317,6 +273,107 @@
         </div>
     </div>
 
+    <div class="card card-accent-success">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-5">
+                    <h4 class="card-title mb-0" id="namagroup">MNC GROUP</h4>
+                    <div class="small text-muted" id="grouptanggal">{{date('d F Y')}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">Group</label>
+                        <select name="group" id="group" class="form-control">
+                            @foreach($group as $row)
+                                <option value="{{$row->id}}">{{$row->group_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="" class="control-label">Type</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                            </div>
+                            <select name="type" id="typegroup" class="form-control bg-primary">
+                                <option value="all">All</option>
+                                <option value="official">Official</option>
+                                <option value="program">Program</option>
+                                <option value="artist">Artist</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="" class="control-label">Date</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                            </div>
+                            <input type="text" id="tanggalgroup" data-value="{{date('Y/m/d')}}" name="tanggalgroup" class="form-control daterange-single">
+                        </div>
+                    </div>
+                </div>
+
+                {{-- <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="" class="control-label">Sort By</label>
+                        <select name="sortby2" id="sortby2" class="form-control">
+                            <option value="hight">High</option>
+                            <option value="low">Low</option>
+                            <option value="group">Group</option>
+                        </select>
+                    </div>
+                </div> --}}
+
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="" class="control-label"></label>
+                        <button class="btn btn-primary" id="filtergroup" style="margin-top:25px;"><i class="icon-filter3"></i> Filter</button>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div id="zingchart-2"></div>
+            <div id="showGroup"></div>
+        </div>
+
+        {{-- <div class="card-footer">
+            <div class="row text-center">
+                <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                    <div class="text-muted">TOTAL TWITTER</div>
+                    <strong id="total_twitter_group">0</strong>
+                </div>
+
+                <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                    <div class="text-muted">TOTAL FACEBOOK</div>
+                    <strong id="total_facebook_group">0</strong>
+                </div>
+
+                <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                    <div class="text-muted">TOTAL INSTAGRAM</div>
+                    <strong id="total_instagram_group">0</strong>
+                </div>
+
+                <div class="col-sm-12 col-md mb-sm-3 mb-0">
+                    <div class="text-muted">TOTAL YOUTUBE</div>
+                    <strong id="total_youtube_group">0</strong>
+                </div>
+            </div>
+        </div> --}}
+    </div>
+
     <div class="card card-default">
         <div class="card-header">Official</div>
         <div class="card-body">
@@ -519,6 +576,24 @@
                         var tulisan="";
                         var warna="";
 
+                        if(idsosmed==1){
+                            result.sort(function(a, b) {
+                                return a['twitter'] - b['twitter'];
+                            });
+                        }else if(idsosmed==2){
+                            result.sort(function(a, b) {
+                                return a['facebook'] - b['facebook'];
+                            });
+                        }else if(idsosmed==3){
+                            result.sort(function(a, b) {
+                                return a['instagram'] - b['instagram'];
+                            });
+                        }else if(idsosmed==4){
+                            result.sort(function(a, b) {
+                                return a['youtube'] - b['youtube'];
+                            });
+                        }
+
                         $.each(result,function(a,b){
                             if(b.type_unit!='tidak'){
                                 var na="";
@@ -670,10 +745,29 @@
                                 '</thead>'+
                                 '<tbody>';
                                     var no=0;
+
+                                    if(idsosmed==1){
+                                        result.sort(function(a, b) {
+                                            return b['twitter'] - a['twitter'];
+                                        });
+                                    }else if(idsosmed==2){
+                                        result.sort(function(a, b) {
+                                            return b['facebook'] - a['facebook'];
+                                        });
+                                    }else if(idsosmed==3){
+                                        result.sort(function(a, b) {
+                                            return b['instagram'] - a['instagram'];
+                                        });
+                                    }else if(idsosmed==4){
+                                        result.sort(function(a, b) {
+                                            return b['youtube'] - a['youtube'];
+                                        });
+                                    }else{
+                                        result.sort(function(a, b) {
+                                            return b['twitter'] - a['twitter'];
+                                        });
+                                    }
                                     
-                                    result.sort(function(a, b) {
-                                        return b['total'] - a['total'];
-                                    });
                                     $.each(result,function(a,b){
                                         if(b.type_unit!='tidak'){
                                             var na="";
@@ -1274,21 +1368,63 @@
                         var warna="";
                         
                         if(sortby=="hight"){
-                            listchart=result.chart.sort(function(a, b) {
-                                return a['total_all'] - b['total_all'];
-                            });
+                            if(idsosmed==1){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return a['total_twitter'] - b['total_twitter'];
+                                });
+                            }else if(idsosmed==2){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return a['total_facebook'] - b['total_facebook'];
+                                });
+                            }else if(idsosmed==3){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return a['total_instagram'] - b['total_instagram'];
+                                });
+                            }else if(idsosmed==4){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return a['total_youtube'] - b['total_youtube'];
+                                });
+                            }
                         }else if(sortby=="low"){
-                            listchart=result.chart.sort(function(a, b) {
-                                return b['total_all'] - a['total_all'];
-                            });
+                            if(idsosmed==1){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return b['total_twitter'] - a['total_twitter'];
+                                });
+                            }else if(idsosmed==2){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return b['total_facebook'] - a['total_facebook'];
+                                });
+                            }else if(idsosmed==3){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return b['total_instagram'] - a['total_instagram'];
+                                });
+                            }else if(idsosmed==4){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return b['total_youtube'] - a['total_youtube'];
+                                });
+                            }
                         }else if(sortby=="group"){
                             listchart=result.chart.sort(function(a, b) {
                                 return b['group_unit_id'] - a['group_unit_id'];
                             });
                         }else{
-                            listchart=result.chart.sort(function(a, b) {
-                                return a['total_all'] - b['total_all'];
-                            });
+                            if(idsosmed==1){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return a['total_twitter'] - b['total_twitter'];
+                                });
+                            }else if(idsosmed==2){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return a['total_facebook'] - b['total_facebook'];
+                                });
+                            }else if(idsosmed==3){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return a['total_instagram'] - b['total_instagram'];
+                                });
+                            }else if(idsosmed==4){
+                                listchart=result.chart.sort(function(a, b) {
+                                    return a['total_youtube'] - b['total_youtube'];
+                                });
+                            }
                         }
 
                         $.each(listchart,function(a,b){
@@ -1464,21 +1600,63 @@
                                     var no=0;
                                     
                                     if(sortby=="hight"){
-                                        listtable=result.chart.sort(function(a, b) {
-                                            return b['total_all'] - a['total_all'];
-                                        });
+                                        if(idsosmed==1){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return b['total_twitter'] - a['total_twitter'];
+                                            });
+                                        }else if(idsosmed==2){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return b['total_facebook'] - a['total_facebook'];
+                                            });
+                                        }else if(idsosmed==3){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return b['total_instagram'] - a['total_instagram'];
+                                            });
+                                        }else if(idsosmed==4){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return b['total_youtube'] - a['total_youtube'];
+                                            });
+                                        }
                                     }else if(sortby=="low"){
-                                        listtable=result.chart.sort(function(a, b) {
-                                            return a['total_all'] - b['total_all'];
-                                        });
+                                        if(idsosmed==1){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return a['total_twitter'] - b['total_twitter'];
+                                            });   
+                                        }else if(idsosmed==2){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return a['total_facebook'] - b['total_facebook'];
+                                            });   
+                                        }else if(idsosmed==3){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return a['total_instagram'] - b['total_instagram'];
+                                            });   
+                                        }else if(idsosmed==4){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return a['total_youtube'] - b['total_youtube'];
+                                            });   
+                                        }
                                     }else if(sortby=="group"){
                                         listtable=result.chart.sort(function(a, b) {
                                             return a['group_unit_id'] - b['group_unit_id'];
-                                        });
+                                        });   
                                     }else{
-                                        listtable=result.chart.sort(function(a, b) {
-                                            return b['total_all'] - a['total_all'];
-                                        });
+                                        if(idsosmed==1){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return b['total_twitter'] - a['total_twitter'];
+                                            });
+                                        }else if(idsosmed==2){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return b['total_facebook'] - a['total_facebook'];
+                                            });
+                                        }else if(idsosmed==3){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return b['total_instagram'] - a['total_instagram'];
+                                            });
+                                        }else if(idsosmed==4){
+                                            listtable=result.chart.sort(function(a, b) {
+                                                return b['total_youtube'] - a['total_youtube'];
+                                            });
+                                        }
                                     }
 
                                     $.each(listtable,function(a,b){
@@ -1576,10 +1754,24 @@
                         var warna="";
 
                         var chartTypeGroup=[];
-
-                        chartTypeGroup=result.sort(function(a, b) {
-                            return a['total'] - b['total'];
-                        });
+                        
+                        if(idsosmed==1){
+                            chartTypeGroup=result.sort(function(a, b) {
+                                return a['twitter'] - b['twitter'];
+                            });
+                        }else if(idsosmed==2){
+                            chartTypeGroup=result.sort(function(a, b) {
+                                return a['facebook'] - b['facebook'];
+                            });
+                        }else if(idsosmed==3){
+                            chartTypeGroup=result.sort(function(a, b) {
+                                return a['instagram'] - b['instagram'];
+                            });
+                        }else if(idsosmed==4){
+                            chartTypeGroup=result.sort(function(a, b) {
+                                return a['youtube'] - b['youtube'];
+                            });
+                        }
 
                         $.each(chartTypeGroup,function(a,b){
                             if(b.group_unit_id!=null){
@@ -1725,9 +1917,23 @@
                                     var no=0;
                                     var tabelTypeGroup=[];
 
-                                    tabelTypeGroup=result.sort(function(a, b) {
-                                        return b['total'] - a['total'];
-                                    });
+                                    if(idsosmed==1){
+                                        tabelTypeGroup=result.sort(function(a, b) {
+                                            return b['twitter'] - a['twitter'];
+                                        });
+                                    }else if(idsosmed==2){
+                                        tabelTypeGroup=result.sort(function(a, b) {
+                                            return b['facebook'] - a['facebook'];
+                                        });
+                                    }else if(idsosmed==3){
+                                        tabelTypeGroup=result.sort(function(a, b) {
+                                            return b['instagram'] - a['instagram'];
+                                        });
+                                    }else if(idsosmed==4){
+                                        tabelTypeGroup=result.sort(function(a, b) {
+                                            return b['youtube'] - a['youtube'];
+                                        });
+                                    }
 
                                     $.each(tabelTypeGroup,function(a,b){
                                         if(b.group_unit_id!=null){
@@ -1758,6 +1964,429 @@
 
                         $("#groupMediaType").empty().html(el);
                         $("#tablegrouptype").DataTable();
+                    },
+                    errors:function(){
+
+                    }
+                })
+            }
+
+            function showgroup(){
+                var tanggal=$("#tanggalgroup").val();
+                var filter=$("#typegroup").val();
+                var group=$("#group").val();
+                $("#grouptanggal").empty().html(tanggal);
+
+                var param={
+                    tanggal:tanggal,
+                    filter:filter
+                };
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/list-official-program-by-group')}}/"+group,
+                    data:param,
+                    type:"GET",
+                    beforeSend:function(){
+                        $("#zingchart-2").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
+                        $("#showGroup").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        $("#zingchart-2").empty();
+                        var primaryColor = "#4184F3";
+                        var primaryColorHover = "#3a53c5";
+                        var secondaryColor = '#DCDCDC'
+                        var scaleTextColor = '#999';
+
+                        var labels1=[];
+                        var facebook1=[];
+                        var twitter1=[];
+                        var instagram1=[];
+                        var youtube1=[];
+
+                        var isinya=[];
+                        var tulisan="";
+                        var warna="";
+
+                        if(idsosmed==1){
+                            result.chart.sort(function(a, b) {
+                                return a['total_twitter'] - b['total_twitter'];
+                            });
+                        }else if(idsosmed==2){
+                            result.chart.sort(function(a, b) {
+                                return a['total_facebook'] - b['total_facebook'];
+                            });
+                        }else if(idsosmed==3){
+                            result.chart.sort(function(a, b) {
+                                return a['total_instagram'] - b['total_instagram'];
+                            });
+                        }else if(idsosmed==4){
+                            result.chart.sort(function(a, b) {
+                                return a['total_youtube'] - b['total_youtube'];
+                            });
+                        }
+                        
+                        $.each(result.chart,function(a,b){
+                            /* id null adalah totalnya */
+                            if(filter!="program"){
+                                if(b.id!=null){
+                                    if(b.id!=4){
+                                        labels1.push(b.unit_name);
+
+                                        if(idsosmed==1){
+                                            isinya.push(parseFloat(b.total_twitter));
+                                            tulisan="Twitter";
+                                            warna="#008ef6";
+                                        }else if(idsosmed==2){
+                                            isinya.push(parseFloat(b.total_facebook));
+                                            tulisan="Facebook";
+                                            warna="#5054ab";
+                                        }else if(idsosmed==3){
+                                            isinya.push(parseFloat(b.total_instagram));
+                                            tulisan="Instagram";
+                                            warna="#a958a5";
+                                        }else if(idsosmed==4){
+                                            isinya.push(parseFloat(b.total_youtube));
+                                            tulisan="Youtube";
+                                            warna="#f06261";
+                                        }else{
+                                            isinya.push(parseFloat(b.total_twitter));
+                                            tulisan="Twitter";
+                                            warna="#008ef6";
+                                        }
+                                    }else{
+                                        $.each(result.inews,function(c,d){
+                                            labels1.push("INEWS 4TV");
+
+                                            if(idsosmed==1){
+                                                isinya.push(parseFloat(b.total_twitter));
+                                                tulisan="Twitter";
+                                                warna="#008ef6";
+                                            }else if(idsosmed==2){
+                                                isinya.push(parseFloat(b.total_facebook));
+                                                tulisan="Facebook";
+                                                warna="#5054ab";
+                                            }else if(idsosmed==3){
+                                                isinya.push(parseFloat(b.total_instagram));
+                                                tulisan="Instagram";
+                                                warna="#a958a5";
+                                            }else if(idsosmed==4){
+                                                isinya.push(parseFloat(b.total_youtube));
+                                                tulisan="Youtube";
+                                                warna="#f06261";
+                                            }else{
+                                                isinya.push(parseFloat(b.total_twitter));
+                                                tulisan="Twitter";
+                                                warna="#008ef6";
+                                            }
+                                        })
+                                    }
+                                }
+                            }else{
+                                if(b.idnya!=null){
+                                    if(b.idnya!=4){
+                                        labels1.push(b.unit_name);
+
+                                        if(idsosmed==1){
+                                            isinya.push(parseFloat(b.total_twitter));
+                                            tulisan="Twitter";
+                                            warna="#008ef6";
+                                        }else if(idsosmed==2){
+                                            isinya.push(parseFloat(b.total_facebook));
+                                            tulisan="Facebook";
+                                            warna="#5054ab";
+                                        }else if(idsosmed==3){
+                                            isinya.push(parseFloat(b.total_instagram));
+                                            tulisan="Instagram";
+                                            warna="#a958a5";
+                                        }else if(idsosmed==4){
+                                            isinya.push(parseFloat(b.total_youtube));
+                                            tulisan="Youtube";
+                                            warna="#f06261";
+                                        }else{
+                                            isinya.push(parseFloat(b.total_twitter));
+                                            tulisan="Twitter";
+                                            warna="#008ef6";
+                                        }
+                                    }else{
+                                        $.each(result.inews,function(c,d){
+                                            labels1.push("INEWS 4TV");
+
+                                            if(idsosmed==1){
+                                                isinya.push(parseFloat(b.total_twitter));
+                                                tulisan="Twitter";
+                                                warna="#008ef6";
+                                            }else if(idsosmed==2){
+                                                isinya.push(parseFloat(b.total_facebook));
+                                                tulisan="Facebook";
+                                                warna="#5054ab";
+                                            }else if(idsosmed==3){
+                                                isinya.push(parseFloat(b.total_instagram));
+                                                tulisan="Instagram";
+                                                warna="#a958a5";
+                                            }else if(idsosmed==4){
+                                                isinya.push(parseFloat(b.total_youtube));
+                                                tulisan="Youtube";
+                                                warna="#f06261";
+                                            }else{
+                                                isinya.push(parseFloat(b.total_twitter));
+                                                tulisan="Twitter";
+                                                warna="#008ef6";
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                            
+                            
+                        })
+                        
+                        /* tear 1 */
+                        var chartConfig1 = {
+                            "type": "hbar",
+                            "plot": {
+                                "stacked": true,
+                                "thousands-separator":",",
+                                "valueBox":{
+                                    "text":"%total",
+                                    "color":"#222222",
+                                    "rules": [
+                                        {
+                                            "rule": '%stack-top == 0',
+                                            "visible": 0
+                                        }
+                                    ]
+                                }
+                            },
+                            "plotarea": {
+                                "margin": "2% 15% 15% 15%"
+                                // margin: 'dynamic dynamic dynamic dynamic',
+                            },
+                            "backgroundColor": "#fff",
+                            "scaleX": {
+                                "values": labels1,
+                                "lineWidth": 0,
+                                "lineColor":"none",
+                                "tick": {
+                                    "visible": false
+                                },
+                                "guide": {
+                                    "visible": false
+                                },
+                                "item": {
+                                    "font-size": "9px",
+                                    "font-color": "#222222"
+                                }
+                            },
+                            "scale-y":{
+                                "line-color":"#333",
+                                "thousands-separator":",",
+                                "guide":{
+                                    "line-style":"solid",
+                                    "line-color":"#c4c4c4",
+                                    visible:false
+                                },
+                                "tick":{
+                                    "line-color":"#333",
+                                }
+                            },
+                            "legend": {
+                                "layout": "float",
+                                "toggle-action":"remove",
+                                "shadow": 0,
+                                "adjust-layout": true,
+                                "align": "center",
+                                "vertical-align": "bottom",
+                                "marker": {
+                                    "type": "match",
+                                    "show-line": true,
+                                    "line-width": 4,
+                                    "shadow": "none"
+                                }
+                            },
+                            "tooltip": {
+                                "htmlMode": true,
+                                "backgroundColor": "none",
+                                "padding": 0,
+                                "placement": "node:center",
+                                "text": "<div  class='zingchart-tooltip'><div class='scalex-value'>%kt - %t<\/div><div class='scaley-value'>%v <\/div><\/div>"
+                            },
+                            "series": [
+                                {
+                                    "values": isinya,
+                                    "text": tulisan,
+                                    "background-color": warna
+                                }
+                            ]
+                        };
+
+                        chartConfig1.plot.animation = {
+                            'method': 'LINEAR',
+                            'delay': 0,
+                            'effect': 'ANIMATION_EXPAND_VERTICAL',
+                            'sequence': 'ANIMATION_BY_PLOT_AND_NODE',
+                            'speed': 10
+                        }
+
+                        zingchart.render({
+                            id: 'zingchart-2',
+                            data: chartConfig1,
+                            output: 'canvas',
+                            height:'100%',
+                            width:'100%'
+                        });
+
+                        var el="";
+                        el+='<div class="table-responsive">'+
+                            '<table id="tablegroup" class="table table-responsive-sm table-hover table-outline mb-0">'+
+                                '<thead class="thead-light">'+
+                                    '<tr class="text-center">'+
+                                        '<th>No.</th>'+
+                                        '<th>Unit Name</th>';
+                                        if(idsosmed==1){
+                                            el+='<th>Twitter</th>';
+                                        }else if(idsosmed==2){
+                                            el+='<th>Facebook</th>';
+                                        }else if(idsosmed==3){
+                                            el+='<th>Instagram</th>';
+                                        }else if(idsosmed==4){
+                                            el+='<th>Youtube</th>';
+                                        }
+                                    el+='</tr>'+
+                                '</thead>'+
+                                '<tbody>';
+                                    var no=0;
+
+                                    if(filter=="program"){
+                                        if(idsosmed==1){
+                                            result.chart.sort(function(a, b) {
+                                                return b['total_twitter'] - a['total_twitter'];
+                                            });
+                                        }else if(idsosmed==2){
+                                            result.chart.sort(function(a, b) {
+                                                return b['total_facebook'] - a['total_facebook'];
+                                            });
+                                        }else if(idsosmed==3){
+                                            result.chart.sort(function(a, b) {
+                                                return b['total_instagram'] - a['total_instagram'];
+                                            });
+                                        }else if(idsosmed==4){
+                                            result.chart.sort(function(a, b) {
+                                                return b['total_youtube'] - a['total_youtube'];
+                                            });
+                                        }
+                                    }else{
+                                        if(idsosmed==1){
+                                            result.chart.sort(function(a, b) {
+                                                return b['total_twitter'] - a['total_twitter'];
+                                            });
+                                        }else if(idsosmed==2){
+                                            result.chart.sort(function(a, b) {
+                                                return b['total_facebook'] - a['total_facebook'];
+                                            });
+                                        }else if(idsosmed==3){
+                                            result.chart.sort(function(a, b) {
+                                                return b['total_instagram'] - a['total_instagram'];
+                                            });
+                                        }else if(idsosmed==4){
+                                            result.chart.sort(function(a, b) {
+                                                return b['total_youtube'] - a['total_youtube'];
+                                            });
+                                        }
+                                    }
+
+                                    $.each(result.chart,function(a,b){
+                                        if(filter!="program"){
+                                            if(b.id!=null){
+                                                no++;
+                                                if(b.id!=4){
+                                                    el+="<tr>"+
+                                                        "<td>"+no+"</td>"+
+                                                        "<td>"+b.unit_name+"</td>";
+                                                        if(idsosmed==1){
+                                                            el+="<td>"+addKoma(b.total_twitter)+"</td>";
+                                                        }else if(idsosmed==2){
+                                                            el+="<td>"+addKoma(b.total_facebook)+"</td>";
+                                                        }else if(idsosmed==3){
+                                                            el+="<td>"+addKoma(b.total_instagram)+"</td>";
+                                                        }else if(idsosmed==4){
+                                                            el+="<td>"+addKoma(b.total_youtube)+"</td>";
+                                                        }
+                                                    el+="</tr>";
+                                                }else{
+                                                    $.each(result.inews,function(c,d){
+                                                            el+="<tr>"+
+                                                                "<td>"+no+"</td>"+
+                                                                "<td>INEWS 4TV</td>";
+                                                                if(idsosmed==1){
+                                                                    el+="<td>"+addKoma(b.total_twitter)+"</td>";
+                                                                }else if(idsosmed==2){
+                                                                    el+="<td>"+addKoma(b.total_facebook)+"</td>";
+                                                                }else if(idsosmed==3){
+                                                                    el+="<td>"+addKoma(b.total_instagram)+"</td>";
+                                                                }else if(idsosmed==4){
+                                                                    el+="<td>"+addKoma(b.total_youtube)+"</td>";
+                                                                }
+                                                            el+="</tr>";
+                                                    })
+                                                }    
+                                            }else{
+                                                
+                                                $("#total_twitter_group").html(addKoma(b.total_twitter));
+                                                $("#total_facebook_group").html(addKoma(b.total_facebook));
+                                                $("#total_instagram_group").html(addKoma(b.total_instagram));
+                                                $("#total_youtube_group").html(addKoma(b.total_youtube));
+                                            }
+                                        }else{
+                                            if(b.idnya!=null){
+                                                no++;
+                                                if(b.idnya!=4){
+                                                    el+="<tr>"+
+                                                        "<td>"+no+"</td>"+
+                                                        "<td>"+b.unit_name+"</td>";
+                                                        if(idsosmed==1){
+                                                            el+="<td>"+addKoma(b.total_twitter)+"</td>";
+                                                        }else if(idsosmed==2){
+                                                            el+="<td>"+addKoma(b.total_facebook)+"</td>";
+                                                        }else if(idsosmed==3){
+                                                            el+="<td>"+addKoma(b.total_instagram)+"</td>";
+                                                        }else if(idsosmed==4){
+                                                            el+="<td>"+addKoma(b.total_youtube)+"</td>";
+                                                        }
+                                                    el+="</tr>";
+                                                }else{
+                                                    $.each(result.inews,function(c,d){
+                                                            el+="<tr>"+
+                                                                "<td>"+no+"</td>"+
+                                                                "<td>INEWS 4TV</td>";
+                                                                if(idsosmed==1){
+                                                                    el+="<td>"+addKoma(b.total_twitter)+"</td>";
+                                                                }else if(idsosmed==2){
+                                                                    el+="<td>"+addKoma(b.total_facebook)+"</td>";
+                                                                }else if(idsosmed==3){
+                                                                    el+="<td>"+addKoma(b.total_instagram)+"</td>";
+                                                                }else if(idsosmed==4){
+                                                                    el+="<td>"+addKoma(b.total_youtube)+"</td>";
+                                                                }
+                                                            el+="</tr>";
+                                                    })
+                                                }    
+                                            }else{
+                                                
+                                                $("#total_twitter_group").html(addKoma(b.total_twitter));
+                                                $("#total_facebook_group").html(addKoma(b.total_facebook));
+                                                $("#total_instagram_group").html(addKoma(b.total_instagram));
+                                                $("#total_youtube_group").html(addKoma(b.total_youtube));
+                                            }
+                                        }
+                                        
+                                    })
+                                el+='</tbody>'+
+                            '</table>'+
+                        '</div>';
+
+                        $("#showGroup").empty().html(el);
+
+                        $("#tablegroup").DataTable();
                     },
                     errors:function(){
 
@@ -1999,6 +2628,13 @@
                 groupMediaType();
             })
 
+            $(document).on("click","#filtergroup",function(){
+                var nm=$("#group option:selected").text();
+                $("#namagroup").empty().html(nm);
+
+                showgroup();
+            })
+
             periode();
             showChartByTypeUnit();
             showOfficial();
@@ -2007,6 +2643,7 @@
             growthProgram();
             showTear1();
             groupMediaType();
+            showgroup();
         })
     </script>
 @stop
