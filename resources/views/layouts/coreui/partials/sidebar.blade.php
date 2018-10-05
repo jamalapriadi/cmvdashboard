@@ -238,7 +238,8 @@
         </li>
         <li class="nav-title">Dashboard</li>
         <li class="nav-item">
-
+          <a class="nav-link {{ Request::path() == 'brand/live-socmed' ? 'active' : '' }}" href="{{URL::to('brand/live-socmed')}}">
+            <i class="nav-icon icon-tv"></i> Live Socmed</a>
         </li>
 
         <li class="nav-title">Backend</li>
@@ -247,6 +248,12 @@
             <i class="nav-icon icon-books"></i> Master
           </a>
           <ul class="nav-dropdown-items">
+              <li class="nav-item {{ Request::path() == 'brand/advertiser' ? 'active' : '' }}">
+                <a class="nav-link" href="{{URL::to('brand/advertiser')}}">
+                  <i class="nav-icon icon-arrow-right22"></i> Advertiser
+                </a>
+              </li>
+
               <li class="nav-item {{ Request::path() == 'brand/sector' ? 'active' : '' }}">
                 <a class="nav-link" href="{{URL::to('brand/sector')}}">
                   <i class="nav-icon icon-arrow-right22"></i> Sector
@@ -257,17 +264,18 @@
                   <i class="nav-icon icon-arrow-right22"></i> Category
                 </a>
               </li>
+              
               <li class="nav-item {{ Request::path() == 'brand/brand' ? 'active' : '' }}">
                 <a class="nav-link" href="{{URL::to('brand/brand')}}">
                   <i class="nav-icon icon-arrow-right22"></i> Brand
                 </a>
               </li>
 
-              {{-- <li class="nav-item {{ Request::path() == 'brand/produk' ? 'active' : '' }}">
+              <li class="nav-item {{ Request::path() == 'brand/produk' ? 'active' : '' }}">
                 <a class="nav-link" href="{{URL::to('brand/produk')}}">
                   <i class="nav-icon icon-arrow-right22"></i> Produk
                 </a>
-              </li> --}}
+              </li>
           </ul>
         </li>
         <li class="nav-item">
@@ -275,6 +283,36 @@
             <i class="nav-icon icon-collaboration"></i> Brand Unit
           </a>
         </li>
+        <li class="nav-item nav-dropdown">
+            <a class="nav-link nav-dropdown-toggle" href="#">
+              <i class="nav-icon  icon-database-insert"></i> Input Report</a>
+              <ul class="nav-dropdown-items">
+                  <li class="nav-item {{ Request::path() == 'brand/input-report/twitter' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{URL::to('brand/input-report/twitter')}}">
+                    <i class="nav-icon icon-arrow-right22"></i> Twitter</a>
+                  </li>
+  
+                  <li class="nav-item {{ Request::path() == 'brand/input-report/facebook' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{URL::to('brand/input-report/facebook')}}">
+                    <i class="nav-icon icon-arrow-right22"></i> Facebook</a>
+                  </li>
+
+                  <li class="nav-item {{ Request::path() == 'brand/input-report/instagram' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{URL::to('brand/input-report/instagram')}}">
+                    <i class="nav-icon icon-arrow-right22"></i> Instagram</a>
+                  </li>
+  
+                  <li class="nav-item {{ Request::path() == 'brand/input-report/youtube' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{URL::to('brand/input-report/youtube')}}">
+                    <i class="nav-icon icon-arrow-right22"></i> Youtube</a>
+                  </li>
+                
+                  <li class="nav-item {{ Request::path() == 'brand/input-report/single-report' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{URL::to('brand/single-report')}}">
+                    <i class="nav-icon icon-arrow-right22"></i> Single Report</a>
+                  </li>
+              </ul>
+          </li>
         {{-- <li class="nav-item">
           <a class="nav-link {{ Request::path() == 'brand/unit-sosmed' ? 'active' : '' }}" href="{{URL::to('brand/unit-sosmed')}}">
             <i class="nav-icon icon-collaboration"></i> Unit Sosmed

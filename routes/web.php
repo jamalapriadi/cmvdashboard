@@ -203,10 +203,13 @@ Route::group(['prefix'=>'brand','middleware'=>'auth'],function(){
     Route::get('category','Brand\MainbrandController@category');
     Route::get('brand','Brand\MainbrandController@brand');
     Route::get('produk','Brand\MainbrandController@produk');
+    Route::get('advertiser','Brand\MainbrandController@advertiser');
     Route::get('brand-unit','Brand\MainbrandController@brand_unit');
     Route::get('brand-unit/{id}/summary','Brand\MainbrandController@summary_brand_unit');
     Route::get('unit-sosmed','Brand\MainbrandController@unit_sosmed');
     Route::get('unit-sosmed-create','Brand\MainbrandController@unit_sosmed_create');
+    Route::get('live-socmed','Brand\MainbrandController@live_socmed');
+    Route::get('input-report/{id}','Brand\MainbrandController@sosmed_input_report');
 
     Route::group(['prefix'=>'data'],function(){
         Route::resource('sector','Brand\SectorController');
@@ -215,11 +218,13 @@ Route::group(['prefix'=>'brand','middleware'=>'auth'],function(){
         Route::resource('produk','Brand\ProdukController');
         Route::resource('brand-unit','Brand\BrandunitController');
         Route::resource('brand-sosmed','Brand\BrandsosmedController');
+        Route::resource('advertiser','Brand\AdvertiserController');
         Route::get('list-brand','Brand\BrandController@list_brand');
         Route::post('add-brand-sosmed','Brand\BrandunitController@save_brand_sosmed');
         Route::get('{id}/show-list-brand','Brand\BrandunitController@show_list_brand');
         Route::get('unit-sosmed-by-brand/{id}','Brand\BrandunitController@unit_sosmed_by_brand');
         Route::delete('hapus-related-brand/{id}','Brand\BrandunitController@hapus_related_brand');
+        Route::get('list-brand-by-sector','Brand\BrandunitController@list_brand_by_sector');
     });
 });
 /* end sosmed brand*/

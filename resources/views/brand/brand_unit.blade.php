@@ -24,6 +24,8 @@
     <script>
         $(function(){
             var kode="";
+            var sector=@json($sector);
+            var category=@json($category);
 
             function showData(){
                 $('.datatable-colvis-basic').DataTable({
@@ -103,6 +105,33 @@
                             '<input class="form-control" name="name" id="name" placeholder="Brand Alias Name" required>'+
                         '</div>'+
                         '<div class="form-group">'+
+                            '<label class="control-label text-semibold">Advertiser</label>'+
+                            '<select name="advertiser" id="advertiser" class="form-control">'+
+                                '<option value="">--Pilih Advertiser--</option>';
+                                // $.each(sector,function(a,b){
+                                //     el+="<option value='"+b.id_sector+"'>"+b.name_sector+"</option>";
+                                // })
+                            el+='</select>'+
+                        '</div>'+
+                        '<div class="form-group">'+
+                            '<label class="control-label text-semibold">Sector</label>'+
+                            '<select name="sector" id="sector" class="form-control">'+
+                                '<option value="">--Pilih Sector--</option>';
+                                $.each(sector,function(a,b){
+                                    el+="<option value='"+b.id_sector+"'>"+b.name_sector+"</option>";
+                                })
+                            el+='</select>'+
+                        '</div>'+
+                        '<div class="form-group">'+
+                            '<label class="control-label text-semibold">Category</label>'+
+                            '<select name="category" id="category" class="form-control">'+
+                                '<option value="">--Pilih Category--</option>';
+                                $.each(category,function(a,b){
+                                    el+="<option value='"+b.id_category+"'>"+b.name_category+"</option>";
+                                })
+                            el+='</select>'+
+                        '</div>'+
+                        '<div class="form-group">'+
                             '<div class="label control-label">Brand</div>'+
                             '<select name="brand[]" id="brand" class="select2-multiple" multiple>'+
                                 '<option value="">--Pilih Brand--</option>';
@@ -123,6 +152,8 @@
                             width: null,
                             containerCssClass: ':all:'
                         } );
+                        $("#sector").select2();
+                        $("#category").select2();
                     },
                     errors:function(){
                         
@@ -276,6 +307,24 @@
                     }
                 });
             });
+
+            $(document).on("change","#sector",function(){
+                var sect=$("#sector option:selected").val();
+
+                $.ajax({
+                    url:"{{URL::to('brand/data/list-brand-by-sector')}}",
+                    type:"GET",
+                    beforeSend:function(){
+
+                    },
+                    success:function(result){
+
+                    },
+                    errors:function(){
+
+                    }
+                })
+            })
 
             showData();
         })

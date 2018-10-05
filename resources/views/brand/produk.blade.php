@@ -29,7 +29,7 @@
                     {data: 'id_produk', name: 'id_produk',title:'ID PRODUK',width:'15%',visible:false},
                     {data: 'nama_produk', name: 'nama_produk',title:'PRODUCT'},
                     {data: 'brand.nama_brand', name: 'brand.nama_brand',title:'BRAND',defaultContent: "Data Not Found"},
-                    // {data: 'advertiser.nama_adv', name: 'advertiser.nama_adv',title:'ADVERTISER',defaultContent: "Data Not Found"},
+                    {data: 'advertiser.nama_adv', name: 'advertiser.nama_adv',title:'ADVERTISER',defaultContent: "Data Not Found"},
                     {data: 'sector.name_sector', name: 'sector.name_sector',title:'SECTOR',defaultContent: "Data Not Found"},
                     {data: 'category.name_category', name: 'category.name_category',title:'CATEGORY',visible:false,defaultContent: "Data Not Found"}
                 ],

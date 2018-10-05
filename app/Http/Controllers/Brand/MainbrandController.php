@@ -28,8 +28,17 @@ class MainbrandController  extends Controller
         return view('brand.produk');
     }
 
+    public function advertiser(){
+        return view('brand.advertiser');
+    }
+
     public function brand_unit(){
-        return view('brand.brand_unit');
+        $sector=\App\Models\Brand\Sector::all();
+        $category=\App\Models\Brand\Category::all();
+
+        return view('brand.brand_unit')
+            ->with('sector',$sector)
+            ->with('category',$category);
     }
 
     public function summary_brand_unit($id){
@@ -66,5 +75,82 @@ class MainbrandController  extends Controller
         return view('brand.unit_sosmed_create')
             ->with('sosmed',$sosmed)
             ->with('brand',$brand);
+    }
+
+    public function live_socmed(Request $request){
+        $unit=\App\Models\Brand\Brandunit::all();
+        $channel=array();
+        $activities=array();
+        $requnit=request('unit');
+
+        if($request->has('unit')){
+            $filter="ada";
+            $brand=\App\Models\Brand\Brandunit::with('sosmed')->find(request('unit'));
+
+            foreach($brand->sosmed as $row){
+                if($row->sosmed_id==4){
+                    $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+    
+                    $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+                }
+            }
+        }else{
+            $filter="tidak";
+            $brand=array();
+        }
+
+        $sosmed=\App\Models\Sosmed\Sosmed::all();
+
+        return view('brand.live_socmed')
+            ->with('unit',$unit)
+            ->with('filter',$filter)
+            ->with('brand',$brand)
+            ->with('sosmed',$sosmed)
+            ->with('youtube',$channel)
+            ->with('activity',$activities)
+            ->with('requnit',$requnit);
+    }
+
+    public function sosmed_input_report(Request $request){
+        return "ada";
+        $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        $user=\App\User::with('unit','unit.groupunit')->find(auth()->user()->id);
+        $sekarang=date('Y-m-d');
+        $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
+
+        switch($id){
+            case 'twitter':
+                    if(!auth()->user()->can('Input Twitter')){
+                        return abort('403');
+                    }
+                break;
+            case 'facebook':
+                    if(!auth()->user()->can('Input Facebook')){
+                        return abort('403');
+                    }
+                break;
+            case 'instagram':
+                    if(!auth()->user()->can('Input Instagram')){
+                        return abort('403');
+                    }
+                break;
+            case 'youtube':
+                    if(!auth()->user()->can('Input Youtube')){
+                        return abort('403');
+                    }
+                break;
+            default:
+
+                break;
+        }
+
+        return view('sosmed.input_report')
+                ->with('sosmed',$sosmed)
+                ->with('group',$group)
+                ->with('user',$user)
+                ->with('sekarang',$sekarang)
+                ->with('kemarin',$kemarin)
+                ->with('id',$id);
     }
 }

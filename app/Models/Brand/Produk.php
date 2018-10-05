@@ -44,9 +44,11 @@ class Produk extends Model
     function brand(){
         return $this->belongsTo('App\Models\Brand\Brand','id_brand');
     }
-    // function advertiser(){
-    //     return $this->belongsTo('App\Models\Brand\Advertiser','id_adv');
-    // }
+
+    function advertiser(){
+        return $this->belongsTo('App\Models\Brand\Advertiser','id_adv');
+    }
+    
     // function aprun(){
     //     return $this->hasOne('App\Models\Brand\Aprun','id_produk');
     // }

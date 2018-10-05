@@ -199,4 +199,8 @@ class BrandunitController extends Controller
 
         return $data;
     }
+
+    public function list_brand_by_sector(Request $request){
+        
+    }
 }

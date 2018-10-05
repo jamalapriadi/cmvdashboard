@@ -22,7 +22,7 @@ class ProdukController extends Controller
 
     public function index(Request $request)
     { 
-    	$var=Produk::with('category','sector','brand');
+    	$var=Produk::with('category','sector','brand','advertiser');
         
         return \Datatables::of($var)
             ->addIndexColumn()
