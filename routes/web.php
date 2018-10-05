@@ -34,6 +34,7 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('import-data','HomeController@import_data');
 
+/* sosmed tv,publisher, radio dll*/
 Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
     Route::group(['middleware'=>'access-log-sosmed'],function(){
         Route::get('change-password','HomeController@change_password');
@@ -193,6 +194,35 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         });
     });
 });
+/* end sosmed tv, publisher, radio dll */
+
+/*sosmed brand */
+Route::group(['prefix'=>'brand','middleware'=>'auth'],function(){
+    Route::get('/','Brand\MainbrandController@index');
+    Route::get('sector','Brand\MainbrandController@sector');
+    Route::get('category','Brand\MainbrandController@category');
+    Route::get('brand','Brand\MainbrandController@brand');
+    Route::get('produk','Brand\MainbrandController@produk');
+    Route::get('brand-unit','Brand\MainbrandController@brand_unit');
+    Route::get('brand-unit/{id}/summary','Brand\MainbrandController@summary_brand_unit');
+    Route::get('unit-sosmed','Brand\MainbrandController@unit_sosmed');
+    Route::get('unit-sosmed-create','Brand\MainbrandController@unit_sosmed_create');
+
+    Route::group(['prefix'=>'data'],function(){
+        Route::resource('sector','Brand\SectorController');
+        ROute::resource('category','Brand\CategoryController');
+        Route::resource('brand','Brand\BrandController');
+        Route::resource('produk','Brand\ProdukController');
+        Route::resource('brand-unit','Brand\BrandunitController');
+        Route::resource('brand-sosmed','Brand\BrandsosmedController');
+        Route::get('list-brand','Brand\BrandController@list_brand');
+        Route::post('add-brand-sosmed','Brand\BrandunitController@save_brand_sosmed');
+        Route::get('{id}/show-list-brand','Brand\BrandunitController@show_list_brand');
+        Route::get('unit-sosmed-by-brand/{id}','Brand\BrandunitController@unit_sosmed_by_brand');
+        Route::delete('hapus-related-brand/{id}','Brand\BrandunitController@hapus_related_brand');
+    });
+});
+/* end sosmed brand*/
 
 Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
     Route::get('/','Dashboard\CmvController@index');
@@ -273,4 +303,9 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
 
 Route::get('info',function(){
     phpinfo();
+});
+
+Route::group(['prefix'=>'automation'],function(){
+    Route::get('official','Sosmed\AutomationController@official');
+    Route::get('program','Sosmed\AutomationController@program');
 });

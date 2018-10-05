@@ -15,6 +15,8 @@
     <link href="{{asset('template/coreui/vendors/pace-progress/css/pace.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+    <link rel="stylesheet" href="https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css">
 
 
     <link rel="stylesheet" href="{{asset('js/pickadate/lib/themes/default.css')}}" id="theme_base">
