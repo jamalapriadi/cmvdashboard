@@ -1,5 +1,5 @@
 <div class="sidebar">
-  @if(Request()->route()->getPrefix()=="/sosmed")
+  @if(Request()->route()->getPrefix()=="/sosmed" || Request::path() == 'home')
     <nav class="sidebar-nav">
       <ul class="nav">
         @if(auth()->user()->can('Dashboard'))
