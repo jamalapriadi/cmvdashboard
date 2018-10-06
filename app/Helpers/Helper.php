@@ -61,7 +61,7 @@ function instagram_follower($id){
 }
 
 function twitter_follower($id){
-    $html=file_get_contents("https://twitter.com/".$id);
+    $html=@file_get_contents("https://twitter.com/".$id,true);
     preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
 
     if(isset($match[1])){
