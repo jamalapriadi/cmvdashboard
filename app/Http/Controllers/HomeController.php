@@ -145,7 +145,7 @@ class HomeController extends Controller
                 if($row->sosmed_id==4){
                     $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
 
-                    $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+                    // $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
                 }
             }
 

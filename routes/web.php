@@ -83,6 +83,8 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('instagram', 'Sosmed\InstagramController@redirectToInstagramProvider');
         Route::get('instagram/callback', 'Sosmed\InstagramController@handleProviderInstagramCallback');
 
+        Route::get('export-excel','HomeController@sosmed_export_excel');
+
         Route::get('otomatisasi-cek-sosmed','Sosmed\OtomatisasiController@cek_sosmed');
     });
 
@@ -211,6 +213,7 @@ Route::group(['prefix'=>'brand','middleware'=>'auth'],function(){
     Route::get('unit-sosmed-create','Brand\MainbrandController@unit_sosmed_create');
     Route::get('live-socmed','Brand\MainbrandController@live_socmed');
     Route::get('input-report/{id}','Brand\MainbrandController@sosmed_input_report');
+    Route::get('add-new-report-daily/{id}','Brand\MainbrandController@add_new_report_daily');
 
     Route::group(['prefix'=>'data'],function(){
         Route::resource('sector','Brand\SectorController');
@@ -314,4 +317,18 @@ Route::get('info',function(){
 Route::group(['prefix'=>'automation'],function(){
     Route::get('official','Sosmed\AutomationController@official');
     Route::get('program','Sosmed\AutomationController@program');
+});
+
+Route::get('tes-youtube',function(){
+    $params = [
+        'q'             => 'yukatamada',
+        'type'          => 'video',
+        'part'          => 'users',
+        'maxResults'    => 50
+    ];
+    
+    // Make intial call. with second argument to reveal page info such as page tokens
+    $search = Youtube::searchAdvanced($params, true);
+
+    return response()->json($search);
 });

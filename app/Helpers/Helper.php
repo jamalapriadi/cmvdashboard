@@ -72,10 +72,20 @@ function twitter_follower($id){
 }
 
 function youtube_follower($id){
-    $client = new \GuzzleHttp\Client();
-    $res = $client->request('GET', 'http://rctimobile.com/engine/ytsubs.php?id='.$id);
+    // $client = new \GuzzleHttp\Client();
+    // $res = $client->request('GET', 'http://rctimobile.com/engine/ytsubs.php?id='.$id);
 
-    echo $res->getBody();
+    // echo $res->getBody();
+
+    $channel = \Youtube::getChannelByID($id);
+
+    $youtube=$channel;
+
+    if(isset($youtube->statistics)){
+        return $youtube->statistics->subscriberCount;
+    }else{
+        return 0;
+    }
 }
 
 function facebook_follower($id){
