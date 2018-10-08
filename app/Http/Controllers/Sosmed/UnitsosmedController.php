@@ -220,4 +220,18 @@ class UnitsosmedController extends Controller
             ->with('youtube',$channel)
             ->with('activity',$activities);
     }
+
+    public function aktif_non_aktif_program(Request $request,$id){
+        $var=Unitsosmed::find($id);
+        $var->status_active=request('status');
+        $var->save();
+
+        $data=array(
+            'success'=>true,
+            'pesan'=>'Data ',
+            'errors'=>''
+        );
+
+        return $data;
+    }
 }

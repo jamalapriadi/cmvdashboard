@@ -17,8 +17,14 @@ class BusinessunitController extends Controller
 
         \DB::statement(\DB::raw('set @rownum=0'));
 
-        $var=Businessunit::with('groupunit','sosmed')
-            ->select('id','group_unit_id','unit_name','type_unit','tier',
+        $var=Businessunit::with(
+            [
+                'groupunit',
+                'sosmed'=>function($q){
+                    $q->where('status_active','Y');
+                }
+            ]
+        )->select('id','group_unit_id','unit_name','type_unit','tier',
             \DB::raw('@rownum := @rownum + 1 AS no'));
 
         if($request->has('type') && $request->input('type')!=null){

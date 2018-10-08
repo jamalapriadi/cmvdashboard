@@ -253,6 +253,8 @@
 @stop
 
 @section('js')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.js"></script>
     <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
     <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
     ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
@@ -345,7 +347,15 @@
                                         "<td>"+no+"</td>"+
                                         "<td>"+b.sosmed.sosmed_name+"</td>"+
                                         "<td>"+b.unit_sosmed_name+"</td>"+
-                                        "<td>"+b.status_active+"</td>";
+                                        // "<td>"+b.status_active+"</td>";
+                                        "<td>";
+                                            if(b.status_active=="Y"){
+                                                el+='<input type="checkbox" name="my-checkbox" class="checkboxnya" status="pilih" kode="'+b.id+'" checked>';
+                                            }else{
+                                                el+='<input type="checkbox" name="my-checkbox" class="checkboxnya" status="tidakpilih" kode="'+b.id+'">';
+                                            }
+                                            
+                                        el+="</td>";
                                         // if(b.target!=null){
                                         //     el+="<td><a class='setupdatetarget' kode='"+b.id+"' utarget='"+b.target.id+"'><label class='label label-info'>"+b.target.target+"</label></a></td>";
                                         // }else{
@@ -363,6 +373,7 @@
                         '</table>';
 
                         $("#divSosmed").empty().html(el);
+                        $(".checkboxnya").bootstrapSwitch();
 
                         $("#tabelsosmed").DataTable({
                             buttons: [
@@ -1198,6 +1209,53 @@
                         swal("Your data is safe!");
                     }
                 });
+            })
+
+            $(document).on("switchChange.bootstrapSwitch",'.checkboxnya',function(event,state){
+                var kode=$(this).attr("kode");
+
+                /* jika true berarti dari off ke on */
+                if(state==true){
+                    var status="Y";    
+                }else if(state==false){
+                    var status="N";
+                }
+
+                var param={
+                    "status":status,
+                    "kode":kode,
+                    "_token":"{{ csrf_token() }}"
+                }
+
+                swal({
+                    title: "Are you sure?",
+                    text: "You will to change status data!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url:"{{URL::to('sosmed/data/aktif-non-aktif-program')}}/"+kode,
+                            type:"PUT",
+                            data:param,
+                            success:function(result){
+                                if(result.success=true){
+                                    swal("Changed!", result.pesan, "success");
+                                    location.reload();
+                                }else{
+                                    swal("Error!", result.pesan, "error");
+                                }
+                            }
+                        })
+                    } else {
+                        swal("Your data is safe!");
+                    }
+                });
+
+                /* jika false berarti dari on ke off */
+
             })
 
             function liveSocmed(){

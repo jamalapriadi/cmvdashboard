@@ -126,7 +126,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_target c on c.unit_sosmed_id=b.id
                 left join unit_sosmed_follower d on d.unit_sosmed_id=b.id and d.tanggal='$sekarang'
-                where a.group_unit_id='$group' and a.type_unit='TV'
+                where a.group_unit_id='$group' and a.type_unit='TV' and b.status_active='Y'
                 GROUP by a.id");
     
             $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
@@ -144,7 +144,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join business_unit d on d.id=a.business_unit_id and d.type_unit='TV'
-                where a.id in (89, 101, 95, 87)
+                where a.id in (89, 101, 95, 87) and b.status_active='Y'
                 group by a.id
                 with ROLLUP");
     
@@ -311,7 +311,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit e on e.id=a.group_unit_id
-                where a.type_unit='$typeunit'
+                where a.type_unit='$typeunit' and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP");
 
@@ -336,7 +336,7 @@ class ReportController extends Controller
                 from program_unit a
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
-                where c.tanggal BETWEEN '$kemarin' and '$sekarang'
+                where b.status_active='Y' and c.tanggal BETWEEN '$kemarin' and '$sekarang' 
                 and a.id=89");
 
             $cnnprogram=\DB::select("select a.id, a.business_unit_id, a.program_name, b.sosmed_id,
@@ -360,31 +360,31 @@ class ReportController extends Controller
                 from program_unit a
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
-                where c.tanggal BETWEEN '$kemarin' and '$sekarang'
+                where b.status_active='Y' and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 and a.id=108");
 
             $metrofficial=\DB::select("select a.id, a.unit_name, b.sosmed_id,
                 b.unit_sosmed_name, b.unit_sosmed_account_id, 
-                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
                 sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as tw_sekarang,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_tw,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_tw,
-                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as fb_kemarin,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_tw,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_tw,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as fb_kemarin,
                 sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as fb_sekarang,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_fb,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_fb,
-                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as ig_kemarin,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_fb,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_fb,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as ig_kemarin,
                 sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as ig_sekarang,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_ig,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_ig,
-                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as yt_kemarin,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_ig,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_ig,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as yt_kemarin,
                 sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as yt_sekarang,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_yt,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_yt
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_yt,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_yt
                 from business_unit a
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
-                where c.tanggal BETWEEN '2018-09-18' and '2018-09-19'
+                where b.status_active='Y' and c.tanggal BETWEEN '$kemarin' and '2018-09-19'
                 and a.id=11");
 
             $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
@@ -405,7 +405,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join business_unit d on d.id=a.business_unit_id and d.type_unit='TV'
-                where a.id in (89, 101, 95, 87)
+                where a.id in (89, 101, 95, 87) and b.status_active='Y'
                 group by a.id
                 with ROLLUP");
 
@@ -488,7 +488,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='$typeunit'
+                where a.type_unit='$typeunit' and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -507,7 +507,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='$typeunit'
+                where a.type_unit='$typeunit' and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -534,7 +534,7 @@ class ReportController extends Controller
             from program_unit a
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
-            where c.tanggal BETWEEN '$kemarin' and '$sekarang'
+            where b.status_active='Y' and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             and a.id=89");
 
         $cnnprogram=\DB::select("select a.id, a.business_unit_id, a.program_name, b.sosmed_id,
@@ -559,31 +559,31 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
             where c.tanggal BETWEEN '$kemarin' and '$sekarang'
-            and a.id=108");
+            and a.id=108 and b.status_active='Y'");
 
         $metrofficial=\DB::select("select a.id, a.unit_name, b.sosmed_id,
             b.unit_sosmed_name, b.unit_sosmed_account_id, 
-            sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
-            sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as tw_sekarang,
-            ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_tw,
-            ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_tw,
-            sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as fb_kemarin,
-            sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as fb_sekarang,
-            ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_fb,
-            ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_fb,
-            sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as ig_kemarin,
-            sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as ig_sekarang,
-            ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_ig,
-            ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_ig,
-            sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as yt_kemarin,
-            sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as yt_sekarang,
-            ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_yt,
-            ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_yt
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as tw_sekarang,
+            ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_tw,
+            ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_tw,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as fb_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as fb_sekarang,
+            ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_fb,
+            ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_fb,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as ig_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as ig_sekarang,
+            ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_ig,
+            ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_ig,
+            sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as yt_kemarin,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as yt_sekarang,
+            ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_yt,
+            ((sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_yt
             from business_unit a
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
-            where c.tanggal BETWEEN '2018-09-18' and '2018-09-19'
-            and a.id=11");
+            where c.tanggal BETWEEN '$kemarin' and '$sekarang'
+            and a.id=11 and b.status_active='Y'");
 
         $sosmed=\App\Models\Sosmed\Sosmed::all();
 
@@ -640,7 +640,7 @@ class ReportController extends Controller
             from business_unit a
             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-            where a.group_unit_id='$group' and a.type_unit='$typeunit'
+            where a.group_unit_id='$group' and a.type_unit='$typeunit' and b.status_active='Y'
             group by a.id
             union all 
             select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,a.program_name,c.tanggal, 
@@ -652,7 +652,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
             left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
-            where d.group_unit_id='$group'
+            where d.group_unit_id='$group' and b.status_active='Y'
             group by a.id
             union all 
             select 'total' as urut,semua.id, semua.group_unit_id, semua.unit_name, semua.type_sosmed, semua.unit_sosmed_name, semua.tanggal,
@@ -669,7 +669,7 @@ class ReportController extends Controller
                     from business_unit a
                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                    where a.group_unit_id='$group' and a.type_unit='$typeunit'
+                    where a.group_unit_id='$group' and a.type_unit='$typeunit' and b.status_active='Y'
                     group by a.id
                     union all 
                     select d.id,d.group_unit_id, d.unit_name, b.type_sosmed,a.program_name,c.tanggal, 
@@ -681,7 +681,7 @@ class ReportController extends Controller
                     left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                     left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
-                    where d.group_unit_id='$group'
+                    where d.group_unit_id='$group' and b.status_active='Y'
                     group by a.id
                 ) as semua 
             group by semua.id
@@ -760,7 +760,7 @@ class ReportController extends Controller
             left join business_unit b on b.group_unit_id=a.id
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
-            where b.type_unit='$typeunit'
+            where b.type_unit='$typeunit' and c.status_active='Y'
             group by a.id");
 
         $rankOfOfficialAccountAllTvByFollowers=\DB::select("select b.id, b.unit_name,d.tanggal,
@@ -779,7 +779,7 @@ class ReportController extends Controller
             FROM business_unit b
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
-            where b.type_unit='$typeunit'
+            where b.type_unit='$typeunit' and c.status_active='Y'
             group by b.id");
 
         $rankOverallAccountGroup=\DB::select("select terjadi.group_unit_id,terjadi.group_name,
@@ -810,7 +810,7 @@ class ReportController extends Controller
                     left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                     left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                     left join group_unit e on e.id=a.group_unit_id
-                    where a.type_unit='$typeunit'
+                    where a.type_unit='$typeunit' and c.status_active='Y'
                     group by a.id
                     union all 
                     select a.id, a.unit_name,b.unit_sosmed_name ,c.tanggal,  
@@ -826,7 +826,7 @@ class ReportController extends Controller
                     left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                     left join group_unit e on e.id=a.group_unit_id
-                    where a.type_unit='$typeunit'
+                    where a.type_unit='$typeunit' and b.status_active='Y'
                     group by a.id 
                 ) as terjadi
             group by terjadi.group_unit_id");
@@ -858,7 +858,7 @@ class ReportController extends Controller
                 left join program_unit b on b.business_unit_id=a.id
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
-                where a.type_unit='$typeunit'
+                where a.type_unit='$typeunit' and c.status_active='Y'
                 group by a.id
                 union all 
                 select a.id, a.unit_name,b.unit_sosmed_name ,c.tanggal,  
@@ -873,7 +873,7 @@ class ReportController extends Controller
                 business_unit a 
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
-                where a.type_unit='$typeunit'
+                where a.type_unit='$typeunit' and b.status_active='Y'
                 group by a.id 
             ) as terjadi
             group by terjadi.id");
@@ -895,7 +895,7 @@ class ReportController extends Controller
             from business_unit a
             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal between '$kemarin' and '$sekarang'
-            where a.group_unit_id=5 and a.type_unit='$typeunit'
+            where a.group_unit_id=5 and a.type_unit='$typeunit' and b.status_active='Y'
             group by a.id");
 
         $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
@@ -916,7 +916,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
-            where a.id in (89, 101, 95, 87)
+            where a.id in (89, 101, 95, 87) and b.status_active='Y'
             and weekday(c.tanggal) <= 6
             group by a.id
             with ROLLUP");
@@ -950,7 +950,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.group_unit_id=5 and a.type_unit='$typeunit'
+                where a.group_unit_id=5 and a.type_unit='$typeunit' and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 union all 
                 select ifnull(a.id,'SUBTOTAL') as id, a.unit_name, 
@@ -966,7 +966,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.group_unit_id=5 and a.type_unit='$typeunit'
+                where a.group_unit_id=5 and a.type_unit='$typeunit' and b.status_active='Y'
                 group by a.group_unit_id,a.id
             ) as terjadi
             group by terjadi.group_id,terjadi.id");
@@ -1024,6 +1024,7 @@ class ReportController extends Controller
             FROM business_unit b
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
+            and c.status_active='Y'
             group by b.id");
 
         $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
@@ -1044,7 +1045,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit d on d.id=a.business_unit_id
-            where a.id in (89, 101, 95, 87)
+            where a.id in (89, 101, 95, 87) and b.status_active='Y'
             group by a.id
             with ROLLUP");
 
@@ -1176,6 +1177,7 @@ class ReportController extends Controller
             FROM business_unit b
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
+            and c.status_active='Y'
             group by b.id");
 
         $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
@@ -1197,6 +1199,7 @@ class ReportController extends Controller
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit d on d.id=a.business_unit_id
             where a.id in (89, 101, 95, 87)
+            and b.status_active='Y'
             group by a.id
             with ROLLUP");
 
@@ -1249,6 +1252,7 @@ class ReportController extends Controller
             left join business_unit b on b.group_unit_id=a.id
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
+            and c.status_active='Y'
             group by a.id");
 
         $data=array();
@@ -1348,7 +1352,7 @@ class ReportController extends Controller
             from 
             business_unit a 
             left join program_unit b on b.business_unit_id=a.id
-            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
+            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program' and c.status_active='Y'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal between '$kemarin' and '$sekarang'
             $group
             group by a.id
@@ -1362,7 +1366,7 @@ class ReportController extends Controller
             sum(if(b.sosmed_id=3 and c.tanggal='$sekarang',c.follower,0)) as sekarang_ig
             from 
             business_unit a 
-            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate' and b.status_active='Y'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal between '$kemarin' and '$sekarang'
             $group
             group by a.id ) as terjadi
@@ -1460,7 +1464,7 @@ class ReportController extends Controller
             (sum(if(e.tanggal='$sekarang' and c.sosmed_id=3,e.follower,0)) - sum(if(e.tanggal='$kemarin' and c.sosmed_id=3,e.follower,0))) as num_growth_ig
             from group_unit a 
             left join business_unit b on b.group_unit_id=a.id
-            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
+            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate' and c.status_active='Y'
             left join sosmed d on d.id=c.sosmed_id
             left join unit_sosmed_follower e on e.unit_sosmed_id=c.id and e.tanggal between '$kemarin' and '$sekarang'
             group by a.id");   
@@ -1567,7 +1571,7 @@ class ReportController extends Controller
             from 
             business_unit a 
             left join program_unit b on b.business_unit_id=a.id
-            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
+            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program' and c.status_active='Y'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal between '$kemarin' and '$sekarang'
             $group
             group by a.id");
@@ -1720,7 +1724,7 @@ class ReportController extends Controller
             (sum(if(c.sosmed_id=4 and d.tanggal='$sekarang',d.follower,0)) - sum(if(c.sosmed_id=4 and d.tanggal='$kemarin',d.follower,0))) as num_of_growth_yt
             FROM group_unit a 
             left join business_unit b on b.group_unit_id=a.id and b.type_unit='$typeunit'
-            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
+            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate' and c.status_active='Y'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
             $filtergroup
             group by a.id");
@@ -1744,7 +1748,7 @@ class ReportController extends Controller
             ( sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0)) - 1) * 100 as growth_yt,
             ( sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=4,c.follower,0))) as num_of_growth_yt
             from business_unit a
-            left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate' and b.status_active='Y'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal between '$kemarin' and '$sekarang'
             where a.group_unit_id=$othergroup and a.type_unit='$typeunit'
             group by a.id");
@@ -1768,10 +1772,10 @@ class ReportController extends Controller
             (sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0)) -1)*100 as growth_yt,
             (sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0))) as num_of_growth_yt
             from program_unit a 
-            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program' 
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
-            where a.id in (89, 101, 95, 87)
+            where a.id in (89, 101, 95, 87) and b.status_active='Y'
             group by a.id
             with ROLLUP");
 
@@ -1794,7 +1798,7 @@ class ReportController extends Controller
             FROM business_unit b
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
-            where b.type_unit='$typeunit'
+            where b.type_unit='$typeunit' and c.status_active='Y'
             group by b.id");
 
         $data['rankOverallAccountGroup']=\DB::select("select terjadi.group_unit_id,terjadi.group_name,
@@ -1831,7 +1835,7 @@ class ReportController extends Controller
                     left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                     left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                     left join group_unit e on e.id=a.group_unit_id
-                    where a.type_unit='$typeunit'
+                    where a.type_unit='$typeunit' and c.status_active='Y'
                     group by a.id
                     union all 
                     select a.id, a.unit_name,b.unit_sosmed_name ,c.tanggal,  
@@ -1849,7 +1853,7 @@ class ReportController extends Controller
                     left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                     left join group_unit e on e.id=a.group_unit_id
-                    where a.type_unit='$typeunit'
+                    where a.type_unit='$typeunit' and b.status_active='Y'
                     group by a.id 
                 ) as terjadi
             group by terjadi.group_unit_id");
@@ -1887,7 +1891,7 @@ class ReportController extends Controller
                 left join program_unit b on b.business_unit_id=a.id
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
-                where a.type_unit='$typeunit'
+                where a.type_unit='$typeunit' and c.status_active='Y'
                 group by a.id
                 union all 
                 select a.id, a.unit_name,b.unit_sosmed_name ,c.tanggal,  
@@ -1904,7 +1908,7 @@ class ReportController extends Controller
                 business_unit a 
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
-                where a.type_unit='$typeunit'
+                where a.type_unit='$typeunit' and b.status_active='Y'
                 group by a.id 
             ) as terjadi
             group by terjadi.id");
@@ -1945,7 +1949,7 @@ class ReportController extends Controller
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
                 where a.group_unit_id=$othergroup and a.type_unit='$typeunit'
-                group by a.group_unit_id,a.id
+                group by a.group_unit_id,a.id and c.status_active='Y'
                 union all 
                 select ifnull(a.id,'SUBTOTAL') as id, a.unit_name, 
                 ifnull(a.group_unit_id,'TOTAL') as group_id,e.group_name,
@@ -1962,7 +1966,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.group_unit_id=$othergroup and a.type_unit='$typeunit'
+                where a.group_unit_id=$othergroup and a.type_unit='$typeunit' and b.status_active='Y'
                 group by a.group_unit_id,a.id
             ) as terjadi
             group by terjadi.group_id,terjadi.id");
@@ -2051,7 +2055,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_target c on c.unit_sosmed_id=b.id
             left join unit_sosmed_follower d on d.unit_sosmed_id=b.id and d.tanggal='$sekarang'
-            where a.group_unit_id='$group' and a.type_unit='$typeunit'
+            where a.group_unit_id='$group' and a.type_unit='$typeunit' and b.status_active='Y'
             GROUP by a.id");
 
         $data['officialTv']=\DB::select("select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
@@ -2073,7 +2077,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='$typeunit'
+            where a.type_unit='$typeunit' and b.status_active='Y'
             group by a.group_unit_id,a.id 
             with ROLLUP");
 
@@ -2112,7 +2116,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='$typeunit'
+                where a.type_unit='$typeunit' and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -2131,7 +2135,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='$typeunit'
+                where a.type_unit='$typeunit' and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -2164,7 +2168,7 @@ class ReportController extends Controller
                 from business_unit a
                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal between '$kemarin' and '$sekarang'
-                where a.group_unit_id='$group' and a.type_unit='$typeunit'
+                where a.group_unit_id='$group' and a.type_unit='$typeunit' and b.status_active='Y'
                 group by a.id
                 union all 
                 select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,a.program_name,c.tanggal, 
@@ -2187,7 +2191,7 @@ class ReportController extends Controller
                 from program_unit a 
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal between '$kemarin' and '$sekarang'
-                left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
+                left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit' and b.status_active='Y'
                 where d.group_unit_id='$group'
                 group by a.id
                 union all 
@@ -2229,7 +2233,7 @@ class ReportController extends Controller
                         from business_unit a
                         left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal between '$kemarin' and '$sekarang'
-                        where a.group_unit_id='$group' and a.type_unit='$typeunit'
+                        where a.group_unit_id='$group' and a.type_unit='$typeunit' and b.status_active='Y'
                         group by a.id
                         union all 
                         select d.id,d.group_unit_id, d.unit_name, b.type_sosmed,a.program_name,c.tanggal, 
@@ -2252,7 +2256,7 @@ class ReportController extends Controller
                         from program_unit a 
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal between '$kemarin' and '$sekarang'
-                        left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
+                        left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit' and b.status_active='Y'
                         where d.group_unit_id='$group'
                         group by a.id
                     ) as semua 
@@ -2289,7 +2293,7 @@ class ReportController extends Controller
                 from program_unit a
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
-                where c.tanggal BETWEEN '$kemarin' and '$sekarang'
+                where c.tanggal BETWEEN '$kemarin' and '$sekarang' and b.status_active='Y'
                 and a.id=89");
 
         $data['cnnprogram']=\DB::select("select a.id, a.business_unit_id, a.program_name, b.sosmed_id,
@@ -2313,31 +2317,31 @@ class ReportController extends Controller
                 from program_unit a
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
-                where c.tanggal BETWEEN '$kemarin' and '$sekarang'
+                where c.tanggal BETWEEN '$kemarin' and '$sekarang' and b.status_active='Y'
                 and a.id=108");
 
             $data['metrofficial']=\DB::select("select a.id, a.unit_name, b.sosmed_id,
                 b.unit_sosmed_name, b.unit_sosmed_account_id, 
-                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as tw_kemarin,
                 sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as tw_sekarang,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_tw,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_tw,
-                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as fb_kemarin,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_tw,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_tw,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as fb_kemarin,
                 sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as fb_sekarang,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_fb,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_fb,
-                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as ig_kemarin,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_fb,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_fb,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as ig_kemarin,
                 sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as ig_sekarang,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_ig,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_ig,
-                sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1, c.follower,0)) as yt_kemarin,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_ig,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_ig,
+                sum(if(c.tanggal='$kemarin' and b.sosmed_id=1, c.follower,0)) as yt_kemarin,
                 sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1, c.follower,0)) as yt_sekarang,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_yt,
-                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='2018-09-18' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_yt
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0)) -1) * 100) as growth_yt,
+                ((sum(if(c.tanggal='2018-09-19' and b.sosmed_id=1,c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=1,c.follower,0))) ) as num_of_growth_yt
                 from business_unit a
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
-                where c.tanggal BETWEEN '2018-09-18' and '2018-09-19'
+                where c.tanggal BETWEEN '$kemarin' and '2018-09-19'
                 and a.id=11");
         
         $data['sosmed']=\App\Models\Sosmed\Sosmed::whereIn('id',$listsosmed)->get();
@@ -2450,7 +2454,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='TV' and a.group_unit_id=1
+            where a.type_unit='TV' and a.group_unit_id=1 and b.status_active='Y'
             group by a.group_unit_id,a.id
             with ROLLUP
 
@@ -2475,7 +2479,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='Publisher' and a.group_unit_id=1
+            where a.type_unit='Publisher' and a.group_unit_id=1 and b.status_active='Y'
             group by a.group_unit_id,a.id
             with ROLLUP
 
@@ -2500,7 +2504,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='Radio' and a.group_unit_id=1
+            where a.type_unit='Radio' and a.group_unit_id=1 and b.status_active='Y'
             group by a.group_unit_id,a.id
             with ROLLUP
             
@@ -2526,7 +2530,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='Production House' and a.group_unit_id=1
+            where a.type_unit='Production House' and a.group_unit_id=1 and b.status_active='Y'
             group by a.group_unit_id,a.id
             with ROLLUP
             
@@ -2551,7 +2555,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='PAYTV,IPTV,OTT' and a.group_unit_id=1
+            where a.type_unit='PAYTV,IPTV,OTT' and a.group_unit_id=1 and b.status_active='Y'
             group by a.group_unit_id,a.id
             with ROLLUP
             
@@ -2576,7 +2580,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='Newspaper' and a.group_unit_id=1
+            where a.type_unit='Newspaper' and a.group_unit_id=1 and b.status_active='Y'
             group by a.group_unit_id,a.id
             with ROLLUP
 
@@ -2601,7 +2605,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='Magazine' and a.group_unit_id=1
+            where a.type_unit='Magazine' and a.group_unit_id=1 and b.status_active='Y'
             group by a.group_unit_id,a.id
             with ROLLUP
             
@@ -2626,7 +2630,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='Animation Production' and a.group_unit_id=1
+            where a.type_unit='Animation Production' and a.group_unit_id=1 and b.status_active='Y'
             group by a.group_unit_id,a.id
             with ROLLUP
             
@@ -2651,7 +2655,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join group_unit e on e.id=a.group_unit_id
-            where a.type_unit='SMN Channel' and a.group_unit_id=1
+            where a.type_unit='SMN Channel' and a.group_unit_id=1 and b.status_active='Y'
             group by a.group_unit_id,a.id
             with ROLLUP");
         
@@ -2676,7 +2680,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
-            where a.id in (89, 101, 95, 87)
+            where a.id in (89, 101, 95, 87)  and b.status_active='Y'
             group by a.id
             with ROLLUP");
 
@@ -2715,7 +2719,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='TV' and a.group_unit_id=1
+                where a.type_unit='TV' and a.group_unit_id=1 and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -2734,7 +2738,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='TV' and a.group_unit_id=1
+                where a.type_unit='TV' and a.group_unit_id=1 and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -2777,7 +2781,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Publisher' and a.group_unit_id=1
+                where a.type_unit='Publisher' and a.group_unit_id=1 and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -2796,7 +2800,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Publisher' and a.group_unit_id=1
+                where a.type_unit='Publisher' and a.group_unit_id=1 and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -2839,7 +2843,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Radio' and a.group_unit_id=1
+                where a.type_unit='Radio' and a.group_unit_id=1 and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -2858,7 +2862,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Radio' and a.group_unit_id=1
+                where a.type_unit='Radio' and a.group_unit_id=1 and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -2901,7 +2905,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='KOL' and a.group_unit_id=1
+                where a.type_unit='KOL' and a.group_unit_id=1 and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -2920,7 +2924,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='KOL' and a.group_unit_id=1
+                where a.type_unit='KOL' and a.group_unit_id=1 and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -2963,7 +2967,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Production House' and a.group_unit_id=1
+                where a.type_unit='Production House' and a.group_unit_id=1 and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -2982,7 +2986,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Production House' and a.group_unit_id=1
+                where a.type_unit='Production House' and a.group_unit_id=1 and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -3025,7 +3029,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='PAYTV,IPTV,OTT' and a.group_unit_id=1
+                where a.type_unit='PAYTV,IPTV,OTT' and a.group_unit_id=1 and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -3044,7 +3048,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='PAYTV,IPTV,OTT' and a.group_unit_id=1
+                where a.type_unit='PAYTV,IPTV,OTT' and a.group_unit_id=1 and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -3087,7 +3091,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Newspaper' and a.group_unit_id=1
+                where a.type_unit='Newspaper' and a.group_unit_id=1 and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -3106,7 +3110,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Newspaper' and a.group_unit_id=1
+                where a.type_unit='Newspaper' and a.group_unit_id=1 and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -3149,7 +3153,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Magazine' and a.group_unit_id=1
+                where a.type_unit='Magazine' and a.group_unit_id=1 and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -3168,7 +3172,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Magazine' and a.group_unit_id=1
+                where a.type_unit='Magazine' and a.group_unit_id=1 and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -3211,7 +3215,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Animation Production' and a.group_unit_id=1
+                where a.type_unit='Animation Production' and a.group_unit_id=1 and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -3230,7 +3234,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='Animation Production' and a.group_unit_id=1
+                where a.type_unit='Animation Production' and a.group_unit_id=1 and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -3273,7 +3277,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='SMN Channel' and a.group_unit_id=1
+                where a.type_unit='SMN Channel' and a.group_unit_id=1 and c.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
                 union all 
@@ -3292,7 +3296,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.type_unit='SMN Channel' and a.group_unit_id=1
+                where a.type_unit='SMN Channel' and a.group_unit_id=1 and b.status_active='Y'
                 group by a.group_unit_id,a.id
                 with ROLLUP
             ) as terjadi
@@ -3318,7 +3322,7 @@ class ReportController extends Controller
                 from business_unit a
                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                where a.group_unit_id='$group' and a.type_unit='$typeunit'
+                where a.group_unit_id='$group' and a.type_unit='$typeunit' and b.status_active='Y'
                 group by a.id
                 union all 
                 select 'program' as urut,d.id, d.group_unit_id, d.unit_name, b.type_sosmed,a.program_name,c.tanggal, 
@@ -3330,7 +3334,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                 left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
-                where d.group_unit_id='$group'
+                where d.group_unit_id='$group' and b.status_active='Y'
                 group by a.id
                 union all 
                 select 'total' as urut,semua.id, semua.group_unit_id, semua.unit_name, semua.type_sosmed, semua.unit_sosmed_name, semua.tanggal,
@@ -3347,7 +3351,7 @@ class ReportController extends Controller
                         from business_unit a
                         left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                        where a.group_unit_id='$group' and a.type_unit='$typeunit'
+                        where a.group_unit_id='$group' and a.type_unit='$typeunit' and b.status_active='Y'
                         group by a.id
                         union all 
                         select d.id,d.group_unit_id, d.unit_name, b.type_sosmed,a.program_name,c.tanggal, 
@@ -3359,7 +3363,7 @@ class ReportController extends Controller
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
-                        where d.group_unit_id='$group'
+                        where d.group_unit_id='$group' and b.status_active='Y'
                         group by a.id
                     ) as semua 
                 group by semua.id
@@ -3450,7 +3454,7 @@ class ReportController extends Controller
             FROM business_unit b
             left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
-            where b.type_unit='$typeunit'
+            where b.type_unit='$typeunit'  and c.status_active='Y'
             group by b.id");
 
         $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as id, a.business_unit_id,
@@ -3475,7 +3479,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
-            where a.id in (89, 101, 95, 87)
+            where a.id in (89, 101, 95, 87)  and b.status_active='Y'
             group by a.id
             with ROLLUP");
 
@@ -3676,7 +3680,7 @@ class ReportController extends Controller
             (sum(if(c.sosmed_id=4 and d.tanggal='$sekarang',d.follower,0)) - sum(if(c.sosmed_id=4 and d.tanggal='$kemarin',d.follower,0))) as num_of_growth_yt
             FROM group_unit a 
             left join business_unit b on b.group_unit_id=a.id and b.type_unit='$typeunit'
-            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate'
+            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='corporate' and c.status_active='Y'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
             $filtergroup
             group by a.id");
@@ -3700,7 +3704,7 @@ class ReportController extends Controller
             (sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0)) -1)*100 as growth_yt,
             (sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) - sum(if(c.tanggal='$kemarin' and b.sosmed_id=4, c.follower,0))) as num_of_growth_yt
             from program_unit a 
-            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program' and b.status_active='Y'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
             where a.id in (89, 101, 95, 87)
@@ -3741,7 +3745,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.group_unit_id=$othergroup and a.type_unit='$typeunit'
+                where a.group_unit_id=$othergroup and a.type_unit='$typeunit' and b.status_active='Y'
                 group by a.group_unit_id,a.id
             ) as terjadi
             group by terjadi.group_id,terjadi.id");
@@ -4052,7 +4056,7 @@ class ReportController extends Controller
                     left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                     left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                     left join group_unit e on e.id=a.group_unit_id
-                    where a.type_unit='$typeunit'
+                    where a.type_unit='$typeunit' and c.status_active='Y'
                     group by a.id
                     union all 
                     select a.id, a.unit_name,b.unit_sosmed_name ,c.tanggal,  
@@ -4070,7 +4074,7 @@ class ReportController extends Controller
                     left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                     left join group_unit e on e.id=a.group_unit_id
-                    where a.type_unit='$typeunit'
+                    where a.type_unit='$typeunit' and b.status_active='Y'
                     group by a.id 
                 ) as terjadi
             group by terjadi.group_unit_id");
@@ -4110,7 +4114,7 @@ class ReportController extends Controller
                 left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                 left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.group_unit_id=$othergroup
+                where a.group_unit_id=$othergroup and c.status_active='Y'
                 and a.type_unit='$typeunit'
                 group by a.group_unit_id,a.id
                 union all 
@@ -4129,7 +4133,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                 left join group_unit as e on e.id=a.group_unit_id
-                where a.group_unit_id=$othergroup and a.type_unit='$typeunit'
+                where a.group_unit_id=$othergroup and a.type_unit='$typeunit' and b.status_active='Y'
                 group by a.group_unit_id,a.id
             ) as terjadi
             group by terjadi.group_id,terjadi.id");
@@ -4350,7 +4354,7 @@ class ReportController extends Controller
                     left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
                     left join group_unit e on e.id=a.group_unit_id
-                    where a.type_unit='$typeunit'
+                    where a.type_unit='$typeunit' and b.status_active='Y'
                     group by a.id 
                     union all
                     select a.id, a.unit_name,c.unit_sosmed_name ,d.tanggal,  
@@ -4369,7 +4373,7 @@ class ReportController extends Controller
                     left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
                     left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
                     left join group_unit e on e.id=a.group_unit_id
-                    where a.type_unit='$typeunit'
+                    where a.type_unit='$typeunit' and c.status_active='Y'
                     group by a.id
                 ) as terjadi
             group by terjadi.id");
@@ -4392,7 +4396,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
-            where a.id in (89, 101, 95, 87)
+            where a.id in (89, 101, 95, 87)  and b.status_active='Y'
             group by a.id
             with ROLLUP");
 
@@ -4670,7 +4674,7 @@ class ReportController extends Controller
                 sum(if(d.tanggal='$kemarin' and c.sosmed_id=4,d.follower,0))
             ) as num_of_growth_yt
             from program_unit b
-            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program'
+            left join unit_sosmed c on c.business_program_unit=b.id and c.type_sosmed='program' and c.status_active='Y'
             left join unit_sosmed_follower d on d.unit_sosmed_id=c.id and d.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit as e on e.id=b.business_unit_id and e.type_unit='$typeunit'
             $filtergroup
@@ -4828,7 +4832,7 @@ class ReportController extends Controller
             sum(if(d.tanggal='$sekarang' and b.sosmed_id=4, d.follower,0)) as follower_yt,
             ( sum(if(d.tanggal='$sekarang' and b.sosmed_id=4, d.follower,0)) / sum(if(b.sosmed_id=4, c.target,0)) * 100) as acv_yt
             from business_unit a
-            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate' and b.status_active='Y'
             left join unit_sosmed_target c on c.unit_sosmed_id=b.id
             left join unit_sosmed_follower d on d.unit_sosmed_id=b.id and d.tanggal='$sekarang'
             where a.type_unit='$typeunit' $filtergroup
@@ -4849,7 +4853,7 @@ class ReportController extends Controller
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as yt_sekarang,
             (sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) / sum(if(c.tanggal='$kemarin' and b.sosmed_id=3, c.follower,0)) -1)*100 as growth_yt
             from program_unit a 
-            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program' and b.status_active='Y'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit d on d.id=a.business_unit_id and d.type_unit='$typeunit'
             where a.id in (89, 101, 95, 87)
@@ -5011,7 +5015,7 @@ class ReportController extends Controller
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
-            where a.id=$id
+            where a.id=$id and b.status_active='Y'
             and date_format(c.tanggal,'%Y-%m')='$bulan'
             group by c.tanggal");
 
@@ -5105,7 +5109,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal BETWEEN '$kemarin' and '$sekarang'
             left join business_unit d on d.id=a.business_unit_id 
-            where d.type_unit='TV'
+            where d.type_unit='TV' and b.status_active='Y'
             $filterunit
             group by a.id order by d.id");
 
@@ -5144,7 +5148,7 @@ class ReportController extends Controller
             sum(if(b.sosmed_id=3,c.follower,0)) as ig,
             (sum(if(b.sosmed_id=1,c.follower,0)) + sum(if(b.sosmed_id=2,c.follower,0)) + sum(if(b.sosmed_id=3,c.follower,0))) as total
             from business_unit a 
-            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate' and b.status_active='Y'
             left JOIN unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tanggal'
             GROUP by a.id");
 
@@ -5310,7 +5314,7 @@ class ReportController extends Controller
                             from business_unit a
                             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                            where a.type_unit='$typeunit'
+                            where a.type_unit='$typeunit' and b.status_active='Y'
                             group by a.id
                             WITH ROLLUP
                             UNION ALL 
@@ -5323,7 +5327,7 @@ class ReportController extends Controller
                             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                             left join business_unit d on d.id=a.business_unit_id
-                            where d.type_unit='$typeunit'
+                            where d.type_unit='$typeunit' and b.status_active='Y'
                             group by a.business_unit_id
                             WITH ROLLUP
                         ) as total
@@ -5351,7 +5355,7 @@ class ReportController extends Controller
                         from business_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                        where a.type_unit='$typeunit'
+                        where a.type_unit='$typeunit' and b.status_active='Y'
                         group by a.id
                         WITH ROLLUP) AS total
                         order by total.group_unit_id, total.id desc");
@@ -5377,7 +5381,7 @@ class ReportController extends Controller
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         left join business_unit d on d.id=a.business_unit_id
-                        where d.type_unit='$typeunit'
+                        where d.type_unit='$typeunit' and b.status_active='Y'
                         group by a.business_unit_id
                         WITH ROLLUP) as total
                         order by total.group_unit_id,total.business_unit_id desc");
@@ -5402,7 +5406,7 @@ class ReportController extends Controller
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                 left join business_unit d on d.id=a.business_unit_id and d.type_unit='TV'
-                where a.id in (89, 101, 95, 87)
+                where a.id in (89, 101, 95, 87) and b.status_active='Y'
                 group by a.id
                 with ROLLUP
                 HAVING idnya='TOTAL'");
@@ -5436,6 +5440,7 @@ class ReportController extends Controller
                 left join unit_sosmed_follower cc on cc.unit_sosmed_id=bb.id
                 where bb.sosmed_id=$idsosmed
                 and aa.id=a.id
+                and bb.status_active='Y'
                 and cc.tanggal < c.tanggal
                 order by cc.tanggal desc
                 limit 1
@@ -5447,7 +5452,7 @@ class ReportController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
             where b.sosmed_id=$idsosmed
-            and a.type_unit='$typeunit'
+            and a.type_unit='$typeunit' and b.status_active='Y'
             and date_format(c.tanggal,'%Y-%m')='$periode'
             order by a.id");
 
@@ -5528,6 +5533,7 @@ class ReportController extends Controller
                 and aa.id=a.id
                 and cc.tanggal < c.tanggal
                 and dd.type_unit='TV'
+                and bb.status_active='Y'
                 and aa.business_unit_id=$unit
                 order by cc.tanggal desc
                 limit 1
@@ -5541,6 +5547,7 @@ class ReportController extends Controller
             left join business_unit d on d.id=a.business_unit_id
             where b.sosmed_id=$idsosmed
             and d.type_unit='$typeunit'
+            and b.status_active='Y'
             and date_format(c.tanggal,'%Y-%m')='$periode'
             and a.business_unit_id=$unit
             order by a.id");
@@ -5641,7 +5648,8 @@ class ReportController extends Controller
                 where bb.sosmed_id=$idsosmed
                 and aa.id=a.id
                 and cc.tanggal < c.tanggal
-                and dd.type_unit='TV'
+                and dd.type_unit='$typeunit'
+                and bb.status_active='Y'
                 and aa.business_unit_id=$unit
                 order by cc.tanggal desc
                 limit 1
@@ -5655,6 +5663,7 @@ class ReportController extends Controller
             left join business_unit d on d.id=a.business_unit_id
             where b.sosmed_id=$idsosmed
             and d.type_unit='$typeunit'
+            and b.status_active='Y'
             and date_format(c.tanggal,'%Y-%m')='$periode'
             and a.business_unit_id=$unit
             order by a.id");
@@ -5976,6 +5985,7 @@ class ReportController extends Controller
                             from business_unit a
                             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                            where b.status_active='Y'
                             group by a.type_unit
                             union all
                             select d.type_unit,c.tanggal, 
@@ -5987,6 +5997,7 @@ class ReportController extends Controller
                             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                             left join business_unit d on d.id=a.business_unit_id
+                            where b.status_active='Y'
                             group by d.type_unit
                         ) as semua
                         group by semua.type_unit
@@ -6007,6 +6018,7 @@ class ReportController extends Controller
                         from business_unit a
                         left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                        where b.status_active='Y'
                         group by a.type_unit
                         with rollup");
                     break;
@@ -6026,6 +6038,7 @@ class ReportController extends Controller
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         left join business_unit d on d.id=a.business_unit_id
+                        where b.status_active='Y'
                         group by d.type_unit
                         with rollup");
                     break;
@@ -6099,6 +6112,7 @@ class ReportController extends Controller
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                 left join group_unit d on d.id=a.group_unit_id
                                 where a.type_unit='TV' and a.group_unit_id!=5
+                                and b.status_active='Y'
                                 group by a.group_unit_id
                                 union all 
                                 select d.group_unit_id, a.program_name, c.tanggal, 
@@ -6111,6 +6125,7 @@ class ReportController extends Controller
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                 left join business_unit d on d.id=a.business_unit_id
                                 where d.type_unit='TV' and d.group_unit_id!=5
+                                and b.status_active='Y'
                                 group by a.id
                                 ) as semua
                                 group by semua.group_unit_id
@@ -6133,6 +6148,7 @@ class ReportController extends Controller
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                 left join group_unit d on d.id=a.group_unit_id
                                 where a.type_unit='TV' and a.group_unit_id=5
+                                and b.status_active='Y'
                                 group by a.id
                                 union all
                                 select d.id, a.program_name, c.tanggal, 
@@ -6145,6 +6161,7 @@ class ReportController extends Controller
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                 left join business_unit d on d.id=a.business_unit_id
                                 where d.type_unit='TV' and d.group_unit_id=5
+                                and b.status_active='Y'
                                 group by a.id
                                 ) as lain
                                 group by lain.id
@@ -6183,6 +6200,7 @@ class ReportController extends Controller
                                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                         left join group_unit d on d.id=a.group_unit_id
                                         where a.type_unit='Publisher' and a.group_unit_id!=12
+                                        and b.status_active='Y'
                                         group by a.group_unit_id
                                         union all
                                         select d.group_unit_id, a.program_name, c.tanggal, 
@@ -6195,6 +6213,7 @@ class ReportController extends Controller
                                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                         left join business_unit d on d.id=a.business_unit_id
                                         where d.type_unit='Publisher' and d.group_unit_id!=12
+                                        and b.status_active='Y'
                                         group by a.id
                                     ) as pertama
                                     group by pertama.group_unit_id
@@ -6215,6 +6234,7 @@ class ReportController extends Controller
                                         left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                         left join group_unit d on d.id=a.group_unit_id
+                                        and b.status_active='Y'
                                         where a.group_unit_id=12
                                         group by a.id
                                         union all
@@ -6228,6 +6248,7 @@ class ReportController extends Controller
                                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                         left join business_unit d on d.id=a.business_unit_id
                                         where d.type_unit='Publisher' and d.group_unit_id=12
+                                        and b.status_active='Y'
                                         group by a.id
                                     ) as kedua
                                     group by kedua.id
@@ -6242,6 +6263,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
                                     where a.id=89 or a.id=108
+                                    and b.status_active='Y'
                                     group by a.id
                                     union all
                                     select a.group_unit_id, a.unit_name, c.tanggal, 
@@ -6254,6 +6276,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join group_unit d on d.id=a.group_unit_id
                                     where a.id=11
+                                    and b.status_active='Y'
                                     group by a.group_unit_id
                                 ) as semua
                                 group by semua.group_unit_id 
@@ -6291,6 +6314,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join group_unit d on d.id=a.group_unit_id
                                     where a.type_unit='$typeunit' and a.group_unit_id!=5
+                                    and b.status_active='Y'
                                     group by a.group_unit_id
                                     union all 
                                     select d.group_unit_id, a.program_name, c.tanggal, 
@@ -6303,6 +6327,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
                                     where d.type_unit='$typeunit' and d.group_unit_id!=5
+                                    and b.status_active='Y'
                                     group by a.id
                                 ) as semua
                                 group by semua.group_unit_id
@@ -6325,6 +6350,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join group_unit d on d.id=a.group_unit_id
                                     where a.type_unit='$typeunit' and a.group_unit_id=5
+                                    and b.status_active='Y'
                                     group by a.id
                                     union all 
                                     select a.business_unit_id, a.program_name, c.tanggal, 
@@ -6337,6 +6363,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
                                     where d.type_unit='$typeunit' and d.group_unit_id=5
+                                    and b.status_active='Y'
                                     group by a.id
                                 ) as semua
                                 group by semua.id
@@ -6363,6 +6390,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join group_unit d on d.id=a.group_unit_id
                                     where a.type_unit='$typeunit'
+                                    and b.status_active='Y'
                                     group by a.group_unit_id
                                     union all 
                                     select d.group_unit_id, a.program_name, c.tanggal, 
@@ -6375,6 +6403,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
                                     where d.type_unit='$typeunit'
+                                    and b.status_active='Y'
                                     group by a.id
                                 ) as semua
                                 group by semua.group_unit_id with rollup");
@@ -6415,6 +6444,7 @@ class ReportController extends Controller
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                 left join group_unit d on d.id=a.group_unit_id
                                 where a.type_unit='TV' and a.group_unit_id=1
+                                and b.status_active='Y'
                                 group by a.group_unit_id
                                 union all 
                                 select d.group_unit_id, a.program_name, c.tanggal, 
@@ -6427,6 +6457,7 @@ class ReportController extends Controller
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                 left join business_unit d on d.id=a.business_unit_id
                                 where d.type_unit='TV' and d.group_unit_id=1
+                                and b.status_active='Y'
                                 and a.id in (89, 101, 95, 87)
                                 group by a.id
                                 ) as semua
@@ -6448,6 +6479,7 @@ class ReportController extends Controller
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                 left join group_unit d on d.id=a.group_unit_id
                                 where a.type_unit='TV' and a.group_unit_id not in (1,5)
+                                and b.status_active='Y'
                                 group by a.group_unit_id
                                 union all 
                                 select a.id, a.unit_name, c.tanggal, 
@@ -6465,7 +6497,8 @@ class ReportController extends Controller
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                 left join group_unit d on d.id=a.group_unit_id
-                                where a.type_unit='TV' and a.group_unit_id=5
+                                where a.type_unit='TV' and a.group_unit_id=5 
+                                and b.status_active='Y'
                                 group by a.id
                             ) as semua 
                             group by semua.group_unit_id
@@ -6501,6 +6534,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join group_unit d on d.id=a.group_unit_id
                                     where a.type_unit='Publisher' and a.group_unit_id!=12
+                                    and b.status_active='Y'
                                     group by a.group_unit_id
                                     union all
                                     select a.id, a.unit_name, c.tanggal, 
@@ -6519,6 +6553,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join group_unit d on d.id=a.group_unit_id
                                     where a.group_unit_id=12
+                                    and b.status_active='Y'
                                     group by a.id
                                     union all
                                     select d.group_unit_id, a.program_name, c.tanggal, 
@@ -6537,6 +6572,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
                                     where a.id=89 or a.id=108
+                                    and b.status_active='Y'
                                     group by a.id
                                     union all
                                     select a.group_unit_id, a.unit_name, c.tanggal, 
@@ -6555,6 +6591,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join group_unit d on d.id=a.group_unit_id
                                     where a.id=11
+                                    and b.status_active='Y'
                                     group by a.group_unit_id
                                 ) as semua
                                 group by semua.group_unit_id with rollup");
@@ -6589,6 +6626,7 @@ class ReportController extends Controller
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                 left join group_unit d on d.id=a.group_unit_id
                                 where a.type_unit='$typeunit' and a.group_unit_id!=5
+                                and b.status_active='Y'
                                 group by a.group_unit_id
                                 union
                                 select a.id, a.unit_name, c.tanggal, 
@@ -6607,6 +6645,7 @@ class ReportController extends Controller
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                 left join group_unit d on d.id=a.group_unit_id
                                 where a.type_unit='$typeunit' and a.group_unit_id=5
+                                and b.status_active='Y'
                                 group by a.id
                             ) as semua
                             group by semua.group_unit_id
@@ -6627,7 +6666,7 @@ class ReportController extends Controller
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                 left join group_unit d on d.id=a.group_unit_id
-                                where a.type_unit='$typeunit'
+                                where a.type_unit='$typeunit' and b.status_active='Y'
                                 group by a.group_unit_id
                                 with rollup");
                     }
@@ -6664,7 +6703,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
                                     left join group_unit e on e.id=d.group_unit_id
-                                    where d.type_unit='TV' and d.group_unit_id!=5
+                                    where d.type_unit='TV' and d.group_unit_id!=5 and b.status_active='Y'
                                     group by d.group_unit_id
                                     union
                                     select d.id, d.unit_name, c.tanggal, 
@@ -6683,7 +6722,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
                                     left join group_unit e on e.id=d.group_unit_id
-                                    where d.type_unit='TV' and d.group_unit_id=5
+                                    where d.type_unit='TV' and d.group_unit_id=5 and b.status_active='Y'
                                     group by d.id
                                 ) as semua
                                 group by semua.group_unit_id
@@ -6713,7 +6752,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
                                     left join group_unit e on e.id=d.group_unit_id
-                                    where d.type_unit='Publisher' and d.group_unit_id!=12
+                                    where d.type_unit='Publisher' and d.group_unit_id!=12 and b.status_active='Y'
                                     group by d.group_unit_id
                                     union all
                                     select a.id, d.unit_name, c.tanggal, 
@@ -6726,7 +6765,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
                                     left join group_unit e on e.id=d.group_unit_id
-                                    where d.type_unit='Publisher' and d.group_unit_id=12
+                                    where d.type_unit='Publisher' and d.group_unit_id=12 and b.status_active='Y'
                                     group by a.business_unit_id
                                     union all
                                     select d.group_unit_id, a.program_name, c.tanggal, 
@@ -6739,7 +6778,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
                                     left join group_unit e on e.id=d.group_unit_id
-                                    where a.id=89 or a.id=108
+                                    where a.id=89 or a.id=108 and b.status_active='Y'
                                     group by a.id
                                     union all
                                     select a.group_unit_id, a.unit_name, c.tanggal, 
@@ -6751,7 +6790,7 @@ class ReportController extends Controller
                                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join group_unit d on d.id=a.group_unit_id
-                                    where a.id=11
+                                    where a.id=11 and b.status_active='Y'
                                     group by a.group_unit_id
                                 ) as semua
                                 group by semua.group_unit_id
@@ -6773,7 +6812,7 @@ class ReportController extends Controller
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
                                     left join group_unit e on e.id=d.group_unit_id
-                                    where d.type_unit='$typeunit'
+                                    where d.type_unit='$typeunit' and b.status_active='Y'
                                     group by d.group_unit_id with rollup");
                     }
                 break;

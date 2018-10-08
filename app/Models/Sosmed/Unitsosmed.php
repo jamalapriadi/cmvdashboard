@@ -4,15 +4,15 @@ namespace App\Models\Sosmed;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Unitsosmed extends Model
 {
-	use SoftDeletes;
+	// use SoftDeletes;
 
 	protected $table="unit_sosmed";
 	
-	protected $dates=['deleted_at'];
+	// protected $dates=['deleted_at'];
 
 	public function sosmed(){
 		return $this->belongsTo('App\Models\Sosmed\Sosmed','sosmed_id')

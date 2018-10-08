@@ -132,7 +132,9 @@ class HomeController extends Controller
         if(auth()->user()->can('Summary Program')){
             $bu=\App\Models\Sosmed\Programunit::with(
                 [
-                    'sosmed',
+                    'sosmed'=>function($q){
+                        $q->where('status_active','Y');
+                    },
                     'sosmed.sosmed'
                 ]
             )->find($id);
@@ -160,7 +162,9 @@ class HomeController extends Controller
     public function sosmed_summary_bu($id){
         $bu=\App\Models\Sosmed\Businessunit::with(
                 [
-                    'sosmed',
+                    'sosmed'=>function($q){
+                        $q->where('status_active','Y');
+                    },
                     'sosmed.sosmed'
                 ]
             )->find($id);

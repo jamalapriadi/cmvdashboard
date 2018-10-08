@@ -17,7 +17,13 @@ class ProgramunitController extends Controller
 
         \DB::statement(\DB::raw('set @rownum=0'));
         $var=Programunit::with('businessunit')
-            ->with('sosmed')
+            ->with(
+                [
+                    'sosmed'=>function($q){
+                        $q->where('status_active','Y');
+                    }
+                ]
+            )
             ->select('id','business_unit_id','program_name',
             \DB::raw('@rownum := @rownum + 1 AS no'));
 
@@ -621,7 +627,8 @@ class ProgramunitController extends Controller
         $program=\DB::table('program_unit')
                 ->leftJoin('unit_sosmed',function($join){
                     $join->on('business_program_unit','=','program_unit.id')
-                        ->where('type_sosmed','=','program');
+                        ->where('type_sosmed','=','program')
+                        ->where('status_active','Y');
                 })
                 ->leftJoin('unit_sosmed_follower',function($join) use($sekarang,$kemarin){
                     $join->on('unit_sosmed_id','=','unit_sosmed.id')
@@ -643,7 +650,8 @@ class ProgramunitController extends Controller
         $daily=\DB::table('business_unit')
                 ->leftJoin('unit_sosmed',function($join){
                     $join->on('business_program_unit','=','business_unit.id')
-                        ->where('type_sosmed','=','corporate');
+                        ->where('type_sosmed','=','corporate')
+                        ->where('status_active','Y');
                 })
                 ->leftJoin('unit_sosmed_follower',function($join) use($sekarang,$kemarin){
                     $join->on('unit_sosmed_id','=','unit_sosmed.id')
@@ -753,6 +761,7 @@ class ProgramunitController extends Controller
 
     public function daily_report_sample(Request $request){
         $unitsosmed=\App\Models\Sosmed\Unitsosmed::select('id','type_sosmed','business_program_unit','sosmed_id','unit_sosmed_name','target_use')
+            ->where('status_active','Y')
             ->get();
 
         $unitfollower=\App\Models\Sosmed\Unitsosmedfollower::select('id','unit_sosmed_id','tanggal','follower')->limit(5)->get();
@@ -969,6 +978,7 @@ class ProgramunitController extends Controller
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
             where a.id=$id and b.sosmed_id=$sosmed
+            and b.status_active='Y'
             group by c.tanggal
             )as total
             order by total.tanggal desc");
@@ -987,6 +997,7 @@ class ProgramunitController extends Controller
             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tgl'
             where a.id=$id and b.sosmed_id='$sosmed'
+            and b.status_active='Y'
             group by a.id
             union all 
             select 'program' as urut,d.id, d.group_unit_id, d.unit_name, 
@@ -998,6 +1009,7 @@ class ProgramunitController extends Controller
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$tgl'
             left join business_unit d on d.id=a.business_unit_id
             where d.id=$id and b.sosmed_id='$sosmed'
+            and b.status_active='Y'
             group by a.id
             order by id, urut,type_sosmed");
 
@@ -1022,6 +1034,7 @@ class ProgramunitController extends Controller
                     where aa.id=a.id
                     and cc.tanggal < c.tanggal
                     and bb.sosmed_id=b.sosmed_id
+                    and bb.status_active='Y'
                     order by cc.tanggal desc
                     limit 1
                 ) as kemarin,
@@ -1031,6 +1044,7 @@ class ProgramunitController extends Controller
                 from program_unit a
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
+                and b.status_active='Y'
                 where a.id=$id
                 and date_format(c.tanggal,'%Y-%m')='$periode'
                 order by a.id");

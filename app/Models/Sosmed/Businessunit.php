@@ -71,6 +71,7 @@ class Businessunit extends Model
 					'follower'
 				]
 			)->where('type_sosmed','corporate')
+			->where('status_active','Y')
 			->where('sosmed_id',1);
 	}
 
@@ -83,6 +84,7 @@ class Businessunit extends Model
 					'follower'
 				]
 			)->where('type_sosmed','corporate')
+			->where('status_active','Y')
 			->where('sosmed_id',2);
 	}
 
@@ -95,6 +97,7 @@ class Businessunit extends Model
 					'follower'
 				]
 			)->where('type_sosmed','corporate')
+			->where('status_active','Y')
 			->where('sosmed_id',3);
 	}
 
