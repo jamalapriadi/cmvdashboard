@@ -111,46 +111,41 @@ class MainbrandController  extends Controller
             ->with('requnit',$requnit);
     }
 
-    public function sosmed_input_report(Request $request){
-        return "ada";
+    public function sosmed_input_report(Request $request,$id){
         $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
-        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
-        $user=\App\User::with('unit','unit.groupunit')->find(auth()->user()->id);
         $sekarang=date('Y-m-d');
         $kemarin = date('Y-m-d', strtotime('-7 day', strtotime($sekarang)));
 
         switch($id){
             case 'twitter':
-                    if(!auth()->user()->can('Input Twitter')){
-                        return abort('403');
-                    }
+                    
                 break;
             case 'facebook':
-                    if(!auth()->user()->can('Input Facebook')){
-                        return abort('403');
-                    }
+                    
                 break;
             case 'instagram':
-                    if(!auth()->user()->can('Input Instagram')){
-                        return abort('403');
-                    }
+                    
                 break;
             case 'youtube':
-                    if(!auth()->user()->can('Input Youtube')){
-                        return abort('403');
-                    }
+                    
                 break;
             default:
 
                 break;
         }
 
-        return view('sosmed.input_report')
+        return view('brand.input_report')
                 ->with('sosmed',$sosmed)
-                ->with('group',$group)
-                ->with('user',$user)
                 ->with('sekarang',$sekarang)
                 ->with('kemarin',$kemarin)
                 ->with('id',$id);
+    }
+
+    public function add_new_report_daily(Request $request,$id){
+        $sosmed=\App\Models\Sosmed\Sosmed::select('id','sosmed_name')->get();
+
+        return view('brand.add_new_report_harian')
+            ->with('sosmed',$sosmed)
+            ->with('id',$id);
     }
 }

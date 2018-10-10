@@ -104,15 +104,15 @@
                             '<label class="control-label text-semibold">Brand Alias Name</label>'+
                             '<input class="form-control" name="name" id="name" placeholder="Brand Alias Name" required>'+
                         '</div>'+
-                        '<div class="form-group">'+
-                            '<label class="control-label text-semibold">Advertiser</label>'+
-                            '<select name="advertiser" id="advertiser" class="form-control">'+
-                                '<option value="">--Pilih Advertiser--</option>';
-                                // $.each(sector,function(a,b){
-                                //     el+="<option value='"+b.id_sector+"'>"+b.name_sector+"</option>";
-                                // })
-                            el+='</select>'+
-                        '</div>'+
+                        // '<div class="form-group">'+
+                        //     '<label class="control-label text-semibold">Advertiser</label>'+
+                        //     '<select name="advertiser" id="advertiser" class="form-control">'+
+                        //         '<option value="">--Pilih Advertiser--</option>';
+                        //         $.each(sector,function(a,b){
+                        //             el+="<option value='"+b.id_sector+"'>"+b.name_sector+"</option>";
+                        //         })
+                        //     el+='</select>'+
+                        // '</div>'+
                         '<div class="form-group">'+
                             '<label class="control-label text-semibold">Sector</label>'+
                             '<select name="sector" id="sector" class="form-control">'+
