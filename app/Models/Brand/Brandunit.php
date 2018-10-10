@@ -10,16 +10,20 @@ class Brandunit extends Model
 
     public function brand(){
         return $this->belongsToMany('App\Models\Brand\Brand','intrasm_sosmed.brand_unit_detail','brand_id','brand_unit_id');
-    }
+	}
+	
+	public function advertiser(){
+		return $this->belongsTo('App\Models\Brand\Advertiser','advertiser_id');
+	}
 
     public function sosmed(){
-		return $this->hasMany('App\Models\Brand\Brandsosmed','brand_unit_id')
+		return $this->hasMany('App\Models\Sosmed\Unitsosmed','business_program_unit')
 			->where('type_sosmed','brand')
 			->select(
 				[
 					'id',
 					'type_sosmed',
-					'brand_unit_id',
+					'business_program_unit',
 					'sosmed_id',
 					'unit_sosmed_name',
 					'status_active',

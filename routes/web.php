@@ -229,6 +229,13 @@ Route::group(['prefix'=>'brand','middleware'=>'auth'],function(){
         Route::get('unit-sosmed-by-brand/{id}','Brand\BrandunitController@unit_sosmed_by_brand');
         Route::delete('hapus-related-brand/{id}','Brand\BrandunitController@hapus_related_brand');
         Route::get('list-brand-by-sector','Brand\BrandunitController@list_brand_by_sector');
+
+        Route::get('daily-report','Brand\BrandunitController@daily_report');
+        Route::get('list-advertiser','Brand\AdvertiserController@list_advertiser');
+        Route::get('list-brand-by-advertiser','Brand\AdvertiserController@list_brand_by_advertiser');
+        Route::get('list-unit-sosmed-by-advertiser/{id}','Brand\BrandunitController@list_unit_sosmed_by_advertiser');
+        Route::post('cek-save-daily-report','Brand\BrandunitController@cek_save_daily_report');
+        Route::post('save-daily-report','Brand\BrandunitController@save_daily_report');
     });
 });
 /* end sosmed brand*/

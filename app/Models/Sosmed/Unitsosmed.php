@@ -51,4 +51,8 @@ class Unitsosmed extends Model
 				]
 			);
 	}
+
+	public function brand(){
+		return $this->belongsTo('App\Models\Brand\Brandunit','business_program_unit');
+    }
 }

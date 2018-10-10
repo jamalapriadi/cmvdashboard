@@ -202,6 +202,8 @@
 
                         $("#showForm").show();
 
+                        $("#unit").select2();
+
                         $('.daterange-single').daterangepicker({ 
                             singleDatePicker: true,
                             selectMonths: true,

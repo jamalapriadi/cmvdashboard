@@ -134,10 +134,19 @@ class MainbrandController  extends Controller
                 break;
         }
 
+        $var=\App\Models\Brand\Advertiser::select(
+            'id_adv',
+            'nama_adv',
+            'id_typeadv',
+            'id_demography',
+            'is_group'
+        )->get();
+
         return view('brand.input_report')
                 ->with('sosmed',$sosmed)
                 ->with('sekarang',$sekarang)
                 ->with('kemarin',$kemarin)
+                ->with('advertiser',$var)
                 ->with('id',$id);
     }
 

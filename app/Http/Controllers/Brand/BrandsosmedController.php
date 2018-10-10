@@ -7,22 +7,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Brand\Brandsosmed;
+use App\Models\Sosmed\Unitsosmed;
 
 class BrandsosmedController extends Controller
 {
     public function index(){
-        $sosmed=Brandsosmed::with('brand');
+        $sosmed=Unitsosmed::with('brand')->where('type_sosmed','brand');
 
         return \Datatables::of($sosmed)
-            ->addColumn('brand',function($q){
-                $html="<ul>";
-                foreach($q->brand as $key=>$val){
-                    $html.="<li>".$val->nama_brand."</li>";
-                }
-                $html.="</ul>";
-
-                return $html;
-            })
             ->addColumn('action',function($query){
                 $html="<div class='btn-group'>";
                 $html.="<a href='".\URL::to('brand/sosmed/'.$query->id.'/sub')."' class='btn btn-sm btn-success' kode='".$query->id."' title='Role'><i class='icon-gear'></i></a>";
@@ -54,18 +46,18 @@ class BrandsosmedController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $cek=Brandsosmed::where('type_sosmed',$request->input('type'))
+            $cek=Unitsosmed::where('type_sosmed',$request->input('type'))
                 ->where('sosmed_id',$request->input('sosmedid'))
-                ->where('brand_unit_id',$request->input('brand_unit'))
+                ->where('business_program_unit',$request->input('brand_unit'))
                 ->get();
 
             if(count($cek)>0){
                 return array('success'=>false,'error'=>'Data sosmed ini sudah ada');
             }
 
-            $var=new Brandsosmed;
+            $var=new Unitsosmed;
             $var->type_sosmed=$request->input('type');
-            $var->brand_unit_id=$request->input('brand_unit');
+            $var->business_program_unit=$request->input('brand_unit');
             $var->unit_sosmed_name=$request->input('name_sosmed');
             $var->sosmed_id=$request->input('sosmedid');
 
@@ -113,13 +105,13 @@ class BrandsosmedController extends Controller
     }
 
     public function edit($id){
-        $var=Brandsosmed::find($id);
+        $var=Unitsosmed::find($id);
 
         return $var;
     }
 
     public function show(Request $request,$id){
-        $var=Brandsosmed::with('brand')->findOrFail($id);
+        $var=Unitsosmed::with('brand')->findOrFail($id);
 
         return $var;
     }
@@ -140,7 +132,7 @@ class BrandsosmedController extends Controller
                 'error'=>$validasi->errors()->all()
             );
         }else{
-            $var=Brandsosmed::find($id);
+            $var=Unitsosmed::find($id);
             $var->type_sosmed=$request->input('type');
             $var->unit_sosmed_name=$request->input('name_sosmed');
             $var->sosmed_id=$request->input('sosmedid');
@@ -191,7 +183,7 @@ class BrandsosmedController extends Controller
     }
 
     public function destroy($id){
-        $var=Brandsosmed::find($id);
+        $var=Unitsosmed::find($id);
 
         // $fl=\App\Models\Sosmed\Unitsosmedfollower::where('unit_sosmed_id',$id)->delete();
 

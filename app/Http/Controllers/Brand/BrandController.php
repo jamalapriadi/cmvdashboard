@@ -348,6 +348,14 @@ class BrandController extends Controller
             $var=$var->where('nama_brand','like','%'.$request->input('q').'%');
         }
 
+        if($request->has('sector') && $request->input('sector') != null){
+            $var=$var->where('id_sector',$request->input('sector'));
+        }
+
+        if($request->has('category') && $request->input('category') != null){
+            $var=$var->where('id_category',$request->input('category'));
+        }
+
         if($request->has('page_limit')){
             $var=$var->paginate($request->input('page_limit'));
         }else{

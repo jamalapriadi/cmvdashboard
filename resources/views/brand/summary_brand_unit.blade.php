@@ -83,7 +83,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card card-default">
-                <div class="card-header">Summary Brand Unit - {{$bu->nama_brand}}</div>
+                <div class="card-header">Summary Brand Unit - {{$bu->brand_name_alias}}</div>
                 <div class="card-body">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -187,6 +187,17 @@
                                 </div>
                             </div>
                         @endif
+
+                        @if($row->sosmed_id==5)
+                            <div class="col-lg-6">
+                                <div class="card card-accent-primary">
+                                    <div class="card-header">Website</div>
+                                    <div class="card-body">
+                                        <iframe src="https://www.axe.co.id" width="100%" height="300"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                 
                         @if($row->sosmed_id==4)
                             <div class="col-lg-6">
@@ -252,6 +263,8 @@
                                 </div>
                             </div>
                         @endif
+
+
                     @endforeach
                 </div>
             </div>
@@ -997,6 +1010,7 @@
                                             '<option value="2">Facebook</option>'+
                                             '<option value="3">Instagram</option>'+
                                             '<option value="4">Youtube</option>'+
+                                            '<option value="5">Website</option>'+
                                         '</select>'+
                                     '</div>'+
 
@@ -1107,6 +1121,7 @@
                                 '<option value="2">Facebook</option>'+
                                 '<option value="3">Instagram</option>'+
                                 '<option value="4">Youtube</option>'+
+                                '<option value="5">Website</option>'+
                             '</select>'+
                         '</div>'+
 
@@ -1328,6 +1343,8 @@
                                 "<tr>"+
                                     "<th>No.</th>"+
                                     "<th>Brand</th>"+
+                                    "<th>Sector</th>"+
+                                    "<th>Category</th>"+
                                     "<th></th>"+
                                 "</tr>"+
                             "</thead>"+
@@ -1338,6 +1355,8 @@
                                 el+="<tr>"+
                                     "<td>"+no+"</td>"+
                                     "<td>"+b.nama_brand+"</td>"+
+                                    "<td>"+b.sector.name_sector+"</td>"+
+                                    "<td>"+b.category.name_category+"</td>"+
                                     "<td><a class='btn btn-sm btn-danger text-white hapusrelatedbrand' kode='"+b.id_brand+"'><i class='icon-trash'></i></a></td>"+
                                 "</tr>";
                             })

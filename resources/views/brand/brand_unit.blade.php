@@ -37,6 +37,7 @@
                     columns: [
                         {data: 'DT_Row_Index', name: 'DT_Row_Index',title:'No.',width:'8%',searchable:false,'orderable':false},
                         {data: 'brand_name_alias', name: 'brand_name_alias',title:'Brand Name Alias'},
+                        {data: 'advertiser.nama_adv', name: 'advertiser.nama_adv',title:'Advertiser'},
                         {data: 'action', name: 'action',title:'',width:'18%',searchable:false,'orderable':false}
                     ],
                     buttons: [
@@ -68,7 +69,7 @@
             $(document).on("click","#tambah",function(){
                 var el="";
                 $.ajax({
-                    url:"{{URL::to('brand/data/list-brand')}}",
+                    url:"{{URL::to('brand/data/list-advertiser')}}",
                     type:"GET",
                     beforeSend:function(){
                         el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
@@ -104,41 +105,43 @@
                             '<label class="control-label text-semibold">Brand Alias Name</label>'+
                             '<input class="form-control" name="name" id="name" placeholder="Brand Alias Name" required>'+
                         '</div>'+
+                        '<div class="form-group">'+
+                            '<label class="control-label text-semibold">Advertiser</label>'+
+                            '<select name="advertiser" id="advertiser" class="form-control">'+
+                                '<option value="">--Pilih Advertiser--</option>';
+                                $.each(result,function(a,b){
+                                    el+="<option value='"+b.id_adv+"'>"+b.nama_adv+"</option>";
+                                })
+                            el+='</select>'+
+                        '</div>'+
                         // '<div class="form-group">'+
-                        //     '<label class="control-label text-semibold">Advertiser</label>'+
-                        //     '<select name="advertiser" id="advertiser" class="form-control">'+
-                        //         '<option value="">--Pilih Advertiser--</option>';
+                        //     '<label class="control-label text-semibold">Sector</label>'+
+                        //     '<select name="sector" id="sector" class="form-control">'+
+                        //         '<option value="">--Pilih Sector--</option>';
                         //         $.each(sector,function(a,b){
                         //             el+="<option value='"+b.id_sector+"'>"+b.name_sector+"</option>";
                         //         })
                         //     el+='</select>'+
                         // '</div>'+
-                        '<div class="form-group">'+
-                            '<label class="control-label text-semibold">Sector</label>'+
-                            '<select name="sector" id="sector" class="form-control">'+
-                                '<option value="">--Pilih Sector--</option>';
-                                $.each(sector,function(a,b){
-                                    el+="<option value='"+b.id_sector+"'>"+b.name_sector+"</option>";
-                                })
-                            el+='</select>'+
-                        '</div>'+
-                        '<div class="form-group">'+
-                            '<label class="control-label text-semibold">Category</label>'+
-                            '<select name="category" id="category" class="form-control">'+
-                                '<option value="">--Pilih Category--</option>';
-                                $.each(category,function(a,b){
-                                    el+="<option value='"+b.id_category+"'>"+b.name_category+"</option>";
-                                })
-                            el+='</select>'+
-                        '</div>'+
-                        '<div class="form-group">'+
-                            '<div class="label control-label">Brand</div>'+
-                            '<select name="brand[]" id="brand" class="select2-multiple" multiple>'+
-                                '<option value="">--Pilih Brand--</option>';
-                                $.each(result,function(a,b){
-                                    el+="<option value='"+b.id+"'>"+b.text+"</option>";
-                                })
-                            el+='</select>'+
+                        // '<div class="form-group">'+
+                        //     '<label class="control-label text-semibold">Category</label>'+
+                        //     '<select name="category" id="category" class="form-control">'+
+                        //         '<option value="">--Pilih Category--</option>';
+                        //         $.each(category,function(a,b){
+                        //             el+="<option value='"+b.id_category+"'>"+b.name_category+"</option>";
+                        //         })
+                        //     el+='</select>'+
+                        // '</div>'+
+                        '<div id="showRemoteBrand">'+
+                            '<div class="form-group">'+
+                                '<div class="label control-label">Brand</div>'+
+                                '<select name="brand[]" id="brand" class="select2-multiple" multiple>'+
+                                    '<option value="">--Pilih Brand--</option>';
+                                    // $.each(result,function(a,b){
+                                    //     el+="<option value='"+b.id+"'>"+b.text+"</option>";
+                                    // })
+                                el+='</select>'+
+                            '</div>'+
                         '</div>';
 
                         $("#showListBrand").empty().html(el);
@@ -152,14 +155,108 @@
                             width: null,
                             containerCssClass: ':all:'
                         } );
-                        $("#sector").select2();
-                        $("#category").select2();
+
+                        $("#advertiser").select2();
                     },
                     errors:function(){
                         
                     }
                 })
             });
+
+            $(document).on("change","#sector",function(){
+                changeSectorCategory();
+            })
+
+            $(document).on("change","#category",function(){
+                changeSectorCategory();
+            })
+
+            $(document).on("change","#advertiser",function(){
+                var adv=$("#advertiser option:selected").val();
+
+                $.ajax({
+                    url:"{{URL::to('brand/data/list-brand-by-advertiser')}}",
+                    type:"GET",
+                    data:"advertiser="+adv,
+                    beforeSend:function(){
+                        $("#showRemoteBrand").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        var el="";
+                        el+='<div class="form-group">'+
+                                '<div class="label control-label">Brand</div>'+
+                                '<select name="brand[]" id="brand" class="select2-multiple" multiple>'+
+                                    '<option value="">--Pilih Brand--</option>';
+                                    $.each(result.produk,function(a,b){
+                                        el+="<option value='"+b.id_brand+"'>"+b.brand.nama_brand+"</option>";
+                                    })
+                                el+='</select>'+
+                            '</div>';
+
+                        $("#showRemoteBrand").empty().html(el);
+
+                        $.fn.select2.defaults.set( "theme", "bootstrap" );
+
+                        var placeholder = "Select a State";
+
+                        $( ".select2-multiple" ).select2( {
+                            placeholder: placeholder,
+                            width: null,
+                            containerCssClass: ':all:'
+                        } );
+                    },
+                    errors:function(){
+                        $("#showRemoteBrand").empty().html("<div class='alert alert-danger'>Failed to load data..</div>");
+                    }
+                })
+            })
+
+            function changeSectorCategory(){
+                var sector=$("#sector option:selected").val();
+                var category=$("#category option:selected").val();
+
+                var param={
+                    sector:sector,
+                    category:category
+                };
+
+                $.ajax({
+                    url:"{{URL::to('brand/data/list-brand')}}",
+                    type:"GET",
+                    data:param,
+                    beforeSend:function(){
+                        $("#showRemoteBrand").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        var el="";
+                        el+='<div class="form-group">'+
+                                '<div class="label control-label">Brand</div>'+
+                                '<select name="brand[]" id="brand" class="select2-multiple" multiple>'+
+                                    '<option value="">--Pilih Brand--</option>';
+                                    $.each(result,function(a,b){
+                                        el+="<option value='"+b.id+"'>"+b.text+"</option>";
+                                    })
+                                el+='</select>'+
+                            '</div>';
+
+                        $("#showRemoteBrand").empty().html(el);
+
+                        $.fn.select2.defaults.set( "theme", "bootstrap" );
+
+                        var placeholder = "Select a State";
+
+                        $( ".select2-multiple" ).select2( {
+                            placeholder: placeholder,
+                            width: null,
+                            containerCssClass: ':all:'
+                        } );
+                    },
+                    errors:function(){
+
+                    }
+                })
+            }
 
             $(document).on("submit","#form",function(e){
                 var data = new FormData(this);
@@ -231,11 +328,23 @@
                     success:function(result){
                         el+='<div id="pesan"></div>'+
                             '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Advertiser</label>'+
+                                '<select name="advertiser" id="advertiser" class="form-control">'+
+                                    '<option value="">--Pilih Advertiser--</option>';
+                                    $.each(result.advertiser,function(a,b){
+                                        el+="<option value='"+b.id_adv+"'>"+b.nama_adv+"</option>";
+                                    })
+                                el+='</select>'+
+                            '</div>'+
+
+                            '<div class="form-group">'+
                                 '<label class="control-label text-semibold">Brand Alias Name</label>'+
-                                '<input class="form-control" name="name" value="'+result.brand_name_alias+'" id="name" placeholder="Brand Alias Name" required>'+
+                                '<input class="form-control" name="name" value="'+result.brand.brand_name_alias+'" id="name" placeholder="Brand Alias Name" required>'+
                             '</div>';
 
                         $("#showForm").empty().html(el);
+                        $("#advertiser").val(result.brand.advertiser_id);
+                        $("#advertiser").select2();
                     },
                     error:function(){
                         $("#showForm").empty().html("<div class='alert alert-danger'>Data Failed to load</div>");

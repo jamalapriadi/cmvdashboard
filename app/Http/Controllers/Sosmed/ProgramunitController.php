@@ -684,7 +684,8 @@ class ProgramunitController extends Controller
                 'unitsosmed.businessunit',
                 'unitsosmed.sosmed',
                 'unitsosmed.program',
-                'unitsosmed.program.businessunit'
+                'unitsosmed.program.businessunit',
+                'unitsosmed.brand'
             ]
         )->find($id);
 
