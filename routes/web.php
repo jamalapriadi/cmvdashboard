@@ -12,8 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('welcome');
 });
+Route::get('unit',function(){
+    return view('unit');
+});
+
+Route::get('brands',function(){
+    return view('brand');
+});
+
 Route::get('info',function(){
     phpinfo();
 });
