@@ -93,7 +93,7 @@
                                         '<select name="advertiser" id="advertiser" class="form-control">'+
                                             '<option value="" disabled selected>--Select Advertiser--</option>';
                                             $.each(result,function(a,b){
-                                                el+="<option value='"+b.id_adv+"'>"+b.nama_adv+"</option>";
+                                                el+="<option value='"+b.advertiser_id+"'>"+b.advertiser.nama_adv+"</option>";
                                             })
                                         el+='</select>'+
                                     '</div>'+

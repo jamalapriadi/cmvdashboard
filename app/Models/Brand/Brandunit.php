@@ -13,7 +13,8 @@ class Brandunit extends Model
 	}
 	
 	public function advertiser(){
-		return $this->belongsTo('App\Models\Brand\Advertiser','advertiser_id');
+		return $this->belongsTo('App\Models\Brand\Advertiser','advertiser_id')
+			->select(['id_adv','nama_adv','id_typeadv','id_demography','is_group']);
 	}
 
     public function sosmed(){

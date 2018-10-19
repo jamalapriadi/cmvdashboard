@@ -240,11 +240,20 @@ Route::group(['prefix'=>'brand','middleware'=>'auth'],function(){
         Route::get('list-brand-by-sector','Brand\BrandunitController@list_brand_by_sector');
 
         Route::get('daily-report','Brand\BrandunitController@daily_report');
-        Route::get('list-advertiser','Brand\AdvertiserController@list_advertiser');
+        Route::get('list-advertiser','Brand\MainbrandController@list_advertiser');
         Route::get('list-brand-by-advertiser','Brand\AdvertiserController@list_brand_by_advertiser');
         Route::get('list-unit-sosmed-by-advertiser/{id}','Brand\BrandunitController@list_unit_sosmed_by_advertiser');
         Route::post('cek-save-daily-report','Brand\BrandunitController@cek_save_daily_report');
         Route::post('save-daily-report','Brand\BrandunitController@save_daily_report');
+
+        Route::get('list-available-category','Brand\BrandunitController@list_available_category');
+        Route::get('list-available-sector','Brand\BrandunitController@list_available_sector');
+
+        Route::group(['prefix'=>'chart'],function(){
+            Route::get('daily-by-advertiser','Brand\ChartBrandController@daily_by_advertiser');
+            Route::get('daily-by-category','Brand\ChartBrandController@daily_by_category');
+            Route::get('daily-by-sector','Brand\ChartBrandController@daily_by_sector');
+        });
     });
 });
 /* end sosmed brand*/
