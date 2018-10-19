@@ -11,16 +11,16 @@
                     </div>
                     
                     <br><br><br><br>
-                    <div class="col-lg-8 col-md-offset-2">
-                        <a class="btn btn-primary" style="margin-top:10px;">Unilever</a>
-                        <a class="btn btn-default text-white" style="margin-top:10px;">Mayora Indah Group</a>
-                        <a class="btn btn-default text-white" style="margin-top:10px;">Wings Group</a>
-                        <a class="btn btn-default text-white" style="margin-top:10px;">Indofood Group</a>
-                        <a class="btn btn-default text-white" style="margin-top:10px;">Djarum Kudus</a>
-                        <a class="btn btn-default text-white" style="margin-top:10px;">P&G Home Product Indonesia</a>
-                        <a class="btn btn-default text-white" style="margin-top:10px;">Kalbe Group</a>
-                        <a class="btn btn-default text-white" style="margin-top:10px;">Danone Group</a>
-                        <a class="btn btn-default text-white" style="margin-top:10px;">dan lainnya</a>
+                    <div class="col-lg-8 col-md-offset-2" id="buttonnya">
+                        <a class="btn unit btn-primary" style="margin-top:10px;" kode="1">Unilever</a>
+                        <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="1">Mayora Indah Group</a>
+                        <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="1">Wings Group</a>
+                        <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="1">Indofood Group</a>
+                        <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="1">Djarum Kudus</a>
+                        <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="1">P&G Home Product Indonesia</a>
+                        <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="1">Kalbe Group</a>
+                        <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="1">Danone Group</a>
+                        <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="1">dan lainnya</a>
                     </div>
                         <!-- end list -->
                         <!--
@@ -34,24 +34,24 @@
 
     <div class="parallax section db parallax-off" style="background:#0d91d3;padding:25px;">
         <div class="container">
-            <div class="row logos">
+            <div class="row logos" id="listLogo">
                 <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_01.png')}}" alt="" class="img-repsonsive"></a>
+                    <a href="#"><img src="{{asset('img/brand180x80/brand.png')}}" alt="" class="img-repsonsive"></a>
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_02.png')}}" alt="" class="img-repsonsive"></a>
+                    <a href="#"><img src="{{asset('img/brand180x80/domestos.png')}}" alt="" class="img-repsonsive"></a>
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_03.png')}}" alt="" class="img-repsonsive"></a>
+                    <a href="#"><img src="{{asset('img/brand180x80/lipton.png')}}" alt="" class="img-repsonsive"></a>
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_04.png')}}" alt="" class="img-repsonsive"></a>
+                    <a href="#"><img src="{{asset('img/brand180x80/dove.png')}}" alt="" class="img-repsonsive"></a>
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_05.png')}}" alt="" class="img-repsonsive"></a>
+                    <a href="#"><img src="{{asset('img/brand180x80/vaseline.png')}}" alt="" class="img-repsonsive"></a>
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_06.png')}}" alt="" class="img-repsonsive"></a>
+                    <a href="#"><img src="{{asset('img/brand180x80/ponds.png')}}" alt="" class="img-repsonsive"></a>
                 </div>
             </div><!-- end row -->
         </div><!-- end container -->
@@ -135,4 +135,25 @@
             </div><!-- end row -->
         </div>
     </div>
+@stop
+
+@section('js')
+    <script>
+        $(function(){
+            function changeUnit(unit){
+                var el="";
+                
+            }
+
+            $(document).on("click",".unit",function(){
+                var unit=$(this).attr("kode");
+                $("#buttonnya").find('div, ul, li, span, a').removeClass('btn-primary').addClass("btn-default");
+
+                $(this).removeClass('btn-default');
+                $(this).addClass('btn-primary');
+
+                changeUnit(unit);
+            })
+        })
+    </script>
 @stop

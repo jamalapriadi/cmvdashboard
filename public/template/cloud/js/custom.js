@@ -102,7 +102,7 @@
 	/* ==============================================
      Bootstrap Touch Slider -->
      =============================================== */
-		$('#bootstrap-touch-slider').bsTouchSlider();
+		// $('#bootstrap-touch-slider').bsTouchSlider();
     /* ==============================================
      Tooltip -->
      =============================================== */
@@ -187,5 +187,38 @@
             transition: 'all .3s'
         });
     });
+
+    $(document).on("submit","#form",function(e){
+        var data = new FormData(this);
+        if($("#form")[0].checkValidity()) {
+            //updateAllMessageForms();
+            e.preventDefault();
+            $.ajax({
+                url			: "login-dashboard",
+                type		: 'post',
+                data		: data,
+                dataType	: 'JSON',
+                contentType	: false,
+                cache		: false,
+                processData	: false,
+                beforeSend	: function (){
+                    $('#pesanlogin').empty().html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                },
+                success	: function (result) {
+                    if(result.success==true){
+                        $('#pesanlogin').empty().html('<div class="alert alert-success">&nbsp;'+result.pesan+"</div>");
+                        $("#modal_default").modal("hide");
+
+                        window.location = result.redirect;
+                    }else{
+                        $('#pesanlogin').empty().html("<pre>"+result.error+"</pre><br>");
+                    }
+                },
+                error	:function() {  
+                    $('#pesanlogin').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                }
+            });
+        }else console.log("invalid form");
+    })
 
 })(jQuery);

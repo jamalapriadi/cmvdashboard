@@ -96,4 +96,37 @@ class LoginController extends Controller
         auth()->logout();
         return redirect('/');
     }
+
+    public function login_dashboard(Request $request){
+        $this->validate($request,[
+            $this->username()=>'required|string',
+            'password'=>'required|string',
+            'type' => 'required'
+        ]);
+
+        if (\Auth::attempt(['email' => request('email'), 'password' => request('password'), 'status_active' => 'Y'])) {
+            // The user is active, not suspended, and exists.
+            if(request('type')=="unit"){
+                $pindah=\URL::to('home');
+            }else if(request('type')=='brand'){
+                $pindah=\URL::to('brand');
+            }else{
+                $pindah=\URL::to('home');
+            }
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'login berhasil',
+                'redirect'=>$pindah
+            );
+        }else{
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Login Gagal',
+                'errors'=>''
+            );
+        }
+
+        return $data;
+    }
 }

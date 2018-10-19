@@ -43,78 +43,55 @@
 <body class="host_version"> 
 
 	<!-- Modal -->
-	<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
 	  <div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header tit-up">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Customer Login</h4>
+				<h4 class="modal-title">Login</h4>
 			</div>
 			<div class="modal-body customer-box row">
 				<div class="col-md-12">
-					<!-- Nav tabs -->
-					<ul class="nav nav-tabs">
-						<li class="active"><a href="#Login" data-toggle="tab">Login</a></li>
-						<li><a href="#Registration" data-toggle="tab">Registration</a></li>
-					</ul>
-					<!-- Tab panes -->
-					<div class="tab-content">
-						<div class="tab-pane active" id="Login">
-							<form role="form" class="form-horizontal">
-							<div class="form-group">
-								<div class="col-sm-12">
-									<input class="form-control" id="email1" placeholder="Name" type="text">
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-12">
-									<input class="form-control" id="exampleInputPassword1" placeholder="Email" type="email">
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-10">
-									<button type="submit" class="btn btn-light btn-radius btn-brd grd1">
-										Submit
-									</button>
-									<a class="for-pwd" href="javascript:;">Forgot your password?</a>
-								</div>
-							</div>
-							</form>
-						</div>
-						<div class="tab-pane" id="Registration">
-							<form role="form" class="form-horizontal">
-							<div class="form-group">
-								<div class="col-sm-12">
-									<input class="form-control" placeholder="Name" type="text">
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-12">
-									<input class="form-control" id="email" placeholder="Email" type="email">
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-12">
-									<input class="form-control" id="mobile" placeholder="Mobile" type="email">
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-12">
-									<input class="form-control" id="password" placeholder="Password" type="password">
-								</div>
-							</div>
-							<div class="row">							
-								<div class="col-sm-10">
-									<button type="button" class="btn btn-light btn-radius btn-brd grd1">
-										Save &amp; Continue
-									</button>
-									<button type="button" class="btn btn-light btn-radius btn-brd grd1">
-										Cancel</button>
-								</div>
-							</div>
-							</form>
-						</div>
-					</div>
+                    <div id="pesanlogin"></div>
+                    <form role="form" class="form-horizontal" onsubmit="return false;" id="form">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input class="form-control" name="email" id="email" placeholder="Email" type="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <input class="form-control" id="exampleInputPassword1" placeholder="Password" type="password" name="password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type" id="exampleRadios1" value="unit" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                        Unit
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type" id="exampleRadios2" value="brand">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                        Brand
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-light btn-radius btn-brd grd1">
+                                    Submit
+                                </button>
+                                {{-- <a class="for-pwd" href="javascript:;">Forgot your password?</a> --}}
+                            </div>
+                        </div>
+                    </form>
 				</div>
 			</div>
 		</div>
@@ -173,8 +150,8 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            {{-- <a class="btn-light btn-radius btn-brd log" href="#" data-toggle="modal" data-target="#login"><i class="flaticon-padlock"></i> Customer Login</a> --}}
-                            <a class="btn-light btn-radius btn-brd log" href="{{URL::to('login')}}"><i class="flaticon-padlock"></i> Login</a>
+                            <a class="btn-light btn-radius btn-brd log" href="#" data-toggle="modal" data-target="#login"><i class="flaticon-padlock"></i> Login</a>
+                            {{-- <a class="btn-light btn-radius btn-brd log" href="{{URL::to('login')}}"><i class="flaticon-padlock"></i> Login</a> --}}
                         </li>
                     </ul>
                 </div>
@@ -210,6 +187,8 @@
     <script src="{{asset('template/cloud/js/all.js')}}"></script>
     <!-- ALL PLUGINS -->
     <script src="{{asset('template/cloud/js/custom.js')}}"></script>
+    
+    @yield('js')
 
 </body>
 </html>

@@ -14,17 +14,17 @@
                         </div>
                         
                         <br><br><br><br>
-                        <div class="col-lg-6 col-md-offset-3">
-                            <a class="btn btn-primary" style="margin-top:10px;">TV</a>
-                            <a class="btn btn-default text-white" style="margin-top:10px;">HARDNEWS</a>
-                            <a class="btn btn-default text-white" style="margin-top:10px;">PRODUCTION HOUSE</a>
-                            <a class="btn btn-default text-white" style="margin-top:10px;">NEWSPAPER</a>
-                            <a class="btn btn-default text-white" style="margin-top:10px;">ARTIS MANAGEMENT</a>
-                            <a class="btn btn-default text-white" style="margin-top:10px;">PAY TV</a>
-                            <a class="btn btn-default text-white" style="margin-top:10px;">RADIO</a>
-                            <a class="btn btn-default text-white" style="margin-top:10px;">ANIMATION PRODUCTION</a>
-                            <a class="btn btn-default text-white" style="margin-top:10px;">MAGAZINE</a>
-                            <a class="btn btn-default text-white" style="margin-top:10px;">KOL</a>
+                        <div class="col-lg-6 col-md-offset-3" id="buttonnya">
+                            <a class="btn unit btn-primary" style="margin-top:10px;" kode="1">TV</a>
+                            <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="2">HARDNEWS</a>
+                            <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="3">PRODUCTION HOUSE</a>
+                            <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="4">NEWSPAPER</a>
+                            <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="5">ARTIS MANAGEMENT</a>
+                            <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="6">PAY TV</a>
+                            <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="7">RADIO</a>
+                            <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="8">ANIMATION PRODUCTION</a>
+                            <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="10">MAGAZINE</a>
+                            <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="10">KOL</a>
                         </div>
                         
                         <!-- end list -->
@@ -39,24 +39,18 @@
     
     <div class="parallax section db parallax-off" style="background:#0d91d3;padding:25px;">
         <div class="container">
-            <div class="row logos">
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_01.png')}}" alt="" class="img-repsonsive"></a>
+            <div class="row logos" id="listLogo">
+                <div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">
+                    <a href="#"><img src="{{asset('img/bu180x80/rcti.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_02.png')}}" alt="" class="img-repsonsive"></a>
+                <div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">
+                    <a href="#"><img src="{{asset('img/bu180x80/mnctv.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_03.png')}}" alt="" class="img-repsonsive"></a>
+                <div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">
+                    <a href="#"><img src="{{asset('img/bu180x80/gtv.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_04.png')}}" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_05.png')}}" alt="" class="img-repsonsive"></a>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('template/cloud/uploads/logo_06.png')}}" alt="" class="img-repsonsive"></a>
+                <div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">
+                    <a href="#"><img src="{{asset('img/bu180x80/inews.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>
                 </div>
             </div><!-- end row -->
         </div><!-- end container -->
@@ -164,4 +158,85 @@
             
         </div><!-- end container -->
     </div><!-- end section -->
+@stop
+
+@section('js')
+    <script>
+        $(function(){
+            function changeUnit(unit){
+                var el="";
+                if(unit==1){
+                    /* tv */
+                    el+='<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/rcti.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>'+
+                    '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/mnctv.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>'+
+                    '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/gtv.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>'+
+                    '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/inews.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>';
+                }else if(unit==2){
+                    /* hardnews publisher*/
+                    el+='<div class="col-md-6 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/okezone.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>'+
+                    '<div class="col-md-6 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/sindonews.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>';
+                }else if(unit==3){
+                    /* production house */
+                    el+='<div class="col-md-8 col-sm-2 col-xs-6 col-md-offset-2 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/mncpicture.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>';
+                }else if(unit==4){
+                    /* news paper */
+                }else if(unit==5){
+                    /* artist management */
+                    el+='<div class="col-md-8 col-sm-2 col-xs-6 col-md-offset-2 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/smn.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>';
+                }else if(unit==6){
+                    /* pay tv */
+                    el+='<div class="col-md-6 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/mnchannel.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>'+
+                    '<div class="col-md-6 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/mncvision.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>';
+                }else if(unit==7){
+                    /* radio */
+                    el+='<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/globalradio.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>'+
+                    '<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/rdi.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>'+
+                    '<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/vradio.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>';
+                }else if(unit==8){
+                    /* animation production */
+                }else if(unit==9){
+                    /* magazine */
+                }else if(unit==10){
+                    /* kol */
+                }
+                $("#listLogo").empty().html(el);
+            }
+
+            $(document).on("click",".unit",function(){
+                var unit=$(this).attr("kode");
+                $("#buttonnya").find('div, ul, li, span, a').removeClass('btn-primary').addClass("btn-default");
+
+                $(this).removeClass('btn-default');
+                $(this).addClass('btn-primary');
+
+                changeUnit(unit);
+            })
+        })
+    </script>
 @stop

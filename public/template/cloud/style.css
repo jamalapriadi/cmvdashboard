@@ -795,11 +795,13 @@ li.social-links a {
     display: block;
     text-align: center;
     width: 100%;
-    opacity: 0.3;
+    /* opacity: 0.3; */
+    opacity: 0.5;
 }
 
 .logos img:hover {
-    opacity: 0.5;
+    /* opacity: 0.5; */
+    opacity: 1;
 }
 
 .desc h3 i {

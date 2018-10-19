@@ -27,6 +27,7 @@ Route::get('info',function(){
 });
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
+Route::post('login-dashboard', 'Auth\LoginController@login_dashboard');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...
