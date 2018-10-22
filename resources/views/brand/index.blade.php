@@ -438,7 +438,7 @@
 
             function dailyBySector(){
                 var sector=$("#sector option:selected").val();
-                var tanggal=$("#tanggal2").val();
+                var tanggal=$("#tanggal3").val();
 
                 var param={
                     sector:sector,
