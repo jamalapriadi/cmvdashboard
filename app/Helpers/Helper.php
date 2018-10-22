@@ -166,3 +166,11 @@ function instagramFrame($id){
 
     echo $html;
 }
+
+function webUrl($url){
+    $html="<iframe src='".$url."' height='600px' width='400px' frameborder='0'>
+        alternative content for browsers which do not support iframe.
+    </iframe>";
+
+    echo $html;
+}

@@ -77,6 +77,17 @@
                     </div>
                 @endif
 
+                @if($row->sosmed_id==5)
+                    <div class="col-lg-6">
+                        <div class="card card-accent-warning" style="overflow:scroll">
+                            <div class="card-header">Web</div>
+                            <div class="card-body">
+                                {{webUrl($row->unit_sosmed_account_id)}}
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 @if($row->sosmed_id==4)
                     <div class="col-lg-6">
                         <div class="card card-accent-danger" style="overflow:scroll">
@@ -141,7 +152,16 @@
                         </div>
                     </div>
                 @endif
+
             @endforeach
         </div>
     @endif
+@stop
+
+@section('js')
+    <script>
+        $(function(){
+            $("#unit").select2();
+        })
+    </script>
 @stop
