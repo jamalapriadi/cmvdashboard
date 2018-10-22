@@ -32,7 +32,7 @@
         </div><!-- end container -->
     </div><!-- end section -->
 
-    <div class="parallax section db parallax-off" style="background:#0d91d3;padding:25px;">
+    <div class="parallax section db parallax-off" style="background:#ffffff;padding:25px;">
         <div class="container">
             <div class="row logos" id="listLogo">
                 <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">

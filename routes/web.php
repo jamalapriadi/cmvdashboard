@@ -12,13 +12,22 @@
 */
 
 Route::get('/', function () {
+    if(auth()->check()){
+        return redirect('home');
+    }
     return view('welcome');
 });
 Route::get('unit',function(){
+    if(auth()->check()){
+        return redirect('home');
+    }
     return view('unit');
 });
 
 Route::get('brands',function(){
+    if(auth()->check()){
+        return redirect('home');
+    }
     return view('brand');
 });
 
