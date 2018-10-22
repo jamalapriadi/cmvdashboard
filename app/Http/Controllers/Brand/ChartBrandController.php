@@ -44,7 +44,7 @@ class ChartBrandController extends Controller
     }
 
     public function daily_by_category(Request $request){
-        $rules=['category'=>'required'];
+        $rules=['category'=>'required','tanggal'=>'required'];
 
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
@@ -86,7 +86,7 @@ class ChartBrandController extends Controller
     }
 
     public function daily_by_sector(Request $request){
-        $rules=['sector'=>'required'];
+        $rules=['category'=>'required','tanggal'=>'required'];
 
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));

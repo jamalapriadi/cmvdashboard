@@ -294,7 +294,6 @@
                     url:"{{URL::to('brand/data/chart/daily-by-category')}}",
                     type:"GET",
                     data:param,
-                    data:"category="+category,
                     beforeSend:function(){
                         $("#zingchart-dailyByCategory").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
@@ -450,7 +449,6 @@
                     url:"{{URL::to('brand/data/chart/daily-by-sector')}}",
                     type:"GET",
                     data:param,
-                    data:"sector="+sector,
                     beforeSend:function(){
                         $("#zingchart-dailyBySector").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
                     },
