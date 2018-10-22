@@ -102,15 +102,15 @@ class ChartBrandController extends Controller
 
         $daily=\DB::select("select a.id,a.brand_name_alias, a.advertiser_id,d.brand_unit_id, d.brand_id,
             e.id_category, e.id_sector,
-            sum(if(b.sosmed_id=1, c.follower,0)) as tw,
-            sum(if(b.sosmed_id=2, c.follower,0)) as fb,
-            sum(if(b.sosmed_id=3, c.follower,0)) as ig,
-            sum(if(b.sosmed_id=4, c.follower,0)) as yt,
+            if(b.sosmed_id=1, c.follower,0) as tw,
+            if(b.sosmed_id=2, c.follower,0) as fb,
+            if(b.sosmed_id=3, c.follower,0) as ig,
+            if(b.sosmed_id=4, c.follower,0) as yt,
             (
-                sum(if(b.sosmed_id=1, c.follower,0)) +
-                sum(if(b.sosmed_id=2, c.follower,0)) +
-                sum(if(b.sosmed_id=3, c.follower,0)) +
-                sum(if(b.sosmed_id=4, c.follower,0))
+                if(b.sosmed_id=1, c.follower,0) +
+                if(b.sosmed_id=2, c.follower,0) +
+                if(b.sosmed_id=3, c.follower,0) +
+                if(b.sosmed_id=4, c.follower,0)
             ) as total
             from brand_unit a
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='Brand'
