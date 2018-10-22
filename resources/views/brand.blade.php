@@ -97,7 +97,7 @@
 
                 <div class="col-md-6">
                     <div class="message-box" style="margin-top:100px;">
-                        <h2>Unit - Social Media Live</h2>
+                        <h2>Brand - Social Media Live</h2>
                         <ul>
                             <li>
                                 Mengetahui jenis konten yang disukai oleh audiens social media brand Indonesia.
