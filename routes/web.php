@@ -326,6 +326,15 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
     });
 });
 
+Route::group(['prefix'=>'program','middleware'=>'auth'],function(){
+    Route::get('/dashboard-program','Program\ProgramController@dashboard_program');
+
+    Route::group(['prefix'=>'data'],function(){
+        Route::get('list-program','Api\Proses@list_program');
+    });
+
+});
+
 Route::get('info',function(){
     phpinfo();
 });
