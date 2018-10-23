@@ -9,7 +9,13 @@ use Illuminate\Http\Request;
 class MainbrandController  extends Controller
 {
     public function index(){
-        return view('brand.index');
+        $adv=\App\Models\Brand\Brandunit::select('advertiser_id')
+            ->groupBy('advertiser_id')
+            ->with('advertiser')
+            ->get();
+            
+        return view('brand.index')
+            ->with('adv',$adv);
     }
 
     public function sector(){
@@ -134,13 +140,10 @@ class MainbrandController  extends Controller
                 break;
         }
 
-        $var=\App\Models\Brand\Advertiser::select(
-            'id_adv',
-            'nama_adv',
-            'id_typeadv',
-            'id_demography',
-            'is_group'
-        )->get();
+        $var=\App\Models\Brand\Brandunit::select('advertiser_id')
+            ->groupBy('advertiser_id')
+            ->with('advertiser')
+            ->get();
 
         return view('brand.input_report')
                 ->with('sosmed',$sosmed)
@@ -156,5 +159,14 @@ class MainbrandController  extends Controller
         return view('brand.add_new_report_harian')
             ->with('sosmed',$sosmed)
             ->with('id',$id);
+    }
+
+    public function list_advertiser(){
+        $var=\App\Models\Brand\Brandunit::select('advertiser_id')
+            ->groupBy('advertiser_id')
+            ->with('advertiser')
+            ->get();
+
+        return $var;
     }
 }

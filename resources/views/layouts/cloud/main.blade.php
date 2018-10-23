@@ -150,7 +150,17 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a class="btn-light btn-radius btn-brd log" href="#" data-toggle="modal" data-target="#login"><i class="flaticon-padlock"></i> Login</a>
+                            @if(auth()->check())
+                                @if(Request::path() == 'unit')
+                                    <a class="btn-light btn-radius btn-brd log" href="{{URL::to('home')}}"><i class="flaticon-server"></i> Home</a>
+                                @elseif(Request::path() == 'brands')
+                                    <a class="btn-light btn-radius btn-brd log" href="{{URL::to('brand')}}"><i class="flaticon-server"></i> Home</a>
+                                @else 
+
+                                @endif
+                            @else
+                                <a class="btn-light btn-radius btn-brd log" href="#" data-toggle="modal" data-target="#login"><i class="flaticon-padlock"></i> Login</a>
+                            @endif
                             {{-- <a class="btn-light btn-radius btn-brd log" href="{{URL::to('login')}}"><i class="flaticon-padlock"></i> Login</a> --}}
                         </li>
                     </ul>

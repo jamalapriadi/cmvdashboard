@@ -37,7 +37,7 @@
                     columns: [
                         {data: 'DT_Row_Index', name: 'DT_Row_Index',title:'No.',width:'8%',searchable:false,'orderable':false},
                         {data: 'brand_name_alias', name: 'brand_name_alias',title:'Brand Name Alias'},
-                        {data: 'advertiser.nama_adv', name: 'advertiser.nama_adv',title:'Advertiser'},
+                        {data: 'advertiser.nama_adv', name: 'advertiser.nama_adv',title:'Advertiser',searchable:false},
                         {data: 'action', name: 'action',title:'',width:'18%',searchable:false,'orderable':false}
                     ],
                     buttons: [
