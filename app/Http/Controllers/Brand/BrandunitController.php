@@ -487,4 +487,29 @@ class BrandunitController extends Controller
 
         return $data;
     }
+
+    public function list_available_category(){
+        $cat=\DB::select("select e.id_category, e.id_sector, f.name_category
+            from brand_unit a
+            left join brand_unit_detail d on d.brand_id=a.id
+            left join intrasm.db_m_brand e on e.id_brand=d.brand_unit_id
+            left join intrasm.db_m_category f on f.id_category=e.id_category
+            where e.id_category is not null
+            group by e.id_category");
+
+        return $cat;
+    }
+
+    public function list_available_sector(){
+        $sector=\DB::select("select e.id_sector, f.name_sector
+            from brand_unit a
+            left join brand_unit_detail d on d.brand_id=a.id
+            left join intrasm.db_m_brand e on e.id_brand=d.brand_unit_id
+            left join intrasm.db_m_sector f on f.id_sector=e.id_sector
+            where e.id_sector is not null
+            group by e.id_sector");
+
+        return $sector;
+
+    }
 }

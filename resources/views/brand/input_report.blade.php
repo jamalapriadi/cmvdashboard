@@ -12,7 +12,7 @@
                             <select name="advertiser" id="advertiser" class="form-control">
                                 <option value="" disabled selected>--Pilih Advertiser--</option>
                                 @foreach($advertiser as $row)
-                                    <option value="{{$row->id_adv}}">{{$row->nama_adv}}</option>
+                                    <option value="{{$row->advertiser_id}}">{{$row->advertiser->nama_adv}}</option> 
                                 @endforeach
                             </select>
                         </div>

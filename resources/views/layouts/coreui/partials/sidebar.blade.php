@@ -4,9 +4,8 @@
       <ul class="nav">
         @if(auth()->user()->can('Dashboard'))
           <li class="nav-item">
-            <a class="nav-link {{ Request::path() == 'home' ? 'active' : '' }}" href="{{URL::to('home')}}">
-              <i class="nav-icon icon-home"></i> Home
-              <span class="badge badge-primary">NEW</span>
+            <a class="nav-link {{ Request::path() == 'home' ? 'active' : '' }}" href="{{URL::to('unit')}}">
+              <i class="nav-icon icon-browser"></i> Info
             </a>
           </li>
           <li class="nav-item">
@@ -16,7 +15,14 @@
             </a>
           </li>
         @endif
+
         <li class="nav-title">Dashboard</li>
+        <li class="nav-item">
+          <a class="nav-link {{ Request::path() == 'home' ? 'active' : '' }}" href="{{URL::to('home')}}">
+            <i class="nav-icon icon-home"></i> Home
+            <span class="badge badge-primary">NEW</span>
+          </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link {{ Request::path() == 'sosmed/live-socmed' ? 'active' : '' }}" href="{{URL::to('sosmed/live-socmed')}}">
             <i class="nav-icon icon-tv"></i> Live Socmed</a>
@@ -231,12 +237,18 @@
     <nav class="sidebar-nav">
       <ul class="nav">
         <li class="nav-item">
+          <a class="nav-link {{ Request::path() == 'home' ? 'active' : '' }}" href="{{URL::to('brands')}}">
+            <i class="nav-icon icon-browser"></i> Info
+          </a>
+        </li>
+
+        <li class="nav-title">Dashboard</li>
+        <li class="nav-item">
           <a class="nav-link {{ Request::path() == 'brand' ? 'active' : '' }}" href="{{URL::to('brand')}}">
             <i class="nav-icon icon-home"></i> Home
             <span class="badge badge-primary">NEW</span>
           </a>
         </li>
-        <li class="nav-title">Dashboard</li>
         <li class="nav-item">
           <a class="nav-link {{ Request::path() == 'brand/live-socmed' ? 'active' : '' }}" href="{{URL::to('brand/live-socmed')}}">
             <i class="nav-icon icon-tv"></i> Live Socmed</a>

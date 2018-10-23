@@ -32,7 +32,7 @@
         </div><!-- end container -->
     </div><!-- end section -->
 
-    <div class="parallax section db parallax-off" style="background:#0d91d3;padding:25px;">
+    <div class="parallax section db parallax-off" style="background:#ffffff;padding:25px;">
         <div class="container">
             <div class="row logos" id="listLogo">
                 <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
@@ -97,7 +97,7 @@
 
                 <div class="col-md-6">
                     <div class="message-box" style="margin-top:100px;">
-                        <h2>Unit - Social Media Live</h2>
+                        <h2>Brand - Social Media Live</h2>
                         <ul>
                             <li>
                                 Mengetahui jenis konten yang disukai oleh audiens social media brand Indonesia.
