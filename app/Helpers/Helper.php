@@ -53,7 +53,7 @@ function instagram_follower($id){
     $raw = @file_get_contents('https://www.instagram.com/'.$id,true); //replace with user
     preg_match('/\"edge_followed_by\"\:\s?\{\"count\"\:\s?([0-9]+)/',$raw,$m);
 
-    if($m[1]){
+    if(isset($m[1])){
         echo intval($m[1]);
     }else{
         echo 0;
