@@ -242,6 +242,7 @@ return [
         'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
         'Instagram' => App\Facades\Instagram::class,
         'Youtube' => Alaouy\Youtube\Facades\Youtube::class,
+        'Follower' => App\Helpers\Follower::class, 
 
     ],
 

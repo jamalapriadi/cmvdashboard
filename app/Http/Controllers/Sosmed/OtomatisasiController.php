@@ -10,6 +10,100 @@ use \App\Models\Sosmed\Businessunit;
 
 class OtomatisasiController extends Controller
 {
+    public function official_sosmed(){
+        $bu=\DB::select("select a.id, a.unit_name,
+            b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
+            b.unit_sosmed_account_id
+            from business_unit a
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+            where b.sosmed_id is not null
+            and b.status_active='Y'
+            union all
+            select a.id, a.program_name,
+            b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, b.unit_sosmed_account_id
+            from program_unit a
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            where b.sosmed_id is not null
+            and b.status_active='Y'
+            union all
+            select a.id, a.program_name,
+            b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, b.unit_sosmed_account_id
+            from program_unit a
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='brand'
+            where b.sosmed_id is not null
+            and b.status_active='Y'");
+        
+        $sekarang=date('Y-m-d');
+
+        $data=array();
+        $list=array();
+        $unitsosmedid=array();
+
+        foreach($bu as $row){
+            $unitsosmedid[]=$row->unit_sosmed_id;
+
+            if($row->sosmed_id==1){
+                $list[]=array(
+                    'unit_sosmed_id'=>$row->unit_sosmed_id,
+                    'tanggal'=>$sekarang,
+                    'follower'=>\Follower::twitter($row->unit_sosmed_name)
+                );
+            }
+
+            if($row->sosmed_id==2){
+                $list[]=array(
+                    'unit_sosmed_id'=>$row->id,
+                    'tanggal'=>$sekarang,
+                    'follower'=>\Follower::facebook($row->unit_sosmed_account_id)
+                );
+            }
+
+            if($row->sosmed_id==3){
+                $list[]=array(
+                    'unit_sosmed_id'=>$row->id,
+                    'tanggal'=>$sekarang,
+                    'follower'=>\Follower::instagram($row->unit_sosmed_name)
+                );
+            }
+
+            if($row->sosmed_id==4){
+                $list[]=array(
+                    'unit_sosmed_id'=>$row->id,
+                    'tanggal'=>$sekarang,
+                    'follower'=>\Follower::youtube($row->unit_sosmed_account_id)
+                );
+            }
+        }
+
+        /**
+         * cek di tabel unit_sosmed follower
+         * berdasarkan tanggal sekarang
+         * dan berdasarkan unit_sosmed_id in $unitsosmedid
+         */
+        $cekfollower=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',$sekarang)
+            ->whereIn('unit_sosmed_id',$unitsosmedid)
+            ->get();
+
+        if(count($cekfollower)>0){
+            return "oppsss, anda tidak bisa mengisi data ini";
+        }else{
+            \DB::transaction(function() use($list){
+                foreach($list as $k=>$v){
+                    $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                    $new->tanggal=$v['tanggal'];
+                    $new->unit_sosmed_id=$v['unit_sosmed_id'];
+                    $new->follower=$v['follower'];
+                    $new->insert_user='jamal.apriadi@mncgroup.com';
+                    $new->save();
+                }
+            });
+
+            return "yey sukses menyimpan data";
+        }
+
+        return $list;
+    }
+
     public function cek_sosmed(Request $request){
         $user=\App\User::with(
                 [

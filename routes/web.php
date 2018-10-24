@@ -345,6 +345,7 @@ Route::get('info',function(){
 Route::group(['prefix'=>'automation'],function(){
     Route::get('official','Sosmed\AutomationController@official');
     Route::get('program','Sosmed\AutomationController@program');
+    Route::get('official-sosmed','Sosmed\OtomatisasiController@official_sosmed');
 });
 
 Route::get('tes-youtube',function(){
