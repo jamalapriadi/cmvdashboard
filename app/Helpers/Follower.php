@@ -8,9 +8,9 @@ class Follower
         preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
 
         if(isset($match[1])){
-            return $title = $match[1];
+            echo $title = $match[1];
         }else{
-            return 0;
+            echo 0;
         }
     }
 
@@ -34,11 +34,11 @@ class Follower
     
         //print_r($match);
         if(isset($match[1])){
-            return (str_replace('.', '', $match[1]));
+            print_r(str_replace('.', '', $match[1]));
         }elseif(isset($match2[1])){
-            return (str_replace('.', '', $match2[1]));
+            print_r(str_replace('.', '', $match2[1]));
         }else{
-            return 0;
+            echo 0;
         }
     }
 
@@ -47,9 +47,9 @@ class Follower
         preg_match('/\"edge_followed_by\"\:\s?\{\"count\"\:\s?([0-9]+)/',$raw,$m);
 
         if(isset($m[1])){
-            return intval($m[1]);
+            echo intval($m[1]);
         }else{
-            return 0;
+            echo 0;
         }
     }
 
