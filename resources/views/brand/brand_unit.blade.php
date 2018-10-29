@@ -26,6 +26,7 @@
             var kode="";
             var sector=@json($sector);
             var category=@json($category);
+            var adv=@json($advertiser);
 
             function showData(){
                 $('.datatable-colvis-basic').DataTable({
@@ -108,8 +109,8 @@
                         '<div class="form-group">'+
                             '<label class="control-label text-semibold">Advertiser</label>'+
                             '<select name="advertiser" id="advertiser" class="form-control">'+
-                                '<option value="">--Pilih Advertiser--</option>';
-                                $.each(result,function(a,b){
+                                '<option value="" disabled selected>--Pilih Advertiser--</option>';
+                                $.each(adv,function(a,b){
                                     el+="<option value='"+b.id_adv+"'>"+b.nama_adv+"</option>";
                                 })
                             el+='</select>'+

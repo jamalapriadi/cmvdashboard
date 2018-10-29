@@ -41,10 +41,12 @@ class MainbrandController  extends Controller
     public function brand_unit(){
         $sector=\App\Models\Brand\Sector::all();
         $category=\App\Models\Brand\Category::all();
+        $advertiser=\App\Models\Brand\Advertiser::all();
 
         return view('brand.brand_unit')
             ->with('sector',$sector)
-            ->with('category',$category);
+            ->with('category',$category)
+            ->with('advertiser',$advertiser);
     }
 
     public function summary_brand_unit($id){
