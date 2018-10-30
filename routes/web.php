@@ -162,6 +162,8 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('export-excel','Sosmed\ReportController@export_excel');
         Route::get('live-socmed-by-id/{id}','Sosmed\UnitsosmedController@live_socmed_by_id');
         Route::put('aktif-non-aktif-program/{id}','Sosmed\UnitsosmedController@aktif_non_aktif_program');
+        Route::get('link-broken','Sosmed\ProgramunitController@link_broken');
+        Route::post('save-link-broken','Sosmed\ProgramunitController@save_link_broken');
 
         Route::group(['prefix'=>'report'],function(){
             Route::get('target-vs-achievement','Sosmed\ReportController@target_vs_achievement');

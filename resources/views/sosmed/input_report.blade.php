@@ -70,13 +70,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6">
+                            {{-- <div class="col-lg-6">
                                 <div class="form-group">
                                     <button class="btn btn-success" style="margin-top:25px;">
                                         <i class="icon-file-excel"></i> Export Excel
                                     </button>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     {{-- <div style="float:left;margin-right:3px; width:160px">
