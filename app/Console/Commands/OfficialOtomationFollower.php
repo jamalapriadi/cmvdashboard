@@ -48,15 +48,17 @@ class OfficialOtomationFollower extends Command
             and b.status_active='Y'
             union all
             select a.id, a.program_name,
-            b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, b.unit_sosmed_account_id
+            b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
+            b.unit_sosmed_account_id
             from program_unit a
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             where b.sosmed_id is not null
             and b.status_active='Y'
-            union all
-            select a.id, a.program_name,
-            b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, b.unit_sosmed_account_id
-            from program_unit a
+            union all 
+            select a.id, a.unit_name,
+            b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
+            b.unit_sosmed_account_id
+            from business_unit a
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='brand'
             where b.sosmed_id is not null
             and b.status_active='Y'");
@@ -86,7 +88,7 @@ class OfficialOtomationFollower extends Command
                 $this->info("Get Follower Account Facebook = ".$row->unit_name);
 
                 $list[]=array(
-                    'unit_sosmed_id'=>$row->id,
+                    'unit_sosmed_id'=>$row->unit_sosmed_id,
                     'tanggal'=>$sekarang,
                     'follower'=>\Follower::facebook($row->unit_sosmed_account_id)
                 );
@@ -96,7 +98,7 @@ class OfficialOtomationFollower extends Command
                 $this->info("Get Follower Account Instagram = ".$row->unit_name);
 
                 $list[]=array(
-                    'unit_sosmed_id'=>$row->id,
+                    'unit_sosmed_id'=>$row->unit_sosmed_id,
                     'tanggal'=>$sekarang,
                     'follower'=>\Follower::instagram($row->unit_sosmed_name)
                 );
@@ -106,7 +108,7 @@ class OfficialOtomationFollower extends Command
                 $this->info("Get Follower Account Youtube = ".$row->unit_name);
 
                 $list[]=array(
-                    'unit_sosmed_id'=>$row->id,
+                    'unit_sosmed_id'=>$row->unit_sosmed_id,
                     'tanggal'=>$sekarang,
                     'follower'=>\Follower::youtube($row->unit_sosmed_account_id)
                 );

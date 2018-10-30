@@ -36,6 +36,10 @@
                 <i class="icon-add"></i> &nbsp;
                 Add New Business Unit
             </a>
+            <a class="btn btn-success text-white" href="{{URL::to('sosmed/export/excel/business-unit')}}">
+                <i class="icon-file-excel"></i> &nbsp;
+                Export Excel
+            </a>
             @endif
             <br><br>
             <fieldset style="margin-bottom:30px;">

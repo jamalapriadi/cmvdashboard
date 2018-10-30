@@ -366,4 +366,8 @@ class BusinessunitController extends Controller
 
         return array('follower'=>$follower);
     }
+
+    public function export_excel(){
+        return \Excel::download(new \App\Exports\BusinessUnitExport, 'business_unit.xlsx');
+    }
 }

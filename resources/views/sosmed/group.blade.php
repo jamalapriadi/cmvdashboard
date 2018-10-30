@@ -9,6 +9,11 @@
                 <i class="icon-add"></i> &nbsp;
                 Add New Group
             </a>
+
+            <a class="btn btn-success text-white" href="{{URL::to('sosmed/export/excel/group-unit')}}">
+                <i class="icon-file-excel"></i> &nbsp;
+                Export Excel
+            </a>
             <br><br>
             @endif
 

@@ -208,6 +208,14 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
             Route::get('type-unit-by-group','Sosmed\ReportController@type_unit_by_group');
         });
     });
+
+    /*export excel */
+    Route::group(['prefix'=>'export'],function(){
+        Route::group(['prefix'=>'excel'],function(){
+            Route::get('group-unit','Sosmed\GroupunitController@export_excel');
+            Route::get('business-unit','Sosmed\BusinessunitController@export_excel');
+        });
+    });
 });
 /* end sosmed tv, publisher, radio dll */
 
