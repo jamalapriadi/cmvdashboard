@@ -1157,4 +1157,8 @@ class ProgramunitController extends Controller
             }
         }
     }
+
+    public function export_excel(){
+        return \Excel::download(new \App\Exports\ProgramUnitExport, 'program_unit.xlsx');
+    }
 }

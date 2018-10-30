@@ -37,7 +37,9 @@ class OfficialOtomationFollower extends Command
      */
     public function handle()
     {
-        $this->info("Please Wait...");
+        $sekarang=date('Y-m-d');
+
+        $this->info("Please Wait..., aksi tanggal $sekarang");
 
         $bu=\DB::select("select a.id, a.unit_name,
             b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
@@ -64,8 +66,6 @@ class OfficialOtomationFollower extends Command
             and b.status_active='Y'");
 
         $bar=$this->output->createProgressBar(count($bu));
-        
-        $sekarang=date('Y-m-d');
 
         $data=array();
         $list=array();

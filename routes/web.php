@@ -214,6 +214,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::group(['prefix'=>'excel'],function(){
             Route::get('group-unit','Sosmed\GroupunitController@export_excel');
             Route::get('business-unit','Sosmed\BusinessunitController@export_excel');
+            Route::get('program-unit','Sosmed\ProgramunitController@export_excel');
         });
     });
 });
