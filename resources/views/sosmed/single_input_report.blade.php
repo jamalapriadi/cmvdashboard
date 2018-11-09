@@ -82,6 +82,29 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="control-label">Type Unit</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="icon-archive"></i></span>
+                                        <select name="typeunit" id="typeunit" class="form-control" required>
+                                            <option value="" disabled selected>--All Unit--</option>
+                                            <option value="TV">TV</option>
+                                            <option value="Publisher">Hardnews Portal</option>
+                                            <option value="Radio">Radio</option>
+                                            <option value="KOL">KOL</option>
+                                            <option value="Animation Production">Animation Production</option>
+                                            <option value="Production House">Production House</option>
+                                            <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
+                                            <option value="Newspaper">Newspaper</option>
+                                            <option value="Magazine">Magazine</option>
+                                            <option value="SMN Channel">SMN Channel</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-lg-3">
                                 <button class="btn btn-primary" style="margin-top:25px;">
                                     <i class="icon-loop3"></i> Tampilkan
@@ -232,9 +255,11 @@
 
             $(document).on("submit","#formBroken",function(e){
                 var tanggal=$("#tanggal2").val();
+                var unit=$("#typeunit option:selected").val();
 
                 var param={
                     tanggal:tanggal,
+                    unit:unit,
                     _token:"{{ csrf_token() }}"
                 }
 
