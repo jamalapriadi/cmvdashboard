@@ -75,7 +75,7 @@
                                         <option value="Newspaper">Newspaper</option>
                                         <option value="Magazine">Magazine</option>
                                         <option value="SMN Channel">SMN Channel</option>
-                                        <option value="MNC Others">SMN Channel</option>
+                                        <option value="MNC Others">MNC Others</option>
                                     </select>
                                 </div>
                             </div>
@@ -239,6 +239,7 @@
                                     '<option value="Newspaper">Newspaper</option>'+
                                     '<option value="Magazine">Magazine</option>'+
                                     '<option value="SMN Channel">SMN Channel</option>'+
+                                    '<option value="MNC Others">MNC Others</option>'+
                                 '</select>'+
                             '</div>'+
                             '<div class="form-group">'+
@@ -373,6 +374,7 @@
                                     '<option value="Newspaper">Newspaper</option>'+
                                     '<option value="Magazine">Magazine</option>'+
                                     '<option value="SMN Channel">SMN Channel</option>'+
+                                    '<option value="MNC Others">MNC Others</option>'+
                                 '</select>'+
                             '</div>'+
                             '<div class="form-group">'+
