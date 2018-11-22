@@ -75,6 +75,7 @@
                                         <option value="Newspaper">Newspaper</option>
                                         <option value="Magazine">Magazine</option>
                                         <option value="SMN Channel">SMN Channel</option>
+                                        <option value="MNC Others">SMN Channel</option>
                                     </select>
                                 </div>
                             </div>
