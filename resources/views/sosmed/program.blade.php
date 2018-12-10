@@ -36,6 +36,10 @@
                 <i class="icon-add"></i> &nbsp;
                 Add New Program
             </a>
+            <a class="btn btn-success text-white" href="{{URL::to('sosmed/export/excel/program-unit')}}">
+                <i class="icon-file-excel"></i> &nbsp;
+                Export Excel
+            </a>
             @endif
             <br><br>
 

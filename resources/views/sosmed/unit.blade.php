@@ -36,6 +36,10 @@
                 <i class="icon-add"></i> &nbsp;
                 Add New Business Unit
             </a>
+            <a class="btn btn-success text-white" href="{{URL::to('sosmed/export/excel/business-unit')}}">
+                <i class="icon-file-excel"></i> &nbsp;
+                Export Excel
+            </a>
             @endif
             <br><br>
             <fieldset style="margin-bottom:30px;">
@@ -71,6 +75,7 @@
                                         <option value="Newspaper">Newspaper</option>
                                         <option value="Magazine">Magazine</option>
                                         <option value="SMN Channel">SMN Channel</option>
+                                        <option value="MNC Others">MNC Others</option>
                                     </select>
                                 </div>
                             </div>
@@ -234,6 +239,7 @@
                                     '<option value="Newspaper">Newspaper</option>'+
                                     '<option value="Magazine">Magazine</option>'+
                                     '<option value="SMN Channel">SMN Channel</option>'+
+                                    '<option value="MNC Others">MNC Others</option>'+
                                 '</select>'+
                             '</div>'+
                             '<div class="form-group">'+
@@ -368,6 +374,7 @@
                                     '<option value="Newspaper">Newspaper</option>'+
                                     '<option value="Magazine">Magazine</option>'+
                                     '<option value="SMN Channel">SMN Channel</option>'+
+                                    '<option value="MNC Others">MNC Others</option>'+
                                 '</select>'+
                             '</div>'+
                             '<div class="form-group">'+

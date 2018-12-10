@@ -13,7 +13,7 @@ class AutomationController extends Controller
     public function official(){
         $sekarang=date('Y-m-d');
 
-        $unit=Businessunit::with(
+        return $unit=Businessunit::with(
             [
                 'sosmed'
             ]

@@ -162,6 +162,8 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('export-excel','Sosmed\ReportController@export_excel');
         Route::get('live-socmed-by-id/{id}','Sosmed\UnitsosmedController@live_socmed_by_id');
         Route::put('aktif-non-aktif-program/{id}','Sosmed\UnitsosmedController@aktif_non_aktif_program');
+        Route::get('link-broken','Sosmed\ProgramunitController@link_broken');
+        Route::post('save-link-broken','Sosmed\ProgramunitController@save_link_broken');
 
         Route::group(['prefix'=>'report'],function(){
             Route::get('target-vs-achievement','Sosmed\ReportController@target_vs_achievement');
@@ -206,6 +208,15 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
             Route::get('top-official-twitter-today','Sosmed\ReportController@top_official_twitter_today');
             Route::get('top-program-twitter-today','Sosmed\ReportController@top_program_twitter_today');
             Route::get('type-unit-by-group','Sosmed\ReportController@type_unit_by_group');
+        });
+    });
+
+    /*export excel */
+    Route::group(['prefix'=>'export'],function(){
+        Route::group(['prefix'=>'excel'],function(){
+            Route::get('group-unit','Sosmed\GroupunitController@export_excel');
+            Route::get('business-unit','Sosmed\BusinessunitController@export_excel');
+            Route::get('program-unit','Sosmed\ProgramunitController@export_excel');
         });
     });
 });

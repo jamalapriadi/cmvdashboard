@@ -177,7 +177,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Maatwebsite\Excel\ExcelServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
@@ -185,6 +184,7 @@ return [
         \SocialiteProviders\Manager\ServiceProvider::class,
         \App\Providers\InstagramServiceProvider::class,
         Alaouy\Youtube\YoutubeServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -236,13 +236,13 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Datatables' => Yajra\DataTables\Facades\DataTables::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
         'Instagram' => App\Facades\Instagram::class,
         'Youtube' => Alaouy\Youtube\Facades\Youtube::class,
         'Follower' => App\Helpers\Follower::class, 
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

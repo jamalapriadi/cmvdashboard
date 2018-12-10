@@ -61,10 +61,22 @@
                     </div>
 
                     <div class="col-lg-2">
-                        <div class="form-group">
-                            <button class="btn btn-primary" style="margin-top:25px;">
-                                <i class="icon-filter4"></i> Filter 
-                            </button>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <button class="btn btn-primary" style="margin-top:25px;">
+                                        <i class="icon-filter4"></i> Filter 
+                                    </button>
+                                </div>
+                            </div>
+
+                            {{-- <div class="col-lg-6">
+                                <div class="form-group">
+                                    <button class="btn btn-success" style="margin-top:25px;">
+                                        <i class="icon-file-excel"></i> Export Excel
+                                    </button>
+                                </div>
+                            </div> --}}
                         </div>
                     </div>
                     {{-- <div style="float:left;margin-right:3px; width:160px">
@@ -85,10 +97,10 @@
                 Add New Report
             </a>
 
-            <a class="btn btn-success" id="import">
+            {{-- <a class="btn btn-success" id="import">
                 <i class="icon-import"></i> &nbsp;
                 Import File
-            </a>
+            </a> --}}
         </div>
         @endif
         <div class="card-body">

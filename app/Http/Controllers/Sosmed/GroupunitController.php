@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use \App\Models\Sosmed\Groupunit;
+use App\Exports\GroupUnitExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class GroupunitController extends Controller
 {
@@ -395,5 +397,9 @@ class GroupunitController extends Controller
                 HAVING idnya='TOTAL'");
 
         return array('chart'=>$unit,'inews'=>$tambahanInews);
+    }
+
+    public function export_excel(){
+        return Excel::download(new GroupUnitExport, 'group_unit.xlsx');
     }
 }

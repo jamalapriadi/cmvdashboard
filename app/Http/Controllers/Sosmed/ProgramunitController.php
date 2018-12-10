@@ -1157,4 +1157,79 @@ class ProgramunitController extends Controller
             }
         }
     }
+
+    public function export_excel(){
+        return \Excel::download(new \App\Exports\ProgramUnitExport, 'program_unit.xlsx');
+    }
+
+    public function link_broken(Request $request){
+        $rules=['tanggal'=>'required'];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all(),
+                'list'=>array()
+            );
+        }else{
+            $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+
+            $list=\DB::select("select a.id,b.unit_sosmed_name,b.sosmed_id, b.unit_sosmed_account_id,
+                c.sosmed_name, b.type_sosmed,
+                if(b.type_sosmed='corporate',e.unit_name, d.program_name) as bu_or_program,
+                if(b.type_sosmed='corporate',e.type_unit,f.type_unit) as typeunit,
+                a.tanggal, a.follower, a.unit_sosmed_id, a.id as id_follower 
+                from unit_sosmed_follower a 
+                left join unit_sosmed b on b.id=a.unit_sosmed_id
+                left join sosmed c on c.id=b.sosmed_id
+                left join program_unit d on d.id=b.business_program_unit
+                left join business_unit e on e.id=b.business_program_unit
+                left join business_unit f on f.id=d.business_unit_id
+                where a.tanggal='$sekarang'
+                and a.follower=0");
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil diload',
+                'errors'=>array(),
+                'list'=>$list
+            );
+        }
+
+        return view('sosmed.view.link_broken')
+            ->with('data',$data);
+    }
+
+    public function save_link_broken(Request $request){
+        $rules=['sosmed'=>'required'];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi error',
+                'errors'=>$validasi->errors()->all()
+            );
+        }else{
+            $sosmed=$request->input('sosmed');
+
+            foreach($sosmed as $key=>$val){
+                $newfollower=\App\Models\Sosmed\Unitsosmedfollower::find($key);
+                $newfollower->follower=$val;
+                $newfollower->save();
+            }
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil diupdate',
+                'errors'=>''
+            );
+        }
+
+        return $data;
+    }
 }
