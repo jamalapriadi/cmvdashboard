@@ -32,26 +32,26 @@
         </div><!-- end container -->
     </div><!-- end section -->
 
-    <div class="parallax section db parallax-off" style="background:#ffffff;padding:25px;">
+    <div class="parallax section db" style="background:#ffffff;padding:25px;">
         <div class="container">
-            <div class="row logos" id="listLogo">
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('img/brand180x80/brand.png')}}" alt="" class="img-repsonsive"></a>
+            <div class="row" id="listLogo">
+                <div class="col-md-2 col-sm-2 col-xs-6 wow">
+                    <a href="#"><img src="{{asset('img/brand180x80/brand.png')}}" alt="" class="img-repsonsive" style="width:130px;"></a>
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('img/brand180x80/domestos.png')}}" alt="" class="img-repsonsive"></a>
+                <div class="col-md-2 col-sm-2 col-xs-6">
+                    <a href="#"><img src="{{asset('img/brand180x80/domestos.png')}}" alt="" class="img-repsonsive" style="width:130px;"></a>
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('img/brand180x80/lipton.png')}}" alt="" class="img-repsonsive"></a>
+                <div class="col-md-2 col-sm-2 col-xs-6">
+                    <a href="#"><img src="{{asset('img/brand180x80/lipton.png')}}" alt="" class="img-repsonsive" style="width:130px;"></a>
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('img/brand180x80/dove.png')}}" alt="" class="img-repsonsive"></a>
+                <div class="col-md-2 col-sm-2 col-xs-6">
+                    <a href="#"><img src="{{asset('img/brand180x80/dove.png')}}" alt="" class="img-repsonsive" style="width:130px;"></a>
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('img/brand180x80/vaseline.png')}}" alt="" class="img-repsonsive"></a>
+                <div class="col-md-2 col-sm-2 col-xs-6">
+                    <a href="#"><img src="{{asset('img/brand180x80/vaseline.png')}}" alt="" class="img-repsonsive" style="width:130px;"></a>
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('img/brand180x80/ponds.png')}}" alt="" class="img-repsonsive"></a>
+                <div class="col-md-2 col-sm-2 col-xs-6">
+                    <a href="#"><img src="{{asset('img/brand180x80/ponds.png')}}" alt="" class="img-repsonsive" style="width:130px;"></a>
                 </div>
             </div><!-- end row -->
         </div><!-- end container -->

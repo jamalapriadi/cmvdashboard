@@ -8,10 +8,10 @@
     <li class="breadcrumb-menu d-md-down-none">
     <div class="btn-group" role="group" aria-label="Button group">
         <a class="btn" href="{{URL::to('home')}}">
-            <i class="icon-graph"></i>  Dashboard
+            <i class="icon-underline2"></i>  Unit
         </a>
-        <a class="btn" href="#">
-            <i class="icon-gear"></i>  Settings
+        <a class="btn" href="{{URL::to('brand')}}">
+            <i class="icon-bold2"></i> Brand
         </a>
     </div>
     </li>

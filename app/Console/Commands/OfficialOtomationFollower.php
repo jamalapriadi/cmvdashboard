@@ -124,25 +124,25 @@ class OfficialOtomationFollower extends Command
          * berdasarkan tanggal sekarang
          * dan berdasarkan unit_sosmed_id in $unitsosmedid
          */
-        // $cekfollower=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',$sekarang)
-        //     ->whereIn('unit_sosmed_id',$unitsosmedid)
-        //     ->get();
+        $cekfollower=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',$sekarang)
+            ->whereIn('unit_sosmed_id',$unitsosmedid)
+            ->get();
 
-        // if(count($cekfollower)>0){
-        //     $this->info("oppsss, anda tidak bisa mengisi data ini");
-        // }else{
-        //     \DB::transaction(function() use($list){
-        //         foreach($list as $k=>$v){
-        //             $new=new \App\Models\Sosmed\Unitsosmedfollower;
-        //             $new->tanggal=$v['tanggal'];
-        //             $new->unit_sosmed_id=$v['unit_sosmed_id'];
-        //             $new->follower=$v['follower'];
-        //             $new->insert_user='jamal.apriadi@mncgroup.com';
-        //             $new->save();
-        //         }
-        //     });
+        if(count($cekfollower)>0){
+            $this->info("oppsss, anda tidak bisa mengisi data ini");
+        }else{
+            \DB::transaction(function() use($list){
+                foreach($list as $k=>$v){
+                    $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                    $new->tanggal=$v['tanggal'];
+                    $new->unit_sosmed_id=$v['unit_sosmed_id'];
+                    $new->follower=$v['follower'];
+                    $new->insert_user='jamal.apriadi@mncgroup.com';
+                    $new->save();
+                }
+            });
 
-        //     $this->info("yey sukses menyimpan data");
-        // }
+            $this->info("yey sukses menyimpan data");
+        }
     }
 }

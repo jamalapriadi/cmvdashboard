@@ -34,6 +34,8 @@
     <!-- Modernizer for Portfolio -->
     <script src="{{asset('template/cloud/js/modernizer.js')}}"></script>
 
+    {{Html::style('css/icons/icomoon/styles.css')}}
+
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -138,31 +140,29 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{URL::to('/')}}"><img src="{{asset('template/cloud/images/logos/logo-hosting.png')}}" alt="image" style="width:110px;height:40px;"></a>
+                    <a class="navbar-brand" href="{{URL::to('/')}}"><img src="{{URL::asset('klorofil/img/mnc2.png')}}" alt="image" style="width:110px;height:40px;"></a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         @if(Request::path() == 'unit')
-                            <li><a class="active" href="{{URL::to('/')}}">Home</a></li>
                             <li><a href="#">MNC Media Unit</a></li>
                             <li><a href="#">Media Competitor Unit</a></li>
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            @if(auth()->check())
-                                @if(Request::path() == 'unit')
-                                    <a class="btn-light btn-radius btn-brd log" href="{{URL::to('home')}}"><i class="flaticon-server"></i> Home</a>
-                                @elseif(Request::path() == 'brands')
-                                    <a class="btn-light btn-radius btn-brd log" href="{{URL::to('brand')}}"><i class="flaticon-server"></i> Home</a>
-                                @else 
-
-                                @endif
-                            @else
-                                <a class="btn-light btn-radius btn-brd log" href="#" data-toggle="modal" data-target="#login"><i class="flaticon-padlock"></i> Login</a>
+                        @if(auth()->check())
+                            @if(Request::path() == 'unit')
+                                <li><a class="btn-light bg-primary btn-radius btn-brd log" href="{{URL::to('home')}}"><i class="flaticon-server"></i> Home</a></li>
+                            @elseif(Request::path() == 'brands')
+                                <li><a class="btn-light btn-radius btn-brd log" href="{{URL::to('brand')}}"><i class="flaticon-server"></i> Home</a></li>
+                            @else 
+                                <li><a class="btn-light btn-radius btn-brd bg-primary log" href="{{URL::to('home')}}" target="new target"><i class="flaticon-server"></i> Home</a></li>
                             @endif
-                            {{-- <a class="btn-light btn-radius btn-brd log" href="{{URL::to('login')}}"><i class="flaticon-padlock"></i> Login</a> --}}
-                        </li>
+                        @else 
+                            <li>
+                                <a class="btn-light btn-radius btn-brd log" href="#" data-toggle="modal" data-target="#login"><i class="flaticon-padlock"></i> Login</a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -184,7 +184,7 @@
                     </div>
     
                     <div class="footer-right">
-                        
+                        <p class="footer-company-name">Contact Us: <a href="#">Rega Mulya Akbar<rega.akbar@mncgroup.com></a></p>
                     </div>
                 </div>
             </div><!-- end container -->
