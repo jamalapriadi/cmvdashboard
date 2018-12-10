@@ -100,14 +100,14 @@
                     @endif
                 </th>
                 @foreach($sosmed as $row)
-                    @if($row->id!=4)
+                    @if($row->id!=4 && $row->id!=5)
                         <th width="20%" colspan="3" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
                     @endif
                 @endforeach
             </tr>
             <tr>
                 @foreach($sosmed as $row)
-                    @if($row->id!=4)
+                    @if($row->id!=4 && $row->id!=5)
                         <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$kemarin}}</th>
                         <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$sekarang}}</th>
                         <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
@@ -539,14 +539,18 @@
                     @endif
                 </th>
                 @foreach($sosmed as $row)
-                    <th colspan="3" class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    @if($row->id!=5)
+                        <th colspan="3" class='text-center' width="20%" style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                    @endif
                 @endforeach
             </tr>
             <tr>
                 @foreach($sosmed as $row)
-                    <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$kemarin}}</th>
-                    <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$sekarang}}</th>
-                    <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
+                    @if($row->id!=5)
+                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$kemarin}}</th>
+                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$sekarang}}</th>
+                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
+                    @endif
                 @endforeach
             </tr>
         </thead>
