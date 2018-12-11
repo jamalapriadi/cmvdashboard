@@ -122,16 +122,9 @@
                             <div class="form-group">
                                 <label for="" class="control-label">Unit Type</label>
                                 <select name="typeunit" id="typeunit" class="form-control">
-                                    <option value="TV">TV</option>
-                                    <option value="Publisher">Hardnews Portal & Print</option>
-                                    <option value="Radio">Radio</option>
-                                    <option value="KOL">Artist</option>
-                                    <option value="Animation Production">Animation Production</option>
-                                    <option value="Production House">Production House</option>
-                                    <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
-                                    {{-- <option value="Newspaper">Newspaper</option> --}}
-                                    <option value="Magazine">Magazine</option>
-                                    <option value="SMN Channel">SMN Channel</option>
+                                    @foreach($typeunit as $row)
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -154,7 +147,9 @@
                     </div>
 
                     <hr>
-                    <div id="zingchart-1"><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
+                    <div id="zingchart-1">
+                        <div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>
+                    </div>
 
                     <div id="showUnit"></div>
                 </div>
@@ -217,16 +212,9 @@
                             <div class="form-group">
                                 <label for="" class="control-label">Unit Type</label>
                                 <select name="typeunit" id="typeunit2" class="form-control">
-                                    <option value="TV">TV</option>
-                                    <option value="Publisher">Hardnews Portal & Print</option>
-                                    <option value="Radio">Radio</option>
-                                    <option value="KOL">Artist</option>
-                                    <option value="Animation Production">Animation Production</option>
-                                    <option value="Production House">Production House</option>
-                                    <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
-                                    {{-- <option value="Newspaper">Newspaper</option> --}}
-                                    <option value="Magazine">Magazine</option>
-                                    <option value="SMN Channel">SMN Channel</option>
+                                    @foreach($typeunit as $row)
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -240,9 +228,13 @@
 
                     <hr>
 
-                    <div id="zingchart-groupMediaType"></div>
+                    <div id="zingchart-groupMediaType">
+                        <div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>
+                    </div>
 
-                    <div id="groupMediaType"></div>
+                    <div id="groupMediaType">
+                        <div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>
+                    </div>
                 </div>
 
                 <div class="card-footer">
@@ -344,8 +336,12 @@
 
             <hr>
 
-            <div id="zingchart-2"></div>
-            <div id="showGroup"></div>
+            <div id="zingchart-2">
+                <div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>
+            </div>
+            <div id="showGroup">
+                <div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>
+            </div>
         </div>
 
         <div class="card-footer">
@@ -406,7 +402,7 @@
                 return x1 + x2;
             }
 
-            function showTear1(){
+            function showTear1(number){
                 var tanggal=$("#tanggal").val();
                 var filter=$("#filter").val();
                 var typeunit=$("#typeunit").val();
@@ -681,11 +677,14 @@
 
                         $("#tableunit").DataTable();
 
+                        if(number==0){
+                            groupMediaType(0);
+                        }
                     }
                 })
             }
 
-            function showChartByTypeUnit(){
+            function showChartByTypeUnit(number){
                 var tanggal=$("#tanggalMediaPlatform").val();
                 var filter=$("#filterMediaPlatform option:selected").val();
 
@@ -699,11 +698,12 @@
                     type:"GET",
                     data:param,
                     beforeSend:function(){
-                        $("#showTypeUnit").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                        $("#showTypeUnit").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
                         $("#zingchart-typeunit").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
                     },
                     success:function(result){
                         var el="";
+                        $("#showTypeUnit").empty();
                         $("#zingchart-typeunit").empty();
                         var primaryColor = "#4184F3";
                         var primaryColorHover = "#3a53c5";
@@ -718,14 +718,7 @@
 
                         $.each(result,function(a,b){
                             if(b.type_unit!='tidak'){
-                                var na="";
-                                if(b.type_unit=="Publisher"){
-                                    na="Hardnews Portal & Print";
-                                }else if(b.type_unit=="KOL"){
-                                    na="Artist";
-                                }else{
-                                    na=b.type_unit;
-                                }
+                                var na=b.type_unit_name;
 
                                 labels1.push(na);
 
@@ -866,14 +859,7 @@
                                     });
                                     $.each(result,function(a,b){
                                         if(b.type_unit!='tidak'){
-                                            var na="";
-                                            if(b.type_unit=="Publisher"){
-                                                na="Hardnews Portal & Print";
-                                            }else if(b.type_unit=="KOL"){
-                                                na="Artist";
-                                            }else{
-                                                na=b.type_unit;
-                                            }
+                                            var na=b.type_unit_name;
 
                                             no++;
                                             el+="<tr>"+
@@ -899,6 +885,9 @@
 
                         $("#tabletypeunit").DataTable();
 
+                        if(number==0){
+                            showTear1(0);
+                        }
                     }
                 })
             }
@@ -911,7 +900,7 @@
                     type:"GET",
                     data:"type=corporate",
                     beforeSend:function(){
-                        $("#divLiveSocmed").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                        $("#divLiveSocmed").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
                     },
                     success:function(result){
                         $("#divLiveSocmed").empty().html(result);
@@ -922,7 +911,7 @@
                 })
             }
 
-            function showgroup(){
+            function showgroup(number){
                 var tanggal=$("#tanggalgroup").val();
                 var filter=$("#typegroup").val();
                 var group=$("#group").val();
@@ -1234,7 +1223,7 @@
                 })
             }
 
-            function groupMediaType(){
+            function groupMediaType(number){
                 var tanggal=$("#tanggalType").val();
                 var type=$("#type2 option:selected").val();
                 var typeunit=$("#typeunit2 option:selected").val();
@@ -1250,7 +1239,7 @@
                     type:"GET",
                     data:param,
                     beforeSend:function(){
-                        $("#groupMediaType").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                        $("#groupMediaType").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
                         $("#zingchart-groupMediaType").empty().html("<div class='alert alert-info'>Please wait. . .</div>");
                     },
                     success:function(result){
@@ -1438,6 +1427,10 @@
 
                         $("#groupMediaType").empty().html(el);
                         $("#tablegrouptype").DataTable();
+
+                        if(number==0){
+                            showgroup(0);
+                        }
                     },
                     errors:function(){
 
@@ -1446,11 +1439,11 @@
             }
 
             $(document).on("click","#filterOfficial",function(){
-                showTear1();
+                showTear1(1);
             })
 
             $(document).on("click","#filterMediaFlatformSearch",function(){
-                showChartByTypeUnit();
+                showChartByTypeUnit(1);
             });
 
             $(document).on("change","#unit",function(){
@@ -1468,11 +1461,11 @@
                 var nm=$("#group option:selected").text();
                 $("#namagroup").empty().html(nm);
 
-                showgroup();
+                showgroup(1);
             })
 
             $(document).on("click","#filterType",function(){
-                groupMediaType();
+                groupMediaType(1);
             })
 
             $(document).on("change","#accounttype",function(){
@@ -1497,7 +1490,7 @@
                     type:"GET",
                     beforeSend:function(){
                         $("#divLiveSocmed").empty();
-                        $("#accountprogram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                        $("#accountprogram").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait...</div>");
                     },
                     success:function(result){
                         var el="";
@@ -1527,7 +1520,7 @@
                     type:"GET",
                     data:"type=program",
                     beforeSend:function(){
-                        $("#divLiveSocmed").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                        $("#divLiveSocmed").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
                     },
                     success:function(result){
                         $("#divLiveSocmed").empty().html(result);
@@ -1538,12 +1531,9 @@
                 })
             })
             
-            showChartByTypeUnit();
-            showTear1();
-            showgroup();
-            liveSocmed();
-
-            groupMediaType();
+            showChartByTypeUnit(0);
+            
+            // liveSocmed();
         })
     </script>
 @stop

@@ -113,16 +113,9 @@
                                                 <span class="input-group-text"><i class="icon-archive"></i></span>
                                             </div>
                                             <select name="typeunit" id="typeunit1" class="form-control" required>
-                                                <option value="TV">TV</option>
-                                                <option value="Publisher">Hardnews Portal & Print</option>
-                                                <option value="Radio">Radio</option>
-                                                <option value="KOL">Artist</option>
-                                                <option value="Animation Production">Animation Production</option>
-                                                <option value="Production House">Production House</option>
-                                                <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
-                                                {{-- <option value="Newspaper">Newspaper</option> --}}
-                                                <option value="Magazine">Magazine</option>
-                                                <option value="SMN Channel">SMN Channel</option>
+                                                @foreach($typeunit as $row)
+                                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -164,16 +157,9 @@
                                                 <span class="input-group-text"><i class="icon-archive"></i></span>
                                             </div>
                                             <select name="typeunit" id="typeunit2" class="form-control" required>
-                                                <option value="TV">TV</option>
-                                                <option value="Publisher">Hardnews Portal & Print</option>
-                                                <option value="Radio">Radio</option>
-                                                <option value="KOL">Artist</option>
-                                                <option value="Animation Production">Animation Production</option>
-                                                <option value="Production House">Production House</option>
-                                                <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
-                                                {{-- <option value="Newspaper">Newspaper</option> --}}
-                                                <option value="Magazine">Magazine</option>
-                                                <option value="SMN Channel">SMN Channel</option>
+                                                @foreach($typeunit as $row)
+                                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -226,16 +212,9 @@
                                                 <span class="input-group-text"><i class="icon-archive"></i></span>
                                             </div>
                                             <select name="typeunit" id="typeunit3" class="form-control" required>
-                                                <option value="TV">TV</option>
-                                                <option value="Publisher">Hardnews Portal & Print</option>
-                                                <option value="Radio">Radio</option>
-                                                <option value="KOL">Artist</option>
-                                                <option value="Animation Production">Animation Production</option>
-                                                <option value="Production House">Production House</option>
-                                                <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
-                                                {{-- <option value="Newspaper">Newspaper</option> --}}
-                                                <option value="Magazine">Magazine</option>
-                                                <option value="SMN Channel">SMN Channel</option>
+                                                @foreach($typeunit as $row)
+                                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -266,16 +245,9 @@
                                                 <span class="input-group-text"><i class="icon-archive"></i></span>
                                             </div>
                                             <select name="typeunit" id="typeunit5" class="form-control" required>
-                                                <option value="TV">TV</option>
-                                                <option value="Publisher">Hardnews Portal & Print</option>
-                                                <option value="Radio">Radio</option>
-                                                <option value="KOL">Artist</option>
-                                                <option value="Animation Production">Animation Production</option>
-                                                <option value="Production House">Production House</option>
-                                                <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
-                                                {{-- <option value="Newspaper">Newspaper</option> --}}
-                                                <option value="Magazine">Magazine</option>
-                                                <option value="SMN Channel">SMN Channel</option>
+                                                @foreach($typeunit as $row)
+                                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -418,7 +390,7 @@
                     type:"GET",
                     data:"group="+group+"&tanggal="+tanggal,
                     beforeSend:function(){
-                        $("#divTargetVsAchievement").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                        $("#divTargetVsAchievement").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>Please Wait...</div>");
                     },
                     success:function(result){
                         $("#divTargetVsAchievement").empty().append(result);
@@ -435,7 +407,7 @@
                     url:"{{URL::to('sosmed/data/report/official-account-all-tv')}}",
                     type:"GET",
                     beforeSend:function(){
-                        $("#divofficialAccountAllTv").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                        $("#divofficialAccountAllTv").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>Please Wait...</div>");
                     },
                     success:function(result){
                         $("#divofficialAccountAllTv").empty().append(result);
@@ -453,7 +425,7 @@
                     url:"{{URL::to('sosmed/data/report/sosmed-official-and-program')}}",
                     type:"GET",
                     beforeSend:function(){
-                        $("#sosmedOfficialAndProgram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                        $("#sosmedOfficialAndProgram").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>Please Wait...</div>");
                     },
                     success:function(result){
                         $("#sosmedOfficialAndProgram").empty().append(result);
@@ -475,7 +447,7 @@
                     type:"GET",
                     data:"group="+group+"&tanggal="+tanggal+"&typeunit="+typeunit,
                     beforeSend:function(){
-                        $("#officialAndProgram").empty().html("<div class='alert alert-info'>Please Wait . . . </div>");
+                        $("#officialAndProgram").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>Please Wait . . . </div>");
                     },
                     success:function(result){
                         $("#officialAndProgram").empty().append(result);
@@ -513,7 +485,7 @@
                         type:"GET",
                         data:"group="+group+"&tanggal="+tanggal+"&pilih="+pilih+"&kemarin="+kemarin+"&typeunit="+typeunit,
                         beforeSend:function(){
-                            $("#divofficialAccountAllTv").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                            $("#divofficialAccountAllTv").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>Please Wait...</div>");
                         },
                         success:function(result){
                             $("#divofficialAccountAllTv").empty().append(result);
@@ -540,7 +512,7 @@
                         type:"GET",
                         data:"tanggal="+tanggal+"&typeunit="+typeunit,
                         beforeSend:function(){
-                            $("#sosmedOfficialAndProgram").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                            $("#sosmedOfficialAndProgram").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>Please Wait...</div>");
                         },
                         success:function(result){
                             $("#sosmedOfficialAndProgram").empty().append(result);
@@ -556,9 +528,9 @@
                 officialAndProgram();
             });
 
-            targetVsAchievement();
-            officialAccountAllTv();
-            sosmedOfficialAndProgram();
+            // targetVsAchievement();
+            // officialAccountAllTv();
+            // sosmedOfficialAndProgram();
             officialAndProgram();
 
 
@@ -580,7 +552,7 @@
                     type:"GET",
                     data:"tanggal="+tanggal+"&pilih="+pilih+"&kemarin="+kemarin+"&typeunit="+typeunit,
                     beforeSend:function(){
-                        $("#rangAllAccountGroup").empty().html("<div class='alert alert-info'>Please Wait . . .</div>");
+                        $("#rangAllAccountGroup").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>Please Wait . . .</div>");
                     },
                     success:function(result){
                         $("#rangAllAccountGroup").empty().append(result);

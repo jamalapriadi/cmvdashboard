@@ -83,6 +83,12 @@
               @endif
 
               @if(auth()->user()->can('Read Sosmed'))
+                <li class="nav-item {{ Request::path() == 'sosmed/type-unit' ? 'active' : '' }}">
+                  <a class="nav-link" href="{{URL::to('sosmed/type-unit')}}">
+                    <i class="nav-icon icon-arrow-right22"></i> Type Unit
+                  </a>
+                </li>
+
                 <li class="nav-item {{ Request::path() == 'sosmed/sosial-media' ? 'active' : '' }}">
                   <a class="nav-link" href="{{URL::to('sosmed/sosial-media')}}">
                     <i class="nav-icon icon-arrow-right22"></i> Social Media

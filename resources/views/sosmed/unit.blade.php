@@ -65,17 +65,9 @@
                                     <label for="" class="control-label">Type Unit</label>
                                     <select name="searchtype" id="searchtype" class="form-control">
                                         <option value="" disabled selected>--Select Type Unit--</option>
-                                        <option value="TV">TV</option>
-                                        <option value="Publisher">HARDNEWS PORTAL</option>
-                                        <option value="Radio">Radio</option>
-                                        <option value="KOL">KOL</option>
-                                        <option value="Animation Production">Animation Production</option>
-                                        <option value="Production House">Production House</option>
-                                        <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
-                                        <option value="Newspaper">Newspaper</option>
-                                        <option value="Magazine">Magazine</option>
-                                        <option value="SMN Channel">SMN Channel</option>
-                                        <option value="MNC Others">MNC Others</option>
+                                        @foreach($typeunit as $row)
+                                            <option value="{{$row->id}}">{{$row->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -100,6 +92,7 @@
     <script>
         $(function(){
             var kode="";
+            var typeunit=@json($typeunit);
 
             // Setting datatable defaults
             $.extend( $.fn.dataTable.defaults, {
@@ -143,7 +136,7 @@
                         {data: 'no', name: 'no',title:'No.',searchable:false,width:'5%'},
                         {data: 'groupunit.group_name', name: 'groupunit.group_name',title:'Group Name',width:'20%',defaultContent: "Data Not Found"},
                         {data: 'unit_name', name: 'unit_name',title:'Unit Name',width:'20%',searchable:true},
-                        {data: 'type_unit', name: 'type_unit',title:'Type Unit'},
+                        {data: 'typeunit.name', name: 'typeunit.name',title:'Type Unit',defaultContent: "Data Not Found"},
                         {data: 'tier', name: 'tier',title:'Tier'},
                         {data: 'jumsosmed', name: 'jumsosmed',title:'Jumlah Sosmed',width:'15%'},
                         {data: 'action', name: 'action',title:'Action',searchable:false,width:'25%'}
@@ -229,18 +222,11 @@
                             '<div class="form-group">'+
                                 '<label class="control-label text-semibold">Type Unit</label>'+
                                 '<select name="type" id="type" class="form-control" required>'+
-                                    "<option value='TV'>TV</option>"+
-                                    "<option value='Publisher'>Publisher</option>"+
-                                    "<option value='Radio'>Radio</option>"+
-                                    "<option value=KOL'>KOL</option>"+
-                                    '<option value="Animation Production">Animation Production</option>'+
-                                    '<option value="Production House">Production House</option>'+
-                                    '<option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>'+
-                                    '<option value="Newspaper">Newspaper</option>'+
-                                    '<option value="Magazine">Magazine</option>'+
-                                    '<option value="SMN Channel">SMN Channel</option>'+
-                                    '<option value="MNC Others">MNC Others</option>'+
-                                '</select>'+
+                                    "<option value='' disabled selected>--Pilih Type Unit--</option>";
+                                    $.each(typeunit,function(a,b){
+                                        el+="<option value='"+b.id+"'>"+b.name+"</option>";
+                                    })
+                                el+='</select>'+
                             '</div>'+
                             '<div class="form-group">'+
                                 '<label class="control-label text-semibold">Business Unit Name</label>'+
@@ -364,18 +350,11 @@
                             '<div class="form-group">'+
                                 '<label class="control-label text-semibold">Type Unit</label>'+
                                 '<select name="type" id="type" class="form-control" required>'+
-                                    "<option value='TV'>TV</option>"+
-                                    "<option value='Publisher'>Publisher</option>"+
-                                    "<option value='Radio'>Radio</option>"+
-                                    "<option value=KOL'>KOL</option>"+
-                                    '<option value="Animation Production">Animation Production</option>'+
-                                    '<option value="Production House">Production House</option>'+
-                                    '<option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>'+
-                                    '<option value="Newspaper">Newspaper</option>'+
-                                    '<option value="Magazine">Magazine</option>'+
-                                    '<option value="SMN Channel">SMN Channel</option>'+
-                                    '<option value="MNC Others">MNC Others</option>'+
-                                '</select>'+
+                                    "<option value='' disabled>--Pilih Type Unit--</option>";
+                                    $.each(typeunit,function(a,b){
+                                        el+="<option value='"+b.id+"'>"+b.name+"</option>";
+                                    })
+                                el+='</select>'+
                             '</div>'+
                             '<div class="form-group">'+
                                 '<label class="control-label text-semibold">Business Unit Name</label>'+

@@ -11,16 +11,9 @@
                         <div class="input-group">
                             <span class="input-group-addon"><i class="icon-archive"></i></span>
                             <select name="typeunit" id="typeunit" class="form-control" required>
-                                <option value="TV">TV</option>
-                                <option value="Publisher">Hardnews Portal</option>
-                                <option value="Radio">Radio</option>
-                                <option value="KOL">KOL</option>
-                                <option value="Animation Production">Animation Production</option>
-                                <option value="Production House">Production House</option>
-                                <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
-                                <option value="Newspaper">Newspaper</option>
-                                <option value="Magazine">Magazine</option>
-                                <option value="SMN Channel">SMN Channel</option>
+                                @foreach($typeunit as $row)
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

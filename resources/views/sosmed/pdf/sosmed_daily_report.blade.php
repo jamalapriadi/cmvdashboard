@@ -79,45 +79,45 @@
         @foreach($sosmed as $row)
             @if($row->id==4)
                 <h1 class="text-center">
-                    @if($typeunit=="Publisher")
+                    @if($typeunit==2)
                         HARDNEWS PORTAL YOUTUBE REPORT
                     @else 
-                        {{strtoupper($typeunit)}} YOUTUBE REPORT
+                        {{strtoupper($mtype->name)}} YOUTUBE REPORT
                     @endif
                 </h1>
             @else 
                 <h1 class="text-center">
-                    @if($typeunit=="Publisher")
+                    @if($typeunit==2)
                         HARDNEWS PORTAL {{strtoupper($row->sosmed_name)}} REPORT
                     @else 
-                        {{strtoupper($typeunit)}} {{strtoupper($row->sosmed_name)}} REPORT
+                        {{strtoupper($mtype->name)}} {{strtoupper($row->sosmed_name)}} REPORT
                     @endif
                 </h1>
             @endif
         @endforeach
     @elseif(count($sosmed)>3)
-        @if($typeunit=="TV")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
-        @elseif($typeunit=="Radio")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
-        @elseif($typeunit=="Publisher")
+        @if($typeunit==1)
+            <h1 class="text-center">{{strtoupper($mtype->name)}} SOCMED & YOUTUBE REPORT</h1>
+        @elseif($typeunit==3)
+            <h1 class="text-center">{{strtoupper($mtype->name)}} SOCMED & YOUTUBE REPORT</h1>
+        @elseif($typeunit==2)
             <h1 class="text-center">HARDNEWS PORTAL SOCMED & YOUTUBE REPORT</h1>
-        @elseif($typeunit=="KOL")
+        @elseif($typeunit==4)
             <h1 class="text-center">SMN ARTIST SOCMED & YOUTUBE REPORT</h1>
         @else
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
+            <h1 class="text-center">{{strtoupper($mtype->name)}} SOCMED & YOUTUBE REPORT</h1>
         @endif
     @else 
-        @if($typeunit=="TV")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED DAILY REPORT</h1>
-        @elseif($typeunit=="Radio")
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED REPORT</h1>
-        @elseif($typeunit=="Publisher")
+        @if($typeunit==1)
+            <h1 class="text-center">{{strtoupper($mtype->name)}} SOCMED DAILY REPORT</h1>
+        @elseif($typeunit==3)
+            <h1 class="text-center">{{strtoupper($mtype->name)}} SOCMED REPORT</h1>
+        @elseif($typeunit==2)
             <h1 class="text-center">HARDNEWS PORTAL SOCMED REPORT</h1>
-        @elseif($typeunit=="KOL")
+        @elseif($typeunit==4)
             <h1 class="text-center">SMN ARTIST SOCMED REPORT</h1>
         @else
-            <h1 class="text-center">{{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
+            <h1 class="text-center">{{strtoupper($mtype->name)}} SOCMED & YOUTUBE REPORT</h1>
         @endif
     @endif
     
@@ -125,7 +125,7 @@
 
     <div class="page-break"></div>
 
-    @if($typeunit=="TV")
+    @if($typeunit==1)
         @foreach($sosmed as $sos)
             @if($sos->id==1)
             <h3 class="text-center">TARGET VS ACHIEVEMENT</h3>
@@ -237,20 +237,20 @@
     @endif
     
     @if($youtubedoang!="ya")
-        @if($typeunit=="TV" || $typeunit=="Publisher")
-            <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PORTAL @elseif($typeunit=="KOL") SMN ARTIST @else {{strtoupper($typeunit)}} @endif</h3>
+        @if($typeunit==1 || $typeunit==2)
+            <h3 class="text-center">OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @elseif($typeunit==4) SMN ARTIST @else {{strtoupper($mtype->name)}} @endif</h3>
             <br>
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">
-                            @if($typeunit=="TV")
+                            @if($typeunit==1)
                                 Channel
-                            @elseif($typeunit=="Radio")
+                            @elseif($typeunit==3)
                                 Station
-                            @elseif($typeunit=="Publisher")
+                            @elseif($typeunit==2)
                                 Website
-                            @elseif($typeunit=="KOL")
+                            @elseif($typeunit==4)
                                 Artists
                             @else 
                                 {{$typeunit}}
@@ -281,14 +281,14 @@
                                     $satu_ig=0;
                                     $satu_yt=0;
 
-                                    if($typeunit=="Publisher"){
+                                    if($typeunit==2){
                                         $pembagi=$no+3;
                                     }else{
                                         $pembagi=13;
                                     }
                                 ?>
 
-                                @if($typeunit=="TV")
+                                @if($typeunit==1)
                                     @for($a=0;$a<count($tambahanInews);$a++)
                                         @if($tambahanInews[$a]->id=="TOTAL")
                                             <?php 
@@ -301,7 +301,7 @@
                                     @endfor
                                 @endif
 
-                                @if($typeunit=="Publisher")
+                                @if($typeunit==2)
                                     @foreach($inewsidprogram as $inew)
                                         <?php 
                                             $satu_tw+=$inew->tw_sekarang;
@@ -425,7 +425,7 @@
 
                                 <!-- tambahkan inewsid, metrotvnews, ccnindonesia di program -->
                                 <!-- ini khusu untuk publisher -->
-                                @if($typeunit=="Publisher" && $of->group_id==1)
+                                @if($typeunit==2 && $of->group_id==1)
                                     <!-- inject publisher untuk inews -->
                                     @foreach($inewsidprogram as $inew)
                                         <!-- define tambahan untuk inewsprogram nanti dimasukan ke total mncgroup -->
@@ -494,7 +494,7 @@
                                             @endforeach
                                         </tr>
                                     @endforeach
-                                @elseif($typeunit=="Publisher" && $of->group_id==3)
+                                @elseif($typeunit==2 && $of->group_id==3)
                                     <!-- inject publisher untuk cnn indonesia -->
                                     @foreach($cnnprogram as $cnn)
                                         <!-- define tambahan untuk cnnsprogram nanti dimasukan ke total mncgroup -->
@@ -567,7 +567,7 @@
 
                                 @if($of->group_id==1)
                                     <!-- menampilkan total group mncgroup di publisher -->
-                                    @if($typeunit=="Publisher")
+                                    @if($typeunit==2)
                                         <tr style="{{$color}}">
                                             <td>
                                                 {{$nama}}
@@ -626,9 +626,9 @@
                                     <!-- end menampilkan total group mncgroup di publisher -->
 
                                     <!-- tambahkan untuk inews -->
-                                    @if($typeunit=="TV")
+                                    @if($typeunit==1)
                                         @for($a=0;$a<count($tambahanInews);$a++)
-                                            @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->group_unit_id==$of->group_id && $typeunit=="TV")
+                                            @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->group_unit_id==$of->group_id && $typeunit==1)
                                                 <tr style="{{$color}}">
                                                     <td>
                                                         {{$nama}}
@@ -692,7 +692,7 @@
                                         @if($of->group_id!=12)
 
                                             <!-- menampilkan total group mncgroup di publisher -->
-                                            @if($typeunit=="Publisher" && $of->group_id==3)
+                                            @if($typeunit==2 && $of->group_id==3)
                                                 <tr style="{{$color}}">
                                                     <td>
                                                         {{$nama}}
@@ -1004,27 +1004,27 @@
     <!-- end jika youtube maka tidak ada official -->
     
     <h3 class="text-center">OVERALL ALL  
-        @if($typeunit!="KOL") 
-            @if($typeunit=="Publisher")
+        @if($typeunit!=4) 
+            @if($typeunit==2)
                 HARDNEWS PORTAL
             @else
-                {{strtoupper($typeunit)}} 
+                {{strtoupper($mtype->name)}} 
             @endif
         @else 
             SMN ARTIST 
-        @endif ( OFFICIAL & @if($typeunit=="Publisher") CANAL @else PROGRAM @endif )</h3>
+        @endif ( OFFICIAL & @if($typeunit==2) CANAL @else PROGRAM @endif )</h3>
     <br>
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         Channel
-                    @elseif($typeunit=="Radio")
+                    @elseif($typeunit==3)
                         Station
-                    @elseif($typeunit=="Publisher")
+                    @elseif($typeunit==2)
                         Website
-                    @elseif($typeunit=="KOL")
+                    @elseif($typeunit==4)
                         Artists
                     @else 
                         {{$typeunit}}
@@ -1081,7 +1081,7 @@
                             $cnn_yt_sekarang=0;
                         ?>
 
-                        @if($typeunit=="Publisher")
+                        @if($typeunit==2)
                             @if($of->group_id==1)
                                 <!-- inject publisher untuk inews -->
                                 @foreach($inewsidprogram as $inew)
@@ -1228,7 +1228,7 @@
                         <!--tampilkan totalnya kecuali yang dari group others -->
                         @if($of->group_id!=5)
                             @if($of->group_id!=12)
-                                @if($typeunit=="Publisher")
+                                @if($typeunit==2)
                                     @if($of->group_id==1)
                                         <tr style="{{$color}}">
                                             <td>
@@ -1602,7 +1602,7 @@
                 </tr>
             @endforeach
             
-            @if($typeunit=="Publisher")
+            @if($typeunit==2)
                 <tr>
                     <td>METROTVNEWS.COM</td>
                     @foreach($metrofficial as $metro)
@@ -1662,11 +1662,11 @@
     </table>
     <div class="page-break"></div>
 
-    @if($typeunit!="Publisher")
-        @if($typeunit=="TV" || $typeunit=="Publisher" || $typeunit=="KOL")
-            @if($typeunit=="TV" || $typeunit=="Publisher")
+    @if($typeunit!=2)
+        @if($typeunit==1 || $typeunit==2 || $typeunit==4)
+            @if($typeunit==1 || $typeunit==2)
                 <h3 class="text-center">OFFICIAL & PROGRAM MNC GROUP</h3>
-            @elseif($typeunit=="KOL")
+            @elseif($typeunit==4)
                 <h3 class="text-center">OFFICIAL & ARTIST MNC GROUP</h3>
             @else 
                 <h3 class="text-center">OFFICIAL & PROGRAM MNC GROUP</h3>
@@ -1676,7 +1676,7 @@
             <thead>
                 <tr> 
                     <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">
-                        @if($typeunit!="KOL")
+                        @if($typeunit!=4)
                             General Name
                         @else 
                             Artist
@@ -1700,7 +1700,7 @@
                         <?php $warna="";?>
                     @endif
 
-                    @if($typeunit=="KOL")
+                    @if($typeunit==4)
                         <!-- menghilangkan smn offcial -->
                         @if($b->urut=="total" || $b->urut=="program")
                             <tr style="{{$warna}}">
@@ -1777,7 +1777,7 @@
         <thead>
             <tr> 
                 <th width="20%" style="background:#419F51;color:white" class="align-middle text-white">
-                    @if($typeunit!="KOL")
+                    @if($typeunit!=4)
                         General Name
                     @else 
                         Artist
@@ -1790,7 +1790,7 @@
         </thead>
         <tbody style="color:#222">';
             @foreach($attachment as $row)
-                @if($typeunit!="KOL")
+                @if($typeunit!=4)
                     <tr style="background:#f2eff2;color:#222;font-weight:700">
                         <td>{{$row->unit_name}} Official</td>
                         @if(count($row->sosmed)>0)

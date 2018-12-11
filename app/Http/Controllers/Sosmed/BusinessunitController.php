@@ -22,7 +22,8 @@ class BusinessunitController extends Controller
                 'groupunit',
                 'sosmed'=>function($q){
                     $q->where('status_active','Y');
-                }
+                },
+                'typeunit'
             ]
         )->select('id','group_unit_id','unit_name','type_unit','tier',
             \DB::raw('@rownum := @rownum + 1 AS no'));
@@ -36,7 +37,6 @@ class BusinessunitController extends Controller
 
             $var=$var->where('group_unit_id',$group);
         }
-
 
         return \Datatables::of($var)
             ->addColumn('jumsosmed',function($q){

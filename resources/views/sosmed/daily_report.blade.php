@@ -20,16 +20,9 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="icon-archive"></i></span>
                                         <select name="typeunit" id="typeunit" class="form-control" required>
-                                            <option value="TV">TV</option>
-                                            <option value="Publisher">Hardnews Portal</option>
-                                            <option value="Radio">Radio</option>
-                                            <option value="KOL">KOL</option>
-                                            <option value="Animation Production">Animation Production</option>
-                                            <option value="Production House">Production House</option>
-                                            <option value="PAYTV,IPTV,OTT">PAYTV,IPTV,OTT</option>
-                                            <option value="Newspaper">Newspaper</option>
-                                            <option value="Magazine">Magazine</option>
-                                            <option value="SMN Channel">SMN Channel</option>
+                                            @foreach($typeunit as $row)
+                                                <option value="{{$row->id}}">{{$row->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -90,43 +83,11 @@
                             <div class="form-group row">
                                 <label for="" class="col-lg-2">Media</label>
                                 <div class="col-lg-4">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="media[]" value="TV" checked="checked">TV</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="media[]" value="Publisher" checked="checked">Hardnews Portal</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="media[]" value="Radio" checked="checked">Radio</label>
-                                    </div>
-                                    
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="media[]" value="KOL" checked="checked">KOL</label>
-                                    </div>
-
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="media[]" value="Animation Production" checked="checked">Animation Production</label>
-                                    </div>
-
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="media[]" value="Production House" checked="checked">Production House</label>
-                                    </div>
-
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="media[]" value="PAYTV,IPTV,OTT" checked="checked">PAYTV,IPTV,OTT</label>
-                                    </div>
-
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="media[]" value="Newspaper" checked="checked">Newspaper</label>
-                                    </div>
-
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="media[]" value="Magazine" checked="checked">Magazine</label>
-                                    </div>
-
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="media[]" value="SMN Channel" checked="checked">SMN Channel</label>
-                                    </div>
+                                    @foreach($typeunit as $row)
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" name="media[]" value="{{$row->id}}" checked="checked"> {{$row->name}}</label>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
 

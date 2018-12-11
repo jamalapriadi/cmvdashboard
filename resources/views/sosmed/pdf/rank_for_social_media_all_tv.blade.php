@@ -36,45 +36,45 @@
         @foreach($sosmed as $row)
             @if($row->id==4)
                 <h1 class="text-center">
-                    @if($typeunit=="Publisher")
+                    @if($typeunit==2)
                         RANK FOR HARDNEWS PORTAL YOUTUBE REPORT
                     @else 
-                        RANK FOR {{strtoupper($typeunit)}} YOUTUBE REPORT
+                        RANK FOR {{strtoupper($mtype->name)}} YOUTUBE REPORT
                     @endif
                 </h1>
             @else 
                 <h1 class="text-center">
-                    @if($typeunit=="Publisher")
+                    @if($typeunit==2)
                         RANK FOR HARDNEWS PORTAL {{strtoupper($row->sosmed_name)}} REPORT
                     @else 
-                        RANK FOR {{strtoupper($typeunit)}} {{strtoupper($row->sosmed_name)}} REPORT
+                        RANK FOR {{strtoupper($mtype->name)}} {{strtoupper($row->sosmed_name)}} REPORT
                     @endif
                 </h1>
             @endif
         @endforeach
     @elseif(count($sosmed)>3)
-        @if($typeunit=="TV")
-            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE DAILY REPORT</h1>
-        @elseif($typeunit=="Radio")
-            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
-        @elseif($typeunit=="Publisher")
+        @if($typeunit==1)
+            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED & YOUTUBE DAILY REPORT</h1>
+        @elseif($typeunit==3)
+            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED & YOUTUBE REPORT</h1>
+        @elseif($typeunit==2)
             <h1 class="text-center">RANK FOR HARDNEWS PORTAL SOCMED & YOUTUBE REPORT</h1>
-        @elseif($typeunit=="KOL")
-            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
+        @elseif($typeunit==4)
+            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED & YOUTUBE REPORT</h1>
         @else
-            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
+            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED & YOUTUBE REPORT</h1>
         @endif
     @else 
-        @if($typeunit=="TV")
-            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED DAILY REPORT</h1>
-        @elseif($typeunit=="Radio")
-            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED REPORT</h1>
-        @elseif($typeunit=="Publisher")
+        @if($typeunit==1)
+            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED DAILY REPORT</h1>
+        @elseif($typeunit==3)
+            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED REPORT</h1>
+        @elseif($typeunit==2)
             <h1 class="text-center">RANK FOR HARDNEWS PORTAL SOCMED REPORT</h1>
-        @elseif($typeunit=="KOL")
-            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED REPORT</h1>
+        @elseif($typeunit==4)
+            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED REPORT</h1>
         @else
-            <h1 class="text-center">RANK FOR {{strtoupper($typeunit)}} SOCMED & YOUTUBE REPORT</h1>
+            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED & YOUTUBE REPORT</h1>
         @endif
     @endif
 
@@ -82,7 +82,7 @@
 
     <div class="page-break"></div>
     
-    @if($typeunit!="Radio")
+    @if($typeunit!=3)
     <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
     <br><br><br>
     <?php 
@@ -99,7 +99,7 @@
                     array_push($arrYt,$pk->yt_sekarang);
                 }
             }elseif($k->id==1){
-                if($typeunit=="TV"){
+                if($typeunit==1){
                     foreach($tambahanInews as $in){
                         if($in->id=="TOTAL"){
                             array_push($arrTw,($k->tw_sekarang+$in->tw_sekarang));
@@ -140,13 +140,13 @@
         <thead>
             <tr>
                 <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         Channel
-                    @elseif($typeunit=="Radio")
+                    @elseif($typeunit==3)
                         Station
-                    @elseif($typeunit=="Publisher")
+                    @elseif($typeunit==2)
                         Website
-                    @elseif($typeunit=="KOL")
+                    @elseif($typeunit==4)
                         Artists
                     @else 
                         {{$typeunit}}
@@ -207,7 +207,7 @@
                         $tyt=0;
                         $growth_yt=0;
                     ?>
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         @foreach($tambahanInews as $ins)
                             @if($ins->id=="TOTAL")
                                 <?php
@@ -446,7 +446,7 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PORTAL @else {{strtoupper($typeunit)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
+    <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
     <br>
 
     <?php
@@ -491,13 +491,13 @@
         <thead>
             <tr>
                 <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         Channel
-                    @elseif($typeunit=="Radio")
+                    @elseif($typeunit==3)
                         Station
-                    @elseif($typeunit=="Publisher")
+                    @elseif($typeunit==2)
                         Website
-                    @elseif($typeunit=="KOL")
+                    @elseif($typeunit==4)
                         Artists
                     @else 
                         {{$typeunit}}
@@ -652,7 +652,7 @@
                     array_push($arrYt3,(string)$pk->growth_yt);
                 }
             }elseif($k->id==1){
-                if($typeunit=="TV"){
+                if($typeunit==1){
                     foreach($tambahanInews as $in){
                         if($in->id=="TOTAL"){
                             $twsekarang1=$k->tw_sekarang+$in->tw_sekarang;
@@ -757,13 +757,13 @@
         <thead>
             <tr>
                 <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         Channel
-                    @elseif($typeunit=="Radio")
+                    @elseif($typeunit==3)
                         Station
-                    @elseif($typeunit=="Publisher")
+                    @elseif($typeunit==2)
                         Website
-                    @elseif($typeunit=="KOL")
+                    @elseif($typeunit==4)
                         Artists
                     @else 
                         {{$typeunit}}
@@ -824,7 +824,7 @@
                         @endforeach
                     @endforeach
                 @elseif($row->id==1)
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         <?php 
                             $ttw3=0;
                             $growth_tw3=0;
@@ -1144,7 +1144,7 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit=="Publisher") HARDNEWS PORTAL @else {{strtoupper($typeunit)}} @endif <span style="color:red">BY % GROWTH YESTERDAY</span></h3>
+    <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % GROWTH YESTERDAY</span></h3>
     <br>
 
     <?php
@@ -1189,13 +1189,13 @@
         <thead>
             <tr>
                 <th width="17%" rowspan='2' style="background:#419F51;color:white" class="text-center">
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         Channel
-                    @elseif($typeunit=="Radio")
+                    @elseif($typeunit==3)
                         Station
-                    @elseif($typeunit=="Publisher")
+                    @elseif($typeunit==2)
                         Website
-                    @elseif($typeunit=="KOL")
+                    @elseif($typeunit==4)
                         Artists
                     @else 
                         {{$typeunit}}
@@ -1380,13 +1380,13 @@
         <thead>
             <tr>
                 <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         Channel
-                    @elseif($typeunit=="Radio")
+                    @elseif($typeunit==3)
                         Station
-                    @elseif($typeunit=="Publisher")
+                    @elseif($typeunit==2)
                         Website
-                    @elseif($typeunit=="KOL")
+                    @elseif($typeunit==4)
                         Artists
                     @else 
                         {{$typeunit}}
@@ -1538,7 +1538,7 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL @if($typeunit=="Publisher") HARDNEWS PORTAL @else {{strtoupper($typeunit)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
     <br>
     <?php 
         $arrTw6=array();
@@ -1570,13 +1570,13 @@
         <thead>
             <tr>
                 <th width="18%" rowspan='2' style="background:#419F51;color:white" class="text-center">
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         Channel
-                    @elseif($typeunit=="Radio")
+                    @elseif($typeunit==3)
                         Station
-                    @elseif($typeunit=="Publisher")
+                    @elseif($typeunit==2)
                         Website
-                    @elseif($typeunit=="KOL")
+                    @elseif($typeunit==4)
                         Artists
                     @else 
                         {{$typeunit}}
@@ -1692,13 +1692,13 @@
         <thead>
             <tr>
                 <th width="15%" rowspan='2' style="background:#419F51;color:white" class="text-center">
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         Channel
-                    @elseif($typeunit=="Radio")
+                    @elseif($typeunit==3)
                         Station
-                    @elseif($typeunit=="Publisher")
+                    @elseif($typeunit==2)
                         Website
-                    @elseif($typeunit=="KOL")
+                    @elseif($typeunit==4)
                         Artists
                     @else 
                         {{$typeunit}}
@@ -1881,13 +1881,13 @@
         <thead>
             <tr>
                 <th width="18%" rowspan='2' style="background:#419F51;color:white" class="text-center">
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         Channel
-                    @elseif($typeunit=="Radio")
+                    @elseif($typeunit==3)
                         Station
-                    @elseif($typeunit=="Publisher")
+                    @elseif($typeunit==2)
                         Website
-                    @elseif($typeunit=="KOL")
+                    @elseif($typeunit==4)
                         Artists
                     @else 
                         {{$typeunit}}

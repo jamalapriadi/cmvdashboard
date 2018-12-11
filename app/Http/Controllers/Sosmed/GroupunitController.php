@@ -225,7 +225,7 @@ class GroupunitController extends Controller
         if($request->has('typeunit')){
             $typeunit=$request->input('typeunit');
         }else{
-            $typeunit="TV";
+            $typeunit=1;
         }
 
         $filter=$request->input('filter');
@@ -250,7 +250,7 @@ class GroupunitController extends Controller
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         where a.group_unit_id=$id
-                        and a.type_unit!='KOL'
+                        and a.type_unit!=4
                         group by a.id
                         UNION ALL 
                         select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
@@ -261,7 +261,7 @@ class GroupunitController extends Controller
                         from program_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                        left join business_unit d on d.id=a.business_unit_id and d.type_unit!='KOL'
+                        left join business_unit d on d.id=a.business_unit_id and d.type_unit!=4
                         where d.group_unit_id=$id
                         group by a.business_unit_id
                     ) as total
@@ -290,7 +290,7 @@ class GroupunitController extends Controller
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         where a.group_unit_id=$id
-                        and a.type_unit!='KOL'
+                        and a.type_unit!=4
                         group by a.id
                         with ROLLUP");
 
@@ -317,7 +317,7 @@ class GroupunitController extends Controller
                         from program_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                        left join business_unit d on d.id=a.business_unit_id and d.type_unit!='KOL'
+                        left join business_unit d on d.id=a.business_unit_id and d.type_unit!=4
                         where d.group_unit_id=$id
                         group by a.business_unit_id
                         WITH ROLLUP");
@@ -353,7 +353,7 @@ class GroupunitController extends Controller
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                         where a.group_unit_id=$id
-                        and a.type_unit='KOL'
+                        and a.type_unit=4
                         group by a.id
                         UNION ALL 
                         select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
@@ -364,7 +364,7 @@ class GroupunitController extends Controller
                         from program_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                        left join business_unit d on d.id=a.business_unit_id and d.type_unit='KOL'
+                        left join business_unit d on d.id=a.business_unit_id and d.type_unit=4
                         where d.group_unit_id=$id
                         group by a.business_unit_id
                     ) as total

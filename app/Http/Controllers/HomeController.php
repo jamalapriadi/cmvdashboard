@@ -37,17 +37,21 @@ class HomeController extends Controller
         )->find(auth()->user()->id);
 
         $group=\App\Models\Sosmed\Groupunit::all();
+        $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
         return view('sosmed.dashboard')
             ->with('user',$user)
-            ->with('group',$group);
+            ->with('group',$group)
+            ->with('typeunit',$typeunit);
     }
 
     public function dashboard_summary(){
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
         return view('sosmed.dashboard_summary')
-            ->with('group',$group);
+            ->with('group',$group)
+            ->with('typeunit',$typeunit);
     }
 
     public function sosmed_group_summary($id){
@@ -55,6 +59,11 @@ class HomeController extends Controller
 
         return view('sosmed.group_summary')
             ->with('group',$group);
+    }
+
+    public function sosmed_type_unit(Request $request)
+    {
+        return view('sosmed.type_unit');
     }
 
     public function role(){
@@ -103,9 +112,11 @@ class HomeController extends Controller
     public function sosmed_unit(){
         if(auth()->user()->can('Read Unit')){
             $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+            $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
             return view('sosmed.unit')
-                ->with('group',$group);
+                ->with('group',$group)
+                ->with('typeunit',$typeunit);
         }
 
         return abort('403');
@@ -224,11 +235,13 @@ class HomeController extends Controller
             $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
             $unit=\App\Models\Sosmed\Businessunit::select('id','unit_name','group_unit_id')->get();
             $sosmed=\App\Models\Sosmed\Sosmed::all();
+            $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
             return view('sosmed.rangking')
                 ->with('group',$group)
                 ->with('unit',$unit)
-                ->with('sosmed',$sosmed);
+                ->with('sosmed',$sosmed)
+                ->with('typeunit',$typeunit);
         }
         
         return abort('403');
@@ -246,12 +259,14 @@ class HomeController extends Controller
 
             $sosmed=\App\Models\Sosmed\Sosmed::all();
             $group=\App\Models\Sosmed\Groupunit::all();
+            $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
     
             return view('sosmed.daily_report')
                 ->with('sekarang',$sekarang)
                 ->with('kemarin',$kemarin)
                 ->with('sosmed',$sosmed)
-                ->with('group',$group);
+                ->with('group',$group)
+                ->with('typeunit',$typeunit);
         }
 
         return abort('403');
@@ -267,11 +282,13 @@ class HomeController extends Controller
         }
 
         $sosmed=\App\Models\Sosmed\Sosmed::all();
+        $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
         return view('sosmed.ranking_soc_med')
             ->with('sekarang',$sekarang)
             ->with('kemarin',$kemarin)
-            ->with('sosmed',$sosmed);
+            ->with('sosmed',$sosmed)
+            ->with('typeunit',$typeunit);
     }
 
     public function sosmed_chart($param){
@@ -585,11 +602,13 @@ class HomeController extends Controller
                 break;
         }
         $group=\App\Models\Sosmed\Groupunit::all();
+        $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
         return view('sosmed.dashboard_chart_twitter')
             ->with('idsosmed',$idsosmed)
             ->with('id',$id)
-            ->with('group',$group);
+            ->with('group',$group)
+            ->with('typeunit',$typeunit);
     }
 
     public function periode(){

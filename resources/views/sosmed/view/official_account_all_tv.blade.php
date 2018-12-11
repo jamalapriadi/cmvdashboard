@@ -38,15 +38,15 @@
                         $satu_ig=0;
                         $satu_yt=0;
 
-                        if($typeunit=="Publisher"){
+                        if($typeunit==2){
                             $pembagi=$no+3;
                         }else{
                             $pembagi=13;
                         }
                     ?>
 
-                    @if($typeunit=="TV")
-                        @for($a=0;$a<count($tambahanInews);$a++)
+                    @if($typeunit==1)
+                        @for($a=0;$a < count($tambahanInews);$a++)
                             @if($tambahanInews[$a]->id=="TOTAL")
                                 <?php 
                                     $satu_tw=$tambahanInews[$a]->tw_sekarang;
@@ -58,7 +58,7 @@
                         @endfor
                     @endif
 
-                    @if($typeunit=="Publisher")
+                    @if($typeunit==2)
                         @foreach($inewsidprogram as $inew)
                             <?php 
                                 $satu_tw+=$inew->tw_sekarang;
@@ -181,7 +181,7 @@
 
                     <!-- tambahkan inewsid, metrotvnews, ccnindonesia di program -->
                     <!-- ini khusu untuk publisher -->
-                    @if($typeunit=="Publisher" && $of->group_id==1)
+                    @if($typeunit==2 && $of->group_id==1)
                         <!-- inject publisher untuk inews -->
                         @foreach($inewsidprogram as $inew)
                             <!-- define tambahan untuk inewsprogram nanti dimasukan ke total mncgroup -->
@@ -250,7 +250,7 @@
                                 @endforeach
                             </tr>
                         @endforeach
-                    @elseif($typeunit=="Publisher" && $of->group_id==3)
+                    @elseif($typeunit==2 && $of->group_id==3)
                         <!-- inject publisher untuk cnn indonesia -->
                         @foreach($cnnprogram as $cnn)
                             <!-- define tambahan untuk cnnsprogram nanti dimasukan ke total mncgroup -->
@@ -324,7 +324,7 @@
                     @if($of->group_id==1)
                         
                         <!-- menampilkan total group mncgroup di publisher -->
-                        @if($typeunit=="Publisher")
+                        @if($typeunit==2)
                             <tr style="{{$color}}">
                                 <td>
                                     {{$nama}}
@@ -383,8 +383,8 @@
                         <!-- end menampilkan total group mncgroup di publisher -->
 
                         <!-- tambahkan untuk inews -->
-                        @if($typeunit=="TV")
-                            @for($a=0;$a<count($tambahanInews);$a++)
+                        @if($typeunit==1)
+                            @for($a=0;$a< count($tambahanInews);$a++)
                                 @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->group_unit_id==$of->group_id)
                                     <tr style="{{$color}}">
                                         <td>
