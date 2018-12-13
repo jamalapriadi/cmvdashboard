@@ -87,16 +87,16 @@
         <thead>
             <tr>
                 <th width="20%" style="background:#419F51;color:white" class="align-middle text-white" rowspan="2">
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         Channel
-                    @elseif($typeunit=="Radio")
+                    @elseif($typeunit==3)
                         Station
-                    @elseif($typeunit=="Publisher")
+                    @elseif($typeunit==2)
                         Website
-                    @elseif($typeunit=="KOL")
+                    @elseif($typeunit==4)
                         SMN Artist
                     @else 
-                        {{$typeunit}}
+                        Channel
                     @endif
                 </th>
                 @foreach($sosmed as $row)
@@ -121,7 +121,30 @@
                 @if($of->id=="SUBTOTAL")
                     @if($of->group_id=="TOTAL")
                         <?php 
-                            $nama="TOTAL ".strtoupper($of->type_unit);
+                            $typeunitname="";
+                            if($of->type_unit==1){
+                                $typeunitname="TV";
+                            }elseif($of->type_unit==2){
+                                $typeunitname="HARDNEWS PORTAL & PRINT";
+                            }elseif($of->type_unit==3){
+                                $typeunitname="RADIO";
+                            }elseif($of->type_unit==4){
+                                $typeunitname="SMN ARTIST";
+                            }elseif($of->type_unit==5){
+                                $typeunitname="ANIMATION PRODUCTION";
+                            }elseif($of->type_unit==6){
+                                $typeunitname="Production House";
+                            }elseif($of->type_unit==7){
+                                $typeunitname="PAYTV,IPTV,OTT";
+                            }elseif($of->type_unit==8){
+                                $typeunitname="Magazine";
+                            }elseif($of->type_unit==9){
+                                $typeunitname="SMN Channel";
+                            }elseif($of->type_unit==10){
+                                $typeunitname="MNC Others";
+                            }
+
+                            $nama="TOTAL ".strtoupper($typeunitname);
                             // $nama=$of->group_name;
                             $color="background:#f2eff2;color:#222;font-weight:700";
 
@@ -144,7 +167,7 @@
 
                         @if($of->group_id==1)
                             <!-- menampilkan total group mncgroup di publisher -->
-                            @if($typeunit=="Publisher")
+                            @if($typeunit==2)
                                 <tr style="{{$color}}">
                                     <td>
                                         {{$nama}}
@@ -195,7 +218,7 @@
                             <!-- end menampilkan total group mncgroup di publisher -->
 
                             <!-- tambahkan untuk inews -->
-                            @for($a=0;$a<count($tambahanInews);$a++)
+                            @for($a=0;$a< count($tambahanInews);$a++)
                                 @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->group_unit_id==$of->group_id)
                                     <tr style="{{$color}}">
                                         <td>
@@ -472,16 +495,16 @@
         <thead>
             <tr>
                 <th width="20%" style="background:#419F51;color:white" rowspan="2" class="align-middle text-white">
-                    @if($typeunit=="TV")
+                    @if($typeunit==1)
                         Channel
-                    @elseif($typeunit=="Radio")
+                    @elseif($typeunit==3)
                         Station
-                    @elseif($typeunit=="Publisher")
+                    @elseif($typeunit==2)
                         Website
-                    @elseif($typeunit=="KOL")
+                    @elseif($typeunit==4)
                         Artists
                     @else 
-                        {{$typeunit}}
+                        Channel
                     @endif
                 </th>
                 @foreach($sosmed as $row)
@@ -516,10 +539,33 @@
                         ?>
                     @else    
                         <?php 
-                            $nama="TOTAL ".strtoupper($of->type_unit);
+                            $typeunitname="";
+                            if($of->type_unit==1){
+                                $typeunitname="TV";
+                            }elseif($of->type_unit==2){
+                                $typeunitname="HARDNEWS PORTAL & PRINT";
+                            }elseif($of->type_unit==3){
+                                $typeunitname="RADIO";
+                            }elseif($of->type_unit==4){
+                                $typeunitname="SMN ARTIST";
+                            }elseif($of->type_unit==5){
+                                $typeunitname="ANIMATION PRODUCTION";
+                            }elseif($of->type_unit==6){
+                                $typeunitname="Production House";
+                            }elseif($of->type_unit==7){
+                                $typeunitname="PAYTV,IPTV,OTT";
+                            }elseif($of->type_unit==8){
+                                $typeunitname="Magazine";
+                            }elseif($of->type_unit==9){
+                                $typeunitname="SMN Channel";
+                            }elseif($of->type_unit==10){
+                                $typeunitname="MNC Others";
+                            }
+
+                            $nama="TOTAL ".strtoupper($typeunitname);
                             $color="background:#f2eff2;color:#222;font-weight:700";
 
-                            if($of->type_unit!="KOL"){
+                            if($of->type_unit!=4){
                                 $total2[]=array(
                                     'nama'=>'Total MNC Group',
                                     'tw_kemarin'=>$of->total_tw_kemarin,
@@ -557,7 +603,7 @@
                         <!--tampilkan totalnya kecuali yang dari group others -->
                         @if($of->group_id!=5)
                             @if($of->group_id!=12)
-                                @if($of->type_unit!="KOL")
+                                @if($of->type_unit!=4)
                                     <tr style="{{$color}}">
                                         <td>
                                             {{$nama}}
@@ -627,7 +673,7 @@
 
                     @if($of->group_id!=12)
                         <!--tampilkan unitnya -->
-                        @if($of->type_unit!="KOL")
+                        @if($of->type_unit!=4)
                             <tr style="{{$color}}">
                                 <td>
                                     {{$nama}}
@@ -686,7 +732,7 @@
                     @else 
                         <!--simpan unit other publisher ke dalam array -->
                         @php 
-                            if($of->type_unit!="KOL"){
+                            if($of->type_unit!=4){
                                 $listprogram[]=array(
                                     'nama'=>$nama,
                                     'color'=>$color,
