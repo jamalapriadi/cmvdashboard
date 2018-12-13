@@ -370,7 +370,7 @@
                                 "</li>";
                             }
                             
-                            if(typeunit!="Publisher" || typeunit!="Radio"){
+                            if(typeunit!=2 || typeunit!=3){
                                 if(s==4){
                                     el+="<li>*Youtube*"+
                                         "<ul style='list-style-type:none'>";
@@ -492,7 +492,7 @@
                                 "</li>";
                             }
                             
-                            if(typeunit!="Publisher" || typeunit!="Radio"){
+                            if(typeunit!=2 || typeunit!=3){
                                 if(s==4){
                                     el+="<li>*Youtube*"+
                                         "<ul style='list-style-type:none'>";
@@ -757,7 +757,7 @@
                                 "</li>";
                             }
                             
-                            if(typeunit!="Publisher" || typeunit!="Radio"){
+                            if(typeunit!=2 || typeunit!=3){
                                 if(s==4){
                                     el+="<li>*Youtube*"+
                                         "<ul style='list-style-type:none'>";
@@ -850,7 +850,7 @@
                                 "</li>";
                             }
                             
-                            if(typeunit!="Publisher" || typeunit!="Radio"){
+                            if(typeunit!=2 || typeunit!=3){
                                 if(s==4){
                                     el+="<li>*Youtube*"+
                                         "<ul style='list-style-type:none'>";
@@ -1139,16 +1139,16 @@
                 var nama="";
                 var program="";
                 switch(typeunit){
-                    case "TV":
+                    case 1:
                             nama="TV";
                             program="Program";
                         break;
-                    case "Publisher":
+                    case 2:
                             nama="HARDNEWS PUBLISHER";
                             program="Canal";
                         break;
-                    case "Radio":
-                            nama="Radio";
+                    case 3:
+                            nama=3;
                             program="Program";
                         break;
                     case "KOL":
@@ -1169,7 +1169,7 @@
                         '<div id="groupOfficialAccountByTotalFollowers"></div>'+
                     '</li>';
 
-                    if(typeunit!="Radio"){
+                    if(typeunit!=3){
                         el+='<li>*3. Group Overall* Accounts ( Official + '+program+' ) *Socmed* by *Total Followers*'+
                             '<div id="groupOverallAccount"></div>'+
                         '</li>'+
@@ -1178,29 +1178,29 @@
                         '</li>';
                     }
                     
-                    if(typeunit=="TV"){
+                    if(typeunit==1){
                         // el+="<li>*5. 4TV's* Followers *Achievement below 50%*"+
                         //     '<div id="tvAchievementbelow50"></div>'+
                         // '</li>';
                     }
 
-                    if(typeunit=="TV"){
+                    if(typeunit==1){
                         el+="<li>*5. Our 4TV's* Followers *Socmed Official Accounts* for those *Achievement above 50%*"+
                             '<div id="tvAchievementabove50"></div>'+
                             '<br>'+
                         '</li>';
                     }
 
-                    if(typeunit=="TV" || typeunit=="Publisher" || typeunit=="Radio"){
+                    if(typeunit==1 || typeunit==2 || typeunit==3){
                         var label6="";
                         var label7="";
-                        if(typeunit=="TV"){
+                        if(typeunit==1){
                             label6="*6. Overall* Accounts *Youtube All TV* by *Total Followers*";
                             label7="*7. Group Overall* Accounts ( Official + Program ) *Youtube* by *Total Followers*";
-                        }else if(typeunit=="Publisher"){
+                        }else if(typeunit==2){
                             label6="*5. Group Overall* Accounts ( Official + Canal ) *Youtube* by *Total Followers*";
                             label7="*6. Our Publisher's Youtube Overall Accounts* Followers";
-                        }else if(typeunit=="Radio"){
+                        }else if(typeunit==3){
                             label6="*6. Our Radio's Youtube Overall Accounts* Followers";
                         }else{
 
@@ -1208,7 +1208,7 @@
 
                         el+="<li>"+label6+"<div id='groupOverallYoutube'></div><br><li>";
                         
-                        if(typeunit!="Radio"){
+                        if(typeunit!=3){
                             el+="<li>"+label7+"<div id='overallAccountYoutube'></div><br></li>";
                         }
                     }
@@ -1222,7 +1222,7 @@
                 programAccountAllTv();
                 groupOverallYoutube();
                 
-                if(typeunit=="TV"){
+                if(typeunit==1){
                     // tvAchievementbelow50();
                     tvAchievementabove50();
                 }
