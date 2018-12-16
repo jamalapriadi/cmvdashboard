@@ -152,9 +152,17 @@
                 </tr>
                 <tr>
                     @foreach($sosmed as $row)
-                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
-                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
-                        <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
+                        @if($row->id==1)
+                            <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
+                        @end if 
+
+                        @if($row->id==2)
+                            <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                        @endif 
+
+                        @if($row->id==3)
+                            <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
+                        @endif
                     @endforeach
                 </tr>
             </thead>
