@@ -269,14 +269,14 @@
 
                             @if($row->id==2)
                                 <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
-                                <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
                                 <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                                <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
                             @endif 
 
                             @if($row->id==3)
                                 <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($kemarin))}}</th>
-                                <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
                                 <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{date('d-m-Y',strtotime($sekarang))}}</th>
+                                <th class='text-center' style='background:{{$row->sosmed_color}};color:white'>Growth</th>
                             @endif 
                         @endforeach
                     </tr>
