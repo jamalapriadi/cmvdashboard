@@ -246,7 +246,17 @@
                             Channel
                         </th>
                         @foreach($sosmed as $row)
-                            <th colspan='3' width="20%" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                            @if($row->id==1)
+                                <th colspan='3' width="20%" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                            @endif 
+
+                            @if($row->id==2)
+                                <th colspan='3' width="20%" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                            @endif 
+
+                            @if($row->id==3)
+                                <th colspan='3' width="20%" class='text-center' style='background:{{$row->sosmed_color}};color:white'>{{$row->sosmed_name}}</th>
+                            @endif 
                         @endforeach
                     </tr>
                     <tr>
