@@ -204,18 +204,6 @@
                                                 @endif
                                             </td>
                                         @endif
-
-                                        @if($row->id==4)
-                                            <td>{{number_format($of->yt_kemarin)}}</td>
-                                            <td>{{number_format($of->yt_sekarang)}}</td>
-                                            <td>
-                                                @if($of->growth_yt>0)
-                                                    <a style="color:green;"> {{round($of->growth_yt,2)}} % </a>
-                                                @else
-                                                    <a style="color:red;"> {{round($of->growth_yt,2)}} % </a>
-                                                @endif
-                                            </td>
-                                        @endif
                                     @endforeach
                                 </tr>
                             @endif
@@ -259,18 +247,6 @@
                                                 <a style="color:green;"> {{round($of->growth_ig,2)}} % </a>
                                             @else
                                                 <a style="color:red;"> {{round($of->growth_ig,2)}} % </a>
-                                            @endif
-                                        </td>
-                                    @endif
-
-                                    @if($row->id==4)
-                                        <td>{{number_format($of->yt_kemarin)}}</td>
-                                        <td>{{number_format($of->yt_sekarang)}}</td>
-                                        <td>
-                                            @if($of->growth_yt>0)
-                                                <a style="color:green;"> {{round($of->growth_yt,2)}} % </a>
-                                            @else
-                                                <a style="color:red;"> {{round($of->growth_yt,2)}} % </a>
                                             @endif
                                         </td>
                                     @endif
@@ -323,18 +299,6 @@
                                             @endif
                                         </td>
                                     @endif
-
-                                    @if($row->id==4)
-                                        <td>{{number_format($of->yt_kemarin)}}</td>
-                                        <td>{{number_format($of->yt_sekarang)}}</td>
-                                        <td>
-                                            @if($of->growth_yt>0)
-                                                <a style="color:green;"> {{round($of->growth_yt,2)}} % </a>
-                                            @else
-                                                <a style="color:red;"> {{round($of->growth_yt,2)}} % </a>
-                                            @endif
-                                        </td>
-                                    @endif
                                 @endforeach
                             </tr>
                         @endif
@@ -370,10 +334,6 @@
 
                                 @if($row->id==3)
                                     <td colspan="3" class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{number_format(($of->ig_sekarang+$satu_ig)/$pembagi)}}</td>
-                                @endif
-
-                                @if($row->id==4)
-                                    <td colspan="3" class="text-center" style='background:{{$row->sosmed_color}};color:white'>{{number_format(($of->yt_sekarang+$satu_yt)/$pembagi)}}</td>
                                 @endif
                             @endforeach
                         </tr>
