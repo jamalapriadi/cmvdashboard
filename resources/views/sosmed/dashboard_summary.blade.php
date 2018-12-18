@@ -17,7 +17,6 @@
 @endsection
 
 @section('content')
-<div class="container-fluid">
     <!-- OVERVIEW -->
     <div class="card card-primary">
         <div class="card-header">
@@ -286,7 +285,6 @@
             </div>
         </div>
     </div>
-</div>
 
 <div id="divModal"></div>
 @endsection
@@ -394,6 +392,10 @@
                     },
                     success:function(result){
                         $("#divTargetVsAchievement").empty().append(result);
+
+                        officialAccountAllTv();
+                        sosmedOfficialAndProgram();
+                        officialAndProgram();
                     },
                     error:function(){
 
@@ -528,10 +530,7 @@
                 officialAndProgram();
             });
 
-            // targetVsAchievement();
-            // officialAccountAllTv();
-            // sosmedOfficialAndProgram();
-            officialAndProgram();
+            targetVsAchievement();
 
 
             /* ranking */

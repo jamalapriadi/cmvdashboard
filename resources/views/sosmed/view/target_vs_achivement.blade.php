@@ -23,7 +23,7 @@
     <tbody style="color:#222">
         @foreach($targetVsAch as $row)
             @if($row->id==4)
-                @for($a=0;$a<count($tambahanInews);$a++)
+                @for($a=0;$a< count($tambahanInews);$a++)
                     @if($tambahanInews[$a]->id=="TOTAL" && $tambahanInews[$a]->business_unit_id==$row->id)
 
                         <tr>
