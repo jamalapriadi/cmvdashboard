@@ -677,9 +677,9 @@
 
                         $("#tableunit").DataTable();
 
-                        if(number==0){
-                            groupMediaType(0);
-                        }
+                        // if(number==0){
+                        //     groupMediaType(0);
+                        // }
                     }
                 })
             }
@@ -885,9 +885,9 @@
 
                         $("#tabletypeunit").DataTable();
 
-                        if(number==0){
-                            showTear1(0);
-                        }
+                        // if(number==0){
+                        //     showTear1(0);
+                        // }
                     }
                 })
             }
@@ -1428,9 +1428,9 @@
                         $("#groupMediaType").empty().html(el);
                         $("#tablegrouptype").DataTable();
 
-                        if(number==0){
-                            showgroup(0);
-                        }
+                        // if(number==0){
+                        //     showgroup(0);
+                        // }
                     },
                     errors:function(){
 
@@ -1532,6 +1532,9 @@
             })
             
             showChartByTypeUnit(0);
+            showTear1(0);
+            groupMediaType(0);
+            showgroup(0);
             
             // liveSocmed();
         })

@@ -454,6 +454,7 @@
                     success:function(result){
                         $("#officialAndProgram").empty().append(result);
                         // $(".sticky-header").floatThead({scrollingTop:50});
+                        rangAllAccountGroup();
                     },
                     error:function(){
 
@@ -563,7 +564,6 @@
             }
 
             /* rank */
-            rangAllAccountGroup();
 
             $(document).on("submit","#formRangking",function(){
                 rangAllAccountGroup(); 
