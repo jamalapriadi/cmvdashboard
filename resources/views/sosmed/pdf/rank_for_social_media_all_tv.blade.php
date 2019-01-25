@@ -452,41 +452,41 @@
                 <br>
 
                 <?php
-                $arrTw2=array();
-                $arrFb2=array();
-                $arrIg2=array();
-                $arrYt2=array();
-                foreach($rankOfOfficialAccountAllTvByFollowers as $k){
-                    if($k->id==4){
-                        foreach($tambahanInews as $in){
-                            if($in->id=="TOTAL"){
-                                array_push($arrTw2,$in->tw_sekarang);
-                                array_push($arrFb2,$in->fb_sekarang);
-                                array_push($arrIg2,$in->ig_sekarang);        
-                                array_push($arrYt2,$in->yt_sekarang);        
+                    $arrTw2=array();
+                    $arrFb2=array();
+                    $arrIg2=array();
+                    $arrYt2=array();
+                    foreach($rankOfOfficialAccountAllTvByFollowers as $k){
+                        if($k->id==4){
+                            foreach($tambahanInews as $in){
+                                if($in->id=="TOTAL"){
+                                    array_push($arrTw2,$in->tw_sekarang);
+                                    array_push($arrFb2,$in->fb_sekarang);
+                                    array_push($arrIg2,$in->ig_sekarang);        
+                                    array_push($arrYt2,$in->yt_sekarang);        
+                                }
                             }
+                        }else{
+                            array_push($arrTw2,$k->tw_sekarang);
+                            array_push($arrFb2,$k->fb_sekarang);
+                            array_push($arrIg2,$k->ig_sekarang);
+                            array_push($arrYt2,$k->yt_sekarang);
                         }
-                    }else{
-                        array_push($arrTw2,$k->tw_sekarang);
-                        array_push($arrFb2,$k->fb_sekarang);
-                        array_push($arrIg2,$k->ig_sekarang);
-                        array_push($arrYt2,$k->yt_sekarang);
                     }
-                }
-                $rankTw2=$arrTw2;
-                $rankFb2=$arrFb2;
-                $rankIg2=$arrIg2;
-                $rankYt2=$arrYt2;
+                    $rankTw2=$arrTw2;
+                    $rankFb2=$arrFb2;
+                    $rankIg2=$arrIg2;
+                    $rankYt2=$arrYt2;
 
-                rsort($rankTw2);
-                rsort($rankFb2);
-                rsort($rankIg2);
-                rsort($rankYt2);
+                    rsort($rankTw2);
+                    rsort($rankFb2);
+                    rsort($rankIg2);
+                    rsort($rankYt2);
 
-                $rankTw2=array_flip($rankTw2);
-                $rankFb2=array_flip($rankFb2);
-                $rankIg2=array_flip($rankIg2);
-                $rankYt2=array_flip($rankYt2);
+                    $rankTw2=array_flip($rankTw2);
+                    $rankFb2=array_flip($rankFb2);
+                    $rankIg2=array_flip($rankIg2);
+                    $rankYt2=array_flip($rankYt2);
                 ?>
 
                 <table class='table table-striped'>
@@ -637,7 +637,8 @@
 
                 <div class="page-break"></div>
 
-                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY % GROWTH YESTERDAY</span></h3>
+                {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY % GROWTH YESTERDAY</span></h3> --}}
+                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY NUMBER OF GROWTH</span></h3>
                 <br><br><br>
 
                 <?php 
@@ -648,10 +649,10 @@
                     foreach($rankOfOfficialAccountAllGroupByFollowers as $k){
                         if($k->id==5 || $k->id==12){
                             foreach($groupOthers as $pk){
-                                array_push($arrTw3,(string)$pk->growth_tw);
-                                array_push($arrFb3,(string)$pk->growth_fb);
-                                array_push($arrIg3,(string)$pk->growth_ig);
-                                array_push($arrYt3,(string)$pk->growth_yt);
+                                array_push($arrTw3,(string)$pk->num_of_growth_tw);
+                                array_push($arrFb3,(string)$pk->num_of_growth_fb);
+                                array_push($arrIg3,(string)$pk->num_of_growth_ig);
+                                array_push($arrYt3,(string)$pk->num_of_growth_yt);
                             }
                         }elseif($k->id==1){
                             if($typeunit==1){
@@ -660,7 +661,8 @@
                                         $twsekarang1=$k->tw_sekarang+$in->tw_sekarang;
                                         $twkemarin1=$k->tw_kemarin+$in->tw_kemarin;
                                         if($twkemarin1>0){
-                                            $growthtw1=($twsekarang1/$twkemarin1-1)*100;
+                                            // $growthtw1=($twsekarang1/$twkemarin1-1)*100;
+                                            $growthtw1=$twsekarang1-$twkemarin1;
                                         }else{
                                             $growthtw1=0;
                                         }
@@ -668,7 +670,8 @@
                                         $fbsekarang1=$k->fb_sekarang+$in->fb_sekarang;
                                         $fbkemarin1=$k->fb_kemarin+$in->fb_kemarin;
                                         if($fbkemarin1>0){
-                                            $growthfb1=($fbsekarang1/$fbkemarin1-1)*100;
+                                            // $growthfb1=($fbsekarang1/$fbkemarin1-1)*100;
+                                            $growthfb1=$fbsekarang1-$fbkemarin1;
                                         }else{
                                             $growthfb1=0;
                                         }
@@ -676,7 +679,8 @@
                                         $igsekarang1=$k->ig_sekarang+$in->ig_sekarang;
                                         $igkemarin1=$k->ig_kemarin+$in->ig_kemarin;
                                         if($igkemarin1>0){
-                                            $growthig1=($igsekarang1/$igkemarin1-1)*100;
+                                            // $growthig1=($igsekarang1/$igkemarin1-1)*100;
+                                            $growthig1=$igsekarang1-$igkemarin1;
                                         }else{
                                             $growthig1=0;
                                         }
@@ -684,7 +688,7 @@
                                         $ytsekarang1=$k->yt_sekarang+$in->yt_sekarang;
                                         $ytkemarin1=$k->yt_kemarin+$in->yt_kemarin;
                                         if($ytkemarin1>0){
-                                            $growthyt1=($ytsekarang1/$ytkemarin1-1)*100;
+                                            $growthyt1=$ytsekarang1-$ytkemarin1;
                                         }else{
                                             $growthyt1=0;
                                         }
@@ -699,7 +703,7 @@
                                 $twsekarang1=$k->tw_sekarang;
                                 $twkemarin1=$k->tw_kemarin;
                                 if($twkemarin1>0){
-                                    $growthtw1=($twsekarang1/$twkemarin1-1)*100;
+                                    $growthtw1=$twsekarang1-$twkemarin1;
                                 }else{
                                     $growthtw1=0;
                                 }
@@ -707,7 +711,7 @@
                                 $fbsekarang1=$k->fb_sekarang;
                                 $fbkemarin1=$k->fb_kemarin;
                                 if($fbkemarin1>0){
-                                    $growthfb1=($fbsekarang1/$fbkemarin1-1)*100;
+                                    $growthfb1=$fbsekarang1-$fbkemarin1;
                                 }else{
                                     $growthfb1=0;
                                 }
@@ -715,7 +719,7 @@
                                 $igsekarang1=$k->ig_sekarang;
                                 $igkemarin1=$k->ig_kemarin;
                                 if($igkemarin1>0){
-                                    $growthig1=($igsekarang1/$igkemarin1-1)*100;
+                                    $growthig1=$igsekarang1-$igkemarin1;
                                 }else{
                                     $growthig1=0;
                                 }
@@ -723,7 +727,7 @@
                                 $ytsekarang1=$k->yt_sekarang;
                                 $ytkemarin1=$k->yt_kemarin;
                                 if($ytkemarin1>0){
-                                    $growthyt1=($ytsekarang1/$ytkemarin1-1)*100;
+                                    $growthyt1=$ytsekarang1-$ytkemarin1;
                                 }else{
                                     $growthyt1=0;
                                 }
@@ -801,25 +805,25 @@
                                 @foreach($groupOthers as $pp)
                                     @foreach($sosmed as $sos)
                                         @if($sos->id==1)
-                                            @if(($rankTw3[$pp->growth_tw] + 1)==1 || ($rankTw3[$pp->growth_tw] + 1)==2 || ($rankTw3[$pp->growth_tw] + 1)==3)
+                                            @if(($rankTw3[$pp->num_of_growth_tw] + 1)==1 || ($rankTw3[$pp->num_of_growth_tw] + 1)==2 || ($rankTw3[$pp->num_of_growth_tw] + 1)==3)
                                                 <?php $colorTw="#f4a018"; ?>
                                             @endif
                                         @endif
 
                                         @if($sos->id==2)
-                                            @if(($rankFb3[$pp->growth_fb] + 1)==1 || ($rankFb3[$pp->growth_fb] + 1)==2 || ($rankFb3[$pp->growth_fb] + 1)==3)
+                                            @if(($rankFb3[$pp->num_of_growth_fb] + 1)==1 || ($rankFb3[$pp->num_of_growth_fb] + 1)==2 || ($rankFb3[$pp->num_of_growth_fb] + 1)==3)
                                                 <?php $colorFb="#f4a018"; ?>
                                             @endif
                                         @endif
 
                                         @if($sos->id==3)
-                                            @if(($rankIg3[$pp->growth_ig] + 1)==1 || ($rankIg3[$pp->growth_ig] + 1)==2 || ($rankIg3[$pp->growth_ig] + 1)==3)
+                                            @if(($rankIg3[$pp->num_of_growth_ig] + 1)==1 || ($rankIg3[$pp->num_of_growth_ig] + 1)==2 || ($rankIg3[$pp->num_of_growth_ig] + 1)==3)
                                                 <?php $colorIg="#f4a018"; ?>
                                             @endif
                                         @endif
 
                                         @if($sos->id==4)
-                                            @if(($rankYt3[$pp->growth_yt] + 1)==1 || ($rankYt3[$pp->growth_yt] + 1)==2 || ($rankYt3[$pp->growth_yt] + 1)==3)
+                                            @if(($rankYt3[$pp->num_of_growth_yt] + 1)==1 || ($rankYt3[$pp->num_of_growth_yt] + 1)==2 || ($rankYt3[$pp->num_of_growth_yt] + 1)==3)
                                                 <?php $colorYt="#f4a018"; ?>
                                             @endif
                                         @endif
@@ -844,7 +848,7 @@
                                                 $twkemarin2=$row->tw_kemarin+$ins->tw_kemarin;
                                                 if($twkemarin2>0){
                                                     $num_of_growth_tw2=$twsekarang2-$twkemarin2;
-                                                    $growthtw2=($twsekarang2/$twkemarin2-1)*100;
+                                                    $growthtw2=$twsekarang2-$twkemarin2;
                                                 }else{
                                                     $num_of_growth_tw2=0;
                                                     $growthtw2=0;
@@ -855,7 +859,7 @@
                                                 $fbkemarin2=$row->fb_kemarin+$ins->fb_kemarin;
                                                 if($fbkemarin2>0){
                                                     $num_of_growth_fb2=$fbsekarang2-$fbkemarin2;
-                                                    $growthfb2=($fbsekarang2/$fbkemarin2-1)*100;
+                                                    $growthfb2=$fbsekarang2-$fbkemarin2;
                                                 }else{
                                                     $num_of_growth_fb2=0;
                                                     $growthfb2=0;
@@ -865,7 +869,7 @@
                                                 $igkemarin2=$row->ig_kemarin+$ins->ig_kemarin;
                                                 if($igkemarin2>0){
                                                     $num_of_growth_ig2=$igsekarang2-$igkemarin2;
-                                                    $growthig2=($igsekarang2/$igkemarin2-1)*100;
+                                                    $growthig2=$igsekarang2-$igkemarin2;
                                                 }else{
                                                     $num_of_growth_ig2=0;
                                                     $growthig2=0;
@@ -876,7 +880,7 @@
                                                 $ytkemarin2=$row->yt_kemarin+$ins->yt_kemarin;
                                                 if($ytkemarin2>0){
                                                     $num_of_growth_yt2=$ytsekarang2-$ytkemarin2;
-                                                    $growthyt2=($ytsekarang2/$ytkemarin2-1)*100;
+                                                    $growthyt2=$ytsekarang2-$ytkemarin2;
                                                 }else{
                                                     $num_of_growth_yt2=0;
                                                     $growthyt2=0;
@@ -936,7 +940,7 @@
                                         $twkemarin2=$row->tw_kemarin;
                                         if($twkemarin2>0){
                                             $num_of_growth_tw2=$twsekarang2-$twkemarin2;
-                                            $growthtw2=($twsekarang2/$twkemarin2-1)*100;
+                                            $growthtw2=$twsekarang2-$twkemarin2;
                                         }else{
                                             $num_of_growth_tw2=0;
                                             $growthtw2=0;
@@ -947,7 +951,7 @@
                                         $fbkemarin2=$row->fb_kemarin;
                                         if($fbkemarin2>0){
                                             $num_of_growth_fb2=$fbsekarang2-$fbkemarin2;
-                                            $growthfb2=($fbsekarang2/$fbkemarin2-1)*100;
+                                            $growthfb2=$fbsekarang2-$fbkemarin2;
                                         }else{
                                             $num_of_growth_fb2=0;
                                             $growthfb2=0;
@@ -957,7 +961,7 @@
                                         $igkemarin2=$row->ig_kemarin;
                                         if($igkemarin2>0){
                                             $num_of_growth_ig2=$igsekarang2-$igkemarin2;
-                                            $growthig2=($igsekarang2/$igkemarin2-1)*100;
+                                            $growthig2=$igsekarang2-$igkemarin2;
                                         }else{
                                             $num_of_growth_ig2=0;
                                             $growthig2=0;
@@ -968,7 +972,7 @@
                                         $ytkemarin2=$row->yt_kemarin;
                                         if($ytkemarin2>0){
                                             $num_of_growth_yt2=$ytsekarang2-$ytkemarin2;
-                                            $growthyt2=($ytsekarang2/$ytkemarin2-1)*100;
+                                            $growthyt2=$ytsekarang2-$ytkemarin2;
                                         }else{
                                             $num_of_growth_yt2=0;
                                             $growthyt2=0;
@@ -1012,19 +1016,19 @@
                                     @endif
                                 @endif
                             @else
-                                @if(($rankTw3[$row->growth_tw] + 1)==1 || ($rankTw3[$row->growth_tw] + 1)==2 || ($rankTw3[$row->growth_tw] + 1)==3)
+                                @if(($rankTw3[$row->num_of_growth_tw] + 1)==1 || ($rankTw3[$row->num_of_growth_tw] + 1)==2 || ($rankTw3[$row->num_of_growth_tw] + 1)==3)
                                     <?php $colorTw="#f4a018"; ?>
                                 @endif
 
-                                @if(($rankFb3[$row->growth_fb] + 1)==1 || ($rankFb3[$row->growth_fb] + 1)==2 || ($rankFb3[$row->growth_fb] + 1)==3)
+                                @if(($rankFb3[$row->num_of_growth_fb] + 1)==1 || ($rankFb3[$row->num_of_growth_fb] + 1)==2 || ($rankFb3[$row->num_of_growth_fb] + 1)==3)
                                     <?php $colorFb="#f4a018"; ?>
                                 @endif
 
-                                @if(($rankIg3[$row->growth_ig] + 1)==1 || ($rankIg3[$row->growth_ig] + 1)==2 || ($rankIg3[$row->growth_ig] + 1)==3)
+                                @if(($rankIg3[$row->num_of_growth_ig] + 1)==1 || ($rankIg3[$row->num_of_growth_ig] + 1)==2 || ($rankIg3[$row->num_of_growth_ig] + 1)==3)
                                     <?php $colorIg="#f4a018"; ?>
                                 @endif
 
-                                @if(($rankYt3[$row->growth_yt] + 1)==1 || ($rankYt3[$row->growth_yt] + 1)==2 || ($rankYt3[$row->growth_yt] + 1)==3)
+                                @if(($rankYt3[$row->num_of_growth_yt] + 1)==1 || ($rankYt3[$row->num_of_growth_yt] + 1)==2 || ($rankYt3[$row->num_of_growth_yt] + 1)==3)
                                     <?php $colorYt="#f4a018"; ?>
                                 @endif
                             @endif
@@ -1037,19 +1041,19 @@
                                         $cig="";
                                         $cyt="";
                                     ?>
-                                    @if(($rankTw3[$p->growth_tw] + 1)==1 || ($rankTw3[$p->growth_tw] + 1)==2 || ($rankTw3[$p->growth_tw] + 1)==3)
+                                    @if(($rankTw3[$p->num_of_growth_tw] + 1)==1 || ($rankTw3[$p->num_of_growth_tw] + 1)==2 || ($rankTw3[$p->num_of_growth_tw] + 1)==3)
                                         <?php $ctw="#f4a018";?>
                                     @endif 
 
-                                    @if(($rankFb3[$p->growth_fb] + 1)==1 || ($rankFb3[$p->growth_fb] + 1)==2 || ($rankFb3[$p->growth_fb] + 1)==3)
+                                    @if(($rankFb3[$p->num_of_growth_fb] + 1)==1 || ($rankFb3[$p->num_of_growth_fb] + 1)==2 || ($rankFb3[$p->num_of_growth_fb] + 1)==3)
                                         <?php $cfb="#f4a018";?>
                                     @endif 
 
-                                    @if(($rankIg3[$p->growth_ig] + 1)==1 || ($rankIg3[$p->growth_ig] + 1)==2 || ($rankIg3[$p->growth_ig] + 1)==3)
+                                    @if(($rankIg3[$p->num_of_growth_ig] + 1)==1 || ($rankIg3[$p->num_of_growth_ig] + 1)==2 || ($rankIg3[$p->num_of_growth_ig] + 1)==3)
                                         <?php $cig="#f4a018";?>
                                     @endif 
 
-                                    @if(($rankYt3[$p->growth_yt] + 1)==1 || ($rankYt3[$p->growth_yt] + 1)==2 || ($rankYt3[$p->growth_yt] + 1)==3)
+                                    @if(($rankYt3[$p->num_of_growth_yt] + 1)==1 || ($rankYt3[$p->num_of_growth_yt] + 1)==2 || ($rankYt3[$p->num_of_growth_yt] + 1)==3)
                                         <?php $cyt="#f4a018";?>
                                     @endif 
 
@@ -1059,19 +1063,19 @@
                                             @if($sos->id==1)
                                                 <th>{{number_format($p->num_of_growth_tw)}}</th>
                                                 <th>{{round($p->growth_tw,2)}} %</th>
-                                                <th style="background:{{$ctw}}">{{($rankTw3[$p->growth_tw] + 1)}}</th>
+                                                <th style="background:{{$ctw}}">{{($rankTw3[$p->num_of_growth_tw] + 1)}}</th>
                                             @endif
 
                                             @if($sos->id==2)
                                                 <th>{{number_format($p->num_of_growth_fb)}}</th>
                                                 <th>{{round($p->growth_fb,2)}} %</th>
-                                                <th style="background:{{$cfb}}">{{($rankFb3[$p->growth_fb] + 1)}}</th>
+                                                <th style="background:{{$cfb}}">{{($rankFb3[$p->num_of_growth_fb] + 1)}}</th>
                                             @endif
 
                                             @if($sos->id==3)
                                                 <th>{{number_format($p->num_of_growth_ig)}}</th>
                                                 <th>{{round($p->growth_ig,2)}} %</th>
-                                                <th style="background:{{$cig}}">{{($rankIg3[$p->growth_ig] + 1)}}</th>
+                                                <th style="background:{{$cig}}">{{($rankIg3[$p->num_of_growth_ig] + 1)}}</th>
                                             @endif
 
                                             <!-- @if($sos->id==4)
@@ -1118,19 +1122,19 @@
                                         @if($sos->id==1)
                                             <th>{{number_format($row->num_of_growth_tw)}}</th>
                                             <th>{{round($row->growth_tw,2)}} %</th>
-                                            <th style="background:{{$colorTw}}">{{($rankTw3[$row->growth_tw] + 1)}}</th>
+                                            <th style="background:{{$colorTw}}">{{($rankTw3[$row->num_of_growth_tw] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==2)
                                             <th>{{number_format($row->num_of_growth_fb)}}</th>
                                             <th>{{round($row->growth_fb,2)}} %</th>
-                                            <th style="background:{{$colorFb}}">{{($rankFb3[$row->growth_fb] + 1)}}</th>
+                                            <th style="background:{{$colorFb}}">{{($rankFb3[$row->num_of_growth_fb] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==3)
                                             <th>{{number_format($row->num_of_growth_ig)}}</th>
                                             <th>{{round($row->growth_ig,2)}} %</th>
-                                            <th style="background:{{$colorIg}}">{{($rankIg3[$row->growth_ig] + 1)}}</th>
+                                            <th style="background:{{$colorIg}}">{{($rankIg3[$row->num_of_growth_ig] + 1)}}</th>
                                         @endif
 
                                         <!-- @if($sos->id==4)
@@ -1146,45 +1150,45 @@
                 </table>
                 <div class="page-break"></div>
 
-                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % GROWTH YESTERDAY</span></h3>
+                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % NUMBER OF GROWTH</span></h3>
                 <br>
 
                 <?php
-                $arrTw4=array();
-                $arrFb4=array();
-                $arrIg4=array();
-                $arrYt4=array();
-                foreach($rankOfOfficialAccountAllTvByFollowers as $k){
-                    if($k->id==4){
-                        foreach($tambahanInews as $in){
-                            if($in->id=="TOTAL"){
-                                array_push($arrTw4,(string)($in->growth_tw));
-                                array_push($arrFb4,(string)($in->growth_fb));
-                                array_push($arrIg4,(string)($in->growth_ig));    
-                                array_push($arrYt4,(string)($in->growth_yt));    
+                    $arrTw4=array();
+                    $arrFb4=array();
+                    $arrIg4=array();
+                    $arrYt4=array();
+                    foreach($rankOfOfficialAccountAllTvByFollowers as $k){
+                        if($k->id==4){
+                            foreach($tambahanInews as $in){
+                                if($in->id=="TOTAL"){
+                                    array_push($arrTw4,(string)($in->num_of_growth_tw));
+                                    array_push($arrFb4,(string)($in->num_of_growth_fb));
+                                    array_push($arrIg4,(string)($in->num_of_growth_ig));    
+                                    array_push($arrYt4,(string)($in->num_of_growth_yt));    
+                                }
                             }
+                        }else{
+                            array_push($arrTw4,(string)$k->num_of_growth_tw);
+                            array_push($arrFb4,(string)$k->num_of_growth_fb);
+                            array_push($arrIg4,(string)$k->num_of_growth_ig);
+                            array_push($arrYt4,(string)$k->num_of_growth_yt);
                         }
-                    }else{
-                        array_push($arrTw4,(string)$k->growth_tw);
-                        array_push($arrFb4,(string)$k->growth_fb);
-                        array_push($arrIg4,(string)$k->growth_ig);
-                        array_push($arrYt4,(string)$k->growth_yt);
                     }
-                }
-                $rankTw4=$arrTw4;
-                $rankFb4=$arrFb4;
-                $rankIg4=$arrIg4;
-                $rankYt4=$arrYt4;
+                    $rankTw4=$arrTw4;
+                    $rankFb4=$arrFb4;
+                    $rankIg4=$arrIg4;
+                    $rankYt4=$arrYt4;
 
-                rsort($rankTw4);
-                rsort($rankFb4);
-                rsort($rankIg4);
-                rsort($rankYt4);
+                    rsort($rankTw4);
+                    rsort($rankFb4);
+                    rsort($rankIg4);
+                    rsort($rankYt4);
 
-                $rankTw4=array_flip($rankTw4);
-                $rankFb4=array_flip($rankFb4);
-                $rankIg4=array_flip($rankIg4);
-                $rankYt4=array_flip($rankYt4);
+                    $rankTw4=array_flip($rankTw4);
+                    $rankFb4=array_flip($rankFb4);
+                    $rankIg4=array_flip($rankIg4);
+                    $rankYt4=array_flip($rankYt4);
                 ?>
 
                 <table class='table table-striped'>
@@ -1232,37 +1236,37 @@
                             @if($row->id==4)
                                 @foreach($tambahanInews as $in)
                                     @if($in->id=="TOTAL")
-                                        @if(($rankTw4[$in->growth_tw] + 1)==1 || ($rankTw4[$in->growth_tw] + 1)==2 || ($rankTw4[$in->growth_tw] + 1)==3)
+                                        @if(($rankTw4[$in->num_of_growth_tw] + 1)==1 || ($rankTw4[$in->num_of_growth_tw] + 1)==2 || ($rankTw4[$in->num_of_growth_tw] + 1)==3)
                                             <?php $colorTw="#f4a018";?>
                                         @endif
 
-                                        @if(($rankFb4[$in->growth_fb] + 1)==1 || ($rankFb4[$in->growth_fb] + 1)==2 || ($rankFb4[$in->growth_fb] + 1)==3)
+                                        @if(($rankFb4[$in->num_of_growth_fb] + 1)==1 || ($rankFb4[$in->num_of_growth_fb] + 1)==2 || ($rankFb4[$in->num_of_growth_fb] + 1)==3)
                                             <?php $colorFb="#f4a018";?>
                                         @endif
 
-                                        @if(($rankIg4[$in->growth_ig] + 1)==1 || ($rankIg4[$in->growth_ig] + 1)==2 || ($rankIg4[$in->growth_ig] + 1)==3)
+                                        @if(($rankIg4[$in->num_of_growth_ig] + 1)==1 || ($rankIg4[$in->num_of_growth_ig] + 1)==2 || ($rankIg4[$in->num_of_growth_ig] + 1)==3)
                                             <?php $colorIg="#f4a018";?>
                                         @endif
 
-                                        @if(($rankYt4[$in->growth_yt] + 1)==1 || ($rankYt4[$in->growth_yt] + 1)==2 || ($rankYt4[$in->growth_yt] + 1)==3)
+                                        @if(($rankYt4[$in->num_of_growth_yt] + 1)==1 || ($rankYt4[$in->num_of_growth_yt] + 1)==2 || ($rankYt4[$in->num_of_growth_yt] + 1)==3)
                                             <?php $colorYt="#f4a018";?>
                                         @endif
                                     @endif
                                 @endforeach
                             @else 
-                                @if(($rankTw4[(string)$row->growth_tw] + 1)==1 || ($rankTw4[(string)$row->growth_tw] + 1)==2 || ($rankTw4[(string)$row->growth_tw] + 1)==3)
+                                @if(($rankTw4[(string)$row->num_of_growth_tw] + 1)==1 || ($rankTw4[(string)$row->num_of_growth_tw] + 1)==2 || ($rankTw4[(string)$row->num_of_growth_tw] + 1)==3)
                                     <?php $colorTw="#f4a018"; ?>
                                 @endif 
 
-                                @if(($rankFb4[(string)$row->growth_fb] + 1)==1 || ($rankFb4[(string)$row->growth_fb] + 1)==2 || ($rankFb4[(string)$row->growth_fb] + 1)==3)
+                                @if(($rankFb4[(string)$row->num_of_growth_fb] + 1)==1 || ($rankFb4[(string)$row->num_of_growth_fb] + 1)==2 || ($rankFb4[(string)$row->num_of_growth_fb] + 1)==3)
                                     <?php $colorFb="#f4a018";?>
                                 @endif
 
-                                @if(($rankIg4[(string)$row->growth_ig] + 1)==1 || ($rankIg4[(string)$row->growth_ig] + 1)==2 || ($rankIg4[(string)$row->growth_ig] + 1)==3)
+                                @if(($rankIg4[(string)$row->num_of_growth_ig] + 1)==1 || ($rankIg4[(string)$row->num_of_growth_ig] + 1)==2 || ($rankIg4[(string)$row->num_of_growth_ig] + 1)==3)
                                     <?php $colorIg="#f4a018";?>
                                 @endif
 
-                                @if(($rankYt4[(string)$row->growth_yt] + 1)==1 || ($rankYt4[(string)$row->growth_yt] + 1)==2 || ($rankYt4[(string)$row->growth_yt] + 1)==3)
+                                @if(($rankYt4[(string)$row->num_of_growth_yt] + 1)==1 || ($rankYt4[(string)$row->num_of_growth_yt] + 1)==2 || ($rankYt4[(string)$row->num_of_growth_yt] + 1)==3)
                                     <?php $colorYt="#f4a018";?>
                                 @endif
                             @endif
@@ -1278,25 +1282,25 @@
                                                 @if($sos->id==1)
                                                     <th>{{number_format($ins->num_of_growth_tw)}}</th>
                                                     <th>{{round($ins->growth_tw,2)}} %</th>
-                                                    <th style="background:{{$colorTw}}">{{($rankTw4[(string)$ins->growth_tw] + 1)}}</th>
+                                                    <th style="background:{{$colorTw}}">{{($rankTw4[(string)$ins->num_of_growth_tw] + 1)}}</th>
                                                 @endif
 
                                                 @if($sos->id==2)
                                                     <th>{{number_format($ins->num_of_growth_fb)}}</th>
                                                     <th>{{round($ins->growth_fb,2)}} %</th>
-                                                    <th style="background:{{$colorFb}}">{{($rankFb4[(string)$ins->growth_fb] + 1)}}</th>
+                                                    <th style="background:{{$colorFb}}">{{($rankFb4[(string)$ins->num_of_growth_fb] + 1)}}</th>
                                                 @endif
 
                                                 @if($sos->id==3)
                                                     <th>{{number_format($ins->num_of_growth_ig)}}</th>
                                                     <th>{{round($ins->growth_ig,2)}} %</th>
-                                                    <th style="background:{{$colorIg}}">{{($rankIg4[(string)$ins->growth_ig] + 1)}}</th>
+                                                    <th style="background:{{$colorIg}}">{{($rankIg4[(string)$ins->num_of_growth_ig] + 1)}}</th>
                                                 @endif
 
                                                 <!-- @if($sos->id==4)
                                                     <th>{{number_format($ins->num_of_growth_yt)}}</th>
                                                     <th>{{round($ins->growth_yt,2)}} %</th>
-                                                    <th style="background:{{$colorYt}}">{{($rankYt4[(string)$ins->growth_yt] + 1)}}</th>
+                                                    <th style="background:{{$colorYt}}">{{($rankYt4[(string)$ins->num_of_growth_yt] + 1)}}</th>
                                                 @endif -->
                                             @endforeach
                                         </tr>
@@ -1309,25 +1313,25 @@
                                         @if($sos->id==1)
                                             <th>{{number_format($row->num_of_growth_tw)}}</th>
                                             <th>{{round($row->growth_tw,2)}} %</th>
-                                            <th style="background:{{$colorTw}}">{{($rankTw4[(string)$row->growth_tw] + 1)}}</th>
+                                            <th style="background:{{$colorTw}}">{{($rankTw4[(string)$row->num_of_growth_tw] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==2)
                                             <th>{{number_format($row->num_of_growth_fb)}}</th>
                                             <th>{{round($row->growth_fb,2)}} %</th>
-                                            <th style="background:{{$colorFb}}">{{($rankFb4[(string)$row->growth_fb] + 1)}}</th>
+                                            <th style="background:{{$colorFb}}">{{($rankFb4[(string)$row->num_of_growth_fb] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==3)
                                             <th>{{number_format($row->num_of_growth_ig)}}</th>
                                             <th>{{round($row->growth_ig,2)}} %</th>
-                                            <th style="background:{{$colorIg}}">{{($rankIg4[(string)$row->growth_ig] + 1)}}</th>
+                                            <th style="background:{{$colorIg}}">{{($rankIg4[(string)$row->num_of_growth_ig] + 1)}}</th>
                                         @endif
 
                                         <!-- @if($sos->id==4)
                                             <th>{{number_format($row->num_of_growth_yt)}}</th>
                                             <th>{{round($row->growth_yt,2)}} %</th>
-                                            <th style="background:{{$colorYt}}">{{($rankYt4[(string)$row->growth_yt] + 1)}}</th>
+                                            <th style="background:{{$colorYt}}">{{($rankYt4[(string)$row->num_of_growth_yt] + 1)}}</th>
                                         @endif -->
                                     @endforeach
                                 </tr>
@@ -1655,7 +1659,8 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY % GROWTH FROM YESTERDAY</span></h3>
+    {{-- <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY % GROWTH FROM YESTERDAY</span></h3> --}}
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY % NUMBER OF GROWTH</span></h3>
     <br><br><br>
     <?php 
         $arrTw7=array();
@@ -1665,16 +1670,16 @@
         foreach($rankOverallAccountGroup as $k){
             if($k->group_unit_id==5 || $k->group_unit_id==12){
                 foreach($tambahanOverAllTvOthers as $pk){
-                    array_push($arrTw7,(string)$pk->total_growth_tw);
-                    array_push($arrFb7,(string)$pk->total_growth_fb);
-                    array_push($arrIg7,(string)$pk->total_growth_ig);
-                    array_push($arrYt7,(string)$pk->total_growth_yt);
+                    array_push($arrTw7,(string)$pk->total_num_of_growth_tw);
+                    array_push($arrFb7,(string)$pk->total_num_of_growth_fb);
+                    array_push($arrIg7,(string)$pk->total_num_of_growth_ig);
+                    array_push($arrYt7,(string)$pk->total_num_of_growth_yt);
                 }
             }else{
-                array_push($arrTw7,(string)$k->total_growth_tw);
-                array_push($arrFb7,(string)$k->total_growth_fb);
-                array_push($arrIg7,(string)$k->total_growth_ig);
-                array_push($arrYt7,(string)$k->total_growth_yt);
+                array_push($arrTw7,(string)$k->total_num_of_growth_tw);
+                array_push($arrFb7,(string)$k->total_num_of_growth_fb);
+                array_push($arrIg7,(string)$k->total_num_of_growth_ig);
+                array_push($arrYt7,(string)$k->total_num_of_growth_yt);
             }
         }
         $rankTw7=$arrTw7;
@@ -1730,36 +1735,36 @@
                 ?>
                 @if($row->group_unit_id==5 || $row->group_unit_id==12)
                     @foreach($tambahanOverAllTvOthers as $pp)
-                        @if(($rankTw7[$pp->total_growth_tw] + 1)==1 || ($rankTw7[$pp->total_growth_tw] + 1)==2 || ($rankTw7[$pp->total_growth_tw] + 1)==3)
+                        @if(($rankTw7[$pp->total_num_of_growth_tw] + 1)==1 || ($rankTw7[$pp->total_num_of_growth_tw] + 1)==2 || ($rankTw7[$pp->total_num_of_growth_tw] + 1)==3)
                             <?php $colorTw="#f4a018"; ?>
                         @endif
 
-                        @if(($rankFb7[$pp->total_growth_fb] + 1)==1 || ($rankFb7[$pp->total_growth_fb] + 1)==2 || ($rankFb7[$pp->total_growth_fb] + 1)==3)
+                        @if(($rankFb7[$pp->total_num_of_growth_fb] + 1)==1 || ($rankFb7[$pp->total_num_of_growth_fb] + 1)==2 || ($rankFb7[$pp->total_num_of_growth_fb] + 1)==3)
                             <?php $colorFb="#f4a018"; ?>
                         @endif
 
-                        @if(($rankIg7[$pp->total_growth_ig] + 1)==1 || ($rankIg7[$pp->total_growth_ig] + 1)==2 || ($rankIg7[$pp->total_growth_ig] + 1)==3)
+                        @if(($rankIg7[$pp->total_num_of_growth_ig] + 1)==1 || ($rankIg7[$pp->total_num_of_growth_ig] + 1)==2 || ($rankIg7[$pp->total_num_of_growth_ig] + 1)==3)
                             <?php $colorIg="#f4a018"; ?>
                         @endif
 
-                        @if(($rankYt7[$pp->total_growth_yt] + 1)==1 || ($rankYt7[$pp->total_growth_yt] + 1)==2 || ($rankYt7[$pp->total_growth_yt] + 1)==3)
+                        @if(($rankYt7[$pp->total_num_of_growth_yt] + 1)==1 || ($rankYt7[$pp->total_num_of_growth_yt] + 1)==2 || ($rankYt7[$pp->total_num_of_growth_yt] + 1)==3)
                             <?php $colorYt="#f4a018"; ?>
                         @endif
                     @endforeach
                 @else 
-                    @if(($rankTw7[$row->total_growth_tw] + 1)==1 || ($rankTw7[$row->total_growth_tw] + 1)==2 || ($rankTw7[$row->total_growth_tw] + 1)==3)
+                    @if(($rankTw7[$row->total_num_of_growth_tw] + 1)==1 || ($rankTw7[$row->total_num_of_growth_tw] + 1)==2 || ($rankTw7[$row->total_num_of_growth_tw] + 1)==3)
                         <?php $colorTw="#f4a018";?>
                     @endif
 
-                    @if(($rankFb7[$row->total_growth_fb] + 1)==1 || ($rankFb7[$row->total_growth_fb] + 1)==2 || ($rankFb7[$row->total_growth_fb] + 1)==3)
+                    @if(($rankFb7[$row->total_num_of_growth_fb] + 1)==1 || ($rankFb7[$row->total_num_of_growth_fb] + 1)==2 || ($rankFb7[$row->total_num_of_growth_fb] + 1)==3)
                         <?php $colorFb="#f4a018";?>
                     @endif
 
-                    @if(($rankIg7[$row->total_growth_ig] + 1)==1 || ($rankIg7[$row->total_growth_ig] + 1)==2 || ($rankIg7[$row->total_growth_ig] + 1)==3)
+                    @if(($rankIg7[$row->total_num_of_growth_ig] + 1)==1 || ($rankIg7[$row->total_num_of_growth_ig] + 1)==2 || ($rankIg7[$row->total_num_of_growth_ig] + 1)==3)
                         <?php $colorIg="#f4a018";?>
                     @endif
 
-                    @if(($rankYt7[$row->total_growth_yt] + 1)==1 || ($rankYt7[$row->total_growth_yt] + 1)==2 || ($rankYt7[$row->total_growth_yt] + 1)==3)
+                    @if(($rankYt7[$row->total_num_of_growth_yt] + 1)==1 || ($rankYt7[$row->total_num_of_growth_yt] + 1)==2 || ($rankYt7[$row->total_num_of_growth_yt] + 1)==3)
                         <?php $colorYt="#f4a018";?>
                     @endif
                 @endif
@@ -1773,19 +1778,19 @@
                             $cig="";
                             $cyt="";
                         ?>
-                        @if(($rankTw7[$p->total_growth_tw] + 1)==1 || ($rankTw7[$p->total_growth_tw] + 1)==2 || ($rankTw7[$p->total_growth_tw] + 1)==3)
+                        @if(($rankTw7[$p->total_num_of_growth_tw] + 1)==1 || ($rankTw7[$p->total_num_of_growth_tw] + 1)==2 || ($rankTw7[$p->total_num_of_growth_tw] + 1)==3)
                             <?php $ctw="#f4a018";?>
                         @endif 
 
-                        @if(($rankFb7[$p->total_growth_fb] + 1)==1 || ($rankFb7[$p->total_growth_fb] + 1)==2 || ($rankFb7[$p->total_growth_fb] + 1)==3)
+                        @if(($rankFb7[$p->total_num_of_growth_fb] + 1)==1 || ($rankFb7[$p->total_num_of_growth_fb] + 1)==2 || ($rankFb7[$p->total_num_of_growth_fb] + 1)==3)
                             <?php $cfb="#f4a018";?>
                         @endif 
 
-                        @if(($rankIg7[$p->total_growth_ig] + 1)==1 || ($rankIg7[$p->total_growth_ig] + 1)==2 || ($rankIg7[$p->total_growth_ig] + 1)==3)
+                        @if(($rankIg7[$p->total_num_of_growth_ig] + 1)==1 || ($rankIg7[$p->total_num_of_growth_ig] + 1)==2 || ($rankIg7[$p->total_num_of_growth_ig] + 1)==3)
                             <?php $cig="#f4a018";?>
                         @endif 
 
-                        @if(($rankYt7[$p->total_growth_yt] + 1)==1 || ($rankYt7[$p->total_growth_yt] + 1)==2 || ($rankYt7[$p->total_growth_yt] + 1)==3)
+                        @if(($rankYt7[$p->total_num_of_growth_yt] + 1)==1 || ($rankYt7[$p->total_num_of_growth_yt] + 1)==2 || ($rankYt7[$p->total_num_of_growth_yt] + 1)==3)
                             <?php $cyt="#f4a018";?>
                         @endif 
 
@@ -1795,25 +1800,25 @@
                                 @if($sos->id==1)
                                     <th>{{number_format($p->total_num_of_growth_tw)}}</th>
                                     <th>{{round($p->total_growth_tw,2)}} %</th>
-                                    <th style="background:{{$ctw}}">{{($rankTw7[$p->total_growth_tw] + 1)}}</th>
+                                    <th style="background:{{$ctw}}">{{($rankTw7[$p->total_num_of_growth_tw] + 1)}}</th>
                                 @endif
 
                                 @if($sos->id==2)
                                     <th>{{number_format($p->total_num_of_growth_fb)}}</th>
                                     <th>{{round($p->total_growth_fb,2)}} %</th>
-                                    <th style="background:{{$cfb}}">{{($rankFb7[$p->total_growth_fb] + 1)}}</th>
+                                    <th style="background:{{$cfb}}">{{($rankFb7[$p->total_num_of_growth_fb] + 1)}}</th>
                                 @endif
 
                                 @if($sos->id==3)
                                     <th>{{number_format($p->total_num_of_growth_ig)}}</th>
                                     <th>{{round($p->total_growth_ig,2)}} %</th>
-                                    <th style="background:{{$cig}}">{{($rankIg7[$p->total_growth_ig] + 1)}}</th>
+                                    <th style="background:{{$cig}}">{{($rankIg7[$p->total_num_of_growth_ig] + 1)}}</th>
                                 @endif
 
                                 @if($sos->id==4)
                                     <th>{{number_format($p->total_num_of_growth_yt)}}</th>
                                     <th>{{round($p->total_growth_yt,2)}} %</th>
-                                    <th style="background:{{$cyt}}">{{($rankYt7[$p->total_growth_yt] + 1)}}</th>
+                                    <th style="background:{{$cyt}}">{{($rankYt7[$p->total_num_of_growth_yt] + 1)}}</th>
                                 @endif
                             @endforeach
                         </tr>
@@ -1825,25 +1830,25 @@
                             @if($sos->id==1)
                                 <th>{{number_format($row->total_num_of_growth_tw)}}</th>
                                 <th>{{round($row->total_growth_tw,2)}} %</th>
-                                <th style="background:{{$colorTw}}">{{($rankTw7[$row->total_growth_tw] + 1)}}</th>
+                                <th style="background:{{$colorTw}}">{{($rankTw7[$row->total_num_of_growth_tw] + 1)}}</th>
                             @endif
 
                             @if($sos->id==2)
                                 <th>{{number_format($row->total_num_of_growth_fb)}}</th>
                                 <th>{{round($row->total_growth_fb,2)}} %</th>
-                                <th style="background:{{$colorFb}}">{{($rankFb7[$row->total_growth_fb] + 1)}}</th>
+                                <th style="background:{{$colorFb}}">{{($rankFb7[$row->total_num_of_growth_fb] + 1)}}</th>
                             @endif
 
                             @if($sos->id==3)
                                 <th>{{number_format($row->total_num_of_growth_ig)}}</th>
                                 <th>{{round($row->total_growth_ig,2)}} %</th>
-                                <th style="background:{{$colorIg}}">{{($rankIg7[$row->total_growth_ig] + 1)}}</th>
+                                <th style="background:{{$colorIg}}">{{($rankIg7[$row->total_num_of_growth_ig] + 1)}}</th>
                             @endif
 
                             @if($sos->id==4)
                                 <th>{{number_format($row->total_num_of_growth_yt)}}</th>
                                 <th>{{round($row->total_growth_yt,2)}} %</th>
-                                <th style="background:{{$colorYt}}">{{($rankYt7[$row->total_growth_yt] + 1)}}</th>
+                                <th style="background:{{$colorYt}}">{{($rankYt7[$row->total_num_of_growth_yt] + 1)}}</th>
                             @endif
                         @endforeach
                     </tr>
@@ -1853,6 +1858,7 @@
     </table>
     <div class="page-break"></div>
 
+    {{-- <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL TV <span style="color:red">BY % GROWTH FROM YESTERDAY</span></h3> --}}
     <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL TV <span style="color:red">BY % GROWTH FROM YESTERDAY</span></h3>
     <br>
     <?php 
@@ -1861,10 +1867,10 @@
         $arrIg8=array();
         $arrYt8=array();
         foreach($rankOverallAccountAllTv as $k){
-            array_push($arrTw8,(string)$k->total_growth_tw);
-            array_push($arrFb8,(string)$k->total_growth_fb);
-            array_push($arrIg8,(string)$k->total_growth_ig);
-            array_push($arrYt8,(string)$k->total_growth_yt);
+            array_push($arrTw8,(string)$k->total_num_of_growth_tw);
+            array_push($arrFb8,(string)$k->total_num_of_growth_fb);
+            array_push($arrIg8,(string)$k->total_num_of_growth_ig);
+            array_push($arrYt8,(string)$k->total_num_of_growth_yt);
         }
         $rankTw8=$arrTw8;
         $rankFb8=$arrFb8;
@@ -1917,19 +1923,19 @@
                     $colorIg="";
                     $colorYt="";
                     
-                    if(($rankTw8[$row->total_growth_tw] + 1)==1 || ($rankTw8[$row->total_growth_tw] + 1)==2 || ($rankTw8[$row->total_growth_tw] + 1)==3){
+                    if(($rankTw8[$row->total_num_of_growth_tw] + 1)==1 || ($rankTw8[$row->total_num_of_growth_tw] + 1)==2 || ($rankTw8[$row->total_num_of_growth_tw] + 1)==3){
                         $colorTw="#f4a018";
                     }
 
-                    if(($rankFb8[$row->total_growth_fb] + 1)==1 || ($rankFb8[$row->total_growth_fb] + 1)==2 || ($rankFb8[$row->total_growth_fb] + 1)==3){
+                    if(($rankFb8[$row->total_num_of_growth_fb] + 1)==1 || ($rankFb8[$row->total_num_of_growth_fb] + 1)==2 || ($rankFb8[$row->total_num_of_growth_fb] + 1)==3){
                         $colorFb="#f4a018";
                     }
 
-                    if(($rankIg8[$row->total_growth_ig] + 1)==1 || ($rankIg8[$row->total_growth_ig] + 1)==2 || ($rankIg8[$row->total_growth_ig] + 1)==3){
+                    if(($rankIg8[$row->total_num_of_growth_ig] + 1)==1 || ($rankIg8[$row->total_num_of_growth_ig] + 1)==2 || ($rankIg8[$row->total_num_of_growth_ig] + 1)==3){
                         $colorIg="#f4a018";
                     }
 
-                    if(($rankYt8[$row->total_growth_yt] + 1)==1 || ($rankYt8[$row->total_growth_yt] + 1)==2 || ($rankYt8[$row->total_growth_yt] + 1)==3){
+                    if(($rankYt8[$row->total_num_of_growth_yt] + 1)==1 || ($rankYt8[$row->total_num_of_growth_yt] + 1)==2 || ($rankYt8[$row->total_num_of_growth_yt] + 1)==3){
                         $colorYt="#f4a018";
                     }
                 ?>
@@ -1939,25 +1945,25 @@
                         @if($sos->id==1)
                             <th>{{number_format($row->total_num_of_growth_tw)}}</th>
                             <th>{{round($row->total_growth_tw,2)}} %</th>
-                            <th style="background:{{$colorTw}}">{{($rankTw8[$row->total_growth_tw] + 1)}}</th>
+                            <th style="background:{{$colorTw}}">{{($rankTw8[$row->total_num_of_growth_tw] + 1)}}</th>
                         @endif
 
                         @if($sos->id==2)
                             <th>{{number_format($row->total_num_of_growth_fb)}}</th>
                             <th>{{round($row->total_growth_fb,2)}} %</th>
-                            <th style="background:{{$colorFb}}">{{($rankFb8[$row->total_growth_fb] + 1)}}</th>
+                            <th style="background:{{$colorFb}}">{{($rankFb8[$row->total_num_of_growth_fb] + 1)}}</th>
                         @endif
 
                         @if($sos->id==3)
                             <th>{{number_format($row->total_num_of_growth_ig)}}</th>
                             <th>{{round($row->total_growth_ig,2)}} %</th>
-                            <th style="background:{{$colorIg}}">{{($rankIg8[$row->total_growth_ig] + 1)}}</th>
+                            <th style="background:{{$colorIg}}">{{($rankIg8[$row->total_num_of_growth_ig] + 1)}}</th>
                         @endif
 
                         @if($sos->id==4)
                             <th>{{number_format($row->total_num_of_growth_yt)}}</th>
                             <th>{{round($row->total_growth_yt,2)}} %</th>
-                            <th style="background:{{$colorYt}}">{{($rankYt8[$row->total_growth_yt] + 1)}}</th>
+                            <th style="background:{{$colorYt}}">{{($rankYt8[$row->total_num_of_growth_yt] + 1)}}</th>
                         @endif
                     @endforeach
                 </tr>
