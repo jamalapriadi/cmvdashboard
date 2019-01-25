@@ -1865,10 +1865,10 @@
         $arrIg8=array();
         $arrYt8=array();
         foreach($rankOverallAccountAllTv as $k){
-            array_push($arrTw8,(string)$k->total_growth_tw);
-            array_push($arrFb8,(string)$k->total_growth_fb);
-            array_push($arrIg8,(string)$k->total_growth_ig);
-            array_push($arrYt8,(string)$k->total_growth_yt);
+            array_push($arrTw8,(string)$k->total_num_of_growth_tw);
+            array_push($arrFb8,(string)$k->total_num_of_growth_fb);
+            array_push($arrIg8,(string)$k->total_num_of_growth_ig);
+            array_push($arrYt8,(string)$k->total_num_of_growth_yt);
         }
         $rankTw8=$arrTw8;
         $rankFb8=$arrFb8;
@@ -1921,19 +1921,19 @@
                     $colorIg="";
                     $colorYt="";
                     
-                    if(($rankTw8[$row->total_growth_tw] + 1)==1 || ($rankTw8[$row->total_growth_tw] + 1)==2 || ($rankTw8[$row->total_growth_tw] + 1)==3){
+                    if(($rankTw8[$row->total_num_of_growth_tw] + 1)==1 || ($rankTw8[$row->total_num_of_growth_tw] + 1)==2 || ($rankTw8[$row->total_num_of_growth_tw] + 1)==3){
                         $colorTw="#f4a018";
                     }
 
-                    if(($rankFb8[$row->total_growth_fb] + 1)==1 || ($rankFb8[$row->total_growth_fb] + 1)==2 || ($rankFb8[$row->total_growth_fb] + 1)==3){
+                    if(($rankFb8[$row->total_num_of_growth_fb] + 1)==1 || ($rankFb8[$row->total_num_of_growth_fb] + 1)==2 || ($rankFb8[$row->total_num_of_growth_fb] + 1)==3){
                         $colorFb="#f4a018";
                     }
 
-                    if(($rankIg8[$row->total_growth_ig] + 1)==1 || ($rankIg8[$row->total_growth_ig] + 1)==2 || ($rankIg8[$row->total_growth_ig] + 1)==3){
+                    if(($rankIg8[$row->total_num_of_growth_ig] + 1)==1 || ($rankIg8[$row->total_num_of_growth_ig] + 1)==2 || ($rankIg8[$row->total_num_of_growth_ig] + 1)==3){
                         $colorIg="#f4a018";
                     }
 
-                    if(($rankYt8[$row->total_growth_yt] + 1)==1 || ($rankYt8[$row->total_growth_yt] + 1)==2 || ($rankYt8[$row->total_growth_yt] + 1)==3){
+                    if(($rankYt8[$row->total_num_of_growth_yt] + 1)==1 || ($rankYt8[$row->total_num_of_growth_yt] + 1)==2 || ($rankYt8[$row->total_num_of_growth_yt] + 1)==3){
                         $colorYt="#f4a018";
                     }
                 ?>
@@ -1943,25 +1943,25 @@
                         @if($sos->id==1)
                             <th>{{number_format($row->total_num_of_growth_tw)}}</th>
                             <th>{{round($row->total_growth_tw,2)}} %</th>
-                            <th style="background:{{$colorTw}}">{{($rankTw8[$row->total_growth_tw] + 1)}}</th>
+                            <th style="background:{{$colorTw}}">{{($rankTw8[$row->total_num_of_growth_tw] + 1)}}</th>
                         @endif
 
                         @if($sos->id==2)
                             <th>{{number_format($row->total_num_of_growth_fb)}}</th>
                             <th>{{round($row->total_growth_fb,2)}} %</th>
-                            <th style="background:{{$colorFb}}">{{($rankFb8[$row->total_growth_fb] + 1)}}</th>
+                            <th style="background:{{$colorFb}}">{{($rankFb8[$row->total_num_of_growth_fb] + 1)}}</th>
                         @endif
 
                         @if($sos->id==3)
                             <th>{{number_format($row->total_num_of_growth_ig)}}</th>
                             <th>{{round($row->total_growth_ig,2)}} %</th>
-                            <th style="background:{{$colorIg}}">{{($rankIg8[$row->total_growth_ig] + 1)}}</th>
+                            <th style="background:{{$colorIg}}">{{($rankIg8[$row->total_num_of_growth_ig] + 1)}}</th>
                         @endif
 
                         @if($sos->id==4)
                             <th>{{number_format($row->total_num_of_growth_yt)}}</th>
                             <th>{{round($row->total_growth_yt,2)}} %</th>
-                            <th style="background:{{$colorYt}}">{{($rankYt8[$row->total_growth_yt] + 1)}}</th>
+                            <th style="background:{{$colorYt}}">{{($rankYt8[$row->total_num_of_growth_yt] + 1)}}</th>
                         @endif
                     @endforeach
                 </tr>
