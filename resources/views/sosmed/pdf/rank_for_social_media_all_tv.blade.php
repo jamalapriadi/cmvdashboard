@@ -1149,7 +1149,7 @@
                 <div class="page-break"></div>
 
                 {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % GROWTH YESTERDAY</span></h3> --}}
-                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % NUMBER OF GROWTH</span></h3>
+                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY NUMBER OF GROWTH</span></h3>
                 <br>
 
                 <?php
