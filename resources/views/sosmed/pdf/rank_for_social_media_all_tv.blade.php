@@ -449,6 +449,7 @@
                 <div class="page-break"></div>
 
                 <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
+                {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3> --}}
                 <br>
 
                 <?php
@@ -637,7 +638,7 @@
 
                 <div class="page-break"></div>
 
-                {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY % GROWTH YESTERDAY</span></h3> --}}
+                {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY GROWTH YESTERDAY</span></h3> --}}
                 <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY NUMBER OF GROWTH</span></h3>
                 <br><br><br>
 
@@ -661,7 +662,6 @@
                                         $twsekarang1=$k->tw_sekarang+$in->tw_sekarang;
                                         $twkemarin1=$k->tw_kemarin+$in->tw_kemarin;
                                         if($twkemarin1>0){
-                                            // $growthtw1=($twsekarang1/$twkemarin1-1)*100;
                                             $growthtw1=$twsekarang1-$twkemarin1;
                                         }else{
                                             $growthtw1=0;
@@ -670,7 +670,6 @@
                                         $fbsekarang1=$k->fb_sekarang+$in->fb_sekarang;
                                         $fbkemarin1=$k->fb_kemarin+$in->fb_kemarin;
                                         if($fbkemarin1>0){
-                                            // $growthfb1=($fbsekarang1/$fbkemarin1-1)*100;
                                             $growthfb1=$fbsekarang1-$fbkemarin1;
                                         }else{
                                             $growthfb1=0;
@@ -679,7 +678,6 @@
                                         $igsekarang1=$k->ig_sekarang+$in->ig_sekarang;
                                         $igkemarin1=$k->ig_kemarin+$in->ig_kemarin;
                                         if($igkemarin1>0){
-                                            // $growthig1=($igsekarang1/$igkemarin1-1)*100;
                                             $growthig1=$igsekarang1-$igkemarin1;
                                         }else{
                                             $growthig1=0;
@@ -738,10 +736,10 @@
                                 array_push($arrYt3,(string)$growthyt1);    
                             }
                         }else{
-                            array_push($arrTw3,(string)$k->growth_tw);
-                            array_push($arrFb3,(string)$k->growth_fb);
-                            array_push($arrIg3,(string)$k->growth_ig);
-                            array_push($arrYt3,(string)$k->growth_yt);
+                            array_push($arrTw3,(string)$k->num_of_growth_tw);
+                            array_push($arrFb3,(string)$k->num_of_growth_fb);
+                            array_push($arrIg3,(string)$k->num_of_growth_ig);
+                            array_push($arrYt3,(string)$k->num_of_growth_yt);
                         }
                     }
                     $rankTw3=$arrTw3;
@@ -1081,7 +1079,7 @@
                                             <!-- @if($sos->id==4)
                                                 <th>{{number_format($p->num_of_growth_yt)}}</th>
                                                 <th>{{round($p->growth_yt,2)}} %</th>
-                                                <th style="background:{{$cyt}}">{{($rankYt3[$p->growth_yt] + 1)}}</th>
+                                                <th style="background:{{$cyt}}">{{($rankYt3[$p->num_of_growth_yt] + 1)}}</th>
                                             @endif -->
                                         @endforeach
                                     </tr>
@@ -1140,7 +1138,7 @@
                                         <!-- @if($sos->id==4)
                                             <th>{{number_format($row->num_of_growth_yt)}}</th>
                                             <th>{{round($row->growth_yt,2)}} %</th>
-                                            <th style="background:{{$colorYt}}">{{($rankYt3[$row->growth_yt] + 1)}}</th>
+                                            <th style="background:{{$colorYt}}">{{($rankYt3[$row->num_of_growth_yt] + 1)}}</th>
                                         @endif -->
                                     @endforeach
                                 </tr>
@@ -1150,7 +1148,8 @@
                 </table>
                 <div class="page-break"></div>
 
-                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % NUMBER OF GROWTH</span></h3>
+                {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % GROWTH YESTERDAY</span></h3> --}}
+                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY NUMBER OF GROWTH</span></h3>
                 <br>
 
                 <?php
@@ -1660,7 +1659,7 @@
     <div class="page-break"></div>
 
     {{-- <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY % GROWTH FROM YESTERDAY</span></h3> --}}
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY % NUMBER OF GROWTH</span></h3>
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY NUMBER OF GROWTH</span></h3>
     <br><br><br>
     <?php 
         $arrTw7=array();
@@ -1859,7 +1858,7 @@
     <div class="page-break"></div>
 
     {{-- <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL TV <span style="color:red">BY % GROWTH FROM YESTERDAY</span></h3> --}}
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL TV <span style="color:red">BY % GROWTH FROM YESTERDAY</span></h3>
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL TV <span style="color:red">BY NUMBER OF GROWTH</span></h3>
     <br>
     <?php 
         $arrTw8=array();
