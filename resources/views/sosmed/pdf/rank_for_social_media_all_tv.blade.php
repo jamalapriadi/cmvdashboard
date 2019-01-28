@@ -452,41 +452,41 @@
                 <br>
 
                 <?php
-                $arrTw2=array();
-                $arrFb2=array();
-                $arrIg2=array();
-                $arrYt2=array();
-                foreach($rankOfOfficialAccountAllTvByFollowers as $k){
-                    if($k->id==4){
-                        foreach($tambahanInews as $in){
-                            if($in->id=="TOTAL"){
-                                array_push($arrTw2,$in->tw_sekarang);
-                                array_push($arrFb2,$in->fb_sekarang);
-                                array_push($arrIg2,$in->ig_sekarang);        
-                                array_push($arrYt2,$in->yt_sekarang);        
+                    $arrTw2=array();
+                    $arrFb2=array();
+                    $arrIg2=array();
+                    $arrYt2=array();
+                    foreach($rankOfOfficialAccountAllTvByFollowers as $k){
+                        if($k->id==4){
+                            foreach($tambahanInews as $in){
+                                if($in->id=="TOTAL"){
+                                    array_push($arrTw2,$in->tw_sekarang);
+                                    array_push($arrFb2,$in->fb_sekarang);
+                                    array_push($arrIg2,$in->ig_sekarang);        
+                                    array_push($arrYt2,$in->yt_sekarang);        
+                                }
                             }
+                        }else{
+                            array_push($arrTw2,$k->tw_sekarang);
+                            array_push($arrFb2,$k->fb_sekarang);
+                            array_push($arrIg2,$k->ig_sekarang);
+                            array_push($arrYt2,$k->yt_sekarang);
                         }
-                    }else{
-                        array_push($arrTw2,$k->tw_sekarang);
-                        array_push($arrFb2,$k->fb_sekarang);
-                        array_push($arrIg2,$k->ig_sekarang);
-                        array_push($arrYt2,$k->yt_sekarang);
                     }
-                }
-                $rankTw2=$arrTw2;
-                $rankFb2=$arrFb2;
-                $rankIg2=$arrIg2;
-                $rankYt2=$arrYt2;
+                    $rankTw2=$arrTw2;
+                    $rankFb2=$arrFb2;
+                    $rankIg2=$arrIg2;
+                    $rankYt2=$arrYt2;
 
-                rsort($rankTw2);
-                rsort($rankFb2);
-                rsort($rankIg2);
-                rsort($rankYt2);
+                    rsort($rankTw2);
+                    rsort($rankFb2);
+                    rsort($rankIg2);
+                    rsort($rankYt2);
 
-                $rankTw2=array_flip($rankTw2);
-                $rankFb2=array_flip($rankFb2);
-                $rankIg2=array_flip($rankIg2);
-                $rankYt2=array_flip($rankYt2);
+                    $rankTw2=array_flip($rankTw2);
+                    $rankFb2=array_flip($rankFb2);
+                    $rankIg2=array_flip($rankIg2);
+                    $rankYt2=array_flip($rankYt2);
                 ?>
 
                 <table class='table table-striped'>
@@ -637,8 +637,8 @@
 
                 <div class="page-break"></div>
 
-                {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY % GROWTH YESTERDAY</span></h3> --}}
-                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY NUMBER OF GROWTH</span></h3>
+                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY % GROWTH YESTERDAY</span></h3>
+                {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY NUMBER OF GROWTH</span></h3> --}}
                 <br><br><br>
 
                 <?php 
@@ -1151,41 +1151,41 @@
                 <br>
 
                 <?php
-                $arrTw4=array();
-                $arrFb4=array();
-                $arrIg4=array();
-                $arrYt4=array();
-                foreach($rankOfOfficialAccountAllTvByFollowers as $k){
-                    if($k->id==4){
-                        foreach($tambahanInews as $in){
-                            if($in->id=="TOTAL"){
-                                array_push($arrTw4,(string)($in->growth_tw));
-                                array_push($arrFb4,(string)($in->growth_fb));
-                                array_push($arrIg4,(string)($in->growth_ig));    
-                                array_push($arrYt4,(string)($in->growth_yt));    
+                    $arrTw4=array();
+                    $arrFb4=array();
+                    $arrIg4=array();
+                    $arrYt4=array();
+                    foreach($rankOfOfficialAccountAllTvByFollowers as $k){
+                        if($k->id==4){
+                            foreach($tambahanInews as $in){
+                                if($in->id=="TOTAL"){
+                                    array_push($arrTw4,(string)($in->growth_tw));
+                                    array_push($arrFb4,(string)($in->growth_fb));
+                                    array_push($arrIg4,(string)($in->growth_ig));    
+                                    array_push($arrYt4,(string)($in->growth_yt));    
+                                }
                             }
+                        }else{
+                            array_push($arrTw4,(string)$k->growth_tw);
+                            array_push($arrFb4,(string)$k->growth_fb);
+                            array_push($arrIg4,(string)$k->growth_ig);
+                            array_push($arrYt4,(string)$k->growth_yt);
                         }
-                    }else{
-                        array_push($arrTw4,(string)$k->growth_tw);
-                        array_push($arrFb4,(string)$k->growth_fb);
-                        array_push($arrIg4,(string)$k->growth_ig);
-                        array_push($arrYt4,(string)$k->growth_yt);
                     }
-                }
-                $rankTw4=$arrTw4;
-                $rankFb4=$arrFb4;
-                $rankIg4=$arrIg4;
-                $rankYt4=$arrYt4;
+                    $rankTw4=$arrTw4;
+                    $rankFb4=$arrFb4;
+                    $rankIg4=$arrIg4;
+                    $rankYt4=$arrYt4;
 
-                rsort($rankTw4);
-                rsort($rankFb4);
-                rsort($rankIg4);
-                rsort($rankYt4);
+                    rsort($rankTw4);
+                    rsort($rankFb4);
+                    rsort($rankIg4);
+                    rsort($rankYt4);
 
-                $rankTw4=array_flip($rankTw4);
-                $rankFb4=array_flip($rankFb4);
-                $rankIg4=array_flip($rankIg4);
-                $rankYt4=array_flip($rankYt4);
+                    $rankTw4=array_flip($rankTw4);
+                    $rankFb4=array_flip($rankFb4);
+                    $rankIg4=array_flip($rankIg4);
+                    $rankYt4=array_flip($rankYt4);
                 ?>
 
                 <table class='table table-striped'>
