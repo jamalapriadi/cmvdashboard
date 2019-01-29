@@ -144,10 +144,12 @@
 
                 @if($row->sosmed_id==5)
                     <div class="col-lg-6">
-                        <div class="card card-accent-warning" style="overflow:scroll">
-                            <div class="card-header">Web</div>
+                        <div class="card card-accent-info">
+                            <div class="card-header">Website</div>
                             <div class="card-body">
-                                {{webUrl($row->unit_sosmed_account_id)}}
+                                <a href="{{$row->unit_sosmed_account_id}}" target="_blank">
+                                    <img src="{{asset('uploads/web/brand/'.$row->unit_sosmed_name)}}" alt="" class="img-fluid" target="_blank">
+                                </a>
                             </div>
                         </div>
                     </div>

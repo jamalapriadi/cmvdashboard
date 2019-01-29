@@ -138,11 +138,21 @@ class UnitsosmedController extends Controller
     }
 
     public function update(Request $request,$id){
-        $rules=[
-            'type'=>'required',
-            'program_unit'=>'required',
-            'name_sosmed'=>'required'
-        ];
+        if($request->input('sosmedid')==5){
+            $rules=[
+                'type'=>'required',
+                'program_unit'=>'required',
+                'gambar'=>'required',
+                'sosmedid'=>'required'
+            ];
+        }else{
+            $rules=[
+                'type'=>'required',
+                'program_unit'=>'required',
+                'name_sosmed'=>'required',
+                'sosmedid'=>'required'
+            ];
+        }
 
         $validasi=\Validator::make($request->all(),$rules);
 
@@ -155,7 +165,6 @@ class UnitsosmedController extends Controller
         }else{
             $var=Unitsosmed::find($id);
             $var->type_sosmed=$request->input('type');
-            $var->unit_sosmed_name=$request->input('name_sosmed');
             $var->sosmed_id=$request->input('sosmedid');
 
             if($request->input('sosmedid')==4){
@@ -177,9 +186,29 @@ class UnitsosmedController extends Controller
                         $youtube=$val->snippet->channelId;
                     }
                 }
-        
+                
+                $var->unit_sosmed_name=$request->input('name_sosmed');
                 $var->unit_sosmed_account_id=$youtube;
+
+            }else if($request->input('sosmedid')==5){
+                if($request->hasFile('gambar')){
+                    $file=$request->file('gambar');
+    
+                    if (!is_dir('uploads/web/')) {
+                        mkdir('uploads/web/', 0777, TRUE);
+                    }
+
+                    $folder='uploads/web/';
+                    $filename=$file->getClientOriginalName();
+                    $destinationPath='uploads/web/';
+
+                    if($file->move($destinationPath,$filename)){
+                        $var->unit_sosmed_name=$filename;
+                        $var->unit_sosmed_account_id=$request->input('account_id');
+                    }
+                }
             }else{
+                $var->unit_sosmed_name=$request->input('name_sosmed');
                 $var->unit_sosmed_account_id=$request->input('account_id');
             }
 
