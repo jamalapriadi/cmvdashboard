@@ -226,19 +226,22 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
 
 /*sosmed brand */
 Route::group(['prefix'=>'brand','middleware'=>'auth'],function(){
-    Route::get('/','Brand\MainbrandController@index');
-    Route::get('sector','Brand\MainbrandController@sector');
-    Route::get('category','Brand\MainbrandController@category');
-    Route::get('brand','Brand\MainbrandController@brand');
-    Route::get('produk','Brand\MainbrandController@produk');
-    Route::get('advertiser','Brand\MainbrandController@advertiser');
-    Route::get('brand-unit','Brand\MainbrandController@brand_unit');
-    Route::get('brand-unit/{id}/summary','Brand\MainbrandController@summary_brand_unit');
-    Route::get('unit-sosmed','Brand\MainbrandController@unit_sosmed');
-    Route::get('unit-sosmed-create','Brand\MainbrandController@unit_sosmed_create');
-    Route::get('live-socmed','Brand\MainbrandController@live_socmed');
-    Route::get('input-report/{id}','Brand\MainbrandController@sosmed_input_report');
-    Route::get('add-new-report-daily/{id}','Brand\MainbrandController@add_new_report_daily');
+    Route::group(['middleware' => ['permission:home-brand']], function () {
+        Route::get('/','Brand\MainbrandController@index');
+        Route::get('sector','Brand\MainbrandController@sector');
+        Route::get('category','Brand\MainbrandController@category');
+        Route::get('brand','Brand\MainbrandController@brand');
+        Route::get('produk','Brand\MainbrandController@produk');
+        Route::get('advertiser','Brand\MainbrandController@advertiser');
+        Route::get('brand-unit','Brand\MainbrandController@brand_unit');
+        Route::get('brand-unit/{id}/summary','Brand\MainbrandController@summary_brand_unit');
+        Route::get('unit-sosmed','Brand\MainbrandController@unit_sosmed');
+        Route::get('unit-sosmed-create','Brand\MainbrandController@unit_sosmed_create');
+        Route::get('live-socmed','Brand\MainbrandController@live_socmed');
+        Route::get('input-report/{id}','Brand\MainbrandController@sosmed_input_report');
+        Route::get('add-new-report-daily/{id}','Brand\MainbrandController@add_new_report_daily');
+    });    
+    
 
     Route::group(['prefix'=>'data'],function(){
         Route::resource('sector','Brand\SectorController');
