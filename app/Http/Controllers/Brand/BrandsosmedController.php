@@ -30,12 +30,21 @@ class BrandsosmedController extends Controller
     }
 
     public function store(Request $request){
-        $rules=[
-            'type'=>'required',
-            'brand_unit'=>'required',
-            'name_sosmed'=>'required',
-            'sosmedid'=>'required'
-        ];
+        if($request->input('sosmedid')==5){
+            $rules=[
+                'type'=>'required',
+                'brand_unit'=>'required',
+                'gambar'=>'required',
+                'sosmedid'=>'required'
+            ];
+        }else{
+            $rules=[
+                'type'=>'required',
+                'brand_unit'=>'required',
+                'name_sosmed'=>'required',
+                'sosmedid'=>'required'
+            ];
+        }
 
         $validasi=\Validator::make($request->all(),$rules);
 
@@ -58,7 +67,6 @@ class BrandsosmedController extends Controller
             $var=new Unitsosmed;
             $var->type_sosmed=$request->input('type');
             $var->business_program_unit=$request->input('brand_unit');
-            $var->unit_sosmed_name=$request->input('name_sosmed');
             $var->sosmed_id=$request->input('sosmedid');
 
             if($request->input('sosmedid')==4){
@@ -76,9 +84,28 @@ class BrandsosmedController extends Controller
                 foreach($search as $key=>$val){
                     $youtube=$val->id->channelId;
                 }
-        
+                
+                $var->unit_sosmed_name=$request->input('name_sosmed');
                 $var->unit_sosmed_account_id=$youtube;
+            }else if($request->input('sosmedid')==5){
+                if($request->hasFile('gambar')){
+                    $file=$request->file('gambar');
+    
+                    if (!is_dir('uploads/web/brand/')) {
+                        mkdir('uploads/web/brand/', 0777, TRUE);
+                    }
+
+                    $folder='uploads/web/brand/';
+                    $filename=$file->getClientOriginalName();
+                    $destinationPath='uploads/web/brand/';
+
+                    if($file->move($destinationPath,$filename)){
+                        $var->unit_sosmed_name=$filename;
+                        $var->unit_sosmed_account_id=$request->input('account_id');
+                    }
+                }
             }else{
+                $var->unit_sosmed_name=$request->input('name_sosmed');
                 $var->unit_sosmed_account_id=$request->input('account_id');
             }
             
@@ -117,11 +144,21 @@ class BrandsosmedController extends Controller
     }
 
     public function update(Request $request,$id){
-        $rules=[
-            'type'=>'required',
-            'brand_unit'=>'required',
-            'name_sosmed'=>'required'
-        ];
+        if($request->input('sosmedid')==5){
+            $rules=[
+                'type'=>'required',
+                'brand_unit'=>'required',
+                'gambar'=>'required',
+                'sosmedid'=>'required'
+            ];
+        }else{
+            $rules=[
+                'type'=>'required',
+                'brand_unit'=>'required',
+                'name_sosmed'=>'required',
+                'sosmedid'=>'required'
+            ];
+        }
 
         $validasi=\Validator::make($request->all(),$rules);
 
@@ -134,7 +171,6 @@ class BrandsosmedController extends Controller
         }else{
             $var=Unitsosmed::find($id);
             $var->type_sosmed=$request->input('type');
-            $var->unit_sosmed_name=$request->input('name_sosmed');
             $var->sosmed_id=$request->input('sosmedid');
 
             if($request->input('sosmedid')==4){
@@ -156,9 +192,29 @@ class BrandsosmedController extends Controller
                         $youtube=$val->snippet->channelId;
                     }
                 }
-        
+                
+                $var->unit_sosmed_name=$request->input('name_sosmed');
                 $var->unit_sosmed_account_id=$youtube;
+
+            }else if($request->input('sosmedid')==5){
+                if($request->hasFile('gambar')){
+                    $file=$request->file('gambar');
+    
+                    if (!is_dir('uploads/web/brand/')) {
+                        mkdir('uploads/web/brand/', 0777, TRUE);
+                    }
+
+                    $folder='uploads/web/brand/';
+                    $filename=$file->getClientOriginalName();
+                    $destinationPath='uploads/web/brand/';
+
+                    if($file->move($destinationPath,$filename)){
+                        $var->unit_sosmed_name=$filename;
+                        $var->unit_sosmed_account_id=$request->input('account_id');
+                    }
+                }
             }else{
+                $var->unit_sosmed_name=$request->input('name_sosmed');
                 $var->unit_sosmed_account_id=$request->input('account_id');
             }
 

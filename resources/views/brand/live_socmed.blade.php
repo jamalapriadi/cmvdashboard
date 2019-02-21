@@ -77,17 +77,6 @@
                     </div>
                 @endif
 
-                @if($row->sosmed_id==5)
-                    <div class="col-lg-6">
-                        <div class="card card-accent-warning" style="overflow:scroll">
-                            <div class="card-header">Web</div>
-                            <div class="card-body">
-                                {{webUrl($row->unit_sosmed_account_id)}}
-                            </div>
-                        </div>
-                    </div>
-                @endif
-
                 @if($row->sosmed_id==4)
                     <div class="col-lg-6">
                         <div class="card card-accent-danger" style="overflow:scroll">
@@ -136,11 +125,11 @@
                                 <div id="showYoutube">
                                     <div class="row">
                                         @if(isset($activity))
-                                            @foreach($activity as $key=>$row)
+                                            @foreach($activity as $key=>$val)
                                                 @if($key<4)
                                                     <div class="col-lg-6" style="margin-bottom:10px;">
-                                                        @if(isset($row->contentDetails->upload))
-                                                            {{youtubeUrl($row->contentDetails->upload->videoId)}}
+                                                        @if(isset($val->contentDetails->upload))
+                                                            {{youtubeUrl($val->contentDetails->upload->videoId)}}
                                                         @endif
                                                     </div>
                                                 @endif
@@ -148,6 +137,19 @@
                                         @endif
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @if($row->sosmed_id==5)
+                    <div class="col-lg-6">
+                        <div class="card card-accent-info">
+                            <div class="card-header">Website</div>
+                            <div class="card-body">
+                                <a href="{{$row->unit_sosmed_account_id}}" target="_blank">
+                                    <img src="{{asset('uploads/web/brand/'.$row->unit_sosmed_name)}}" alt="" class="img-fluid" target="_blank">
+                                </a>
                             </div>
                         </div>
                     </div>

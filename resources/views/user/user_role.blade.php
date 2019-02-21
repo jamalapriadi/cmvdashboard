@@ -310,7 +310,7 @@
             $(document).on("click",".unrole",function(){
                 var rolename=$(this).attr("rolename");
                 var checkbox=$(this);
-
+  
                 swal({
                     title: "Are you sure?",
                     text: "You will delete this role!",
@@ -320,10 +320,12 @@
                     confirmButtonText: "Yes, delete it!",
                     cancelButtonText: "No, cancel!",
                     closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                function(isConfirm){
-                    if (isConfirm) {
+                    closeOnCancel: false,
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
                         $.ajax({
                             url:"{{URL::to('sosmed/data/hapus-role-user')}}",
                             type:"POST",
@@ -334,7 +336,10 @@
                             success:function(result){
                                 if(result.success==true){
                                     showRole();
-                                    swal("Deleted!", result.pesan, "success");
+                                    // swal("Deleted!", result.pesan, "success");
+                                    swal("Deleted!", {
+                                        icon: "success",
+                                    });
                                 }else{
                                     swal("Error!", result.pesan, "error");
                                 }
@@ -343,9 +348,9 @@
 
                             }
                         })
+                        
                     } else {
-                        checkbox.prop('checked', true); 
-                        swal("Cancelled", "Your data is safe :)", "error");
+                        swal("Your data is safe!");
                     }
                 });
             })
@@ -422,7 +427,7 @@
 
             showRole();
             showUnit();
-            showSocmed();
+            // showSocmed();
         })
     </script>
 @stop

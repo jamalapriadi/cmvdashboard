@@ -153,6 +153,20 @@
             <div class="card-body">
                 <div class="row">
                     @foreach($bu->sosmed as $row)
+
+                        @if($row->sosmed_id==5)
+                            <div class="col-lg-6">
+                                <div class="card card-accent-info">
+                                    <div class="card-header">Website</div>
+                                    <div class="card-body">
+                                        <a href="{{$row->unit_sosmed_account_id}}" target="_blank">
+                                            <img src="{{asset('uploads/web/brand/'.$row->unit_sosmed_name)}}" alt="" class="img-fluid" target="_blank">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
                         @if($row->sosmed_id==1)
                             <div class="col-lg-6">
                                 <div class="card card-accent-success">
@@ -183,17 +197,6 @@
                                     <div class="card-header">Instagram</div>
                                     <div class="card-body">
                                         {!! $row->unit_sosmed_account_id !!}
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-
-                        @if($row->sosmed_id==5)
-                            <div class="col-lg-6">
-                                <div class="card card-accent-primary">
-                                    <div class="card-header">Website</div>
-                                    <div class="card-body">
-                                        <iframe src="https://www.axe.co.id" width="100%" height="300"></iframe>
                                     </div>
                                 </div>
                             </div>
@@ -247,11 +250,11 @@
                                         <div id="showYoutube">
                                             <div class="row">
                                                 @if(isset($activity))
-                                                    @foreach($activity as $key=>$row)
+                                                    @foreach($activity as $key=>$val)
                                                         @if($key<4)
                                                             <div class="col-lg-6" style="margin-bottom:10px;">
-                                                                @if(isset($row->contentDetails->upload))
-                                                                    {{youtubeUrl($row->contentDetails->upload->videoId)}}
+                                                                @if(isset($val->contentDetails->upload))
+                                                                    {{youtubeUrl($val->contentDetails->upload->videoId)}}
                                                                 @endif
                                                             </div>
                                                         @endif
@@ -1013,15 +1016,17 @@
                                             '<option value="5">Website</option>'+
                                         '</select>'+
                                     '</div>'+
+                                    
+                                    '<div id="showKeteranganSosmed">'+
+                                        '<div class="form-group">'+
+                                            '<label class="control-label text-semibold">Account Name</label>'+
+                                            '<input class="form-control" name="name_sosmed" id="name_sosmed" placeholder="Account Name" required>'+
+                                        '</div>'+
 
-                                    '<div class="form-group">'+
-                                        '<label class="control-label text-semibold">Account Name</label>'+
-                                        '<input class="form-control" name="name_sosmed" id="name_sosmed" placeholder="Account Name" required>'+
-                                    '</div>'+
-
-                                    '<div class="form-group">'+
-                                        '<label class="control-label text-semibold">Account ID</label>'+
-                                        '<textarea name="account_id" rows="10" cols="50" id="accoount_id" class="form-control" required></textarea>'+
+                                        '<div class="form-group">'+
+                                            '<label class="control-label text-semibold">Account ID</label>'+
+                                            '<textarea name="account_id" rows="10" cols="50" id="accoount_id" class="form-control" required></textarea>'+
+                                        '</div>'+
                                     '</div>'+
                                 '</div>'+
 
@@ -1036,6 +1041,34 @@
 
                 $("#divModal").empty().html(el);
                 $("#modal_default").modal("show");
+            })
+
+            $(document).on("change","#sosmedid",function(){
+                var s=$("#sosmedid option:selected").val();
+
+                if(s==5){
+                    var el='<div class="form-group">'+
+                            '<label class="control-label text-semibold">Screenshot Website</label>'+
+                            '<input type="file" class="form-control" name="gambar" id="gambar" placeholder="Account Name" required>'+
+                        '</div>'+
+
+                        '<div class="form-group">'+
+                            '<label class="control-label text-semibold">URL</label>'+
+                            '<input class="form-control" type="text" name="account_id" id="account_id" placeholder="URL" required>'+
+                        '</div>';
+                }else{
+                    var el='<div class="form-group">'+
+                            '<label class="control-label text-semibold">Account Name</label>'+
+                            '<input class="form-control" name="name_sosmed" id="name_sosmed" placeholder="Account Name" required>'+
+                        '</div>'+
+
+                        '<div class="form-group">'+
+                            '<label class="control-label text-semibold">Account ID</label>'+
+                            '<textarea name="account_id" rows="10" cols="50" id="accoount_id" class="form-control" required></textarea>'+
+                        '</div>';
+                }
+
+                $("#showKeteranganSosmed").empty().html(el);
             })
 
             $(document).on("submit","#formSosmed",function(e){
@@ -1124,20 +1157,46 @@
                                 '<option value="5">Website</option>'+
                             '</select>'+
                         '</div>'+
+                        
+                        '<div id="showKeteranganSosmed">'+
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Account Name</label>'+
+                                '<input class="form-control" value="'+result.unit_sosmed_name+'" name="name_sosmed" id="name_sosmed" placeholder="Account Name" required>'+
+                            '</div>'+
 
-                        '<div class="form-group">'+
-                            '<label class="control-label text-semibold">Account Name</label>'+
-                            '<input class="form-control" value="'+result.unit_sosmed_name+'" name="name_sosmed" id="name_sosmed" placeholder="Account Name" required>'+
-                        '</div>'+
-
-                        '<div class="form-group">'+
-                            '<label class="control-label text-semibold">Account ID</label>'+
-                            '<textarea name="account_id" rows="10" cols="50" id="accoount_id" class="form-control" required>'+result.unit_sosmed_account_id+'</textarea>'+
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Account ID</label>'+
+                                '<textarea name="account_id" rows="10" cols="50" id="accoount_id" class="form-control" required>'+result.unit_sosmed_account_id+'</textarea>'+
+                            '</div>'+
                         '</div>';
 
 
                         $("#showProgress").empty().html(el);
                         $("#sosmedid").val(result.sosmed_id);
+
+                        if(result.sosmed_id==5){
+                            var al='<div class="form-group">'+
+                                    '<label class="control-label text-semibold">Screenshot Website</label>'+
+                                    '<input type="file" class="form-control" name="gambar" id="gambar" placeholder="Account Name" required>'+
+                                '</div>'+
+
+                                '<div class="form-group">'+
+                                    '<label class="control-label text-semibold">URL</label>'+
+                                    '<input class="form-control" type="text" name="account_id" id="account_id" placeholder="URL" value="'+result.unit_sosmed_account_id+'" required>'+
+                                '</div>';
+                        }else{
+                            var al='<div class="form-group">'+
+                                    '<label class="control-label text-semibold">Account Name</label>'+
+                                    '<input class="form-control" value="'+result.unit_sosmed_name+'" name="name_sosmed" id="name_sosmed" placeholder="Account Name" required>'+
+                                '</div>'+
+
+                                '<div class="form-group">'+
+                                    '<label class="control-label text-semibold">Account ID</label>'+
+                                    '<textarea name="account_id" rows="10" cols="50" id="accoount_id" class="form-control" required>'+result.unit_sosmed_account_id+'</textarea>'+
+                                '</div>';
+                        }
+
+                        $("#showKeteranganSosmed").empty().html(al);
                     },
                     errors:function(){
 
