@@ -364,16 +364,48 @@ Route::group(['prefix'=>'automation'],function(){
     Route::get('official-sosmed','Sosmed\OtomatisasiController@official_sosmed');
 });
 
-Route::get('tes-youtube',function(){
-    $params = [
-        'q'             => 'yukatamada',
-        'type'          => 'video',
-        'part'          => 'users',
-        'maxResults'    => 50
-    ];
-    
-    // Make intial call. with second argument to reveal page info such as page tokens
-    $search = Youtube::searchAdvanced($params, true);
+Route::get('tes-follower',function(){
+    $lis=\App\Models\Sosmed\Unitsosmedfollower::paginate(10000);
 
+    $html="";
+    $html.="<table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Unit Sosmed ID</th>
+                <th>Tanggal</th>
+                <th>Follower</th>
+            </tr>
+        </thead>
+        <tbody>";
+        $no=0;
+        foreach($lis as $row){
+            $no++;
+            $html.="<tr>
+                    <td>".$no."</td>
+                    <td>".$row->unit_sosmed_id."</td>
+                    <td>".$row->tanggal."</td>
+                    <td>".$row->follower."</td>
+                </tr>";
+        }
+        $html.="</tbody>
+    </table>";
+
+    return $html;
+});
+
+Route::get('tes-youtube',function(){
+    // $params = [
+    //     'q'             => 'yukatamada',
+    //     'type'          => 'video',
+    //     'part'          => 'users',
+    //     'maxResults'    => 50
+    // ];
+    
+    // // Make intial call. with second argument to reveal page info such as page tokens
+    // $search = Youtube::searchAdvanced($params, true);
+
+    $search = \Youtube::getChannelById('UCZgAny8kv3i7n_DdvTQznAA');
+    // $search=\Follower::youtube('UC_p7ouVKJxLf2okumEZTY-A');
     return response()->json($search);
 });

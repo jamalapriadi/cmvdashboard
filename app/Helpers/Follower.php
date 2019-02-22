@@ -69,9 +69,17 @@ class Follower
         $youtube=$channel;
 
         if(isset($youtube->statistics)){
-            return $youtube->statistics->subscriberCount;
+            return array(
+                'subscriber'=>$youtube->statistics->subscriberCount,
+                'view_count'=>$youtube->statistics->viewCount,
+                'video_count'=>$youtube->statistics->videoCount
+            );
         }else{
-            return 0;
+            return array(
+                'subscriber'=>0,
+                'view_count'=>0,
+                'video_count'=>0
+            );
         }
     }
 }
