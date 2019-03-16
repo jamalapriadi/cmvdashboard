@@ -411,3 +411,7 @@ Route::get('tes-youtube',function(){
     // $search=\Follower::youtube('UC_p7ouVKJxLf2okumEZTY-A');
     return response()->json($search);
 });
+
+Route::get('tes-facebook',function(){
+    return \Follower::facebook('CNNIndonesia');
+});

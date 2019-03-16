@@ -31,23 +31,37 @@ class Follower
         $ch      = curl_init('https://www.facebook.com/'.$id);          // Inisialisasi Curl'BigMoviesGTVID'
         curl_setopt_array( $ch, $options );    // Set Opsi
         $page = curl_exec( $ch );           // Eksekusi Curl
-        preg_match("'<img class=\"_3-91 _1579 img\" src=\"https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/dsGlZIZMa30.png\" alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) orang mengikuti ini</div></div>'", $page, $match);
-        preg_match("'<img class=\"_3-91 _1579 img\" src=\"https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/dsGlZIZMa30.png\" alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) people follow this</div></div>'", $page, $match2);
-        
-        // return 100;
 
-        //print_r($match);
+        preg_match("'alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) orang mengikuti ini</div></div>'", $page, $match);
+        preg_match("'alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) people follow this</div></div>'", $page, $match2);
+        
         if(isset($match[1])){
-            $hasil=$match[1];
-            // print_r(str_replace('.', '', $match[1]));
+            $hasil=preg_replace('/[^0-9]/', '', substr(strip_tags(str_replace('.', '', $match[1])),15));
         }elseif(isset($match2[1])){
-            $hasil=$match2[1];
-            // print_r(str_replace('.', '', $match2[1]));
+            $hasi=preg_replace('/[^0-9]/', '', substr(strip_tags(str_replace('.', '', $match2[1])),15));
         }else{
             $hasil=0;
         }
+
+        return $hasil;
+        
+        // preg_match("'<img class=\"_3-91 _1579 img\" src=\"https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/dsGlZIZMa30.png\" alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) orang mengikuti ini</div></div>'", $page, $match);
+        // preg_match("'<img class=\"_3-91 _1579 img\" src=\"https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/dsGlZIZMa30.png\" alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) people follow this</div></div>'", $page, $match2);
+        
+        // // return 100;
+
+        // //print_r($match);
+        // if(isset($match[1])){
+        //     $hasil=$match[1];
+        //     // print_r(str_replace('.', '', $match[1]));
+        // }elseif(isset($match2[1])){
+        //     $hasil=$match2[1];
+        //     // print_r(str_replace('.', '', $match2[1]));
+        // }else{
+        //     $hasil=0;
+        // }
     
-        return str_replace('.', '', $hasil);
+        // return str_replace('.', '', $hasil);
     }
 
     public static function instagram($id){
