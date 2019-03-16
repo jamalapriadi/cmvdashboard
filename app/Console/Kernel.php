@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('official:follower')
+            ->timezone('Asia/Jakarta')  
             ->dailyAt('13:00');
     }
 
