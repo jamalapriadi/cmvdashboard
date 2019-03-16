@@ -436,6 +436,7 @@ class ProgramunitController extends Controller
     }
 
     public function cek_daily_report(Request $request){
+        return $request->all();
         $rules=[
             'tanggal'=>'required',
             'unit'=>'required',

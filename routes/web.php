@@ -394,6 +394,8 @@ Route::get('tes-follower',function(){
     return $html;
 });
 
+Route::get('tes-facebook','HomeController@tes_follower');
+
 Route::get('tes-youtube',function(){
     // $params = [
     //     'q'             => 'yukatamada',

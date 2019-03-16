@@ -633,4 +633,46 @@ class HomeController extends Controller
 
         return $periode;
     }
+
+    public function facebook_count($id){
+        $options = array(
+            CURLOPT_CUSTOMREQUEST  =>"GET",    // Atur type request, get atau post
+            CURLOPT_POST           =>false,    // Atur menjadi GET
+            CURLOPT_FOLLOWLOCATION => true,    // Follow redirect aktif
+            CURLOPT_CONNECTTIMEOUT => 120,     // Atur koneksi timeout
+            CURLOPT_TIMEOUT        => 120,     // Atur response timeout
+            CURLOPT_USERAGENT                       =>'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1',
+            CURLOPT_RETURNTRANSFER =>1,
+    
+        );
+    
+        $ch      = curl_init('https://www.facebook.com/'.$id);          // Inisialisasi Curl'BigMoviesGTVID'
+        curl_setopt_array( $ch, $options );    // Set Opsi
+        $page = curl_exec( $ch );           // Eksekusi Curl
+        preg_match("'<img class=\"_3-91 _1579 img\" src=\"https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/dsGlZIZMa30.png\" alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) orang mengikuti ini</div></div>'", $page, $match);
+        preg_match("'<img class=\"_3-91 _1579 img\" src=\"https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/dsGlZIZMa30.png\" alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) people follow this</div></div>'", $page, $match2);
+    
+        //print_r($match);
+        if(isset($match[1])){
+            print_r(str_replace('.', '', $match[1]));
+        }elseif(isset($match2[1])){
+            print_r(str_replace('.', '', $match2[1]));
+        }else{
+            echo 0;
+        }
+    
+    }
+    
+    public function tes_follower(){
+        // $fb = $this->facebook_count('https://www.facebook.com/digital.inspiration');
+        
+        // return array(
+        //     'share_count'=>$fb[0]->share_count,
+        //     'like_count'=>$fb[0]->like_count,
+        //     'comment_count'=>$fb[0]->comment_count
+        // );
+        
+        return facebook_follower();
+    }
+    
 }
