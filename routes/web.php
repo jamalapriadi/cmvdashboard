@@ -365,15 +365,7 @@ Route::group(['prefix'=>'automation'],function(){
 });
 
 Route::get('tes-youtube',function(){
-    $params = [
-        'q'             => 'yukatamada',
-        'type'          => 'video',
-        'part'          => 'users',
-        'maxResults'    => 50
-    ];
-    
-    // Make intial call. with second argument to reveal page info such as page tokens
-    $search = Youtube::searchAdvanced($params, true);
+    $search = \Youtube::getChannelByName('MNCTVOfficial');
 
     return response()->json($search);
 });
