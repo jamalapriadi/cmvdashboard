@@ -674,5 +674,10 @@ class HomeController extends Controller
         
         return facebook_follower();
     }
+
+    public function sosmed_jumlah_account(Request $request)
+    {
+        return view('sosmed.jumlah_account');
+    }
     
 }

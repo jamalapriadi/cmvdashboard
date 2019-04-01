@@ -97,6 +97,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('instagram/callback', 'Sosmed\InstagramController@handleProviderInstagramCallback');
 
         Route::get('export-excel','HomeController@sosmed_export_excel');
+        Route::get('jumlah-account','HomeController@sosmed_jumlah_account');
 
         Route::get('otomatisasi-cek-sosmed','Sosmed\OtomatisasiController@cek_sosmed');
     });
@@ -196,6 +197,8 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
             Route::get('highlight-target-achivement','Sosmed\ReportController@highlight_target_achivement');
             Route::get('all-program-growth','Sosmed\ReportController@all_program_growth');
             Route::post('sosmed-highlight','Sosmed\ReportController@sosmed_highlight');
+
+            Route::get('jumlah-account','Sosmed\ReportController@jumlah_account');
         });
 
         Route::group(['prefix'=>'chart'],function(){

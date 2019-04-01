@@ -196,6 +196,11 @@
                 <i class="nav-icon icon-arrow-right22"></i> Export Excel</a>
               </li>
 
+              <li class="nav-item {{ Request::path() == 'sosmed/jumlah-account' ? 'active' : '' }}">
+                <a class="nav-link" href="{{URL::to('sosmed/jumlah-account')}}">
+                <i class="nav-icon icon-arrow-right22"></i> Jumlah Account</a>
+              </li>
+
               @if(auth()->user()->can('Backup Excel'))
                 <li class="nav-item {{ Request::path() == 'sosmed/data/backup-excel' ? 'active' : '' }}">
                   <a class="nav-link" href="{{URL::to('sosmed/data/backup-excel')}}">
