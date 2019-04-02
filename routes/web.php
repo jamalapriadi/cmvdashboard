@@ -199,6 +199,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
             Route::post('sosmed-highlight','Sosmed\ReportController@sosmed_highlight');
 
             Route::get('jumlah-account','Sosmed\ReportController@jumlah_account');
+            Route::get('youtube-tv-and-program','Sosmed\ReportController@youtube_tv_and_program');
         });
 
         Route::group(['prefix'=>'chart'],function(){

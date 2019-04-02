@@ -7052,4 +7052,64 @@ class ReportController extends Controller
             return $lis;
         }
     }
+
+    public function youtube_tv_and_program(Request $request)
+    {
+        if($request->has('kemarin')){
+            $kemarin=date('Y-m-d',strtotime($request->input('kemarin')));
+        }else{
+            $kemarin="2019-02-22";
+        }
+
+        if($request->has('sekarang')){
+            $sekarang=date('Y-m-d',strtotime($request->input('sekarang')));
+        }else{
+            $sekarang="2019-03-13";
+        }
+
+        $lis=\DB::select("select b.type_sosmed, f.name,e.group_name,a.unit_name, a.unit_name as unit_or_program, c.sosmed_name, 
+            b.unit_sosmed_name,
+            sum(if(b.sosmed_id=4 and d.tanggal='$kemarin', d.follower,0)) as follower_kemarin,
+            sum(if(b.sosmed_id=4 and d.tanggal='$kemarin', d.view_count,0)) as view_count_kemarin,
+            sum(if(b.sosmed_id=4 and d.tanggal='$kemarin', d.video_count,0)) as video_count_kemarin,
+            sum(if(b.sosmed_id=4 and d.tanggal='$sekarang', d.follower,0)) as follower_sekarang,
+            sum(if(b.sosmed_id=4 and d.tanggal='$sekarang', d.view_count,0)) as view_count_sekarang,
+            sum(if(b.sosmed_id=4 and d.tanggal='$sekarang', d.video_count,0)) as video_count_sekarang
+            from business_unit a
+            left JOIN unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate' and b.sosmed_id=4
+            left join sosmed c on c.id=b.sosmed_id
+            left join unit_sosmed_follower d on d.unit_sosmed_id=b.id
+            left join group_unit e on e.id=a.group_unit_id
+            left join type_unit f on f.id=a.type_unit
+            where d.tanggal='$kemarin' or d.tanggal='$sekarang'
+            group by a.id
+            union all
+            select b.type_sosmed,g.name,f.group_name,e.unit_name, a.program_name, c.sosmed_name, 
+            b.unit_sosmed_name,
+            sum(if(b.sosmed_id=4 and d.tanggal='$kemarin', d.follower,0)) as follower_kemarin,
+            sum(if(b.sosmed_id=4 and d.tanggal='$kemarin', d.view_count,0)) as view_count_kemarin,
+            sum(if(b.sosmed_id=4 and d.tanggal='$kemarin', d.video_count,0)) as video_count_kemarin,
+            sum(if(b.sosmed_id=4 and d.tanggal='$sekarang', d.follower,0)) as follower_sekarang,
+            sum(if(b.sosmed_id=4 and d.tanggal='$sekarang', d.view_count,0)) as view_count_sekarang,
+            sum(if(b.sosmed_id=4 and d.tanggal='$sekarang', d.video_count,0)) as video_count_sekarang
+            from program_unit a
+            left JOIN unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program' and b.sosmed_id=4
+            left join sosmed c on c.id=b.sosmed_id
+            left join unit_sosmed_follower d on d.unit_sosmed_id=b.id
+            left join business_unit e on e.id=a.business_unit_id
+            left join group_unit f on f.id=e.group_unit_id
+            left join type_unit g on g.id=e.type_unit
+            where d.tanggal='$kemarin' or d.tanggal='$sekarang'
+            group by a.id");
+
+        if($request->has('export')){
+            $export=$request->input('export');
+
+            if($export=="excel"){
+                return \Excel::download(new \App\Exports\Youtubetvandprogram($kemarin,$sekarang), 'compare_youtube_tv_program.xlsx');
+            }
+        }else{
+            return $lis;
+        }
+    }
 }
