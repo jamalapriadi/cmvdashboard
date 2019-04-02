@@ -57,6 +57,7 @@
                                     "<th>No.</th>"+
                                     "<th>TYPE</th>"+
                                     "<th>NAME</th>"+
+                                    "<th>GROUP NAME</th>"+
                                     "<th>UNIT NAME</th>"+
                                     "<th>TWITTER</th>"+
                                     "<th>FACEBOOK</th>"+
@@ -75,6 +76,7 @@
                                     "<td>"+b.TYPE+"</td>"+
                                     "<td>"+b.NAME+"</td>"+
                                     "<td>"+b.group_name+"</td>"+
+                                    "<td>"+b.unit_name+"</td>"+
                                     "<td>"+b.twitter+"</td>"+
                                     "<td>"+b.facebook+"</td>"+
                                     "<td>"+b.instagram+"</td>"+
