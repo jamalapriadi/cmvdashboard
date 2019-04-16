@@ -871,10 +871,12 @@
                                                 "<td>"+addKoma(b.youtube)+"</td>"+
                                             "</tr>";
                                         }else{
-                                            $("#total_twitter_media_platform").empty().html(addKoma(b.twitter));
-                                            $("#total_facebook_media_platform").empty().html(addKoma(b.facebook));
-                                            $("#total_instagram_media_platform").empty().html(addKoma(b.instagram));
-                                            $("#total_youtube_media_platform").empty().html(addKoma(b.youtube));
+                                            if(b.type_unit_name != null){
+                                                $("#total_twitter_media_platform").empty().html(addKoma(b.twitter));
+                                                $("#total_facebook_media_platform").empty().html(addKoma(b.facebook));
+                                                $("#total_instagram_media_platform").empty().html(addKoma(b.instagram));
+                                                $("#total_youtube_media_platform").empty().html(addKoma(b.youtube));
+                                            }
                                         }
                                     })
                                 el+='</tbody>'+
