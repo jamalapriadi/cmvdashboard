@@ -1102,7 +1102,7 @@ class ProgramunitController extends Controller
                         $new->insert_user=auth()->user()->email;
                         $new->save();
 
-                        Artisan::call('cache:clear');
+                        \Artisan::call('cache:clear');
 
                         return array(
                             'success'=>true,
@@ -1144,7 +1144,7 @@ class ProgramunitController extends Controller
                         $new->insert_user=auth()->user()->email;
                         $new->save();
 
-                        Artisan::call('cache:clear');
+                        \Artisan::call('cache:clear');
 
                         return array(
                             'success'=>true,
@@ -1228,7 +1228,7 @@ class ProgramunitController extends Controller
                 $newfollower->save();
             }
 
-            Artisan::call('cache:clear');
+            \Artisan::call('cache:clear');
 
             $data=array(
                 'success'=>true,
