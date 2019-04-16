@@ -158,6 +158,7 @@ class OfficialOtomationFollower extends Command
                     }
                 });
 
+                \Artisan::call('cache:clear');
                 $this->info("yey sukses menyimpan data");
             }
         }else{

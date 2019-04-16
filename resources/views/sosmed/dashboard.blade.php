@@ -1240,7 +1240,7 @@
                     data:param,
                     beforeSend:function(){
                         $("#groupMediaType").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
-                        $("#zingchart-groupMediaType").empty().html("<div class='alert alert-info'>Please wait. . .</div>");
+                        $("#zingchart-groupMediaType").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please wait. . .</div>");
                     },
                     success:function(result){
                         var el="";

@@ -5405,45 +5405,53 @@ class ReportController extends Controller
                     /**
                         * chart all, gabungan official dan program
                         */
-                    $chart=\DB::select("select total.id,total.unit_name,total.group_unit_id,
-                        total.type_unit_name,
-                        sum(total.twitter) as total_twitter,
-                        sum(total.facebook) as total_facebook,
-                        sum(total.instagram) as total_instagram,
-                        sum(total.youtube) as total_youtube,
-                        (sum(total.twitter) + sum(total.facebook) + sum(total.instagram) + sum(total.youtube)) as total_all
-                        from 
-                        (
-                            select a.id,a.group_unit_id, a.unit_name, c.tanggal,d.name as type_unit_name, 
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
-                            from business_unit a
-                            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-                            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                            left join type_unit d on d.id=a.type_unit
-                            where a.type_unit=$typeunit and b.status_active='Y'
-                            group by a.id
-                            WITH ROLLUP
-                            UNION ALL 
-                            select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, 
-                            d.unit_name, c.tanggal, e.name as type_unit_name,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
-                            from program_unit a
-                            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
-                            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                            left join business_unit d on d.id=a.business_unit_id
-                            left join type_unit e on e.id=d.type_unit
-                            where d.type_unit=$typeunit and b.status_active='Y'
-                            group by a.business_unit_id
-                            WITH ROLLUP
-                        ) as total
-                        group by total.id
-                        order by total.group_unit_id,total.id desc");
+                        $sql="select total.id,total.unit_name,total.group_unit_id,
+                            total.type_unit_name,
+                            sum(total.twitter) as total_twitter,
+                            sum(total.facebook) as total_facebook,
+                            sum(total.instagram) as total_instagram,
+                            sum(total.youtube) as total_youtube,
+                            (sum(total.twitter) + sum(total.facebook) + sum(total.instagram) + sum(total.youtube)) as total_all
+                            from 
+                            (
+                                select a.id,a.group_unit_id, a.unit_name, c.tanggal,d.name as type_unit_name, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                                from business_unit a
+                                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join type_unit d on d.id=a.type_unit
+                                where a.type_unit=$typeunit and b.status_active='Y'
+                                group by a.id
+                                WITH ROLLUP
+                                UNION ALL 
+                                select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, 
+                                d.unit_name, c.tanggal, e.name as type_unit_name,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                                from program_unit a
+                                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join business_unit d on d.id=a.business_unit_id
+                                left join type_unit e on e.id=d.type_unit
+                                where d.type_unit=$typeunit and b.status_active='Y'
+                                group by a.business_unit_id
+                                WITH ROLLUP
+                            ) as total
+                            group by total.id
+                            order by total.group_unit_id,total.id desc";
+
+                        if(\Cache::has('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
+                            $chart =\Cache::get('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                        } else {
+                            $chart = \Cache::remember('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                                return \DB::select(\DB::raw($sql));
+                            });
+                        }
         
                         // usort($chart, function($a, $b) {
                         //     return $b->group_unit_id <=> $a->group_unit_id;
@@ -5455,7 +5463,7 @@ class ReportController extends Controller
                 break;
             case "official":
             default:
-                    $chart=\DB::select("select total.* from (select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
+                    $sql="select total.* from (select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
                         d.name as type_unit_name,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
@@ -5471,18 +5479,25 @@ class ReportController extends Controller
                         where a.type_unit=$typeunit and b.status_active='Y'
                         group by a.id
                         WITH ROLLUP) AS total
-                        order by total.group_unit_id, total.id desc");
+                        order by total.group_unit_id, total.id desc";
         
                     // usort($chart, function($a, $b) {
                     //     return $b->group_unit_id <=> $a->group_unit_id;
                     // });
+                    if(\Cache::has('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
+                        $chart =\Cache::get('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    } else {
+                        $chart = \Cache::remember('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                            return \DB::select(\DB::raw($sql));
+                        });
+                    }
         
                     usort($chart, function($a, $b) {
                         return $a->total_all <=> $b->total_all;
                     });
                 break;
             case "program":
-                    $chart=\DB::select("select total.* from (select if(a.id is null, 'tidak', a.business_unit_id) as id, 
+                    $sql="select total.* from (select if(a.id is null, 'tidak', a.business_unit_id) as id, 
                         a.business_unit_id,d.group_unit_id, d.unit_name, c.tanggal, e.name as type_unit_name,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
                         sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
@@ -5499,7 +5514,15 @@ class ReportController extends Controller
                         where d.type_unit=$typeunit and b.status_active='Y'
                         group by a.business_unit_id
                         WITH ROLLUP) as total
-                        order by total.group_unit_id,total.business_unit_id desc");
+                        order by total.group_unit_id,total.business_unit_id desc";
+
+                    if(\Cache::has('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
+                        $chart =\Cache::get('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    } else {
+                        $chart = \Cache::remember('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                            return \DB::select(\DB::raw($sql));
+                        });
+                    }
         
                     // usort($chart, function($a, $b) {
                     //     return $b->group_unit_id <=> $a->group_unit_id;
@@ -5511,21 +5534,29 @@ class ReportController extends Controller
                 break;
         }
 
-        $tambahanInews=\DB::select("select ifnull(a.id,'TOTAL') as idnya, a.business_unit_id,
-                d.group_unit_id, a.program_name,e.name as type_unit_name,
-                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as total_twitter,
-                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as total_facebook,
-                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as total_instagram,
-                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as total_youtube
-                from program_unit a 
-                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
-                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                left join business_unit d on d.id=a.business_unit_id and d.type_unit=1
-                left join type_unit e on e.id=d.type_unit
-                where a.id in (89, 101, 95, 87) and b.status_active='Y'
-                group by a.id
-                with ROLLUP
-                HAVING idnya='TOTAL'");
+        $sqlinews="select ifnull(a.id,'TOTAL') as idnya, a.business_unit_id,
+            d.group_unit_id, a.program_name,e.name as type_unit_name,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as total_twitter,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as total_facebook,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as total_instagram,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as total_youtube
+            from program_unit a 
+            left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+            left join business_unit d on d.id=a.business_unit_id and d.type_unit=1
+            left join type_unit e on e.id=d.type_unit
+            where a.id in (89, 101, 95, 87) and b.status_active='Y'
+            group by a.id
+            with ROLLUP
+            HAVING idnya='TOTAL'";
+
+        if(\Cache::has('tambahan_inews_'.$sekarang)){
+            $tambahanInews =\Cache::get('tambahan_inews_'.$sekarang);
+        } else {
+            $tambahanInews = \Cache::remember('tambahan_inews_'.$sekarang, 22*60, function() use($sqlinews) {
+                return \DB::select(\DB::raw($sqlinews));
+            });
+        }
 
         return array('chart'=>$chart,'inews'=>$tambahanInews);
     }
@@ -6086,32 +6117,77 @@ class ReportController extends Controller
             switch($filter){
                 default:
                 case 'all':
-                        $chart=\DB::select("select ifnull(semua.type_unit,'tidak') as type_unit,
-                        semua.type_unit_name, 
-                        sum(twitter) as twitter,
-                        sum(facebook) as facebook,
-                        sum(instagram) as instagram,
-                        sum(youtube) as youtube,
-                        ( sum(twitter) + sum(facebook) + sum(instagram) + sum(youtube) ) as total
-                        from 
-                        (
-                            select a.type_unit, e.name as type_unit_name, c.tanggal, 
+                        $sql="select ifnull(semua.type_unit,'tidak') as type_unit,
+                            semua.type_unit_name, 
+                            sum(twitter) as twitter,
+                            sum(facebook) as facebook,
+                            sum(instagram) as instagram,
+                            sum(youtube) as youtube,
+                            ( sum(twitter) + sum(facebook) + sum(instagram) + sum(youtube) ) as total
+                            from 
+                            (
+                                select a.type_unit, e.name as type_unit_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                from business_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join type_unit e on e.id=a.type_unit
+                                where b.status_active='Y'
+                                group by a.type_unit
+                                union all
+                                select d.type_unit ,e.name as type_unit_name,c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                from program_unit a 
+                                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join business_unit d on d.id=a.business_unit_id
+                                left join type_unit e on e.id=d.type_unit
+                                where b.status_active='Y'
+                                group by d.type_unit
+                            ) as semua
+                            group by semua.type_unit
+                            with rollup";
+                    break;
+                case 'official':
+                        $sql="select ifnull(a.type_unit,'tidak') as type_unit, e.name as type_unit_name, 
+                            c.tanggal, 
                             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
                             sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
                             sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as youtube,
+                            (
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0))
+                            ) as total
                             from business_unit a
                             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                             left join type_unit e on e.id=a.type_unit
                             where b.status_active='Y'
                             group by a.type_unit
-                            union all
-                            select d.type_unit ,e.name as type_unit_name,c.tanggal, 
+                            with rollup";
+                    break;
+                case 'program':
+                        $sql="select ifnull(d.type_unit,'tidak') as type_unit, e.name as type_unit_name,
+                            c.tanggal, 
                             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
                             sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
                             sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                            (
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0))
+                            ) as total
                             from program_unit a 
                             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6119,53 +6195,16 @@ class ReportController extends Controller
                             left join type_unit e on e.id=d.type_unit
                             where b.status_active='Y'
                             group by d.type_unit
-                        ) as semua
-                        group by semua.type_unit
-                        with rollup");
+                            with rollup";
                     break;
-                case 'official':
-                        $chart=\DB::select("select ifnull(a.type_unit,'tidak') as type_unit, e.name as type_unit_name, 
-                        c.tanggal, 
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as youtube,
-                        (
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) + 
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0))
-                        ) as total
-                        from business_unit a
-                        left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                        left join type_unit e on e.id=a.type_unit
-                        where b.status_active='Y'
-                        group by a.type_unit
-                        with rollup");
-                    break;
-                case 'program':
-                        $chart=\DB::select("select ifnull(d.type_unit,'tidak') as type_unit, e.name as type_unit_name,
-                        c.tanggal, 
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as tw_sekarang,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as fb_sekarang,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as ig_sekarang,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as yt_sekarang,
-                        (
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) + 
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0))
-                        ) as total
-                        from program_unit a 
-                        left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
-                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                        left join business_unit d on d.id=a.business_unit_id
-                        left join type_unit e on e.id=d.type_unit
-                        where b.status_active='Y'
-                        group by d.type_unit
-                        with rollup");
-                    break;
+            }
+
+            if(\Cache::has('chart_by_type_unit'.$filter.'_group='.$group.'_'.$sekarang)){
+                $chart =\Cache::get('chart_by_type_unit'.$filter.'_group='.$group.'_'.$sekarang);
+            } else {
+                $chart = \Cache::remember('chart_by_type_unit'.$filter.'_group='.$group.'_'.$sekarang, 22*60, function() use($sql) {
+                    return \DB::select(\DB::raw($sql));
+                });
             }
 
             usort($chart, function($a, $b) {
@@ -6205,7 +6244,7 @@ class ReportController extends Controller
             case 'all':
                     if($typeunit==1)
                     {
-                        $chart=\DB::select("select group_unit_id,group_name, 
+                        $sql="select group_unit_id,group_name, 
                             sum(twitter) as twitter,
                             sum(facebook) as facebook,
                             sum(instagram) as instagram,
@@ -6291,91 +6330,41 @@ class ReportController extends Controller
                                 group by lain.id
                             ) as seluruh
                             group by seluruh.group_unit_id
-                            with rollup");               
+                            with rollup";
                     }else if($typeunit==2)
                     {
-                        $chart=\DB::select("select semua.group_unit_id,semua.group_name,
-                                sum(semua.twitter) as twitter,
-                                sum(semua.facebook) as facebook,
-                                sum(semua.instagram) as intagram,
-                                sum(semua.youtube) as youtube,
-                                (
-                                    sum(semua.twitter) +
-                                    sum(semua.facebook) +
-                                    sum(semua.instagram) +		
-                                    sum(semua.youtube)
-                                ) as total
+                        $sql="select semua.group_unit_id,semua.group_name,
+                            sum(semua.twitter) as twitter,
+                            sum(semua.facebook) as facebook,
+                            sum(semua.instagram) as intagram,
+                            sum(semua.youtube) as youtube,
+                            (
+                                sum(semua.twitter) +
+                                sum(semua.facebook) +
+                                sum(semua.instagram) +		
+                                sum(semua.youtube)
+                            ) as total
+                            from
+                            (
+                                select pertama.group_unit_id,pertama.group_name,pertama.tanggal,
+                                sum(pertama.twitter) as twitter,
+                                sum(pertama.facebook) as facebook,
+                                sum(pertama.instagram) as instagram,
+                                sum(pertama.youtube) as youtube
                                 from
                                 (
-                                    select pertama.group_unit_id,pertama.group_name,pertama.tanggal,
-                                    sum(pertama.twitter) as twitter,
-                                    sum(pertama.facebook) as facebook,
-                                    sum(pertama.instagram) as instagram,
-                                    sum(pertama.youtube) as youtube
-                                    from
-                                    (
-                                        select a.group_unit_id, d.group_name, c.tanggal, 
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-                                        from business_unit a
-                                        left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-                                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                        left join group_unit d on d.id=a.group_unit_id
-                                        where a.type_unit=$typeunit and a.group_unit_id!=12
-                                        and b.status_active='Y'
-                                        group by a.group_unit_id
-                                        union all
-                                        select d.group_unit_id, a.program_name, c.tanggal, 
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-                                        from program_unit a
-                                        left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-                                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                        left join business_unit d on d.id=a.business_unit_id
-                                        where d.type_unit=$typeunit and d.group_unit_id!=12
-                                        and b.status_active='Y'
-                                        group by a.id
-                                    ) as pertama
-                                    group by pertama.group_unit_id
-                                    union all
-                                    select kedua.id,kedua.unit_name,kedua.tanggal,
-                                    sum(kedua.twitter) as twitter,
-                                    sum(kedua.facebook) as facebook,
-                                    sum(kedua.instagram) as instagram,
-                                    sum(kedua.youtube) as youtube
-                                    from
-                                    (
-                                        select a.id, a.unit_name, c.tanggal, 
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-                                        from business_unit a
-                                        left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-                                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                        left join group_unit d on d.id=a.group_unit_id
-                                        and b.status_active='Y'
-                                        where a.group_unit_id=$group2
-                                        group by a.id
-                                        union all
-                                        select a.business_unit_id, a.program_name, c.tanggal, 
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-                                        from program_unit a
-                                        left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-                                        left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                        left join business_unit d on d.id=a.business_unit_id
-                                        where d.type_unit=$typeunit and d.group_unit_id=$group2
-                                        and b.status_active='Y'
-                                        group by a.id
-                                    ) as kedua
-                                    group by kedua.id
+                                    select a.group_unit_id, d.group_name, c.tanggal, 
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                    from business_unit a
+                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                    left join group_unit d on d.id=a.group_unit_id
+                                    where a.type_unit=$typeunit and a.group_unit_id!=12
+                                    and b.status_active='Y'
+                                    group by a.group_unit_id
                                     union all
                                     select d.group_unit_id, a.program_name, c.tanggal, 
                                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
@@ -6386,11 +6375,20 @@ class ReportController extends Controller
                                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join business_unit d on d.id=a.business_unit_id
-                                    where a.id=89 or a.id=108
+                                    where d.type_unit=$typeunit and d.group_unit_id!=12
                                     and b.status_active='Y'
                                     group by a.id
-                                    union all
-                                    select a.group_unit_id, a.unit_name, c.tanggal, 
+                                ) as pertama
+                                group by pertama.group_unit_id
+                                union all
+                                select kedua.id,kedua.unit_name,kedua.tanggal,
+                                sum(kedua.twitter) as twitter,
+                                sum(kedua.facebook) as facebook,
+                                sum(kedua.instagram) as instagram,
+                                sum(kedua.youtube) as youtube
+                                from
+                                (
+                                    select a.id, a.unit_name, c.tanggal, 
                                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
                                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
                                     sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
@@ -6399,15 +6397,56 @@ class ReportController extends Controller
                                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
                                     left join group_unit d on d.id=a.group_unit_id
-                                    where a.id=11
                                     and b.status_active='Y'
-                                    group by a.group_unit_id
-                                ) as semua
-                                group by semua.group_unit_id 
-                                with rollup");
+                                    where a.group_unit_id=$group2
+                                    group by a.id
+                                    union all
+                                    select a.business_unit_id, a.program_name, c.tanggal, 
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                    from program_unit a
+                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
+                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                    left join business_unit d on d.id=a.business_unit_id
+                                    where d.type_unit=$typeunit and d.group_unit_id=$group2
+                                    and b.status_active='Y'
+                                    group by a.id
+                                ) as kedua
+                                group by kedua.id
+                                union all
+                                select d.group_unit_id, a.program_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                from program_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join business_unit d on d.id=a.business_unit_id
+                                where a.id=89 or a.id=108
+                                and b.status_active='Y'
+                                group by a.id
+                                union all
+                                select a.group_unit_id, a.unit_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                from business_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join group_unit d on d.id=a.group_unit_id
+                                where a.id=11
+                                and b.status_active='Y'
+                                group by a.group_unit_id
+                            ) as semua
+                            group by semua.group_unit_id 
+                            with rollup";
                     }else if($typeunit==8 || $typeunit==5 || $typeunit==6 || $typeunit==7)
                     {
-                        $chart=\DB::select("select group_unit_id,group_name, 
+                        $sql="select group_unit_id,group_name, 
                             sum(twitter) as twitter,
                             sum(facebook) as facebook,
                             sum(instagram) as instagram,
@@ -6493,51 +6532,51 @@ class ReportController extends Controller
                                 group by semua.id
                             ) as seluruh
                             group by seluruh.group_unit_id
-                            with rollup");
+                            with rollup";
                     }else 
                     {
-                        $chart=\DB::select("select semua.group_unit_id, semua.group_name,semua.tanggal,
-                                sum(twitter) as twitter,
-                                sum(facebook) as facebook,
-                                sum(instagram) as instagram,
-                                sum(youtube) as youtube,
-                                ( sum(twitter) + sum(facebook) + sum(instagram) + sum(youtube) ) as total
-                                from
-                                (
-                                    select a.group_unit_id, d.group_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-                                    from business_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join group_unit d on d.id=a.group_unit_id
-                                    where a.type_unit=$typeunit
-                                    and b.status_active='Y'
-                                    group by a.group_unit_id
-                                    union all 
-                                    select d.group_unit_id, a.program_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-                                    from program_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join business_unit d on d.id=a.business_unit_id
-                                    where d.type_unit=$typeunit
-                                    and b.status_active='Y'
-                                    group by a.id
-                                ) as semua
-                                group by semua.group_unit_id with rollup");
+                        $sql="select semua.group_unit_id, semua.group_name,semua.tanggal,
+                            sum(twitter) as twitter,
+                            sum(facebook) as facebook,
+                            sum(instagram) as instagram,
+                            sum(youtube) as youtube,
+                            ( sum(twitter) + sum(facebook) + sum(instagram) + sum(youtube) ) as total
+                            from
+                            (
+                                select a.group_unit_id, d.group_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                from business_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join group_unit d on d.id=a.group_unit_id
+                                where a.type_unit=$typeunit
+                                and b.status_active='Y'
+                                group by a.group_unit_id
+                                union all 
+                                select d.group_unit_id, a.program_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                from program_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join business_unit d on d.id=a.business_unit_id
+                                where d.type_unit=$typeunit
+                                and b.status_active='Y'
+                                group by a.id
+                            ) as semua
+                            group by semua.group_unit_id with rollup";
                     }
                 break;
             case 'official':
                     /* jika type_unit adalah TV */
                     if($typeunit==1)
                     {
-                        $chart=\DB::select("select semua.group_unit_id,semua.group_name, 
+                        $sql="select semua.group_unit_id,semua.group_name, 
                             sum(twitter) as twitter,
                             sum(facebook) as facebook,
                             sum(instagram) as instagram,
@@ -6626,102 +6665,102 @@ class ReportController extends Controller
                                 group by a.id
                             ) as semua 
                             group by semua.group_unit_id
-                            with rollup");
+                            with rollup";
                     }else if($typeunit==2)
                     {
-                        $chart=\DB::select("select semua.group_unit_id,semua.group_name,
-                                sum(semua.twitter) as twitter,
-                                sum(semua.facebook) as facebook,
-                                sum(semua.instagram) as intagram,
-                                sum(semua.youtube) as youtube,
+                        $sql="select semua.group_unit_id,semua.group_name,
+                            sum(semua.twitter) as twitter,
+                            sum(semua.facebook) as facebook,
+                            sum(semua.instagram) as intagram,
+                            sum(semua.youtube) as youtube,
+                            (
+                                sum(semua.twitter) +
+                                sum(semua.facebook) +
+                                sum(semua.instagram) +		
+                                sum(semua.youtube)
+                            ) as total
+                            from
+                            (
+                                select a.group_unit_id, d.group_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
                                 (
-                                    sum(semua.twitter) +
-                                    sum(semua.facebook) +
-                                    sum(semua.instagram) +		
-                                    sum(semua.youtube)
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
                                 ) as total
-                                from
+                                from business_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join group_unit d on d.id=a.group_unit_id
+                                where a.type_unit=$typeunit and a.group_unit_id!=12
+                                and b.status_active='Y'
+                                group by a.group_unit_id
+                                union all
+                                select a.id, a.unit_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
                                 (
-                                    select a.group_unit_id, d.group_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
-                                    (
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
-                                    ) as total
-                                    from business_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join group_unit d on d.id=a.group_unit_id
-                                    where a.type_unit=$typeunit and a.group_unit_id!=12
-                                    and b.status_active='Y'
-                                    group by a.group_unit_id
-                                    union all
-                                    select a.id, a.unit_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
-                                    (
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
-                                    ) as total
-                                    from business_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join group_unit d on d.id=a.group_unit_id
-                                    where a.group_unit_id=$group2
-                                    and b.status_active='Y'
-                                    group by a.id
-                                    union all
-                                    select d.group_unit_id, a.program_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
-                                    (
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
-                                    ) as total
-                                    from program_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join business_unit d on d.id=a.business_unit_id
-                                    where a.id=89 or a.id=108
-                                    and b.status_active='Y'
-                                    group by a.id
-                                    union all
-                                    select a.group_unit_id, a.unit_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
-                                    (
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
-                                    ) as total
-                                    from business_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join group_unit d on d.id=a.group_unit_id
-                                    where a.id=11
-                                    and b.status_active='Y'
-                                    group by a.group_unit_id
-                                ) as semua
-                                group by semua.group_unit_id with rollup");
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                ) as total
+                                from business_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join group_unit d on d.id=a.group_unit_id
+                                where a.group_unit_id=$group2
+                                and b.status_active='Y'
+                                group by a.id
+                                union all
+                                select d.group_unit_id, a.program_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                (
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                ) as total
+                                from program_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join business_unit d on d.id=a.business_unit_id
+                                where a.id=89 or a.id=108
+                                and b.status_active='Y'
+                                group by a.id
+                                union all
+                                select a.group_unit_id, a.unit_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                (
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                ) as total
+                                from business_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join group_unit d on d.id=a.group_unit_id
+                                where a.id=11
+                                and b.status_active='Y'
+                                group by a.group_unit_id
+                            ) as semua
+                            group by semua.group_unit_id with rollup";
                     }else if($typeunit==8 || $typeunit==5 || $typeunit==6 || $typeunit==7)
                     {
-                        $chart=\DB::select("select semua.group_unit_id,semua.group_name, 
+                        $sql="select semua.group_unit_id,semua.group_name, 
                             sum(twitter) as twitter,
                             sum(facebook) as facebook,
                             sum(instagram) as instagram,
@@ -6773,173 +6812,181 @@ class ReportController extends Controller
                                 group by a.id
                             ) as semua
                             group by semua.group_unit_id
-                            with rollup");
+                            with rollup";
                     }else{
-                        $chart=\DB::select("select a.group_unit_id, d.group_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
-                                (
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
-                                ) as total
-                                from business_unit a
-                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                left join group_unit d on d.id=a.group_unit_id
-                                where a.type_unit=$typeunit and b.status_active='Y'
-                                group by a.group_unit_id
-                                with rollup");
+                        $sql="select a.group_unit_id, d.group_name, c.tanggal, 
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                            (
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                            ) as total
+                            from business_unit a
+                            left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                            left join group_unit d on d.id=a.group_unit_id
+                            where a.type_unit=$typeunit and b.status_active='Y'
+                            group by a.group_unit_id
+                            with rollup";
                     }
                 break;
             case 'program':
                     if($typeunit==1)
                     {
-                        $chart=\DB::select("select semua.group_unit_id,semua.group_name, 
-                                sum(twitter) as twitter,
-                                sum(facebook) as facebook,
-                                sum(instagram) as instagram,
-                                sum(youtube) as youtube,
+                        $sql="select semua.group_unit_id,semua.group_name, 
+                            sum(twitter) as twitter,
+                            sum(facebook) as facebook,
+                            sum(instagram) as instagram,
+                            sum(youtube) as youtube,
+                            (
+                                sum(twitter) +
+                                sum(facebook) +
+                                sum(instagram) +
+                                sum(youtube)
+                            ) as total
+                            from 
+                            (
+                                select d.group_unit_id, e.group_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
                                 (
-                                    sum(twitter) +
-                                    sum(facebook) +
-                                    sum(instagram) +
-                                    sum(youtube)
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
                                 ) as total
-                                from 
+                                from program_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join business_unit d on d.id=a.business_unit_id
+                                left join group_unit e on e.id=d.group_unit_id
+                                where d.type_unit=$typeunit and d.group_unit_id!=5 and b.status_active='Y'
+                                group by d.group_unit_id
+                                union
+                                select d.id, d.unit_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
                                 (
-                                    select d.group_unit_id, e.group_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
-                                    (
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) + 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
-                                    ) as total
-                                    from program_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join business_unit d on d.id=a.business_unit_id
-                                    left join group_unit e on e.id=d.group_unit_id
-                                    where d.type_unit=$typeunit and d.group_unit_id!=5 and b.status_active='Y'
-                                    group by d.group_unit_id
-                                    union
-                                    select d.id, d.unit_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
-                                    (
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) + 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
-                                    ) as total
-                                    from program_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join business_unit d on d.id=a.business_unit_id
-                                    left join group_unit e on e.id=d.group_unit_id
-                                    where d.type_unit=$typeunit and d.group_unit_id=5 and b.status_active='Y'
-                                    group by d.id
-                                ) as semua
-                                group by semua.group_unit_id
-                                with rollup");
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                ) as total
+                                from program_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join business_unit d on d.id=a.business_unit_id
+                                left join group_unit e on e.id=d.group_unit_id
+                                where d.type_unit=$typeunit and d.group_unit_id=5 and b.status_active='Y'
+                                group by d.id
+                            ) as semua
+                            group by semua.group_unit_id
+                            with rollup";
                     }else if($typeunit==2)
                     {
-                        $chart=\DB::select("select semua.group_unit_id, semua.group_name,
-                                sum(twitter) as twitter,
-                                sum(facebook) as facebook,
-                                sum(instagram) as instagram,
-                                sum(youtube) as youtube,
-                                (
-                                    sum(twitter) +
-                                    sum(facebook) +
-                                    sum(instagram) +
-                                    sum(youtube)
-                                ) as total
-                                from 
-                                (
-                                    select d.group_unit_id, e.group_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-                                    from program_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join business_unit d on d.id=a.business_unit_id
-                                    left join group_unit e on e.id=d.group_unit_id
-                                    where d.type_unit=$typeunit and d.group_unit_id!=12 and b.status_active='Y'
-                                    group by d.group_unit_id
-                                    union all
-                                    select a.id, d.unit_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-                                    from program_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join business_unit d on d.id=a.business_unit_id
-                                    left join group_unit e on e.id=d.group_unit_id
-                                    where d.type_unit=$typeunit and d.group_unit_id=$group2 and b.status_active='Y'
-                                    group by a.business_unit_id
-                                    union all
-                                    select d.group_unit_id, a.program_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-                                    from program_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join business_unit d on d.id=a.business_unit_id
-                                    left join group_unit e on e.id=d.group_unit_id
-                                    where a.id=89 or a.id=108 and b.status_active='Y'
-                                    group by a.id
-                                    union all
-                                    select a.group_unit_id, a.unit_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-                                    from business_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join group_unit d on d.id=a.group_unit_id
-                                    where a.id=11 and b.status_active='Y'
-                                    group by a.group_unit_id
-                                ) as semua
-                                group by semua.group_unit_id
-                                with rollup");
+                        $sql="select semua.group_unit_id, semua.group_name,
+                            sum(twitter) as twitter,
+                            sum(facebook) as facebook,
+                            sum(instagram) as instagram,
+                            sum(youtube) as youtube,
+                            (
+                                sum(twitter) +
+                                sum(facebook) +
+                                sum(instagram) +
+                                sum(youtube)
+                            ) as total
+                            from 
+                            (
+                                select d.group_unit_id, e.group_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                from program_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join business_unit d on d.id=a.business_unit_id
+                                left join group_unit e on e.id=d.group_unit_id
+                                where d.type_unit=$typeunit and d.group_unit_id!=12 and b.status_active='Y'
+                                group by d.group_unit_id
+                                union all
+                                select a.id, d.unit_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                from program_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join business_unit d on d.id=a.business_unit_id
+                                left join group_unit e on e.id=d.group_unit_id
+                                where d.type_unit=$typeunit and d.group_unit_id=$group2 and b.status_active='Y'
+                                group by a.business_unit_id
+                                union all
+                                select d.group_unit_id, a.program_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                from program_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join business_unit d on d.id=a.business_unit_id
+                                left join group_unit e on e.id=d.group_unit_id
+                                where a.id=89 or a.id=108 and b.status_active='Y'
+                                group by a.id
+                                union all
+                                select a.group_unit_id, a.unit_name, c.tanggal, 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                from business_unit a
+                                left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                                left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                                left join group_unit d on d.id=a.group_unit_id
+                                where a.id=11 and b.status_active='Y'
+                                group by a.group_unit_id
+                            ) as semua
+                            group by semua.group_unit_id
+                            with rollup";
                     }else{
-                        $chart=\DB::select("select d.group_unit_id, e.group_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
-                                    (
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) + 
-                                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
-                                    ) as total
-                                    from program_unit a
-                                    left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-                                    left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-                                    left join business_unit d on d.id=a.business_unit_id
-                                    left join group_unit e on e.id=d.group_unit_id
-                                    where d.type_unit=$typeunit and b.status_active='Y'
-                                    group by d.group_unit_id with rollup");
+                        $sql="select d.group_unit_id, e.group_name, c.tanggal, 
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                            (
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                            ) as total
+                            from program_unit a
+                            left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
+                            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
+                            left join business_unit d on d.id=a.business_unit_id
+                            left join group_unit e on e.id=d.group_unit_id
+                            where d.type_unit=$typeunit and b.status_active='Y'
+                            group by d.group_unit_id with rollup";
                     }
                 break;
+        }
+
+        if(\Cache::has('type_unit_by_group_type_'.$type.'_typeunit'.$typeunit.'_group_'.$group.'_'.$sekarang)){
+            $chart =\Cache::get('type_unit_by_group_type_'.$type.'_typeunit'.$typeunit.'_group_'.$group.'_'.$sekarang);
+        } else {
+            $chart = \Cache::remember('type_unit_by_group_type_'.$type.'_typeunit'.$typeunit.'_group_'.$group.'_'.$sekarang, 22*60, function() use($sql) {
+                return \DB::select(\DB::raw($sql));
+            });
         }
 
         // usort($chart, function($a, $b) {
