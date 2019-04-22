@@ -268,10 +268,10 @@ class GroupunitController extends Controller
                         group by total.id
                         with ROLLUP";
 
-                    if(\Cache::has('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
-                        $unit =\Cache::get('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
+                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
                     } else {
-                        $unit = \Cache::remember('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
                             return \DB::select(\DB::raw($sql));
                         });
                     }
@@ -302,10 +302,10 @@ class GroupunitController extends Controller
                         group by a.id
                         with ROLLUP";
 
-                    if(\Cache::has('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
-                        $unit =\Cache::get('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
+                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
                     } else {
-                        $unit = \Cache::remember('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
                             return \DB::select(\DB::raw($sql));
                         });
                     }
@@ -338,10 +338,10 @@ class GroupunitController extends Controller
                         group by a.business_unit_id
                         WITH ROLLUP";
 
-                    if(\Cache::has('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
-                        $unit =\Cache::get('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
+                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
                     } else {
-                        $unit = \Cache::remember('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
                             return \DB::select(\DB::raw($sql));
                         });
                     }
@@ -395,10 +395,10 @@ class GroupunitController extends Controller
                         group by total.id
                         WITH ROLLUP";
 
-                    if(\Cache::has('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
-                        $unit =\Cache::get('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
+                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
                     } else {
-                        $unit = \Cache::remember('list_official_program_by_group_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
                             return \DB::select(\DB::raw($sql));
                         });
                     }
@@ -428,10 +428,10 @@ class GroupunitController extends Controller
                 with ROLLUP
                 HAVING idnya='TOTAL'";
 
-        if(\Cache::has('tambahan_inews_'.$sekarang)){
-            $tambahanInews =\Cache::get('tambahan_inews_'.$sekarang);
+        if(\Cache::has('tambahan_inews_group_'.$id.'_tanggal'.$sekarang)){
+            $tambahanInews =\Cache::get('tambahan_inews_group_'.$id.'_tanggal'.$sekarang);
         } else {
-            $tambahanInews = \Cache::remember('tambahan_inews_'.$sekarang, 22*60, function() use($sqlinews) {
+            $tambahanInews = \Cache::remember('tambahan_inews_group_'.$id.'_tanggal'.$sekarang, 22*60, function() use($sqlinews) {
                 return \DB::select(\DB::raw($sqlinews));
             });
         }
