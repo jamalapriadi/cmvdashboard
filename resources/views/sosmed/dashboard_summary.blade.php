@@ -454,7 +454,7 @@
                     success:function(result){
                         $("#officialAndProgram").empty().append(result);
                         // $(".sticky-header").floatThead({scrollingTop:50});
-                        rangAllAccountGroup();
+                        // rangAllAccountGroup();
                     },
                     error:function(){
 
