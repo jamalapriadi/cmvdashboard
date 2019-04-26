@@ -200,6 +200,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
 
             Route::get('jumlah-account','Sosmed\ReportController@jumlah_account');
             Route::get('youtube-tv-and-program','Sosmed\ReportController@youtube_tv_and_program');
+            Route::get('nama-akun-official-dan-program','Sosmed\ReportController@nama_akun_official_dan_program');
         });
 
         Route::group(['prefix'=>'chart'],function(){
