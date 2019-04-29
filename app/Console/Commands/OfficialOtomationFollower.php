@@ -68,7 +68,7 @@ class OfficialOtomationFollower extends Command
                 from business_unit a
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='brand'
                 where b.sosmed_id is not null
-                and b.status_active='Y' limit 1");
+                and b.status_active='Y'");
 
             $bar=$this->output->createProgressBar(count($bu));
 
