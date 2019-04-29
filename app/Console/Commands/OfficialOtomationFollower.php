@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Mail\NotifNarikData;
+use Illuminate\Support\Facades\Mail;
 
 class OfficialOtomationFollower extends Command
 {
@@ -66,7 +68,7 @@ class OfficialOtomationFollower extends Command
                 from business_unit a
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='brand'
                 where b.sosmed_id is not null
-                and b.status_active='Y'");
+                and b.status_active='Y' limit 1");
 
             $bar=$this->output->createProgressBar(count($bu));
 
@@ -143,6 +145,9 @@ class OfficialOtomationFollower extends Command
                 ->get();
 
             if(count($cekfollower)>0){
+                Mail::to('kurnia.hapsari@mncgroup.com')
+                    ->send(new NotifNarikData($sekarang,'Gagal'));
+
                 $this->info("oppsss, anda tidak bisa mengisi data ini");
             }else{
                 \DB::transaction(function() use($list){
@@ -157,6 +162,9 @@ class OfficialOtomationFollower extends Command
                         $new->save();
                     }
                 });
+
+                Mail::to('kurnia.hapsari@mncgroup.com')
+                    ->send(new NotifNarikData($sekarang,'Sukses'));
 
                 \Artisan::call('cache:clear');
                 $this->info("yey sukses menyimpan data");
