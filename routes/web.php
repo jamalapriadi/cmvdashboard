@@ -403,7 +403,7 @@ Route::get('tes-facebook','HomeController@tes_follower');
 
 Route::get('tes-youtube',function(){
     // $params = [
-    //     'q'             => 'yukatamada',
+    //     'q'             => 'indohitsrecords',
     //     'type'          => 'video',
     //     'part'          => 'users',
     //     'maxResults'    => 50
@@ -412,9 +412,14 @@ Route::get('tes-youtube',function(){
     // // Make intial call. with second argument to reveal page info such as page tokens
     // $search = Youtube::searchAdvanced($params, true);
 
-    $search = \Youtube::getChannelById('UCZgAny8kv3i7n_DdvTQznAA');
+    // $search = \Youtube::getChannelById('indohitsrecords');
+    $search = Youtube::getChannelByName('indohitsrecords');
     // $search=\Follower::youtube('UC_p7ouVKJxLf2okumEZTY-A');
-    return response()->json($search);
+    return array(
+        'success'=>true,
+        'pesan'=>response()->json($search),
+        'id'=>$search->id
+    );
 });
 
 Route::get('tes-facebook',function(){

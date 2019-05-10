@@ -89,7 +89,7 @@
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#highlight-tab1" role="tab" aria-controls="nav-home" aria-selected="true">SUMMARY</a>
                             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#highlight-tab2" role="tab" aria-controls="nav-profile" aria-selected="false">SOCIAL MEDIA</a>
-                            {{-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab3" role="tab" aria-controls="nav-contact" aria-selected="false">TARGET</a> --}}
+                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#highlight-tab3" role="tab" aria-controls="nav-contact" aria-selected="false">YOUTUBE BROKEN LINK</a>
                         </div>
                     </nav>
                     <div class="tab-content pl-3 pt-2" id="nav-tabContent">
@@ -122,13 +122,19 @@
                             <div id="divSosmed"></div>
                         </div>
 
-                        {{-- <div class="tab-pane fade" id="highlight-tab3" role="tabpanel" aria-labelledby="nav-home-tab">
-                            <a class="btn btn-primary" id="tambahtarget">
-                                <i class="icon-add"></i> &nbsp; Add New Target 
-                            </a>
-                            <hr>
-                            <div id="divTarget"></div>
-                        </div> --}}
+                        <div class="tab-pane fade" id="highlight-tab3" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <form id="formYoutubeBroken" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                                <div class="form-group">
+                                    <label for="" class="control-label">Masukkan Nama Youtube</label>
+                                    <input type="text" class="form-control" name="nama_youtube" id="nama_youtube">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary">Cari..</button>
+                                </div>
+                            </form>
+
+                            <div id="hasilcari"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1340,6 +1346,38 @@
 
                 /* jika false berarti dari on ke off */
 
+            })
+
+            $(document).on("submit","#formYoutubeBroken",function(e){
+                var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
+                if($("#formYoutubeBroken")[0].checkValidity()) {
+                    //updateAllMessageForms();
+                    e.preventDefault();
+                    $.ajax({
+                        url         : "{{URL::to('tes-youtube')}}",
+                        type        : 'get',
+                        data        : data,
+                        dataType    : 'JSON',
+                        contentType : false,
+                        cache       : false,
+                        processData : false,
+                        beforeSend  : function (){
+                            $('#hasilcari').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        },
+                        success : function (data) {
+                            if(data.success==true){
+                                var el="";
+                                $('#hasilcari').html('<p><strong>Berikut ID Youtubenya : </strong> '+data.id+'</p>');
+                            }else{
+                                $('#hasilcari').html('<div class="alert alert-danger">Data gagal di load</div>');
+                            }
+                        },
+                        error   :function() {  
+                            $('#hasilcari').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                        }
+                    });
+                }else console.log("invalid form");
             })
 
             function liveSocmed(){
