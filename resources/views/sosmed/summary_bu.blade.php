@@ -315,35 +315,61 @@
             });
 
             $(document).on("submit","#formYoutubeBroken",function(e){
-                var data = new FormData(this);
-                data.append("_token","{{ csrf_token() }}");
-                if($("#formYoutubeBroken")[0].checkValidity()) {
-                    //updateAllMessageForms();
-                    e.preventDefault();
-                    $.ajax({
-                        url         : "{{URL::to('tes-youtube')}}",
-                        type        : 'get',
-                        data        : data,
-                        dataType    : 'JSON',
-                        contentType : false,
-                        cache       : false,
-                        processData : false,
-                        beforeSend  : function (){
-                            $('#hasilcari').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
-                        },
-                        success : function (data) {
-                            if(data.success==true){
-                                var el="";
-                                $('#hasilcari').html('<p><strong>Berikut ID Youtubenya : </strong> '+data.id+'</p>');
-                            }else{
-                                $('#hasilcari').html('<div class="alert alert-danger">Data gagal di load</div>');
-                            }
-                        },
-                        error   :function() {  
-                            $('#hasilcari').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                var nama=$("#nama_youtube").val();
+
+                var param={
+                    nama:$("#nama_youtube").val(),
+                    _token:"{{ csrf_token() }}"
+                }
+
+                $.ajax({
+                    url:"{{URL::to('tes-youtube')}}",
+                    type:"GET",
+                    data:param,
+                    beforeSend:function(){
+                        $('#hasilcari').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                    },
+                    success:function(data){
+                        if(data.success==true){
+                            var el="";
+                            $('#hasilcari').html('<p><strong>Berikut ID Youtubenya : </strong> '+data.id+'</p>');
+                        }else{
+                            $('#hasilcari').html('<div class="alert alert-danger">Data gagal di load</div>');
                         }
-                    });
-                }else console.log("invalid form");
+                    },
+                    errors:function(){
+                        $('#hasilcari').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                    }
+                })
+                // var data = new FormData(this);
+                // data.append("_token","{{ csrf_token() }}");
+                // if($("#formYoutubeBroken")[0].checkValidity()) {
+                //     //updateAllMessageForms();
+                //     e.preventDefault();
+                //     $.ajax({
+                //         url         : "{{URL::to('tes-youtube')}}",
+                //         type        : 'post',
+                //         data        : data,
+                //         dataType    : 'JSON',
+                //         contentType : false,
+                //         cache       : false,
+                //         processData : false,
+                //         beforeSend  : function (){
+                //             $('#hasilcari').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                //         },
+                //         success : function (data) {
+                //             if(data.success==true){
+                //                 var el="";
+                //                 $('#hasilcari').html('<p><strong>Berikut ID Youtubenya : </strong> '+data.id+'</p>');
+                //             }else{
+                //                 $('#hasilcari').html('<div class="alert alert-danger">Data gagal di load</div>');
+                //             }
+                //         },
+                //         error   :function() {  
+                //             $('#hasilcari').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                //         }
+                //     });
+                // }else console.log("invalid form");
             })
 
             function showSosmed(){

@@ -679,5 +679,29 @@ class HomeController extends Controller
     {
         return view('sosmed.jumlah_account');
     }
+
+    public function tes_youtube(Request $request)
+    {
+        $rules=['nama'=>'required'];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return array(
+                'success'=>false,
+                'pesan'=>''
+            );
+        }else{
+            $nama=$request->input('nama');
+
+            $search = Youtube::getChannelByName($nama);
+            // $search=\Follower::youtube('UC_p7ouVKJxLf2okumEZTY-A');
+            return array(
+                'success'=>true,
+                'pesan'=>response()->json($search),
+                'id'=>$search->id
+            );
+        }
+    }
     
 }
