@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\OfficialOtomationFollower::class,
+        Commands\ReplicateCek::class,
     ];
 
     /**
@@ -29,6 +30,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('official:follower')
             ->timezone('Asia/Jakarta')  
             ->dailyAt('13:00');
+
+        $schedule->command('replicate:cek')
+            ->timezone('Asia/Jakarta')  
+            ->everyThirtyMinutes();
     }
 
     /**

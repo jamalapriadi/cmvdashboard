@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Mail\NotifNarikData;
+use Illuminate\Support\Facades\Mail;
 
 class OfficialOtomationFollower extends Command
 {
@@ -143,6 +145,9 @@ class OfficialOtomationFollower extends Command
                 ->get();
 
             if(count($cekfollower)>0){
+                Mail::to('kurnia.hapsari@mncgroup.com')
+                    ->send(new NotifNarikData($sekarang,'Gagal'));
+
                 $this->info("oppsss, anda tidak bisa mengisi data ini");
             }else{
                 \DB::transaction(function() use($list){
@@ -158,6 +163,10 @@ class OfficialOtomationFollower extends Command
                     }
                 });
 
+                Mail::to('kurnia.hapsari@mncgroup.com')
+                    ->send(new NotifNarikData($sekarang,'Sukses'));
+
+                \Artisan::call('cache:clear');
                 $this->info("yey sukses menyimpan data");
             }
         }else{

@@ -871,10 +871,12 @@
                                                 "<td>"+addKoma(b.youtube)+"</td>"+
                                             "</tr>";
                                         }else{
-                                            $("#total_twitter_media_platform").empty().html(addKoma(b.twitter));
-                                            $("#total_facebook_media_platform").empty().html(addKoma(b.facebook));
-                                            $("#total_instagram_media_platform").empty().html(addKoma(b.instagram));
-                                            $("#total_youtube_media_platform").empty().html(addKoma(b.youtube));
+                                            if(b.type_unit_name != null){
+                                                $("#total_twitter_media_platform").empty().html(addKoma(b.twitter));
+                                                $("#total_facebook_media_platform").empty().html(addKoma(b.facebook));
+                                                $("#total_instagram_media_platform").empty().html(addKoma(b.instagram));
+                                                $("#total_youtube_media_platform").empty().html(addKoma(b.youtube));
+                                            }
                                         }
                                     })
                                 el+='</tbody>'+
@@ -1240,7 +1242,7 @@
                     data:param,
                     beforeSend:function(){
                         $("#groupMediaType").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
-                        $("#zingchart-groupMediaType").empty().html("<div class='alert alert-info'>Please wait. . .</div>");
+                        $("#zingchart-groupMediaType").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please wait. . .</div>");
                     },
                     success:function(result){
                         var el="";

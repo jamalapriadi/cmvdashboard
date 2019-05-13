@@ -18,9 +18,9 @@
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#profile" role="tab" aria-controls="profile">Compare Youtube TV & Program</a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#messages" role="tab" aria-controls="messages">Messages</a>
-                </li> --}}
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#messages" role="tab" aria-controls="messages">Nama Akun Official dan Program</a>
+                </li>
             </ul>
             
             <div class="tab-content">
@@ -73,9 +73,13 @@
                         <div id="showYoutube"></div>
                     </div>
                 </div>
-                {{-- <div class="tab-pane" id="messages" role="tabpanel">3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </div> --}}
+                <div class="tab-pane" id="messages" role="tabpanel">
+                    <a href="{{URL::to('sosmed/data/report/nama-akun-official-dan-program?export=excel')}}" class="btn btn-success">
+                        <i class="icon-file-excel"></i> Export Excel
+                    </a>
+                    <hr>
+                    <div id="tampilNama"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -266,7 +270,73 @@
                 })
             })
 
+            function showNamaAkun(){
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/report/nama-akun-official-dan-program')}}",
+                    type:"GET",
+                    beforeSend:function(){
+                        $("#tampilNama").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                    },
+                    success:function(result){
+                        var el="";
+                        el+="<table class='table table-striped' id='tampilnama'>"+
+                            "<thead>"+
+                                "<tr>"+
+                                    "<th>No.</th>"+
+                                    "<th>Group Name</th>"+
+                                    "<th>Unit Name</th>"+
+                                    "<th>Type Unit</th>"+
+                                    "<th>Type Akun</th>"+
+                                    "<th>Twitter</th>"+
+                                    "<th>Facebook</th>"+
+                                    "<th>Instagram</th>"+
+                                    "<th>Youtube</th>"+
+                                "</tr>"+
+                            "</thead>"+
+                            "<tbody>";
+                                var no=0;
+                                $.each(result,function(a,b){
+                                    no++;
+                                    el+="<tr>"+
+                                        "<td>"+no+"</td>"+
+                                        "<td>"+b.group_name+"</td>"+
+                                        "<td>"+b.unit_name+"</td>"+
+                                        "<td>"+b.name+"</td>"+
+                                        "<td>"+b.typenya+"</td>"+
+                                        "<td>"+b.twitter+"</td>"+
+                                        "<td>"+b.facebook+"</td>"+
+                                        "<td>"+b.instagram+"</td>"+
+                                        "<td>"+b.youtube+"</td>"+
+                                    "</tr>";
+                                })
+                            el+="</tbody>"+
+                        "</table>";
+                        $("#tampilNama").empty().html(el);
+
+                        $("#tampilnama").DataTable();
+                        // Launch Uniform styling for checkboxes
+                        $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
+                            $('.ColVis_collection input').uniform();
+                        });
+
+
+                        // Add placeholder to the datatable filter option
+                        $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
+
+
+                        // Enable Select2 select for the length option
+                        $('.dataTables_length select').select2({
+                            minimumResultsForSearch: "-1"
+                        }); 
+                    },
+                    errors:function(){
+
+                    }
+                })
+            }
+
             showData();
+            showNamaAkun();
         })
     </script>
 @stop
