@@ -54,6 +54,66 @@ class HomeController extends Controller
             ->with('typeunit',$typeunit);
     }
 
+    public function target_vs_achivement()
+    {
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
+
+        return view('sosmed.target_vs_achivement')
+            ->with('group',$group)
+            ->with('typeunit',$typeunit);
+    }
+
+    public function official_account_all()
+    {
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
+
+        return view('sosmed.official_account_all')
+            ->with('group',$group)
+            ->with('typeunit',$typeunit);
+    }
+
+    public function overall()
+    {
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
+
+        return view('sosmed.overall')
+            ->with('group',$group)
+            ->with('typeunit',$typeunit);
+    }
+
+    public function dashboard_official_and_program()
+    {
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
+
+        return view('sosmed.official_and_program')
+            ->with('group',$group)
+            ->with('typeunit',$typeunit);
+    }
+
+    public function detail_official_program()
+    {
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
+
+        return view('sosmed.detail_official_program')
+            ->with('group',$group)
+            ->with('typeunit',$typeunit);
+    }
+
+    public function dashboard_rangking()
+    {
+        $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
+        $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
+
+        return view('sosmed.dashboard_rangking')
+            ->with('group',$group)
+            ->with('typeunit',$typeunit);
+    }
+
     public function sosmed_group_summary($id){
         $group=\App\Models\Sosmed\Groupunit::with('unit')->find($id);
 

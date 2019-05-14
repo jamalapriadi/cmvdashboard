@@ -1,5 +1,5 @@
 <div class="sidebar">
-  @if(Request()->route()->getPrefix()=="/sosmed" || Request::path() == 'home')
+  @if(Request()->route()->getPrefix()=="/sosmed" || Request::path() == 'home' || Request()->route()->getPrefix()=="sosmed/summary")
     <nav class="sidebar-nav">
       <ul class="nav">
         @if(auth()->user()->can('Dashboard'))
@@ -27,9 +27,46 @@
           <a class="nav-link {{ Request::path() == 'sosmed/live-socmed' ? 'active' : '' }}" href="{{URL::to('sosmed/live-socmed')}}">
             <i class="nav-icon icon-tv"></i> Live Socmed</a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a class="nav-link {{ Request::path() == 'sosmed/dashboard-summary' ? 'active' : '' }}" href="{{URL::to('sosmed/dashboard-summary')}}">
             <i class="nav-icon icon-stats-growth"></i> Summary</a>
+        </li> --}}
+        <li class="nav-item nav-dropdown">
+          <a class="nav-link nav-dropdown-toggle" href="#">
+            <i class="nav-icon icon-stats-growth"></i> Summary
+          </a>
+          <ul class="nav-dropdown-items">
+            <li class="nav-item {{ Request::path() == 'sosmed/summary/target-vs-achievement' ? 'active' : '' }}">
+              <a class="nav-link" href="{{URL::to('sosmed/summary/target-vs-achievement')}}">
+                <i class="nav-icon icon-arrow-right22"></i> Target vs Achievement
+              </a>
+            </li>
+            <li class="nav-item {{ Request::path() == 'sosmed/summary/official-account-all' ? 'active' : '' }}">
+              <a class="nav-link" href="{{URL::to('sosmed/summary/official-account-all')}}">
+                <i class="nav-icon icon-arrow-right22"></i> Official Account All
+              </a>
+            </li>
+            <li class="nav-item {{ Request::path() == 'sosmed/summary/overall' ? 'active' : '' }}">
+              <a class="nav-link" href="{{URL::to('sosmed/summary/overall')}}">
+                <i class="nav-icon icon-arrow-right22"></i> Overall TV
+              </a>
+            </li>
+            <li class="nav-item {{ Request::path() == 'sosmed/summary/official-and-program' ? 'active' : '' }}">
+              <a class="nav-link" href="{{URL::to('sosmed/summary/official-and-program')}}">
+                <i class="nav-icon icon-arrow-right22"></i> Official and Program
+              </a>
+            </li>
+            <li class="nav-item {{ Request::path() == 'sosmed/summary/detail-official-program' ? 'active' : '' }}">
+              <a class="nav-link" href="{{URL::to('sosmed/summary/detail-official-program')}}">
+                <i class="nav-icon icon-arrow-right22"></i> Detail Official Program
+              </a>
+            </li>
+            <li class="nav-item {{ Request::path() == 'sosmed/summary/rangking' ? 'active' : '' }}">
+              <a class="nav-link" href="{{URL::to('sosmed/summary/rangking')}}">
+                <i class="nav-icon icon-arrow-right22"></i> Rangking
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item nav-dropdown">
           <a class="nav-link nav-dropdown-toggle" href="#">

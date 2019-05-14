@@ -100,6 +100,15 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('jumlah-account','HomeController@sosmed_jumlah_account');
 
         Route::get('otomatisasi-cek-sosmed','Sosmed\OtomatisasiController@cek_sosmed');
+
+        Route::group(['prefix'=>'summary'],function(){
+            Route::get('target-vs-achievement','HomeController@target_vs_achivement');
+            Route::get('official-account-all','HomeController@official_account_all');
+            Route::get('overall','HomeController@overall');
+            Route::get('official-and-program','HomeController@dashboard_official_and_program');
+            Route::get('detail-official-program','HomeController@detail_official_program');
+            Route::get('rangking','HomeController@dashboard_rangking');
+        });
     });
 
     Route::group(['prefix'=>'data'],function(){
@@ -171,6 +180,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::group(['prefix'=>'report'],function(){
             Route::get('target-vs-achievement','Sosmed\ReportController@target_vs_achievement');
             Route::get('official-account-all-tv','Sosmed\ReportController@official_account_all_tv');
+            Route::get('overall-tv','Sosmed\ReportController@overall_tv');
             Route::get('sosmed-official-and-program','Sosmed\ReportController@sosmed_official_and_program');
             Route::get('official-and-program','Sosmed\ReportController@official_and_program');
 

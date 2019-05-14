@@ -9,7 +9,7 @@
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label for="" class="control-label">Unit</label>
-                            <select name="unit" id="unit" class="form-control">
+                            <select name="unit" id="unit" class="form-control select2">
                                 @foreach($user->unit as $row)
                                     <option value="{{$row->id}}" @if($unit==$row->id) selected='selected' @endif>{{$row->unit_name}}</option>
                                 @endforeach
@@ -168,6 +168,8 @@
     <script>
         $(function(){
 
+            $(".select2").select2();
+            
             function liveSocmed(){
                 var unit=$("#unit").val();
 
