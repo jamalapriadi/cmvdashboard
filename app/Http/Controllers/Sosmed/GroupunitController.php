@@ -230,6 +230,20 @@ class GroupunitController extends Controller
 
         $filter=$request->input('filter');
 
+        if($request->has('subscriber')){
+            $subscriber=$request->input('subscriber');
+
+            if($subscriber=="subscriber"){
+                $dipilih="c.follower";    
+            }else if($subscriber=="view"){
+                $dipilih="c.view_count";  
+            }else if($subscriber=="video"){
+                $dipilih="c.video_count";  
+            }
+        }else{
+            $dipilih="c.follower";
+        }
+
         switch($filter){
             default:
             case "all":
@@ -242,10 +256,10 @@ class GroupunitController extends Controller
                         from 
                         (
                             select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) youtube
                             from business_unit a
                             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -254,10 +268,10 @@ class GroupunitController extends Controller
                             group by a.id
                             UNION ALL 
                             select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) youtube
                             from program_unit a
                             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -268,10 +282,10 @@ class GroupunitController extends Controller
                         group by total.id
                         with ROLLUP";
 
-                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
-                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih)){
+                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih);
                     } else {
-                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih, 22*60, function() use($sql) {
                             return \DB::select(\DB::raw($sql));
                         });
                     }
@@ -286,14 +300,14 @@ class GroupunitController extends Controller
                 break;
             case 'official':
                     $sql="select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) total_youtube,
-                        ( sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) ) as total_all
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) total_twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) total_facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) total_instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) total_youtube,
+                        ( sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) ) as total_all
                         from business_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -302,10 +316,10 @@ class GroupunitController extends Controller
                         group by a.id
                         with ROLLUP";
 
-                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
-                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih)){
+                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih);
                     } else {
-                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih, 22*60, function() use($sql) {
                             return \DB::select(\DB::raw($sql));
                         });
                     }
@@ -320,15 +334,15 @@ class GroupunitController extends Controller
                 break;
             case 'program':
                     $sql="select if(a.id is null, 'tidak', a.business_unit_id) as idnya,a.business_unit_id,d.group_unit_id, d.unit_name, c.tanggal, 
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) total_youtube,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) total_twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) total_facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) total_instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) total_youtube,
                         (
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                         ) as total_all
                         from program_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
@@ -338,10 +352,10 @@ class GroupunitController extends Controller
                         group by a.business_unit_id
                         WITH ROLLUP";
 
-                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
-                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih)){
+                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih);
                     } else {
-                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih, 22*60, function() use($sql) {
                             return \DB::select(\DB::raw($sql));
                         });
                     }
@@ -369,10 +383,10 @@ class GroupunitController extends Controller
                         from 
                         (
                             select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) youtube
                             from business_unit a
                             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -381,10 +395,10 @@ class GroupunitController extends Controller
                             group by a.id
                             UNION ALL 
                             select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, d.unit_name, c.tanggal, 
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) youtube
                             from program_unit a
                             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -395,10 +409,10 @@ class GroupunitController extends Controller
                         group by total.id
                         WITH ROLLUP";
 
-                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
-                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    if(\Cache::has('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih)){
+                        $unit =\Cache::get('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih);
                     } else {
-                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                        $unit = \Cache::remember('list_official_program_by_group_'.$id.'_filter'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih, 22*60, function() use($sql) {
                             return \DB::select(\DB::raw($sql));
                         });
                     }
@@ -415,10 +429,10 @@ class GroupunitController extends Controller
 
         $sqlinews="select ifnull(a.id,'TOTAL') as idnya, a.business_unit_id,
                 d.group_unit_id, a.program_name,
-                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as total_twitter,
-                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as total_facebook,
-                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as total_instagram,
-                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as total_youtube
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, $dipilih,0)) as total_twitter,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, $dipilih,0)) as total_facebook,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, $dipilih,0)) as total_instagram,
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, $dipilih,0)) as total_youtube
                 from program_unit a 
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'

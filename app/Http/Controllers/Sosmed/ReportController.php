@@ -5440,6 +5440,20 @@ class ReportController extends Controller
 
         $filter=$request->input('filter');
 
+        if($request->has('subscriber')){
+            $subscriber=$request->input('subscriber');
+
+            if($subscriber=="subscriber"){
+                $dipilih="c.follower";    
+            }else if($subscriber=="view"){
+                $dipilih="c.view_count";  
+            }else if($subscriber=="video"){
+                $dipilih="c.video_count";  
+            }
+        }else{
+            $dipilih="c.follower";
+        }
+
         switch($filter){
             case "all":
                     /**
@@ -5455,10 +5469,10 @@ class ReportController extends Controller
                             from 
                             (
                                 select a.id,a.group_unit_id, a.unit_name, c.tanggal,d.name as type_unit_name, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) youtube
                                 from business_unit a
                                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -5469,10 +5483,10 @@ class ReportController extends Controller
                                 UNION ALL 
                                 select if(a.id is null, 'tidak', a.business_unit_id) as idnya,d.group_unit_id, 
                                 d.unit_name, c.tanggal, e.name as type_unit_name,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) youtube
                                 from program_unit a
                                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -5485,10 +5499,10 @@ class ReportController extends Controller
                             group by total.id
                             order by total.group_unit_id,total.id desc";
 
-                        if(\Cache::has('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
-                            $chart =\Cache::get('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                        if(\Cache::has('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih)){
+                            $chart =\Cache::get('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih);
                         } else {
-                            $chart = \Cache::remember('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                            $chart = \Cache::remember('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih, 22*60, function() use($sql) {
                                 return \DB::select(\DB::raw($sql));
                             });
                         }
@@ -5505,13 +5519,13 @@ class ReportController extends Controller
             default:
                     $sql="select total.* from (select a.id,a.group_unit_id, a.unit_name, c.tanggal, 
                         d.name as type_unit_name,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) total_youtube,
-                        ( sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) + sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) 
-                        + sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))) as total_all
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) total_twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) total_facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) total_instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) total_youtube,
+                        ( sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) + sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) 
+                        + sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))) as total_all
                         from business_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -5524,10 +5538,10 @@ class ReportController extends Controller
                     // usort($chart, function($a, $b) {
                     //     return $b->group_unit_id <=> $a->group_unit_id;
                     // });
-                    if(\Cache::has('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
-                        $chart =\Cache::get('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    if(\Cache::has('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih)){
+                        $chart =\Cache::get('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih);
                     } else {
-                        $chart = \Cache::remember('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                        $chart = \Cache::remember('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih, 22*60, function() use($sql) {
                             return \DB::select(\DB::raw($sql));
                         });
                     }
@@ -5539,13 +5553,13 @@ class ReportController extends Controller
             case "program":
                     $sql="select total.* from (select if(a.id is null, 'tidak', a.business_unit_id) as id, 
                         a.business_unit_id,d.group_unit_id, d.unit_name, c.tanggal, e.name as type_unit_name,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) total_twitter,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) total_facebook,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) total_instagram,
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) total_youtube,
-                        ( sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) + sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) 
-                        + sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))) as total_all
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) total_twitter,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) total_facebook,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) total_instagram,
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) total_youtube,
+                        ( sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) + sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) 
+                        + sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                        sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))) as total_all
                         from program_unit a
                         left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                         left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -5556,10 +5570,10 @@ class ReportController extends Controller
                         WITH ROLLUP) as total
                         order by total.group_unit_id,total.business_unit_id desc";
 
-                    if(\Cache::has('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang)){
-                        $chart =\Cache::get('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang);
+                    if(\Cache::has('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih)){
+                        $chart =\Cache::get('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih);
                     } else {
-                        $chart = \Cache::remember('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang, 22*60, function() use($sql) {
+                        $chart = \Cache::remember('chart_by_tier_filter_'.$filter.'_typeunit_'.$typeunit.'_'.$sekarang.'_'.$dipilih, 22*60, function() use($sql) {
                             return \DB::select(\DB::raw($sql));
                         });
                     }
@@ -5576,10 +5590,10 @@ class ReportController extends Controller
 
         $sqlinews="select ifnull(a.id,'TOTAL') as idnya, a.business_unit_id,
             d.group_unit_id, a.program_name,e.name as type_unit_name,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, c.follower,0)) as total_twitter,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, c.follower,0)) as total_facebook,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, c.follower,0)) as total_instagram,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, c.follower,0)) as total_youtube
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, $dipilih,0)) as total_twitter,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, $dipilih,0)) as total_facebook,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, $dipilih,0)) as total_instagram,
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, $dipilih,0)) as total_youtube
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -5590,10 +5604,10 @@ class ReportController extends Controller
             with ROLLUP
             HAVING idnya='TOTAL'";
 
-        if(\Cache::has('tambahan_inews_'.$sekarang)){
-            $tambahanInews =\Cache::get('tambahan_inews_'.$sekarang);
+        if(\Cache::has('tambahan_inews_'.$sekarang.'_'.$dipilih)){
+            $tambahanInews =\Cache::get('tambahan_inews_'.$sekarang.'_'.$dipilih);
         } else {
-            $tambahanInews = \Cache::remember('tambahan_inews_'.$sekarang, 22*60, function() use($sqlinews) {
+            $tambahanInews = \Cache::remember('tambahan_inews_'.$sekarang.'_'.$dipilih, 22*60, function() use($sqlinews) {
                 return \DB::select(\DB::raw($sqlinews));
             });
         }
@@ -5620,9 +5634,27 @@ class ReportController extends Controller
             $periode=date('Y-m');
         }
 
-        $follower=\DB::select("select a.id, a.unit_name, c.tanggal, 
+        if($request->has('subscriber')){
+            $subscriber=$request->input('subscriber');
+
+            if($subscriber=="subscriber"){
+                $dipilih="c.follower";    
+                $dipilih2="c.follower";    
+            }else if($subscriber=="view"){
+                $dipilih="c.view_count";  
+                $dipilih2="c.view_count";  
+            }else if($subscriber=="video"){
+                $dipilih="c.video_count";  
+                $dipilih2="c.video_count";  
+            }
+        }else{
+            $dipilih="c.follower";
+            $dipilih2="c.follower";
+        }
+
+        $sql="select a.id, a.unit_name, c.tanggal, 
             @kemarin:=(
-                select cc.follower from business_unit aa
+                select $dipilih2 from business_unit aa
                 left join unit_sosmed bb on bb.business_program_unit=aa.id and bb.type_sosmed='corporate'
                 left join unit_sosmed_follower cc on cc.unit_sosmed_id=bb.id
                 where bb.sosmed_id=$idsosmed
@@ -5632,16 +5664,24 @@ class ReportController extends Controller
                 order by cc.tanggal desc
                 limit 1
             ) as kemarin,
-            c.follower,
-            ((c.follower / @kemarin) - 1)*100 as growth,
-            (c.follower - @kemarin) num_of_growth
+            $dipilih as follower,
+            (($dipilih / @kemarin) - 1)*100 as growth,
+            ($dipilih - @kemarin) num_of_growth
             from business_unit a
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
             where b.sosmed_id=$idsosmed
             and a.type_unit=$typeunit and b.status_active='Y'
             and date_format(c.tanggal,'%Y-%m')='$periode'
-            order by a.id");
+            order by a.id";
+
+        if(\Cache::has('official_by_tier_follower_'.$idsosmed.'_'.$typeunit.'_'.$periode.'-'.$dipilih)){
+            $follower =\Cache::get('official_by_tier_follower_'.$idsosmed.'_'.$typeunit.'_'.$periode.'-'.$dipilih);
+        } else {
+            $follower = \Cache::remember('official_by_tier_follower_'.$idsosmed.'_'.$typeunit.'_'.$periode.'-'.$dipilih, 22*60, function() use($sql) {
+                return \DB::select(\DB::raw($sql));
+            });
+        }
 
         $unit=\App\Models\Sosmed\Businessunit::where('type_unit',$typeunit)
                 ->with('typeunit')
@@ -5710,8 +5750,8 @@ class ReportController extends Controller
                 'program_unit.program_name'
             )
             ->get();
-
-        $follower=\DB::select("select a.id, a.program_name, c.tanggal, 
+        
+        $sql="select a.id, a.program_name, c.tanggal, 
             @kemarin:=(
                 select cc.follower from program_unit aa
                 left join unit_sosmed bb on bb.business_program_unit=aa.id and bb.type_sosmed='program'
@@ -5738,7 +5778,15 @@ class ReportController extends Controller
             and b.status_active='Y'
             and date_format(c.tanggal,'%Y-%m')='$periode'
             and a.business_unit_id=$unit
-            order by a.id");
+            order by a.id";
+
+        if(\Cache::has('program_by_tier'.$idsosmed.'_'.$typeunit.'_'.$periode.'_'.$unit)){
+            $follower =\Cache::get('program_by_tier'.$idsosmed.'_'.$typeunit.'_'.$periode.'_'.$unit);
+        } else {
+            $follower = \Cache::remember('program_by_tier'.$idsosmed.'_'.$typeunit.'_'.$periode.'_'.$unit, 22*60, function() use($sql) {
+                return \DB::select(\DB::raw($sql));
+            });
+        }
 
         $warna=array("#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff",
             "#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2",
@@ -5827,9 +5875,27 @@ class ReportController extends Controller
             )
             ->get();
 
-        $follower=\DB::select("select a.id, a.program_name, c.tanggal, 
+        if($request->has('subscriber')){
+            $subscriber=$request->input('subscriber');
+
+            if($subscriber=="subscriber"){
+                $dipilih="c.follower";    
+                $dipilih2="c.follower";    
+            }else if($subscriber=="view"){
+                $dipilih="c.view_count";  
+                $dipilih2="c.view_count";  
+            }else if($subscriber=="video"){
+                $dipilih="c.video_count";  
+                $dipilih2="c.video_count";  
+            }
+        }else{
+            $dipilih="c.follower";
+            $dipilih2="c.follower";
+        }
+
+        $sql="select a.id, a.program_name, c.tanggal, 
             @kemarin:=(
-                select cc.follower from program_unit aa
+                select $dipilih2 from program_unit aa
                 left join unit_sosmed bb on bb.business_program_unit=aa.id and bb.type_sosmed='program'
                 left join unit_sosmed_follower cc on cc.unit_sosmed_id=bb.id
                 left join business_unit dd on dd.id=aa.business_unit_id
@@ -5842,9 +5908,9 @@ class ReportController extends Controller
                 order by cc.tanggal desc
                 limit 1
             ) as kemarin,
-            c.follower,
-            ((c.follower / @kemarin) - 1)*100 as growth,
-            (c.follower - @kemarin) as num_of_growth
+            $dipilih as follower,
+            (($dipilih / @kemarin) - 1)*100 as growth,
+            ($dipilih - @kemarin) as num_of_growth
             from program_unit a
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id
@@ -5854,7 +5920,15 @@ class ReportController extends Controller
             and b.status_active='Y'
             and date_format(c.tanggal,'%Y-%m')='$periode'
             and a.business_unit_id=$unit
-            order by a.id");
+            order by a.id";
+
+        if(\Cache::has('program_by_tier_2_'.$idsosmed.'_'.$typeunit.'_'.$periode.'_'.$unit.'_'.$dipilih)){
+            $follower =\Cache::get('program_by_tier_2_'.$idsosmed.'_'.$typeunit.'_'.$periode.'_'.$unit.'_'.$dipilih);
+        } else {
+            $follower = \Cache::remember('program_by_tier_2_'.$idsosmed.'_'.$typeunit.'_'.$periode.'_'.$unit.'_'.$dipilih, 22*60, function() use($sql) {
+                return \DB::select(\DB::raw($sql));
+            });
+        }
 
         $warna=array("#0e529e","#e6232b","#2d2d2b","#598e48","#ec6514","#1c9cff",
             "#af28a3","#693995","#cb0101","#f39","#ffd330","#bec4bd","#b4fdf2",
@@ -6141,6 +6215,7 @@ class ReportController extends Controller
             return $data;
         }else{
             $filter=$request->input('filter');
+            $dipilih="";
 
             if($request->has('tanggal')){
                 $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
@@ -6152,6 +6227,20 @@ class ReportController extends Controller
                 $group=$request->input('group');
             }else{
                 $group=1;
+            }
+
+            if($request->has('subscriber')){
+                $subscriber=$request->input('subscriber');
+
+                if($subscriber=="subscriber"){
+                    $dipilih="c.follower";    
+                }else if($subscriber=="view"){
+                    $dipilih="c.view_count";  
+                }else if($subscriber=="video"){
+                    $dipilih="c.video_count";  
+                }
+            }else{
+                $dipilih="c.follower";
             }
 
             switch($filter){
@@ -6167,10 +6256,10 @@ class ReportController extends Controller
                             from 
                             (
                                 select a.type_unit, e.name as type_unit_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6179,10 +6268,10 @@ class ReportController extends Controller
                                 group by a.type_unit
                                 union all
                                 select d.type_unit ,e.name as type_unit_name,c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from program_unit a 
                                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6197,15 +6286,15 @@ class ReportController extends Controller
                 case 'official':
                         $sql="select ifnull(a.type_unit,'tidak') as type_unit, e.name as type_unit_name, 
                             c.tanggal, 
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as youtube,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as youtube,
                             (
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) + 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0))
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0))
                             ) as total
                             from business_unit a
                             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
@@ -6218,15 +6307,15 @@ class ReportController extends Controller
                 case 'program':
                         $sql="select ifnull(d.type_unit,'tidak') as type_unit, e.name as type_unit_name,
                             c.tanggal, 
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                             (
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) + 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0))
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0))
                             ) as total
                             from program_unit a 
                             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
@@ -6239,10 +6328,10 @@ class ReportController extends Controller
                     break;
             }
 
-            if(\Cache::has('chart_by_type_unit'.$filter.'_group='.$group.'_'.$sekarang)){
-                $chart =\Cache::get('chart_by_type_unit'.$filter.'_group='.$group.'_'.$sekarang);
+            if(\Cache::has('chart_by_type_unit'.$filter.'_group='.$group.'_'.$sekarang.'_'.$dipilih)){
+                $chart =\Cache::get('chart_by_type_unit'.$filter.'_group='.$group.'_'.$sekarang.'_'.$dipilih);
             } else {
-                $chart = \Cache::remember('chart_by_type_unit'.$filter.'_group='.$group.'_'.$sekarang, 22*60, function() use($sql) {
+                $chart = \Cache::remember('chart_by_type_unit'.$filter.'_group='.$group.'_'.$sekarang.'_'.$dipilih, 22*60, function() use($sql) {
                     return \DB::select(\DB::raw($sql));
                 });
             }
@@ -6280,6 +6369,20 @@ class ReportController extends Controller
             $typeunit=1;
         }
 
+        if($request->has('subscriber')){
+            $subscriber=$request->input('subscriber');
+
+            if($subscriber=="subscriber"){
+                $dipilih="c.follower";    
+            }else if($subscriber=="view"){
+                $dipilih="c.view_count";  
+            }else if($subscriber=="video"){
+                $dipilih="c.video_count";  
+            }
+        }else{
+            $dipilih="c.follower";
+        }
+
         switch($type){
             case 'all':
                     if($typeunit==1)
@@ -6306,10 +6409,10 @@ class ReportController extends Controller
                                 from
                                 (
                                 select a.group_unit_id, d.group_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6319,10 +6422,10 @@ class ReportController extends Controller
                                 group by a.group_unit_id
                                 union all 
                                 select d.group_unit_id, a.program_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from program_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6342,10 +6445,10 @@ class ReportController extends Controller
                                 from
                                 (
                                 select a.id, a.unit_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6355,10 +6458,10 @@ class ReportController extends Controller
                                 group by a.id
                                 union all
                                 select d.id, a.program_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from program_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6394,10 +6497,10 @@ class ReportController extends Controller
                                 from
                                 (
                                     select a.group_unit_id, d.group_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                     from business_unit a
                                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6407,10 +6510,10 @@ class ReportController extends Controller
                                     group by a.group_unit_id
                                     union all
                                     select d.group_unit_id, a.program_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                     from program_unit a
                                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6429,10 +6532,10 @@ class ReportController extends Controller
                                 from
                                 (
                                     select a.id, a.unit_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                     from business_unit a
                                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6442,10 +6545,10 @@ class ReportController extends Controller
                                     group by a.id
                                     union all
                                     select a.business_unit_id, a.program_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                     from program_unit a
                                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6457,10 +6560,10 @@ class ReportController extends Controller
                                 group by kedua.id
                                 union all
                                 select d.group_unit_id, a.program_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from program_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6470,10 +6573,10 @@ class ReportController extends Controller
                                 group by a.id
                                 union all
                                 select a.group_unit_id, a.unit_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6508,10 +6611,10 @@ class ReportController extends Controller
                                 from
                                 (
                                     select a.group_unit_id, d.group_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                     from business_unit a
                                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6521,10 +6624,10 @@ class ReportController extends Controller
                                     group by a.group_unit_id
                                     union all 
                                     select d.group_unit_id, a.program_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                     from program_unit a
                                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6544,10 +6647,10 @@ class ReportController extends Controller
                                 from
                                 (
                                     select a.id, a.unit_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                     from business_unit a
                                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6557,10 +6660,10 @@ class ReportController extends Controller
                                     group by a.id
                                     union all 
                                     select a.business_unit_id, a.program_name, c.tanggal, 
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                     from program_unit a
                                     left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                     left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6584,10 +6687,10 @@ class ReportController extends Controller
                             from
                             (
                                 select a.group_unit_id, d.group_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6597,10 +6700,10 @@ class ReportController extends Controller
                                 group by a.group_unit_id
                                 union all 
                                 select d.group_unit_id, a.program_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from program_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6638,10 +6741,10 @@ class ReportController extends Controller
                                 from
                                 (
                                 select a.group_unit_id, d.group_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6651,10 +6754,10 @@ class ReportController extends Controller
                                 group by a.group_unit_id
                                 union all 
                                 select d.group_unit_id, a.program_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from program_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6667,15 +6770,15 @@ class ReportController extends Controller
                                 group by semua.group_unit_id
                                 union
                                 select a.group_unit_id, d.group_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                                 (
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                                 ) as total
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
@@ -6686,15 +6789,15 @@ class ReportController extends Controller
                                 group by a.group_unit_id
                                 union all 
                                 select a.id, a.unit_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                                 (
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                                 ) as total
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
@@ -6722,15 +6825,15 @@ class ReportController extends Controller
                             from
                             (
                                 select a.group_unit_id, d.group_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                                 (
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                                 ) as total
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
@@ -6741,15 +6844,15 @@ class ReportController extends Controller
                                 group by a.group_unit_id
                                 union all
                                 select a.id, a.unit_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                                 (
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                                 ) as total
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
@@ -6760,15 +6863,15 @@ class ReportController extends Controller
                                 group by a.id
                                 union all
                                 select d.group_unit_id, a.program_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                                 (
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                                 ) as total
                                 from program_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
@@ -6779,15 +6882,15 @@ class ReportController extends Controller
                                 group by a.id
                                 union all
                                 select a.group_unit_id, a.unit_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                                 (
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                                    sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                                 ) as total
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
@@ -6814,15 +6917,15 @@ class ReportController extends Controller
                             from
                             (
                                 select a.group_unit_id, d.group_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                                 (
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) + 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                                 ) as total
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
@@ -6833,15 +6936,15 @@ class ReportController extends Controller
                                 group by a.group_unit_id
                                 union
                                 select a.id, a.unit_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                                 (
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) + 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                                 ) as total
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
@@ -6855,15 +6958,15 @@ class ReportController extends Controller
                             with rollup";
                     }else{
                         $sql="select a.group_unit_id, d.group_name, c.tanggal, 
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                             (
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                             ) as total
                             from business_unit a
                             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
@@ -6891,15 +6994,15 @@ class ReportController extends Controller
                             from 
                             (
                                 select d.group_unit_id, e.group_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                                 (
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) + 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                                 ) as total
                                 from program_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
@@ -6910,15 +7013,15 @@ class ReportController extends Controller
                                 group by d.group_unit_id
                                 union
                                 select d.id, d.unit_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                                 (
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) + 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                                 ) as total
                                 from program_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
@@ -6946,10 +7049,10 @@ class ReportController extends Controller
                             from 
                             (
                                 select d.group_unit_id, e.group_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from program_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6959,10 +7062,10 @@ class ReportController extends Controller
                                 group by d.group_unit_id
                                 union all
                                 select a.id, d.unit_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from program_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6972,10 +7075,10 @@ class ReportController extends Controller
                                 group by a.business_unit_id
                                 union all
                                 select d.group_unit_id, a.program_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from program_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -6985,10 +7088,10 @@ class ReportController extends Controller
                                 group by a.id
                                 union all
                                 select a.group_unit_id, a.unit_name, c.tanggal, 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube
                                 from business_unit a
                                 left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                                 left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
@@ -7000,15 +7103,15 @@ class ReportController extends Controller
                             with rollup";
                     }else{
                         $sql="select d.group_unit_id, e.group_name, c.tanggal, 
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) as twitter,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) as facebook,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) as instagram,
+                            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0)) as youtube,
                             (
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) +
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) + 
-                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0))
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,$dipilih,0)) +
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,$dipilih,0)) + 
+                                sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,$dipilih,0))
                             ) as total
                             from program_unit a
                             left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
@@ -7021,10 +7124,10 @@ class ReportController extends Controller
                 break;
         }
 
-        if(\Cache::has('type_unit_by_group_type_'.$type.'_typeunit'.$typeunit.'_group_'.$group.'_'.$sekarang)){
-            $chart =\Cache::get('type_unit_by_group_type_'.$type.'_typeunit'.$typeunit.'_group_'.$group.'_'.$sekarang);
+        if(\Cache::has('type_unit_by_group_type_'.$type.'_typeunit'.$typeunit.'_group_'.$group.'_'.$sekarang.'_'.$dipilih)){
+            $chart =\Cache::get('type_unit_by_group_type_'.$type.'_typeunit'.$typeunit.'_group_'.$group.'_'.$sekarang.'_'.$dipilih);
         } else {
-            $chart = \Cache::remember('type_unit_by_group_type_'.$type.'_typeunit'.$typeunit.'_group_'.$group.'_'.$sekarang, 22*60, function() use($sql) {
+            $chart = \Cache::remember('type_unit_by_group_type_'.$type.'_typeunit'.$typeunit.'_group_'.$group.'_'.$sekarang.'_'.$dipilih, 22*60, function() use($sql) {
                 return \DB::select(\DB::raw($sql));
             });
         }

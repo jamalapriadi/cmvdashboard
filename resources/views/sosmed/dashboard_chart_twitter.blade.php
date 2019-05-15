@@ -98,6 +98,23 @@
                                 </div>
                             </div>
                         </div>
+                        @if($idsosmed == 4)
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="control-label">Subscribe</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                                        </div>
+                                        <select name="subscriber" id="subscriber" class="form-control">
+                                            <option value="subscriber">Subscriber</option>
+                                            <option value="view">View</option>
+                                            <option value="video">Video</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="" class="control-label"></label>
@@ -120,7 +137,7 @@
                 <div class="card-header text-center">BY UNIT MEDIA TYPE</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="" class="control-label">Date</label>
                                 <div class="input-group mb-3">
@@ -131,7 +148,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="" class="control-label">Socmed Type</label>
                                 <div class="input-group mb-3">
@@ -156,6 +173,23 @@
                                 </select>
                             </div>
                         </div>
+                        @if($idsosmed == 4)
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <label for="" class="control-label">Subscribe</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                                        </div>
+                                        <select name="subscriber2" id="subscriber2" class="form-control">
+                                            <option value="subscriber">Subscriber</option>
+                                            <option value="view">View</option>
+                                            <option value="video">Video</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="" class="control-label">Sort By</label>
@@ -198,7 +232,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="" class="control-label">Socmed Type</label>
                                 <div class="input-group mb-3">
@@ -223,6 +257,23 @@
                                 </select>
                             </div>
                         </div>
+                        @if($idsosmed == 4)
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label for="" class="control-label">Subscribe</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                                        </div>
+                                        <select name="subscriber3" id="subscriber3" class="form-control">
+                                            <option value="subscriber">Subscriber</option>
+                                            <option value="view">View</option>
+                                            <option value="video">Video</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="" class="control-label"></label>
@@ -278,6 +329,18 @@
         </div>
         <div class="card-body">
             <div class="row">
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="" class="control-label">Date</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                            </div>
+                            <input type="text" id="tanggalgroup" data-value="{{date('Y/m/d')}}" name="tanggalgroup" class="form-control daterange-single">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-3">
                     <div class="form-group">
                         <label class="control-label">Group</label>
@@ -289,7 +352,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="form-group">
                         <label for="" class="control-label">Type</label>
                         <div class="input-group mb-3">
@@ -306,18 +369,6 @@
                     </div>
                 </div>
 
-                <div class="col-lg-2">
-                    <div class="form-group">
-                        <label for="" class="control-label">Date</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
-                            </div>
-                            <input type="text" id="tanggalgroup" data-value="{{date('Y/m/d')}}" name="tanggalgroup" class="form-control daterange-single">
-                        </div>
-                    </div>
-                </div>
-
                 {{-- <div class="col-lg-2">
                     <div class="form-group">
                         <label for="" class="control-label">Sort By</label>
@@ -328,6 +379,23 @@
                         </select>
                     </div>
                 </div> --}}
+                @if($idsosmed == 4)
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="" class="control-label">Subscribe</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                                </div>
+                                <select name="subscriber4" id="subscriber4" class="form-control">
+                                    <option value="subscriber">Subscriber</option>
+                                    <option value="view">View</option>
+                                    <option value="video">Video</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
                 <div class="col-lg-2">
                     <div class="form-group">
@@ -390,6 +458,23 @@
                         </select>
                     </div>
                 </div>
+                @if($idsosmed == 4)
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label for="" class="control-label">Subscribe</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                                </div>
+                                <select name="subscriber5" id="subscriber5" class="form-control">
+                                    <option value="subscriber">Subscriber</option>
+                                    <option value="view">View</option>
+                                    <option value="video">Video</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="col-lg-3">
                     <div class="form-group">
                         <label for="" class="control-label"></label>
@@ -480,6 +565,24 @@
 
                     <div id="divUnit"></div>
 
+                    @if($idsosmed == 4)
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="" class="control-label">Subscribe</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
+                                    </div>
+                                    <select name="subscriber6" id="subscriber6" class="form-control">
+                                        <option value="subscriber">Subscriber</option>
+                                        <option value="view">View</option>
+                                        <option value="video">Video</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="col-lg-2">
                         <div class="form-group">
                             <label for="" class="control-label"></label>
@@ -529,10 +632,12 @@
             function showChartByTypeUnit(number){
                 var tanggal=$("#tanggalMediaPlatform").val();
                 var filter=$("#filterMediaPlatform option:selected").val();
+                var subscriber=$("#subscriber option:selected").val();
 
                 var param={
                     tanggal:tanggal,
-                    filter:filter
+                    filter:filter,
+                    subscriber:subscriber
                 };
 
                 $.ajax({
@@ -793,10 +898,12 @@
             function showOfficial(number){
                 var periode=$("#periode2 option:selected").val();
                 var typeunit=$("#typeunit").val();
+                var subscriber=$("#subscriber5 option:selected").val();
 
                 var param={
                     idsosmed:idsosmed,
                     typeunit:typeunit,
+                    subscriber:subscriber,
                     periode:periode
                 };
 
@@ -1317,11 +1424,13 @@
                 var filter=$("#filter").val();
                 var typeunit=$("#typeunit").val();
                 var sortby=$("#sortby option:selected").val();
+                var subscriber=$("#subscriber2 option:selected").val();
 
                 var param={
                     tanggal:tanggal,
                     filter:filter,
                     typeunit:typeunit,
+                    subscriber:subscriber,
                     sortby:sortby
                 };
 
@@ -1707,11 +1816,14 @@
                 var tanggal=$("#tanggalType").val();
                 var type=$("#type2 option:selected").val();
                 var typeunit=$("#typeunit2 option:selected").val();
+                var subscriber=$("#subscriber3 option:selected").val();
+
                 
                 var param={
                     tanggal:tanggal,
                     type:type,
-                    typeunit:typeunit
+                    typeunit:typeunit,
+                    subscriber:subscriber
                 };
 
                 $.ajax({
@@ -1719,8 +1831,8 @@
                     type:"GET",
                     data:param,
                     beforeSend:function(){
-                        $("#groupMediaType").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
-                        $("#zingchart-groupMediaType").empty().html("<div class='alert alert-info'>Please wait. . .</div>");
+                        $("#groupMediaType").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>");
+                        $("#zingchart-groupMediaType").empty().html("<div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please wait. . .</div>");
                     },
                     success:function(result){
                         var el="";
@@ -1966,11 +2078,13 @@
                 var tanggal=$("#tanggalgroup").val();
                 var filter=$("#typegroup").val();
                 var group=$("#group").val();
+                var subscriber=$("#subscriber4 option:selected").val();
                 $("#grouptanggal").empty().html(tanggal);
 
                 var param={
                     tanggal:tanggal,
-                    filter:filter
+                    filter:filter,
+                    subscriber:subscriber
                 };
 
                 $.ajax({
