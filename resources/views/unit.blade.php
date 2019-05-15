@@ -5,11 +5,12 @@
         <div class="container">
             <div class="row text-center">
                 <div class="customwidget text-center">
-                        <h1 class="text-center" style="margin-top:-80px;">Unit Dashboard</h1>
+                        <h1 class="text-center" style="margin-top:-80px;">SOCIAL MEDIA UNIT DASHBOARD</h1>
 
                         <div class="col-lg-12 text-center">
                             <p>
-                                Social Media Unit Dashboard adalah Portal Analytics untuk meningkatkan performance, memperkuat strategi, <br>dan menghemat waktu dalam mengontrol dan memonitor social media MNC Media Group Unit dan Competitor.
+                                    Portal Analytics untuk meningkatkan performance, memperkuat strategi,<br>
+                                    dan menghemat waktu dalam mengontrol dan memonitor social media MNC Media Group Unit dan Competitor
                             </p>
                         </div>
                         
@@ -18,13 +19,13 @@
                             <a class="btn unit btn-primary" style="margin-top:10px;" kode="1">TV</a>
                             <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="2">HARDNEWS</a>
                             <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="3">PRODUCTION HOUSE</a>
-                            <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="4">NEWSPAPER</a>
+                            {{-- <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="4">NEWSPAPER</a> --}}
                             <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="5">ARTIS MANAGEMENT</a>
                             <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="6">PAY TV</a>
                             <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="7">RADIO</a>
                             <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="8">ANIMATION PRODUCTION</a>
                             <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="10">MAGAZINE</a>
-                            <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="10">KOL</a>
+                            {{-- <a class="btn unit btn-default text-white" style="margin-top:10px;" kode="10">KOL</a> --}}
                         </div>
                         
                         <!-- end list -->
@@ -37,20 +38,28 @@
         </div><!-- end container -->
     </div><!-- end section -->
     
-    <div class="parallax section db parallax-off" style="background:#0d91d3;padding:25px;">
+    <div class="parallax section db parallax-off" style="background:#fff;padding:25px;">
         <div class="container">
-            <div class="row logos" id="listLogo">
+            <div class="row" id="listLogo">
                 <div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('img/bu180x80/rcti.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>
+                    <center>
+                    <a href="#"><img src="{{asset('img/bu180x80/rcti.png')}}" alt="" class="img-repsonsive" style="width:130px;height:50px;"></a>
+                    </center>
                 </div>
                 <div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('img/bu180x80/mnctv.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>
+                    <center>
+                    <a href="#"><img src="{{asset('img/bu180x80/mnctv.png')}}" alt="" class="img-repsonsive" style="width:160px;height:50px;"></a>
+                    </center>
                 </div>
                 <div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('img/bu180x80/gtv.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>
+                    <center>
+                    <a href="#"><img src="{{asset('img/bu180x80/gtv.png')}}" alt="" class="img-repsonsive" style="width:130px;height:50px;"></a>
+                    </center>
                 </div>
                 <div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">
-                    <a href="#"><img src="{{asset('img/bu180x80/inews.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>
+                    <center>
+                    <a href="#"><img src="{{asset('img/bu180x80/inews.png')}}" alt="" class="img-repsonsive" style="width:180px;height:50px;"></a>
+                    </center>
                 </div>
             </div><!-- end row -->
         </div><!-- end container -->
@@ -62,7 +71,7 @@
                 <div class="col-md-6">
                     <div class="message-box" style="margin-top:100px;">
                         <h2>Unit - Social Media Chart</h2>
-						<ul>
+						<ul style="color:#222">
 	                        <li>
 								Mengetahui competitive mapping social media antara group media.
 							</li>
@@ -95,7 +104,7 @@
                 <div class="col-md-6">
                     <div class="message-box" style="margin-top:100px;">
                         <h2>Unit -Social Media Live</h2>
-						<ul>
+						<ul style="color:#222">
 	                        <li>
 								Mengetahui jenis konten yang disukai oleh audiens social media MNC Media Group dan Competitor.
 							</li>
@@ -117,7 +126,7 @@
                 <div class="col-md-6">
                     <div class="message-box" style="margin-top:100px;">
                         <h2>Unit - Social Media Chart</h2>
-						<ul>
+						<ul style="color:#222">
 	                        <li>
 								Mengetahui lonjakan followers social media yang dapat disebabkan dengan berbagai hal (partnership, campaign, konten social media).
 							</li>
@@ -146,7 +155,7 @@
                 <div class="col-md-6">
                     <div class="message-box" style="margin-top:100px;">
                         <h2>Unit - Social Media Insight</h2>
-						<ul>
+						<ul style="color:#222">
 	                        <li>
 								Memaparkan segala insight media digital lokal maupun internasional, yang concern terhadap strategi dan inovasi.
 							</li>
@@ -168,24 +177,41 @@
                 if(unit==1){
                     /* tv */
                     el+='<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
-                        '<a href="#"><img src="{{asset('img/bu180x80/rcti.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/rcti.png')}}" alt="" class="img-repsonsive" style="width:130px;height:50px;"></a>'+
+                        '</center>'+
                     '</div>'+
                     '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
-                        '<a href="#"><img src="{{asset('img/bu180x80/mnctv.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/mnctv.png')}}" alt="" class="img-repsonsive" style="width:160px;height:50px;"></a>'+
+                        '</center>'+
                     '</div>'+
                     '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
-                        '<a href="#"><img src="{{asset('img/bu180x80/gtv.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/gtv.png')}}" alt="" class="img-repsonsive" style="width:130px;height:50px;"></a>'+
+                        '</center>'+
                     '</div>'+
                     '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
-                        '<a href="#"><img src="{{asset('img/bu180x80/inews.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/inews.png')}}" alt="" class="img-repsonsive" style="width:180px;height:50px;"></a>'+
+                        '</center>'+
                     '</div>';
                 }else if(unit==2){
                     /* hardnews publisher*/
-                    el+='<div class="col-md-6 col-sm-2 col-xs-6 wow fadeInUp">'+
-                        '<a href="#"><img src="{{asset('img/bu180x80/okezone.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    el+='<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/okezonenew.png')}}" alt="" class="img-repsonsive" style="width:290px;height:150px;margin-top:-50px;"></a>'+
+                        '</center>'+
                     '</div>'+
-                    '<div class="col-md-6 col-sm-2 col-xs-6 wow fadeInUp">'+
-                        '<a href="#"><img src="{{asset('img/bu180x80/sindonews.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/sindonews.png')}}" alt="" class="img-repsonsive" style="width:230px;height:50px;"></a>'+
+                        '</center>'+
+                    '</div>'+
+                    '<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/inews_01.png')}}" alt="" class="img-repsonsive" style="width:180px;height:50px;"></a>'+
+                        '</center>'+
                     '</div>';
                 }else if(unit==3){
                     /* production house */
@@ -201,29 +227,66 @@
                     '</div>';
                 }else if(unit==6){
                     /* pay tv */
-                    el+='<div class="col-md-6 col-sm-2 col-xs-6 wow fadeInUp">'+
-                        '<a href="#"><img src="{{asset('img/bu180x80/mnchannel.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    el+='<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/pay_tv/mnc_channel.png')}}" alt="" class="img-repsonsive" style="width:180px;height:60px;"></a>'+
+                        '</center>'+
                     '</div>'+
-                    '<div class="col-md-6 col-sm-2 col-xs-6 wow fadeInUp">'+
-                        '<a href="#"><img src="{{asset('img/bu180x80/mncvision.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/pay_tv/mnc_vision.png')}}" alt="" class="img-repsonsive" style="width:180px;height:60px;"></a>'+
+                        '</center>'+
+                    '</div>'+
+                    '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/pay_tv/mnc_play.png')}}" alt="" class="img-repsonsive" style="width:180px;height:60px;"></a>'+
+                        '</center>'+
+                    '</div>'+
+                    '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/pay_tv/logo.png')}}" alt="" class="img-repsonsive" style="width:180px;height:60px;"></a>'+
+                        '</center>'+
                     '</div>';
                 }else if(unit==7){
                     /* radio */
-                    el+='<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                    el+='<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<center>'+
                         '<a href="#"><img src="{{asset('img/bu180x80/globalradio.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                        '</center>'+
                     '</div>'+
-                    '<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                    '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<center>'+
                         '<a href="#"><img src="{{asset('img/bu180x80/rdi.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                        '</center>'+
                     '</div>'+
-                    '<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                    '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<center>'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/radio/sindo_trijaya.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                        '</center>'+
+                    '</div>'+
+                    '<div class="col-md-3 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<center>'+
                         '<a href="#"><img src="{{asset('img/bu180x80/vradio.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                        '</center>'+
                     '</div>';
                 }else if(unit==8){
                     /* animation production */
+                    el+='<div class="col-md-8 col-sm-2 col-xs-6 col-md-offset-2 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/animation/mnc_animation.png')}}" alt="" class="img-repsonsive" style="width:180px;height:80px;"></a>'+
+                    '</div>';
                 }else if(unit==9){
-                    /* magazine */
+                    
                 }else if(unit==10){
-                    /* kol */
+                    /* magazine */
+                    el+='<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/magazine/highend.png')}}" alt="" class="img-repsonsive" style="width:160px;height:80px;"></a>'+
+                    '</div>'+
+                    '<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/magazine/just_for_kids.png')}}" alt="" class="img-repsonsive" style="width:160px;height:80px;"></a>'+
+                    '</div>'+
+                    '<div class="col-md-4 col-sm-2 col-xs-6 wow fadeInUp">'+
+                        '<a href="#"><img src="{{asset('img/bu180x80/magazine/sindo.png')}}" alt="" class="img-repsonsive" style="width:180px;height:50px;margin-top:20px;"></a>'+
+                    '</div>';
                 }
                 $("#listLogo").empty().html(el);
             }

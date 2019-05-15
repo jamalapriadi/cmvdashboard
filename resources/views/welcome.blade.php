@@ -17,9 +17,11 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12 text-center">
                             <div class="big-tagline" style="margin-top:-80px;">
-                                <h2 data-animation="animated zoomInRight">Social <strong>Media</strong> Dashboard</h2>
-                                <p class="lead" data-animation="animated fadeInLeft">Portal Analytics untuk menghemat waktu dalam mengontrol dan memonitor social media. </p>
-                                
+                                <h2 data-animation="animated zoomInRight">SOCIAL MEDIA DASHBOARD</h2>
+                                <p class="lead" data-animation="animated fadeInLeft">
+                                    Portal Analytics untuk meningkatkan performance, memperkuat strategi, <br>
+                                    melihat peluang kerjasama dan menghemat waktu dalam mengontrol dan memonitor social media
+                                </p>
                                 
                                 <a data-scroll href="{{URL::to('unit')}}" class="btn btn-light btn-radius btn-brd effect-1 slide-btn" data-animation="animated fadeInLeft">UNIT</a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

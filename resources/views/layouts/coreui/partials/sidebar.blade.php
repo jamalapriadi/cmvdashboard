@@ -19,7 +19,7 @@
         <li class="nav-title">Dashboard</li>
         <li class="nav-item">
           <a class="nav-link {{ Request::path() == 'home' ? 'active' : '' }}" href="{{URL::to('home')}}">
-            <i class="nav-icon icon-home"></i> Home
+            <i class="nav-icon icon-home"></i> Analytics
             <span class="badge badge-primary">NEW</span>
           </a>
         </li>

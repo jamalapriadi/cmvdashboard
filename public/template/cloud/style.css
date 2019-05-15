@@ -25,7 +25,7 @@
     IMPORT FONTS
 -------------------------------------------------------------------*/
 
-@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
 /*------------------------------------------------------------------
     IMPORT FILES
@@ -47,7 +47,8 @@
 body {
     color: #999;
     font-size: 15px;
-    font-family: 'PT Sans', sans-serif;
+    /* font-family: 'PT Sans', sans-serif; */
+    font-family: 'Source Sans Pro', sans-serif;
     line-height: 1.80857;
 }
 
