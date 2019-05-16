@@ -1521,58 +1521,82 @@
 
                         $.each(listchart,function(a,b){
                             if(b.id!=null){
-                                if(b.id!=4){
-                                    labels1.push(b.unit_name);
+                                labels1.push(b.unit_name);
 
-                                    if(idsosmed==1){
-                                        isinya.push(parseFloat(b.total_twitter));
-                                        tulisan="Twitter";
-                                        warna="#008ef6";
-                                    }else if(idsosmed==2){
-                                        isinya.push(parseFloat(b.total_facebook));
-                                        tulisan="Facebook";
-                                        warna="#5054ab";
-                                    }else if(idsosmed==3){
-                                        isinya.push(parseFloat(b.total_instagram));
-                                        tulisan="Instagram";
-                                        warna="#a958a5";
-                                    }else if(idsosmed==4){
-                                        isinya.push(parseFloat(b.total_youtube));
-                                        tulisan="Youtube";
-                                        warna="#f06261";
-                                    }else{
-                                        isinya.push(parseFloat(b.total_twitter));
-                                        tulisan="Twitter";
-                                        warna="#008ef6";
-                                    }
+                                if(idsosmed==1){
+                                    isinya.push(parseFloat(b.total_twitter));
+                                    tulisan="Twitter";
+                                    warna="#008ef6";
+                                }else if(idsosmed==2){
+                                    isinya.push(parseFloat(b.total_facebook));
+                                    tulisan="Facebook";
+                                    warna="#5054ab";
+                                }else if(idsosmed==3){
+                                    isinya.push(parseFloat(b.total_instagram));
+                                    tulisan="Instagram";
+                                    warna="#a958a5";
+                                }else if(idsosmed==4){
+                                    isinya.push(parseFloat(b.total_youtube));
+                                    tulisan="Youtube";
+                                    warna="#f06261";
                                 }else{
-                                    $.each(result.inews,function(a,b){
-                                        labels1.push("INEWS 4TV");
-
-                                        if(idsosmed==1){
-                                            isinya.push(parseFloat(b.total_twitter));
-                                            tulisan="Twitter";
-                                            warna="#008ef6";
-                                        }else if(idsosmed==2){
-                                            isinya.push(parseFloat(b.total_facebook));
-                                            tulisan="Facebook";
-                                            warna="#5054ab";
-                                        }else if(idsosmed==3){
-                                            isinya.push(parseFloat(b.total_instagram));
-                                            tulisan="Instagram";
-                                            warna="#a958a5";
-                                        }else if(idsosmed==4){
-                                            isinya.push(parseFloat(b.total_youtube));
-                                            tulisan="Youtube";
-                                            warna="#f06261";
-                                        }else{
-                                            isinya.push(parseFloat(b.total_twitter));
-                                            tulisan="Twitter";
-                                            warna="#008ef6";
-                                        }
-
-                                    })
+                                    isinya.push(parseFloat(b.total_twitter));
+                                    tulisan="Twitter";
+                                    warna="#008ef6";
                                 }
+                                
+                                // if(b.id!=4){
+                                //     labels1.push(b.unit_name);
+
+                                //     if(idsosmed==1){
+                                //         isinya.push(parseFloat(b.total_twitter));
+                                //         tulisan="Twitter";
+                                //         warna="#008ef6";
+                                //     }else if(idsosmed==2){
+                                //         isinya.push(parseFloat(b.total_facebook));
+                                //         tulisan="Facebook";
+                                //         warna="#5054ab";
+                                //     }else if(idsosmed==3){
+                                //         isinya.push(parseFloat(b.total_instagram));
+                                //         tulisan="Instagram";
+                                //         warna="#a958a5";
+                                //     }else if(idsosmed==4){
+                                //         isinya.push(parseFloat(b.total_youtube));
+                                //         tulisan="Youtube";
+                                //         warna="#f06261";
+                                //     }else{
+                                //         isinya.push(parseFloat(b.total_twitter));
+                                //         tulisan="Twitter";
+                                //         warna="#008ef6";
+                                //     }
+                                // }else{
+                                //     $.each(result.inews,function(a,b){
+                                //         labels1.push("INEWS 4TV");
+
+                                //         if(idsosmed==1){
+                                //             isinya.push(parseFloat(b.total_twitter));
+                                //             tulisan="Twitter";
+                                //             warna="#008ef6";
+                                //         }else if(idsosmed==2){
+                                //             isinya.push(parseFloat(b.total_facebook));
+                                //             tulisan="Facebook";
+                                //             warna="#5054ab";
+                                //         }else if(idsosmed==3){
+                                //             isinya.push(parseFloat(b.total_instagram));
+                                //             tulisan="Instagram";
+                                //             warna="#a958a5";
+                                //         }else if(idsosmed==4){
+                                //             isinya.push(parseFloat(b.total_youtube));
+                                //             tulisan="Youtube";
+                                //             warna="#f06261";
+                                //         }else{
+                                //             isinya.push(parseFloat(b.total_twitter));
+                                //             tulisan="Twitter";
+                                //             warna="#008ef6";
+                                //         }
+
+                                //     })
+                                // }
                             }
                         })
                         

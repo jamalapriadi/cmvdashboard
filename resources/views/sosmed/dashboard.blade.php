@@ -435,6 +435,7 @@
                         var twitter1=[];
                         var instagram1=[];
                         var youtube1=[];
+                        var total1=[];
 
                         var labels2=[];
                         var facebook2=[];
@@ -471,23 +472,32 @@
 
                         $.each(listchart,function(a,b){
                             if(b.id!=null){
-                                if(b.id!=4){
-                                    labels1.push(b.unit_name);
+                                labels1.push(b.unit_name);
 
-                                    facebook1.push(parseFloat(b.total_facebook));
-                                    twitter1.push(parseFloat(b.total_twitter));
-                                    instagram1.push(parseFloat(b.total_instagram));
-                                    youtube1.push(parseFloat(b.total_youtube));
-                                }else{
-                                    $.each(result.inews,function(a,b){
-                                        labels1.push("INEWS 4TV");
+                                facebook1.push(parseFloat(b.total_facebook));
+                                twitter1.push(parseFloat(b.total_twitter));
+                                instagram1.push(parseFloat(b.total_instagram));
+                                youtube1.push(parseFloat(b.total_youtube));
+                                total1.push(parseFloat(b.total_all));
+                                // if(b.id!=4){
+                                //     labels1.push(b.unit_name);
 
-                                        facebook1.push(parseFloat(b.total_facebook));
-                                        twitter1.push(parseFloat(b.total_twitter));
-                                        instagram1.push(parseFloat(b.total_instagram));
-                                        youtube1.push(parseFloat(b.total_youtube));
-                                    })
-                                }
+                                //     facebook1.push(parseFloat(b.total_facebook));
+                                //     twitter1.push(parseFloat(b.total_twitter));
+                                //     instagram1.push(parseFloat(b.total_instagram));
+                                //     youtube1.push(parseFloat(b.total_youtube));
+                                //     total1.push(parseFloat(b.total_all));
+                                // }else{
+                                //     $.each(result.inews,function(e,f){
+                                //         labels1.push("INEWS 4TV");
+
+                                //         facebook1.push(parseFloat(f.total_facebook));
+                                //         twitter1.push(parseFloat(f.total_twitter));
+                                //         instagram1.push(parseFloat(f.total_instagram));
+                                //         youtube1.push(parseFloat(f.total_youtube));
+                                //         total1.push(parseFloat(f.total_all));
+                                //     })
+                                // }
                             }
                         })
                         

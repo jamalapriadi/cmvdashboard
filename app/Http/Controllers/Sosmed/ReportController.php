@@ -5593,7 +5593,10 @@ class ReportController extends Controller
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, $dipilih,0)) as total_twitter,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, $dipilih,0)) as total_facebook,
             sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, $dipilih,0)) as total_instagram,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, $dipilih,0)) as total_youtube
+            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, $dipilih,0)) as total_youtube,
+            ( 
+                sum(if(c.tanggal='$sekarang' and b.sosmed_id=1, $dipilih,0)) + sum(if(c.tanggal='$sekarang' and b.sosmed_id=2, $dipilih,0)) + sum(if(c.tanggal='$sekarang' and b.sosmed_id=3, $dipilih,0))+sum(if(c.tanggal='$sekarang' and b.sosmed_id=4, $dipilih,0)) 
+            )as total_all
             from program_unit a 
             left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
             left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
