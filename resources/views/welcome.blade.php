@@ -16,7 +16,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 col-sm-12 text-center">
-                            <div class="big-tagline" style="margin-top:-80px;">
+                            <div class="big-tagline">
                                 <h2 data-animation="animated zoomInRight">SOCIAL MEDIA DASHBOARD</h2>
                                 <p class="lead" data-animation="animated fadeInLeft">
                                     Portal Analytics untuk meningkatkan performance, memperkuat strategi, <br>
