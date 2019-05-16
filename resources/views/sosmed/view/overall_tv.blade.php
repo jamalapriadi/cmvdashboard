@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered">
+<table class="table table-striped table-bordered sticky-header" style="font-size:10px;">
     <thead>
         <tr>
             <th width="20%" rowspan="2" style="background:#419F51;color:white" class="align-middle text-white">

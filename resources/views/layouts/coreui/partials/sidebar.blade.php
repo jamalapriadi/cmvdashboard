@@ -41,6 +41,7 @@
         <li class="nav-item {{ Request::path() == 'sosmed/dashboard-chart/youtube' ? 'active' : '' }}">
           <a class="nav-link" href="{{URL::to('sosmed/dashboard-chart/youtube')}}">
             <i class="nav-icon icon-arrow-right22"></i> Youtube
+            <span class="badge badge-primary">NEW</span>
           </a>
         </li>
 
@@ -71,7 +72,7 @@
             </li>
             <li class="nav-item {{ Request::path() == 'sosmed/summary/overall' ? 'active' : '' }}">
               <a class="nav-link" href="{{URL::to('sosmed/summary/overall')}}">
-                <i class="nav-icon icon-arrow-right22"></i> Overall TV
+                <i class="nav-icon icon-arrow-right22"></i> Overall Account
               </a>
             </li>
             <li class="nav-item {{ Request::path() == 'sosmed/summary/official-and-program' ? 'active' : '' }}">
@@ -86,7 +87,7 @@
             </li>
             <li class="nav-item {{ Request::path() == 'sosmed/summary/rangking' ? 'active' : '' }}">
               <a class="nav-link" href="{{URL::to('sosmed/summary/rangking')}}">
-                <i class="nav-icon icon-arrow-right22"></i> Rangking
+                <i class="nav-icon icon-arrow-right22"></i> Ranking
               </a>
             </li>
           </ul>

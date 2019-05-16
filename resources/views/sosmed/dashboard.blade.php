@@ -275,6 +275,18 @@
         </div>
         <div class="card-body">
             <div class="row">
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="" class="control-label">Date</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
+                            </div>
+                            <input type="text" id="tanggalgroup" data-value="{{date('Y/m/d')}}" name="tanggalgroup" class="form-control daterange-single">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-3">
                     <div class="form-group">
                         <label class="control-label">Group</label>
@@ -299,18 +311,6 @@
                                 <option value="program">Program</option>
                                 <option value="artist">Artist</option>
                             </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-2">
-                    <div class="form-group">
-                        <label for="" class="control-label">Date</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
-                            </div>
-                            <input type="text" id="tanggalgroup" data-value="{{date('Y/m/d')}}" name="tanggalgroup" class="form-control daterange-single">
                         </div>
                     </div>
                 </div>

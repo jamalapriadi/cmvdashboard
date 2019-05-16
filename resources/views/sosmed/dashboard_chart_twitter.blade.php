@@ -101,7 +101,7 @@
                         @if($idsosmed == 4)
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label for="" class="control-label">Subscribe</label>
+                                    <label for="" class="control-label">Subscriber/View/Video Count</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
@@ -109,7 +109,7 @@
                                         <select name="subscriber" id="subscriber" class="form-control">
                                             <option value="subscriber">Subscriber</option>
                                             <option value="view">View</option>
-                                            <option value="video">Video</option>
+                                            <option value="video">Video Count</option>
                                         </select>
                                     </div>
                                 </div>
@@ -174,9 +174,9 @@
                             </div>
                         </div>
                         @if($idsosmed == 4)
-                            <div class="col-lg-2">
+                            <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label for="" class="control-label">Subscribe</label>
+                                    <label for="" class="control-label">Subscriber/View/Video Count</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
@@ -184,7 +184,7 @@
                                         <select name="subscriber2" id="subscriber2" class="form-control">
                                             <option value="subscriber">Subscriber</option>
                                             <option value="view">View</option>
-                                            <option value="video">Video</option>
+                                            <option value="video">Video Count</option>
                                         </select>
                                     </div>
                                 </div>
@@ -200,10 +200,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-lg-1">
                             <div class="form-group">
                                 <label for="" class="control-label"></label>
-                                <button class="btn btn-primary" id="filterOfficial2" style="margin-top:25px;"><i class="icon-filter3"></i> Filter</button>
+                                <button class="btn btn-primary" id="filterOfficial2"><i class="icon-filter3"></i> Filter</button>
                             </div>
                         </div>
                     </div>
@@ -260,7 +260,7 @@
                         @if($idsosmed == 4)
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label for="" class="control-label">Subscribe</label>
+                                    <label for="" class="control-label">Subscriber/View/Video Count</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
@@ -268,7 +268,7 @@
                                         <select name="subscriber3" id="subscriber3" class="form-control">
                                             <option value="subscriber">Subscriber</option>
                                             <option value="view">View</option>
-                                            <option value="video">Video</option>
+                                            <option value="video">Video Count</option>
                                         </select>
                                     </div>
                                 </div>
@@ -382,7 +382,7 @@
                 @if($idsosmed == 4)
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <label for="" class="control-label">Subscribe</label>
+                            <label for="" class="control-label">Subscriber/View/Video Count</label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
@@ -390,7 +390,7 @@
                                 <select name="subscriber4" id="subscriber4" class="form-control">
                                     <option value="subscriber">Subscriber</option>
                                     <option value="view">View</option>
-                                    <option value="video">Video</option>
+                                    <option value="video">Video Count</option>
                                 </select>
                             </div>
                         </div>
@@ -461,7 +461,7 @@
                 @if($idsosmed == 4)
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <label for="" class="control-label">Subscribe</label>
+                            <label for="" class="control-label">Subscriber/View/Video Count</label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
@@ -469,7 +469,7 @@
                                 <select name="subscriber5" id="subscriber5" class="form-control">
                                     <option value="subscriber">Subscriber</option>
                                     <option value="view">View</option>
-                                    <option value="video">Video</option>
+                                    <option value="video">Video Count</option>
                                 </select>
                             </div>
                         </div>
@@ -566,9 +566,9 @@
                     <div id="divUnit"></div>
 
                     @if($idsosmed == 4)
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <div class="form-group">
-                                <label for="" class="control-label">Subscribe</label>
+                                <label for="" class="control-label">Subscriber/View/Video Count</label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class="icon-filter3"></i></span>
@@ -576,17 +576,17 @@
                                     <select name="subscriber6" id="subscriber6" class="form-control">
                                         <option value="subscriber">Subscriber</option>
                                         <option value="view">View</option>
-                                        <option value="video">Video</option>
+                                        <option value="video">Video Count</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     @endif
 
-                    <div class="col-lg-2">
+                    <div class="col-lg-1">
                         <div class="form-group">
                             <label for="" class="control-label"></label>
-                            <button class="btn btn-primary" id="filterProgram" style="margin-top:25px;"><i class="icon-filter3"></i> Filter</button>
+                            <button class="btn btn-primary" id="filterProgram"><i class="icon-filter3"></i> Filter</button>
                         </div>
                     </div>
                 </div>

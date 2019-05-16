@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card card-default">
-        <div class="card-header">RANGKING</div>
+        <div class="card-header">RANKING</div>
         <div class="card-body">
             <form id="formRangking" onsubmit="return false">
                 <div class="row">
