@@ -23,6 +23,29 @@
             <span class="badge badge-primary">NEW</span>
           </a>
         </li>
+        <li class="nav-item {{ Request::path() == 'sosmed/dashboard-chart/twitter' ? 'active' : '' }}">
+          <a class="nav-link" href="{{URL::to('sosmed/dashboard-chart/twitter')}}">
+            <i class="nav-icon icon-arrow-right22"></i> Twitter
+          </a>
+        </li>
+        <li class="nav-item {{ Request::path() == 'sosmed/dashboard-chart/facebook' ? 'active' : '' }}">
+          <a class="nav-link" href="{{URL::to('sosmed/dashboard-chart/facebook')}}">
+            <i class="nav-icon icon-arrow-right22"></i> Facebook
+          </a>
+        </li>
+        <li class="nav-item {{ Request::path() == 'sosmed/dashboard-chart/instagram' ? 'active' : '' }}">
+          <a class="nav-link" href="{{URL::to('sosmed/dashboard-chart/instagram')}}">
+            <i class="nav-icon icon-arrow-right22"></i> Instagram
+          </a>
+        </li>
+        <li class="nav-item {{ Request::path() == 'sosmed/dashboard-chart/youtube' ? 'active' : '' }}">
+          <a class="nav-link" href="{{URL::to('sosmed/dashboard-chart/youtube')}}">
+            <i class="nav-icon icon-arrow-right22"></i> Youtube
+          </a>
+        </li>
+
+
+
         <li class="nav-item">
           <a class="nav-link {{ Request::path() == 'sosmed/live-socmed' ? 'active' : '' }}" href="{{URL::to('sosmed/live-socmed')}}">
             <i class="nav-icon icon-tv"></i> Live Socmed</a>
@@ -68,33 +91,14 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item nav-dropdown">
+        {{-- <li class="nav-item nav-dropdown">
           <a class="nav-link nav-dropdown-toggle" href="#">
             <i class="nav-icon icon-books"></i> Chart
           </a>
           <ul class="nav-dropdown-items">
-              <li class="nav-item {{ Request::path() == 'sosmed/dashboard-chart/twitter' ? 'active' : '' }}">
-                <a class="nav-link" href="{{URL::to('sosmed/dashboard-chart/twitter')}}">
-                  <i class="nav-icon icon-arrow-right22"></i> Twitter
-                </a>
-              </li>
-              <li class="nav-item {{ Request::path() == 'sosmed/dashboard-chart/facebook' ? 'active' : '' }}">
-                <a class="nav-link" href="{{URL::to('sosmed/dashboard-chart/facebook')}}">
-                  <i class="nav-icon icon-arrow-right22"></i> Facebook
-                </a>
-              </li>
-              <li class="nav-item {{ Request::path() == 'sosmed/dashboard-chart/instagram' ? 'active' : '' }}">
-                <a class="nav-link" href="{{URL::to('sosmed/dashboard-chart/instagram')}}">
-                  <i class="nav-icon icon-arrow-right22"></i> Instagram
-                </a>
-              </li>
-              <li class="nav-item {{ Request::path() == 'sosmed/dashboard-chart/youtube' ? 'active' : '' }}">
-                <a class="nav-link" href="{{URL::to('sosmed/dashboard-chart/youtube')}}">
-                  <i class="nav-icon icon-arrow-right22"></i> Youtube
-                </a>
-              </li>
+              
           </ul>
-        </li>
+        </li> --}}
         
         <li class="nav-title">Backend</li>
         @if(auth()->user()->can('Master'))
