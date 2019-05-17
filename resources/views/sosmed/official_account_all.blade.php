@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card card-default">
-        <div class="card-header">Official Account All</div>
+        <div class="card-header">OFFICIAL ACCOUNT</div>
         <div class="card-body">
             <form id="formofficialAccountAllTv" onsubmit="return false">
                 <div class="row">

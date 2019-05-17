@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-sm-5">
                     <h4 class="card-title mb-0">CROSS CHANNEL</h4>
-                    <div class="small text-muted">{{date('d F Y')}}</div>
+                    {{-- <div class="small text-muted">{{date('d F Y',strtotime($tanggal->tgl))}}</div> --}}
                 </div>
                 
                 <div class="col-sm-7 d-none d-md-block">
@@ -32,7 +32,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
                                     </div>
-                                    <input type="text" id="tanggalMediaPlatform" data-value="{{date('Y/m/d')}}" name="tanggalMediaPlatform" class="form-control daterange-single">
+                                    <input type="text" id="tanggalMediaPlatform" data-value="{{date('Y/m/d',strtotime($tanggal->tgl))}}" name="tanggalMediaPlatform" class="form-control daterange-single">
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
                                     </div>
-                                    <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
+                                    <input type="text" id="tanggal" data-value="{{date('Y/m/d',strtotime($tanggal->tgl))}}" name="tanggal" class="form-control daterange-single">
                                 </div>
                             </div>
                         </div>
@@ -189,7 +189,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
                                     </div>
-                                    <input type="text" id="tanggalType" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
+                                    <input type="text" id="tanggalType" data-value="{{date('Y/m/d',strtotime($tanggal->tgl))}}" name="tanggal" class="form-control daterange-single">
                                 </div>
                             </div>
                         </div>
@@ -269,7 +269,7 @@
             <div class="row">
                 <div class="col-sm-5">
                     <h4 class="card-title mb-0" id="namagroup">MNC GROUP</h4>
-                    <div class="small text-muted" id="grouptanggal">{{date('d F Y')}}</div>
+                    {{-- <div class="small text-muted" id="grouptanggal">{{date('d F Y',strtotime($tanggal->tgl))}}</div> --}}
                 </div>
             </div>
         </div>
@@ -282,7 +282,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
                             </div>
-                            <input type="text" id="tanggalgroup" data-value="{{date('Y/m/d')}}" name="tanggalgroup" class="form-control daterange-single">
+                            <input type="text" id="tanggalgroup" data-value="{{date('Y/m/d',strtotime($tanggal->tgl))}}" name="tanggalgroup" class="form-control daterange-single">
                         </div>
                     </div>
                 </div>

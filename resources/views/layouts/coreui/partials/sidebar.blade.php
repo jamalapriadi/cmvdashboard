@@ -67,7 +67,7 @@
             </li>
             <li class="nav-item {{ Request::path() == 'sosmed/summary/official-account-all' ? 'active' : '' }}">
               <a class="nav-link" href="{{URL::to('sosmed/summary/official-account-all')}}">
-                <i class="nav-icon icon-arrow-right22"></i> Official Account All
+                <i class="nav-icon icon-arrow-right22"></i> Official Account
               </a>
             </li>
             <li class="nav-item {{ Request::path() == 'sosmed/summary/overall' ? 'active' : '' }}">
@@ -75,11 +75,11 @@
                 <i class="nav-icon icon-arrow-right22"></i> Overall Account
               </a>
             </li>
-            <li class="nav-item {{ Request::path() == 'sosmed/summary/official-and-program' ? 'active' : '' }}">
+            {{-- <li class="nav-item {{ Request::path() == 'sosmed/summary/official-and-program' ? 'active' : '' }}">
               <a class="nav-link" href="{{URL::to('sosmed/summary/official-and-program')}}">
                 <i class="nav-icon icon-arrow-right22"></i> Official and Program
               </a>
-            </li>
+            </li> --}}
             <li class="nav-item {{ Request::path() == 'sosmed/summary/detail-official-program' ? 'active' : '' }}">
               <a class="nav-link" href="{{URL::to('sosmed/summary/detail-official-program')}}">
                 <i class="nav-icon icon-arrow-right22"></i> Detail Official Program

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card card-default">
-        <div class="card-header">DETAIL OFFICIAL AND PROGRAM</div>
+        <div class="card-header">DETAIL OFFICIAL PROGRAM</div>
         <div class="card-body">
             <form id="formofficialAndProgram" onsubmit="return false">
                 <div class="row">

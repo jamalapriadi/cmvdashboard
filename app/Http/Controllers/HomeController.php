@@ -39,10 +39,16 @@ class HomeController extends Controller
         $group=\App\Models\Sosmed\Groupunit::all();
         $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
+        $tanggal=\App\Models\Sosmed\Unitsosmedfollower::groupBy('unit_sosmed_id')
+                ->select(\DB::raw("max(tanggal) as tgl"))
+                ->limit(1)
+                ->first();
+        
         return view('sosmed.dashboard')
             ->with('user',$user)
             ->with('group',$group)
-            ->with('typeunit',$typeunit);
+            ->with('typeunit',$typeunit)
+            ->with('tanggal',$tanggal);
     }
 
     public function dashboard_summary(){
@@ -664,10 +670,16 @@ class HomeController extends Controller
         $group=\App\Models\Sosmed\Groupunit::all();
         $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
+        $tanggal=\App\Models\Sosmed\Unitsosmedfollower::groupBy('unit_sosmed_id')
+                ->select(\DB::raw("max(tanggal) as tgl"))
+                ->limit(1)
+                ->first();
+
         return view('sosmed.dashboard_chart_twitter')
             ->with('idsosmed',$idsosmed)
             ->with('id',$id)
             ->with('group',$group)
+            ->with('tanggal',$tanggal)
             ->with('typeunit',$typeunit);
     }
 
