@@ -39,7 +39,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
                                 </div>
-                                <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
+                                <input type="text" id="tanggal" data-value="{{date('Y/m/d',strtotime($tanggal->tgl))}}" name="tanggal" class="form-control daterange-single">
                             </div>
                         </div>
                     </div>

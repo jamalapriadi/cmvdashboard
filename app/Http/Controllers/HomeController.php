@@ -65,8 +65,14 @@ class HomeController extends Controller
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
         $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
+        $tanggal=\App\Models\Sosmed\Unitsosmedfollower::groupBy('unit_sosmed_id')
+                ->select(\DB::raw("max(tanggal) as tgl"))
+                ->limit(1)
+                ->first();
+
         return view('sosmed.target_vs_achivement')
             ->with('group',$group)
+            ->with('tanggal',$tanggal)
             ->with('typeunit',$typeunit);
     }
 
@@ -75,8 +81,14 @@ class HomeController extends Controller
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
         $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
+        $tanggal=\App\Models\Sosmed\Unitsosmedfollower::groupBy('unit_sosmed_id')
+                ->select(\DB::raw("max(tanggal) as tgl"))
+                ->limit(1)
+                ->first();
+
         return view('sosmed.official_account_all')
             ->with('group',$group)
+            ->with('tanggal',$tanggal)
             ->with('typeunit',$typeunit);
     }
 
@@ -85,8 +97,14 @@ class HomeController extends Controller
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
         $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
+        $tanggal=\App\Models\Sosmed\Unitsosmedfollower::groupBy('unit_sosmed_id')
+                ->select(\DB::raw("max(tanggal) as tgl"))
+                ->limit(1)
+                ->first();
+
         return view('sosmed.overall')
             ->with('group',$group)
+            ->with('tanggal',$tanggal)
             ->with('typeunit',$typeunit);
     }
 
@@ -105,8 +123,14 @@ class HomeController extends Controller
         $group=\App\Models\Sosmed\Groupunit::select('id','group_name')->get();
         $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
 
+        $tanggal=\App\Models\Sosmed\Unitsosmedfollower::groupBy('unit_sosmed_id')
+                ->select(\DB::raw("max(tanggal) as tgl"))
+                ->limit(1)
+                ->first();
+
         return view('sosmed.detail_official_program')
             ->with('group',$group)
+            ->with('tanggal',$tanggal)
             ->with('typeunit',$typeunit);
     }
 
