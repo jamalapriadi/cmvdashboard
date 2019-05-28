@@ -255,6 +255,8 @@ Route::group(['prefix'=>'brand','middleware'=>'auth'],function(){
         Route::get('live-socmed','Brand\MainbrandController@live_socmed');
         Route::get('input-report/{id}','Brand\MainbrandController@sosmed_input_report');
         Route::get('add-new-report-daily/{id}','Brand\MainbrandController@add_new_report_daily');
+        Route::get('agency','Brand\MainbrandController@agency');
+        Route::get('agency/{id}/summary','Brand\MainbrandController@summary_agency');
     });    
     
 
@@ -266,10 +268,12 @@ Route::group(['prefix'=>'brand','middleware'=>'auth'],function(){
         Route::resource('brand-unit','Brand\BrandunitController');
         Route::resource('brand-sosmed','Brand\BrandsosmedController');
         Route::resource('advertiser','Brand\AdvertiserController');
+        Route::resource('agency','Brand\AgencyController');
         Route::get('list-brand','Brand\BrandController@list_brand');
         Route::post('add-brand-sosmed','Brand\BrandunitController@save_brand_sosmed');
         Route::get('{id}/show-list-brand','Brand\BrandunitController@show_list_brand');
         Route::get('unit-sosmed-by-brand/{id}','Brand\BrandunitController@unit_sosmed_by_brand');
+        Route::get('unit-sosmed-by-agency/{id}','Brand\BrandunitController@unit_sosmed_by_agency');
         Route::delete('hapus-related-brand/{id}','Brand\BrandunitController@hapus_related_brand');
         Route::get('list-brand-by-sector','Brand\BrandunitController@list_brand_by_sector');
 
