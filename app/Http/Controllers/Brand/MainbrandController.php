@@ -38,6 +38,33 @@ class MainbrandController  extends Controller
         return view('brand.advertiser');
     }
 
+    public function agency(){
+        return view('brand.agency');
+    }
+
+    public function summary_agency($id)
+    {
+        $agency=\App\Models\Brand\Agency::with('sosmed','sosmed.sosmed')->find($id);
+        $sosmed=\App\Models\Sosmed\Sosmed::all();
+
+        $channel=array();
+        $activities=array();
+        foreach($agency->sosmed as $row){
+            if($row->sosmed_id==4){
+                $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+
+                $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+            }
+        }
+
+        return view('brand.summary_agency')
+            ->with('id',$id)
+            ->with('agency',$agency)
+            ->with('sosmed',$sosmed)
+            ->with('youtube',$channel)
+            ->with('activity',$activities);
+    }
+
     public function brand_unit(){
         $sector=\App\Models\Brand\Sector::all();
         $category=\App\Models\Brand\Category::all();

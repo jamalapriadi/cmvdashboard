@@ -348,6 +348,11 @@
             <i class="nav-icon icon-collaboration"></i> Brand Unit
           </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {{ Request::path() == 'brand/agency' ? 'active' : '' }}" href="{{URL::to('brand/agency')}}">
+              <i class="nav-icon fa fa-fort-awesome"></i> Agency
+            </a>
+          </li>
         <li class="nav-item nav-dropdown">
             <a class="nav-link nav-dropdown-toggle" href="#">
               <i class="nav-icon  icon-database-insert"></i> Input Report</a>

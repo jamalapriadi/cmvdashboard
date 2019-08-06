@@ -13,7 +13,8 @@
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item dropdown">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-        <img class="img-avatar" src="{{asset('template/coreui/img/avatars/6.jpg')}}" alt="admin@bootstrapmaster.com">
+        {{auth()->user()->user_name}}
+        <img class="img-avatar" src="{{asset('template/coreui/img/avatars/6.jpg')}}" alt="{{auth()->user()->email}}">
       </a>
       <div class="dropdown-menu dropdown-menu-right">
         <div class="dropdown-header text-center">
@@ -33,10 +34,10 @@
       </div>
     </li>
   </ul>
-  <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" data-toggle="aside-menu-lg-show">
+  {{-- <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" data-toggle="aside-menu-lg-show">
     <span class="navbar-toggler-icon"></span>
   </button>
   <button class="navbar-toggler aside-menu-toggler d-lg-none" type="button" data-toggle="aside-menu-show">
     <span class="navbar-toggler-icon"></span>
-  </button>
+  </button> --}}
 </header>

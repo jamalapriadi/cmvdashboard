@@ -438,7 +438,7 @@
         </div> --}}
     </div>
 
-    <div class="card card-default">
+    {{-- <div class="card card-default">
         <div class="card-header">Official</div>
         <div class="card-body">
             <div class="row">
@@ -488,47 +488,9 @@
                 <div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>
             </div>
         </div>
-    </div>
-
-    {{-- <div class="row">
-        <div class="col-lg-6">
-            <div class="card card-default">
-                <div class="card-header">
-                    Official {{strtoupper($id)}} All TV
-
-                    <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
-                            </div>
-                            <input type="text" id="tanggal" data-value="{{date('Y/m/d')}}" name="tanggal" class="form-control daterange-single">
-                        </div>
-                    </div>
-                </div>
-                <div id="top10TwitterOfficial"></div>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="card card-default">
-                <div class="card-header">
-                    TOP 10 {{strtoupper($id)}} Program
-
-                    <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
-                            </div>
-                            <input type="text" id="tanggal2" data-value="{{date('Y/m/d')}}" name="tanggal2" class="form-control daterange-single">
-                        </div>
-                    </div>
-                </div>
-                <div id="top10TwitterProgram"></div>
-            </div>
-        </div>
     </div> --}}
 
-    <div class="card card-default">
+    {{-- <div class="card card-default">
         <div class="card-header">Growth {{strtoupper($id)}} Program</div>
         <div class="card-body">
             <div id="pesan"></div>
@@ -597,7 +559,7 @@
         <div id="growthProgram">
             <div class='alert alert-info'><i class='fa fa-spinner fa-2x fa-spin'></i>&nbsp;Please Wait. . .</div>
         </div>
-    </div>
+    </div> --}}
 @stop
 
 @section('js')
@@ -879,7 +841,7 @@
                         $("#tabletypeunit").DataTable();
 
                         if(number==0){
-                            showOfficial(0);
+                            // showOfficial(0);
                         }
                         
 
@@ -999,7 +961,7 @@
                         });
 
                         if(number==0){
-                            growthProgram(0);
+                            // growthProgram(0);
                         }
                     }
                 })
@@ -1347,7 +1309,7 @@
             }
 
             $(document).on("change","#periode",function(){
-                showOfficial(1);
+                // showOfficial(1);
             })
 
             function periode(){
@@ -2630,7 +2592,7 @@
             });
 
             $(document).on("click","#filterOfficial",function(){
-                showOfficial(1);
+                // showOfficial(1);
             })
 
             $(document).on("change","#group",function(){

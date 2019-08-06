@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class Unitsosmed extends Model
 {
 	// use SoftDeletes;
-
+	protected $connection="mysql";
 	protected $table="unit_sosmed";
 	
 	// protected $dates=['deleted_at'];
