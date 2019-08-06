@@ -13,9 +13,12 @@ class LogAuthenticated
      *
      * @return void
      */
-    public function __construct()
+    public $info;
+
+
+    public function __construct($info)
     {
-        //
+        $this->info = $info;
     }
 
     /**

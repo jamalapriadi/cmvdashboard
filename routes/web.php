@@ -434,7 +434,26 @@ Route::get('tes-youtube','HomeController@tes_youtube');
 // });
 
 Route::get('tes-facebook',function(){
-    return \Follower::facebook('CNNIndonesia');
+    $id="UC_vsErcsq56hOscPHkG-aVw";
+    // return \Follower::youtube('UC_vsErcsq56hOscPHkG-aVw');
+    $channel = \Youtube::getChannelByID($id);
+
+    $youtube=$channel;
+
+    // return json_encode($channel);
+    if(isset($youtube->statistics)){
+        return array(
+            'subscriber'=>$youtube->statistics->subscriberCount,
+            'view_count'=>$youtube->statistics->viewCount,
+            'video_count'=>$youtube->statistics->videoCount
+        );
+    }else{
+        return array(
+            'subscriber'=>0,
+            'view_count'=>0,
+            'video_count'=>0
+        );
+    }
 });
 
 Route::get('tes-cache',function(){
