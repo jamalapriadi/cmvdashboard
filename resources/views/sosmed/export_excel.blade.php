@@ -35,59 +35,58 @@
             <div class="tab-content">
                 <div class="tab-pane active show" id="home" role="tabpanel">
                     <form class="form-horizontal" target="new target" id="form" action="{{URL::to('sosmed/data/export-excel')}}">
-                        <div class="form-group">
+                        <div class="form-group row">
+                            <label class="col-lg-2">Group Unit</label>
+                            <div class="col-lg-4">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="icon-archive"></i></span>
+                                    </div>
+                                    <select name="groupunit[]" id="groupunit" class="form-control select2">
+                                        @foreach($group as $row)
+                                            <option value="{{$row->id}}">{{$row->group_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label class="col-lg-2">Type Unit</label>
                             <div class="col-lg-4">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class="icon-archive"></i></span>
                                     </div>
-                                    <select name="typeunit" id="typeunit" class="form-control">
-                                        <option value="">--Pilih Unit--</option>
-                                        <option value="TV">TV</option>
-                                        <option value="Publisher">Hardnews Portal</option>
-                                        <option value="Radio">Radio</option>
+                                    <select name="typeunit[]" id="typeunit" class="form-control select2">
+                                        @foreach($typeunit as $row)
+                                            <option value="{{$row->id}}">{{$row->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-lg-2">Type Account</label>
-                            <div class="col-lg-4">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1"><i class="icon-archive"></i></span>
-                                    </div>
-                                    <select name="typeaccount" id="typeaccount" class="form-control">
-                                        <option value="" disabled selected>--Pilih Account--</option>
-                                        <option value="corporate">Corporate</option>
-                                        <option value="program">Program</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
+                        <div class="form-group row">
                                 <label class="col-lg-2">Start Date</label>
                             <div class="col-lg-4">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
                                     </div>
-                                    <input class="form-control daterange-single-sekarang" name="start" id="start">
+                                    <input class="form-control daterange-single" data-value="{{date('Y/m/d')}}" name="start" id="start">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-lg-2">End Date</label>
                             <div class="col-lg-4">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
                                     </div>
-                                    <input class="form-control daterange-single-sekarang" name="end" id="end">
+                                    <input class="form-control daterange-single" data-value="{{date('Y/m/d')}}" name="end" id="end">
                                 </div>
                             </div>
                         </div>
@@ -114,5 +113,18 @@
 @stop
 
 @section('js')
-    
+    <script>
+        $(function(){
+            $('.daterange-single').pickadate({
+                format: 'yyyy/mm/dd',
+                formatSubmit: 'yyyy/mm/dd',
+                max:true,
+            });
+
+            $('.select2').select2({
+                placeholder:'Pilih Data',
+                multiple:true
+            });
+        })
+    </script>
 @stop
