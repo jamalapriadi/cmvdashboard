@@ -1,11 +1,11 @@
-@extends('layouts.sosmed')
+@extends('layouts.coreui.main')
 
 @section('content')
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h6 class="panel-title">Change Password</h6>
+	<div class="card card-default">
+		<div class="card-header">
+			<h6 class="card-title">Change Password</h6>
 		</div>
-		<div class="panel-body">
+		<div class="card-body">
 			<form  id="form" onsubmit="return false;" class="form-horizontal">
 				<div id="pesan"></div>
 				<div class="form-group">

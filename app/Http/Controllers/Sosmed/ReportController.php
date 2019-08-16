@@ -5382,47 +5382,102 @@ class ReportController extends Controller
     /* end chart */
 
     public function export_excel(Request $request){
-        // return array(
-        //     'typeunit'=>$request->input('typeunit'),
-        //     'typeaccount'=>$request->input('typeaccount'),
-        //     'start'=>date('Y-m-d',strtotime($request->input('start'))),
-        //     'end'=>date('Y-m-d',strtotime($request->input('end')))
-        // );
+        $corporate=\App\Models\Sosmed\Businessunit::leftJoin('unit_sosmed as b',function($q){
+                $q->on('b.business_program_unit','=','business_unit.id')
+                    ->where('b.type_sosmed','corporate');
+            })->leftJoin('unit_sosmed_follower as c','c.unit_sosmed_id','=','b.id')
+            ->leftJoin('sosmed as d','d.id','=','b.sosmed_id')
+            ->leftJoin('type_unit as e','e.id','=','business_unit.type_unit')
+            ->with('groupunit')
+            ->select(
+                [
+                    'group_unit_id',
+                    'unit_name',
+                    'type_unit',
+                    \DB::raw("e.name as type_unit_name"),
+                    \DB::raw("IF(
+                        b.type_sosmed = 'corporate',
+                        'corporate',
+                        'program'
+                    ) AS TYPE"),
+                    'b.sosmed_id',
+                    'd.sosmed_name',
+                    'b.unit_sosmed_name',
+                    'c.tanggal',
+                    'c.follower',
+                    'c.video_count',
+                    'c.view_count'
+                ]
+            );
 
-        if($request->has('typeunit') && $request->input('typeunit')!=null){
-            return "type unit ada";
+        $program=\App\Models\Sosmed\Programunit::leftJoin('unit_sosmed as b',function($q){
+                $q->on('b.business_program_unit','=','program_unit.id')
+                    ->where('b.type_sosmed','program');
+            })->leftJoin('unit_sosmed_follower as c','c.unit_sosmed_id','=','b.id')
+            ->leftJoin('sosmed as d','d.id','=','b.sosmed_id')
+            ->leftJoin('business_unit as f','f.id','=','program_unit.business_unit_id')
+            ->leftJoin('type_unit as e','e.id','=','f.type_unit')
+            ->leftJoin('group_unit as g','g.id','=','f.group_unit_id')
+            ->select(
+                [
+                    'business_unit_id',
+                    'program_name',
+                    'f.unit_name',
+                    'g.group_name',
+                    'type_unit',
+                    \DB::raw("e.name as type_unit_name"),
+                    \DB::raw("IF(
+                        b.type_sosmed = 'corporate',
+                        'corporate',
+                        'program'
+                    ) AS TYPE"),
+                    'b.sosmed_id',
+                    'd.sosmed_name',
+                    'b.unit_sosmed_name',
+                    'c.tanggal',
+                    'c.follower',
+                    'c.video_count',
+                    'c.view_count'
+                ]
+            );
+
+        if($request->has('groupunit') && $request->input('groupunit')!="")
+        {
+            $corporate=$corporate->whereIn('group_unit_id',$request->input('groupunit'));
+            $program=$program->whereIn('f.group_unit_id',$request->input('groupunit'));
         }
 
-        if($request->has('typeaccount') && $request->input('typeaccount')!=null){
-            return "type account ada";
+        if($request->has('typeunit') && $request->input('typeunit')!=""){
+            $corporate=$corporate->whereIn('type_unit',$request->input('typeunit'));
+            $program=$program->whereIn('type_unit',$request->input('typeunit'));
         }
 
-        return "tidak ada semua";
+        if($request->has('start') && $request->input('start')!="")
+        {
+            $corporate=$corporate->where('c.tanggal','>=',$request->input('start'));
+            $program=$program->where('c.tanggal','>=',$request->input('start'));
+        }
 
-        $corporate=\DB::select("SELECT
-                a.group_unit_id,
-                a.unit_name,
-                a.type_unit,
-                IF(
-                    b.type_sosmed = 'corporate',
-                    'corporate',
-                    'program'
-                ) AS TYPE,
-                b.sosmed_id,
-                b.unit_sosmed_name,
-                c.tanggal,
-                c.follower
-            FROM
-                business_unit a
-            LEFT JOIN unit_sosmed b ON
-                b.business_program_unit = a.id AND b.type_sosmed = 'corporate'
-            LEFT JOIN unit_sosmed_follower c ON
-                c.unit_sosmed_id = b.id
-            ORDER BY
-                a.id,
-                c.tanggal");
+        if($request->has('end') && $request->input('end')!="")
+        {
+            $corporate=$corporate->where('c.tanggal','<=',$request->input('end'));
+            $program=$program->where('c.tanggal','<=',$request->input('end'));
+        }
 
-        return $corporate;
+        $corporate=$corporate->get();
+        $program=$program->get();
+
+        return \Excel::download(new \App\Exports\GroupFollower($corporate,$program), 'group_follower.xlsx');
+
+        // if($request->has('export')){
+        //     $export=$request->input('export');
+
+        //     if($export=="excel"){
+        //         return \Excel::download(new \App\Exports\Youtubetvandprogram($kemarin,$sekarang), 'compare_youtube_tv_program.xlsx');
+        //     }
+        // }else{
+        //     return $lis;
+        // }
     }
 
     public function chart_by_tier(Request $request){

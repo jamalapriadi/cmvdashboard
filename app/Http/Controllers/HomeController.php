@@ -399,7 +399,12 @@ class HomeController extends Controller
     }
 
     public function sosmed_export_excel(Request $request){
-        return view('sosmed.export_excel');
+        $group=\App\Models\Sosmed\Groupunit::all();
+        $typeunit=\App\Models\Sosmed\Typeunit::select('id','name')->get();
+
+        return view('sosmed.export_excel')
+            ->with('group',$group)
+            ->with('typeunit',$typeunit);
     }
 
     public function official_and_program(Request $request){

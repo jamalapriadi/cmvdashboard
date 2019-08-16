@@ -27,6 +27,10 @@ class Agency extends Model
 					'target_use'
 				]
 			);
-    }
+	}
+	
+	public function agencypintu(){
+		return $this->hasOne('App\Models\Brand\Agencypintu','id_agcy');
+	}
 
 }

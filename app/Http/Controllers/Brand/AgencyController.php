@@ -21,7 +21,9 @@ class AgencyController extends Controller
     public function index(Request $request)
     {  
         \DB::statement(\DB::raw('set @rownum=0'));
-        $var=\App\Models\Brand\Agency::select('db_m_agency.*',
+        $var=\App\Models\Brand\Agency::
+            with('agencypintu')
+            ->select('db_m_agency.*',
             \DB::raw('@rownum := @rownum + 1 AS no'));
         
         return \Datatables::of($var)
