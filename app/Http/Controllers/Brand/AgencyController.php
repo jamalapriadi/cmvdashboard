@@ -21,27 +21,25 @@ class AgencyController extends Controller
     public function index(Request $request)
     {  
         \DB::statement(\DB::raw('set @rownum=0'));
-        $var=\App\Models\Brand\Agency::
-            with('agencypintu')
-            ->select('db_m_agency.*',
+        $var=\App\Models\Brand\Agencypintu::
+            with('agency')
+            ->select('db_m_agencypintu.*',
             \DB::raw('@rownum := @rownum + 1 AS no'));
         
         return \Datatables::of($var)
         ->addColumn('action',function($query){
             $html="<div class='btn-group'>";
-            $html.="<a href='".\URL::to('brand/agency/'.$query->id_agcy.'/summary')."' class='btn btn-sm btn-success' kode='".$query->id_agcy."' title='Gear'><i class='icon-gear'></i></a>";
+            $html.="<a href='".\URL::to('brand/agency/'.$query->id_agcyptu.'/summary')."' class='btn btn-sm btn-success' kode='".$query->id_agcyptu."' title='Gear'><i class='icon-gear'></i></a>";
             $html.="</div>";
 
             return $html;
         })
         ->addColumn('agen',function($q){
-            $html="<ul>";
-            foreach($q->agencypintu as $row){
-                $html.="<li>".$row->nama_agencypintu."</li>";
+            if($q->agency!=null){
+                return $row->name_agency;
+            }else{
+                return "-";
             }
-            $html.="</ul>";
-
-            return $html;
         })
         ->addIndexColumn()
         ->rawColumns(['action','agen'])
