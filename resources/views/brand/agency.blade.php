@@ -51,7 +51,7 @@
                         {data: 'DT_Row_Index', name: 'DT_Row_Index',title:'No.',width:'5%',searchable:false,'orderable':false},
                         {data: 'id_agcy', name: 'id_agcy',title:'ID Agency', width:'14%'},
                         {data: 'name_agency', name: 'name_agency',title:'Agency', width:'25%'},
-                        {data: 'agencypintu.nama_agencypintu', name: 'agencypintu.nama_agencypintu',title:'Agency Pintu', width:'25%'},
+                        {data: 'agen', name: 'agen',title:'Agency Pintu', width:'25%'},
                         {data: 'cluster', name: 'cluster',title:'Cluster', width:'5%'},
                         {data: 'action', name: 'action',title:'', width:'5%'}
                     ],

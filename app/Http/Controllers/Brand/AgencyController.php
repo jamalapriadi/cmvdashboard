@@ -34,8 +34,17 @@ class AgencyController extends Controller
 
             return $html;
         })
+        ->addColumn('agen',function($q){
+            $html="<ul>";
+            foreach($q->agencypintu as $row){
+                $html.="<li>".$row->nama_agencypintu."</li>";
+            }
+            $html.="</ul>";
+
+            return $html;
+        })
         ->addIndexColumn()
-        ->rawColumns(['action'])
+        ->rawColumns(['action','agen'])
         ->make(true);  
     }
 }

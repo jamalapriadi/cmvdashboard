@@ -30,7 +30,7 @@ class Agency extends Model
 	}
 	
 	public function agencypintu(){
-		return $this->hasOne('App\Models\Brand\Agencypintu','id_agcy');
+		return $this->hasMany('App\Models\Brand\Agencypintu','id_agcy');
 	}
 
 }
