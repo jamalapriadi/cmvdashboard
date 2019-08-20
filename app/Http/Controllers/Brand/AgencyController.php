@@ -36,7 +36,7 @@ class AgencyController extends Controller
         })
         ->addColumn('agen',function($q){
             if($q->agency!=null){
-                return $row->name_agency;
+                return $q->agency->name_agency;
             }else{
                 return "-";
             }
