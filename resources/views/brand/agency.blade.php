@@ -49,9 +49,9 @@
                     ajax: "{{URL::to('brand/data/agency')}}",
                     columns: [
                         {data: 'DT_Row_Index', name: 'DT_Row_Index',title:'No.',width:'5%',searchable:false,'orderable':false},
-                        {data: 'id_agcyptu', name: 'id_agcyptu',title:'ID Agency', width:'14%'},
-                        {data: 'nama_agencypintu', name: 'nama_agencypintu',title:'Nama Agency Pintu', width:'25%'},
-                        {data: 'agen', name: 'agen',title:'Agency', width:'25%'},
+                        {data: 'id_agcy', name: 'id_agcy',title:'ID Agency', width:'14%'},
+                        {data: 'name_agency', name: 'name_agency',title:'Agency', width:'25%'},
+                        {data: 'agen', name: 'agen',title:'Agency Pintu', width:'25%'},
                         {data: 'cluster', name: 'cluster',title:'Cluster', width:'5%'},
                         {data: 'action', name: 'action',title:'', width:'5%'}
                     ],
