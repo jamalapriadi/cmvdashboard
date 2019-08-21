@@ -33,4 +33,21 @@ class Agencypintu extends Model
         return $this->belongsTo('App\Models\Brand\Agency','id_agcy')
             ->select(['id_agcy','name_agency']);
     }
+
+    public function sosmed(){
+		return $this->hasMany('App\Models\Sosmed\Unitsosmed','business_program_unit')
+			->where('type_sosmed','agencypintu')
+			->select(
+				[
+					'id',
+					'type_sosmed',
+					'business_program_unit',
+					'sosmed_id',
+					'unit_sosmed_name',
+					'status_active',
+					'unit_sosmed_account_id',
+					'target_use'
+				]
+			);
+	}
 }

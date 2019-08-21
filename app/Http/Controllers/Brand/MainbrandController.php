@@ -42,6 +42,10 @@ class MainbrandController  extends Controller
         return view('brand.agency');
     }
 
+    public function agency_pintu(){
+        return view('brand.agency_pintu');
+    }
+
     public function summary_agency($id)
     {
         $agency=\App\Models\Brand\Agency::with('sosmed','sosmed.sosmed')->find($id);
@@ -58,6 +62,29 @@ class MainbrandController  extends Controller
         }
 
         return view('brand.summary_agency')
+            ->with('id',$id)
+            ->with('agency',$agency)
+            ->with('sosmed',$sosmed)
+            ->with('youtube',$channel)
+            ->with('activity',$activities);
+    }
+
+    public function summary_agency_pintu($id)
+    {
+        $agency=\App\Models\Brand\Agencypintu::with('sosmed','sosmed.sosmed')->find($id);
+        $sosmed=\App\Models\Sosmed\Sosmed::all();
+
+        $channel=array();
+        $activities=array();
+        foreach($agency->sosmed as $row){
+            if($row->sosmed_id==4){
+                $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+
+                $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+            }
+        }
+
+        return view('brand.summary_agency_pintu')
             ->with('id',$id)
             ->with('agency',$agency)
             ->with('sosmed',$sosmed)
