@@ -64,7 +64,13 @@ class BrandunitController extends Controller
                 $brand=request('brand');
 
                 foreach($brand as $key=>$val){
-                    $unit->brand()->attach($val);
+                    // $unit->brand()->attach($val);
+                    $product=App\Models\Brand\Produk::where('id_brand',$val)
+                        ->get();
+
+                    foreach($product as $row){
+                        $unit->brand()->attach($val, array('id_produk'=>$row->id_produk));
+                    }
                 }
                 
                 $data=array(
@@ -167,7 +173,12 @@ class BrandunitController extends Controller
             $brand=request('brand');
 
             foreach($brand as $key=>$val){
-                $unit->brand()->attach($val);
+                $product=App\Models\Brand\Produk::where('id_brand',$val)
+                    ->get();
+
+                foreach($product as $row){
+                    $unit->brand()->attach($val, array('id_produk'=>$row->id_produk));
+                }
             }
 
             $data=array(
