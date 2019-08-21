@@ -219,6 +219,18 @@ class BrandunitController extends Controller
         return $unit;
     }
 
+    public function unit_sosmed_by_agency_pintu(Request $request,$id)
+    {
+        $unit=\App\Models\Brand\Agencypintu::with(
+            [
+                'sosmed',
+                'sosmed.sosmed'
+            ]
+        )->find($id);
+
+        return $unit;
+    }
+
     public function hapus_related_brand(Request $request,$id){
         $unit=Brandunit::find($id);
         $related=request('related');

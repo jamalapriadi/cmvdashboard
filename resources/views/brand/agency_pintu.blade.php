@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="card card-default">
-    <div class="card-header">Data Agency
+    <div class="card-header">Data Agency Pintu
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -48,13 +48,13 @@
                     serverSide: true,
                     autoWidth: true,
                     destroy: true,
-                    ajax: "{{URL::to('brand/data/agency')}}",
+                    ajax: "{{URL::to('brand/data/agency-pintu')}}",
                     columns: [
                         {data: 'DT_Row_Index', name: 'DT_Row_Index',title:'No.',width:'5%',searchable:false,'orderable':false},
-                        {data: 'id_agcy', name: 'id_agcy',title:'ID Agency', width:'14%'},
-                        {data: 'name_agency', name: 'name_agency',title:'Agency', width:'25%'},
-                        // // {data: 'agencypintu.nama_agencypintu', name: 'agencypintu.nama_agencypintu',title:'Agency Pintu', width:'25%'},
-                        {data: 'cluster', name: 'cluster',title:'Cluster', width:'5%'},
+                        {data: 'id_agcyptu', name: 'id_agcyptu',title:'ID Agency Pintu', width:'14%',searchable:false,'orderable':false},
+                        {data: 'nama_agencypintu', name: 'nama_agencypintu',title:'Agency Pintu', width:'25%', searchable:true},
+                        // {data: 'agen', name: 'agen',title:'Agency', width:'25%',searchable:false,'orderable':false},
+                        {data: 'cluster', name: 'cluster',title:'Cluster', width:'5%',searchable:false,'orderable':false},
                         {data: 'action', name: 'action',title:'', width:'5%'}
                     ],
                     buttons: [
