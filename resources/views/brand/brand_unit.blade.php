@@ -1,5 +1,32 @@
 @extends('layouts.coreui.main')
 
+@section('extra-style')
+<style>
+    fieldset{
+        border: 1px solid #ddd !important;
+        margin: 0;
+        xmin-width: 0;
+        padding: 10px;       
+        position: relative;
+        border-radius:4px;
+        background-color:#f5f5f5;
+        padding-left:10px!important;
+    }	
+
+    legend{
+        font-size:14px;
+        font-weight:bold;
+        margin-bottom: 0px; 
+        width: 35%; 
+        border: 1px solid #ddd;
+        border-radius: 4px; 
+        padding: 5px 5px 5px 10px; 
+        background-color: #d8dfe5;
+        color:#222;
+    }
+</style>
+@stop
+
 @section('content')
     <div class="card card-default">
         <div class="card-header">Data Brand
@@ -10,6 +37,29 @@
                 Add New Brand
             </a>
             <hr>
+            <fieldset>
+                <legend>Filter</legend>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="" class="control-label">Advertiser</label>
+                            <select name="advertiser" id="advertiser" class="form-control select2">
+                                <option value="" disabled selected>--Pilih Advertiser--</option>
+                                @foreach ($advertiser as $row)
+                                    <option value="{{$row->id_adv}}">{{$row->nama_adv}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="btn btn-primary" id="filter" style="margin-top:25px;">
+                            <i class="fa fa-filter"></i>
+                            Filter
+                        </button>
+                    </div>
+                </div>
+            </fieldset>
+            <br><br>
 
             <div class="table-responsive">
                 <table class="table table-striped datatable-colvis-basic"></table>
@@ -28,6 +78,8 @@
             var category=@json($category);
             var adv=@json($advertiser);
 
+            $('.select2').select2();
+
             function showData(){
                 $('.datatable-colvis-basic').DataTable({
                     processing: true,
@@ -38,7 +90,7 @@
                     columns: [
                         {data: 'DT_Row_Index', name: 'DT_Row_Index',title:'No.',width:'8%',searchable:false,'orderable':false},
                         {data: 'brand_name_alias', name: 'brand_name_alias',title:'Brand Name Alias'},
-                        {data: 'advertiser.nama_adv', name: 'advertiser.nama_adv',title:'Advertiser'},
+                        {data: 'advertiser.nama_adv', name: 'advertiser.nama_adv',title:'Advertiser',searchable:false,'orderable':false},
                         {data: 'action', name: 'action',title:'',width:'18%',searchable:false,'orderable':false}
                     ],
                     buttons: [
@@ -66,6 +118,53 @@
                     minimumResultsForSearch: "-1"
                 }); 
             } 
+
+            $(document).on("click","#filter",function(){
+                var advertiser=$("#advertiser").val();
+                var param={
+                    advertiser:advertiser
+                }
+
+                $('.datatable-colvis-basic').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    autoWidth: true,
+                    destroy: true,
+                    ajax: {
+                        url:"{{URL::to('brand/data/brand-unit')}}",
+                        data:param
+                    },
+                    columns: [
+                        {data: 'DT_Row_Index', name: 'DT_Row_Index',title:'No.',width:'8%',searchable:false,'orderable':false},
+                        {data: 'brand_name_alias', name: 'brand_name_alias',title:'Brand Name Alias'},
+                        {data: 'advertiser.nama_adv', name: 'advertiser.nama_adv',title:'Advertiser',searchable:false,'orderable':false},
+                        {data: 'action', name: 'action',title:'',width:'18%',searchable:false,'orderable':false}
+                    ],
+                    buttons: [
+                    'copy', 'excel', 'pdf'
+                    ],
+                    colVis: {
+                        buttonText: "<i class='icon-three-bars'></i> <span class='caret'></span>",
+                        align: "right",
+                        overlayFade: 200,
+                        showAll: "Show all",
+                        showNone: "Hide all"
+                    },
+                    bDestroy: true
+                }); 
+
+                $('.ColVis_Button').addClass('btn btn-primary btn-icon').on('click mouseover', function() {
+                    $('.ColVis_collection input').uniform();
+                });
+
+
+                $('.dataTables_filter input[type=search]').attr('placeholder', 'Type to filter...');
+
+
+                $('.dataTables_length select').select2({
+                    minimumResultsForSearch: "-1"
+                }); 
+            })
 
             $(document).on("click","#tambah",function(){
                 var el="";

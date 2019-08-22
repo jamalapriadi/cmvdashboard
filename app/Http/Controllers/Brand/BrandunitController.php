@@ -20,12 +20,16 @@ class BrandunitController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(){
+    public function index(Request $request){
         $unit=Brandunit::with(
             [
                 'brand','advertiser'
             ]
         );
+
+        if($request->has('advertiser') && $request->input('advertiser')!=null){
+            $unit=$unit->where('advertiser_id',$request->input('advertiser'));
+        }
 
         return \Datatables::of($unit)
             ->addColumn('action',function($query){
