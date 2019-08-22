@@ -21,7 +21,11 @@ class BrandunitController extends Controller
     }
 
     public function index(){
-        $unit=Brandunit::with('brand','advertiser');
+        $unit=Brandunit::with(
+            [
+                'brand','advertiser'
+            ]
+        );
 
         return \Datatables::of($unit)
             ->addColumn('action',function($query){
