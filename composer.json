@@ -10,7 +10,7 @@
         "barryvdh/laravel-dompdf": "^0.8.2",
         "buzz/laravel-google-captcha": "^2.1",
         "fideloper/proxy": "^4.0",
-        "laravel/framework": "5.6.*",
+        "laravel/framework": "5.7.*",
         "laravel/passport": "^4.0",
         "laravel/socialite": "^3.1",
         "laravel/tinker": "~1.0",
