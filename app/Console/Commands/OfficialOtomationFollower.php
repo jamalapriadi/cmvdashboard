@@ -87,7 +87,9 @@ class OfficialOtomationFollower extends Command
                         'tanggal'=>$sekarang,
                         'follower'=>\Follower::twitter($row->unit_sosmed_name),
                         'view_count'=>null,
-                        'video_count'=>null
+                        'video_count'=>null,
+                        'following'=>null,
+                        'post_count'=>null
                     );
                 }
 
@@ -99,19 +101,24 @@ class OfficialOtomationFollower extends Command
                         'tanggal'=>$sekarang,
                         'follower'=>\Follower::facebook($row->unit_sosmed_account_id),
                         'view_count'=>null,
-                        'video_count'=>null
+                        'video_count'=>null,
+                        'following'=>null,
+                        'post_count'=>null
                     );
                 }
 
                 if($row->sosmed_id==3){
                     $this->info("Get Follower Account Instagram = ".$row->unit_name);
+                    $ig=\Follower::cek_instagram($row->unit_sosmed_name);
 
                     $list[]=array(
                         'unit_sosmed_id'=>$row->unit_sosmed_id,
                         'tanggal'=>$sekarang,
-                        'follower'=>\Follower::instagram($row->unit_sosmed_name),
+                        'follower'=>$ig['all_follower'],
                         'view_count'=>null,
-                        'video_count'=>null
+                        'video_count'=>null,
+                        'following'=>$ig['mengikuti'],
+                        'post_count'=>$ig['jumlah_post']
                     );
                 }
 
@@ -124,7 +131,9 @@ class OfficialOtomationFollower extends Command
                         'tanggal'=>$sekarang,
                         'follower'=>$yt['subscriber'],
                         'view_count'=>$yt['view_count'],
-                        'video_count'=>$yt['video_count']
+                        'video_count'=>$yt['video_count'],
+                        'following'=>null,
+                        'post_count'=>null
                     );
                 }
 
@@ -158,6 +167,8 @@ class OfficialOtomationFollower extends Command
                         $new->follower=$v['follower'];
                         $new->view_count=$v['view_count'];
                         $new->video_count=$v['video_count'];
+                        $new->following=$v['following'];
+                        $new->post_count=$v['post_count'];
                         $new->insert_user='jamal.apriadi@mncgroup.com';
                         $new->save();
                     }
