@@ -571,3 +571,5 @@ Route::get('clear-cache',function(){
     Artisan::call('cache:clear');
     return "Cache is cleared";
 });
+
+Route::get('cek-instagram','Sosmed\InstagramController@cek_instagram');
