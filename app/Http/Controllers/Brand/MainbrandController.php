@@ -225,4 +225,42 @@ class MainbrandController  extends Controller
 
         return $var;
     }
+
+    public function remote_data_advertiser(Request $request)
+    {
+        $var=\App\Models\Brand\Advertiser::select('id_adv as id','nama_adv as text');
+
+        if($request->has('q')){
+            $var=$var->where('nama_adv','like','%'.$request->input('q')['term'].'%');
+        }
+
+        if($request->has('page_limit')){
+            $page_limit=$request->input('page_limit');
+        }else{
+            $page_limit=25;
+        }
+
+        $var=$var->paginate($page_limit);
+
+        return $var;
+    }
+
+    public function remote_data_produk(Request $request)
+    {
+        $var=\App\Models\Brand\Produk::select('id_produk as id','nama_produk as text');
+
+        if($request->has('q')){
+            $var=$var->where('nama_produk','like','%'.$request->input('q')['term'].'%');
+        }
+
+        if($request->has('page_limit')){
+            $page_limit=$request->input('page_limit');
+        }else{
+            $page_limit=25;
+        }
+
+        $var=$var->paginate($page_limit);
+
+        return $var;
+    }
 }

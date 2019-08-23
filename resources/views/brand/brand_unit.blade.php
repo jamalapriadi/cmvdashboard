@@ -168,100 +168,145 @@
 
             $(document).on("click","#tambah",function(){
                 var el="";
-                $.ajax({
-                    url:"{{URL::to('brand/data/list-advertiser')}}",
-                    type:"GET",
-                    beforeSend:function(){
-                        el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
-                            '<div class="modal-dialog">'+
-                                '<form id="form" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
-                                    '<div class="modal-content">'+
-                                        '<div class="modal-header bg-primary">'+
-                                            '<h5 class="modal-title" id="modal-title">Add New Brand</h5>'+
-                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
-                                        '</div>'+
 
-                                        '<div class="modal-body">'+
-                                            '<div id="pesan"></div>'+
-                                            '<div id="showListBrand"></div>'+
-                                        '</div>'+
+                el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                    '<div class="modal-dialog">'+
+                        '<form id="form" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                            '<div class="modal-content">'+
+                                '<div class="modal-header bg-primary">'+
+                                    '<h5 class="modal-title" id="modal-title">Add New Brand</h5>'+
+                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                '</div>'+
 
-                                        '<div class="modal-footer">'+
-                                            '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
-                                            '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
-                                        '</div>'+
+                                '<div class="modal-body">'+
+                                    '<div id="pesan"></div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Brand Alias Name</label>'+
+                                        '<input class="form-control" name="name" id="name" placeholder="Brand Alias Name" required>'+
                                     '</div>'+
-                                '</form>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Advertiser</label>'+
+                                        '<select name="idadvertiser" id="idadvertiser" class="form-control">'+
+                                            '<option value="" disabled selected>--Pilih Advertiser--</option>'+
+                                        '</select>'+
+                                    '</div>'+
+                                    '<div id="showRemoteBrand">'+
+                                        '<div class="form-group">'+
+                                            '<div class="label control-label">Produk</div>'+
+                                            '<select name="produk[]" id="idproduk" class="select2-multiple" multiple>'+
+                                                '<option value="">--Pilih Produk--</option>'+
+                                            '</select>'+
+                                        '</div>'+
+                                    '</div>'
+                                '</div>'+
+
+                                '<div class="modal-footer">'+
+                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                    '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
+                                '</div>'+
                             '</div>'+
-                        '</div>';
+                        '</form>'+
+                    '</div>'+
+                '</div>';
 
-                        $("#divModal").empty().html(el);
-                        $("#modal_default").modal("show");
-                        $("#showListBrand").empty().html("<div class='alert alert-info'>Please Wait...</div>");
+                $("#divModal").empty().html(el);
+                $("#modal_default").modal("show");
+
+                $.fn.select2.defaults.set( "theme", "bootstrap" );
+
+                var placeholder = "Select a State";
+
+                $( ".select2-multiple" ).select2( {
+                    placeholder: placeholder,
+                    width: null,
+                    containerCssClass: ':all:'
+                } );
+
+                $('#idadvertiser').select2({
+                    placeholder: "Search for a Advertiser",
+                    minimumInputLength: 2,
+                    ajax: {
+                        url: "{{URL::to('brand/data/remote-data-advertiser')}}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                q: params, // search term,
+                                page_limit: 10,
+                            };
+                        },
+                        results: function (data, page){
+                            return {
+                                results: data.data
+                            };
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: data.data
+                                // results: $.map(data, function (item) {
+                                //     return {
+                                //         text: item.tag_value,
+                                //         id: item.tag_id
+                                //     }
+                                // })
+                            };
+                        },
+                        cache: true
                     },
-                    success:function(result){
-                        el+='<div id="pesan"></div>'+
-                        '<div class="form-group">'+
-                            '<label class="control-label text-semibold">Brand Alias Name</label>'+
-                            '<input class="form-control" name="name" id="name" placeholder="Brand Alias Name" required>'+
-                        '</div>'+
-                        '<div class="form-group">'+
-                            '<label class="control-label text-semibold">Advertiser</label>'+
-                            '<select name="advertiser" id="advertiser" class="form-control">'+
-                                '<option value="" disabled selected>--Pilih Advertiser--</option>';
-                                $.each(adv,function(a,b){
-                                    el+="<option value='"+b.id_adv+"'>"+b.nama_adv+"</option>";
-                                })
-                            el+='</select>'+
-                        '</div>'+
-                        // '<div class="form-group">'+
-                        //     '<label class="control-label text-semibold">Sector</label>'+
-                        //     '<select name="sector" id="sector" class="form-control">'+
-                        //         '<option value="">--Pilih Sector--</option>';
-                        //         $.each(sector,function(a,b){
-                        //             el+="<option value='"+b.id_sector+"'>"+b.name_sector+"</option>";
-                        //         })
-                        //     el+='</select>'+
-                        // '</div>'+
-                        // '<div class="form-group">'+
-                        //     '<label class="control-label text-semibold">Category</label>'+
-                        //     '<select name="category" id="category" class="form-control">'+
-                        //         '<option value="">--Pilih Category--</option>';
-                        //         $.each(category,function(a,b){
-                        //             el+="<option value='"+b.id_category+"'>"+b.name_category+"</option>";
-                        //         })
-                        //     el+='</select>'+
-                        // '</div>'+
-                        '<div id="showRemoteBrand">'+
-                            '<div class="form-group">'+
-                                '<div class="label control-label">Brand</div>'+
-                                '<select name="brand[]" id="brand" class="select2-multiple" multiple>'+
-                                    '<option value="">--Pilih Brand--</option>';
-                                    // $.each(result,function(a,b){
-                                    //     el+="<option value='"+b.id+"'>"+b.text+"</option>";
-                                    // })
-                                el+='</select>'+
-                            '</div>'+
-                        '</div>';
-
-                        $("#showListBrand").empty().html(el);
-
-                        $.fn.select2.defaults.set( "theme", "bootstrap" );
-
-                        var placeholder = "Select a State";
-
-                        $( ".select2-multiple" ).select2( {
-                            placeholder: placeholder,
-                            width: null,
-                            containerCssClass: ':all:'
-                        } );
-
-                        $("#advertiser").select2();
+                    formatResult: function(m){
+                        var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+                    
+                        return markup;    
                     },
-                    errors:function(){
-                        
-                    }
-                })
+                    formatSelection: function(m){
+                        return m.text;
+                    },
+                    escapeMarkup: function (m) { return m; }
+                });
+
+                
+                $('#idproduk').select2({
+                    placeholder: "Search for a Produk",
+                    minimumInputLength: 2,
+                    multiple:true,
+                    ajax: {
+                        url: "{{URL::to('brand/data/remote-data-produk')}}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                q: params, // search term,
+                                page_limit: 10,
+                            };
+                        },
+                        results: function (data, page){
+                            return {
+                                results: data.data
+                            };
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: data.data
+                                // results: $.map(data, function (item) {
+                                //     return {
+                                //         text: item.tag_value,
+                                //         id: item.tag_id
+                                //     }
+                                // })
+                            };
+                        },
+                        cache: true
+                    },
+                    formatResult: function(m){
+                        var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+                    
+                        return markup;    
+                    },
+                    formatSelection: function(m){
+                        return m.text;
+                    },
+                    escapeMarkup: function (m) { return m; }
+                });
             });
 
             $(document).on("change","#sector",function(){
