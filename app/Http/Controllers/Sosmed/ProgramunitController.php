@@ -1181,6 +1181,14 @@ class ProgramunitController extends Controller
             );
         }else{
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
+            $dimana="";
+
+            if($request->has('unit')){
+                $typeunit=$request->input('unit');
+
+                if($typeunit!=null)
+                $dimana.=" AND if(b.type_sosmed='corporate',e.type_unit=$typeunit, f.type_unit=$typeunit)";
+            }
 
             $list=\DB::select("select a.id,b.unit_sosmed_name,b.sosmed_id, b.unit_sosmed_account_id,
                 c.sosmed_name, b.type_sosmed,
@@ -1194,6 +1202,8 @@ class ProgramunitController extends Controller
                 left join business_unit e on e.id=b.business_program_unit
                 left join business_unit f on f.id=d.business_unit_id
                 where a.tanggal='$sekarang'
+                AND e.type_unit=$typeunit
+                OR f.type_unit=$typeunit
                 and a.follower=0");
 
             $data=array(

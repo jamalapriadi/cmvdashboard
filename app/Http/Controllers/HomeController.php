@@ -474,8 +474,11 @@ class HomeController extends Controller
             ]
         )->find(auth()->user()->id);
 
+        $typeunit=\App\Models\Sosmed\Typeunit::all();
+
         return view('sosmed.single_input_report')
-                ->with('user',$user);
+                ->with('user',$user)
+                ->with('typeunit',$typeunit);
     }
 
     public function sosmed_insight(){
