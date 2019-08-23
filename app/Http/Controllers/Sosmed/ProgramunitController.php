@@ -1199,12 +1199,11 @@ class ProgramunitController extends Controller
                 left join unit_sosmed b on b.id=a.unit_sosmed_id
                 left join sosmed c on c.id=b.sosmed_id
                 left join program_unit d on d.id=b.business_program_unit
-                left join business_unit e on e.id=b.business_program_unit
-                left join business_unit f on f.id=d.business_unit_id
+                left join business_unit e on e.id=b.business_program_unit AND e.type_unit=$typeunit
+                left join business_unit f on f.id=d.business_unit_id AND f.type_unit=$typeunit
                 where a.tanggal='$sekarang'
-                AND e.type_unit=$typeunit
-                OR f.type_unit=$typeunit
-                and a.follower=0");
+                and a.follower=0
+                AND b.type_sosmed IN ('corporate','program')");
 
             $data=array(
                 'success'=>true,
