@@ -575,3 +575,4 @@ Route::get('clear-cache',function(){
 });
 
 Route::get('cek-instagram','Sosmed\InstagramController@cek_instagram');
+Route::get('cek-bahasa','Sosmed\InstagramController@cek_bahasa');

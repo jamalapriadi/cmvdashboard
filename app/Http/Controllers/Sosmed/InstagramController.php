@@ -87,4 +87,11 @@ class InstagramController extends Controller
             return null;
         }
     }
+
+    public function cek_bahasa()
+    {
+        $server=\Request::server('HTTP_ACCEPT_LANGUAGE');
+
+        return response()->json($server);
+    }
 }
