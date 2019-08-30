@@ -1186,24 +1186,37 @@ class ProgramunitController extends Controller
             if($request->has('unit')){
                 $typeunit=$request->input('unit');
 
-                if($typeunit!=null)
-                $dimana.=" AND if(b.type_sosmed='corporate',e.type_unit=$typeunit, f.type_unit=$typeunit)";
+                if($typeunit!=null){
+                    $dimana.=" AND if(b.type_sosmed='corporate',e.type_unit=$typeunit, f.type_unit=$typeunit)";
+                }
             }
 
-            $list=\DB::select("select a.id,b.unit_sosmed_name,b.sosmed_id, b.unit_sosmed_account_id,
-                c.sosmed_name, b.type_sosmed,
-                if(b.type_sosmed='corporate',e.unit_name, d.program_name) as bu_or_program,
-                if(b.type_sosmed='corporate',e.type_unit,f.type_unit) as typeunit,
-                a.tanggal, a.follower, a.unit_sosmed_id, a.id as id_follower 
-                from unit_sosmed_follower a 
+            $list=\DB::select("SELECT a.id,c.unit_name as bu_or_program,b.unit_sosmed_name,b.type_sosmed, c.type_unit  as typeunit,
+                a.tanggal, a.follower, b.sosmed_id,b.unit_sosmed_account_id, e.sosmed_name,a.id as id_follower  
+                from unit_sosmed_follower a
                 left join unit_sosmed b on b.id=a.unit_sosmed_id
-                left join sosmed c on c.id=b.sosmed_id
-                left join program_unit d on d.id=b.business_program_unit
-                left join business_unit e on e.id=b.business_program_unit AND e.type_unit=$typeunit
-                left join business_unit f on f.id=d.business_unit_id AND f.type_unit=$typeunit
-                where a.tanggal='$sekarang'
-                and a.follower=0
-                AND b.type_sosmed IN ('corporate','program')");
+                left join business_unit c on c.id=b.business_program_unit
+                left join sosmed e on e.id=b.sosmed_id
+                where a.follower=0
+                and a.tanggal='$sekarang'
+                and b.status_active='Y'
+                and b.type_sosmed='corporate'
+                and b.deleted_at is null 
+                and c.type_unit=$typeunit
+                union all 
+                SELECT a.id,c.program_name,b.unit_sosmed_name,b.type_sosmed, d.type_unit,
+                a.tanggal, a.follower, b.sosmed_id,b.unit_sosmed_account_id, e.sosmed_name , a.id as id_follower  
+                from unit_sosmed_follower a
+                left join unit_sosmed b on b.id=a.unit_sosmed_id
+                left join program_unit c on c.id=b.business_program_unit
+                left join business_unit d on d.id=c.business_unit_id
+                left join sosmed e on e.id=b.sosmed_id
+                where a.follower=0
+                and a.tanggal='$sekarang'
+                and b.status_active='Y'
+                and b.type_sosmed='program'
+                and b.deleted_at is null 
+                and d.type_unit=$typeunit");
 
             $data=array(
                 'success'=>true,
