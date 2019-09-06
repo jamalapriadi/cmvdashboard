@@ -247,10 +247,14 @@ class MainbrandController  extends Controller
 
     public function remote_data_produk(Request $request)
     {
-        $var=\App\Models\Brand\Produk::select('id_produk as id','nama_produk as text');
+        $var=\App\Models\Brand\Produk::select('id_produk as id','nama_produk as text','id_adv');
 
         if($request->has('q')){
             $var=$var->where('nama_produk','like','%'.$request->input('q')['term'].'%');
+        }
+
+        if($request->has('advertiser') && $request->input('advertiser')!=null){
+            $var=$var->where('id_adv',$request->input('advertiser'));
         }
 
         if($request->has('page_limit')){

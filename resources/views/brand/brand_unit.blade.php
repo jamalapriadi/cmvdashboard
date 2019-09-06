@@ -197,7 +197,7 @@
                                                 '<option value="">--Pilih Produk--</option>'+
                                             '</select>'+
                                         '</div>'+
-                                    '</div>'
+                                    '</div>'+
                                 '</div>'+
 
                                 '<div class="modal-footer">'+
@@ -277,6 +277,7 @@
                             return {
                                 q: params, // search term,
                                 page_limit: 10,
+                                advertiser:$("#idadvertiser").val()
                             };
                         },
                         results: function (data, page){
