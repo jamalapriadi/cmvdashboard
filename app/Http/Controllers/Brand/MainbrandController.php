@@ -228,10 +228,62 @@ class MainbrandController  extends Controller
 
     public function remote_data_advertiser(Request $request)
     {
-        $var=\App\Models\Brand\Advertiser::select('id_adv as id','nama_adv as text');
+        $var=\App\Models\Brand\Advertiser::with('produk')->select('id_adv as id','nama_adv as text','id_adv');
 
-        if($request->has('q')){
+        if($request->has('q') && $request->input('q')!=null){
             $var=$var->where('nama_adv','like','%'.$request->input('q')['term'].'%');
+        }
+
+        if($request->has('produk') && $request->input('produk')!=null){
+            $produk=$request->input('produk');
+
+            $var=$var->whereHas('produk',function($q) use($produk){
+                $q->where('id_produk',$produk);
+            });
+        }
+        
+        if($request->has('brand') && $request->input('brand')!=null){
+            $brand=$request->input('brand');
+
+            $var=$var->whereHas('produk',function($q) use($brand){
+                $q->where('id_brand',$brand);
+            });
+        }
+
+        if($request->has('page_limit')){
+            $page_limit=$request->input('page_limit');
+        }else{
+            $page_limit=25;
+        }
+
+        $var=$var->paginate($page_limit);
+
+        return $var;
+    }
+
+    public function remote_data_brand(Request $request)
+    {
+        $var=\App\Models\Brand\Brand::with('produk')->select('id_brand','id_brand as id','nama_brand as text')
+            ->where('filter',1);
+
+        if($request->has('q') && $request->input('q')!=null){
+            $var=$var->where('nama_brand','like','%'.$request->input('q')['term'].'%');
+        }
+
+        if($request->has('produk') && $request->input('produk')!=null){
+            $produk=$request->input('produk');
+
+            $var=$var->whereHas('produk',function($q) use($produk){
+                $q->where('id_produk',$produk);
+            });
+        }
+
+        if($request->has('advertiser') && $request->input('advertiser')!=null){
+            $advertiser=$request->input('advertiser');
+
+            $var=$var->whereHas('produk',function($q) use($advertiser){
+                $q->where('id_adv',$advertiser);
+            });
         }
 
         if($request->has('page_limit')){
@@ -249,7 +301,7 @@ class MainbrandController  extends Controller
     {
         $var=\App\Models\Brand\Produk::select('id_produk as id','nama_produk as text','id_adv');
 
-        if($request->has('q')){
+        if($request->has('q') && $request->input('q')!=null){
             $var=$var->where('nama_produk','like','%'.$request->input('q')['term'].'%');
         }
 

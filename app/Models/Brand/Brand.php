@@ -17,4 +17,18 @@ class Brand extends Model
     public function sector(){
         return $this->belongsTo('App\Models\Brand\Sector','id_sector');
     }
+
+    public function produk(){
+        return $this->hasMany('App\Models\Brand\Produk','id_brand','id_brand')
+                ->select(
+                    [
+                        'id_produk',
+                        'nama_produk',
+                        'id_category',
+                        'id_sector',
+                        'id_brand',
+                        'id_adv'
+                    ]
+                );
+    }
 }

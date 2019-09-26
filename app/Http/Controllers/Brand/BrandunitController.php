@@ -50,8 +50,8 @@ class BrandunitController extends Controller
     public function store(Request $request){
         $rules=[
             'name'=>'required',
-            'brand'=>'required',
-            'advertiser'=>'required'
+            'idbrand'=>'required',
+            'idadvertiser'=>'required'
         ];
 
         $validasi=\Validator::make($request->all(),$rules);
@@ -65,19 +65,25 @@ class BrandunitController extends Controller
         }else{
             $unit=new Brandunit;
             $unit->brand_name_alias=request('name');
-            $unit->advertiser_id=request('advertiser');
+            $unit->advertiser_id=request('idadvertiser');
             $simpan=$unit->save();
 
             if($simpan){
-                $brand=request('brand');
+                if($request->has('idbrand') && $request->input('idbrand')!=null){
+                    $brand=request('idbrand');
 
-                foreach($brand as $key=>$val){
-                    // $unit->brand()->attach($val);
-                    $product=App\Models\Brand\Produk::where('id_brand',$val)
-                        ->get();
+                    if($request->has('produk') && $request->input('produk')!=null){
+                        $list=$request->input('produk');
+                        $product=\App\Models\Brand\Produk::where('id_brand',$brand)
+                            ->whereIn('id_produk',$list)
+                            ->get();
+                    }else{
+                        $product=\App\Models\Brand\Produk::where('id_brand',$brand)
+                            ->get();
+                    }
 
                     foreach($product as $row){
-                        $unit->brand()->attach($val, array('id_produk'=>$row->id_produk));
+                        $unit->brand()->attach($brand, array('id_produk'=>$row->id_produk));
                     }
                 }
                 

@@ -291,6 +291,7 @@ Route::group(['prefix'=>'brand','middleware'=>'auth'],function(){
         Route::get('list-available-category','Brand\BrandunitController@list_available_category');
         Route::get('list-available-sector','Brand\BrandunitController@list_available_sector');
         Route::get('remote-data-advertiser','Brand\MainbrandController@remote_data_advertiser');
+        Route::get('remote-data-brand','Brand\MainbrandController@remote_data_brand');
         Route::get('remote-data-produk','Brand\MainbrandController@remote_data_produk');
 
         Route::group(['prefix'=>'chart'],function(){

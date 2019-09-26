@@ -190,6 +190,12 @@
                                             '<option value="" disabled selected>--Pilih Advertiser--</option>'+
                                         '</select>'+
                                     '</div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Brand</label>'+
+                                        '<select name="idbrand" id="idbrand" class="form-control">'+
+                                            '<option value="" disabled>--Pilih Brand--</option>'+
+                                        '</select>'+
+                                    '</div>'+
                                     '<div id="showRemoteBrand">'+
                                         '<div class="form-group">'+
                                             '<div class="label control-label">Produk</div>'+
@@ -224,15 +230,18 @@
 
                 $('#idadvertiser').select2({
                     placeholder: "Search for a Advertiser",
-                    minimumInputLength: 2,
+                    minimumInputLength: 1,
                     ajax: {
                         url: "{{URL::to('brand/data/remote-data-advertiser')}}",
                         dataType: 'json',
                         delay: 250,
                         data: function (params) {
                             return {
-                                q: params, // search term,
+                                q: params, 
                                 page_limit: 10,
+                                produk:$("#idproduk").val(),
+                                brand:$("#idbrand").val()
+
                             };
                         },
                         results: function (data, page){
@@ -264,6 +273,45 @@
                     escapeMarkup: function (m) { return m; }
                 });
 
+                $("#idbrand").select2({
+                    placeholder: "Search for a Brand",
+                    minimumInputLength: 1,
+                    multiple:true,
+                    ajax: {
+                        url: "{{URL::to('brand/data/remote-data-brand')}}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                q: params,
+                                page_limit: 10,
+                                advertiser:$("#idadvertiser").val(),
+                                produk:$("#idproduk").val()
+                            };
+                        },
+                        results: function (data, page){
+                            return {
+                                results: data.data
+                            };
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: data.data
+                            };
+                        },
+                        cache: true
+                    },
+                    formatResult: function(m){
+                        var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+                    
+                        return markup;    
+                    },
+                    formatSelection: function(m){
+                        return m.text;
+                    },
+                    escapeMarkup: function (m) { return m; }
+                })
+
                 
                 $('#idproduk').select2({
                     placeholder: "Search for a Produk",
@@ -277,7 +325,8 @@
                             return {
                                 q: params, // search term,
                                 page_limit: 10,
-                                advertiser:$("#idadvertiser").val()
+                                advertiser:$("#idadvertiser").val(),
+                                brand:$("#idbrand").val()
                             };
                         },
                         results: function (data, page){
@@ -288,12 +337,6 @@
                         processResults: function (data) {
                             return {
                                 results: data.data
-                                // results: $.map(data, function (item) {
-                                //     return {
-                                //         text: item.tag_value,
-                                //         id: item.tag_id
-                                //     }
-                                // })
                             };
                         },
                         cache: true

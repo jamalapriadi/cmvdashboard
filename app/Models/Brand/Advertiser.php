@@ -31,7 +31,17 @@ class Advertiser extends Model
     ];
     
     function produk(){
-        return $this->hasOne('App\Models\Brand\Produk','id_produk');
+        return $this->hasMany('App\Models\Brand\Produk','id_adv','id_adv')
+            ->select(
+                [
+                    'id_produk',
+                    'nama_produk',
+                    'id_category',
+                    'id_sector',
+                    'id_brand',
+                    'id_adv'
+                ]
+            );
     }
 
     function advertisertype(){
