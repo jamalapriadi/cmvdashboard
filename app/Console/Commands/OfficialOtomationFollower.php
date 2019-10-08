@@ -108,18 +108,20 @@ class OfficialOtomationFollower extends Command
                 }
 
                 if($row->sosmed_id==3){
-                    $this->info("Get Follower Account Instagram = ".$row->unit_name);
-                    $ig=\Follower::cek_instagram($row->unit_sosmed_name);
+                    if($row->unit_name != 'INEWS (4TV News)'){
+                        $this->info("Get Follower Account Instagram = ".$row->unit_name);
+                        $ig=\Follower::scrap_instagram($row->unit_sosmed_name);
 
-                    $list[]=array(
-                        'unit_sosmed_id'=>$row->unit_sosmed_id,
-                        'tanggal'=>$sekarang,
-                        'follower'=>$ig['all_follower'],
-                        'view_count'=>null,
-                        'video_count'=>null,
-                        'following'=>$ig['mengikuti'],
-                        'post_count'=>$ig['jumlah_post']
-                    );
+                        $list[]=array(
+                            'unit_sosmed_id'=>$row->unit_sosmed_id,
+                            'tanggal'=>$sekarang,
+                            'follower'=>$ig['all_follower'],
+                            'view_count'=>null,
+                            'video_count'=>null,
+                            'following'=>$ig['mengikuti'],
+                            'post_count'=>$ig['jumlah_post']
+                        );
+                    }
                 }
 
                 if($row->sosmed_id==4){

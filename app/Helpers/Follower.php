@@ -97,6 +97,7 @@ class Follower
         }
     }
 
+    /** sudah tidak digunakan */
     public static function cek_instagram($id){
         $url = "https://instagram.com/".$id;
         $ch = curl_init();
@@ -157,5 +158,19 @@ class Follower
                 'all_follower'=> 0
             );
         }
+    }
+    /** end sudah tidak digunakan */
+
+    public static function scrap_instagram($nama){
+        $instagram = new \InstagramScraper\Instagram();
+        // For getting information about account you don't need to auth:
+        $account = $instagram->getAccount($nama);
+
+        return array(
+            'pengikut'=> $account->getFollowsCount(),
+            'mengikuti'=> $account->getFollowedByCount(),
+            'jumlah_post'=> $account->getMediaCount(),
+            'all_follower'=> $account->getFollowsCount()
+        );
     }
 }

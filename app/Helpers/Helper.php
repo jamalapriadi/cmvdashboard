@@ -221,3 +221,11 @@ function getDetails($pageUrl) {
         return null;
     }
 }
+
+function hitungk($n){
+    if($n > 1000){
+        return number_format($n/1000)." k";
+    }else{
+        return $n;
+    }
+}

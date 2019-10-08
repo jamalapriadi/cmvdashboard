@@ -567,12 +567,24 @@ class HomeController extends Controller
             $accountype="official";
         }
 
-        
+    
+        $instagram = new \InstagramScraper\Instagram();
+        $account = array();
+        $medias = array();
         foreach($bu->sosmed as $row){
             if($row->sosmed_id==4){
                 $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
 
                 $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+            }
+
+            if($row->sosmed_id == 3){
+                try{
+                    $account = $instagram->getAccount($row->unit_sosmed_name);
+                    $medias = $instagram->getMedias($row->unit_sosmed_name, 12);
+                }catch (Exception $e) {
+
+                }
             }
         }
         
@@ -585,7 +597,9 @@ class HomeController extends Controller
             ->with('bu',$bu)
             ->with('youtube',$channel)
             ->with('program',$program)
-            ->with('activity',$activities);
+            ->with('activity',$activities)
+            ->with('account',$account)
+            ->with('medias',$medias);
     }
 
     public function change_password(){
