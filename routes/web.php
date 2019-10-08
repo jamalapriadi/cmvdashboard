@@ -11,23 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    // if(auth()->check()){
-    //     return redirect('home');
-    // }
-    return view('welcome');
-});
-Route::get('unit',function(){
-    return view('unit');
-});
+Route::get('/', 'WelcomeController@index');
+Route::get('unit','WelcomeController@unit');
+Route::get('brands','WelcomeController@brand');
+Route::get('info','WelcomeController@info');
 
-Route::get('brands',function(){
-    return view('brand');
-});
-
-Route::get('info',function(){
-    phpinfo();
-});
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('login-dashboard', 'Auth\LoginController@login_dashboard');
@@ -380,9 +368,6 @@ Route::group(['prefix'=>'cmv','middleware'=>'auth'],function(){
     });
 });
 
-Route::get('info',function(){
-    phpinfo();
-});
 
 Route::group(['prefix'=>'automation'],function(){
     Route::get('official','Sosmed\AutomationController@official');
@@ -390,190 +375,13 @@ Route::group(['prefix'=>'automation'],function(){
     Route::get('official-sosmed','Sosmed\OtomatisasiController@official_sosmed');
 });
 
-Route::get('tes-follower',function(){
-    $lis=\App\Models\Sosmed\Unitsosmedfollower::paginate(10000);
-
-    $html="";
-    $html.="<table>
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Unit Sosmed ID</th>
-                <th>Tanggal</th>
-                <th>Follower</th>
-            </tr>
-        </thead>
-        <tbody>";
-        $no=0;
-        foreach($lis as $row){
-            $no++;
-            $html.="<tr>
-                    <td>".$no."</td>
-                    <td>".$row->unit_sosmed_id."</td>
-                    <td>".$row->tanggal."</td>
-                    <td>".$row->follower."</td>
-                </tr>";
-        }
-        $html.="</tbody>
-    </table>";
-
-    return $html;
-});
+Route::get('tes-follower','WelcomeController@tes_follower');
 
 Route::get('tes-facebook','HomeController@tes_follower');
 Route::get('tes-youtube','HomeController@tes_youtube');
 
-// Route::get('tes-youtube',function(){
-//     // $params = [
-//     //     'q'             => 'indohitsrecords',
-//     //     'type'          => 'video',
-//     //     'part'          => 'users',
-//     //     'maxResults'    => 50
-//     // ];
-    
-//     // // Make intial call. with second argument to reveal page info such as page tokens
-//     // $search = Youtube::searchAdvanced($params, true);
-
-//     // $search = \Youtube::getChannelById('indohitsrecords');
-//     $search = Youtube::getChannelByName('indohitsrecords');
-//     // $search=\Follower::youtube('UC_p7ouVKJxLf2okumEZTY-A');
-//     return array(
-//         'success'=>true,
-//         'pesan'=>response()->json($search),
-//         'id'=>$search->id
-//     );
-// });
-
-Route::get('tes-facebook',function(){
-    $id="UC_vsErcsq56hOscPHkG-aVw";
-    // return \Follower::youtube('UC_vsErcsq56hOscPHkG-aVw');
-    $channel = \Youtube::getChannelByID($id);
-
-    $youtube=$channel;
-
-    // return json_encode($channel);
-    if(isset($youtube->statistics)){
-        return array(
-            'subscriber'=>$youtube->statistics->subscriberCount,
-            'view_count'=>$youtube->statistics->viewCount,
-            'video_count'=>$youtube->statistics->videoCount
-        );
-    }else{
-        return array(
-            'subscriber'=>0,
-            'view_count'=>0,
-            'video_count'=>0
-        );
-    }
-});
-
-Route::get('tes-cache',function(){
-    $sekarang='2019-04-15';
-    $typeunit=1;
-
-    $sql="select group_unit_id,group_name, 
-        sum(twitter) as twitter,
-        sum(facebook) as facebook,
-        sum(instagram) as instagram,
-        sum(youtube) as youtube,
-        (
-        sum(twitter) +
-        sum(facebook) +
-        sum(instagram) +
-        sum(youtube)
-        ) as total
-        from 
-        (
-            select semua.group_unit_id, semua.group_name,semua.tanggal,
-            sum(twitter) as twitter,
-            sum(facebook) as facebook,
-            sum(instagram) as instagram,
-            sum(youtube) as youtube,
-            ( sum(twitter) + sum(facebook) + sum(instagram) + sum(youtube) ) as total
-            from
-            (
-            select a.group_unit_id, d.group_name, c.tanggal, 
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-            from business_unit a
-            left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-            left join group_unit d on d.id=a.group_unit_id
-            where a.type_unit=$typeunit and a.group_unit_id!=5
-            and b.status_active='Y'
-            group by a.group_unit_id
-            union all 
-            select d.group_unit_id, a.program_name, c.tanggal, 
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-            from program_unit a
-            left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-            left join business_unit d on d.id=a.business_unit_id
-            where d.type_unit=$typeunit and d.group_unit_id!=5
-            and b.status_active='Y'
-            group by a.id
-            ) as semua
-            group by semua.group_unit_id
-            union
-            select lain.id, lain.unit_name,lain.tanggal,
-            sum(lain.twitter) as twitter,
-            sum(lain.facebook) as facebook,
-            sum(lain.instagram) as instagram,
-            sum(lain.youtube) as youtube,
-            ( sum(lain.twitter) + sum(lain.facebook) + sum(lain.instagram) + sum(lain.youtube) ) as total
-            from
-            (
-            select a.id, a.unit_name, c.tanggal, 
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-            from business_unit a
-            left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='corporate'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-            left join group_unit d on d.id=a.group_unit_id
-            where a.type_unit=$typeunit and a.group_unit_id=5
-            and b.status_active='Y'
-            group by a.id
-            union all
-            select d.id, a.program_name, c.tanggal, 
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=1,c.follower,0)) as twitter,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=2,c.follower,0)) as facebook,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=3,c.follower,0)) as instagram,
-            sum(if(c.tanggal='$sekarang' and b.sosmed_id=4,c.follower,0)) as youtube
-            from program_unit a
-            left join unit_sosmed as b on b.business_program_unit=a.id and b.type_sosmed='program'
-            left join unit_sosmed_follower c on c.unit_sosmed_id=b.id and c.tanggal='$sekarang'
-            left join business_unit d on d.id=a.business_unit_id
-            where d.type_unit=$typeunit and d.group_unit_id=5
-            and b.status_active='Y'
-            group by a.id
-            ) as lain
-            group by lain.id
-        ) as seluruh
-        group by seluruh.group_unit_id
-        with rollup";
-            
-    if(\Cache::has('tes-chart-'.$sekarang)){
-        $chart =\Cache::get('tes-chart-'.$sekarang);
-    } else {
-        $chart = \Cache::remember('tes-chart-'.$sekarang, 22*60, function() use($sql) {
-            return \DB::select(\DB::raw($sql));
-        });
-    }
-
-    return response()->json($chart);
-});
-
-Route::get('clear-cache',function(){
-    Artisan::call('cache:clear');
-    return "Cache is cleared";
-});
+Route::get('tes-facebook','WelcomeController@tes_facebook');
+Route::get('clear-cache','WelcomeController@clear_cache');
 
 Route::get('cek-instagram','Sosmed\InstagramController@cek_instagram');
 Route::get('tes-instagram','Sosmed\InstagramController@tes_instagram');
