@@ -33,7 +33,7 @@ class NotifNarikData extends Mailable
      */
     public function build()
     {
-        $to=array('diandra.satyasari@mncgroup.com','kurnia.hapsari@mncgroup.com');
+        $to=array('diandra.satyasari@mncgroup.com','kurnia.hapsari@mncgroup.com','hafiza.chairi@mncgroup.com');
         $cc=array('jamal.apriadi@mncgroup.com');
 
         return $this->from('admin.marketing@mncgroup.com','ADMIN MARKETING')
