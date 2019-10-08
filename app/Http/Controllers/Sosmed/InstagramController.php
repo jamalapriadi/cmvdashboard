@@ -119,10 +119,22 @@ class InstagramController extends Controller
         echo "Profile pic url: {$account->getProfilePicUrl()}\n";
     }
 
-    public function get_account(){
+    public function get_account(Request $request){
+        $rules=[
+            'nama'=>'required'
+        ];
+
+        $validasi=\Validator::make($request->all(),$rules);
+
+        if($validasi->fails()){
+            return $validasi->errors()->all();
+        }
+
+        $nama=$request->input('nama');
+
         $instagram = new \InstagramScraper\Instagram();
         // For getting information about account you don't need to auth:
-        $account = $instagram->getAccount('thecommentnet_');
+        $account = $instagram->getAccount($nama);
         // Available fields
         echo "Account info:\n";
         echo "Id: {$account->getId()}\n";
