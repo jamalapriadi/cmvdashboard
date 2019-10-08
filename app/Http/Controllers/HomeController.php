@@ -510,6 +510,8 @@ class HomeController extends Controller
     }
 
     public function live_socmed(Request $request){
+        \App::getLocale();
+        
         $user=\App\User::with(
             [
                 'unit',
