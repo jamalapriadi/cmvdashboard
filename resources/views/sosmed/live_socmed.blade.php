@@ -389,7 +389,7 @@
                     @endif
             
                     @if($row->sosmed_id==3)
-                        <div class="col-lg-6">
+                        {{-- <div class="col-lg-6">
                             <div class="card card-accent-warning" style="overflow:scroll">
                                 <div class="card-header">Instagram</div>
                                 <div class="card-body">
@@ -441,7 +441,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     @endif
             
                     @if($row->sosmed_id==4)
