@@ -77,40 +77,40 @@ class OfficialOtomationFollower extends Command
             $unitsosmedid=array();
 
             foreach($bu as $row){
-                $unitsosmedid[]=$row->unit_sosmed_id;
+                if($row->unit_name != 'INEWS (4TV News)'){
+                    $unitsosmedid[]=$row->unit_sosmed_id;
 
-                if($row->sosmed_id==1){
-                    $this->info("Get Follower Account Twitter = ".$row->unit_name);
+                    if($row->sosmed_id==1){
+                        $this->info("Get Follower Account Twitter = ".$row->unit_name);
 
-                    $list[]=array(
-                        'unit_sosmed_id'=>$row->unit_sosmed_id,
-                        'tanggal'=>$sekarang,
-                        'follower'=>\Follower::twitter($row->unit_sosmed_name),
-                        'view_count'=>null,
-                        'video_count'=>null,
-                        'following'=>null,
-                        'post_count'=>null
-                    );
-                }
+                        $list[]=array(
+                            'unit_sosmed_id'=>$row->unit_sosmed_id,
+                            'tanggal'=>$sekarang,
+                            'follower'=>\Follower::twitter($row->unit_sosmed_name),
+                            'view_count'=>null,
+                            'video_count'=>null,
+                            'following'=>null,
+                            'post_count'=>null
+                        );
+                    }
 
-                if($row->sosmed_id==2){
-                    $this->info("Get Follower Account Facebook = ".$row->unit_name);
+                    if($row->sosmed_id==2){
+                        $this->info("Get Follower Account Facebook = ".$row->unit_name);
 
-                    $list[]=array(
-                        'unit_sosmed_id'=>$row->unit_sosmed_id,
-                        'tanggal'=>$sekarang,
-                        'follower'=>\Follower::facebook($row->unit_sosmed_account_id),
-                        'view_count'=>null,
-                        'video_count'=>null,
-                        'following'=>null,
-                        'post_count'=>null
-                    );
-                }
+                        $list[]=array(
+                            'unit_sosmed_id'=>$row->unit_sosmed_id,
+                            'tanggal'=>$sekarang,
+                            'follower'=>\Follower::facebook($row->unit_sosmed_account_id),
+                            'view_count'=>null,
+                            'video_count'=>null,
+                            'following'=>null,
+                            'post_count'=>null
+                        );
+                    }
 
-                if($row->sosmed_id==3){
-                    if($row->unit_name != 'INEWS (4TV News)'){
+                    if($row->sosmed_id==3){
                         $this->info("Get Follower Account Instagram = ".$row->unit_name);
-                        $ig=\Follower::scrap_instagram($row->unit_sosmed_name);
+                        $ig=\Follower::cek_instagram($row->unit_sosmed_name);
 
                         $list[]=array(
                             'unit_sosmed_id'=>$row->unit_sosmed_id,
@@ -122,24 +122,24 @@ class OfficialOtomationFollower extends Command
                             'post_count'=>$ig['jumlah_post']
                         );
                     }
+
+                    if($row->sosmed_id==4){
+                        $this->info("Get Follower Account Youtube = ".$row->unit_name);
+                        $yt=\Follower::youtube($row->unit_sosmed_account_id);
+
+                        $list[]=array(
+                            'unit_sosmed_id'=>$row->unit_sosmed_id,
+                            'tanggal'=>$sekarang,
+                            'follower'=>$yt['subscriber'],
+                            'view_count'=>$yt['view_count'],
+                            'video_count'=>$yt['video_count'],
+                            'following'=>null,
+                            'post_count'=>null
+                        );
+                    }
+
+                    $bar->advance();
                 }
-
-                if($row->sosmed_id==4){
-                    $this->info("Get Follower Account Youtube = ".$row->unit_name);
-                    $yt=\Follower::youtube($row->unit_sosmed_account_id);
-
-                    $list[]=array(
-                        'unit_sosmed_id'=>$row->unit_sosmed_id,
-                        'tanggal'=>$sekarang,
-                        'follower'=>$yt['subscriber'],
-                        'view_count'=>$yt['view_count'],
-                        'video_count'=>$yt['video_count'],
-                        'following'=>null,
-                        'post_count'=>null
-                    );
-                }
-
-                $bar->advance();
             }
             
             $bar->finish();
