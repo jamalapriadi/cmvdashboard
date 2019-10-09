@@ -167,10 +167,10 @@ class Follower
         $account = $instagram->getAccount($nama);
 
         return array(
-            'pengikut'=> $account->getFollowsCount(),
-            'mengikuti'=> $account->getFollowedByCount(),
+            'pengikut'=> $account->getFollowedByCount(),
+            'mengikuti'=> $account->getFollowsCount(),
             'jumlah_post'=> $account->getMediaCount(),
-            'all_follower'=> $account->getFollowsCount()
+            'all_follower'=> $account->getFollowedByCount()
         );
     }
 }

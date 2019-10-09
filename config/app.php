@@ -185,6 +185,7 @@ return [
         \App\Providers\InstagramServiceProvider::class,
         Alaouy\Youtube\YoutubeServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        'Fideloper\Proxy\TrustedProxyServiceProvider',
 
     ],
 

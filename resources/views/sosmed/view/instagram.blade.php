@@ -356,10 +356,10 @@
                                         <span class="profile-stat-count">{{$account->getMediaCount()}}</span> posts
                                     </div>
                                     <div class="col-lg-4">
-                                        <span class="profile-stat-count">{{$account->getFollowsCount()}}</span> followers
+                                        <span class="profile-stat-count">{{$account->getFollowedByCount()}}</span> followers
                                     </div>
                                     <div class="col-lg-4">
-                                        <span class="profile-stat-count">{{$account->getFollowedByCount()}}</span> following
+                                        <span class="profile-stat-count">{{$account->getFollowsCount()}}</span> following
                                     </div>
                                     <div class="col-lg-12">
                                         {{$account->getFullName()}} <br>
