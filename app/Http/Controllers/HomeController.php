@@ -580,14 +580,14 @@ class HomeController extends Controller
                 $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
             }
 
-            // if($row->sosmed_id == 3){
-            //     try{
-            //         $account = $instagram->getAccount($row->unit_sosmed_name);
-            //         $medias = $instagram->getMedias($row->unit_sosmed_name, 12);
-            //     }catch (Exception $e) {
+            if($row->sosmed_id == 3){
+                try{
+                    $account = $instagram->getAccount($row->unit_sosmed_name);
+                    $medias = $instagram->getMedias($row->unit_sosmed_name, 12);
+                }catch (Exception $e) {
 
-            //     }
-            // }
+                }
+            }
         }
         
 
