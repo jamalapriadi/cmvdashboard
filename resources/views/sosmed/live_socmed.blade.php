@@ -393,52 +393,58 @@
                             <div class="card card-accent-warning" style="overflow:scroll">
                                 <div class="card-header">Instagram</div>
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <div class="profile-image">
-                                                <br><br>
-                                                <img src="{{$account->getProfilePicUrl()}}" alt="" class="img-fluid">
+                                    @if($account != null)
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <div class="profile-image">
+                                                    <br><br>
+                                                    <img src="{{$account->getProfilePicUrl()}}" alt="" class="img-fluid">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-9">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="profile-user-settings">
-                                                        <h1 class="profile-user-name">{{$account->getUsername()}}</h1>
+                                            <div class="col-lg-9">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="profile-user-settings">
+                                                            <h1 class="profile-user-name">{{$account->getUsername()}}</h1>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <span class="profile-stat-count">{{hitungk($account->getMediaCount())}}</span> posts
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <span class="profile-stat-count">{{hitungk($account->getFollowedByCount())}}</span> followers
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <span class="profile-stat-count">{{hitungk($account->getFollowsCount())}}</span> following
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        {{$account->getFullName()}} <br>
+                                                        {{$account->getBiography()}}
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4">
-                                                    <span class="profile-stat-count">{{hitungk($account->getMediaCount())}}</span> posts
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <span class="profile-stat-count">{{hitungk($account->getFollowedByCount())}}</span> followers
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <span class="profile-stat-count">{{hitungk($account->getFollowsCount())}}</span> following
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    {{$account->getFullName()}} <br>
-                                                    {{$account->getBiography()}}
-                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-            
-                                    <hr>
-            
-                                    <div class="row" style="max-height:400px; overflow:scroll">
-                                        @foreach($medias as $media)
-                                            <div class="gallery-item col-lg-6" style="margin-bottom:15px">
-                                                <img src="{{$media->getImageHighResolutionUrl()}}" class="gallery-image img-fluid" alt="">
-                                                <div class="gallery-item-info">
-                                                    <ul>
-                                                        <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fa fa-heart" aria-hidden="true"></i> {{$media->getLikesCount()}}</li>
-                                                        <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fa fa-comment" aria-hidden="true"></i> {{$media->getCommentsCount()}}</li>
-                                                    </ul>
+                
+                                        <hr>
+                
+                                        <div class="row" style="max-height:400px; overflow:scroll">
+                                            @foreach($medias as $media)
+                                                <div class="gallery-item col-lg-6" style="margin-bottom:15px">
+                                                    <img src="{{$media->getImageHighResolutionUrl()}}" class="gallery-image img-fluid" alt="">
+                                                    <div class="gallery-item-info">
+                                                        <ul>
+                                                            <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fa fa-heart" aria-hidden="true"></i> {{$media->getLikesCount()}}</li>
+                                                            <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fa fa-comment" aria-hidden="true"></i> {{$media->getCommentsCount()}}</li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
+                                            @endforeach
+                                        </div>
+                                    @else 
+                                        <div class="alert alert-danger">
+                                            Instagram Not Found
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

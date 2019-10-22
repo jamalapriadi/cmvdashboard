@@ -571,7 +571,7 @@ class HomeController extends Controller
 
     
         $instagram = new \InstagramScraper\Instagram();
-        $account = array();
+        $account = null;
         $medias = array();
         foreach($bu->sosmed as $row){
             if($row->sosmed_id==4){
@@ -584,7 +584,7 @@ class HomeController extends Controller
                 try{
                     $account = $instagram->getAccount($row->unit_sosmed_name);
                     $medias = $instagram->getMedias($row->unit_sosmed_name, 12);
-                }catch (Exception $e) {
+                }catch (\InstagramScraper\Exception\InstagramNotFoundException $e){
 
                 }
             }
