@@ -53,6 +53,7 @@ class OfficialOtomationFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
+                and b.sosmed_id!=3
                 union all
                 select a.id, a.program_name,
                 b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
@@ -61,6 +62,7 @@ class OfficialOtomationFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
+                and b.sosmed_id!=3
                 union all 
                 select a.id, a.unit_name,
                 b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
@@ -68,7 +70,8 @@ class OfficialOtomationFollower extends Command
                 from business_unit a
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='brand'
                 where b.sosmed_id is not null
-                and b.status_active='Y'");
+                and b.status_active='Y'
+                and b.sosmed_id!=3");
 
             $bar=$this->output->createProgressBar(count($bu));
 
