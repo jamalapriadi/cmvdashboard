@@ -7287,7 +7287,32 @@ class ReportController extends Controller
             FROM brand_unit a
             LEFT JOIN intrasm.db_m_advertiser b ON b.id_adv=a.advertiser_id
             LEFT JOIN unit_sosmed d ON d.business_program_unit=a.id AND d.type_sosmed='brand'
-            GROUP BY a.id");
+            GROUP BY a.id
+            UNION ALL 
+            SELECT b.id_agcy,'AGENCY' AS TYPE, 'AGENCY' AS NAME, b.name_agency,b.name_agency AS nama_agency,
+            SUM(if(a.sosmed_id=1,1,0)) AS twitter,
+            SUM(if(a.sosmed_id=2,1,0)) AS facebook,
+            SUM(if(a.sosmed_id=3,1,0)) AS instagram,
+            SUM(if(a.sosmed_id=4,1,0)) AS youtube,
+            SUM(if(a.sosmed_id=5,1,0)) AS website,
+            SUM(if(a.sosmed_id=1,1,0)) + SUM(if(a.sosmed_id=2,1,0)) + SUM(if(a.sosmed_id=3,1,0)) + SUM(if(a.sosmed_id=4,1,0)) + SUM(if(a.sosmed_id=5,1,0)) AS total 
+            FROM unit_sosmed a
+            LEFT JOIN intrasm.db_m_agency b ON b.id_agcy=a.business_program_unit
+            WHERE a.type_sosmed='agency'
+            GROUP BY a.business_program_unit
+            UNION ALL
+            SELECT b.id_agcyptu,'AGENCYPINTU' AS TYPE, 'AGENCYPINTU' AS NAME, b.nama_agencypintu,
+            b.nama_agencypintu AS nama_agency,
+            SUM(if(a.sosmed_id=1,1,0)) AS twitter,
+            SUM(if(a.sosmed_id=2,1,0)) AS facebook,
+            SUM(if(a.sosmed_id=3,1,0)) AS instagram,
+            SUM(if(a.sosmed_id=4,1,0)) AS youtube,
+            SUM(if(a.sosmed_id=5,1,0)) AS website,
+            SUM(if(a.sosmed_id=1,1,0)) + SUM(if(a.sosmed_id=2,1,0)) + SUM(if(a.sosmed_id=3,1,0)) + SUM(if(a.sosmed_id=4,1,0)) + SUM(if(a.sosmed_id=5,1,0)) AS total 
+            FROM unit_sosmed a
+            LEFT JOIN intrasm.db_m_agencypintu b ON b.id_agcyptu=a.business_program_unit
+            WHERE a.type_sosmed='agencypintu'
+            GROUP BY a.business_program_unit");
 
         if($request->has('export')){
             $export=$request->input('export');
