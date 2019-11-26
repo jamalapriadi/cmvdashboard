@@ -58,23 +58,28 @@ class UnitsosmedController extends Controller
             $var->sosmed_id=$request->input('sosmedid');
 
             if($request->input('sosmedid')==4){
-                $params = [
-                    'q'             => $request->input('account_id'),
-                    'part'          => 'id, snippet',
-                    'maxResults'    => 1
-                ];
-                
-                // Make intial call. with second argument to reveal page info such as page tokens
-                $search = \Youtube::searchAdvanced($params);
-                
-                $youtube=array();
-                
-                foreach($search as $key=>$val){
-                    $youtube=$val->id->channelId;
-                }
-                
                 $var->unit_sosmed_name=$request->input('name_sosmed');
-                $var->unit_sosmed_account_id=$youtube;
+
+                if($request->has('withcek') && $request->input('withcek')!=null){
+                    $var->unit_sosmed_account_id=$request->input('account_id');
+                }else{
+                    $params = [
+                        'q'             => $request->input('account_id'),
+                        'part'          => 'id, snippet',
+                        'maxResults'    => 1
+                    ];
+
+                    // Make intial call. with second argument to reveal page info such as page tokens
+                    $search = \Youtube::searchAdvanced($params);
+                    
+                    $youtube=array();
+                    
+                    foreach($search as $key=>$val){
+                        $youtube=$val->id->channelId;
+                    }
+
+                    $var->unit_sosmed_account_id=$youtube;
+                }
             }else if($request->input('sosmedid')==5){
                 if($request->hasFile('gambar')){
                     $file=$request->file('gambar');

@@ -125,8 +125,15 @@
                         <div class="tab-pane fade" id="highlight-tab3" role="tabpanel" aria-labelledby="nav-home-tab">
                             <form id="formYoutubeBroken" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">
                                 <div class="form-group">
-                                    <label for="" class="control-label">Masukkan Nama Youtube</label>
-                                    <input type="text" class="form-control" name="nama_youtube" id="nama_youtube">
+                                    <label for="" class="control-label">Search By</label>
+                                    <select name="cari" id="cariby" class="form-control">
+                                        <option value="nama">Nama</option>
+                                        <option value="id">ID</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label">Masukkan Nama/ID Youtube</label>
+                                    <input type="text" class="form-control" name="nama_youtube" id="nama_youtube" placeholder="Masukkan Nama/ID Youtube">
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-primary">Cari..</button>
@@ -1353,6 +1360,7 @@
 
                 var param={
                     nama:$("#nama_youtube").val(),
+                    cariby:$("#cariby").val(),
                     _token:"{{ csrf_token() }}"
                 }
 
@@ -1366,45 +1374,103 @@
                     success:function(data){
                         if(data.success==true){
                             var el="";
-                            $('#hasilcari').html('<p><strong>Berikut ID Youtubenya : </strong> '+data.id+'</p>');
+                            $('#hasilcari').html('<p><strong>Berikut ID Youtubenya : </strong> '+data.id+'  <a href="#" class="btn btn-sm btn-primary" id="inputyoutube" kode="'+data.id+'">Input Youtube</a></p>');
                         }else{
                             $('#hasilcari').html('<div class="alert alert-danger">Data gagal di load</div>');
                         }
                     },
-                    errors:function(){
-                        $('#hasilcari').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                    error:function(){
+                        $('#hasilcari').html('<div class="alert alert-danger">Server Error, data not found</div>');
                     }
                 })
-                
-                // var data = new FormData(this);
-                // data.append("_token","{{ csrf_token() }}");
-                // if($("#formYoutubeBroken")[0].checkValidity()) {
-                //     //updateAllMessageForms();
-                //     e.preventDefault();
-                //     $.ajax({
-                //         url         : "{{URL::to('tes-youtube')}}",
-                //         type        : 'post',
-                //         data        : data,
-                //         dataType    : 'JSON',
-                //         contentType : false,
-                //         cache       : false,
-                //         processData : false,
-                //         beforeSend  : function (){
-                //             $('#hasilcari').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
-                //         },
-                //         success : function (data) {
-                //             if(data.success==true){
-                //                 var el="";
-                //                 $('#hasilcari').html('<p><strong>Berikut ID Youtubenya : </strong> '+data.id+'</p>');
-                //             }else{
-                //                 $('#hasilcari').html('<div class="alert alert-danger">Data gagal di load</div>');
-                //             }
-                //         },
-                //         error   :function() {  
-                //             $('#hasilcari').html('<div class="alert alert-danger">Your request not Sent...</div>');
-                //         }
-                //     });
-                // }else console.log("invalid form");
+            })
+
+            $(document).on("click","#inputyoutube",function(){
+                var el="";
+                var kodeyoutube=$(this).attr("kode");
+
+                el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                    '<div class="modal-dialog">'+
+                        '<form id="formSosmedWithCek" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                            '<div class="modal-content">'+
+                                '<div class="modal-header bg-primary">'+
+                                    '<h5 class="modal-title" id="modal-title">Add New Youtube</h5>'+
+                                    '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                '</div>'+
+
+                                '<div class="modal-body">'+
+                                    '<div id="pesan"></div>'+
+                                    '<div class="form-group">'+
+                                        '<label class="control-label text-semibold">Social Media</label>'+
+                                        '<select name="sosmedid" id="sosmedid" class="form-control">'+
+                                            '<option value="4">Youtube</option>'+
+                                        '</select>'+
+                                    '</div>'+
+                                    
+                                    '<div id="showKeteranganSosmed">'+
+                                        '<div class="form-group">'+
+                                            '<label class="control-label text-semibold">Account Name</label>'+
+                                            '<input class="form-control" name="name_sosmed" id="name_sosmed" placeholder="Account Name" required>'+
+                                        '</div>'+
+
+                                        '<div class="form-group">'+
+                                            '<label class="control-label text-semibold">Account ID</label>'+
+                                            '<input class="form-control" name="account_id" id="account_id" placeholder="Account ID" value="'+kodeyoutube+'" required readonly>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+
+                                '<div class="modal-footer">'+
+                                    '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                    '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
+                                '</div>'+
+                            '</div>'+
+                        '</form>'+
+                    '</div>'+
+                '</div>';
+
+                $("#divModal").empty().html(el);
+                $("#modal_default").modal("show");
+                $("#name_sosmed").focus();
+            });
+
+            $(document).on("submit","#formSosmedWithCek",function(e){
+                var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
+                data.append("type","program");
+                data.append("withcek","Y");
+                data.append("program_unit",id);
+                if($("#formSosmedWithCek")[0].checkValidity()) {
+                    //updateAllMessageForms();
+                    e.preventDefault();
+                    $.ajax({
+                        url         : "{{URL::to('sosmed/data/unit-sosmed')}}",
+                        type        : 'post',
+                        data        : data,
+                        dataType    : 'JSON',
+                        contentType : false,
+                        cache       : false,
+                        processData : false,
+                        beforeSend  : function (){
+                            $('#pesan').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        },
+                        success : function (data) {
+                            $('#pesan').html('&nbsp;'+data.pesan);
+
+                            if(data.success==true){
+                                sosmed();
+                                // liveSocmed();
+                                location.reload();
+                                $("#modal_default").modal("hide");
+                            }else{
+                                $("#pesan").empty().html("<pre>"+data.error+"</pre>");
+                            }
+                        },
+                        error   :function() {  
+                            $('#pesan').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                        }
+                    });
+                }else console.log("invalid form");
             })
 
             function liveSocmed(){
