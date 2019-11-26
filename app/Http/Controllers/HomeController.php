@@ -802,7 +802,10 @@ class HomeController extends Controller
 
     public function tes_youtube(Request $request)
     {
-        $rules=['nama'=>'required'];
+        $rules=[
+            'nama'=>'required',
+            'cariby'=>'required'
+        ];
 
         $validasi=\Validator::make($request->all(),$rules);
 
@@ -812,10 +815,15 @@ class HomeController extends Controller
                 'pesan'=>''
             );
         }else{
+            $cariby=$request->input('cariby');
             $nama=$request->input('nama');
 
-            $search = Youtube::getChannelByName($nama);
-            // $search=\Follower::youtube('UC_p7ouVKJxLf2okumEZTY-A');
+            if($cariby == "nama"){
+                $search = Youtube::getChannelByName($nama);
+            }else if($cariby =="id"){
+                $search = Youtube::getChannelById($nama);
+            }
+
             return array(
                 'success'=>true,
                 'pesan'=>response()->json($search),
