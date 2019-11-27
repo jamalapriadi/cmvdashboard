@@ -164,6 +164,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::put('aktif-non-aktif-program/{id}','Sosmed\UnitsosmedController@aktif_non_aktif_program');
         Route::get('link-broken','Sosmed\ProgramunitController@link_broken');
         Route::post('save-link-broken','Sosmed\ProgramunitController@save_link_broken');
+        Route::get('remote-data-program','Sosmed\ProgramunitController@remote_data_program');
 
         Route::group(['prefix'=>'report'],function(){
             Route::get('target-vs-achievement','Sosmed\ReportController@target_vs_achievement');
@@ -387,3 +388,5 @@ Route::get('cek-instagram','Sosmed\InstagramController@cek_instagram');
 Route::get('tes-instagram','Sosmed\InstagramController@tes_instagram');
 Route::get('get-account','Sosmed\InstagramController@get_account');
 Route::get('cek-bahasa','Sosmed\InstagramController@cek_bahasa');
+Route::get('daftar-akun','Sosmed\InstagramController@daftar_akun');
+Route::post('daftar-akun','Sosmed\InstagramController@simpan_daftar_akun');

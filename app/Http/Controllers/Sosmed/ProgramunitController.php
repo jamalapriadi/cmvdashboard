@@ -1261,4 +1261,23 @@ class ProgramunitController extends Controller
 
         return $data;
     }
+
+    public function remote_data_program(Request $request)
+    {
+        $var=Programunit::select('id','program_name as text');
+
+        if($request->has('q') && $request->input('q')!=null){
+            $var=$var->where('program_name','like','%'.$request->input('q')['term'].'%');
+        }
+
+        if($request->has('page_limit')){
+            $page_limit=$request->input('page_limit');
+        }else{
+            $page_limit=25;
+        }
+
+        $var=$var->paginate($page_limit);
+
+        return $var;
+    }
 }

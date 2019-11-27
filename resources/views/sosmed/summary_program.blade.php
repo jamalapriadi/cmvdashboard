@@ -402,6 +402,7 @@
                                         // }
                                         el+="<td>"+
                                             "<div class='btn-group'>"+
+                                                "<a class='btn btn-dark text-white mutasisosmed' kode='"+b.id+"' title='Mutasi Sosmed'><i class='icon-shuffle'></i></a>"+
                                                 "<a class='btn btn-warning editsosmed' kode='"+b.id+"'><i class='icon-pencil4'></i></a>"+
                                                 "<a class='btn btn-danger hapusosmed' kode='"+b.id+"'><i class='icon-trash'></i></a>"+
                                             "</div>"+
@@ -448,6 +449,147 @@
                     }
                 })
             }
+
+            $(document).on("click",".mutasisosmed",function(e){
+                e.preventDefault();
+                var el="";
+                kode=$(this).attr("kode");
+
+                $.ajax({
+                    url:"{{URL::to('sosmed/data/unit-sosmed')}}/"+kode,
+                    type:"GET",
+                    data:"type=program",
+                    beforeSend:function(){
+                        el+='<div id="modal_default" class="modal fade" data-backdrop="static" data-keyboard="false">'+
+                            '<div class="modal-dialog">'+
+                                '<form id="formMutasiSosmed" onsubmit="return false;" enctype="multipart/form-data" method="post" accept-charset="utf-8">'+
+                                    '<div class="modal-content">'+
+                                        '<div class="modal-header bg-primary">'+
+                                            '<h5 class="modal-title" id="modal-title">Mutasi Social Media</h5>'+
+                                            '<button type="button" class="close" data-dismiss="modal">&times;</button>'+
+                                        '</div>'+
+
+                                        '<div class="modal-body">'+
+                                            '<div id="pesan"></div>'+
+                                            '<div id="showProgress"></div>'+
+                                        '</div>'+
+
+                                        '<div class="modal-footer">'+
+                                            '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
+                                            '<button type="submit" class="btn btn-primary btn-ladda btn-ladda-spinner"id="simpan"> <span class="ladda-label">Save</span> </button>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</form>'+
+                            '</div>'+
+                        '</div>';
+
+                        $("#divModal").empty().html(el);
+                        $("#modal_default").modal("show");
+                        $("#showProgress").empty().html("<div class='alert alert-info'>Please Wait. . .</div>");
+                    },
+                    success:function(result){
+                        el+='<div class="form-group">'+
+                            '<label class="control-label text-semibold">Social Media</label>'+
+                            '<select name="sosmedid" id="sosmedid" class="form-control" readonly>'+
+                                '<option disabled selected>--Pilih Socmed--</option>'+       
+                                '<option value="1">Twitter</option>'+
+                                '<option value="2">Facebook</option>'+
+                                '<option value="3">Instagram</option>'+
+                                '<option value="4">Youtube</option>'+
+                                '<option value="5">Website</option>'+
+                            '</select>'+
+                        '</div>'+
+
+                        "<div class='form-group'>"+
+                            '<label class="control-label">Pilih Program Tujuan</label>'+
+                            '<select class="form-control" name="programtujuan" id="programtujuan">'+
+                                '<option value="" disabled selected>--Pilih Program Tujuan--</option>'+
+                            '</select>'+
+                        '</div>'+
+                        
+                        '<div id="showKeteranganSosmed">'+
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Account Name</label>'+
+                                '<input class="form-control" value="'+result.unit_sosmed_name+'" name="name_sosmed" id="name_sosmed" placeholder="Account Name" required>'+
+                            '</div>'+
+
+                            '<div class="form-group">'+
+                                '<label class="control-label text-semibold">Account ID</label>'+
+                                '<textarea name="account_id" rows="10" cols="50" id="accoount_id" class="form-control" required>'+result.unit_sosmed_account_id+'</textarea>'+
+                            '</div>'+
+                        '</div>';
+
+
+                        $("#showProgress").empty().html(el);
+                        $("#sosmedid").val(result.sosmed_id);
+
+                        if(result.sosmed_id==5){
+                            var al='<div class="form-group">'+
+                                    '<label class="control-label text-semibold">Screenshot Website</label>'+
+                                    '<input type="file" class="form-control" name="gambar" id="gambar" placeholder="Account Name" required>'+
+                                '</div>'+
+
+                                '<div class="form-group">'+
+                                    '<label class="control-label text-semibold">URL</label>'+
+                                    '<input class="form-control" type="text" name="account_id" id="account_id" placeholder="URL" value="'+result.unit_sosmed_account_id+'" required>'+
+                                '</div>';
+                        }else{
+                            var al='<div class="form-group">'+
+                                    '<label class="control-label text-semibold">Account Name</label>'+
+                                    '<input class="form-control" value="'+result.unit_sosmed_name+'" name="name_sosmed" id="name_sosmed" placeholder="Account Name" required>'+
+                                '</div>'+
+
+                                '<div class="form-group">'+
+                                    '<label class="control-label text-semibold">Account ID</label>'+
+                                    '<textarea name="account_id" rows="10" cols="50" id="accoount_id" class="form-control" required>'+result.unit_sosmed_account_id+'</textarea>'+
+                                '</div>';
+                        }
+
+                        $("#showKeteranganSosmed").empty().html(al);
+
+                        $('#programtujuan').select2({
+                            placeholder: "Search for a Program",
+                            minimumInputLength: 1,
+                            ajax: {
+                                url: "{{URL::to('sosmed/data/remote-data-program')}}",
+                                dataType: 'json',
+                                delay: 250,
+                                data: function (params) {
+                                    return {
+                                        q: params, 
+                                        page_limit: 10
+
+                                    };
+                                },
+                                results: function (data, page){
+                                    return {
+                                        results: data.data
+                                    };
+                                },
+                                processResults: function (data) {
+                                    return {
+                                        results: data.data
+                                    };
+                                },
+                                cache: true
+                            },
+                            formatResult: function(m){
+                                var markup="<option value='"+m.id+"'>"+m.text+"</option>";
+                            
+                                return markup;    
+                            },
+                            formatSelection: function(m){
+                                return m.text;
+                            },
+                            escapeMarkup: function (m) { return m; }
+                        });
+
+                    },
+                    errors:function(){
+
+                    }
+                })
+            })
 
             $(document).on("click","#tambahtarget",function(){
                 var el="";
@@ -1236,6 +1378,45 @@
                 })
             })
 
+            $(document).on("submit","#formMutasiSosmed",function(e){
+                var data = new FormData(this);
+                data.append("_token","{{ csrf_token() }}");
+                data.append("type","program");
+                data.append("program_unit",id);
+                data.append("_method","PUT");
+                if($("#formMutasiSosmed")[0].checkValidity()) {
+                    //updateAllMessageForms();
+                    e.preventDefault();
+                    $.ajax({
+                        url         : "{{URL::to('sosmed/data/unit-sosmed')}}/"+kode,
+                        type        : 'post',
+                        data        : data,
+                        dataType    : 'JSON',
+                        contentType : false,
+                        cache       : false,
+                        processData : false,
+                        beforeSend  : function (){
+                            $('#pesan').html('<div class="alert alert-info"><i class="fa fa-spinner fa-2x fa-spin"></i>&nbsp;Please wait for a few minutes</div>');
+                        },
+                        success : function (data) {
+                            $('#pesan').html('&nbsp;'+data.pesan);
+
+                            if(data.success==true){
+                                sosmed();
+                                // liveSocmed();
+                                location.reload();
+                                $("#modal_default").modal("hide");
+                            }else{
+                                $("#pesan").empty().html("<pre>"+data.error+"</pre>");
+                            }
+                        },
+                        error   :function() {  
+                            $('#pesan').html('<div class="alert alert-danger">Your request not Sent...</div>');
+                        }
+                    });
+                }else console.log("invalid form");
+            })
+
             $(document).on("submit","#formSosmedUpdate",function(e){
                 var data = new FormData(this);
                 data.append("_token","{{ csrf_token() }}");
@@ -1492,8 +1673,8 @@
             
             periode();
             sosmed();
-            showSosmed();
-            showOfficial();
+            // showSosmed();
+            // showOfficial();
             // liveSocmed();
         })
     </script>
