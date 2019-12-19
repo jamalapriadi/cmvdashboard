@@ -11,7 +11,9 @@ use \App\Models\Sosmed\Insight;
 class InsightController extends Controller
 {
     public function index(){
-        $insight=Insight::with('detail')->get();
+        $insight=Insight::with('detail')
+            ->orderBy('created_at','desc')
+            ->get();
 
         return $insight;
     }
