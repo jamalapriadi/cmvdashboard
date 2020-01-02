@@ -498,6 +498,8 @@
 
                     },
                     success:function(result){
+                        console.log(result);
+
                         var el=""
                         el+='<table class="table table-striped table-bordered" id="tabeltarget">'+
                             '<thead>'+
@@ -519,9 +521,17 @@
                                     el+="<tr>"+
                                         "<td>"+no+"</td>"+
                                         "<td>"+d.tahun+"</td>";
-                                        $.each(d.sosmed,function(e,f){
-                                            el+="<td>"+f.target+"</td>";
+                                        $.each(result.program.sosmed,function(g,h){
+                                            for(var a=0; a< d.sosmed.length; a++){
+                                                if(h.sosmed.sosmed_name == d.sosmed[a].sosmed){
+                                                    el+="<td>"+d.sosmed[a].target+"</td>";
+                                                }
+                                            }
+                                            // el+="<th>"+b.sosmed.sosmed_name+"</th>";
                                         })
+                                        // $.each(d.sosmed,function(e,f){
+                                        //     el+="<td>"+d.sosmed_name+'-'+f.target+"</td>";
+                                        // })
                                     el+="</tr>";
                                 })
                             el+='</tbody>'+
