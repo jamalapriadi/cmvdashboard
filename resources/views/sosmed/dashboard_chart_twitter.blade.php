@@ -2728,6 +2728,7 @@
 
             periode();
             showChartByTypeUnit(0);
+            showTear1(1);
         })
     </script>
 @stop

@@ -2213,6 +2213,7 @@ class ReportController extends Controller
         }
 
         $listsosmed=$request->input('sosmed');
+        $typereport=strtoupper($request->input('typereport'));
 
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
@@ -2257,19 +2258,19 @@ class ReportController extends Controller
 
         switch($typeunit){
             case 1:
-                    return $this->pdf_sosmed_daily_report_tv($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed);
+                    return $this->pdf_sosmed_daily_report_tv($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed, $typereport);
                 break;
             case 2:
-                    return $this->pdf_sosmed_daily_report_hardnews($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed);
+                    return $this->pdf_sosmed_daily_report_hardnews($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed, $typereport);
                 break;
             default:
-                    return $this->pdf_sosmed_daily_report_default($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed);
+                    return $this->pdf_sosmed_daily_report_default($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed, $typereport);
                 break;
         }
 
     }
 
-    public function pdf_sosmed_daily_report_default($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed)
+    public function pdf_sosmed_daily_report_default($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed, $typereport)
     {
         if($typeunit!=2 || $typeunit!=4){
             $data['officialTv']=\DB::select("select ifnull(a.id,'SUBTOTAL') as id, a.unit_name,  
@@ -2494,6 +2495,7 @@ class ReportController extends Controller
 
         $data['sekarang']=$sekarang;
         $data['kemarin']=$kemarin;
+        $data['typereport']=$typereport;
 
         $pdf = \PDF::loadView('sosmed.pdf.sosmed_daily_report_default', $data)
             ->setPaper('a4', 'landscape')->setWarnings(false);
@@ -2501,7 +2503,7 @@ class ReportController extends Controller
         return $pdf->stream('Socmed Daily Report '.date('d-M-Y').'.pdf');
     }
 
-    public function pdf_sosmed_daily_report_hardnews($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed)
+    public function pdf_sosmed_daily_report_hardnews($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed, $typereport)
     {
         $data['officialTv']=\DB::select("select ifnull(semua.id,'SUBTOTAL') as id,
             semua.unit_name, ifnull(semua.group_id,'TOTAL') as group_id,
@@ -2838,6 +2840,7 @@ class ReportController extends Controller
 
         $data['sekarang']=$sekarang;
         $data['kemarin']=$kemarin;
+        $data['typereport']=$typereport;
 
         $pdf = \PDF::loadView('sosmed.pdf.sosmed_daily_report_publisher', $data)
             ->setPaper('a4', 'landscape')->setWarnings(false);
@@ -2845,7 +2848,7 @@ class ReportController extends Controller
         return $pdf->stream('Socmed Daily Report '.date('d-M-Y').'.pdf');
     }
 
-    public function pdf_sosmed_daily_report_tv($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed)
+    public function pdf_sosmed_daily_report_tv($sekarang,$kemarin,$group,$typeunit,$mtype,$listsosmed, $typereport)
     {
         $data['targetVsAch']=\DB::select("select a.id, a.group_unit_id, a.unit_name, b.target_use, 
             sum(if(b.sosmed_id=1, c.target,0)) as target_tw,
@@ -3101,11 +3104,12 @@ class ReportController extends Controller
 
         $data['sekarang']=$sekarang;
         $data['kemarin']=$kemarin;
+        $data['typereport']=$typereport;
 
         $pdf = \PDF::loadView('sosmed.pdf.sosmed_daily_report_tv', $data)
             ->setPaper('a4', 'landscape')->setWarnings(false);
 
-        return $pdf->stream('Socmed Daily Report '.date('d-M-Y').'.pdf');
+        return $pdf->stream('Socmed '.$typereport.' Report '.date('d-M-Y').'.pdf');
     }
 
     public function pdf_sosmed_daily_report_by_group(Request $request){

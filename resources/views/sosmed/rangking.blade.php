@@ -113,7 +113,24 @@
                             </div>
 
                             <div class="panel-body">
-                                <div id="showListData"></div>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Versi WA</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Versi Text</a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div class="tab-pane active show" id="home" role="tabpanel">
+                                        <div id="showListData"></div>
+                                    </div>
+                                    <div class="tab-pane" id="profile" role="tabpanel">
+                                        <div id="showListData2"></div>
+                                    </div>
+                                </div>
+                                
                                 
                             </div>
                         </div>
@@ -302,7 +319,9 @@
                     },
                     success:function(result){
                         var el="";
+                        var al="";
                         el+="<ul style='list-style-type:none'>";
+                        al+="<ul style='list-style-type:none'>";
                         $.each(sosmed,function(p,s){
                             if(s==1){
                                 el+="<li>*Twitter*"+
@@ -323,6 +342,26 @@
                                         }
                                     }
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Twitter"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
+                                            al+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_twitter+" / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==2){
+                                            al+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_twitter+" / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==3){
+                                            al+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_twitter+" / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
                                 "</li>";
                             }
 
@@ -346,6 +385,26 @@
                                     }
                                     el+="</ul>"+
                                 "</li>";
+
+                                al+="<li>Facebook"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
+                                            al+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==2){
+                                            al+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==3){
+                                            al+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
+                                "</li>";
                             }
 
                             if(s==3){
@@ -367,6 +426,26 @@
                                         }
                                     }
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Instagram"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
+                                            al+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==2){
+                                            al+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==3){
+                                            al+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
                                 "</li>";
                             }
                             
@@ -391,11 +470,34 @@
                                         }
                                         el+="</ul>"+
                                     "</li>";
+
+                                    al+="<li>Youtube"+
+                                        "<ul style='list-style-type:none'>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
+                                                al+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
+                                        }
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
+                                                al+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
+                                        }
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
+                                                al+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
+                                        }
+                                        al+="</ul>"+
+                                    "</li>";
                                 }
                             }
                         })
                         el+="</ul>";
                         $("#officalAccountAllTvByTotalFollowers").empty().html(el);
+
+                        al+="</ul>";
+                        $("#officalAccountAllTvByTotalFollowers2").empty().html(al);
                     },
                     error:function(){
 
@@ -424,7 +526,9 @@
                     },
                     success:function(result){
                         var el="";
+                        var al="";
                         el+="<ul style='list-style-type:none'>";
+                        al+="<ul style='list-style-type:none'>";
                         $.each(sosmed,function(p,s){
                             if(s==1){
                                 el+="<li>*Twitter*"+
@@ -445,6 +549,26 @@
                                         }
                                     }
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Twitter"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
+                                            al+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==2){
+                                            al+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==3){
+                                            al+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
                                 "</li>";
                             }
 
@@ -468,6 +592,26 @@
                                     }
                                     el+="</ul>"+
                                 "</li>";
+
+                                al+="<li>Facebook"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
+                                            al+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==2){
+                                            al+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==3){
+                                            al+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
+                                "</li>";
                             }
 
                             if(s==3){
@@ -489,6 +633,26 @@
                                         }
                                     }
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Instagram"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
+                                            al+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==2){
+                                            al+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==3){
+                                            al+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
                                 "</li>";
                             }
                             
@@ -513,12 +677,35 @@
                                         }
                                         el+="</ul>"+
                                     "</li>";
+
+                                    al+="<li>Youtube"+
+                                        "<ul style='list-style-type:none'>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
+                                                al+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
+                                        }
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
+                                                al+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
+                                        }
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
+                                                al+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
+                                        }
+                                        al+="</ul>"+
+                                    "</li>";
                                 }
                             }
                         })
                             
                         el+="</ul>";
                         $("#groupOfficialAccountByTotalFollowers").empty().html(el);
+
+                        al+="</ul>";
+                        $("#groupOfficialAccountByTotalFollowers2").empty().html(al);
                     },
                     error:function(){
                         $("#groupOfficialAccountByTotalFollowers").empty().html("<div class='alert alert-danger'>Load Data error</div>");
@@ -547,8 +734,11 @@
                     },
                     success:function(result){
                         var el="";
+                        var al="";
                         el+="<ul style='list-style-type:none'>";
+                        al+="<ul style='list-style-type:none'>";
                         var ep="<ul style='list-style-type:none'>";
+                        var ap="<ul style='list-style-type:none'>";
                         $.each(sosmed,function(p,s){
                             if(s==1){
                                 el+="<li>*Twitter*"+
@@ -569,6 +759,26 @@
                                         }
                                     }
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Twitter"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
+                                            al+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==2){
+                                            al+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==3){
+                                            al+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
                                 "</li>";
                             }
 
@@ -592,6 +802,26 @@
                                     }
                                     el+="</ul>"+
                                 "</li>";
+
+                                al+="<li>Facebook"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
+                                            al+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==2){
+                                            al+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==3){
+                                            al+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
+                                "</li>";
                             }
 
                             if(s==3){
@@ -613,6 +843,26 @@
                                         }
                                     }
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Instagram"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
+                                            al+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==2){
+                                            al+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==3){
+                                            al+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
                                 "</li>";
                             }
                             
@@ -637,6 +887,26 @@
                                     el+="</ul>"+
                                 "</li>";
 
+                                al+="<li>Youtube"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
+                                            al+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
+                                            al+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
+                                            al+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
+                                "</li>";
+
                                 ep+="<li>*Youtube*"+
                                     "<ul style='list-style-type:none'>";
                                     for(a=0;a<result.length;a++){
@@ -656,11 +926,34 @@
                                     }
                                     ep+="</ul>"+
                                 "</li>";
+
+                                ap+="<li>Youtube"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
+                                            ap+="<li>1. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
+                                            ap+="<li>2. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
+                                            ap+="<li>3. "+result[a].group_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                        }
+                                    }
+                                    ap+="</ul>"+
+                                "</li>";
                             }
                         })
                         el+="</ul>";
+                        al+="</ul>";
                         $("#groupOverallAccount").empty().html(el);
+                        $("#groupOverallAccount2").empty().html(al);
                         $("#overallAccountYoutube").empty().html(ep);
+                        $("#overallAccountYoutube2").empty().html(ap);
                     },
                     error:function(){
                         $("#groupOverallAccount").empty().html("<div class='alert alert-danger'>Data failed to load</div>");
@@ -689,7 +982,9 @@
                     },
                     success:function(result){
                         var el="";
+                        var al="";
                         el+="<ul style='list-style-type:none'>";
+                        al+="<ul style='list-style-type:none'>";
                         $.each(sosmed,function(p,s){
                             if(s==1){
                                 el+="<li>*Twitter*"+
@@ -710,6 +1005,26 @@
                                         }
                                     }
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Twitter"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==1){
+                                            al+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==2){
+                                            al+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.rank_tw==3){
+                                            al+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.tw_sekarang)+" ( "+result[a].follower.growth_tw+" % / "+addKoma(result[a].follower.num_of_growth_tw)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
                                 "</li>";
                             }
 
@@ -733,6 +1048,26 @@
                                     }
                                     el+="</ul>"+
                                 "</li>";
+
+                                al+="<li>Facebook"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==1){
+                                            al+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==2){
+                                            al+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.rank_fb==3){
+                                            al+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.fb_sekarang)+" ( "+result[a].follower.growth_fb+" % / "+addKoma(result[a].follower.num_of_growth_fb)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
+                                "</li>";
                             }
 
                             if(s==3){
@@ -754,6 +1089,26 @@
                                         }
                                     }
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Instagram"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==1){
+                                            al+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==2){
+                                            al+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.rank_ig==3){
+                                            al+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.ig_sekarang)+" ( "+result[a].follower.growth_ig+" % / "+addKoma(result[a].follower.num_of_growth_ig)+")</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
                                 "</li>";
                             }
                             
@@ -778,12 +1133,34 @@
                                         }
                                         el+="</ul>"+
                                     "</li>";
+
+                                    al+="<li>Youtube"+
+                                        "<ul style='list-style-type:none'>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==1){
+                                                al+="<li>1. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
+                                        }
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==2){
+                                                al+="<li>2. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
+                                        }
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.rank_yt==3){
+                                                al+="<li>3. "+result[a].unit_name+" "+convertMio(result[a].follower.yt_sekarang)+" ( "+result[a].follower.growth_yt+" % / "+addKoma(result[a].follower.num_of_growth_yt)+")</li>";
+                                            }
+                                        }
+                                        al+="</ul>"+
+                                    "</li>";
                                 }
                             }
                         })
                             
                         el+="</ul>";
+                        al+="</ul>";
                         $("#programAccountAllTv").empty().html(el);
+                        $("#programAccountAllTv2").empty().html(al);
                     },
                     error:function(){
                         $("#programAccountAllTv").empty().html("<div class='alert alert-danger'>Data failed to load</div>");
@@ -812,7 +1189,9 @@
                     },
                     success:function(result){
                         var el="";
+                        var al="";
                         el+="<ul style='list-style-type:none'>";
+                        al+="<ul style='list-style-type:none'>";
                         $.each(sosmed,function(p,s){
                             if(s==1){
                                 el+="<li>*Twitter*"+
@@ -823,6 +1202,16 @@
                                         }
                                     }
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Twitter"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.acv_tw < 50){
+                                            al+="<li>1. "+result[a].unit_name+" "+result[a].follower.acv_tw+" %</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
                                 "</li>";
                             }
 
@@ -836,6 +1225,16 @@
                                     }
                                     el+="</ul>"+
                                 "</li>";
+
+                                al+="<li>Facebook"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.acv_fb < 50){
+                                            al+="<li>1. "+result[a].unit_name+" "+result[a].follower.acv_fb+" %</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
+                                "</li>";
                             }
 
                             if(s==3){
@@ -847,6 +1246,16 @@
                                         }
                                     }
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Instagram"+
+                                    "<ul style='list-style-type:none'>";
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.acv_ig < 50){
+                                            al+="<li>1. "+result[a].unit_name+" "+result[a].follower.acv_ig+" %</li>";
+                                        }
+                                    }
+                                    al+="</ul>"+
                                 "</li>";
                             }
                             
@@ -861,11 +1270,23 @@
                                         }
                                         el+="</ul>"+
                                     "</li>";
+
+                                    al+="<li>Youtube"+
+                                        "<ul style='list-style-type:none'>";
+                                        for(a=0;a<result.length;a++){
+                                            if(result[a].follower.yt==4 && result[a].follower.acv_yt < 50){
+                                                al+="<li>1. "+result[a].unit_name+" "+result[a].follower.acv_yt+" %</li>";
+                                            }
+                                        }
+                                        al+="</ul>"+
+                                    "</li>";
                                 }
                             }
                         })
                         el+="</ul>";
+                        al+="</ul>";
                         $("#tvAchievementbelow50").empty().html(el);
+                        $("#tvAchievementbelow502").empty().html(al);
                     },
                     error:function(){
                         $("#tvAchievementbelow50").empty().html("<div class='alert alert-danger'>Failed to load data, internal server error</div>");
@@ -894,7 +1315,9 @@
                     },
                     success:function(result){
                         var el="";
+                        var al="";
                         el+="<ul style='list-style-type:none'>";
+                        al+="<ul style='list-style-type:none'>";
                         $.each(sosmed,function(p,s){
                             if(s==1){
                                 el+="<li>*Twitter*"+
@@ -920,6 +1343,30 @@
 
                                     el+="</ul>"+
                                 "</li>";
+
+                                al+="<li>Twitter"+
+                                    "<ul style='list-style-type:none'>";
+                                    var no=0;
+                                    var twitter=[];
+                                    var cleantwitter=[];
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.tw==1 && result[a].follower.acv_tw > 50){
+                                            twitter.push({name:result[a].unit_name, acv_tw:result[a].follower.acv_tw, rank_tw:result[a].follower.rank_tw});
+                                            // no++;
+                                            // al+="<li>"+no+". "+result[a].unit_name+" "+result[a].follower.acv_tw+" % #"+result[a].follower.rank_tw+"</li>";
+                                        }
+                                    }
+                                    cleantwitter = twitter.sort(function(a,b) {
+                                        return a['rank_tw'] - b['rank_tw'];
+                                    });
+
+                                    $.each(cleantwitter,function(a,b){
+                                        no++;
+                                        al+="<li>"+no+". "+b.name+" "+b.acv_tw+" % #"+b.rank_tw+"</li>";
+                                    })
+
+                                    al+="</ul>"+
+                                "</li>";
                             }
 
                             if(s==2){
@@ -943,6 +1390,28 @@
                                     })
 
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Facebook"+
+                                    "<ul style='list-style-type:none'>";
+                                    var nos=0;
+                                    var facebook=[];
+                                    var cleanfacebook=[];
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.fb==2 && result[a].follower.acv_fb > 50){
+                                            facebook.push({name:result[a].unit_name, acv_fb:result[a].follower.acv_fb, rank_fb:result[a].follower.rank_fb});
+                                        }
+                                    }
+                                    cleanfacebook = facebook.sort(function(a,b) {
+                                        return a['rank_fb'] - b['rank_fb'];
+                                    });
+
+                                    $.each(cleanfacebook,function(a,b){
+                                        nos++;
+                                        al+="<li>"+nos+". "+b.name+" "+b.acv_fb+" % #"+b.rank_fb+"</li>";
+                                    })
+
+                                    al+="</ul>"+
                                 "</li>";
                             }
 
@@ -970,6 +1439,31 @@
                                     })
 
                                     el+="</ul>"+
+                                "</li>";
+
+                                al+="<li>Instagram"+
+                                    "<ul style='list-style-type:none'>";
+                                    var nol=0;
+                                    var instagram=[];
+                                    var cleaninstagram=[];
+                                    for(a=0;a<result.length;a++){
+                                        if(result[a].follower.ig==3 && result[a].follower.acv_ig > 50){
+                                            // nol++;
+                                            // al+="<li>"+nol+". "+result[a].unit_name+" "+result[a].follower.acv_ig+" % #"+result[a].follower.rank_ig+"</li>";
+                                            instagram.push({name:result[a].unit_name, acv_ig:result[a].follower.acv_ig, rank_ig:result[a].follower.rank_ig});
+                                        }
+                                    }
+
+                                    cleaninstagram = instagram.sort(function(a,b) {
+                                        return a['rank_ig'] - b['rank_ig'];
+                                    });
+
+                                    $.each(cleaninstagram,function(a,b){
+                                        nol++;
+                                        al+="<li>"+nol+". "+b.name+" "+b.acv_ig+" % #"+b.rank_ig+"</li>";
+                                    })
+
+                                    al+="</ul>"+
                                 "</li>";
                             }
 
@@ -1002,9 +1496,12 @@
                         })
                             
                         el+="</ul>";
+                        al+="</ul>";
 
                         el+="_note : the ranks are compared to 13 TVs in the industry_";
+                        al+="_note : the ranks are compared to 13 TVs in the industry_";
                         $("#tvAchievementabove50").empty().html(el);
+                        $("#tvAchievementabove502").empty().html(al);
                     },
                     error:function(){
                         $("#tvAchievementabove50").empty().html("<div class='alert alert-danger'>Failed to load data, internal server error</div>");
@@ -1120,6 +1617,7 @@
             $(document).on("submit","#form",function(e){
                 var tanggal=$("#tanggal").val();
                 var el="";
+                var al="";
 
                 typeunit=$("#typeunit").val();
 
@@ -1169,12 +1667,27 @@
                         '<div id="groupOfficialAccountByTotalFollowers"></div>'+
                     '</li>';
 
+                al+='<ul style="list-style-type:none">'+
+                    '<li>1. Official Account Socmed All '+nama+' By Total Followers'+
+                        '<div id="officalAccountAllTvByTotalFollowers2"></div>'+
+                    '</li>'+
+                    '<li>2. Group Official Account Socmed by Total Followers'+
+                        '<div id="groupOfficialAccountByTotalFollowers2"></div>'+
+                    '</li>';
+
                     if(typeunit!=3){
                         el+='<li>*3. Group Overall* Accounts ( Official + '+program+' ) *Socmed* by *Total Followers*'+
                             '<div id="groupOverallAccount"></div>'+
                         '</li>'+
                         '<li>*4. '+program+'* Accounts *Socmed ALL '+nama+'* by *Additional Followers* from yesterday'+
                             '<div id="programAccountAllTv"></div>'+
+                        '</li>';
+
+                        al+='<li>3. Group Overall Accounts ( Official + '+program+' ) Socmed by Total Followers'+
+                            '<div id="groupOverallAccount2"></div>'+
+                        '</li>'+
+                        '<li>4. '+program+' Accounts Socmed ALL '+nama+' by Additional Followers from yesterday'+
+                            '<div id="programAccountAllTv2"></div>'+
                         '</li>';
                     }
                     
@@ -1189,33 +1702,55 @@
                             '<div id="tvAchievementabove50"></div>'+
                             '<br>'+
                         '</li>';
+
+                        al+="<li>5. Our 4TV's Followers Socmed Official Accounts for those Achievement above 50%"+
+                            '<div id="tvAchievementabove502"></div>'+
+                            '<br>'+
+                        '</li>';
                     }
 
                     if(typeunit==1 || typeunit==2 || typeunit==3){
                         var label6="";
                         var label7="";
+
+                        var label62="";
+                        var label72="";
                         if(typeunit==1){
                             label6="*6. Overall* Accounts *Youtube All TV* by *Total Followers*";
                             label7="*7. Group Overall* Accounts ( Official + Program ) *Youtube* by *Total Followers*";
+
+                            label62="6. Overall Accounts Youtube All TV by Total Followers";
+                            label72="7. Group Overall Accounts ( Official + Program ) Youtube by Total Followers";
                         }else if(typeunit==2){
                             label6="*5. Group Overall* Accounts ( Official + Canal ) *Youtube* by *Total Followers*";
                             label7="*6. Our Publisher's Youtube Overall Accounts* Followers";
+
+                            label62="5. Group Overall Accounts ( Official + Canal ) Youtube by Total Followers";
+                            label72="6. Our Publisher's Youtube Overall Accounts Followers";
                         }else if(typeunit==3){
                             label6="*6. Our Radio's Youtube Overall Accounts* Followers";
+
+                            label62="6. Our Radio's Youtube Overall Accounts Followers";
                         }else{
 
                         }
 
                         el+="<li>"+label6+"<div id='groupOverallYoutube'></div><br><li>";
+
+                        al+="<li>"+label62+"<div id='groupOverallYoutube2'></div><br><li>";
                         
                         if(typeunit!=3){
                             el+="<li>"+label7+"<div id='overallAccountYoutube'></div><br></li>";
+
+                            al+="<li>"+label72+"<div id='overallAccountYoutube2'></div><br></li>";
                         }
                     }
                     
                 el+='</ul>';
+                al+='</ul>';
 
                 $("#showListData").empty().html(el);
+                $("#showListData2").empty().html(al);
                 officialAccountAllTvByTotalFollowers();
                 groupOfficialAccountByTotalFollowers();
                 groupOverallAccount();

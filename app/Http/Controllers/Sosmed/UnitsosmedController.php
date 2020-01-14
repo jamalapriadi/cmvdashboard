@@ -217,6 +217,10 @@ class UnitsosmedController extends Controller
                 $var->unit_sosmed_account_id=$request->input('account_id');
             }
 
+            if($request->has('programtujuan') && $request->input('programtujuan')!=""){
+                $var->business_program_unit=$request->input('programtujuan');
+            }
+
             $simpan=$var->save();
 
             if($simpan){

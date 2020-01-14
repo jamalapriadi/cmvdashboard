@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Socmed Daily Report {{date('d-m-Y')}}</title>
+    <title>Socmed {{$typereport}} Report {{date('d-m-Y')}}</title>
     @php 
         if(count($sosmed)>3){
             $besar=20+(15*count($sosmed));
@@ -109,7 +109,7 @@
         @endif
     @else 
         @if($typeunit==1)
-            <h1 class="text-center">{{strtoupper($mtype->name)}} SOCMED DAILY REPORT</h1>
+            <h1 class="text-center">{{strtoupper($mtype->name)}} SOCMED {{$typereport}} REPORT</h1>
         @elseif($typeunit==3)
             <h1 class="text-center">{{strtoupper($mtype->name)}} SOCMED REPORT</h1>
         @elseif($typeunit==2)
@@ -121,7 +121,7 @@
         @endif
     @endif
     
-    <p class="text-center">( {{date('d-m-Y',strtotime($sekarang))}} vs {{date('d-m-Y',strtotime($kemarin))}} )</p>
+    <p class="text-center" style="font-size:24px;">( {{date('d-m-Y',strtotime($sekarang))}} vs {{date('d-m-Y',strtotime($kemarin))}} )</p>
 
     <div class="page-break"></div>
 
