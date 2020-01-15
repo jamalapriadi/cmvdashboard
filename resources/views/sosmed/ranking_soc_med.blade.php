@@ -11,6 +11,7 @@
                         <select name="typereport" id="typereport" class="form-control" required>
                             <option value="Daily">Daily Report</option>
                             <option value="Weekly">Weekly Report</option>
+                            <option value="2 Weekly">2 Weekly Report</option>
                             <option value="Monthly">Monthly Report</option>
                         </select>
                     </div>

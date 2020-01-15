@@ -2194,8 +2194,8 @@ class ReportController extends Controller
             $data['ket_type']="LAST WEEK";
         }else if($typereport == "MONTHLY"){
             $data['ket_type'] = "LAST MONTH";
-        }else{
-            $data['ket_type'] ="YESTERDAY";
+        }else if($typereport == "2 WEEKLY"){
+            $data['ket_type'] ="2 WEEKLY";
         }
         
 
