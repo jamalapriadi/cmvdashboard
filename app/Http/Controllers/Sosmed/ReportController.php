@@ -1856,6 +1856,7 @@ class ReportController extends Controller
         }
 
         $listsosmed=$request->input('sosmed');
+        $typereport=strtoupper($request->input('typereport'));
 
         if($request->has('tanggal')){
             $sekarang=date('Y-m-d',strtotime($request->input('tanggal')));
@@ -2185,6 +2186,8 @@ class ReportController extends Controller
 
         $data['typeunit']=$typeunit;
         $data['mtype']=$mtype;
+        $data['typereport']=$typereport;
+        
 
         $pdf = \PDF::loadView('sosmed.pdf.rank_for_social_media_all_tv', $data)
             ->setPaper('a4', 'landscape')->setWarnings(false);

@@ -6,6 +6,16 @@
         <div class="card-body">
             <form class="form-horizontal" action="{{URL::to('sosmed/data/report/pdf-rank-for-sosical-media-all-tv')}}" method="GET" target="new target">
                 <div class="form-group row">
+                    <label class="col-lg-2">Type Report</label>
+                    <div class="col-lg-4">
+                        <select name="typereport" id="typereport" class="form-control" required>
+                            <option value="Daily">Daily Report</option>
+                            <option value="Weekly">Weekly Report</option>
+                            <option value="Monthly">Monthly Report</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-lg-2">Type Unit</label>
                     <div class="col-lg-4">
                         <div class="input-group">

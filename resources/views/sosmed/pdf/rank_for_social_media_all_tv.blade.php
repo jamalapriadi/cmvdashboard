@@ -54,7 +54,7 @@
         @endforeach
     @elseif(count($sosmed)>3)
         @if($typeunit==1)
-            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED & YOUTUBE DAILY REPORT</h1>
+            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED & YOUTUBE {{$typereport}} REPORT</h1>
         @elseif($typeunit==3)
             <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED & YOUTUBE REPORT</h1>
         @elseif($typeunit==2)
@@ -66,7 +66,7 @@
         @endif
     @else 
         @if($typeunit==1)
-            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED DAILY REPORT</h1>
+            <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED {{$typereport}} REPORT</h1>
         @elseif($typeunit==3)
             <h1 class="text-center">RANK FOR {{strtoupper($mtype->name)}} SOCMED REPORT</h1>
         @elseif($typeunit==2)
