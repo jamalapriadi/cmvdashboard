@@ -2187,6 +2187,16 @@ class ReportController extends Controller
         $data['typeunit']=$typeunit;
         $data['mtype']=$mtype;
         $data['typereport']=$typereport;
+
+        if($typereport == "DAILY"){
+            $data['ket_type'] ="YESTERDAY";
+        }else if($typereport == "WEEKLY"){
+            $data['ket_type']="LAST WEEK";
+        }else if($typereport == "MONTHLY"){
+            $data['ket_type'] = "LAST MONTH";
+        }else{
+            $data['ket_type'] ="YESTERDAY";
+        }
         
 
         $pdf = \PDF::loadView('sosmed.pdf.rank_for_social_media_all_tv', $data)

@@ -637,7 +637,7 @@
 
                 <div class="page-break"></div>
 
-                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY % GROWTH YESTERDAY</span></h3>
+                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY % GROWTH {{$ket_type}}</span></h3>
                 {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY NUMBER OF GROWTH</span></h3> --}}
                 <br><br><br>
 
@@ -1147,7 +1147,7 @@
                 </table>
                 <div class="page-break"></div>
 
-                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % GROWTH YESTERDAY</span></h3>
+                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % GROWTH {{$ket_type}}</span></h3>
                 <br>
 
                 <?php
@@ -1656,7 +1656,7 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY % GROWTH FROM YESTERDAY</span></h3>
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY % GROWTH FROM {{$ket_type}}</span></h3>
     <br><br><br>
     <?php 
         $arrTw7=array();
@@ -1854,7 +1854,7 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL TV <span style="color:red">BY % GROWTH FROM YESTERDAY</span></h3>
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL TV <span style="color:red">BY % GROWTH FROM {{$ket_type}}</span></h3>
     <br>
     <?php 
         $arrTw8=array();
