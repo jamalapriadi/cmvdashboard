@@ -359,21 +359,21 @@
                                         <th>{{$p->unit_name}}</th>
                                         @foreach($sosmed as $sos)
                                             @if($sos->id==1)
-                                                <th>{{round($p->growth_tw,2)}} %</th>
-                                                <th>{{number_format($p->tw_sekarang)}}</th>
-                                                <th style="background:{{$ctw}}">{{($rankTw[$p->tw_sekarang] + 1)}}</th>
+                                                <th style="text-align:right">{{round($p->growth_tw,2)}} %</th>
+                                                <th style="text-align:right">{{number_format($p->tw_sekarang)}}</th>
+                                                <th style="background:{{$ctw}}; text-align:right">{{($rankTw[$p->tw_sekarang] + 1)}}</th>
                                             @endif
 
                                             @if($sos->id==2)
-                                                <th>{{round($p->growth_fb,2)}} %</th>
-                                                <th>{{number_format($p->fb_sekarang)}}</th>
-                                                <th style="background:{{$cfb}}">{{($rankFb[$p->fb_sekarang] + 1)}}</th>
+                                                <th style="text-align:right">{{round($p->growth_fb,2)}} %</th>
+                                                <th style="text-align:right">{{number_format($p->fb_sekarang)}}</th>
+                                                <th style="background:{{$cfb}}; text-align:right">{{($rankFb[$p->fb_sekarang] + 1)}}</th>
                                             @endif
 
                                             @if($sos->id==3)
-                                                <th>{{round($p->growth_ig,2)}} %</th>
-                                                <th>{{number_format($p->ig_sekarang)}}</th>
-                                                <th style="background:{{$cig}}">{{($rankIg[$p->ig_sekarang] + 1)}}</th>
+                                                <th style="text-align:right">{{round($p->growth_ig,2)}} %</th>
+                                                <th style="text-align:right">{{number_format($p->ig_sekarang)}}</th>
+                                                <th style="background:{{$cig}}; text-align:right">{{($rankIg[$p->ig_sekarang] + 1)}}</th>
                                             @endif
 
                                             <!-- @if($sos->id==4)
@@ -389,21 +389,21 @@
                                     <th>{{$row->group_name}}</th>
                                     @foreach($sosmed as $sos)
                                         @if($sos->id==1)
-                                            <th>{{round($row->growth_tw,2)}} %</th>
-                                            <th>{{number_format($ttw)}}</th>
-                                            <th style="background:{{$colorTw}}">{{($rankTw[$ttw] + 1)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_tw,2)}} %</th>
+                                            <th style="text-align:right">{{number_format($ttw)}}</th>
+                                            <th style="background:{{$colorTw}}; text-align:right">{{($rankTw[$ttw] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==2)
-                                            <th>{{round($row->growth_fb,2)}} %</th>
-                                            <th>{{number_format($tfb)}}</th>
-                                            <th style="background:{{$colorFb}}">{{($rankFb[$tfb] + 1)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_fb,2)}} %</th>
+                                            <th style="text-align:right">{{number_format($tfb)}}</th>
+                                            <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb[$tfb] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==3)
-                                            <th>{{round($row->growth_ig,2)}} %</th>
-                                            <th>{{number_format($tig)}}</th>
-                                            <th style="background:{{$colorIg}}">{{($rankIg[$tig] + 1)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_ig,2)}} %</th>
+                                            <th style="text-align:right">{{number_format($tig)}}</th>
+                                            <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg[$tig] + 1)}}</th>
                                         @endif
 
                                         <!-- @if($sos->id==4)
@@ -418,21 +418,21 @@
                                     <th>{{$row->group_name}}</th>
                                     @foreach($sosmed as $sos)
                                         @if($sos->id==1)
-                                            <th>{{round($row->growth_tw,2)}} %</th>
-                                            <th>{{number_format($row->tw_sekarang)}}</th>
-                                            <th style="background:{{$colorTw}}">{{($rankTw[$row->tw_sekarang] + 1)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_tw,2)}} %</th>
+                                            <th style="text-align:right">{{number_format($row->tw_sekarang)}}</th>
+                                            <th style="background:{{$colorTw}} ;text-align:right">{{($rankTw[$row->tw_sekarang] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==2)
-                                            <th>{{round($row->growth_fb,2)}} %</th>
-                                            <th>{{number_format($row->fb_sekarang)}}</th>
-                                            <th style="background:{{$colorFb}}">{{($rankFb[$row->fb_sekarang] + 1)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_fb,2)}} %</th>
+                                            <th style="text-align:right">{{number_format($row->fb_sekarang)}}</th>
+                                            <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb[$row->fb_sekarang] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==3)
-                                            <th>{{round($row->growth_ig,2)}} %</th>
-                                            <th>{{number_format($row->ig_sekarang)}}</th>
-                                            <th style="background:{{$colorIg}}">{{($rankIg[$row->ig_sekarang] + 1)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_ig,2)}} %</th>
+                                            <th style="text-align:right">{{number_format($row->ig_sekarang)}}</th>
+                                            <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg[$row->ig_sekarang] + 1)}}</th>
                                         @endif
 
                                         <!-- @if($sos->id==4)
@@ -575,21 +575,21 @@
                                             <th>{{$row->unit_name}}</th>
                                             @foreach($sosmed as $sos)
                                                 @if($sos->id==1)
-                                                    <th>{{round($ins->growth_tw,2)}} %</th>
-                                                    <th>{{number_format($ins->tw_sekarang)}}</th>
-                                                    <th style="background:{{$colorTw}}">{{($rankTw2[$ins->tw_sekarang] + 1)}}</th>
+                                                    <th style="text-align:right">{{round($ins->growth_tw,2)}} %</th>
+                                                    <th style="text-align:right">{{number_format($ins->tw_sekarang)}}</th>
+                                                    <th style="background:{{$colorTw}} ;text-align:right">{{($rankTw2[$ins->tw_sekarang] + 1)}}</th>
                                                 @endif
 
                                                 @if($sos->id==2)
-                                                    <th>{{round($ins->growth_fb,2)}} %</th>
-                                                    <th>{{number_format($ins->fb_sekarang)}}</th>
-                                                    <th style="background:{{$colorFb}}">{{($rankFb2[$ins->fb_sekarang] + 1)}}</th>
+                                                    <th style="text-align:right">{{round($ins->growth_fb,2)}} %</th>
+                                                    <th style="text-align:right">{{number_format($ins->fb_sekarang)}}</th>
+                                                    <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb2[$ins->fb_sekarang] + 1)}}</th>
                                                 @endif
 
                                                 @if($sos->id==3)
-                                                    <th>{{round($ins->growth_ig,2)}} %</th>
-                                                    <th>{{number_format($ins->ig_sekarang)}}</th>
-                                                    <th style="background:{{$colorIg}}">{{($rankIg2[$ins->ig_sekarang] + 1)}}</th>
+                                                    <th style="text-align:right">{{round($ins->growth_ig,2)}} %</th>
+                                                    <th style="text-align:right">{{number_format($ins->ig_sekarang)}}</th>
+                                                    <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg2[$ins->ig_sekarang] + 1)}}</th>
                                                 @endif
 
                                                 <!-- @if($sos->id==4)
@@ -606,21 +606,21 @@
                                     <th>{{$row->unit_name}}</th>
                                     @foreach($sosmed as $sos)
                                         @if($sos->id==1)
-                                            <th>{{round($row->growth_tw,2)}} %</th>
-                                            <th>{{number_format($row->tw_sekarang)}}</th>
-                                            <th style="background:{{$colorTw}}">{{($rankTw2[$row->tw_sekarang] + 1)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_tw,2)}} %</th>
+                                            <th style="text-align:right">{{number_format($row->tw_sekarang)}}</th>
+                                            <th style="background:{{$colorTw}} ;text-align:right">{{($rankTw2[$row->tw_sekarang] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==2)
-                                            <th>{{round($row->growth_fb,2)}} %</th>
-                                            <th>{{number_format($row->fb_sekarang)}}</th>
-                                            <th style="background:{{$colorFb}}">{{($rankFb2[$row->fb_sekarang] + 1)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_fb,2)}} %</th>
+                                            <th style="text-align:right">{{number_format($row->fb_sekarang)}}</th>
+                                            <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb2[$row->fb_sekarang] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==3)
-                                            <th>{{round($row->growth_ig,2)}} %</th>
-                                            <th>{{number_format($row->ig_sekarang)}}</th>
-                                            <th style="background:{{$colorIg}}">{{($rankIg2[$row->ig_sekarang] + 1)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_ig,2)}} %</th>
+                                            <th style="text-align:right">{{number_format($row->ig_sekarang)}}</th>
+                                            <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg2[$row->ig_sekarang] + 1)}}</th>
                                         @endif
 
                                         <!-- @if($sos->id==4)
@@ -637,8 +637,10 @@
 
                 <div class="page-break"></div>
 
-                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY % GROWTH {{$ket_type}}</span></h3>
+                {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY % GROWTH {{$ket_type}}</span></h3> --}}
                 {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY NUMBER OF GROWTH</span></h3> --}}
+                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL GROUP <span style="color:red">BY % GROWTH</span></h3>
+                <p class="text-center">( {{date('d-m-Y',strtotime($sekarang))}} vs {{date('d-m-Y',strtotime($kemarin))}} )</p>
                 <br><br><br>
 
                 <?php 
@@ -1058,21 +1060,21 @@
                                         <th>{{$p->unit_name}}</th>
                                         @foreach($sosmed as $sos)
                                             @if($sos->id==1)
-                                                <th>{{number_format($p->num_of_growth_tw)}}</th>
-                                                <th>{{round($p->growth_tw,2)}} %</th>
-                                                <th style="background:{{$ctw}}">{{($rankTw3[$p->growth_tw] + 1)}}</th>
+                                                <th style="text-align:right">{{number_format($p->num_of_growth_tw)}}</th>
+                                                <th style="text-align:right">{{round($p->growth_tw,2)}} %</th>
+                                                <th style="background:{{$ctw}} ;text-align:right">{{($rankTw3[$p->growth_tw] + 1)}}</th>
                                             @endif
 
                                             @if($sos->id==2)
-                                                <th>{{number_format($p->num_of_growth_fb)}}</th>
-                                                <th>{{round($p->growth_fb,2)}} %</th>
-                                                <th style="background:{{$cfb}}">{{($rankFb3[$p->growth_fb] + 1)}}</th>
+                                                <th style="text-align:right">{{number_format($p->num_of_growth_fb)}}</th>
+                                                <th style="text-align:right">{{round($p->growth_fb,2)}} %</th>
+                                                <th style="background:{{$cfb}} ;text-align:right">{{($rankFb3[$p->growth_fb] + 1)}}</th>
                                             @endif
 
                                             @if($sos->id==3)
-                                                <th>{{number_format($p->num_of_growth_ig)}}</th>
-                                                <th>{{round($p->growth_ig,2)}} %</th>
-                                                <th style="background:{{$cig}}">{{($rankIg3[$p->growth_ig] + 1)}}</th>
+                                                <th style="text-align:right">{{number_format($p->num_of_growth_ig)}}</th>
+                                                <th style="text-align:right">{{round($p->growth_ig,2)}} %</th>
+                                                <th style="background:{{$cig}} ;text-align:right">{{($rankIg3[$p->growth_ig] + 1)}}</th>
                                             @endif
 
                                             <!-- @if($sos->id==4)
@@ -1088,21 +1090,21 @@
                                     <th>{{$row->group_name}}</th>
                                     @foreach($sosmed as $sos)
                                         @if($sos->id==1)
-                                            <th>{{number_format($row->num_of_growth_tw)}}</th>
-                                            <th>{{round($row->growth_tw,2)}} %</th>
-                                            <th style="background:{{$colorTw}}">{{($rankTw3[$ttw3] + 1)}}</th>
+                                            <th style="text-align:right">{{number_format($row->num_of_growth_tw)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_tw,2)}} %</th>
+                                            <th style="background:{{$colorTw}} ;text-align:right">{{($rankTw3[$ttw3] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==2)
-                                            <th>{{number_format($row->num_of_growth_fb)}}</th>
-                                            <th>{{round($row->growth_fb,2)}} %</th>
-                                            <th style="background:{{$colorFb}}">{{($rankFb3[$tfb3] + 1)}}</th>
+                                            <th style="text-align:right">{{number_format($row->num_of_growth_fb)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_fb,2)}} %</th>
+                                            <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb3[$tfb3] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==3)
-                                            <th>{{number_format($row->num_of_growth_ig)}}</th>
-                                            <th>{{round($row->growth_ig,2)}} %</th>
-                                            <th style="background:{{$colorIg}}">{{($rankIg3[$tig3]+1)}}</th>
+                                            <th style="text-align:right">{{number_format($row->num_of_growth_ig)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_ig,2)}} %</th>
+                                            <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg3[$tig3]+1)}}</th>
                                         @endif
 
                                         <!-- @if($sos->id==4)
@@ -1117,21 +1119,21 @@
                                     <th>{{$row->group_name}}</th>
                                     @foreach($sosmed as $sos)
                                         @if($sos->id==1)
-                                            <th>{{number_format($row->num_of_growth_tw)}}</th>
-                                            <th>{{round($row->growth_tw,2)}} %</th>
-                                            <th style="background:{{$colorTw}}">{{($rankTw3[$row->growth_tw] + 1)}}</th>
+                                            <th style="text-align:right">{{number_format($row->num_of_growth_tw)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_tw,2)}} %</th>
+                                            <th style="background:{{$colorTw}} ;text-align:right">{{($rankTw3[$row->growth_tw] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==2)
-                                            <th>{{number_format($row->num_of_growth_fb)}}</th>
-                                            <th>{{round($row->growth_fb,2)}} %</th>
-                                            <th style="background:{{$colorFb}}">{{($rankFb3[$row->growth_fb] + 1)}}</th>
+                                            <th style="text-align:right">{{number_format($row->num_of_growth_fb)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_fb,2)}} %</th>
+                                            <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb3[$row->growth_fb] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==3)
-                                            <th>{{number_format($row->num_of_growth_ig)}}</th>
-                                            <th>{{round($row->growth_ig,2)}} %</th>
-                                            <th style="background:{{$colorIg}}">{{($rankIg3[$row->growth_ig] + 1)}}</th>
+                                            <th style="text-align:right">{{number_format($row->num_of_growth_ig)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_ig,2)}} %</th>
+                                            <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg3[$row->growth_ig] + 1)}}</th>
                                         @endif
 
                                         <!-- @if($sos->id==4)
@@ -1147,7 +1149,9 @@
                 </table>
                 <div class="page-break"></div>
 
-                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % GROWTH {{$ket_type}}</span></h3>
+                {{-- <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % GROWTH {{$ket_type}}</span></h3> --}}
+                <h3 class="text-center">RANK OF OFFICIAL ACCOUNT ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY % GROWTH</span></h3>
+                <p class="text-center">( {{date('d-m-Y',strtotime($sekarang))}} vs {{date('d-m-Y',strtotime($kemarin))}} )</p>
                 <br>
 
                 <?php
@@ -1277,21 +1281,21 @@
                                             <th>{{$row->unit_name}}</th>
                                             @foreach($sosmed as $sos)
                                                 @if($sos->id==1)
-                                                    <th>{{number_format($ins->num_of_growth_tw)}}</th>
-                                                    <th>{{round($ins->growth_tw,2)}} %</th>
-                                                    <th style="background:{{$colorTw}}">{{($rankTw4[(string)$ins->growth_tw] + 1)}}</th>
+                                                    <th style="text-align:right">{{number_format($ins->num_of_growth_tw)}}</th>
+                                                    <th style="text-align:right">{{round($ins->growth_tw,2)}} %</th>
+                                                    <th style="background:{{$colorTw}} ;text-align:right">{{($rankTw4[(string)$ins->growth_tw] + 1)}}</th>
                                                 @endif
 
                                                 @if($sos->id==2)
-                                                    <th>{{number_format($ins->num_of_growth_fb)}}</th>
-                                                    <th>{{round($ins->growth_fb,2)}} %</th>
-                                                    <th style="background:{{$colorFb}}">{{($rankFb4[(string)$ins->growth_fb] + 1)}}</th>
+                                                    <th style="text-align:right">{{number_format($ins->num_of_growth_fb)}}</th>
+                                                    <th style="text-align:right">{{round($ins->growth_fb,2)}} %</th>
+                                                    <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb4[(string)$ins->growth_fb] + 1)}}</th>
                                                 @endif
 
                                                 @if($sos->id==3)
-                                                    <th>{{number_format($ins->num_of_growth_ig)}}</th>
-                                                    <th>{{round($ins->growth_ig,2)}} %</th>
-                                                    <th style="background:{{$colorIg}}">{{($rankIg4[(string)$ins->growth_ig] + 1)}}</th>
+                                                    <th style="text-align:right">{{number_format($ins->num_of_growth_ig)}}</th>
+                                                    <th style="text-align:right">{{round($ins->growth_ig,2)}} %</th>
+                                                    <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg4[(string)$ins->growth_ig] + 1)}}</th>
                                                 @endif
 
                                                 <!-- @if($sos->id==4)
@@ -1308,21 +1312,21 @@
                                     <th>{{$row->unit_name}}</th>
                                     @foreach($sosmed as $sos)
                                         @if($sos->id==1)
-                                            <th>{{number_format($row->num_of_growth_tw)}}</th>
-                                            <th>{{round($row->growth_tw,2)}} %</th>
-                                            <th style="background:{{$colorTw}}">{{($rankTw4[(string)$row->growth_tw] + 1)}}</th>
+                                            <th style="text-align:right">{{number_format($row->num_of_growth_tw)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_tw,2)}} %</th>
+                                            <th style="background:{{$colorTw}} ;text-align:right">{{($rankTw4[(string)$row->growth_tw] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==2)
-                                            <th>{{number_format($row->num_of_growth_fb)}}</th>
-                                            <th>{{round($row->growth_fb,2)}} %</th>
-                                            <th style="background:{{$colorFb}}">{{($rankFb4[(string)$row->growth_fb] + 1)}}</th>
+                                            <th style="text-align:right">{{number_format($row->num_of_growth_fb)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_fb,2)}} %</th>
+                                            <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb4[(string)$row->growth_fb] + 1)}}</th>
                                         @endif
 
                                         @if($sos->id==3)
-                                            <th>{{number_format($row->num_of_growth_ig)}}</th>
-                                            <th>{{round($row->growth_ig,2)}} %</th>
-                                            <th style="background:{{$colorIg}}">{{($rankIg4[(string)$row->growth_ig] + 1)}}</th>
+                                            <th style="text-align:right">{{number_format($row->num_of_growth_ig)}}</th>
+                                            <th style="text-align:right">{{round($row->growth_ig,2)}} %</th>
+                                            <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg4[(string)$row->growth_ig] + 1)}}</th>
                                         @endif
 
                                         <!-- @if($sos->id==4)
@@ -1343,7 +1347,7 @@
         @endif
     @endif
 
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT (OFFICIAL & PROGRAM) FOR ALL GROUP <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
     <br><br><br>
     <?php 
         $arrTw5=array();
@@ -1483,27 +1487,27 @@
                             <th>{{$p->unit_name}}</th>
                             @foreach($sosmed as $sos)
                                 @if($sos->id==1)
-                                    <th>{{round($p->total_growth_tw,2)}} %</th>
-                                    <th>{{number_format($p->total_tw_sekarang)}}</th>
-                                    <th style="background:{{$ctw}}">{{($rankTw5[$p->total_tw_sekarang] + 1)}}</th>
+                                    <th style="text-align:right">{{round($p->total_growth_tw,2)}} %</th>
+                                    <th style="text-align:right">{{number_format($p->total_tw_sekarang)}}</th>
+                                    <th style="background:{{$ctw}} ;text-align:right">{{($rankTw5[$p->total_tw_sekarang] + 1)}}</th>
                                 @endif
 
                                 @if($sos->id==2)
-                                    <th>{{round($p->total_growth_fb,2)}} %</th>
-                                    <th>{{number_format($p->total_fb_sekarang)}}</th>
-                                    <th style="background:{{$cfb}}">{{($rankFb5[$p->total_fb_sekarang] + 1)}}</th>
+                                    <th style="text-align:right">{{round($p->total_growth_fb,2)}} %</th>
+                                    <th style="text-align:right">{{number_format($p->total_fb_sekarang)}}</th>
+                                    <th style="background:{{$cfb}} ;text-align:right">{{($rankFb5[$p->total_fb_sekarang] + 1)}}</th>
                                 @endif
 
                                 @if($sos->id==3)
-                                    <th>{{round($p->total_growth_ig,2)}} %</th>
-                                    <th>{{number_format($p->total_ig_sekarang)}}</th>
-                                    <th style="background:{{$cig}}">{{($rankIg5[$p->total_ig_sekarang] + 1)}}</th>
+                                    <th style="text-align:right">{{round($p->total_growth_ig,2)}} %</th>
+                                    <th style="text-align:right">{{number_format($p->total_ig_sekarang)}}</th>
+                                    <th style="background:{{$cig}} ;text-align:right">{{($rankIg5[$p->total_ig_sekarang] + 1)}}</th>
                                 @endif
 
                                 @if($sos->id==4)
-                                    <th>{{round($p->total_growth_yt,2)}} %</th>
-                                    <th>{{number_format($p->total_yt_sekarang)}}</th>
-                                    <th style="background:{{$cyt}}">{{($rankYt5[$p->total_yt_sekarang] + 1)}}</th>
+                                    <th style="text-align:right">{{round($p->total_growth_yt,2)}} %</th>
+                                    <th style="text-align:right">{{number_format($p->total_yt_sekarang)}}</th>
+                                    <th style="background:{{$cyt}} ;text-align:right">{{($rankYt5[$p->total_yt_sekarang] + 1)}}</th>
                                 @endif
                             @endforeach
                         </tr>
@@ -1513,27 +1517,27 @@
                         <th>{{$row->group_name}}</th>
                         @foreach($sosmed as $sos)
                             @if($sos->id==1)
-                                <th>{{round($row->total_growth_tw,2)}} %</th>
-                                <th>{{number_format($row->total_tw_sekarang)}}</th>
-                                <th style="background:{{$colorTw}}">{{($rankTw5[$row->total_tw_sekarang] + 1)}}</th>
+                                <th style="text-align:right">{{round($row->total_growth_tw,2)}} %</th>
+                                <th style="text-align:right">{{number_format($row->total_tw_sekarang)}}</th>
+                                <th style="background:{{$colorTw}} ;text-align:right">{{($rankTw5[$row->total_tw_sekarang] + 1)}}</th>
                             @endif
 
                             @if($sos->id==2)
-                                <th>{{round($row->total_growth_fb,2)}} %</th>
-                                <th>{{number_format($row->total_fb_sekarang)}}</th>
-                                <th style="background:{{$colorFb}}">{{($rankFb5[$row->total_fb_sekarang] + 1)}}</th>
+                                <th style="text-align:right">{{round($row->total_growth_fb,2)}} %</th>
+                                <th style="text-align:right">{{number_format($row->total_fb_sekarang)}}</th>
+                                <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb5[$row->total_fb_sekarang] + 1)}}</th>
                             @endif
 
                             @if($sos->id==3)
-                                <th>{{round($row->total_growth_ig,2)}} %</th>
-                                <th>{{number_format($row->total_ig_sekarang)}}</th>
-                                <th style="background:{{$colorIg}}">{{($rankIg5[$row->total_ig_sekarang] + 1)}}</th>
+                                <th style="text-align:right">{{round($row->total_growth_ig,2)}} %</th>
+                                <th style="text-align:right">{{number_format($row->total_ig_sekarang)}}</th>
+                                <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg5[$row->total_ig_sekarang] + 1)}}</th>
                             @endif
 
                             @if($sos->id==4)
-                                <th>{{round($row->total_growth_yt,2)}} %</th>
-                                <th>{{number_format($row->total_yt_sekarang)}}</th>
-                                <th style="background:{{$colorYt}}">{{($rankYt5[$row->total_yt_sekarang] + 1)}}</th>
+                                <th style="text-align:right">{{round($row->total_growth_yt,2)}} %</th>
+                                <th style="text-align:right">{{number_format($row->total_yt_sekarang)}}</th>
+                                <th style="background:{{$colorYt}} ;text-align:right">{{($rankYt5[$row->total_yt_sekarang] + 1)}}</th>
                             @endif
                         @endforeach
                     </tr>
@@ -1543,7 +1547,7 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT (OFFICIAL & PROGRAM) FOR ALL @if($typeunit==2) HARDNEWS PORTAL @else {{strtoupper($mtype->name)}} @endif <span style="color:red">BY TOTAL FOLLOWERS</span></h3>
     <br>
     <?php 
         $arrTw6=array();
@@ -1627,27 +1631,27 @@
                     <th>{{$row->unit_name}}</th>
                     @foreach($sosmed as $sos)
                         @if($sos->id==1)
-                            <th>{{round($row->total_growth_tw,2)}} %</th>
-                            <th>{{number_format($row->total_tw_sekarang)}}</th>
-                            <th style="background:{{$colorTw}}">{{($rankTw6[$row->total_tw_sekarang] + 1)}}</th>
+                            <th style="text-align:right">{{round($row->total_growth_tw,2)}} %</th>
+                            <th style="text-align:right">{{number_format($row->total_tw_sekarang)}}</th>
+                            <th style="background:{{$colorTw}} ;text-align:right">{{($rankTw6[$row->total_tw_sekarang] + 1)}}</th>
                         @endif
 
                         @if($sos->id==2)
-                            <th>{{round($row->total_growth_fb,2)}} %</th>
-                            <th>{{number_format($row->total_fb_sekarang)}}</th>
-                            <th style="background:{{$colorFb}}">{{($rankFb6[$row->total_fb_sekarang] + 1)}}</th>
+                            <th style="text-align:right">{{round($row->total_growth_fb,2)}} %</th>
+                            <th style="text-align:right">{{number_format($row->total_fb_sekarang)}}</th>
+                            <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb6[$row->total_fb_sekarang] + 1)}}</th>
                         @endif
 
                         @if($sos->id==3)
-                            <th>{{round($row->total_growth_ig,2)}} %</th>
-                            <th>{{number_format($row->total_ig_sekarang)}}</th>
-                            <th style="background:{{$colorIg}}">{{($rankIg6[$row->total_ig_sekarang] + 1)}}</th>
+                            <th style="text-align:right">{{round($row->total_growth_ig,2)}} %</th>
+                            <th style="text-align:right">{{number_format($row->total_ig_sekarang)}}</th>
+                            <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg6[$row->total_ig_sekarang] + 1)}}</th>
                         @endif
 
                         @if($sos->id==4)
-                            <th>{{round($row->total_growth_yt,2)}} %</th>
-                            <th>{{number_format($row->total_yt_sekarang)}}</th>
-                            <th style="background:{{$colorYt}}">{{($rankYt6[$row->total_yt_sekarang] + 1)}}</th>
+                            <th style="text-align:right">{{round($row->total_growth_yt,2)}} %</th>
+                            <th style="text-align:right">{{number_format($row->total_yt_sekarang)}}</th>
+                            <th style="background:{{$colorYt}} ;text-align:right">{{($rankYt6[$row->total_yt_sekarang] + 1)}}</th>
                         @endif
                     @endforeach
                 </tr>
@@ -1656,7 +1660,9 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY % GROWTH FROM {{$ket_type}}</span></h3>
+    {{-- <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL GROUP <span style="color:red">BY % GROWTH FROM {{$ket_type}}</span></h3> --}}
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT (OFFICIAL & PROGRAM) FOR ALL GROUP <span style="color:red">BY % GROWTH</span></h3>
+    <p class="text-center">( {{date('d-m-Y',strtotime($sekarang))}} vs {{date('d-m-Y',strtotime($kemarin))}} )</p>
     <br><br><br>
     <?php 
         $arrTw7=array();
@@ -1794,27 +1800,27 @@
                             <th>{{$p->unit_name}}</th>
                             @foreach($sosmed as $sos)
                                 @if($sos->id==1)
-                                    <th>{{number_format($p->total_num_of_growth_tw)}}</th>
-                                    <th>{{round($p->total_growth_tw,2)}} %</th>
-                                    <th style="background:{{$ctw}}">{{($rankTw7[$p->total_growth_tw] + 1)}}</th>
+                                    <th style="text-align:right">{{number_format($p->total_num_of_growth_tw)}}</th>
+                                    <th style="text-align:right">{{round($p->total_growth_tw,2)}} %</th>
+                                    <th style="background:{{$ctw}} ;text-align:right">{{($rankTw7[$p->total_growth_tw] + 1)}}</th>
                                 @endif
 
                                 @if($sos->id==2)
-                                    <th>{{number_format($p->total_num_of_growth_fb)}}</th>
-                                    <th>{{round($p->total_growth_fb,2)}} %</th>
-                                    <th style="background:{{$cfb}}">{{($rankFb7[$p->total_growth_fb] + 1)}}</th>
+                                    <th style="text-align:right">{{number_format($p->total_num_of_growth_fb)}}</th>
+                                    <th style="text-align:right">{{round($p->total_growth_fb,2)}} %</th>
+                                    <th style="background:{{$cfb}} ;text-align:right">{{($rankFb7[$p->total_growth_fb] + 1)}}</th>
                                 @endif
 
                                 @if($sos->id==3)
-                                    <th>{{number_format($p->total_num_of_growth_ig)}}</th>
-                                    <th>{{round($p->total_growth_ig,2)}} %</th>
-                                    <th style="background:{{$cig}}">{{($rankIg7[$p->total_growth_ig] + 1)}}</th>
+                                    <th style="text-align:right">{{number_format($p->total_num_of_growth_ig)}}</th>
+                                    <th style="text-align:right">{{round($p->total_growth_ig,2)}} %</th>
+                                    <th style="background:{{$cig}} ;text-align:right">{{($rankIg7[$p->total_growth_ig] + 1)}}</th>
                                 @endif
 
                                 @if($sos->id==4)
-                                    <th>{{number_format($p->total_num_of_growth_yt)}}</th>
-                                    <th>{{round($p->total_growth_yt,2)}} %</th>
-                                    <th style="background:{{$cyt}}">{{($rankYt7[$p->total_growth_yt] + 1)}}</th>
+                                    <th style="text-align:right">{{number_format($p->total_num_of_growth_yt)}}</th>
+                                    <th style="text-align:right">{{round($p->total_growth_yt,2)}} %</th>
+                                    <th style="background:{{$cyt}} ;text-align:right">{{($rankYt7[$p->total_growth_yt] + 1)}}</th>
                                 @endif
                             @endforeach
                         </tr>
@@ -1824,27 +1830,27 @@
                         <th>{{$row->group_name}}</th>
                         @foreach($sosmed as $sos)
                             @if($sos->id==1)
-                                <th>{{number_format($row->total_num_of_growth_tw)}}</th>
-                                <th>{{round($row->total_growth_tw,2)}} %</th>
-                                <th style="background:{{$colorTw}}">{{($rankTw7[$row->total_growth_tw] + 1)}}</th>
+                                <th style="text-align:right">{{number_format($row->total_num_of_growth_tw)}}</th>
+                                <th style="text-align:right">{{round($row->total_growth_tw,2)}} %</th>
+                                <th style="background:{{$colorTw}} ;text-align:right">{{($rankTw7[$row->total_growth_tw] + 1)}}</th>
                             @endif
 
                             @if($sos->id==2)
-                                <th>{{number_format($row->total_num_of_growth_fb)}}</th>
-                                <th>{{round($row->total_growth_fb,2)}} %</th>
-                                <th style="background:{{$colorFb}}">{{($rankFb7[$row->total_growth_fb] + 1)}}</th>
+                                <th style="text-align:right">{{number_format($row->total_num_of_growth_fb)}}</th>
+                                <th style="text-align:right">{{round($row->total_growth_fb,2)}} %</th>
+                                <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb7[$row->total_growth_fb] + 1)}}</th>
                             @endif
 
                             @if($sos->id==3)
-                                <th>{{number_format($row->total_num_of_growth_ig)}}</th>
-                                <th>{{round($row->total_growth_ig,2)}} %</th>
-                                <th style="background:{{$colorIg}}">{{($rankIg7[$row->total_growth_ig] + 1)}}</th>
+                                <th style="text-align:right">{{number_format($row->total_num_of_growth_ig)}}</th>
+                                <th style="text-align:right">{{round($row->total_growth_ig,2)}} %</th>
+                                <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg7[$row->total_growth_ig] + 1)}}</th>
                             @endif
 
                             @if($sos->id==4)
-                                <th>{{number_format($row->total_num_of_growth_yt)}}</th>
-                                <th>{{round($row->total_growth_yt,2)}} %</th>
-                                <th style="background:{{$colorYt}}">{{($rankYt7[$row->total_growth_yt] + 1)}}</th>
+                                <th style="text-align:right">{{number_format($row->total_num_of_growth_yt)}}</th>
+                                <th style="text-align:right">{{round($row->total_growth_yt,2)}} %</th>
+                                <th style="background:{{$colorYt}} ;text-align:right">{{($rankYt7[$row->total_growth_yt] + 1)}}</th>
                             @endif
                         @endforeach
                     </tr>
@@ -1854,7 +1860,9 @@
     </table>
     <div class="page-break"></div>
 
-    <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL TV <span style="color:red">BY % GROWTH FROM {{$ket_type}}</span></h3>
+    {{-- <h3 class="text-center">RANK OF OVERALL ACCOUNT FOR ALL TV <span style="color:red">BY % GROWTH FROM {{$ket_type}}</span></h3> --}}
+    <h3 class="text-center">RANK OF OVERALL ACCOUNT (OFFICIAL & PROGRAM) FOR ALL TV <span style="color:red">BY % GROWTH</span></h3>
+    <p class="text-center">( {{date('d-m-Y',strtotime($sekarang))}} vs {{date('d-m-Y',strtotime($kemarin))}} )</p>
     <br>
     <?php 
         $arrTw8=array();
@@ -1938,27 +1946,27 @@
                     <th>{{$row->unit_name}}</th>
                     @foreach($sosmed as $sos)
                         @if($sos->id==1)
-                            <th>{{number_format($row->total_num_of_growth_tw)}}</th>
-                            <th>{{round($row->total_growth_tw,2)}} %</th>
-                            <th style="background:{{$colorTw}}">{{($rankTw8[$row->total_growth_tw] + 1)}}</th>
+                            <th style="text-align:right">{{number_format($row->total_num_of_growth_tw)}}</th>
+                            <th style="text-align:right">{{round($row->total_growth_tw,2)}} %</th>
+                            <th style="background:{{$colorTw}} ;text-align:right">{{($rankTw8[$row->total_growth_tw] + 1)}}</th>
                         @endif
 
                         @if($sos->id==2)
-                            <th>{{number_format($row->total_num_of_growth_fb)}}</th>
-                            <th>{{round($row->total_growth_fb,2)}} %</th>
-                            <th style="background:{{$colorFb}}">{{($rankFb8[$row->total_growth_fb] + 1)}}</th>
+                            <th style="text-align:right">{{number_format($row->total_num_of_growth_fb)}}</th>
+                            <th style="text-align:right">{{round($row->total_growth_fb,2)}} %</th>
+                            <th style="background:{{$colorFb}} ;text-align:right">{{($rankFb8[$row->total_growth_fb] + 1)}}</th>
                         @endif
 
                         @if($sos->id==3)
-                            <th>{{number_format($row->total_num_of_growth_ig)}}</th>
-                            <th>{{round($row->total_growth_ig,2)}} %</th>
-                            <th style="background:{{$colorIg}}">{{($rankIg8[$row->total_growth_ig] + 1)}}</th>
+                            <th style="text-align:right">{{number_format($row->total_num_of_growth_ig)}}</th>
+                            <th style="text-align:right">{{round($row->total_growth_ig,2)}} %</th>
+                            <th style="background:{{$colorIg}} ;text-align:right">{{($rankIg8[$row->total_growth_ig] + 1)}}</th>
                         @endif
 
                         @if($sos->id==4)
-                            <th>{{number_format($row->total_num_of_growth_yt)}}</th>
-                            <th>{{round($row->total_growth_yt,2)}} %</th>
-                            <th style="background:{{$colorYt}}">{{($rankYt8[$row->total_growth_yt] + 1)}}</th>
+                            <th style="text-align:right">{{number_format($row->total_num_of_growth_yt)}}</th>
+                            <th style="text-align:right">{{round($row->total_growth_yt,2)}} %</th>
+                            <th style="background:{{$colorYt}} ;text-align:right">{{($rankYt8[$row->total_growth_yt] + 1)}}</th>
                         @endif
                     @endforeach
                 </tr>

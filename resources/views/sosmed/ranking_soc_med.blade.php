@@ -8,7 +8,8 @@
                 <div class="form-group row">
                     <label class="col-lg-2">Type Report</label>
                     <div class="col-lg-4">
-                        <select name="typereport" id="typereport" class="form-control" required>
+                        <select name="typereport" id="typereport" class="form-control">
+                            <option value=""></option>
                             <option value="Daily">Daily Report</option>
                             <option value="Weekly">Weekly Report</option>
                             <option value="2 Weekly">2 Weekly Report</option>
