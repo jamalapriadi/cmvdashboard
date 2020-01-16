@@ -2837,6 +2837,67 @@ class ReportController extends Controller
             group by terjadi.group_id,terjadi.id
             with ROLLUP");
 
+        $data['jumlahAccount']=\DB::select("SELECT IFNULL(corporate.group_id,'total') AS group_id, corporate.group_name,
+            IFNULL(corporate.id,'subtotal') AS id, corporate.unit_name, 
+            SUM(corporate_tw) AS c_tw, 
+            SUM(corporate_fb) AS c_fb, 
+            SUM(corporate_ig) AS c_ig, 
+            SUM(corporate_yt) AS c_yt, 
+            SUM(corporate_total) AS c_total,
+            SUM(program_tw) AS p_tw, 
+            SUM(program_fb) AS p_fb, 
+            SUM(program_ig) AS p_ig, 
+            SUM(program_yt) AS p_yt, 
+            SUM(program_total) AS p_total,
+            (SUM(corporate_tw) + SUM(program_tw)) AS total_tw,
+            (SUM(corporate_fb) + SUM(program_fb)) AS total_fb,
+            (SUM(corporate_ig) + SUM(program_ig)) AS total_ig,
+            (SUM(corporate_yt) + SUM(program_yt)) AS total_yt,
+            (SUM(corporate_total) + SUM(program_total)) AS total_semua
+            FROM (
+                SELECT IFNULL(a.id,'subtotal') AS id, a.unit_name,
+                IFNULL(a.group_unit_id,'TOTAL') as group_id,d.group_name,
+                SUM(if(b.sosmed_id=1,IF(a.id=4,4,1),0)) AS corporate_tw,
+                SUM(if(b.sosmed_id=2,IF(a.id=4,4,1),0)) AS corporate_fb,
+                SUM(if(b.sosmed_id=3,IF(a.id=4,4,1),0)) AS corporate_ig,
+                SUM(if(b.sosmed_id=4,1,0)) AS corporate_yt,
+                (
+                    SUM(if(b.sosmed_id=1,IF(a.id=4,4,1),0)) +
+                    SUM(if(b.sosmed_id=2,IF(a.id=4,4,1),0)) +
+                    SUM(if(b.sosmed_id=3,IF(a.id=4,4,1),0)) +
+                    SUM(if(b.sosmed_id=4,1,0))
+                ) AS corporate_total
+                FROM business_unit a
+                LEFT JOIN unit_sosmed b ON b.business_program_unit=a.id AND b.type_sosmed='corporate'
+                LEFT JOIN sosmed c ON c.id=b.sosmed_id
+                LEFT JOIN group_unit d ON d.id=a.group_unit_id
+                WHERE a.type_unit=$typeunit
+                AND b.status_active='Y'
+                GROUP BY a.group_unit_id, a.id
+            ) AS corporate
+            LEFT JOIN (
+                SELECT IFNULL(a.business_unit_id,'subtotal') AS id, b.unit_name,
+                SUM(if(c.sosmed_id=1,1,0)) AS program_tw,
+                SUM(if(c.sosmed_id=2,1,0)) AS program_fb,
+                SUM(if(c.sosmed_id=3,1,0)) AS program_ig,
+                SUM(if(c.sosmed_id=4,1,0)) AS program_yt,
+                (
+                    SUM(if(c.sosmed_id=1,1,0)) +
+                    SUM(if(c.sosmed_id=2,1,0)) +
+                    SUM(if(c.sosmed_id=3,1,0)) +
+                    SUM(if(c.sosmed_id=4,1,0))
+                ) AS program_total
+                FROM program_unit a
+                LEFT JOIN business_unit b ON b.id=a.business_unit_id
+                LEFT JOIN unit_sosmed c ON c.business_program_unit=a.id AND c.type_sosmed='program'
+                WHERE b.type_unit=$typeunit
+                AND c.status_active='Y'
+                GROUP BY a.business_unit_id	
+            ) AS program ON program.id = corporate.id
+            GROUP BY corporate.group_id, corporate.id
+            WITH ROLLUP"
+        );
+
         $data['attachment']=\App\Models\Sosmed\Businessunit::select('id','unit_name')
             ->with(
             [
@@ -3140,7 +3201,7 @@ class ReportController extends Controller
                 LEFT JOIN unit_sosmed b ON b.business_program_unit=a.id AND b.type_sosmed='corporate'
                 LEFT JOIN sosmed c ON c.id=b.sosmed_id
                 LEFT JOIN group_unit d ON d.id=a.group_unit_id
-                WHERE a.type_unit=1
+                WHERE a.type_unit=$typeunit
                 AND b.status_active='Y'
                 GROUP BY a.group_unit_id, a.id
             ) AS corporate
@@ -3159,7 +3220,7 @@ class ReportController extends Controller
                 FROM program_unit a
                 LEFT JOIN business_unit b ON b.id=a.business_unit_id
                 LEFT JOIN unit_sosmed c ON c.business_program_unit=a.id AND c.type_sosmed='program'
-                WHERE b.type_unit=1
+                WHERE b.type_unit=$typeunit
                 AND c.status_active='Y'
                 GROUP BY a.business_unit_id	
             ) AS program ON program.id = corporate.id
