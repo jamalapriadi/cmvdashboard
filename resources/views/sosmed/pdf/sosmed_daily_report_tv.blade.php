@@ -760,140 +760,7 @@
     @endif
 
 
-    <!-- JUMLAH -->
-    <h3 class="text-center">JUMLAH ACCOUNT SOCMED</h3>
-    <br>
-    <table class='table table-striped table-bordered' style="font-size:10px">
-        <thead>
-            <tr>
-                {{-- <th rowspan="2">No.</th> --}}
-                <th rowspan="2" width="20%" style="background:#305496;color:white" class="align-middle text-white">
-                    @if($typeunit==1)
-                        Channel
-                    @elseif($typeunit==3)
-                        Station
-                    @elseif($typeunit==2)
-                        Website
-                    @elseif($typeunit==4)
-                        Artists
-                    @else 
-                        {{$typeunit}}
-                    @endif
-                </th>
-                <th colspan="{{count($sosmed)}}" class='text-center' style='background:#548235;color:white'>DETAIL OFFICIAL</th>
-                <th rowspan="2" style='background:#548235;color:white'>TOTAL OFFICIAL</th>
-
-                <th colspan="{{count($sosmed)}}" class='text-center' style='background:#c65911;color:white'>DETAIL PROGRAM</th>
-                <th rowspan="2" style='background:#c65911;color:white'>TOTAL PROGRAM</th>
-
-                <th colspan="{{count($sosmed)}}" class='text-center' style='background:#305496;color:white'>SOCMED ACCOUNT</th>
-                <th rowspan="2" style='background:#305496;color:white'>TOTAL ALL SOCMED</th>
-
-            </tr>
-            <tr>
-                @foreach($sosmed as $row)
-                    <th class="text-center" style='background:#548235;color:white'>{{$row->sosmed_name}}</th>
-                @endforeach
-
-                @foreach($sosmed as $row)
-                    <th class="text-center" style='background:#c65911;color:white'>{{$row->sosmed_name}}</th>
-                @endforeach
-
-                @foreach($sosmed as $row)
-                    <th class="text-center" style='background:#305496;color:white'>{{$row->sosmed_name}}</th>
-                @endforeach
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($jumlahAccount as $k=>$val)
-                @if($val->group_id != "total")
-                    @php $bg="" @endphp 
-                    @if($val->id == "subtotal")
-                        @php $bg="background:#d9d9d9;font-weight:700" @endphp
-                        @if($val->group_id != "total")
-                            @if($val->group_name == "OTHERS") @continue @endif
-                        @endif
-                    @endif
-
-                    <tr style="{{$bg}}">
-                        {{-- <td>{{($k+1)}}</td> --}}
-                        <td>
-                            @if($val->id == "subtotal")
-                                @if($val->group_id == "total")
-                                    TOTAL
-                                @else 
-                                    {{$val->group_name}}
-                                @endif
-                            @else 
-                                {{$val->unit_name}}
-                            @endif
-                        </td>
-                        @php $t_official=0; @endphp
-                        @foreach($sosmed as $row)
-                            @if($row->id == 1)
-                                <td style="text-align:right">{{$val->c_tw}}</td>
-                                @php $t_official+=$val->c_tw @endphp
-                            @elseif($row->id == 2)
-                                <td style="text-align:right">{{$val->c_fb}}</td>
-                                @php $t_official+=$val->c_fb @endphp
-                            @elseif($row->id == 3)
-                                <td style="text-align:right">{{$val->c_ig}}</td>
-                                @php $t_official+=$val->c_ig @endphp
-                            @elseif($row->id == 4)
-                                <td style="text-align:right">{{$val->c_yt}}</td>
-                                @php $t_official+=$val->c_yt @endphp
-                            @endif
-                        @endforeach
-
-                        <td style="text-align:right">{{$t_official}}</td>
-
-                        @php $t_program=0; @endphp
-                        @foreach($sosmed as $row)
-                            @if($row->id == 1)
-                                <td style="text-align:right">{{$val->p_tw}}</td>
-                                @php $t_program+=$val->p_tw @endphp
-                            @elseif($row->id == 2)
-                                <td style="text-align:right">{{$val->p_fb}}</td>
-                                @php $t_program+=$val->p_fb @endphp
-                            @elseif($row->id == 3)
-                                <td style="text-align:right">{{$val->p_ig}}</td>
-                                @php $t_program+=$val->p_ig @endphp
-                            @elseif($row->id == 4)
-                                <td style="text-align:right">{{$val->p_yt}}</td>
-                                @php $t_program+=$val->p_yt @endphp
-                            @endif
-                        @endforeach
-
-                        <td style="text-align:right">{{$t_program}}</td>
-
-                        @php $t_total=0; @endphp
-                        @foreach($sosmed as $row)
-                            @if($row->id == 1)
-                                <td style="text-align:right">{{$val->total_tw}}</td>
-                                @php $t_total+=$val->total_tw @endphp
-                            @elseif($row->id == 2)
-                                <td style="text-align:right">{{$val->total_fb}}</td>
-                                @php $t_total+=$val->total_fb @endphp
-                            @elseif($row->id == 3)
-                                <td style="text-align:right">{{$val->total_ig}}</td>
-                                @php $t_total+=$val->total_ig @endphp
-                            @elseif($row->id == 4)
-                                <td style="text-align:right">{{$val->total_yt}}</td>
-                                @php $t_total+=$val->total_yt @endphp
-                            @endif
-                        @endforeach
-
-                        <td style="text-align:right">{{$t_total}}</td>
-                    </tr>
-                @endif
-            @endforeach
-        </tbody>
-    </table>
-    <div class="page-break"></div>
-    <!-- END JUMLAH -->
-
-
-    <h3 class="text-center">OVERALL ALL (OFFICIAL & PROGRAM)  
+    <h3 class="text-center">OVERALL ALL (OFFICIAL + PROGRAM)  
         @if($typeunit!=4) 
             @if($typeunit==2)
                 HARDNEWS PORTAL
@@ -1551,6 +1418,138 @@
         </tbody>
     </table>
     <div class="page-break"></div>
+
+    <!-- JUMLAH -->
+    <h3 class="text-center">JUMLAH ACCOUNT SOCMED</h3>
+    <br>
+    <table class='table table-striped table-bordered' style="font-size:10px">
+        <thead>
+            <tr>
+                {{-- <th rowspan="2">No.</th> --}}
+                <th rowspan="2" width="20%" style="background:#305496;color:white" class="align-middle text-white">
+                    @if($typeunit==1)
+                        Channel
+                    @elseif($typeunit==3)
+                        Station
+                    @elseif($typeunit==2)
+                        Website
+                    @elseif($typeunit==4)
+                        Artists
+                    @else 
+                        {{$typeunit}}
+                    @endif
+                </th>
+                <th colspan="{{count($sosmed)}}" class='text-center' style='background:#548235;color:white'>DETAIL OFFICIAL</th>
+                <th rowspan="2" style='background:#548235;color:white'>TOTAL OFFICIAL</th>
+
+                <th colspan="{{count($sosmed)}}" class='text-center' style='background:#c65911;color:white'>DETAIL PROGRAM</th>
+                <th rowspan="2" style='background:#c65911;color:white'>TOTAL PROGRAM</th>
+
+                <th colspan="{{count($sosmed)}}" class='text-center' style='background:#305496;color:white'>SOCMED ACCOUNT</th>
+                <th rowspan="2" style='background:#305496;color:white'>TOTAL ALL SOCMED</th>
+
+            </tr>
+            <tr>
+                @foreach($sosmed as $row)
+                    <th class="text-center" style='background:#548235;color:white'>{{$row->sosmed_name}}</th>
+                @endforeach
+
+                @foreach($sosmed as $row)
+                    <th class="text-center" style='background:#c65911;color:white'>{{$row->sosmed_name}}</th>
+                @endforeach
+
+                @foreach($sosmed as $row)
+                    <th class="text-center" style='background:#305496;color:white'>{{$row->sosmed_name}}</th>
+                @endforeach
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($jumlahAccount as $k=>$val)
+                @if($val->group_id != "total")
+                    @php $bg="" @endphp 
+                    @if($val->id == "subtotal")
+                        @php $bg="background:#d9d9d9;font-weight:700" @endphp
+                        @if($val->group_id != "total")
+                            @if($val->group_name == "OTHERS") @continue @endif
+                        @endif
+                    @endif
+
+                    <tr style="{{$bg}}">
+                        {{-- <td>{{($k+1)}}</td> --}}
+                        <td>
+                            @if($val->id == "subtotal")
+                                @if($val->group_id == "total")
+                                    TOTAL
+                                @else 
+                                    {{$val->group_name}}
+                                @endif
+                            @else 
+                                {{$val->unit_name}}
+                            @endif
+                        </td>
+                        @php $t_official=0; @endphp
+                        @foreach($sosmed as $row)
+                            @if($row->id == 1)
+                                <td style="text-align:right">{{$val->c_tw}}</td>
+                                @php $t_official+=$val->c_tw @endphp
+                            @elseif($row->id == 2)
+                                <td style="text-align:right">{{$val->c_fb}}</td>
+                                @php $t_official+=$val->c_fb @endphp
+                            @elseif($row->id == 3)
+                                <td style="text-align:right">{{$val->c_ig}}</td>
+                                @php $t_official+=$val->c_ig @endphp
+                            @elseif($row->id == 4)
+                                <td style="text-align:right">{{$val->c_yt}}</td>
+                                @php $t_official+=$val->c_yt @endphp
+                            @endif
+                        @endforeach
+
+                        <td style="text-align:right">{{$t_official}}</td>
+
+                        @php $t_program=0; @endphp
+                        @foreach($sosmed as $row)
+                            @if($row->id == 1)
+                                <td style="text-align:right">{{$val->p_tw}}</td>
+                                @php $t_program+=$val->p_tw @endphp
+                            @elseif($row->id == 2)
+                                <td style="text-align:right">{{$val->p_fb}}</td>
+                                @php $t_program+=$val->p_fb @endphp
+                            @elseif($row->id == 3)
+                                <td style="text-align:right">{{$val->p_ig}}</td>
+                                @php $t_program+=$val->p_ig @endphp
+                            @elseif($row->id == 4)
+                                <td style="text-align:right">{{$val->p_yt}}</td>
+                                @php $t_program+=$val->p_yt @endphp
+                            @endif
+                        @endforeach
+
+                        <td style="text-align:right">{{$t_program}}</td>
+
+                        @php $t_total=0; @endphp
+                        @foreach($sosmed as $row)
+                            @if($row->id == 1)
+                                <td style="text-align:right">{{$val->total_tw}}</td>
+                                @php $t_total+=$val->total_tw @endphp
+                            @elseif($row->id == 2)
+                                <td style="text-align:right">{{$val->total_fb}}</td>
+                                @php $t_total+=$val->total_fb @endphp
+                            @elseif($row->id == 3)
+                                <td style="text-align:right">{{$val->total_ig}}</td>
+                                @php $t_total+=$val->total_ig @endphp
+                            @elseif($row->id == 4)
+                                <td style="text-align:right">{{$val->total_yt}}</td>
+                                @php $t_total+=$val->total_yt @endphp
+                            @endif
+                        @endforeach
+
+                        <td style="text-align:right">{{$t_total}}</td>
+                    </tr>
+                @endif
+            @endforeach
+        </tbody>
+    </table>
+    <div class="page-break"></div>
+    <!-- END JUMLAH -->
 
 
     @if($typeunit!=2)
