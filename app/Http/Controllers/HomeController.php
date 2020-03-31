@@ -831,5 +831,10 @@ class HomeController extends Controller
             );
         }
     }
+
+    public function sosmed_crowdtangle(Request $request)
+    {
+        return view('sosmed.crowdtangle');
+    }
     
 }
