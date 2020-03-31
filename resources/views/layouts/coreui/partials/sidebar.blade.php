@@ -14,6 +14,11 @@
               <span class="badge badge-info">NEW</span>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::path() == 'sosmed/crowdtangle' ? 'active' : '' }}" href="{{URL::to('sosmed/crowdtangle')}}">
+              <i class="nav-icon icon-info22"></i> Crowdtangle
+            </a>
+          </li>
         @endif
 
         <li class="nav-title">Dashboard</li>

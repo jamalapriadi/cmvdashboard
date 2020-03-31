@@ -50,6 +50,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('add-new-report-harian/{id}','HomeController@add_new_report_harian');
         Route::get('insight','HomeController@sosmed_insight');
         Route::get('type-unit','HomeController@sosmed_type_unit');
+        Route::get('crowdtangle','HomeController@sosmed_crowdtangle');
 
         /*dashboard */
         Route::get('dashboard-summary','HomeController@dashboard_summary');
@@ -110,6 +111,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
 
         Route::resource('insight','Sosmed\InsightController');
         Route::delete('insight-detail/{id}','Sosmed\InsightController@delete_detail');
+        Route::resource('crowdtangle','Sosmed\CrowdtangleController');
 
         Route::resource('users','User\UserController');
         Route::resource('roles','User\RoleController');
