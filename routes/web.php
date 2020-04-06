@@ -51,6 +51,7 @@ Route::group(['prefix'=>'sosmed','middleware'=>'auth'],function(){
         Route::get('insight','HomeController@sosmed_insight');
         Route::get('type-unit','HomeController@sosmed_type_unit');
         Route::get('crowdtangle','HomeController@sosmed_crowdtangle');
+        Route::get('crowdtangle/{id}','HomeController@detail_sosmed_crowdtangle');
 
         /*dashboard */
         Route::get('dashboard-summary','HomeController@dashboard_summary');

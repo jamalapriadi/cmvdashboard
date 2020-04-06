@@ -1,12 +1,18 @@
 @extends('layouts.coreui.main')
 
 @section('content')
-    <a href="#" class="btn btn-primary" id="add">
-        <i class="icon-add"></i> Import New 
-    </a>
-    <br><br>
-
-    <div id="showData"></div>
+    <div class="card card-default">
+        <div class="card-header">Crowdtangle</div>
+        <div class="card-body">
+            <a href="#" class="btn btn-primary" id="add">
+                <i class="icon-add"></i> Import New 
+            </a>
+            <br><br>
+        
+            <div id="showData"></div>
+        </div>
+    </div>
+    
 
     <div id="divModal"></div>
 @stop
@@ -27,15 +33,49 @@
                     success:function(result){
                         if(result.length>0){
                             var el='';
-                            alldata=result;
                             
-                            el+='<div class="row">';
-                            $.each(result,function(a,b){
-                                
-                            })
-                            el+="</div>";
+                            el+='<table class="table table-striped" id="table">'+ 
+                                "<thead>"+
+                                    "<tr>"+
+                                        "<th>No.</th>"+
+                                        "<th>Page Name</th>"+
+                                        "<th>User Name</th>"+
+                                        "<th>Page ID</th>"+
+                                        "<th>Page Likes</th>"+
+                                        "<th>Post Count</th>"+
+                                        "<th>Comment</th>"+
+                                        "<th>Share</th>"+
+                                        "<th>Likes</th>"+
+                                        "<th></th>"+
+                                    "</tr>"+
+                                "</thead>"+
+                                "<tbody>";
+                                    var n=0;
+                                    $.each(result,function(a,b){
+                                        var url="{{URL::to('sosmed/crowdtangle')}}/"+b.id;
+
+                                        n++;
+                                        el+="<tr>"+
+                                            "<td>"+n+"</td>"+
+                                            "<td>"+b.page_name+"</td>"+
+                                            "<td>"+b.user_name+"</td>"+
+                                            "<td>"+b.page_id+"</td>"+
+                                            "<td>"+b.page_likes+"</td>"+
+                                            "<td>"+b.post_count+"</td>"+
+                                            "<td>"+b.comments+"</td>"+
+                                            "<td>"+b.shares+"</td>"+
+                                            "<td>"+b.likes+"</td>"+
+                                            "<td>"+
+                                                "<a href='"+url+"' class='btn btn-warning text-white'>Detail</a>"+
+                                            "</td>"+
+                                        "</tr>";
+                                    })
+                                el+="</tbody>"+
+                            "</table>";
 
                             $("#showData").empty().html(el);
+
+                            $("#table").DataTable();
                         }else{
                             $("#showData").empty().html("<div class='alert alert-success'>Data not found</div>");
                         }

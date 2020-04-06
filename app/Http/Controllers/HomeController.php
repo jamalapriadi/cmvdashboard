@@ -836,5 +836,13 @@ class HomeController extends Controller
     {
         return view('sosmed.crowdtangle');
     }
+
+    public function detail_sosmed_crowdtangle($id)
+    {
+        $model=\App\Models\Sosmed\Crowdtangle::find($id);
+
+        return view('sosmed.detailcrowdtangle')
+            ->with('model',$model);
+    }
     
 }

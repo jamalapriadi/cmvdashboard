@@ -28,7 +28,7 @@ class CrowdtangleController extends Controller
             $halaman=25;
         }
 
-        $model=$model->paginate($halaman);
+        $model=$model->get();
 
         return $model;
     }
