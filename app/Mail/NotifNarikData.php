@@ -37,7 +37,7 @@ class NotifNarikData extends Mailable
         $cc=array('jamal.apriadi@mncgroup.com');
 
         return $this->from('admin.marketing@mncgroup.com','ADMIN MARKETING')
-                    ->cc(['diandra.satyasari@mncgroup.com','jamal.apriadi@mncgroup.com'])
+                    ->cc(['diandra.satyasari@mncgroup.com','hafiza.chairi@mncgroup.com','jamal.apriadi@mncgroup.com'])
                     ->subject('NOTIFIKASI TARIK OTOMATIS')
                     ->view('emails.notif_narik_data');
     }

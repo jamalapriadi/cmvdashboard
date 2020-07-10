@@ -14,7 +14,9 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\OfficialOtomationFollower::class,
+        Commands\UnitSosmedInstagram::class,
         Commands\ReplicateCek::class,
+        Commands\InstagramInfo::class,
     ];
 
     /**

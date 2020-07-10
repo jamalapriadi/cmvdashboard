@@ -98,26 +98,44 @@ class InstagramController extends Controller
 
     public function tes_instagram(){
         $instagram = new \InstagramScraper\Instagram();
-        $medias = $instagram->getMedias('thecommentnet_', 25);
+        $account = $instagram->getAccount('officialrcti');
         
-        // Let's look at $media
-        $media = $medias[0];
-        echo "Media info:\n";
-        echo "Id: {$media->getId()}\n";
-        echo "Shortcode: {$media->getShortCode()}\n";
-        echo "Created at: {$media->getCreatedTime()}\n";
-        echo "Caption: {$media->getCaption()}\n";
-        echo "Number of comments: {$media->getCommentsCount()}";
-        echo "Number of likes: {$media->getLikesCount()}";
-        echo "Get link: {$media->getLink()}";
-        echo "High resolution image: {$media->getImageHighResolutionUrl()}";
-        echo "Media type (video or image): {$media->getType()}";
-        $account = $media->getOwner();
+        // Available fields
         echo "Account info:\n";
         echo "Id: {$account->getId()}\n";
         echo "Username: {$account->getUsername()}\n";
         echo "Full name: {$account->getFullName()}\n";
-        echo "Profile pic url: {$account->getProfilePicUrl()}\n";
+        echo "Biography: {$account->getBiography()}\n";
+        echo "Profile picture url: {$account->getProfilePicUrl()}\n";
+        echo "External link: {$account->getExternalUrl()}\n";
+        echo "Number of published posts: {$account->getMediaCount()}\n";
+        echo "Number of followers: {$account->getFollowsCount()}\n";
+        echo "Number of follows: {$account->getFollowedByCount()}\n";
+        echo "Is private: {$account->isPrivate()}\n";
+        echo "Is verified: {$account->isVerified()}\n";
+
+        // $medias = $instagram->getMedias('officialrcti', 25);
+        
+        // // Let's look at $media
+        // $media = $medias[0];
+        
+        // echo "Media info:\n";
+        // echo "Id: {$media->getId()}\n";
+        // echo "Shortcode: {$media->getShortCode()}\n";
+        // echo "Created at: {$media->getCreatedTime()}\n";
+        // echo "Caption: {$media->getCaption()}\n";
+        // echo "Number of comments: {$media->getCommentsCount()}\n";
+        // echo "Number of likes: {$media->getLikesCount()}\n";
+        // echo "Get link: {$media->getLink()}\n";
+        // echo "High resolution image: {$media->getImageHighResolutionUrl()}\n";
+        // echo "Media type (video or image): {$media->getType()}\n";
+        // $account = $media->getOwner();
+
+        // echo "Account info:\n";
+        // echo "Id: {$account->getId()}\n";
+        // echo "Username: {$account->getUsername()}\n";
+        // echo "Full name: {$account->getFullName()}\n";
+        // echo "Profile pic url: {$account->getProfilePicUrl()}\n";
     }
 
     public function get_account(Request $request){
@@ -172,5 +190,52 @@ class InstagramController extends Controller
         echo "Get link: {$media->getLink()}";
         echo "High resolution image: {$media->getImageHighResolutionUrl()}";
         echo "Media type (video or image): {$media->getType()}";
+    }
+
+    public function daftar_akun(){
+        $list=\DB::table('daftar_akun')->get();
+
+        $instagram = new \InstagramScraper\Instagram();
+        // For getting information about account you don't need to auth:
+        
+        $data=array();
+        foreach($list as $row){
+            $data[]=array(
+                'account'=>$instagram->getAccount($row->nama),
+                'medias'=>$instagram->getMedias($row->nama, 25)
+            );
+        }
+
+        return view('sosmed.view.list_instagram')
+            ->with('data',$data);
+    }
+
+    public function simpan_daftar_akun(Request $request){
+        $rules=['nama'=>'required|unique:daftar_akun,nama'];
+
+        $validasi=\Validator::make($request->all(), $rules);
+
+        if($validasi->fails()){
+            $data=array(
+                'success'=>false,
+                'pesan'=>'Validasi errors',
+                'errors'=>$validasi->errors()->all()
+            );
+        }else{
+            \DB::table('daftar_akun')
+                ->insert(
+                    [
+                        'nama'=>$request->input('nama')
+                    ]
+                );
+
+            $data=array(
+                'success'=>true,
+                'pesan'=>'Data berhasil disimpan, silahkan refresh',
+                'errors'=>array()
+            );
+        }
+
+        return $data;
     }
 }
