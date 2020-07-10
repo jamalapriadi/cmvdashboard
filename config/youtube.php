@@ -10,5 +10,5 @@
 */
 
 return [
-    'key' => 'AIzaSyCWXEitcdOhq_p-O2e263-_EPyhA1l8TjU'
+    'key' => 'AIzaSyDrDdx49-KUzn96CXHIjy4vfyE__3ibS4c'
 ];
