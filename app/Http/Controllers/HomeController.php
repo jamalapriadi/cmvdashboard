@@ -274,9 +274,18 @@ class HomeController extends Controller
         $activities=array();
         foreach($bu->sosmed as $row){
             if($row->sosmed_id==4){
-                $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+                
+                try {
+                    // Validate the value...
+                    $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
 
-                $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+                    $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);   
+                } catch (\Throwable $e) {
+                    // report($e);
+                    // return $e;
+            
+                    // return false;
+                }
             }
         }
 

@@ -197,41 +197,54 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-2">
-                                            <img src="{{$youtube->snippet->thumbnails->default->url}}" alt="" class="img-fluid">
+                                            @if($youtube)
+                                                <img src="{{$youtube->snippet->thumbnails->default->url}}" alt="" class="img-fluid">
+                                            @endif
                                         </div>
                                         <div class="col-lg-6">
-                                            @if(isset($youtube->snippet->customUrl))
-                                                @php 
-                                                    $url=$youtube->snippet->customUrl;
-                                                @endphp 
-                                            @else 
-                                                @php 
-                                                    $url="";
-                                                @endphp
+                                            @if($youtube)
+                                                @if(isset($youtube->snippet->customUrl))
+                                                    @php 
+                                                        $url=$youtube->snippet->customUrl;
+                                                    @endphp 
+                                                @else 
+                                                    @php 
+                                                        $url="";
+                                                    @endphp
+                                                @endif
+                                                <a href="https://youtube.com/{{$url}}" target="new target">
+                                                    <h3>{{$youtube->snippet->title}}</h3>
+                                                </a>
+                                            @endif 
+
+                                            @if($youtube)
+                                                <p class="text-muted">{{number_format($youtube->statistics->subscriberCount)}} subscriber</p>
                                             @endif
-                                            <a href="https://youtube.com/{{$url}}" target="new target">
-                                                <h3>{{$youtube->snippet->title}}</h3>
-                                            </a>
-                                            <p class="text-muted">{{number_format($youtube->statistics->subscriberCount)}} subscriber</p>
                                         </div>
                                         <div class="col-lg-3">
-                                            <a href="#" class="btn btn-youtube">SUBSCRIBE {{number_format($youtube->statistics->subscriberCount)}}</a></a>
+                                            @if($youtube)
+                                                <a href="#" class="btn btn-youtube">SUBSCRIBE {{number_format($youtube->statistics->subscriberCount)}}</a></a>
+                                            @endif
                                         </div>
                                     </div>
                                     <hr>
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <h5>Statistik</h5>
-                                            <p class="small">Bergabung pada : {{date('d F Y',strtotime($youtube->snippet->publishedAt))}}</p>
-                                            <p>{{number_format($youtube->statistics->viewCount)}} x penayangan</p>
+                                            @if($youtube)
+                                                <p class="small">Bergabung pada : {{date('d F Y',strtotime($youtube->snippet->publishedAt))}}</p>
+                                                <p>{{number_format($youtube->statistics->viewCount)}} x penayangan</p>
+                                            @endif
                                         </div>
                                         
-                                        @if(isset($youtube->snippet->country))
-                                            <div class="col-lg-6">
-                                                <h5>Detail</h5>
-                                                <p class="text-muted">Lokasi : {{$youtube->snippet->country}}</p>
-                                            </div>
-                                        @endif
+                                        @if($youtube)
+                                            @if(isset($youtube->snippet->country))
+                                                <div class="col-lg-6">
+                                                    <h5>Detail</h5>
+                                                    <p class="text-muted">Lokasi : {{$youtube->snippet->country}}</p>
+                                                </div>
+                                            @endif
+                                        @endif  
                                     </div>
                 
                                     <hr>
