@@ -4,16 +4,29 @@ namespace App\Helpers;
 class Follower
 {
     public static function twitter($id){
-        $html=@file_get_contents("https://twitter.com/".$id,true);
-        preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
+        // $html=@file_get_contents("https://twitter.com/".$id,true);
+        // preg_match("'followers_count&quot;:(.*?),&quot;'", $html, $match);
 
-        if(isset($match[1])){
-            $hasil=$match[1];
-        }else{
-            $hasil=0;
+        // if(isset($match[1])){
+        //     $hasil=$match[1];
+        // }else{
+        //     $hasil=0;
+        // }
+
+        // return $hasil;
+
+        try
+        {
+            $a=\Twitter::getUsers(['screen_name' => $id,'format'=>'array']);
+
+            return $a['followers_count'];
         }
-
-        return $hasil;
+        catch (Exception $e)
+        {
+            if(\Twitter::error()['code'] == 50){
+                return 0;
+            }
+        }
     }
 
     public static function facebook($id){
@@ -172,5 +185,38 @@ class Follower
             'jumlah_post'=> $account->getMediaCount(),
             'all_follower'=> $account->getFollowedByCount()
         );
+    }
+
+    public static function cek_instagram_account($id){
+        $instagram = new \InstagramScraper\Instagram();
+        $account = $instagram->getAccount($id);
+        
+        // Available fields
+        return array(
+            'account_id'=>$account->getId(),
+            'username'=>$account->getUsername(),
+            'full_name'=>$account->getFullName(),
+            'biography'=>$account->getBiography(),
+            'profile_picture_url'=>$account->getProfilePicUrl(),
+            'external_link'=>$account->getExternalUrl(),
+            'number_of_published_post'=>$account->getMediaCount(),
+            'number_of_followers'=>$account->getFollowsCount(),
+            'number_of_follows'=>$account->getFollowedByCount(),
+            'is_private'=>$account->isPrivate(),
+            'is_verified'=>$account->isVerified()
+        );
+
+        // echo "Account info:\n";
+        // echo "Id: {$account->getId()}\n";
+        // echo "Username: {$account->getUsername()}\n";
+        // echo "Full name: {$account->getFullName()}\n";
+        // echo "Biography: {$account->getBiography()}\n";
+        // echo "Profile picture url: {$account->getProfilePicUrl()}\n";
+        // echo "External link: {$account->getExternalUrl()}\n";
+        // echo "Number of published posts: {$account->getMediaCount()}\n";
+        // echo "Number of followers: {$account->getFollowsCount()}\n";
+        // echo "Number of follows: {$account->getFollowedByCount()}\n";
+        // echo "Is private: {$account->isPrivate()}\n";
+        // echo "Is verified: {$account->isVerified()}\n";
     }
 }

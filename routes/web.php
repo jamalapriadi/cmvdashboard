@@ -10,6 +10,21 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('twi', function(){
+    try
+    {
+        $a=\Twitter::getUsers(['screen_name' => 'Catchplay_ID','format'=>'array']);
+
+        return $a['followers_count'];
+    }
+    catch (Exception $e)
+    {
+        // return Twitter::error();
+        if(Twitter::error()['code'] == 50){
+            return 0;
+        }
+    }
+});
 
 Route::get('/', 'WelcomeController@index');
 Route::get('unit','WelcomeController@unit');

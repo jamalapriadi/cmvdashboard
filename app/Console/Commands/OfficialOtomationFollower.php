@@ -53,7 +53,7 @@ class OfficialOtomationFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id=4
+                and b.sosmed_id=1
                 union all
                 select a.id, a.program_name,
                 b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
@@ -62,7 +62,7 @@ class OfficialOtomationFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id=3
+                and b.sosmed_id=1
                 union all 
                 select a.id, a.unit_name,
                 b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
@@ -71,7 +71,7 @@ class OfficialOtomationFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='brand'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id=4");
+                and b.sosmed_id=1");
 
             $bar=$this->output->createProgressBar(count($bu));
 
@@ -84,12 +84,25 @@ class OfficialOtomationFollower extends Command
                     $unitsosmedid[]=$row->unit_sosmed_id;
 
                     if($row->sosmed_id==1){
-                        $this->info("Get Follower Account Twitter = ".$row->unit_name);
+                        $this->info("Get Follower Account Twitter =  -- ".$row->unit_sosmed_name);
+
+                        try
+                        {
+                            $a=\Twitter::getUsers(['screen_name' => $row->unit_sosmed_name,'format'=>'array']);
+
+                            $tw=$a['followers_count'];
+                        }
+                        catch (Exception $e)
+                        {
+                            if(Twitter::error()['code'] == 50){
+                                $tw=0;
+                            }
+                        }
 
                         $list[]=array(
                             'unit_sosmed_id'=>$row->unit_sosmed_id,
                             'tanggal'=>$sekarang,
-                            'follower'=>\Follower::twitter($row->unit_sosmed_name),
+                            'follower'=>$tw,
                             'view_count'=>null,
                             'video_count'=>null,
                             'following'=>null,
