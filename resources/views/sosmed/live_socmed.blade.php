@@ -465,9 +465,9 @@
                 @endforeach
 
                 <div class="col-lg-6">
-                    <div class="panel panel-default" style="overflow:scroll">
-                        <div class="panel-heading">Youtube</div>
-                        <div class="panel-body">
+                    <div class="card card-default" style="overflow:scroll">
+                        <div class="card-header">Youtube</div>
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-2">
                                     @if($youtube_json!=null)
@@ -536,7 +536,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             
         </div>
