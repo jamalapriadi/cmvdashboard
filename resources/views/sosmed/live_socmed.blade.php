@@ -520,7 +520,7 @@
                             <hr>
                             <div id="showYoutube">
                                 <div class="row">
-                                    @if(isset($youtube_activity))
+                                    @if(is_array($youtube_activity))
                                         @foreach($youtube_activity as $key=>$row)
                                             @if($key<4)
                                                 <div class="col-lg-6" style="margin-bottom:10px;">
