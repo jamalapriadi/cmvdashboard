@@ -335,6 +335,8 @@ class HomeController extends Controller
             ->with('bu',$bu)
             ->with('id',$id)
             ->with('youtube',$channel)
+            ->with('youtube_json',$youtube_json)
+            ->with('youtube_activity', $youtube_activity)
             ->with('activity',$activities);
     }
 

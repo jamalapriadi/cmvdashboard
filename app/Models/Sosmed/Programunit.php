@@ -37,7 +37,9 @@ class Programunit extends Model
 					'unit_sosmed_name',
 					'status_active',
 					'unit_sosmed_account_id',
-					'target_use'
+					'target_use',
+					'youtube_json',
+					'youtube_activity'
 				]
 			);
 	}
