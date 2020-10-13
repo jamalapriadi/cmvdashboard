@@ -244,20 +244,32 @@ class HomeController extends Controller
 
             $channel=array();
             $activities=array();
+            $youtube_json= array();
+            $youtube_activity = array();
+
             foreach($bu->sosmed as $row){
                 if($row->sosmed_id==4){
                     // $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
 
-                    try {
-                        // Validate the value...
-                        $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+                    // try {
+                    //     // Validate the value...
+                    //     $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
     
-                        $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);   
-                    } catch (\Throwable $e) {
-                        // report($e);
-                        // return $e;
+                    //     $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);   
+                    // } catch (\Throwable $e) {
+                    //     // report($e);
+                    //     // return $e;
                 
-                        // return false;
+                    //     // return false;
+                    // }
+
+                    $channel = $row->youtube_json;
+                    $activities = $row->youtube_activity;
+
+                    if($row->youtube_json != null)
+                    {
+                        $youtube_json= json_decode($channel, true);
+                        $youtube_activity = json_decode($activities, true);
                     }
 
                     // $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
@@ -268,7 +280,9 @@ class HomeController extends Controller
                 ->with('bu',$bu)
                 ->with('id',$id)
                 ->with('youtube',$channel)
-                ->with('activity',$activities);
+                ->with('activity',$activities)
+                ->with('youtube_json',$youtube_json)
+                ->with('youtube_activity', $youtube_activity);
         }
 
         return abort('403');
@@ -288,19 +302,31 @@ class HomeController extends Controller
 
         $channel=array();
         $activities=array();
+        $youtube_json= array();
+        $youtube_activity = array();
+
         foreach($bu->sosmed as $row){
             if($row->sosmed_id==4){
                 
-                try {
-                    // Validate the value...
-                    $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+                // try {
+                //     // Validate the value...
+                //     $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
 
-                    $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);   
-                } catch (\Throwable $e) {
-                    // report($e);
-                    // return $e;
+                //     $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);   
+                // } catch (\Throwable $e) {
+                //     // report($e);
+                //     // return $e;
             
-                    // return false;
+                //     // return false;
+                // }
+
+                $channel = $row->youtube_json;
+                $activities = $row->youtube_activity;
+
+                if($row->youtube_json != null)
+                {
+                    $youtube_json= json_decode($channel, true);
+                    $youtube_activity = json_decode($activities, true);
                 }
             }
         }
@@ -546,6 +572,8 @@ class HomeController extends Controller
 
         $channel=array();
         $activities=array();
+        $youtube_json= array();
+        $youtube_activity = array();
 
         $group=\App\Models\Sosmed\Groupunit::all();
 
@@ -600,9 +628,18 @@ class HomeController extends Controller
         $medias = array();
         foreach($bu->sosmed as $row){
             if($row->sosmed_id==4){
-                $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+                // $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
 
-                $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+                // $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+
+                $channel = $row->youtube_json;
+                $activities = $row->youtube_activity;
+
+                if($row->youtube_json != null)
+                {
+                    $youtube_json= json_decode($channel, true);
+                    $youtube_activity = json_decode($activities, true);
+                }
             }
 
             if($row->sosmed_id == 3){
@@ -626,6 +663,8 @@ class HomeController extends Controller
             ->with('program',$program)
             ->with('activity',$activities)
             ->with('account',$account)
+            ->with('youtube_json',$youtube_json)
+            ->with('youtube_activity', $youtube_activity)
             ->with('medias',$medias);
     }
 
