@@ -273,17 +273,31 @@ class UnitsosmedController extends Controller
         
         $channel=array();
         $activities=array();
+        $youtube_json= array();
+        $youtube_activity = array();
+
         foreach($var as $row){
             if($row->sosmed_id==4){
-                $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
+                // $channel = \Youtube::getChannelById($row->unit_sosmed_account_id);
 
-                $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+                // $activities = \Youtube::getActivitiesByChannelId($row->unit_sosmed_account_id);
+
+                $channel = $row->youtube_json;
+                $activities = $row->youtube_activity;
+
+                if($row->youtube_json != null)
+                {
+                    $youtube_json= json_decode($channel, true);
+                    $youtube_activity = json_decode($activities, true);
+                }
             }
         }
 
         return view('sosmed.view.live_socmed')
             ->with('sosmed',$var)
             ->with('youtube',$channel)
+            ->with('youtube_json',$youtube_json)
+            ->with('youtube_activity', $youtube_activity)
             ->with('activity',$activities);
     }
 
