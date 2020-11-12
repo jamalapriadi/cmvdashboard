@@ -206,6 +206,7 @@
                             <div class="col-lg-6">
                                 <div class="card card-accent-danger">
                                     <div class="card-header">Youtube</div>
+                                    @if($youtube)
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-lg-2">
@@ -263,6 +264,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         @endif

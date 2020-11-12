@@ -42,7 +42,9 @@ class Businessunit extends Model
 					'unit_sosmed_name',
 					'unit_sosmed_account_id',
 					'status_active',
-					'target_use'
+					'target_use',
+					'youtube_json',
+					'youtube_activity'
 				]
 			);
 	}
