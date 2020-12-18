@@ -91,21 +91,28 @@ class Follower
     }
 
     public static function youtube($id){
+        \Youtube::setApiKey('AIzaSyDNI2FrJGI_nxgGGYwxqNmmlpJB54Xesm8');
         $channel = \Youtube::getChannelByID($id);
+        $activities = \Youtube::getActivitiesByChannelId($id);   
 
         $youtube=$channel;
+        $youtube_activity = $activities;
 
         if(isset($youtube->statistics)){
             return array(
                 'subscriber'=>$youtube->statistics->subscriberCount,
                 'view_count'=>$youtube->statistics->viewCount,
-                'video_count'=>$youtube->statistics->videoCount
+                'video_count'=>$youtube->statistics->videoCount,
+                'youtube_json'=>$youtube,
+                'youtube_activity'=>$youtube_activity
             );
         }else{
             return array(
                 'subscriber'=>0,
                 'view_count'=>0,
-                'video_count'=>0
+                'video_count'=>0,
+                'youtube_json'=>'',
+                'youtube_activity'=>''
             );
         }
     }
