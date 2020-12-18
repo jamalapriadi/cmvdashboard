@@ -645,12 +645,12 @@ class HomeController extends Controller
             }
 
             if($row->sosmed_id == 3){
-                try{
-                    $account = $instagram->getAccount($row->unit_sosmed_name);
-                    $medias = $instagram->getMedias($row->unit_sosmed_name, 12);
-                }catch (\InstagramScraper\Exception\InstagramNotFoundException $e){
+                // try{
+                //     $account = $instagram->getAccount($row->unit_sosmed_name);
+                //     $medias = $instagram->getMedias($row->unit_sosmed_name, 12);
+                // }catch (\InstagramScraper\Exception\InstagramNotFoundException $e){
 
-                }
+                // }
             }
         }
         

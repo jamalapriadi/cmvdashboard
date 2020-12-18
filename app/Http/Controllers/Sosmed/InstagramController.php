@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
+use InstagramScraper\Instagram;
  
 class InstagramController extends Controller
 {
@@ -31,8 +32,20 @@ class InstagramController extends Controller
     }
 
     public function cek_instagram(){
-        $id="https://instagram.com/hotissueindosiar";
-    
+        $id="https://www.instagram.com/hotissueindosiar/";
+
+        $data = file_get_contents($id);
+        return htmlspecialchars($data);
+
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $id);
+        return json_decode($response->getBody());
+        echo $response->getStatusCode(); // 200
+        echo $response->getHeaderLine('content-type'); // 'application/json; charset=utf8'
+        return $response->getBody(); // '{"id": 1420053, "name": "guzzle", ...}'
+        return;
+
+
         $url = $id;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -46,6 +59,7 @@ class InstagramController extends Controller
         $output;
         $metaPos = strpos($result, "<meta content=");
         $metaPosFollower = strpos($result, "edge_followed_by");
+        // return json_encode($result);
         
         if($metaPos != false)
         {
