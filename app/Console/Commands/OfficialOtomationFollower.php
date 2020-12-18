@@ -53,7 +53,7 @@ class OfficialOtomationFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id!=1
+                and b.sosmed_id=3
                 union all
                 select a.id, a.program_name,
                 b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
@@ -62,7 +62,7 @@ class OfficialOtomationFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id!=1
+                and b.sosmed_id=3
                 union all 
                 select a.id, a.unit_name,
                 b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
@@ -71,7 +71,7 @@ class OfficialOtomationFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='brand'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id!=1");
+                and b.sosmed_id=3");
 
             $bar=$this->output->createProgressBar(count($bu));
 
@@ -106,7 +106,9 @@ class OfficialOtomationFollower extends Command
                             'view_count'=>null,
                             'video_count'=>null,
                             'following'=>null,
-                            'post_count'=>null
+                            'post_count'=>null,
+                            'youtube_json'=>null,
+                            'youtube_activity'=>null
                         );
                     }
 
@@ -120,8 +122,23 @@ class OfficialOtomationFollower extends Command
                             'view_count'=>null,
                             'video_count'=>null,
                             'following'=>null,
-                            'post_count'=>null
+                            'post_count'=>null,
+                            'youtube_json'=>null,
+                            'youtube_activity'=>null
                         );
+
+                        // $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                        // $new->tanggal=$sekarang;
+                        // $new->unit_sosmed_id=$row->unit_sosmed_id;
+                        // $new->follower=\Follower::facebook($row->unit_sosmed_account_id);
+                        // $new->view_count=null;
+                        // $new->video_count=null;
+                        // $new->following=null;
+                        // $new->post_count=null;
+                        // $new->insert_user='jamal.apriadi@mncgroup.com';
+                        // $new->youtube_json=null;
+                        // $new->youtube_activity = null;
+                        // $new->save();
                     }
 
                     if($row->sosmed_id==3){
@@ -135,8 +152,23 @@ class OfficialOtomationFollower extends Command
                             'view_count'=>null,
                             'video_count'=>null,
                             'following'=>$ig['mengikuti'],
-                            'post_count'=>$ig['jumlah_post']
+                            'post_count'=>$ig['jumlah_post'],
+                            'youtube_json'=>null,
+                            'youtube_activity'=>null
                         );
+
+                        $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                        $new->tanggal=$sekarang;
+                        $new->unit_sosmed_id=$row->unit_sosmed_id;
+                        $new->follower=$ig['all_follower'];
+                        $new->view_count=null;
+                        $new->video_count=null;
+                        $new->following=$ig['mengikuti'];
+                        $new->post_count=$ig['jumlah_post'];
+                        $new->insert_user='jamal.apriadi@mncgroup.com';
+                        $new->youtube_json=null;
+                        $new->youtube_activity = null;
+                        $new->save();
                     }
 
                     if($row->sosmed_id==4){
@@ -150,7 +182,9 @@ class OfficialOtomationFollower extends Command
                             'view_count'=>$yt['view_count'],
                             'video_count'=>$yt['video_count'],
                             'following'=>null,
-                            'post_count'=>null
+                            'post_count'=>null,
+                            'youtube_json'=>json_encode($yt['youtube_json']),
+                            'youtube_activity'=>json_encode($yt['youtube_activity'])
                         );
                     }
 
@@ -188,12 +222,19 @@ class OfficialOtomationFollower extends Command
                         $new->following=$v['following'];
                         $new->post_count=$v['post_count'];
                         $new->insert_user='jamal.apriadi@mncgroup.com';
+                        $new->youtube_json=$v['youtube_json'];
+                        $new->youtube_activity = $v['youtube_activity'];
                         $new->save();
+
+                        $un_sosmed = \App\Models\Sosmed\Unitsosmed::find($v['unit_sosmed_id']);
+                        $un_sosmed->youtube_json=$v['youtube_json'];
+                        $un_sosmed->youtube_activity = $v['youtube_activity'];
+                        $un_sosmed->save();
                     }
                 });
 
-                Mail::to('kurnia.hapsari@mncgroup.com')
-                    ->send(new NotifNarikData($sekarang,'Sukses'));
+                // Mail::to('kurnia.hapsari@mncgroup.com')
+                //     ->send(new NotifNarikData($sekarang,'Sukses'));
 
                 \Artisan::call('cache:clear');
                 $this->info("yey sukses menyimpan data");

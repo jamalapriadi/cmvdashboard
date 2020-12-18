@@ -25,7 +25,7 @@
         "watson/rememberable": "^2.0",
         "xmhafiz/fb-page-feed": "^1.1",
         "yajra/laravel-datatables-oracle": "~9.0",
-        "yaroslavmolchan/rbac": "^1.0"
+        "weidner/goutte": "1.6"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
