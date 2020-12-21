@@ -408,3 +408,12 @@ Route::get('get-account','Sosmed\InstagramController@get_account');
 Route::get('cek-bahasa','Sosmed\InstagramController@cek_bahasa');
 Route::get('daftar-akun','Sosmed\InstagramController@daftar_akun');
 Route::post('daftar-akun','Sosmed\InstagramController@simpan_daftar_akun');
+
+Route::group(['prefix'=>'scrapping'],function(){
+    Route::get('detik','WelcomeController@detik');
+    Route::get('kompas','WelcomeController@kompas');
+    Route::get('tribun','WelcomeController@tribun');
+    Route::get('tag-detik','WelcomeController@tag_detik');
+    Route::get('tag-tribun','WelcomeController@tag_tribun');
+    Route::get('video-detik','WelcomeController@video_detik');
+});

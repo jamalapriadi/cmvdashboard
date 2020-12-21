@@ -90,7 +90,7 @@ class FollowerInstagram extends Command
 
                     if($cektanggal > 0)
                     {
-                        $instagram = new \InstagramScraper\Instagram();
+                        $instagram = new \InstagramScraper\Instagram(new \GuzzleHttp\Client());
                         $account = $instagram->getAccount($row->unit_sosmed_name);
                         $medias = $instagram->getMedias($row->unit_sosmed_name, 25);
 
