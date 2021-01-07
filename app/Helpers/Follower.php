@@ -1,5 +1,6 @@
 <?php 
 namespace App\Helpers;
+use Illuminate\Support\Str;
 
 class Follower
 {
@@ -49,9 +50,9 @@ class Follower
         preg_match("'alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) people follow this</div></div>'", $page, $match2);
         
         if(isset($match[1])){
-            $hasil=preg_replace('/[^0-9]/', '', substr(strip_tags(str_replace('.', '', $match[1])),15));
+            $hasil=preg_replace('/[^0-9]/', '', substr(strip_tags(Str::replaceFirst('.', '', $match[1])),15));
         }elseif(isset($match2[1])){
-            $hasi=preg_replace('/[^0-9]/', '', substr(strip_tags(str_replace('.', '', $match2[1])),15));
+            $hasi=preg_replace('/[^0-9]/', '', substr(strip_tags(Str::replaceFirst('.', '', $match2[1])),15));
         }else{
             $hasil=0;
         }
@@ -66,15 +67,15 @@ class Follower
         // //print_r($match);
         // if(isset($match[1])){
         //     $hasil=$match[1];
-        //     // print_r(str_replace('.', '', $match[1]));
+        //     // print_r(Str::replaceFirst('.', '', $match[1]));
         // }elseif(isset($match2[1])){
         //     $hasil=$match2[1];
-        //     // print_r(str_replace('.', '', $match2[1]));
+        //     // print_r(Str::replaceFirst('.', '', $match2[1]));
         // }else{
         //     $hasil=0;
         // }
     
-        // return str_replace('.', '', $hasil);
+        // return Str::replaceFirst('.', '', $hasil);
     }
 
     public static function instagram($id){

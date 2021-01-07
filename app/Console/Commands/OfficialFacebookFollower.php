@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
+
 
 class OfficialFacebookFollower extends Command
 {
@@ -111,8 +113,8 @@ class OfficialFacebookFollower extends Command
 
                         if($cektanggal == 0)
                         {
-                            $fo = str_replace("orang mengikuti ini","",$h[0]->hasil);
-                            $final = str_replace(".","",$fo);
+                            $fo = Str::replaceFirst("orang mengikuti ini","",$h[0]->hasil);
+                            $final = Str::replaceFirst(".","",$fo);
 
                             $new=new \App\Models\Sosmed\Unitsosmedfollower;
                             $new->tanggal=date('Y-m-d');
