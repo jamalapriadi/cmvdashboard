@@ -53,68 +53,13 @@ class WelcomeController extends Controller
     }
 
     public function tes_facebook(){
-        $id="BigMoviesGTVID";
-
-        $client = new \GuzzleHttp\Client();
-        $request = $client->get('https://www.facebook.com/'.$id);
-        $response = $request->getBody()->getContents();
-    
-        // return json_decode($response, true);
-        $page = response()->json($response);
-
-        preg_match("'alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) orang mengikuti ini</div></div>'", $page, $json_matches);
-        return $json_matches;
-
-        return;
-
-        $options = array(
-            CURLOPT_CUSTOMREQUEST  =>"GET",    // Atur type request, get atau post
-            CURLOPT_POST           =>false,    // Atur menjadi GET
-            CURLOPT_FOLLOWLOCATION => true,    // Follow redirect aktif
-            CURLOPT_CONNECTTIMEOUT => 120,     // Atur koneksi timeout
-            CURLOPT_TIMEOUT        => 120,     // Atur response timeout
-            CURLOPT_USERAGENT                       =>'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1',
-            CURLOPT_RETURNTRANSFER =>1,
-    
-        );
-    
-        $ch      = curl_init('https://www.facebook.com/'.$id);          // Inisialisasi Curl'BigMoviesGTVID'
-        curl_setopt_array( $ch, $options );    // Set Opsi
-        $page = curl_exec( $ch );           // Eksekusi Curl
-
-        preg_match("'alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) orang mengikuti ini</div></div>'", $page, $match);
-        preg_match("'alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) people follow this</div></div>'", $page, $match2);
+        $id = "CNNIndonesia";
         
-        if(isset($match[1])){
-            $hasil=preg_replace('/[^0-9]/', '', substr(strip_tags(str_replace('.', '', $match[1])),15));
-        }elseif(isset($match2[1])){
-            $hasi=preg_replace('/[^0-9]/', '', substr(strip_tags(str_replace('.', '', $match2[1])),15));
-        }else{
-            $hasil=0;
-        }
+        $crawler = \Goutte::request('GET', 'https://www.facebook.com/'.$id);
+        $crawler->filter('._4bl9')->each(function ($node) {
+            print($node);
 
-        return $hasil;
-
-        
-        // return \Follower::youtube('UC_vsErcsq56hOscPHkG-aVw');
-        $channel = \Youtube::getChannelByID($id);
-
-        $youtube=$channel;
-
-        // return json_encode($channel);
-        if(isset($youtube->statistics)){
-            return array(
-                'subscriber'=>$youtube->statistics->subscriberCount,
-                'view_count'=>$youtube->statistics->viewCount,
-                'video_count'=>$youtube->statistics->videoCount
-            );
-        }else{
-            return array(
-                'subscriber'=>0,
-                'view_count'=>0,
-                'video_count'=>0
-            );
-        }
+        });
     }
 
     public function clear_cache(){

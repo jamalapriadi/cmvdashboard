@@ -396,7 +396,6 @@ Route::group(['prefix'=>'automation'],function(){
 
 Route::get('tes-follower','WelcomeController@tes_follower');
 
-Route::get('tes-facebook','HomeController@tes_follower');
 Route::get('tes-youtube','HomeController@tes_youtube');
 
 Route::get('tes-facebook','WelcomeController@tes_facebook');

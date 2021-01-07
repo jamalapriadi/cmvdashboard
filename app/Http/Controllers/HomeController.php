@@ -848,16 +848,17 @@ class HomeController extends Controller
     
     }
     
-    public function tes_follower(){
-        // $fb = $this->facebook_count('https://www.facebook.com/digital.inspiration');
-        
-        // return array(
-        //     'share_count'=>$fb[0]->share_count,
-        //     'like_count'=>$fb[0]->like_count,
-        //     'comment_count'=>$fb[0]->comment_count
-        // );
-        
-        return facebook_follower();
+    public function tes_facebook(){
+        $id = "CNNIndonesia";
+        return $id;
+        $crawler = \Goutte::request('GET', 'https://www.facebook.com/'.$id);
+        $crawler->filter('._4bl9')->each(function ($node) use($id) {
+            print $node->text();
+            if (strpos($node->text(), 'orang mengikuti ini') !== false) {
+                
+            }
+
+        });
     }
 
     public function sosmed_jumlah_account(Request $request)
