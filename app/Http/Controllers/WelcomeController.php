@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Goutte\Client;
 
 class WelcomeController extends Controller
 {
@@ -223,6 +224,203 @@ class WelcomeController extends Controller
                 $list[]=$t->text();
             });
         });
+
+        return $list;
+    }
+
+    public function index_detik(Request $request)
+    {
+        $urlnya = "https://20.detik.com";
+        $client = new Client();
+        $crawler = $client->request('GET', $urlnya);
+        
+        $list = array();
+        if($urlnya === "https://sport.detik.com/indeks"){
+            $title=array();
+            $crawler->filter('h2')->each(function ($node) use(&$title) {
+                $title[]=$node->text();
+            });
+
+            $url = array();
+            $crawler->filter('.desc_idx  > a')->each(function ($node) use(&$url){
+                $url[]=$node->attr("href");
+            });
+
+            $tanggal=array();
+            $crawler->filter('.labdate ')->each(function ($node) use(&$tanggal){
+                $tanggal[]=$node->text();
+            });
+
+            $list=array(
+                'title'=>$title,
+                'url'=>$url,
+                'tanggal'=>$tanggal,
+                'dibaca'=>array()
+            );
+
+        }elseif($urlnya === "https://inet.detik.com/indeks"){
+            $crawler->filter('.list-content')->each(function ($node) use(&$list){
+                $title=array();
+                $node->filter('.media__title')->each(function($t) use(&$title){
+                    // dump($t->text());
+                    $title[]=$t->text();
+                });
+
+                $url=array();
+                $tanggal = array();
+                $node->filter('.list-content__item')->each(function($t) use(&$url, &$tanggal){
+                    $url[]=$t->attr('i-link');
+                    $tanggal[]=$t->attr('i-info');
+                });
+
+                $list=array(
+                    'title'=>$title,
+                    'url'=>$url,
+                    'tanggal'=>$tanggal,
+                    'dibaca'=>array()
+                );
+                
+            });
+        }elseif($urlnya === "https://travel.detik.com/indeks"){
+            $title=array();
+            $url=array();
+            $tanggal = array();
+            $crawler->filter('article')->each(function ($node) use(&$list, &$title, &$url, &$tanggal){
+                $node->filter('h3 > a')->each(function($t) use(&$title, &$url){
+                    // dump($t->text());
+                    $title[]=$t->text();
+                    $url[]=$t->attr("href");
+                });
+    
+                $node->filter('.date')->each(function($t) use(&$tanggal){
+                    $tanggal[]= $t->text();
+                });
+                
+            });
+
+            $list=array(
+                'title'=>$title,
+                'url'=>$url,
+                'tanggal'=>$tanggal,
+                'dibaca'=>array()
+            );
+            
+        }elseif($urlnya === "https://sport.detik.com/sepakbola/indeks"){
+            $title=array();
+            $crawler->filter('h2')->each(function ($node) use(&$title) {
+                $title[]=$node->text();
+            });
+
+            $url = array();
+            $crawler->filter('.desc_idx  > a')->each(function ($node) use(&$url){
+                $url[]=$node->attr("href");
+            });
+
+            $tanggal=array();
+            $crawler->filter('.labdate ')->each(function ($node) use(&$tanggal){
+                $tanggal[]=$node->text();
+            });
+
+            $list=array(
+                'title'=>$title,
+                'url'=>$url,
+                'tanggal'=>$tanggal,
+                'dibaca'=>array()
+            );
+        }elseif($urlnya === "https://food.detik.com/indeks" || $urlnya === "https://health.detik.com/indeks"){
+            $title=array();
+            $crawler->filter('article > a > h2')->each(function ($node) use(&$title) {
+                $title[]=$node->text();
+            });
+
+            $url = array();
+            $crawler->filter('article > a')->each(function ($node) use(&$url){
+                $url[]=$node->attr("href");
+            });
+
+            $tanggal=array();
+            $crawler->filter('article > .date')->each(function ($node) use(&$tanggal){
+                $tanggal[]=$node->text();
+            });
+
+            $list=array(
+                'title'=>$title,
+                'url'=>$url,
+                'tanggal'=>$tanggal,
+                'dibaca'=>array()
+            );
+        }elseif($urlnya === "https://wolipop.detik.com/indeks"){
+            $title=array();
+            $crawler->filter('h3.title')->each(function ($node) use(&$title) {
+                $title[]=$node->text();
+            });
+
+            $url = array();
+            $crawler->filter('h3.title > a')->each(function ($node) use(&$url){
+                $url[]=$node->attr("href");
+            });
+
+            $tanggal=array();
+            $crawler->filter('.text > .time')->each(function ($node) use(&$tanggal){
+                $tanggal[]=$node->text();
+            });
+
+            $list=array(
+                'title'=>$title,
+                'url'=>$url,
+                'tanggal'=>$tanggal,
+                'dibaca'=>array()
+            );
+        }elseif($urlnya === "https://20.detik.com/"){
+            $title=array();
+            $crawler->filter('h3.title')->each(function ($node) use(&$title) {
+                $title[]=$node->text();
+            });
+
+            $url = array();
+            $crawler->filter('h3.title > a')->each(function ($node) use(&$url){
+                $url[]=$node->attr("href");
+            });
+
+            $tanggal=array();
+            $crawler->filter('.text > .time')->each(function ($node) use(&$tanggal){
+                $tanggal[]=$node->text();
+            });
+
+            $list=array(
+                'title'=>$title,
+                'url'=>$url,
+                'tanggal'=>$tanggal,
+                'dibaca'=>array()
+            );
+        }else{
+            $crawler->filter('.list-content')->each(function ($node) use(&$list){
+                $title=array();
+                $node->filter('.media__title')->each(function($t) use(&$title){
+                    // dump($t->text());
+                    $title[]=$t->text();
+                });
+                
+                $url=array();
+                $node->filter('.media__link')->each(function($t) use(&$url){
+                    $url[]=$t->link()->getUri();
+                });
+                $url = array_values(array_unique($url));
+    
+                $tanggal = array();
+                $node->filter('.media__date > span')->each(function($t) use(&$tanggal){
+                    $tanggal[]= $t->attr("title");
+                });
+    
+                $list=array(
+                    'title'=>$title,
+                    'url'=>$url,
+                    'tanggal'=>$tanggal,
+                    'dibaca'=>array()
+                );
+            });
+        }
+        
 
         return $list;
     }
