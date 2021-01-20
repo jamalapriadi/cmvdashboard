@@ -34,6 +34,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('scrap:portal')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
+            
         $schedule->command('official:twitter')
             ->timezone('Asia/Jakarta')  
             ->dailyAt('13:00');
@@ -47,10 +51,6 @@ class Kernel extends ConsoleKernel
             ->dailyAt('13:00');
 
         $schedule->command('official:youtube')
-            ->timezone('Asia/Jakarta')  
-            ->dailyAt('13:00');
-
-        $schedule->command('scrap:portal')
             ->timezone('Asia/Jakarta')  
             ->dailyAt('13:00');
 
