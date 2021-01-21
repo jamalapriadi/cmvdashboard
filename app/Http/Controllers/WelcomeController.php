@@ -230,10 +230,94 @@ class WelcomeController extends Controller
 
     public function index_detik(Request $request)
     {
-        $urlnya = "https://20.detik.com";
+        $urlnya = "https://wolipop.detik.com/indeks";
         $client = new Client();
         $crawler = $client->request('GET', $urlnya);
+
+        $pecah_url = explode("/", $urlnya);
         
+        $title = array();
+        if($urlnya === "https://sport.detik.com/indeks"){
+            $crawler->filter('select option')->each(function ($node) use(&$title, &$pecah_url) {
+                $title [] = array(
+                    'label'=>$node->attr("value"),
+                    'text'=>$node->text(),
+                    'original_url'=>'http://'.$pecah_url[2].$node->attr("value"),
+                    'url'=>'http://'.$pecah_url[2].$node->attr("value")."/indeks"
+                );
+            });
+        }elseif($urlnya === "https://travel.detik.com/indeks"){
+            $crawler->filter('select option')->each(function ($node) use(&$title, &$pecah_url) {
+                $title [] = array(
+                    'label'=>$node->attr("value"),
+                    'text'=>$node->text(),
+                    'original_url'=>$node->attr("value"),
+                    'url'=>$node->attr("value")
+                );
+            });
+        }elseif($urlnya === "https://sport.detik.com/sepakbola/indeks"){
+            $crawler->filter('select option')->each(function ($node) use(&$title, &$pecah_url) {
+                $title [] = array(
+                    'label'=>$node->attr("value"),
+                    'text'=>$node->text(),
+                    'original_url'=>'http://'.$pecah_url[2].$node->attr("value"),
+                    'url'=>'http://'.$pecah_url[2].$node->attr("value")."/indeks"
+                );
+            });
+        }elseif($urlnya === "https://food.detik.com/indeks"){
+            $crawler->filter('select#s_kanal option')->each(function ($node) use(&$title, &$pecah_url) {
+                $original_url = 'http://'.$pecah_url[2].'/'.$node->attr("value");
+                $url = 'http://'.$pecah_url[2].'/'.$node->attr("value")."/indeks";
+                if($node->text() == "Semua Berita"){
+                    $original_url = 'http://'.$pecah_url[2].$node->attr("value")."/indeks";
+                    $url = 'http://'.$pecah_url[2].'/'.$node->attr("value")."indeks";
+                }
+
+                $title [] = array(
+                    'label'=>$node->attr("value"),
+                    'text'=>$node->text(),
+                    'original_url'=>$original_url,
+                    'url'=>$url
+                );
+            });
+        }elseif($urlnya === "https://health.detik.com/indeks"){
+            $crawler->filter('select#s_kanal option')->each(function ($node) use(&$title, &$pecah_url) {
+                $original_url = 'http://'.$pecah_url[2].'/'.$node->attr("value");
+                $url = 'http://'.$pecah_url[2].'/'.$node->attr("value")."/indeks";
+                if($node->text() == "Semua Berita"){
+                    $original_url = 'http://'.$pecah_url[2].$node->attr("value")."/indeks";
+                    $url = 'http://'.$pecah_url[2].'/'.$node->attr("value")."indeks";
+                }
+
+                $title [] = array(
+                    'label'=>$node->attr("value"),
+                    'text'=>$node->text(),
+                    'original_url'=>$original_url,
+                    'url'=>$url
+                );
+            });
+        }elseif($urlnya === "https://wolipop.detik.com/indeks"){
+            $crawler->filter('select#kanal_top option')->each(function ($node) use(&$title, &$pecah_url) {
+                $title [] = array(
+                    'label'=>$node->attr("value"),
+                    'text'=>$node->text(),
+                    'original_url'=>'http://'.$pecah_url[2].$node->attr("value"),
+                    'url'=>'http://'.$pecah_url[2].$node->attr("value")."/indeks"
+                );
+            });
+        }else{
+            $crawler->filter('select#select_nav_indeks option')->each(function ($node) use(&$title, &$pecah_url) {
+                $title [] = array(
+                    'label'=>$node->attr("value"),
+                    'text'=>$node->text(),
+                    'original_url'=>'http://'.$pecah_url[2].$node->attr("value"),
+                    'url'=>'http://'.$pecah_url[2].$node->attr("value")."/indeks"
+                );
+            });
+        }
+
+        return $title;
+
         $list = array();
         if($urlnya === "https://sport.detik.com/indeks"){
             $title=array();

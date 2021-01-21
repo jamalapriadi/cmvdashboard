@@ -75,12 +75,20 @@ class ScrapPortal extends Command
 
             foreach($tags as $s=>$v)
             {
-                $tg = new \App\Models\Scrap\Tag;
-                $tg->portal_id = $val->id;
-                $tg->tanggal  = date('Y-m-d');
-                $tg->jam = date('H:i:s');
-                $tg->tag = $v;
-                $tg->save();
+                $cekTag = \App\Models\Scrap\Tag::where('portal_id', $val->id)
+                    ->where('tanggal', date('Y-m-d'))
+                    ->where('tag', $v)
+                    ->count();
+
+                if($cekTag == 0)
+                {
+                    $tg = new \App\Models\Scrap\Tag;
+                    $tg->portal_id = $val->id;
+                    $tg->tanggal  = date('Y-m-d');
+                    $tg->jam = date('H:i:s');
+                    $tg->tag = $v;
+                    $tg->save();
+                }
             }
 
             foreach($val->kanal as $kan)
@@ -607,6 +615,239 @@ class ScrapPortal extends Command
                 //         $param->save();
                 //     }
                 // }
+            }
+        }
+
+        $this->info('Get Subkanal');
+        foreach($list_portal as $key=>$val)
+        {
+            $portal = $val->name_portal;
+
+            foreach($val->kanal as $kan)
+            {
+                $client = new Client();
+                $urlnya = $kan->url_kanal;
+
+                $this->info($urlnya);
+                $this->info('Kanal === '.$kan->kanal_name);
+
+                $list = array();
+
+                if($kan->type_kanal == "Artikel")
+                {
+                    if($portal === "Detik")
+                    {
+                        if($kan->type == "indeks")
+                        {
+                            $title = array();
+                            $crawler = $client->request('GET', $urlnya);
+                            $pecah_url = explode("/", $urlnya);
+
+                            if($urlnya === "https://sport.detik.com/indeks"){
+                                $crawler->filter('select option')->each(function ($node) use(&$title, &$pecah_url, &$kan) {
+                                    $title= array(
+                                        'label'=>$node->attr("value"),
+                                        'text'=>$node->text(),
+                                        'original_url'=>'http://'.$pecah_url[2].$node->attr("value"),
+                                        'url'=>'http://'.$pecah_url[2].$node->attr("value")."/indeks"
+                                    );
+
+                                    $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
+                                        ->where('url',$title['url'])
+                                        ->where('kanal_id', $kan->id)
+                                        ->count();
+
+                                    if($cek == 0)
+                                    {
+                                        $param = new \App\Models\Scrap\Subkanal;
+                                        $param->kanal_id = $kan->id;
+                                        $param->label = $title['label'];
+                                        $param->text = $title['text'];
+                                        $param->original_url = $title['original_url'];
+                                        $param->url = $title['url'];
+
+                                        $param->save();
+                                    }
+                                });
+                            }elseif($urlnya === "https://travel.detik.com/indeks"){
+                                $crawler->filter('select option')->each(function ($node) use(&$title, &$pecah_url, &$kan) {
+                                    $title= array(
+                                        'label'=>$node->attr("value"),
+                                        'text'=>$node->text(),
+                                        'original_url'=>$node->attr("value"),
+                                        'url'=>$node->attr("value")
+                                    );
+
+                                    $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
+                                        ->where('url',$title['url'])
+                                        ->where('kanal_id', $kan->id)
+                                        ->count();
+
+                                    if($cek == 0)
+                                    {
+                                        $param = new \App\Models\Scrap\Subkanal;
+                                        $param->kanal_id = $kan->id;
+                                        $param->label = $title['label'];
+                                        $param->text = $title['text'];
+                                        $param->original_url = $title['original_url'];
+                                        $param->url = $title['url'];
+
+                                        $param->save();
+                                    }
+                                });
+                            }elseif($urlnya === "https://sport.detik.com/sepakbola/indeks"){
+                                $crawler->filter('select option')->each(function ($node) use(&$title, &$pecah_url, &$kan) {
+                                    $title= array(
+                                        'label'=>$node->attr("value"),
+                                        'text'=>$node->text(),
+                                        'original_url'=>'http://'.$pecah_url[2].$node->attr("value"),
+                                        'url'=>'http://'.$pecah_url[2].$node->attr("value")."/indeks"
+                                    );
+
+                                    $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
+                                        ->where('url',$title['url'])
+                                        ->where('kanal_id', $kan->id)
+                                        ->count();
+
+                                    if($cek == 0)
+                                    {
+                                        $param = new \App\Models\Scrap\Subkanal;
+                                        $param->kanal_id = $kan->id;
+                                        $param->label = $title['label'];
+                                        $param->text = $title['text'];
+                                        $param->original_url = $title['original_url'];
+                                        $param->url = $title['url'];
+
+                                        $param->save();
+                                    }
+                                });
+                            }elseif($urlnya === "https://food.detik.com/indeks"){
+                                $crawler->filter('select#s_kanal option')->each(function ($node) use(&$title, &$pecah_url, &$kan) {
+                                    $original_url = 'http://'.$pecah_url[2].'/'.$node->attr("value");
+                                    $url = 'http://'.$pecah_url[2].'/'.$node->attr("value")."/indeks";
+                                    if($node->text() == "Semua Berita"){
+                                        $original_url = 'http://'.$pecah_url[2].$node->attr("value")."/indeks";
+                                        $url = 'http://'.$pecah_url[2].'/'.$node->attr("value")."indeks";
+                                    }
+                    
+                                    $title= array(
+                                        'label'=>$node->attr("value"),
+                                        'text'=>$node->text(),
+                                        'original_url'=>$original_url,
+                                        'url'=>$url
+                                    );
+
+                                    $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
+                                        ->where('url',$title['url'])
+                                        ->where('kanal_id', $kan->id)
+                                        ->count();
+
+                                    if($cek == 0)
+                                    {
+                                        $param = new \App\Models\Scrap\Subkanal;
+                                        $param->kanal_id = $kan->id;
+                                        $param->label = $title['label'];
+                                        $param->text = $title['text'];
+                                        $param->original_url = $title['original_url'];
+                                        $param->url = $title['url'];
+
+                                        $param->save();
+                                    }
+                                });
+                            }elseif($urlnya === "https://health.detik.com/indeks"){
+                                $crawler->filter('select#s_kanal option')->each(function ($node) use(&$title, &$pecah_url, &$kan) {
+                                    $original_url = 'http://'.$pecah_url[2].'/'.$node->attr("value");
+                                    $url = 'http://'.$pecah_url[2].'/'.$node->attr("value")."/indeks";
+                                    if($node->text() == "Semua Berita"){
+                                        $original_url = 'http://'.$pecah_url[2].$node->attr("value")."/indeks";
+                                        $url = 'http://'.$pecah_url[2].'/'.$node->attr("value")."indeks";
+                                    }
+                    
+                                    $title= array(
+                                        'label'=>$node->attr("value"),
+                                        'text'=>$node->text(),
+                                        'original_url'=>$original_url,
+                                        'url'=>$url
+                                    );
+
+                                    $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
+                                        ->where('url',$title['url'])
+                                        ->where('kanal_id', $kan->id)
+                                        ->count();
+
+                                    if($cek == 0)
+                                    {
+                                        $param = new \App\Models\Scrap\Subkanal;
+                                        $param->kanal_id = $kan->id;
+                                        $param->label = $title['label'];
+                                        $param->text = $title['text'];
+                                        $param->original_url = $title['original_url'];
+                                        $param->url = $title['url'];
+
+                                        $param->save();
+                                    }
+                                });
+                            }elseif($urlnya === "https://wolipop.detik.com/indeks"){
+                                $crawler->filter('select#kanal_top option')->each(function ($node) use(&$title, &$pecah_url, &$kan) {
+                                    $title= array(
+                                        'label'=>$node->attr("value"),
+                                        'text'=>$node->text(),
+                                        'original_url'=>'http://'.$pecah_url[2].$node->attr("value"),
+                                        'url'=>'http://'.$pecah_url[2].$node->attr("value")."/indeks"
+                                    );
+
+                                    $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
+                                        ->where('url',$title['url'])
+                                        ->where('kanal_id', $kan->id)
+                                        ->count();
+
+                                    if($cek == 0)
+                                    {
+                                        $param = new \App\Models\Scrap\Subkanal;
+                                        $param->kanal_id = $kan->id;
+                                        $param->label = $title['label'];
+                                        $param->text = $title['text'];
+                                        $param->original_url = $title['original_url'];
+                                        $param->url = $title['url'];
+
+                                        $param->save();
+                                    }
+                                });
+                            }else{
+                                $crawler->filter('select#select_nav_indeks option')->each(function ($node) use(&$title, &$pecah_url, &$kan) {
+                                    $title= array(
+                                        'label'=>$node->attr("value"),
+                                        'text'=>$node->text(),
+                                        'original_url'=>'http://'.$pecah_url[2].$node->attr("value"),
+                                        'url'=>'http://'.$pecah_url[2].$node->attr("value")."/indeks"
+                                    );
+
+                                    $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
+                                        ->where('url',$title['url'])
+                                        ->where('kanal_id', $kan->id)
+                                        ->count();
+
+                                    if($cek == 0)
+                                    {
+                                        $param = new \App\Models\Scrap\Subkanal;
+                                        $param->kanal_id = $kan->id;
+                                        $param->label = $title['label'];
+                                        $param->text = $title['text'];
+                                        $param->original_url = $title['original_url'];
+                                        $param->url = $title['url'];
+
+                                        $param->save();
+                                    }
+                                });
+                            }
+                        }
+                        
+                    }elseif($portal === "Kompas"){
+
+                    }elseif($portal === "Tribunnews"){
+
+                    }
+                }
             }
         }
 

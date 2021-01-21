@@ -20,4 +20,8 @@ class Kanal extends Model
         return $this->hasMany('App\Models\Scrap\Parameter','kanal_id');
     }
 
+    public function subkanal(){
+        return $this->hasMany('App\Models\Scrap\Subanal','kanal_id');
+    }
+
 }
