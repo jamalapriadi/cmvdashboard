@@ -38,8 +38,12 @@ class ScrapPortal extends Command
      */
     public function handle()
     {
-        $list_portal = \App\Models\Scrap\Portal::with('kanal')
-            ->get();
+        $list_portal = \App\Models\Scrap\Portal::with(
+            [
+                'kanal',
+                'kanal.subkanal'
+            ]
+        )->get();
 
         foreach($list_portal as $key=>$val)
         {
@@ -653,7 +657,6 @@ class ScrapPortal extends Command
                                     );
 
                                     $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
-                                        ->where('url',$title['url'])
                                         ->where('kanal_id', $kan->id)
                                         ->count();
 
@@ -679,7 +682,6 @@ class ScrapPortal extends Command
                                     );
 
                                     $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
-                                        ->where('url',$title['url'])
                                         ->where('kanal_id', $kan->id)
                                         ->count();
 
@@ -705,7 +707,6 @@ class ScrapPortal extends Command
                                     );
 
                                     $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
-                                        ->where('url',$title['url'])
                                         ->where('kanal_id', $kan->id)
                                         ->count();
 
@@ -738,7 +739,6 @@ class ScrapPortal extends Command
                                     );
 
                                     $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
-                                        ->where('url',$title['url'])
                                         ->where('kanal_id', $kan->id)
                                         ->count();
 
@@ -771,7 +771,6 @@ class ScrapPortal extends Command
                                     );
 
                                     $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
-                                        ->where('url',$title['url'])
                                         ->where('kanal_id', $kan->id)
                                         ->count();
 
@@ -797,7 +796,6 @@ class ScrapPortal extends Command
                                     );
 
                                     $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
-                                        ->where('url',$title['url'])
                                         ->where('kanal_id', $kan->id)
                                         ->count();
 
@@ -823,7 +821,6 @@ class ScrapPortal extends Command
                                     );
 
                                     $cek = \App\Models\Scrap\Subkanal::where('text',$title['text'])
-                                        ->where('url',$title['url'])
                                         ->where('kanal_id', $kan->id)
                                         ->count();
 
@@ -847,6 +844,417 @@ class ScrapPortal extends Command
                     }elseif($portal === "Tribunnews"){
 
                     }
+                }
+            }
+        }
+
+        $this->info('Update subkanal di parameter');
+        foreach($list_portal as $key=>$val)
+        {
+            $this->info('Portal === '.$val->name_portal);
+            $portal = $val->name_portal;
+
+            foreach($val->kanal as $kan)
+            {
+                $client = new Client();
+                $url = $kan->url_kanal;
+
+                $this->info($url);
+                $this->info('Kanal === '.$kan->kanal_name);
+
+                $list = array();
+
+                if($kan->type_kanal == "Artikel")
+                {
+                    if($portal === "Detik")
+                    {
+                        if($url === "https://inet.detik.com/indeks")
+                        {
+                            foreach($kan->subkanal as $sub)
+                            {
+                                $subkanal=str_replace("http","https",$sub->url);
+                                $this->info('Subkanal = '.$subkanal);
+
+                                $crawler = $client->request('GET', $subkanal);
+                            
+                                $crawler->filter('.list-content')->each(function ($node) use(&$list, &$kan, &$sub){
+                                    $title=array();
+                                    $node->filter('.media__title')->each(function($t) use(&$title){
+                                        // dump($t->text());
+                                        $title[]=$t->text();
+                                    });
+                    
+                                    $list_url=array();
+                                    $tanggal = array();
+                                    $node->filter('.list-content__item')->each(function($t) use(&$list_url, &$tanggal){
+                                        $list_url[]=$t->attr('i-link');
+                                        $tanggal[]=$t->attr('i-info');
+                                    });
+                    
+                                    $list=array(
+                                        'title'=>$title,
+                                        'url'=>$list_url,
+                                        'tanggal'=>$tanggal,
+                                        'dibaca'=>array()
+                                    );
+
+                                    foreach($title as $s=>$t)
+                                    {
+                                        $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                            ->where('link_artikel',$list_url[$s])
+                                            ->where('kanal_id', $kan->id)
+                                            ->whereNull('subkanal_id')
+                                            ->where('tanggal',date('Y-m-d'))
+                                            ->update(
+                                                [
+                                                    'subkanal_id'=>$sub->id
+                                                ]
+                                            );
+                                    }
+                                    
+                                });
+                            }
+                        }elseif($url === "https://sport.detik.com/indeks"){
+                            foreach($kan->subkanal as $sub)
+                            {
+                                $subkanal=str_replace("http","https",$sub->url);
+                                $this->info('Subkanal = '.$subkanal);
+
+                                $crawler = $client->request('GET', $subkanal);
+                            
+                                $title=array();
+                                $crawler->filter('h2')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
+                                });
+
+                                $list_url = array();
+                                $crawler->filter('.desc_idx  > a')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
+                                });
+
+                                $tanggal=array();
+                                $crawler->filter('.labdate ')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
+                                });
+
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+
+                                foreach($title as $s=>$t)
+                                {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->where('link_artikel',$list_url[$s])
+                                        ->where('kanal_id', $kan->id)
+                                        ->whereNull('subkanal_id')
+                                        ->where('tanggal',date('Y-m-d'))
+                                        ->update(
+                                            [
+                                                'subkanal_id'=>$sub->id
+                                            ]
+                                        );
+                                }
+
+                            }
+                        }elseif($url === "https://travel.detik.com/indeks"){
+                            foreach($kan->subkanal as $sub)
+                            {
+                                $subkanal=str_replace("http","https",$sub->url);
+                                $this->info('Subkanal = '.$subkanal);
+
+                                $crawler = $client->request('GET', $subkanal);
+
+                                $title=array();
+                                $list_url=array();
+                                $tanggal = array();
+                                $crawler->filter('article')->each(function ($node) use(&$list, &$title, &$list_url, &$tanggal){
+                                    $node->filter('h3 > a')->each(function($t) use(&$title, &$list_url){
+                                        // dump($t->text());
+                                        $title[]=$t->text();
+                                        $list_url[]=$t->attr("href");
+                                    });
+                        
+                                    $node->filter('.date')->each(function($t) use(&$tanggal){
+                                        $tanggal[]= $t->text();
+                                    });
+                                    
+                                });
+
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+
+                                foreach($title as $s=>$t)
+                                {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->where('link_artikel',$list_url[$s])
+                                        ->where('kanal_id', $kan->id)
+                                        ->whereNull('subkanal_id')
+                                        ->where('tanggal',date('Y-m-d'))
+                                        ->update(
+                                            [
+                                                'subkanal_id'=>$sub->id
+                                            ]
+                                        );
+                                }
+                            }
+                        }elseif($url === "https://sport.detik.com/sepakbola/indeks"){
+                            foreach($kan->subkanal as $sub)
+                            {
+                                $subkanal=str_replace("http","https",$sub->url);
+                                $this->info('Subkanal = '.$subkanal);
+
+                                $crawler = $client->request('GET', $subkanal);
+
+                                $title=array();
+                                $crawler->filter('h2')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
+                                });
+
+                                $list_url = array();
+                                $crawler->filter('.desc_idx  > a')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
+                                });
+
+                                $tanggal=array();
+                                $crawler->filter('.labdate ')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
+                                });
+
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+
+                                if(count($title) == count($list_url))
+                                {
+                                    foreach($title as $s=>$t)
+                                    {
+                                        $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                            ->where('link_artikel',$list_url[$s])
+                                            ->where('kanal_id', $kan->id)
+                                            ->whereNull('subkanal_id')
+                                            ->where('tanggal',date('Y-m-d'))
+                                            ->update(
+                                                [
+                                                    'subkanal_id'=>$sub->id
+                                                ]
+                                            );
+                                    }
+                                }
+                            }
+                        }elseif($url === "https://food.detik.com/indeks"){
+                            foreach($kan->subkanal as $sub)
+                            {
+                                $subkanal=str_replace("http","https",$sub->url);
+                                $this->info('Subkanal = '.$subkanal);
+
+                                $crawler = $client->request('GET', $subkanal);
+
+                                $title=array();
+                                $crawler->filter('article > a > h2')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
+                                });
+
+                                $list_url = array();
+                                $crawler->filter('article > a')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
+                                });
+
+                                $tanggal=array();
+                                $crawler->filter('article > .date')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
+                                });
+
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+
+                                foreach($title as $s=>$t)
+                                {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->where('link_artikel',$list_url[$s])
+                                        ->where('kanal_id', $kan->id)
+                                        ->whereNull('subkanal_id')
+                                        ->where('tanggal',date('Y-m-d'))
+                                        ->update(
+                                            [
+                                                'subkanal_id'=>$sub->id
+                                            ]
+                                        );
+                                }
+                            }
+                        }elseif($url === "https://health.detik.com/indeks"){
+                            foreach($kan->subkanal as $sub)
+                            {
+                                $subkanal=str_replace("http","https",$sub->url);
+                                $this->info('Subkanal = '.$subkanal);
+
+                                $crawler = $client->request('GET', $subkanal);
+
+                                $title=array();
+                                $crawler->filter('article > a > h2')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
+                                });
+
+                                $list_url = array();
+                                $crawler->filter('article > a')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
+                                });
+
+                                $tanggal=array();
+                                $crawler->filter('article > .date')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
+                                });
+
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+
+                                foreach($title as $s=>$t)
+                                {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->where('link_artikel',$list_url[$s])
+                                        ->where('kanal_id', $kan->id)
+                                        ->whereNull('subkanal_id')
+                                        ->where('tanggal',date('Y-m-d'))
+                                        ->update(
+                                            [
+                                                'subkanal_id'=>$sub->id
+                                            ]
+                                        );
+                                }
+                            }
+                        }elseif($url === "https://wolipop.detik.com/indeks"){
+                            foreach($kan->subkanal as $sub)
+                            {
+                                $subkanal=str_replace("http","https",$sub->url);
+                                $this->info('Subkanal = '.$subkanal);
+
+                                $crawler = $client->request('GET', $subkanal);
+
+                                $title=array();
+                                $crawler->filter('h3.title')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
+                                });
+
+                                $list_url = array();
+                                $crawler->filter('h3.title > a')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
+                                });
+
+                                $tanggal=array();
+                                $crawler->filter('.text > .time')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
+                                });
+
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+
+                                foreach($title as $s=>$t)
+                                {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->where('link_artikel',$list_url[$s])
+                                        ->where('kanal_id', $kan->id)
+                                        ->whereNull('subkanal_id')
+                                        ->where('tanggal',date('Y-m-d'))
+                                        ->update(
+                                            [
+                                                'subkanal_id'=>$sub->id
+                                            ]
+                                        );
+                                }
+                            }
+                        }else{
+                            foreach($kan->subkanal as $sub)
+                            {
+                                $subkanal=str_replace("http","https",$sub->url);
+                                $this->info('Subkanal = '.$subkanal);
+
+                                $crawler = $client->request('GET', $subkanal);
+
+                                $crawler->filter('.list-content')->each(function ($node) use(&$list, &$kan, &$sub){
+                                    $title=array();
+                                    $node->filter('.media__title')->each(function($t) use(&$title){
+                                        // dump($t->text());
+                                        $title[]=$t->text();
+                                    });
+                                    
+                                    $list_url=array();
+                                    $node->filter('.media__link')->each(function($t) use(&$list_url){
+                                        $list_url[]=$t->link()->getUri();
+                                    });
+                                    $list_url = array_values(array_unique($list_url));
+    
+                                    $tanggal = array();
+                                    $node->filter('.media__date > span')->each(function($t) use(&$tanggal){
+                                        $tanggal[]= $t->attr("title");
+                                    });
+    
+                                    $list=array(
+                                        'title'=>$title,
+                                        'url'=>$list_url,
+                                        'tanggal'=>$tanggal,
+                                        'dibaca'=>array()
+                                    );
+
+                                    
+
+                                    
+                                    if(count($title) > 0)
+                                    {
+                                        if(count($title) == count($list_url))
+                                        {
+                                            foreach($title as $s=>$t)
+                                            {
+                                                try {
+                                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                                    ->where('link_artikel',$list_url[$s])
+                                                    ->where('kanal_id', $kan->id)
+                                                    ->whereNull('subkanal_id')
+                                                    ->where('tanggal',date('Y-m-d'))
+                                                    ->update(
+                                                        [
+                                                            'subkanal_id'=>$sub->id
+                                                        ]
+                                                    );
+                                                } catch (Exception $e) {
+                                                    // exception is raised and it'll be handled here
+                                                    // $e->getMessage() contains the error message
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                });
+                            }
+                        }
+                    }elseif($portal === "Kompas"){
+                        
+                    }elseif($portal === "Tribunnews"){
+                        
+                    }
+                }elseif($kan->type_kanal == "Video")
+                {
+                    
                 }
             }
         }
