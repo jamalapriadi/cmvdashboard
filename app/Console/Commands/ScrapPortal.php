@@ -480,86 +480,94 @@ class ScrapPortal extends Command
                     }elseif($portal === "Kompas"){
                         $crawler = $client->request('GET', $url);
 
-                        $crawler->filter('.most')->each(function ($node) use(&$list, &$kan){
-                            $title=array();
-                            $node->filter('h4.most__title')->each(function($t) use(&$title){
-                                $title[]=$t->text();
-                            });
-                            
-                            $list_url=array();
-                            $tanggal = array();
-                            $node->filter('.most__link')->each(function($t) use(&$list_url, &$tanggal){
-                                $list_url[]= $t->link()->getUri();
-
-                                $client = new Client();
-
-                                $detail = $client->request('GET', $t->link()->getUri());
+                        if($kan->type == "terpopuler")
+                        {
+                            $crawler->filter('.most')->each(function ($node) use(&$list, &$kan){
+                                $title=array();
+                                $node->filter('h4.most__title')->each(function($t) use(&$title){
+                                    $title[]=$t->text();
+                                });
                                 
-                                $detail->filter('.js-read-article')->each(function ($dt) use(&$tanggal){
-                                    $dt->filter('.read__time')->each(function($tl) use(&$tanggal){
-                                        $tanggal[]=$tl->text();
+                                $list_url=array();
+                                $tanggal = array();
+                                $node->filter('.most__link')->each(function($t) use(&$list_url, &$tanggal){
+                                    $list_url[]= $t->link()->getUri();
+    
+                                    $client = new Client();
+    
+                                    $detail = $client->request('GET', $t->link()->getUri());
+                                    
+                                    $detail->filter('.js-read-article')->each(function ($dt) use(&$tanggal){
+                                        $dt->filter('.read__time')->each(function($tl) use(&$tanggal){
+                                            $tanggal[]=$tl->text();
+                                        });
                                     });
                                 });
+                                $list_url = array_values(array_unique($list_url));
+    
+                                $dibaca = array();
+                                $node->filter('.most__read')->each(function($t) use(&$dibaca){
+                                    $dibaca[]= $t->text();
+                                });
+    
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>$dibaca
+                                );
+                                
+                                if(count($title) == count($tanggal))
+                                {
+                                    foreach($title as $s=>$t)
+                                    {
+                                        $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                            ->where('link_artikel',$list_url[$s])
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+        
+                                        if($cek == 0)
+                                        {
+                                            $param = new \App\Models\Scrap\Parameter;
+                                            $param->tanggal = date('Y-m-d');
+                                            $param->jam = date('H:i:s');
+                                            $param->kanal_id = $kan->id;
+                                            $param->judul_artikel = $t;
+                                            $param->link_artikel = $list_url[$s];
+                                            $param->tanggal_publish = $tanggal[$s];
+        
+                                            $param->save();
+                                        }
+                                    }
+                                }
                             });
-                            $list_url = array_values(array_unique($list_url));
+                        }else if($kan->type == "indeks")
+                        {
+                            $title=array();
+                            $crawler->filter('a.article__link')->each(function ($node) use(&$title) {
+                                $title[]=$node->text();
+                            });
 
-                            $dibaca = array();
-                            $node->filter('.most__read')->each(function($t) use(&$dibaca){
-                                $dibaca[]= $t->text();
+                            $list_url = array();
+                            $crawler->filter('a.article__link')->each(function ($node) use(&$list_url){
+                                $list_url[]=$node->attr("href");
+                            });
+
+                            $tanggal=array();
+                            $crawler->filter('.article__date')->each(function ($node) use(&$tanggal){
+                                $tanggal[]=$node->text();
+                            });
+
+                            $subkanal=array();
+                            $crawler->filter('.article__subtitle')->each(function ($node) use(&$subkanal){
+                                $subkanal[]=$node->text();
                             });
 
                             $list=array(
                                 'title'=>$title,
                                 'url'=>$list_url,
                                 'tanggal'=>$tanggal,
-                                'dibaca'=>$dibaca
-                            );
-
-                            foreach($title as $s=>$t)
-                            {
-                                $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                    ->where('link_artikel',$list_url[$s])
-                                    ->where('kanal_id', $kan->id)
-                                    ->count();
-
-                                if($cek == 0)
-                                {
-                                    $param = new \App\Models\Scrap\Parameter;
-                                    $param->tanggal = date('Y-m-d');
-                                    $param->jam = date('H:i:s');
-                                    $param->kanal_id = $kan->id;
-                                    $param->judul_artikel = $t;
-                                    $param->link_artikel = $list_url[$s];
-                                    $param->tanggal_publish = $tanggal[$s];
-
-                                    $param->save();
-                                }
-                            }
-                        });
-                    }elseif($portal === "Tribunnews"){
-                        $crawler = $client->request('GET', $url);
-
-                        $crawler->filter('.populer')->each(function ($node) use(&$list, &$kan){
-                            $title=array();
-                            $node->filter('ul > li.art-list')->each(function($t) use(&$title){
-                                $title[]=$t->text();
-                            });
-
-                            $list_url = array();
-                            $node->filter('ul > li.art-list a')->each(function($t) use(&$list_url){
-                                $list_url[]= $t->link()->getUri();
-                            });
-                            $list_url = array_values(array_unique($list_url));
-
-                            $tanggal = array();
-                            $node->filter('ul > li.art-list time')->each(function($t) use(&$tanggal){
-                                $tanggal[]= $t->attr("title");
-                            });
-
-                            $list = array(
-                                'title'=>$title,
-                                'url'=>$list_url,
-                                'tanggal'=>$tanggal,
+                                'subkanal'=>$subkanal,
                                 'dibaca'=>array()
                             );
 
@@ -583,7 +591,111 @@ class ScrapPortal extends Command
                                     $param->save();
                                 }
                             }
-                        });
+                        }
+                    }elseif($portal === "Tribunnews"){
+                        $crawler = $client->request('GET', $url);
+
+                        if($kan->type == "terpopuler")
+                        {
+                            $crawler->filter('.populer')->each(function ($node) use(&$list, &$kan){
+                                $title=array();
+                                $node->filter('ul > li.art-list')->each(function($t) use(&$title){
+                                    $title[]=$t->text();
+                                });
+    
+                                $list_url = array();
+                                $node->filter('ul > li.art-list a')->each(function($t) use(&$list_url){
+                                    $list_url[]= $t->link()->getUri();
+                                });
+                                $list_url = array_values(array_unique($list_url));
+    
+                                $tanggal = array();
+                                $node->filter('ul > li.art-list time')->each(function($t) use(&$tanggal){
+                                    $tanggal[]= $t->attr("title");
+                                });
+    
+                                $list = array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+    
+                                foreach($title as $s=>$t)
+                                {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->where('link_artikel',$list_url[$s])
+                                        ->where('kanal_id', $kan->id)
+                                        ->count();
+    
+                                    if($cek == 0)
+                                    {
+                                        $param = new \App\Models\Scrap\Parameter;
+                                        $param->tanggal = date('Y-m-d');
+                                        $param->jam = date('H:i:s');
+                                        $param->kanal_id = $kan->id;
+                                        $param->judul_artikel = $t;
+                                        $param->link_artikel = $list_url[$s];
+                                        $param->tanggal_publish = $tanggal[$s];
+    
+                                        $param->save();
+                                    }
+                                }
+                            });
+                        }else if($kan->type == "indeks")
+                        {
+                            $title=array();
+                            $crawler->filter('h3.fbo > a')->each(function ($node) use(&$title) {
+                                $title[]=$node->text();
+                            });
+
+                            $list_url = array();
+                            $crawler->filter('h3.f16 > a')->each(function ($node) use(&$list_url){
+                                $list_url[]=$node->attr("href");
+                            });
+
+                            $tanggal=array();
+                            $crawler->filter('ul.lsi > li.ptb15 > .grey')->each(function ($node) use(&$tanggal){
+                                $tanggal[]=$node->text();
+                            });
+
+                            $subkanal=array();
+                            $crawler->filter('h4.f14 > a')->each(function ($node) use(&$subkanal){
+                                $subkanal[]=array(
+                                    'text'=>$node->text(),
+                                    'url'=>$node->attr("href")
+                                );
+                            });
+
+                            $list=array(
+                                'title'=>$title,
+                                'url'=>$list_url,
+                                'tanggal'=>$tanggal,
+                                'subkanal'=>$subkanal,
+                                'dibaca'=>array()
+                            );
+
+                            foreach($title as $s=>$t)
+                            {
+                                $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                    ->where('link_artikel',$list_url[$s])
+                                    ->where('kanal_id', $kan->id)
+                                    ->count();
+
+                                if($cek == 0)
+                                {
+                                    $param = new \App\Models\Scrap\Parameter;
+                                    $param->tanggal = date('Y-m-d');
+                                    $param->jam = date('H:i:s');
+                                    $param->kanal_id = $kan->id;
+                                    $param->judul_artikel = $t;
+                                    $param->link_artikel = $list_url[$s];
+                                    $param->tanggal_publish = $tanggal[$s];
+
+                                    $param->save();
+                                }
+                            }
+                        }
                     }
                 }elseif($kan->type_kanal == "Video")
                 {

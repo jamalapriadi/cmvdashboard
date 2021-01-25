@@ -230,12 +230,94 @@ class WelcomeController extends Controller
 
     public function index_detik(Request $request)
     {
-        $urlnya = "https://hot.detik.com/indeks";
-        $subkanal = "https://hot.detik.com/music/indeks";
+        $urlnya = "https://sport.detik.com/sepakbola/indeks";
+        $subkanal = "https://www.tribunnews.com/index-news/all?date=2021-1-25";
         $client = new Client();
         $crawler = $client->request('GET', $subkanal);
 
         $list = array();
+
+        /** ========================== GET INDEX TRIBUNNEWS ============================ */
+            $title=array();
+            $crawler->filter('h3.fbo > a')->each(function ($node) use(&$title) {
+                $title[]=$node->text();
+            });
+
+            $url = array();
+            $crawler->filter('h3.f16 > a')->each(function ($node) use(&$url){
+                $url[]=$node->attr("href");
+            });
+
+            $tanggal=array();
+            $crawler->filter('ul.lsi > li.ptb15 > .grey')->each(function ($node) use(&$tanggal){
+                $tanggal[]=$node->text();
+            });
+
+            $subkanal=array();
+            $crawler->filter('h4.f14 > a')->each(function ($node) use(&$subkanal){
+                $subkanal[]=array(
+                    'text'=>$node->text(),
+                    'url'=>$node->attr("href")
+                );
+            });
+
+            $list=array(
+                'title'=>$title,
+                'url'=>$url,
+                'tanggal'=>$tanggal,
+                'subkanal'=>$subkanal,
+                'dibaca'=>array()
+            );
+
+            return $list;
+        /** ========================== END GET INDEX TRIBUNNEWS ======================== */
+
+        /** ========================== GET SUB KANAL KOMPAS ============================ */
+            // $title = array();
+            // $crawler->filter('select option')->each(function ($node) use(&$title) {
+            //     $title[]= array(
+            //         'label'=>$node->attr("value"),
+            //         'text'=>$node->text(),
+            //         'original_url'=>'https://indeks.kompas.com/?site='.$node->attr("value"),
+            //         'url'=>'https://indeks.kompas.com/?site='.$node->attr("value")
+            //     );
+            // });
+            // return $title;
+        /** ========================== END GET SUB KANAL KOMPAS ========================= */
+
+        /** ========================== KANAL KOMPAS ==================================== */
+            // $title=array();
+            // $crawler->filter('a.article__link')->each(function ($node) use(&$title) {
+            //     $title[]=$node->text();
+            // });
+
+            // $url = array();
+            // $crawler->filter('a.article__link')->each(function ($node) use(&$url){
+            //     $url[]=$node->attr("href");
+            // });
+
+            // $tanggal=array();
+            // $crawler->filter('.article__date')->each(function ($node) use(&$tanggal){
+            //     $tanggal[]=$node->text();
+            // });
+
+            // $subkanal=array();
+            // $crawler->filter('.article__subtitle')->each(function ($node) use(&$subkanal){
+            //     $subkanal[]=$node->text();
+            // });
+
+            // $list=array(
+            //     'title'=>$title,
+            //     'url'=>$url,
+            //     'tanggal'=>$tanggal,
+            //     'subkanal'=>$subkanal,
+            //     'dibaca'=>array()
+            // );
+
+            // return $list;
+        /** ======================= END KANAL KOMPAS ================================= */
+
+
         if($urlnya === "https://sport.detik.com/indeks"){
             $title=array();
             $crawler->filter('h2')->each(function ($node) use(&$title) {
