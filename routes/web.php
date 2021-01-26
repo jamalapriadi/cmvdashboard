@@ -416,4 +416,5 @@ Route::group(['prefix'=>'scrapping'],function(){
     Route::get('tag-tribun','WelcomeController@tag_tribun');
     Route::get('video-detik','WelcomeController@video_detik');
     Route::get('index-detik','WelcomeController@index_detik');
+    Route::get('deskripsi','WelcomeController@deskripsi');
 });

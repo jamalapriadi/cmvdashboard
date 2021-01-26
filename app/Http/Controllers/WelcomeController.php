@@ -238,36 +238,36 @@ class WelcomeController extends Controller
         $list = array();
 
         /** ========================== GET INDEX TRIBUNNEWS ============================ */
-            $title=array();
-            $crawler->filter('h3.fbo > a')->each(function ($node) use(&$title) {
-                $title[]=$node->text();
-            });
+            // $title=array();
+            // $crawler->filter('h3.fbo > a')->each(function ($node) use(&$title) {
+            //     $title[]=$node->text();
+            // });
 
-            $url = array();
-            $crawler->filter('h3.f16 > a')->each(function ($node) use(&$url){
-                $url[]=$node->attr("href");
-            });
+            // $url = array();
+            // $crawler->filter('h3.f16 > a')->each(function ($node) use(&$url){
+            //     $url[]=$node->attr("href");
+            // });
 
-            $tanggal=array();
-            $crawler->filter('ul.lsi > li.ptb15 > .grey')->each(function ($node) use(&$tanggal){
-                $tanggal[]=$node->text();
-            });
+            // $tanggal=array();
+            // $crawler->filter('ul.lsi > li.ptb15 > .grey')->each(function ($node) use(&$tanggal){
+            //     $tanggal[]=$node->text();
+            // });
 
-            $subkanal=array();
-            $crawler->filter('h4.f14 > a')->each(function ($node) use(&$subkanal){
-                $subkanal[]=array(
-                    'text'=>$node->text(),
-                    'url'=>$node->attr("href")
-                );
-            });
+            // $subkanal=array();
+            // $crawler->filter('h4.f14 > a')->each(function ($node) use(&$subkanal){
+            //     $subkanal[]=array(
+            //         'text'=>$node->text(),
+            //         'url'=>$node->attr("href")
+            //     );
+            // });
 
-            $list=array(
-                'title'=>$title,
-                'url'=>$url,
-                'tanggal'=>$tanggal,
-                'subkanal'=>$subkanal,
-                'dibaca'=>array()
-            );
+            // $list=array(
+            //     'title'=>$title,
+            //     'url'=>$url,
+            //     'tanggal'=>$tanggal,
+            //     'subkanal'=>$subkanal,
+            //     'dibaca'=>array()
+            // );
 
             return $list;
         /** ========================== END GET INDEX TRIBUNNEWS ======================== */
@@ -595,6 +595,43 @@ class WelcomeController extends Controller
                 );
             });
         }
+
+        return $title;
+    }
+
+    public function deskripsi(Request $request)
+    {
+        $subkanal = "https://www.tribunnews.com/nasional/2020/11/25/edhy-prabowo-ditangkap-kpk-mahfud-md-ingatkan-pernyataan-firly-bahuri-saya-akan-back-up";
+        $client = new Client();
+        $crawler = $client->request('GET', $subkanal);
+
+        /** ======================== DESKRIPSI DETIK ================================== */
+            // $title="";
+            // $crawler->filter('.itp_bodycontent p')->each(function ($node) use(&$title) {
+            //     $title.="<p>".$node->text()."</p>";
+            // });
+
+            // if($title == "")
+            // {
+            //     $crawler->filter('.detail__body-text p')->each(function ($node) use(&$title) {
+            //         $title.="<p>".$node->text()."</p>";
+            //     });
+            // }
+        /** ======================== END DESKRIPSI DETIK ================================== */
+
+        /** ======================== DESKRIPSI KOMPAS ================================== */
+            // $title="";
+            // $crawler->filter('.read__content p')->each(function ($node) use(&$title) {
+            //     $title.="<p>".$node->text()."</p>";
+            // });
+        /** ======================== END DESKRIPSI KOMPAS =============================== */
+
+        /** ======================== DESKRIPSI TRIBUN ================================== */
+            $title="";
+            $crawler->filter('.side-article p')->each(function ($node) use(&$title) {
+                $title.="<p>".$node->text()."</p>";
+            });
+        /** ======================== END DESKRIPSI TRIBUN ================================== */
 
         return $title;
     }

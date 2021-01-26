@@ -701,36 +701,6 @@ class ScrapPortal extends Command
                 {
                     
                 }
-
-                // foreach($list['title'] as $s=>$t)
-                // {
-                //     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                //         ->where('link_artikel',$list['url'][$s])
-                //         ->where('kanal_id', $kan->id)
-                //         ->count();
-
-                //     if($cek == 0)
-                //     {
-                //         $param = new \App\Models\Scrap\Parameter;
-                //         $param->tanggal = date('Y-m-d');
-                //         $param->jam = date('H:i:s');
-                //         $param->kanal_id = $kan->id;
-                //         $param->judul_artikel = $t;
-                //         $param->link_artikel = $list['url'][$s];
-                        
-                //         if(!isset($list['tanggal']))
-                //         {
-                //             $param->tanggal_publish = $list['tanggal'][$s];
-                //         }
-
-                //         if($portal === "Kompas")
-                //         {
-                //             $param->jumlah_views = $list['dibaca'][$s];
-                //         }
-
-                //         $param->save();
-                //     }
-                // }
             }
         }
 
@@ -1367,6 +1337,63 @@ class ScrapPortal extends Command
                 }elseif($kan->type_kanal == "Video")
                 {
                     
+                }
+            }
+        }
+
+        $this->info('Update Deskripsi Berita');
+        $parameter = \App\Models\Scrap\Parameter::whereNull('deskripsi')
+            ->with(
+                [
+                    'kanal',
+                    'kanal.parameter'
+                ]
+            )->groupBy('judul_artikel')
+            ->get();
+
+            
+        foreach($parameter as $key=>$val)
+        {
+            if($val->kanal != null)
+            {
+                if($val->kanal->portal != null)
+                {
+                    $url = $val->link_artikel;
+
+                    $client = new Client();   
+                    $crawler = $client->request('GET', $url);
+
+                    $title="";
+
+                    if($val->kanal->portal->name_portal == "Detik")
+                    {
+                        $crawler->filter('.itp_bodycontent p')->each(function ($node) use(&$title) {
+                            $title.="<p>".$node->text()."</p>";
+                        });
+
+                        if($title == "")
+                        {
+                            $crawler->filter('.detail__body-text p')->each(function ($node) use(&$title) {
+                                $title.="<p>".$node->text()."</p>";
+                            });
+                        }
+                    }else if($val->kanal->portal->name_portal == "Kompas"){
+                        $crawler->filter('.read__content p')->each(function ($node) use(&$title) {
+                            $title.="<p>".$node->text()."</p>";
+                        });
+                    }else if($val->kanal->portal->name_portal == "Tribunnews"){
+                        $crawler->filter('.read__content p')->each(function ($node) use(&$title) {
+                            $title.="<p>".$node->text()."</p>";
+                        });
+                    }
+
+                    $this->info('Update = '.$url);
+                    \App\Models\Scrap\Parameter::where('link_artikel', $val->link_artikel)
+                        ->update(
+                            [
+                                'deskripsi'=>$title
+                            ]
+                        );
                 }
             }
         }

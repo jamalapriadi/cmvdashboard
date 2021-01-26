@@ -12,7 +12,7 @@ class Kanal extends Model
 
     // use SoftDeletes;
     
-    public function kanal(){
+    public function portal(){
         return $this->belongsTo('App\Models\Scrap\Portal','portal_id');
     }
 

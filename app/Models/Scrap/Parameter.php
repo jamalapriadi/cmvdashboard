@@ -10,7 +10,7 @@ class Parameter extends Model
     protected $table="scrap_portal_parameter";
     
     public function kanal(){
-        return $this->belongsTo('App\Models\Scrap\Portal','kanal_id');
+        return $this->belongsTo('App\Models\Scrap\Kanal','kanal_id');
     }
 
 }
