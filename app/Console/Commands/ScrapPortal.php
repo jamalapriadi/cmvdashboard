@@ -1341,62 +1341,63 @@ class ScrapPortal extends Command
             }
         }
 
-        $this->info('Update Deskripsi Berita');
-        $parameter = \App\Models\Scrap\Parameter::whereNull('deskripsi')
-            ->with(
-                [
-                    'kanal',
-                    'kanal.parameter'
-                ]
-            )->groupBy('judul_artikel')
-            ->get();
+        // $this->info('Update Deskripsi Berita');
+        // $parameter = \App\Models\Scrap\Parameter::whereNull('deskripsi')
+        //     ->with(
+        //         [
+        //             'kanal',
+        //             'kanal.parameter'
+        //         ]
+        //     )->groupBy('judul_artikel')
+        //     ->get();
 
             
-        foreach($parameter as $key=>$val)
-        {
-            if($val->kanal != null)
-            {
-                if($val->kanal->portal != null)
-                {
-                    $url = $val->link_artikel;
+        // foreach($parameter as $key=>$val)
+        // {
+        //     if($val->kanal != null)
+        //     {
+        //         if($val->kanal->portal != null)
+        //         {
+        //             $url = $val->link_artikel;
+        //             $this->info('URL '.$url);
 
-                    $client = new Client();   
-                    $crawler = $client->request('GET', $url);
+        //             $client = new Client();   
+        //             $crawler = $client->request('GET', $url);
 
-                    $title="";
+        //             $title="";
 
-                    if($val->kanal->portal->name_portal == "Detik")
-                    {
-                        $crawler->filter('.itp_bodycontent p')->each(function ($node) use(&$title) {
-                            $title.="<p>".$node->text()."</p>";
-                        });
+        //             if($val->kanal->portal->name_portal == "Detik")
+        //             {
+        //                 $crawler->filter('.itp_bodycontent p')->each(function ($node) use(&$title) {
+        //                     $title.="<p>".$node->text()."</p>";
+        //                 });
 
-                        if($title == "")
-                        {
-                            $crawler->filter('.detail__body-text p')->each(function ($node) use(&$title) {
-                                $title.="<p>".$node->text()."</p>";
-                            });
-                        }
-                    }else if($val->kanal->portal->name_portal == "Kompas"){
-                        $crawler->filter('.read__content p')->each(function ($node) use(&$title) {
-                            $title.="<p>".$node->text()."</p>";
-                        });
-                    }else if($val->kanal->portal->name_portal == "Tribunnews"){
-                        $crawler->filter('.read__content p')->each(function ($node) use(&$title) {
-                            $title.="<p>".$node->text()."</p>";
-                        });
-                    }
+        //                 if($title == "")
+        //                 {
+        //                     $crawler->filter('.detail__body-text p')->each(function ($node) use(&$title) {
+        //                         $title.="<p>".$node->text()."</p>";
+        //                     });
+        //                 }
+        //             }else if($val->kanal->portal->name_portal == "Kompas"){
+        //                 $crawler->filter('.read__content p')->each(function ($node) use(&$title) {
+        //                     $title.="<p>".$node->text()."</p>";
+        //                 });
+        //             }else if($val->kanal->portal->name_portal == "Tribunnews"){
+        //                 $crawler->filter('.read__content p')->each(function ($node) use(&$title) {
+        //                     $title.="<p>".$node->text()."</p>";
+        //                 });
+        //             }
 
-                    $this->info('Update = '.$url);
-                    \App\Models\Scrap\Parameter::where('link_artikel', $val->link_artikel)
-                        ->update(
-                            [
-                                'deskripsi'=>$title
-                            ]
-                        );
-                }
-            }
-        }
+        //             $this->info('Update = '.$url);
+        //             \App\Models\Scrap\Parameter::where('link_artikel', $val->link_artikel)
+        //                 ->update(
+        //                     [
+        //                         'deskripsi'=>$title
+        //                     ]
+        //                 );
+        //         }
+        //     }
+        // }
 
         $this->info('Selesai');
     }
