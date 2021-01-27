@@ -1341,6 +1341,97 @@ class ScrapPortal extends Command
             }
         }
 
+        $this->info('Update Summary Portal');
+        $set_all_parameter = \DB::connection('mysql3')
+            ->select("select c.name_portal,c.id as portal_id, a.*
+            from scrap_portal_parameter a 
+            left join scrap_portal_kanal b on b.id=a.kanal_id
+            left join scrap_portal c on c.id=b.portal_id
+            WHERE c.name_portal IS NOT NULL 
+            AND DATE_FORMAT(a.tanggal,'%Y-%m-%d')=CURDATE()
+            GROUP BY a.judul_artikel");
+
+        $list = array();
+        $hasil = array();
+
+        $set_tanggal = array();
+
+        foreach($set_all_parameter as $key=>$val)
+        {
+            $name_portal[]=$val->name_portal;
+            
+            $set_tanggal[] = array(
+                'name_portal'=>$val->name_portal,
+                'tanggal'=>$val->tanggal
+            );
+        }
+
+        $name_portal = array_unique($name_portal);
+        usort($set_tanggal, function($a, $b) {
+            return $a['tanggal'] <=> $b['tanggal'];
+        });
+
+        $final_tanggal = array();
+        foreach($set_tanggal as $tg)
+        {
+            $final_tanggal [] =$tg['tanggal'];
+        }
+
+        $final_tanggal = array_unique($final_tanggal);
+
+        foreach($name_portal as $key=>$val){
+            foreach($final_tanggal as $fin)
+            {
+                $jumlah = 0;
+
+                foreach($set_all_parameter as $param)
+                {
+                    if($param->name_portal == $val)
+                    {
+                        if($param->tanggal == $fin)
+                        {
+                            $jumlah ++;
+                        }
+                    }
+                }
+
+                $list[]= array(
+                    'name_portal'=>$val,
+                    'tanggal'=>date('d M Y', strtotime($fin)),
+                    'jumlah'=>$jumlah
+                );
+
+                $cek_dulu= \DB::connection('mysql3')
+                    ->table('scrap_portal_summary')
+                    ->where('name_portal',$val)
+                    ->where('tanggal', date('d M Y', strtotime($fin)))
+                    ->count();
+
+                if($cek_dulu > 0)
+                {
+                    \DB::connection('mysql3')
+                        ->table('scrap_portal_summary')
+                        ->where('name_portal',$val)
+                        ->where('tanggal', date('Y-m-d', strtotime($fin)))
+                        ->update(
+                            [
+                                'jumlah'=>$jumlah
+                            ]
+                        );
+                }else{
+                    \DB::connection('mysql3')
+                        ->table('scrap_portal_summary')
+                        ->insert(
+                            [
+                                'name_portal'=>$val,
+                                'tanggal'=>date('Y-m-d', strtotime($fin)),
+                                'jumlah'=>$jumlah
+                            ]
+                        );
+                }
+            }
+        }
+
         // $this->info('Update Deskripsi Berita');
         // $parameter = \App\Models\Scrap\Parameter::whereNull('deskripsi')
         //     ->with(
@@ -1389,12 +1480,15 @@ class ScrapPortal extends Command
         //             }
 
         //             $this->info('Update = '.$url);
-        //             \App\Models\Scrap\Parameter::where('link_artikel', $val->link_artikel)
-        //                 ->update(
-        //                     [
-        //                         'deskripsi'=>$title
-        //                     ]
-        //                 );
+        //             if($title != "")
+        //             {
+        //                 \App\Models\Scrap\Parameter::where('link_artikel', $val->link_artikel)
+        //                     ->update(
+        //                         [
+        //                             'deskripsi'=>$title
+        //                         ]
+        //                     );
+        //             }
         //         }
         //     }
         // }

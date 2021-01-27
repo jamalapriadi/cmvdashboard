@@ -601,22 +601,22 @@ class WelcomeController extends Controller
 
     public function deskripsi(Request $request)
     {
-        $subkanal = "https://www.tribunnews.com/nasional/2020/11/25/edhy-prabowo-ditangkap-kpk-mahfud-md-ingatkan-pernyataan-firly-bahuri-saya-akan-back-up";
+        $subkanal = " https://inet.detik.com/security/d-5349450/500-juta-nomor-telepon-pengguna-facebook-dijual-di-telegram?tag_from=wp_nhl_1";
         $client = new Client();
         $crawler = $client->request('GET', $subkanal);
 
         /** ======================== DESKRIPSI DETIK ================================== */
-            // $title="";
-            // $crawler->filter('.itp_bodycontent p')->each(function ($node) use(&$title) {
-            //     $title.="<p>".$node->text()."</p>";
-            // });
+            $title="";
+            $crawler->filter('.itp_bodycontent p')->each(function ($node) use(&$title) {
+                $title.="<p>".$node->text()."</p>";
+            });
 
-            // if($title == "")
-            // {
-            //     $crawler->filter('.detail__body-text p')->each(function ($node) use(&$title) {
-            //         $title.="<p>".$node->text()."</p>";
-            //     });
-            // }
+            if($title == "")
+            {
+                $crawler->filter('.detail__body-text p')->each(function ($node) use(&$title) {
+                    $title.="<p>".$node->text()."</p>";
+                });
+            }
         /** ======================== END DESKRIPSI DETIK ================================== */
 
         /** ======================== DESKRIPSI KOMPAS ================================== */
@@ -627,12 +627,18 @@ class WelcomeController extends Controller
         /** ======================== END DESKRIPSI KOMPAS =============================== */
 
         /** ======================== DESKRIPSI TRIBUN ================================== */
-            $title="";
-            $crawler->filter('.side-article p')->each(function ($node) use(&$title) {
-                $title.="<p>".$node->text()."</p>";
-            });
+            // $title="";
+            // $crawler->filter('.side-article p')->each(function ($node) use(&$title) {
+            //     $title.="<p>".$node->text()."</p>";
+            // });
         /** ======================== END DESKRIPSI TRIBUN ================================== */
-
-        return $title;
+        
+        if($title != "")
+        {
+            return $title;
+        }else{
+            return "Not Found";
+        }
+        
     }
 }
