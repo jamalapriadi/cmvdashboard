@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Goutte\Client;
+use Google\GTrends;
 
 class WelcomeController extends Controller
 {
@@ -601,22 +602,51 @@ class WelcomeController extends Controller
 
     public function deskripsi(Request $request)
     {
+        /**========================= SCRAP GOOGLE TRENDS ============================== */
+            $options = [
+                'hl'  => 'en-US',
+                'tz'  => -60, # last hour
+                'geo' => 'ID',
+            ];
+            $gt = new GTrends($options);
+
+            $hasil = json_encode($gt->getDailySearchTrends('p54', date('Ymd')));
+
+            // return $hasil;
+            \DB::connection('mysql3')
+                ->table('scrap_google_trends')
+                ->insert(
+                    [
+                        'tanggal'=>date('Y-m-d'),
+                        'jam'=>date('H:i:s'),
+                        'hasil'=>$hasil,
+                        'created_at'=>date('Y-m-d H:i:s'),
+                        'updated_at'=>date('Y-m-d H:i:s')
+                    ]
+                );
+
+            return "sukses";
+            // return response()->json($gt->interestOverTime('Dublin'));
+        /**========================= END SCRAP GOOGLE TRENDS ============================== */
+
+        return "sukses";
+
         $subkanal = " https://inet.detik.com/security/d-5349450/500-juta-nomor-telepon-pengguna-facebook-dijual-di-telegram?tag_from=wp_nhl_1";
         $client = new Client();
         $crawler = $client->request('GET', $subkanal);
 
         /** ======================== DESKRIPSI DETIK ================================== */
-            $title="";
-            $crawler->filter('.itp_bodycontent p')->each(function ($node) use(&$title) {
-                $title.="<p>".$node->text()."</p>";
-            });
+            // $title="";
+            // $crawler->filter('.itp_bodycontent p')->each(function ($node) use(&$title) {
+            //     $title.="<p>".$node->text()."</p>";
+            // });
 
-            if($title == "")
-            {
-                $crawler->filter('.detail__body-text p')->each(function ($node) use(&$title) {
-                    $title.="<p>".$node->text()."</p>";
-                });
-            }
+            // if($title == "")
+            // {
+            //     $crawler->filter('.detail__body-text p')->each(function ($node) use(&$title) {
+            //         $title.="<p>".$node->text()."</p>";
+            //     });
+            // }
         /** ======================== END DESKRIPSI DETIK ================================== */
 
         /** ======================== DESKRIPSI KOMPAS ================================== */

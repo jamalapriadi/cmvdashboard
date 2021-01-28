@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Goutte\Client;
+use Google\GTrends;
 
 class ScrapPortal extends Command
 {
@@ -1431,6 +1432,29 @@ class ScrapPortal extends Command
                 }
             }
         }
+
+        $this->info('scrap google trends');
+        $options = [
+            'hl'  => 'en-US',
+            'tz'  => -60, # last hour
+            'geo' => 'ID',
+        ];
+        $gt = new GTrends($options);
+
+        $hasil = json_encode($gt->getDailySearchTrends('p54', date('Ymd')));
+
+        // return $hasil;
+        \DB::connection('mysql3')
+            ->table('scrap_google_trends')
+            ->insert(
+                [
+                    'tanggal'=>date('Y-m-d'),
+                    'jam'=>date('H:i:s'),
+                    'hasil'=>$hasil,
+                    'created_at'=>date('Y-m-d H:i:s'),
+                    'updated_at'=>date('Y-m-d H:i:s')
+                ]
+            );
 
         // $this->info('Update Deskripsi Berita');
         // $parameter = \App\Models\Scrap\Parameter::whereNull('deskripsi')
