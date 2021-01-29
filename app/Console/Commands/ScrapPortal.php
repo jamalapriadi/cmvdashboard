@@ -1350,7 +1350,7 @@ class ScrapPortal extends Command
             left join scrap_portal c on c.id=b.portal_id
             WHERE c.name_portal IS NOT NULL 
             AND DATE_FORMAT(a.tanggal,'%Y-%m-%d')=CURDATE()
-            GROUP BY a.judul_artikel");
+            GROUP BY a.link_artikel");
 
         $list = array();
         $hasil = array();
@@ -1455,67 +1455,6 @@ class ScrapPortal extends Command
                     'updated_at'=>date('Y-m-d H:i:s')
                 ]
             );
-
-        // $this->info('Update Deskripsi Berita');
-        // $parameter = \App\Models\Scrap\Parameter::whereNull('deskripsi')
-        //     ->with(
-        //         [
-        //             'kanal',
-        //             'kanal.parameter'
-        //         ]
-        //     )->groupBy('judul_artikel')
-        //     ->get();
-
-            
-        // foreach($parameter as $key=>$val)
-        // {
-        //     if($val->kanal != null)
-        //     {
-        //         if($val->kanal->portal != null)
-        //         {
-        //             $url = $val->link_artikel;
-        //             $this->info('URL '.$url);
-
-        //             $client = new Client();   
-        //             $crawler = $client->request('GET', $url);
-
-        //             $title="";
-
-        //             if($val->kanal->portal->name_portal == "Detik")
-        //             {
-        //                 $crawler->filter('.itp_bodycontent p')->each(function ($node) use(&$title) {
-        //                     $title.="<p>".$node->text()."</p>";
-        //                 });
-
-        //                 if($title == "")
-        //                 {
-        //                     $crawler->filter('.detail__body-text p')->each(function ($node) use(&$title) {
-        //                         $title.="<p>".$node->text()."</p>";
-        //                     });
-        //                 }
-        //             }else if($val->kanal->portal->name_portal == "Kompas"){
-        //                 $crawler->filter('.read__content p')->each(function ($node) use(&$title) {
-        //                     $title.="<p>".$node->text()."</p>";
-        //                 });
-        //             }else if($val->kanal->portal->name_portal == "Tribunnews"){
-        //                 $crawler->filter('.read__content p')->each(function ($node) use(&$title) {
-        //                     $title.="<p>".$node->text()."</p>";
-        //                 });
-        //             }
-
-        //             $this->info('Update = '.$url);
-        //             if($title != "")
-        //             {
-        //                 \App\Models\Scrap\Parameter::where('link_artikel', $val->link_artikel)
-        //                     ->update(
-        //                         [
-        //                             'deskripsi'=>$title
-        //                         ]
-        //                     );
-        //             }
-        //         }
-        //     }
-        // }
 
         $this->info('Selesai');
     }

@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel
         Commands\OfficialInstagramFollower::class, 
         Commands\OfficialYoutubeFollower::class,
         Commands\ScrapPortal::class,
+        Commands\ScrapDeskripsiPortal::class,
     ];
 
     /**
