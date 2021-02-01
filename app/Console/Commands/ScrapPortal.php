@@ -1852,7 +1852,7 @@ class ScrapPortal extends Command
                 $cek_dulu= \DB::connection('mysql3')
                     ->table('scrap_portal_summary')
                     ->where('name_portal',$val)
-                    ->where('tanggal', date('d M Y', strtotime($fin)))
+                    ->where('tanggal', date('Y-m-d', strtotime($fin)))
                     ->count();
 
                 if($cek_dulu > 0)
