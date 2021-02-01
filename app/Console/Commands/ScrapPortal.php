@@ -114,7 +114,7 @@ class ScrapPortal extends Command
                         {
                             $crawler = $client->request('GET', $url);
                             
-                            $crawler->filter('.list-content')->each(function ($node) use(&$list, &$kan){
+                            $crawler->filter('.list-content')->each(function ($node) use(&$list, &$kan, &$val){
                                 $title=array();
                                 $node->filter('.media__title')->each(function($t) use(&$title){
                                     // dump($t->text());
@@ -138,10 +138,11 @@ class ScrapPortal extends Command
                                 foreach($title as $s=>$t)
                                 {
                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
                                         ->where('kanal_id', $kan->id)
-                                        ->count();
+                                        ->first();
 
-                                    if($cek == 0)
+                                    if($cek == null)
                                     {
                                         $param = new \App\Models\Scrap\Parameter;
                                         $param->tanggal = date('Y-m-d');
@@ -151,7 +152,21 @@ class ScrapPortal extends Command
                                         $param->link_artikel = $list_url[$s];
                                         $param->tanggal_publish = $tanggal[$s];
 
-                                        $param->save();
+                                        $simpanparam = $param->save();
+
+                                        if($simpanparam){
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $param->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }else{
+                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                        $p->parameter_id = $cek->id;
+                                        $p->kanal_id = $kan->id;
+                                        $p->portal_id = $val->id;
+                                        $p->save();
                                     }
                                 }
                                 
@@ -184,10 +199,11 @@ class ScrapPortal extends Command
                             foreach($title as $s=>$t)
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                    ->orWhere('link_artikel',$list_url[$s])
                                     ->where('kanal_id', $kan->id)
-                                    ->count();
+                                    ->first();
 
-                                if($cek == 0)
+                                if($cek == null)
                                 {
                                     $param = new \App\Models\Scrap\Parameter;
                                     $param->tanggal = date('Y-m-d');
@@ -197,8 +213,23 @@ class ScrapPortal extends Command
                                     $param->link_artikel = $list_url[$s];
                                     $param->tanggal_publish = $tanggal[$s];
 
-                                    $param->save();
+                                    $simpanparam = $param->save();
+
+                                    if($simpanparam){
+                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                        $p->parameter_id = $param->id;
+                                        $p->kanal_id = $kan->id;
+                                        $p->portal_id = $val->id;
+                                        $p->save();
+                                    }
+                                }else{
+                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                    $p->parameter_id = $cek->id;
+                                    $p->kanal_id = $kan->id;
+                                    $p->portal_id = $val->id;
+                                    $p->save();
                                 }
+
                             }
                         }elseif($url === "https://travel.detik.com/indeks"){
                             $crawler = $client->request('GET', $url);
@@ -229,10 +260,11 @@ class ScrapPortal extends Command
                             foreach($title as $s=>$t)
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                    ->orWhere('link_artikel',$list_url[$s])
                                     ->where('kanal_id', $kan->id)
-                                    ->count();
+                                    ->first();
 
-                                if($cek == 0)
+                                if($cek == null)
                                 {
                                     $param = new \App\Models\Scrap\Parameter;
                                     $param->tanggal = date('Y-m-d');
@@ -242,8 +274,23 @@ class ScrapPortal extends Command
                                     $param->link_artikel = $list_url[$s];
                                     $param->tanggal_publish = $tanggal[$s];
 
-                                    $param->save();
+                                    $simpanparam = $param->save();
+
+                                    if($simpanparam){
+                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                        $p->parameter_id = $param->id;
+                                        $p->kanal_id = $kan->id;
+                                        $p->portal_id = $val->id;
+                                        $p->save();
+                                    }
+                                }else{
+                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                    $p->parameter_id = $cek->id;
+                                    $p->kanal_id = $kan->id;
+                                    $p->portal_id = $val->id;
+                                    $p->save();
                                 }
+                                
                             }
                         }elseif($url === "https://sport.detik.com/sepakbola/indeks"){
                             $crawler = $client->request('GET', $url);
@@ -273,10 +320,11 @@ class ScrapPortal extends Command
                             foreach($title as $s=>$t)
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                    ->orWhere('link_artikel',$list_url[$s])
                                     ->where('kanal_id', $kan->id)
-                                    ->count();
+                                    ->first();
 
-                                if($cek == 0)
+                                if($cek == null)
                                 {
                                     $param = new \App\Models\Scrap\Parameter;
                                     $param->tanggal = date('Y-m-d');
@@ -286,8 +334,23 @@ class ScrapPortal extends Command
                                     $param->link_artikel = $list_url[$s];
                                     $param->tanggal_publish = $tanggal[$s];
 
-                                    $param->save();
+                                    $simpanparam = $param->save();
+
+                                    if($simpanparam){
+                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                        $p->parameter_id = $param->id;
+                                        $p->kanal_id = $kan->id;
+                                        $p->portal_id = $val->id;
+                                        $p->save();
+                                    }
+                                }else{
+                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                    $p->parameter_id = $cek->id;
+                                    $p->kanal_id = $kan->id;
+                                    $p->portal_id = $val->id;
+                                    $p->save();
                                 }
+
                             }
                         }elseif($url === "https://food.detik.com/indeks"){
                             $crawler = $client->request('GET', $url);
@@ -317,10 +380,11 @@ class ScrapPortal extends Command
                             foreach($title as $s=>$t)
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                    ->orWhere('link_artikel',$list_url[$s])
                                     ->where('kanal_id', $kan->id)
-                                    ->count();
+                                    ->first();
 
-                                if($cek == 0)
+                                if($cek == null)
                                 {
                                     $param = new \App\Models\Scrap\Parameter;
                                     $param->tanggal = date('Y-m-d');
@@ -330,8 +394,23 @@ class ScrapPortal extends Command
                                     $param->link_artikel = $list_url[$s];
                                     $param->tanggal_publish = $tanggal[$s];
 
-                                    $param->save();
+                                    $simpanparam = $param->save();
+
+                                    if($simpanparam){
+                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                        $p->parameter_id = $param->id;
+                                        $p->kanal_id = $kan->id;
+                                        $p->portal_id = $val->id;
+                                        $p->save();
+                                    }
+                                }else{
+                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                    $p->parameter_id = $cek->id;
+                                    $p->kanal_id = $kan->id;
+                                    $p->portal_id = $val->id;
+                                    $p->save();
                                 }
+
                             }
                         }elseif($url === "https://health.detik.com/indeks"){
                             $crawler = $client->request('GET', $url);
@@ -361,10 +440,11 @@ class ScrapPortal extends Command
                             foreach($title as $s=>$t)
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                    ->orWhere('link_artikel',$list_url[$s])
                                     ->where('kanal_id', $kan->id)
-                                    ->count();
+                                    ->first();
 
-                                if($cek == 0)
+                                if($cek == null)
                                 {
                                     $param = new \App\Models\Scrap\Parameter;
                                     $param->tanggal = date('Y-m-d');
@@ -374,8 +454,23 @@ class ScrapPortal extends Command
                                     $param->link_artikel = $list_url[$s];
                                     $param->tanggal_publish = $tanggal[$s];
 
-                                    $param->save();
+                                    $simpanparam = $param->save();
+
+                                    if($simpanparam){
+                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                        $p->parameter_id = $param->id;
+                                        $p->kanal_id = $kan->id;
+                                        $p->portal_id = $val->id;
+                                        $p->save();
+                                    }
+                                }else{
+                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                    $p->parameter_id = $cek->id;
+                                    $p->kanal_id = $kan->id;
+                                    $p->portal_id = $val->id;
+                                    $p->save();
                                 }
+
                             }
                         }elseif($url === "https://wolipop.detik.com/indeks"){
                             $crawler = $client->request('GET', $url);
@@ -405,10 +500,11 @@ class ScrapPortal extends Command
                             foreach($title as $s=>$t)
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                    ->orWhere('link_artikel',$list_url[$s])
                                     ->where('kanal_id', $kan->id)
-                                    ->count();
+                                    ->first();
 
-                                if($cek == 0)
+                                if($cek == null)
                                 {
                                     $param = new \App\Models\Scrap\Parameter;
                                     $param->tanggal = date('Y-m-d');
@@ -418,13 +514,28 @@ class ScrapPortal extends Command
                                     $param->link_artikel = $list_url[$s];
                                     $param->tanggal_publish = $tanggal[$s];
 
-                                    $param->save();
+                                    $simpanparam = $param->save();
+
+                                    if($simpanparam){
+                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                        $p->parameter_id = $param->id;
+                                        $p->kanal_id = $kan->id;
+                                        $p->portal_id = $val->id;
+                                        $p->save();
+                                    }
+                                }else{
+                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                    $p->parameter_id = $cek->id;
+                                    $p->kanal_id = $kan->id;
+                                    $p->portal_id = $val->id;
+                                    $p->save();
                                 }
+
                             }
                         }else{
                             $crawler = $client->request('GET', $url);
 
-                            $crawler->filter('.list-content')->each(function ($node) use(&$list, &$kan){
+                            $crawler->filter('.list-content')->each(function ($node) use(&$list, &$kan, &$val){
                                 $title=array();
                                 $node->filter('.media__title')->each(function($t) use(&$title){
                                     // dump($t->text());
@@ -452,10 +563,11 @@ class ScrapPortal extends Command
                                 foreach($title as $s=>$t)
                                 {
                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
                                         ->where('kanal_id', $kan->id)
-                                        ->count();
+                                        ->first();
 
-                                    if($cek == 0)
+                                    if($cek == null)
                                     {
                                         $param = new \App\Models\Scrap\Parameter;
                                         $param->tanggal = date('Y-m-d');
@@ -465,8 +577,23 @@ class ScrapPortal extends Command
                                         $param->link_artikel = $list_url[$s];
                                         $param->tanggal_publish = $tanggal[$s];
 
-                                        $param->save();
+                                        $simpanparam = $param->save();
+
+                                        if($simpanparam){
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $param->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }else{
+                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                        $p->parameter_id = $cek->id;
+                                        $p->kanal_id = $kan->id;
+                                        $p->portal_id = $val->id;
+                                        $p->save();
                                     }
+                                    
                                 }
                             });
                         }
@@ -475,7 +602,7 @@ class ScrapPortal extends Command
 
                         if($kan->type == "terpopuler")
                         {
-                            $crawler->filter('.most')->each(function ($node) use(&$list, &$kan){
+                            $crawler->filter('.most')->each(function ($node) use(&$list, &$kan, &$val){
                                 $title=array();
                                 $node->filter('h4.most__title')->each(function($t) use(&$title){
                                     $title[]=$t->text();
@@ -515,11 +642,11 @@ class ScrapPortal extends Command
                                     foreach($title as $s=>$t)
                                     {
                                         $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                            ->where('link_artikel',$list_url[$s])
+                                            ->orWhere('link_artikel',$list_url[$s])
                                             ->where('kanal_id', $kan->id)
-                                            ->count();
-        
-                                        if($cek == 0)
+                                            ->first();
+
+                                        if($cek == null)
                                         {
                                             $param = new \App\Models\Scrap\Parameter;
                                             $param->tanggal = date('Y-m-d');
@@ -528,9 +655,24 @@ class ScrapPortal extends Command
                                             $param->judul_artikel = $t;
                                             $param->link_artikel = $list_url[$s];
                                             $param->tanggal_publish = $tanggal[$s];
-        
-                                            $param->save();
+
+                                            $simpanparam = $param->save();
+
+                                            if($simpanparam){
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $param->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }else{
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $cek->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
                                         }
+
                                     }
                                 }
                             });
@@ -567,11 +709,11 @@ class ScrapPortal extends Command
                             foreach($title as $s=>$t)
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                    ->where('link_artikel',$list_url[$s])
+                                    ->orWhere('link_artikel',$list_url[$s])
                                     ->where('kanal_id', $kan->id)
-                                    ->count();
+                                    ->first();
 
-                                if($cek == 0)
+                                if($cek == null)
                                 {
                                     $param = new \App\Models\Scrap\Parameter;
                                     $param->tanggal = date('Y-m-d');
@@ -581,8 +723,23 @@ class ScrapPortal extends Command
                                     $param->link_artikel = $list_url[$s];
                                     $param->tanggal_publish = $tanggal[$s];
 
-                                    $param->save();
+                                    $simpanparam = $param->save();
+
+                                    if($simpanparam){
+                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                        $p->parameter_id = $param->id;
+                                        $p->kanal_id = $kan->id;
+                                        $p->portal_id = $val->id;
+                                        $p->save();
+                                    }
+                                }else{
+                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                    $p->parameter_id = $cek->id;
+                                    $p->kanal_id = $kan->id;
+                                    $p->portal_id = $val->id;
+                                    $p->save();
                                 }
+
                             }
                         }
                     }elseif($portal === "Tribunnews"){
@@ -590,7 +747,7 @@ class ScrapPortal extends Command
 
                         if($kan->type == "terpopuler")
                         {
-                            $crawler->filter('.populer')->each(function ($node) use(&$list, &$kan){
+                            $crawler->filter('.populer')->each(function ($node) use(&$list, &$kan, &$val){
                                 $title=array();
                                 $node->filter('ul > li.art-list')->each(function($t) use(&$title){
                                     $title[]=$t->text();
@@ -616,11 +773,12 @@ class ScrapPortal extends Command
     
                                 foreach($title as $s=>$t)
                                 {
-                                    $cek = \App\Models\Scrap\Parameter::where('link_artikel',$list_url[$s])
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
                                         ->where('kanal_id', $kan->id)
-                                        ->count();
-    
-                                    if($cek == 0)
+                                        ->first();
+
+                                    if($cek == null)
                                     {
                                         $param = new \App\Models\Scrap\Parameter;
                                         $param->tanggal = date('Y-m-d');
@@ -629,8 +787,22 @@ class ScrapPortal extends Command
                                         $param->judul_artikel = $t;
                                         $param->link_artikel = $list_url[$s];
                                         $param->tanggal_publish = $tanggal[$s];
-    
-                                        $param->save();
+
+                                        $simpanparam = $param->save();
+
+                                        if($simpanparam){
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $param->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }else{
+                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                        $p->parameter_id = $cek->id;
+                                        $p->kanal_id = $kan->id;
+                                        $p->portal_id = $val->id;
+                                        $p->save();
                                     }
                                 }
                             });
@@ -669,11 +841,12 @@ class ScrapPortal extends Command
 
                             foreach($title as $s=>$t)
                             {
-                                $cek = \App\Models\Scrap\Parameter::where('link_artikel',$list_url[$s])
+                                $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                    ->orWhere('link_artikel',$list_url[$s])
                                     ->where('kanal_id', $kan->id)
-                                    ->count();
+                                    ->first();
 
-                                if($cek == 0)
+                                if($cek == null)
                                 {
                                     $param = new \App\Models\Scrap\Parameter;
                                     $param->tanggal = date('Y-m-d');
@@ -683,8 +856,23 @@ class ScrapPortal extends Command
                                     $param->link_artikel = $list_url[$s];
                                     $param->tanggal_publish = $tanggal[$s];
 
-                                    $param->save();
+                                    $simpanparam = $param->save();
+
+                                    if($simpanparam){
+                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                        $p->parameter_id = $param->id;
+                                        $p->kanal_id = $kan->id;
+                                        $p->portal_id = $val->id;
+                                        $p->save();
+                                    }
+                                }else{
+                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                    $p->parameter_id = $cek->id;
+                                    $p->kanal_id = $kan->id;
+                                    $p->portal_id = $val->id;
+                                    $p->save();
                                 }
+                                
                             }
                         }
                     }
@@ -974,7 +1162,7 @@ class ScrapPortal extends Command
                                     foreach($title as $s=>$t)
                                     {
                                         $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                            ->where('link_artikel',$list_url[$s])
+                                            ->orWhere('link_artikel',$list_url[$s])
                                             ->where('kanal_id', $kan->id)
                                             ->whereNull('subkanal_id')
                                             ->where('tanggal',date('Y-m-d'))
@@ -1020,7 +1208,7 @@ class ScrapPortal extends Command
                                 foreach($title as $s=>$t)
                                 {
                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                        ->where('link_artikel',$list_url[$s])
+                                        ->orWhere('link_artikel',$list_url[$s])
                                         ->where('kanal_id', $kan->id)
                                         ->whereNull('subkanal_id')
                                         ->where('tanggal',date('Y-m-d'))
@@ -1066,7 +1254,7 @@ class ScrapPortal extends Command
                                 foreach($title as $s=>$t)
                                 {
                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                        ->where('link_artikel',$list_url[$s])
+                                        ->orWhere('link_artikel',$list_url[$s])
                                         ->where('kanal_id', $kan->id)
                                         ->whereNull('subkanal_id')
                                         ->where('tanggal',date('Y-m-d'))
@@ -1112,7 +1300,7 @@ class ScrapPortal extends Command
                                     foreach($title as $s=>$t)
                                     {
                                         $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                            ->where('link_artikel',$list_url[$s])
+                                            ->orWhere('link_artikel',$list_url[$s])
                                             ->where('kanal_id', $kan->id)
                                             ->whereNull('subkanal_id')
                                             ->where('tanggal',date('Y-m-d'))
@@ -1157,7 +1345,7 @@ class ScrapPortal extends Command
                                 foreach($title as $s=>$t)
                                 {
                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                        ->where('link_artikel',$list_url[$s])
+                                        ->orWhere('link_artikel',$list_url[$s])
                                         ->where('kanal_id', $kan->id)
                                         ->whereNull('subkanal_id')
                                         ->where('tanggal',date('Y-m-d'))
@@ -1201,7 +1389,7 @@ class ScrapPortal extends Command
                                 foreach($title as $s=>$t)
                                 {
                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                        ->where('link_artikel',$list_url[$s])
+                                        ->orWhere('link_artikel',$list_url[$s])
                                         ->where('kanal_id', $kan->id)
                                         ->whereNull('subkanal_id')
                                         ->where('tanggal',date('Y-m-d'))
@@ -1245,7 +1433,7 @@ class ScrapPortal extends Command
                                 foreach($title as $s=>$t)
                                 {
                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                        ->where('link_artikel',$list_url[$s])
+                                        ->orWhere('link_artikel',$list_url[$s])
                                         ->where('kanal_id', $kan->id)
                                         ->whereNull('subkanal_id')
                                         ->where('tanggal',date('Y-m-d'))
@@ -1300,7 +1488,7 @@ class ScrapPortal extends Command
                                             {
                                                 try {
                                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                                    ->where('link_artikel',$list_url[$s])
+                                                    ->orWhere('link_artikel',$list_url[$s])
                                                     ->where('kanal_id', $kan->id)
                                                     ->whereNull('subkanal_id')
                                                     ->where('tanggal',date('Y-m-d'))
