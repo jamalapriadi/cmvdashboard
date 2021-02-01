@@ -1328,6 +1328,20 @@ class ScrapPortal extends Command
                                                     'subkanal_id'=>$sub->id
                                                 ]
                                             );
+
+                                        $cek_kanal_parameter = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                            ->orWhere('link_artikel',$list_url[$s])
+                                            ->first();
+
+                                        if($cek_kanal_parameter != null)
+                                        {
+                                            \App\Models\Scrap\Kanalparameter::where('parameter_id',$cek_kanal_parameter->id)
+                                                ->update(
+                                                    [
+                                                        'subkanal_id'=>$sub->id
+                                                    ]
+                                                );
+                                        }
                                     }
                                     
                                 });
@@ -1374,6 +1388,20 @@ class ScrapPortal extends Command
                                                 'subkanal_id'=>$sub->id
                                             ]
                                         );
+
+                                    $cek_kanal_parameter = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
+                                        ->first();
+
+                                    if($cek_kanal_parameter != null)
+                                    {
+                                        \App\Models\Scrap\Kanalparameter::where('parameter_id',$cek_kanal_parameter->id)
+                                            ->update(
+                                                [
+                                                    'subkanal_id'=>$sub->id
+                                                ]
+                                            );
+                                    }
                                 }
 
                             }
@@ -1420,6 +1448,20 @@ class ScrapPortal extends Command
                                                 'subkanal_id'=>$sub->id
                                             ]
                                         );
+
+                                    $cek_kanal_parameter = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
+                                        ->first();
+
+                                    if($cek_kanal_parameter != null)
+                                    {
+                                        \App\Models\Scrap\Kanalparameter::where('parameter_id',$cek_kanal_parameter->id)
+                                            ->update(
+                                                [
+                                                    'subkanal_id'=>$sub->id
+                                                ]
+                                            );
+                                    }
                                 }
                             }
                         }elseif($url === "https://sport.detik.com/sepakbola/indeks"){
@@ -1466,6 +1508,20 @@ class ScrapPortal extends Command
                                                     'subkanal_id'=>$sub->id
                                                 ]
                                             );
+
+                                        $cek_kanal_parameter = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                            ->orWhere('link_artikel',$list_url[$s])
+                                            ->first();
+
+                                        if($cek_kanal_parameter != null)
+                                        {
+                                            \App\Models\Scrap\Kanalparameter::where('parameter_id',$cek_kanal_parameter->id)
+                                                ->update(
+                                                    [
+                                                        'subkanal_id'=>$sub->id
+                                                    ]
+                                                );
+                                        }
                                     }
                                 }
                             }
@@ -1511,6 +1567,20 @@ class ScrapPortal extends Command
                                                 'subkanal_id'=>$sub->id
                                             ]
                                         );
+
+                                    $cek_kanal_parameter = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
+                                        ->first();
+
+                                    if($cek_kanal_parameter != null)
+                                    {
+                                        \App\Models\Scrap\Kanalparameter::where('parameter_id',$cek_kanal_parameter->id)
+                                            ->update(
+                                                [
+                                                    'subkanal_id'=>$sub->id
+                                                ]
+                                            );
+                                    }
                                 }
                             }
                         }elseif($url === "https://health.detik.com/indeks"){
@@ -1555,6 +1625,20 @@ class ScrapPortal extends Command
                                                 'subkanal_id'=>$sub->id
                                             ]
                                         );
+
+                                    $cek_kanal_parameter = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
+                                        ->first();
+
+                                    if($cek_kanal_parameter != null)
+                                    {
+                                        \App\Models\Scrap\Kanalparameter::where('parameter_id',$cek_kanal_parameter->id)
+                                            ->update(
+                                                [
+                                                    'subkanal_id'=>$sub->id
+                                                ]
+                                            );
+                                    }
                                 }
                             }
                         }elseif($url === "https://wolipop.detik.com/indeks"){
@@ -1599,6 +1683,20 @@ class ScrapPortal extends Command
                                                 'subkanal_id'=>$sub->id
                                             ]
                                         );
+
+                                    $cek_kanal_parameter = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
+                                        ->first();
+
+                                    if($cek_kanal_parameter != null)
+                                    {
+                                        \App\Models\Scrap\Kanalparameter::where('parameter_id',$cek_kanal_parameter->id)
+                                            ->update(
+                                                [
+                                                    'subkanal_id'=>$sub->id
+                                                ]
+                                            );
+                                    }
                                 }
                             }
                         }else{
@@ -1654,6 +1752,20 @@ class ScrapPortal extends Command
                                                             'subkanal_id'=>$sub->id
                                                         ]
                                                     );
+
+                                                    $cek_kanal_parameter = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                                        ->orWhere('link_artikel',$list_url[$s])
+                                                        ->first();
+
+                                                    if($cek_kanal_parameter != null)
+                                                    {
+                                                        \App\Models\Scrap\Kanalparameter::where('parameter_id',$cek_kanal_parameter->id)
+                                                            ->update(
+                                                                [
+                                                                    'subkanal_id'=>$sub->id
+                                                                ]
+                                                            );
+                                                    }
                                                 } catch (Exception $e) {
                                                     // exception is raised and it'll be handled here
                                                     // $e->getMessage() contains the error message
