@@ -139,7 +139,6 @@ class ScrapPortal extends Command
                                 {
                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                         ->orWhere('link_artikel',$list_url[$s])
-                                        ->where('kanal_id', $kan->id)
                                         ->first();
 
                                     if($cek == null)
@@ -200,7 +199,6 @@ class ScrapPortal extends Command
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                     ->orWhere('link_artikel',$list_url[$s])
-                                    ->where('kanal_id', $kan->id)
                                     ->first();
 
                                 if($cek == null)
@@ -261,7 +259,6 @@ class ScrapPortal extends Command
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                     ->orWhere('link_artikel',$list_url[$s])
-                                    ->where('kanal_id', $kan->id)
                                     ->first();
 
                                 if($cek == null)
@@ -321,7 +318,6 @@ class ScrapPortal extends Command
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                     ->orWhere('link_artikel',$list_url[$s])
-                                    ->where('kanal_id', $kan->id)
                                     ->first();
 
                                 if($cek == null)
@@ -381,7 +377,6 @@ class ScrapPortal extends Command
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                     ->orWhere('link_artikel',$list_url[$s])
-                                    ->where('kanal_id', $kan->id)
                                     ->first();
 
                                 if($cek == null)
@@ -441,7 +436,6 @@ class ScrapPortal extends Command
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                     ->orWhere('link_artikel',$list_url[$s])
-                                    ->where('kanal_id', $kan->id)
                                     ->first();
 
                                 if($cek == null)
@@ -501,7 +495,6 @@ class ScrapPortal extends Command
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                     ->orWhere('link_artikel',$list_url[$s])
-                                    ->where('kanal_id', $kan->id)
                                     ->first();
 
                                 if($cek == null)
@@ -564,7 +557,6 @@ class ScrapPortal extends Command
                                 {
                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                         ->orWhere('link_artikel',$list_url[$s])
-                                        ->where('kanal_id', $kan->id)
                                         ->first();
 
                                     if($cek == null)
@@ -643,7 +635,6 @@ class ScrapPortal extends Command
                                     {
                                         $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                             ->orWhere('link_artikel',$list_url[$s])
-                                            ->where('kanal_id', $kan->id)
                                             ->first();
 
                                         if($cek == null)
@@ -710,7 +701,6 @@ class ScrapPortal extends Command
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                     ->orWhere('link_artikel',$list_url[$s])
-                                    ->where('kanal_id', $kan->id)
                                     ->first();
 
                                 if($cek == null)
@@ -775,7 +765,6 @@ class ScrapPortal extends Command
                                 {
                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                         ->orWhere('link_artikel',$list_url[$s])
-                                        ->where('kanal_id', $kan->id)
                                         ->first();
 
                                     if($cek == null)
@@ -843,7 +832,6 @@ class ScrapPortal extends Command
                             {
                                 $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
                                     ->orWhere('link_artikel',$list_url[$s])
-                                    ->where('kanal_id', $kan->id)
                                     ->first();
 
                                 if($cek == null)
