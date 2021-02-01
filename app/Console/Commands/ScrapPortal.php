@@ -1796,7 +1796,7 @@ class ScrapPortal extends Command
             left join scrap_portal_kanal b on b.id=a.kanal_id
             left join scrap_portal c on c.id=b.portal_id
             WHERE c.name_portal IS NOT NULL 
-            AND DATE_FORMAT(a.tanggal,'%Y-%m')=date_format(CURDATE(),'%Y-%m')
+            AND DATE_FORMAT(a.tanggal,'%Y-%m-%d')=curdate()
             GROUP BY a.link_artikel");
 
         $list = array();
