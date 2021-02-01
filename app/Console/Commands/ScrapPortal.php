@@ -154,18 +154,32 @@ class ScrapPortal extends Command
                                         $simpanparam = $param->save();
 
                                         if($simpanparam){
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+
+                                            if($cek_kanal_parameter == 0)
+                                            {
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $param->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }
+                                    }else{
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+                                        
+                                        if($cek_kanal_parameter == 0)
+                                        {
                                             $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $param->id;
+                                            $p->parameter_id = $cek->id;
                                             $p->kanal_id = $kan->id;
                                             $p->portal_id = $val->id;
                                             $p->save();
                                         }
-                                    }else{
-                                        $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $cek->id;
-                                        $p->kanal_id = $kan->id;
-                                        $p->portal_id = $val->id;
-                                        $p->save();
                                     }
                                 }
                                 
@@ -214,18 +228,32 @@ class ScrapPortal extends Command
                                     $simpanparam = $param->save();
 
                                     if($simpanparam){
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $param->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+                                }else{
+                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+                                    
+                                    if($cek_kanal_parameter == 0)
+                                    {
                                         $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $param->id;
+                                        $p->parameter_id = $cek->id;
                                         $p->kanal_id = $kan->id;
                                         $p->portal_id = $val->id;
                                         $p->save();
                                     }
-                                }else{
-                                    $p = new \App\Models\Scrap\Kanalparameter;
-                                    $p->parameter_id = $cek->id;
-                                    $p->kanal_id = $kan->id;
-                                    $p->portal_id = $val->id;
-                                    $p->save();
                                 }
 
                             }
@@ -274,18 +302,32 @@ class ScrapPortal extends Command
                                     $simpanparam = $param->save();
 
                                     if($simpanparam){
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $param->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+                                }else{
+                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+                                    
+                                    if($cek_kanal_parameter == 0)
+                                    {
                                         $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $param->id;
+                                        $p->parameter_id = $cek->id;
                                         $p->kanal_id = $kan->id;
                                         $p->portal_id = $val->id;
                                         $p->save();
                                     }
-                                }else{
-                                    $p = new \App\Models\Scrap\Kanalparameter;
-                                    $p->parameter_id = $cek->id;
-                                    $p->kanal_id = $kan->id;
-                                    $p->portal_id = $val->id;
-                                    $p->save();
                                 }
                                 
                             }
@@ -333,18 +375,32 @@ class ScrapPortal extends Command
                                     $simpanparam = $param->save();
 
                                     if($simpanparam){
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $param->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+                                }else{
+                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+                                    
+                                    if($cek_kanal_parameter == 0)
+                                    {
                                         $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $param->id;
+                                        $p->parameter_id = $cek->id;
                                         $p->kanal_id = $kan->id;
                                         $p->portal_id = $val->id;
                                         $p->save();
                                     }
-                                }else{
-                                    $p = new \App\Models\Scrap\Kanalparameter;
-                                    $p->parameter_id = $cek->id;
-                                    $p->kanal_id = $kan->id;
-                                    $p->portal_id = $val->id;
-                                    $p->save();
                                 }
 
                             }
@@ -392,18 +448,32 @@ class ScrapPortal extends Command
                                     $simpanparam = $param->save();
 
                                     if($simpanparam){
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $param->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+                                }else{
+                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+                                    
+                                    if($cek_kanal_parameter == 0)
+                                    {
                                         $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $param->id;
+                                        $p->parameter_id = $cek->id;
                                         $p->kanal_id = $kan->id;
                                         $p->portal_id = $val->id;
                                         $p->save();
                                     }
-                                }else{
-                                    $p = new \App\Models\Scrap\Kanalparameter;
-                                    $p->parameter_id = $cek->id;
-                                    $p->kanal_id = $kan->id;
-                                    $p->portal_id = $val->id;
-                                    $p->save();
                                 }
 
                             }
@@ -451,18 +521,32 @@ class ScrapPortal extends Command
                                     $simpanparam = $param->save();
 
                                     if($simpanparam){
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $param->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+                                }else{
+                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+                                    
+                                    if($cek_kanal_parameter == 0)
+                                    {
                                         $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $param->id;
+                                        $p->parameter_id = $cek->id;
                                         $p->kanal_id = $kan->id;
                                         $p->portal_id = $val->id;
                                         $p->save();
                                     }
-                                }else{
-                                    $p = new \App\Models\Scrap\Kanalparameter;
-                                    $p->parameter_id = $cek->id;
-                                    $p->kanal_id = $kan->id;
-                                    $p->portal_id = $val->id;
-                                    $p->save();
                                 }
 
                             }
@@ -510,18 +594,32 @@ class ScrapPortal extends Command
                                     $simpanparam = $param->save();
 
                                     if($simpanparam){
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $param->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+                                }else{
+                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+                                    
+                                    if($cek_kanal_parameter == 0)
+                                    {
                                         $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $param->id;
+                                        $p->parameter_id = $cek->id;
                                         $p->kanal_id = $kan->id;
                                         $p->portal_id = $val->id;
                                         $p->save();
                                     }
-                                }else{
-                                    $p = new \App\Models\Scrap\Kanalparameter;
-                                    $p->parameter_id = $cek->id;
-                                    $p->kanal_id = $kan->id;
-                                    $p->portal_id = $val->id;
-                                    $p->save();
                                 }
 
                             }
@@ -572,18 +670,32 @@ class ScrapPortal extends Command
                                         $simpanparam = $param->save();
 
                                         if($simpanparam){
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+
+                                            if($cek_kanal_parameter == 0)
+                                            {
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $param->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }
+                                    }else{
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+                                        
+                                        if($cek_kanal_parameter == 0)
+                                        {
                                             $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $param->id;
+                                            $p->parameter_id = $cek->id;
                                             $p->kanal_id = $kan->id;
                                             $p->portal_id = $val->id;
                                             $p->save();
                                         }
-                                    }else{
-                                        $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $cek->id;
-                                        $p->kanal_id = $kan->id;
-                                        $p->portal_id = $val->id;
-                                        $p->save();
                                     }
                                     
                                 }
@@ -650,18 +762,32 @@ class ScrapPortal extends Command
                                             $simpanparam = $param->save();
 
                                             if($simpanparam){
+                                                $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                    ->where('kanal_id', $kan->id)
+                                                    ->count();
+
+                                                if($cek_kanal_parameter == 0)
+                                                {
+                                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                                    $p->parameter_id = $param->id;
+                                                    $p->kanal_id = $kan->id;
+                                                    $p->portal_id = $val->id;
+                                                    $p->save();
+                                                }
+                                            }
+                                        }else{
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                    ->where('kanal_id', $kan->id)
+                                                    ->count();
+                                            
+                                            if($cek_kanal_parameter == 0)
+                                            {
                                                 $p = new \App\Models\Scrap\Kanalparameter;
-                                                $p->parameter_id = $param->id;
+                                                $p->parameter_id = $cek->id;
                                                 $p->kanal_id = $kan->id;
                                                 $p->portal_id = $val->id;
                                                 $p->save();
                                             }
-                                        }else{
-                                            $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $cek->id;
-                                            $p->kanal_id = $kan->id;
-                                            $p->portal_id = $val->id;
-                                            $p->save();
                                         }
 
                                     }
@@ -716,18 +842,32 @@ class ScrapPortal extends Command
                                     $simpanparam = $param->save();
 
                                     if($simpanparam){
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $param->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+                                }else{
+                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+                                    
+                                    if($cek_kanal_parameter == 0)
+                                    {
                                         $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $param->id;
+                                        $p->parameter_id = $cek->id;
                                         $p->kanal_id = $kan->id;
                                         $p->portal_id = $val->id;
                                         $p->save();
                                     }
-                                }else{
-                                    $p = new \App\Models\Scrap\Kanalparameter;
-                                    $p->parameter_id = $cek->id;
-                                    $p->kanal_id = $kan->id;
-                                    $p->portal_id = $val->id;
-                                    $p->save();
                                 }
 
                             }
@@ -780,19 +920,34 @@ class ScrapPortal extends Command
                                         $simpanparam = $param->save();
 
                                         if($simpanparam){
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+
+                                            if($cek_kanal_parameter == 0)
+                                            {
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $param->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }
+                                    }else{
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+                                        
+                                        if($cek_kanal_parameter == 0)
+                                        {
                                             $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $param->id;
+                                            $p->parameter_id = $cek->id;
                                             $p->kanal_id = $kan->id;
                                             $p->portal_id = $val->id;
                                             $p->save();
                                         }
-                                    }else{
-                                        $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $cek->id;
-                                        $p->kanal_id = $kan->id;
-                                        $p->portal_id = $val->id;
-                                        $p->save();
                                     }
+
                                 }
                             });
                         }else if($kan->type == "indeks")
@@ -847,18 +1002,32 @@ class ScrapPortal extends Command
                                     $simpanparam = $param->save();
 
                                     if($simpanparam){
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $param->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+                                }else{
+                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                            ->where('kanal_id', $kan->id)
+                                            ->count();
+                                    
+                                    if($cek_kanal_parameter == 0)
+                                    {
                                         $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $param->id;
+                                        $p->parameter_id = $cek->id;
                                         $p->kanal_id = $kan->id;
                                         $p->portal_id = $val->id;
                                         $p->save();
                                     }
-                                }else{
-                                    $p = new \App\Models\Scrap\Kanalparameter;
-                                    $p->parameter_id = $cek->id;
-                                    $p->kanal_id = $kan->id;
-                                    $p->portal_id = $val->id;
-                                    $p->save();
                                 }
                                 
                             }
