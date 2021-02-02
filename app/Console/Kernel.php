@@ -35,25 +35,29 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        // $schedule->command('scrap:deskripsi')
+        //     ->timezone('Asia/Jakarta')  
+        //     ->everyFiveMinutes();
+            
         $schedule->command('scrap:portal')
             ->timezone('Asia/Jakarta')  
             ->everyFifteenMinutes();
             
-        $schedule->command('official:twitter')
-            ->timezone('Asia/Jakarta')  
-            ->dailyAt('13:00');
+        // $schedule->command('official:twitter')
+        //     ->timezone('Asia/Jakarta')  
+        //     ->dailyAt('13:00');
 
-        $schedule->command('official:facebook')
-            ->timezone('Asia/Jakarta')  
-            ->dailyAt('13:00');
+        // $schedule->command('official:facebook')
+        //     ->timezone('Asia/Jakarta')  
+        //     ->dailyAt('13:00');
 
-        $schedule->command('official:instagram')
-            ->timezone('Asia/Jakarta')  
-            ->dailyAt('13:00');
+        // $schedule->command('official:instagram')
+        //     ->timezone('Asia/Jakarta')  
+        //     ->dailyAt('13:00');
 
-        $schedule->command('official:youtube')
-            ->timezone('Asia/Jakarta')  
-            ->dailyAt('13:00');
+        // $schedule->command('official:youtube')
+        //     ->timezone('Asia/Jakarta')  
+        //     ->dailyAt('13:00');
 
         // $schedule->command('replicate:cek')
         //     ->timezone('Asia/Jakarta')  
