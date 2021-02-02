@@ -417,4 +417,5 @@ Route::group(['prefix'=>'scrapping'],function(){
     Route::get('video-detik','WelcomeController@video_detik');
     Route::get('index-detik','WelcomeController@index_detik');
     Route::get('deskripsi','WelcomeController@deskripsi');
+    Route::get('mediakit','WelcomeController@mediakit');
 });
