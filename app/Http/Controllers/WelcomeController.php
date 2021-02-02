@@ -683,7 +683,7 @@ class WelcomeController extends Controller
         )->get();
 
         return $model;
-        
+
         $tanggal = date('Y-m-d');
         $api = "https://mncmediakit.com/api";
 
@@ -722,7 +722,7 @@ class WelcomeController extends Controller
                 {
                     foreach($val->trendingSearches as $t)
                     {
-                        $cek_tren = \App\Models\Scrap\TrendingSearches::where('image_newsUrl', $t->image->newsUrl)
+                        $cek_tren = \App\Models\Scrap\TrendingSearches::where('title_query', $t->title->query)
                             ->first();
 
                         if($cek_tren != null)

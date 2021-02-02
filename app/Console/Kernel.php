@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         Commands\OfficialYoutubeFollower::class,
         Commands\ScrapPortal::class,
         Commands\ScrapDeskripsiPortal::class,
+        Commands\ScrapGoogleTrend::class,
     ];
 
     /**
@@ -35,9 +36,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        // $schedule->command('scrap:deskripsi')
-        //     ->timezone('Asia/Jakarta')  
-        //     ->everyFiveMinutes();
+        $schedule->command('scrap:googletrend')
+            ->timezone('Asia/Jakarta')  
+            ->everyFiveMinutes();
             
         $schedule->command('scrap:portal')
             ->timezone('Asia/Jakarta')  
