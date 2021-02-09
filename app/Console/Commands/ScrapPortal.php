@@ -105,543 +105,176 @@ class ScrapPortal extends Command
                 $this->info('Kanal === '.$kan->kanal_name);
 
                 $list = array();
-
-                if($kan->type_kanal == "Artikel")
+                if($kan->bisa_scrap == "Y")
                 {
-                    if($portal === "Detik")
+                    if($kan->type_kanal == "Artikel")
                     {
-                        if($url === "https://inet.detik.com/indeks")
+                        if($portal === "Detik")
                         {
-                            $crawler = $client->request('GET', $url);
-                            
-                            $crawler->filter('.list-content')->each(function ($node) use(&$list, &$kan, &$val){
-                                $title=array();
-                                $node->filter('.media__title')->each(function($t) use(&$title){
-                                    // dump($t->text());
-                                    $title[]=$t->text();
-                                });
-                
-                                $list_url=array();
-                                $tanggal = array();
-                                $node->filter('.list-content__item')->each(function($t) use(&$list_url, &$tanggal){
-                                    $list_url[]=$t->attr('i-link');
-                                    $tanggal[]=$t->attr('i-info');
-                                });
-                
-                                $list=array(
-                                    'title'=>$title,
-                                    'url'=>$list_url,
-                                    'tanggal'=>$tanggal,
-                                    'dibaca'=>array()
-                                );
-
-                                foreach($title as $s=>$t)
-                                {
-                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                        ->orWhere('link_artikel',$list_url[$s])
-                                        ->first();
-
-                                    if($cek == null)
-                                    {
-                                        $param = new \App\Models\Scrap\Parameter;
-                                        $param->tanggal = date('Y-m-d');
-                                        $param->jam = date('H:i:s');
-                                        $param->kanal_id = $kan->id;
-                                        $param->judul_artikel = $t;
-                                        $param->link_artikel = $list_url[$s];
-                                        $param->tanggal_publish = $tanggal[$s];
-
-                                        $simpanparam = $param->save();
-
-                                        if($simpanparam){
-                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
-                                                ->where('kanal_id', $kan->id)
-                                                ->count();
-
-                                            if($cek_kanal_parameter == 0)
-                                            {
-                                                $p = new \App\Models\Scrap\Kanalparameter;
-                                                $p->parameter_id = $param->id;
-                                                $p->kanal_id = $kan->id;
-                                                $p->portal_id = $val->id;
-                                                $p->save();
-                                            }
-                                        }
-                                    }else{
-                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
-                                                ->where('kanal_id', $kan->id)
-                                                ->count();
-                                        
-                                        if($cek_kanal_parameter == 0)
-                                        {
-                                            $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $cek->id;
-                                            $p->kanal_id = $kan->id;
-                                            $p->portal_id = $val->id;
-                                            $p->save();
-                                        }
-                                    }
-                                }
-                                
-                            });
-                        }elseif($url === "https://sport.detik.com/indeks"){
-                            $crawler = $client->request('GET', $url);
-                            
-                            $title=array();
-                            $crawler->filter('h2')->each(function ($node) use(&$title) {
-                                $title[]=$node->text();
-                            });
-
-                            $list_url = array();
-                            $crawler->filter('.desc_idx  > a')->each(function ($node) use(&$list_url){
-                                $list_url[]=$node->attr("href");
-                            });
-
-                            $tanggal=array();
-                            $crawler->filter('.labdate ')->each(function ($node) use(&$tanggal){
-                                $tanggal[]=$node->text();
-                            });
-
-                            $list=array(
-                                'title'=>$title,
-                                'url'=>$list_url,
-                                'tanggal'=>$tanggal,
-                                'dibaca'=>array()
-                            );
-
-                            foreach($title as $s=>$t)
+                            if($url === "https://inet.detik.com/indeks")
                             {
-                                $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                    ->orWhere('link_artikel',$list_url[$s])
-                                    ->first();
-
-                                if($cek == null)
-                                {
-                                    $param = new \App\Models\Scrap\Parameter;
-                                    $param->tanggal = date('Y-m-d');
-                                    $param->jam = date('H:i:s');
-                                    $param->kanal_id = $kan->id;
-                                    $param->judul_artikel = $t;
-                                    $param->link_artikel = $list_url[$s];
-                                    $param->tanggal_publish = $tanggal[$s];
-
-                                    $simpanparam = $param->save();
-
-                                    if($simpanparam){
-                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-
-                                        if($cek_kanal_parameter == 0)
-                                        {
-                                            $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $param->id;
-                                            $p->kanal_id = $kan->id;
-                                            $p->portal_id = $val->id;
-                                            $p->save();
-                                        }
-                                    }
-                                }else{
-                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-                                    
-                                    if($cek_kanal_parameter == 0)
-                                    {
-                                        $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $cek->id;
-                                        $p->kanal_id = $kan->id;
-                                        $p->portal_id = $val->id;
-                                        $p->save();
-                                    }
-                                }
-
-                            }
-                        }elseif($url === "https://travel.detik.com/indeks"){
-                            $crawler = $client->request('GET', $url);
-
-                            $title=array();
-                            $list_url=array();
-                            $tanggal = array();
-                            $crawler->filter('article')->each(function ($node) use(&$list, &$title, &$list_url, &$tanggal){
-                                $node->filter('h3 > a')->each(function($t) use(&$title, &$list_url){
-                                    // dump($t->text());
-                                    $title[]=$t->text();
-                                    $list_url[]=$t->attr("href");
-                                });
+                                $crawler = $client->request('GET', $url);
+                                
+                                $crawler->filter('.list-content')->each(function ($node) use(&$list, &$kan, &$val){
+                                    $title=array();
+                                    $node->filter('.media__title')->each(function($t) use(&$title){
+                                        // dump($t->text());
+                                        $title[]=$t->text();
+                                    });
                     
-                                $node->filter('.date')->each(function($t) use(&$tanggal){
-                                    $tanggal[]= $t->text();
+                                    $list_url=array();
+                                    $tanggal = array();
+                                    $node->filter('.list-content__item')->each(function($t) use(&$list_url, &$tanggal){
+                                        $list_url[]=$t->attr('i-link');
+                                        $tanggal[]=$t->attr('i-info');
+                                    });
+                    
+                                    $list=array(
+                                        'title'=>$title,
+                                        'url'=>$list_url,
+                                        'tanggal'=>$tanggal,
+                                        'dibaca'=>array()
+                                    );
+
+                                    foreach($title as $s=>$t)
+                                    {
+                                        $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                            ->orWhere('link_artikel',$list_url[$s])
+                                            ->first();
+
+                                        if($cek == null)
+                                        {
+                                            $param = new \App\Models\Scrap\Parameter;
+                                            $param->tanggal = date('Y-m-d');
+                                            $param->jam = date('H:i:s');
+                                            $param->kanal_id = $kan->id;
+                                            $param->judul_artikel = $t;
+                                            $param->link_artikel = $list_url[$s];
+                                            $param->tanggal_publish = $tanggal[$s];
+
+                                            $simpanparam = $param->save();
+
+                                            if($simpanparam){
+                                                $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                    ->where('kanal_id', $kan->id)
+                                                    ->count();
+
+                                                if($cek_kanal_parameter == 0)
+                                                {
+                                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                                    $p->parameter_id = $param->id;
+                                                    $p->kanal_id = $kan->id;
+                                                    $p->portal_id = $val->id;
+                                                    $p->save();
+                                                }
+                                            }
+                                        }else{
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                    ->where('kanal_id', $kan->id)
+                                                    ->count();
+                                            
+                                            if($cek_kanal_parameter == 0)
+                                            {
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $cek->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }
+                                    }
+                                    
                                 });
+                            }elseif($url === "https://sport.detik.com/indeks"){
+                                $crawler = $client->request('GET', $url);
                                 
-                            });
-
-                            $list=array(
-                                'title'=>$title,
-                                'url'=>$list_url,
-                                'tanggal'=>$tanggal,
-                                'dibaca'=>array()
-                            );
-
-                            foreach($title as $s=>$t)
-                            {
-                                $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                    ->orWhere('link_artikel',$list_url[$s])
-                                    ->first();
-
-                                if($cek == null)
-                                {
-                                    $param = new \App\Models\Scrap\Parameter;
-                                    $param->tanggal = date('Y-m-d');
-                                    $param->jam = date('H:i:s');
-                                    $param->kanal_id = $kan->id;
-                                    $param->judul_artikel = $t;
-                                    $param->link_artikel = $list_url[$s];
-                                    $param->tanggal_publish = $tanggal[$s];
-
-                                    $simpanparam = $param->save();
-
-                                    if($simpanparam){
-                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-
-                                        if($cek_kanal_parameter == 0)
-                                        {
-                                            $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $param->id;
-                                            $p->kanal_id = $kan->id;
-                                            $p->portal_id = $val->id;
-                                            $p->save();
-                                        }
-                                    }
-                                }else{
-                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-                                    
-                                    if($cek_kanal_parameter == 0)
-                                    {
-                                        $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $cek->id;
-                                        $p->kanal_id = $kan->id;
-                                        $p->portal_id = $val->id;
-                                        $p->save();
-                                    }
-                                }
-                                
-                            }
-                        }elseif($url === "https://sport.detik.com/sepakbola/indeks"){
-                            $crawler = $client->request('GET', $url);
-
-                            $title=array();
-                            $crawler->filter('h2')->each(function ($node) use(&$title) {
-                                $title[]=$node->text();
-                            });
-
-                            $list_url = array();
-                            $crawler->filter('.desc_idx  > a')->each(function ($node) use(&$list_url){
-                                $list_url[]=$node->attr("href");
-                            });
-
-                            $tanggal=array();
-                            $crawler->filter('.labdate ')->each(function ($node) use(&$tanggal){
-                                $tanggal[]=$node->text();
-                            });
-
-                            $list=array(
-                                'title'=>$title,
-                                'url'=>$list_url,
-                                'tanggal'=>$tanggal,
-                                'dibaca'=>array()
-                            );
-
-                            foreach($title as $s=>$t)
-                            {
-                                $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                    ->orWhere('link_artikel',$list_url[$s])
-                                    ->first();
-
-                                if($cek == null)
-                                {
-                                    $param = new \App\Models\Scrap\Parameter;
-                                    $param->tanggal = date('Y-m-d');
-                                    $param->jam = date('H:i:s');
-                                    $param->kanal_id = $kan->id;
-                                    $param->judul_artikel = $t;
-                                    $param->link_artikel = $list_url[$s];
-                                    $param->tanggal_publish = $tanggal[$s];
-
-                                    $simpanparam = $param->save();
-
-                                    if($simpanparam){
-                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-
-                                        if($cek_kanal_parameter == 0)
-                                        {
-                                            $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $param->id;
-                                            $p->kanal_id = $kan->id;
-                                            $p->portal_id = $val->id;
-                                            $p->save();
-                                        }
-                                    }
-                                }else{
-                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-                                    
-                                    if($cek_kanal_parameter == 0)
-                                    {
-                                        $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $cek->id;
-                                        $p->kanal_id = $kan->id;
-                                        $p->portal_id = $val->id;
-                                        $p->save();
-                                    }
-                                }
-
-                            }
-                        }elseif($url === "https://food.detik.com/indeks"){
-                            $crawler = $client->request('GET', $url);
-
-                            $title=array();
-                            $crawler->filter('article > a > h2')->each(function ($node) use(&$title) {
-                                $title[]=$node->text();
-                            });
-
-                            $list_url = array();
-                            $crawler->filter('article > a')->each(function ($node) use(&$list_url){
-                                $list_url[]=$node->attr("href");
-                            });
-
-                            $tanggal=array();
-                            $crawler->filter('article > .date')->each(function ($node) use(&$tanggal){
-                                $tanggal[]=$node->text();
-                            });
-
-                            $list=array(
-                                'title'=>$title,
-                                'url'=>$list_url,
-                                'tanggal'=>$tanggal,
-                                'dibaca'=>array()
-                            );
-
-                            foreach($title as $s=>$t)
-                            {
-                                $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                    ->orWhere('link_artikel',$list_url[$s])
-                                    ->first();
-
-                                if($cek == null)
-                                {
-                                    $param = new \App\Models\Scrap\Parameter;
-                                    $param->tanggal = date('Y-m-d');
-                                    $param->jam = date('H:i:s');
-                                    $param->kanal_id = $kan->id;
-                                    $param->judul_artikel = $t;
-                                    $param->link_artikel = $list_url[$s];
-                                    $param->tanggal_publish = $tanggal[$s];
-
-                                    $simpanparam = $param->save();
-
-                                    if($simpanparam){
-                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-
-                                        if($cek_kanal_parameter == 0)
-                                        {
-                                            $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $param->id;
-                                            $p->kanal_id = $kan->id;
-                                            $p->portal_id = $val->id;
-                                            $p->save();
-                                        }
-                                    }
-                                }else{
-                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-                                    
-                                    if($cek_kanal_parameter == 0)
-                                    {
-                                        $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $cek->id;
-                                        $p->kanal_id = $kan->id;
-                                        $p->portal_id = $val->id;
-                                        $p->save();
-                                    }
-                                }
-
-                            }
-                        }elseif($url === "https://health.detik.com/indeks"){
-                            $crawler = $client->request('GET', $url);
-
-                            $title=array();
-                            $crawler->filter('article > a > h2')->each(function ($node) use(&$title) {
-                                $title[]=$node->text();
-                            });
-
-                            $list_url = array();
-                            $crawler->filter('article > a')->each(function ($node) use(&$list_url){
-                                $list_url[]=$node->attr("href");
-                            });
-
-                            $tanggal=array();
-                            $crawler->filter('article > .date')->each(function ($node) use(&$tanggal){
-                                $tanggal[]=$node->text();
-                            });
-
-                            $list=array(
-                                'title'=>$title,
-                                'url'=>$list_url,
-                                'tanggal'=>$tanggal,
-                                'dibaca'=>array()
-                            );
-
-                            foreach($title as $s=>$t)
-                            {
-                                $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                    ->orWhere('link_artikel',$list_url[$s])
-                                    ->first();
-
-                                if($cek == null)
-                                {
-                                    $param = new \App\Models\Scrap\Parameter;
-                                    $param->tanggal = date('Y-m-d');
-                                    $param->jam = date('H:i:s');
-                                    $param->kanal_id = $kan->id;
-                                    $param->judul_artikel = $t;
-                                    $param->link_artikel = $list_url[$s];
-                                    $param->tanggal_publish = $tanggal[$s];
-
-                                    $simpanparam = $param->save();
-
-                                    if($simpanparam){
-                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-
-                                        if($cek_kanal_parameter == 0)
-                                        {
-                                            $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $param->id;
-                                            $p->kanal_id = $kan->id;
-                                            $p->portal_id = $val->id;
-                                            $p->save();
-                                        }
-                                    }
-                                }else{
-                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-                                    
-                                    if($cek_kanal_parameter == 0)
-                                    {
-                                        $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $cek->id;
-                                        $p->kanal_id = $kan->id;
-                                        $p->portal_id = $val->id;
-                                        $p->save();
-                                    }
-                                }
-
-                            }
-                        }elseif($url === "https://wolipop.detik.com/indeks"){
-                            $crawler = $client->request('GET', $url);
-
-                            $title=array();
-                            $crawler->filter('h3.title')->each(function ($node) use(&$title) {
-                                $title[]=$node->text();
-                            });
-
-                            $list_url = array();
-                            $crawler->filter('h3.title > a')->each(function ($node) use(&$list_url){
-                                $list_url[]=$node->attr("href");
-                            });
-
-                            $tanggal=array();
-                            $crawler->filter('.text > .time')->each(function ($node) use(&$tanggal){
-                                $tanggal[]=$node->text();
-                            });
-
-                            $list=array(
-                                'title'=>$title,
-                                'url'=>$list_url,
-                                'tanggal'=>$tanggal,
-                                'dibaca'=>array()
-                            );
-
-                            foreach($title as $s=>$t)
-                            {
-                                $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                    ->orWhere('link_artikel',$list_url[$s])
-                                    ->first();
-
-                                if($cek == null)
-                                {
-                                    $param = new \App\Models\Scrap\Parameter;
-                                    $param->tanggal = date('Y-m-d');
-                                    $param->jam = date('H:i:s');
-                                    $param->kanal_id = $kan->id;
-                                    $param->judul_artikel = $t;
-                                    $param->link_artikel = $list_url[$s];
-                                    $param->tanggal_publish = $tanggal[$s];
-
-                                    $simpanparam = $param->save();
-
-                                    if($simpanparam){
-                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-
-                                        if($cek_kanal_parameter == 0)
-                                        {
-                                            $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $param->id;
-                                            $p->kanal_id = $kan->id;
-                                            $p->portal_id = $val->id;
-                                            $p->save();
-                                        }
-                                    }
-                                }else{
-                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-                                    
-                                    if($cek_kanal_parameter == 0)
-                                    {
-                                        $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $cek->id;
-                                        $p->kanal_id = $kan->id;
-                                        $p->portal_id = $val->id;
-                                        $p->save();
-                                    }
-                                }
-
-                            }
-                        }else{
-                            $crawler = $client->request('GET', $url);
-
-                            $crawler->filter('.list-content')->each(function ($node) use(&$list, &$kan, &$val){
                                 $title=array();
-                                $node->filter('.media__title')->each(function($t) use(&$title){
-                                    // dump($t->text());
-                                    $title[]=$t->text();
+                                $crawler->filter('h2')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
                                 });
-                                
-                                $list_url=array();
-                                $node->filter('.media__link')->each(function($t) use(&$list_url){
-                                    $list_url[]=$t->link()->getUri();
-                                });
-                                $list_url = array_values(array_unique($list_url));
 
+                                $list_url = array();
+                                $crawler->filter('.desc_idx  > a')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
+                                });
+
+                                $tanggal=array();
+                                $crawler->filter('.labdate ')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
+                                });
+
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+
+                                foreach($title as $s=>$t)
+                                {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
+                                        ->first();
+
+                                    if($cek == null)
+                                    {
+                                        $param = new \App\Models\Scrap\Parameter;
+                                        $param->tanggal = date('Y-m-d');
+                                        $param->jam = date('H:i:s');
+                                        $param->kanal_id = $kan->id;
+                                        $param->judul_artikel = $t;
+                                        $param->link_artikel = $list_url[$s];
+                                        $param->tanggal_publish = $tanggal[$s];
+
+                                        $simpanparam = $param->save();
+
+                                        if($simpanparam){
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+
+                                            if($cek_kanal_parameter == 0)
+                                            {
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $param->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }
+                                    }else{
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+                                        
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $cek->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+
+                                }
+                            }elseif($url === "https://travel.detik.com/indeks"){
+                                $crawler = $client->request('GET', $url);
+
+                                $title=array();
+                                $list_url=array();
                                 $tanggal = array();
-                                $node->filter('.media__date > span')->each(function($t) use(&$tanggal){
-                                    $tanggal[]= $t->attr("title");
+                                $crawler->filter('article')->each(function ($node) use(&$list, &$title, &$list_url, &$tanggal){
+                                    $node->filter('h3 > a')->each(function($t) use(&$title, &$list_url){
+                                        // dump($t->text());
+                                        $title[]=$t->text();
+                                        $list_url[]=$t->attr("href");
+                                    });
+                        
+                                    $node->filter('.date')->each(function($t) use(&$tanggal){
+                                        $tanggal[]= $t->text();
+                                    });
+                                    
                                 });
 
                                 $list=array(
@@ -699,50 +332,576 @@ class ScrapPortal extends Command
                                     }
                                     
                                 }
-                            });
-                        }
-                    }elseif($portal === "Kompas"){
-                        $crawler = $client->request('GET', $url);
+                            }elseif($url === "https://sport.detik.com/sepakbola/indeks"){
+                                $crawler = $client->request('GET', $url);
 
-                        if($kan->type == "terpopuler")
-                        {
-                            $crawler->filter('.most')->each(function ($node) use(&$list, &$kan, &$val){
                                 $title=array();
-                                $node->filter('h4.most__title')->each(function($t) use(&$title){
-                                    $title[]=$t->text();
+                                $crawler->filter('h2')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
                                 });
-                                
-                                $list_url=array();
-                                $tanggal = array();
-                                $node->filter('.most__link')->each(function($t) use(&$list_url, &$tanggal){
-                                    $list_url[]= $t->link()->getUri();
-    
-                                    $client = new Client();
-    
-                                    $detail = $client->request('GET', $t->link()->getUri());
+
+                                $list_url = array();
+                                $crawler->filter('.desc_idx  > a')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
+                                });
+
+                                $tanggal=array();
+                                $crawler->filter('.labdate ')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
+                                });
+
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+
+                                foreach($title as $s=>$t)
+                                {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
+                                        ->first();
+
+                                    if($cek == null)
+                                    {
+                                        $param = new \App\Models\Scrap\Parameter;
+                                        $param->tanggal = date('Y-m-d');
+                                        $param->jam = date('H:i:s');
+                                        $param->kanal_id = $kan->id;
+                                        $param->judul_artikel = $t;
+                                        $param->link_artikel = $list_url[$s];
+                                        $param->tanggal_publish = $tanggal[$s];
+
+                                        $simpanparam = $param->save();
+
+                                        if($simpanparam){
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+
+                                            if($cek_kanal_parameter == 0)
+                                            {
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $param->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }
+                                    }else{
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+                                        
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $cek->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+
+                                }
+                            }elseif($url === "https://food.detik.com/indeks"){
+                                $crawler = $client->request('GET', $url);
+
+                                $title=array();
+                                $crawler->filter('article > a > h2')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
+                                });
+
+                                $list_url = array();
+                                $crawler->filter('article > a')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
+                                });
+
+                                $tanggal=array();
+                                $crawler->filter('article > .date')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
+                                });
+
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+
+                                foreach($title as $s=>$t)
+                                {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
+                                        ->first();
+
+                                    if($cek == null)
+                                    {
+                                        $param = new \App\Models\Scrap\Parameter;
+                                        $param->tanggal = date('Y-m-d');
+                                        $param->jam = date('H:i:s');
+                                        $param->kanal_id = $kan->id;
+                                        $param->judul_artikel = $t;
+                                        $param->link_artikel = $list_url[$s];
+                                        $param->tanggal_publish = $tanggal[$s];
+
+                                        $simpanparam = $param->save();
+
+                                        if($simpanparam){
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+
+                                            if($cek_kanal_parameter == 0)
+                                            {
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $param->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }
+                                    }else{
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+                                        
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $cek->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+
+                                }
+                            }elseif($url === "https://health.detik.com/indeks"){
+                                $crawler = $client->request('GET', $url);
+
+                                $title=array();
+                                $crawler->filter('article > a > h2')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
+                                });
+
+                                $list_url = array();
+                                $crawler->filter('article > a')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
+                                });
+
+                                $tanggal=array();
+                                $crawler->filter('article > .date')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
+                                });
+
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+
+                                foreach($title as $s=>$t)
+                                {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
+                                        ->first();
+
+                                    if($cek == null)
+                                    {
+                                        $param = new \App\Models\Scrap\Parameter;
+                                        $param->tanggal = date('Y-m-d');
+                                        $param->jam = date('H:i:s');
+                                        $param->kanal_id = $kan->id;
+                                        $param->judul_artikel = $t;
+                                        $param->link_artikel = $list_url[$s];
+                                        $param->tanggal_publish = $tanggal[$s];
+
+                                        $simpanparam = $param->save();
+
+                                        if($simpanparam){
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+
+                                            if($cek_kanal_parameter == 0)
+                                            {
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $param->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }
+                                    }else{
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+                                        
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $cek->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+
+                                }
+                            }elseif($url === "https://wolipop.detik.com/indeks"){
+                                $crawler = $client->request('GET', $url);
+
+                                $title=array();
+                                $crawler->filter('h3.title')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
+                                });
+
+                                $list_url = array();
+                                $crawler->filter('h3.title > a')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
+                                });
+
+                                $tanggal=array();
+                                $crawler->filter('.text > .time')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
+                                });
+
+                                $list=array(
+                                    'title'=>$title,
+                                    'url'=>$list_url,
+                                    'tanggal'=>$tanggal,
+                                    'dibaca'=>array()
+                                );
+
+                                foreach($title as $s=>$t)
+                                {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
+                                        ->first();
+
+                                    if($cek == null)
+                                    {
+                                        $param = new \App\Models\Scrap\Parameter;
+                                        $param->tanggal = date('Y-m-d');
+                                        $param->jam = date('H:i:s');
+                                        $param->kanal_id = $kan->id;
+                                        $param->judul_artikel = $t;
+                                        $param->link_artikel = $list_url[$s];
+                                        $param->tanggal_publish = $tanggal[$s];
+
+                                        $simpanparam = $param->save();
+
+                                        if($simpanparam){
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+
+                                            if($cek_kanal_parameter == 0)
+                                            {
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $param->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }
+                                    }else{
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+                                        
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $cek->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+
+                                }
+                            }else{
+                                $crawler = $client->request('GET', $url);
+
+                                $crawler->filter('.list-content')->each(function ($node) use(&$list, &$kan, &$val){
+                                    $title=array();
+                                    $node->filter('.media__title')->each(function($t) use(&$title){
+                                        // dump($t->text());
+                                        $title[]=$t->text();
+                                    });
                                     
-                                    $detail->filter('.js-read-article')->each(function ($dt) use(&$tanggal){
-                                        $dt->filter('.read__time')->each(function($tl) use(&$tanggal){
-                                            $tanggal[]=$tl->text();
+                                    $list_url=array();
+                                    $node->filter('.media__link')->each(function($t) use(&$list_url){
+                                        $list_url[]=$t->link()->getUri();
+                                    });
+                                    $list_url = array_values(array_unique($list_url));
+
+                                    $tanggal = array();
+                                    $node->filter('.media__date > span')->each(function($t) use(&$tanggal){
+                                        $tanggal[]= $t->attr("title");
+                                    });
+
+                                    $list=array(
+                                        'title'=>$title,
+                                        'url'=>$list_url,
+                                        'tanggal'=>$tanggal,
+                                        'dibaca'=>array()
+                                    );
+
+                                    foreach($title as $s=>$t)
+                                    {
+                                        $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                            ->orWhere('link_artikel',$list_url[$s])
+                                            ->first();
+
+                                        if($cek == null)
+                                        {
+                                            $param = new \App\Models\Scrap\Parameter;
+                                            $param->tanggal = date('Y-m-d');
+                                            $param->jam = date('H:i:s');
+                                            $param->kanal_id = $kan->id;
+                                            $param->judul_artikel = $t;
+                                            $param->link_artikel = $list_url[$s];
+                                            $param->tanggal_publish = $tanggal[$s];
+
+                                            $simpanparam = $param->save();
+
+                                            if($simpanparam){
+                                                $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                    ->where('kanal_id', $kan->id)
+                                                    ->count();
+
+                                                if($cek_kanal_parameter == 0)
+                                                {
+                                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                                    $p->parameter_id = $param->id;
+                                                    $p->kanal_id = $kan->id;
+                                                    $p->portal_id = $val->id;
+                                                    $p->save();
+                                                }
+                                            }
+                                        }else{
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                    ->where('kanal_id', $kan->id)
+                                                    ->count();
+                                            
+                                            if($cek_kanal_parameter == 0)
+                                            {
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $cek->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }
+                                        
+                                    }
+                                });
+                            }
+                        }elseif($portal === "Kompas"){
+                            $crawler = $client->request('GET', $url);
+
+                            if($kan->type == "terpopuler")
+                            {
+                                $crawler->filter('.most')->each(function ($node) use(&$list, &$kan, &$val){
+                                    $title=array();
+                                    $node->filter('h4.most__title')->each(function($t) use(&$title){
+                                        $title[]=$t->text();
+                                    });
+                                    
+                                    $list_url=array();
+                                    $tanggal = array();
+                                    $node->filter('.most__link')->each(function($t) use(&$list_url, &$tanggal){
+                                        $list_url[]= $t->link()->getUri();
+        
+                                        $client = new Client();
+        
+                                        $detail = $client->request('GET', $t->link()->getUri());
+                                        
+                                        $detail->filter('.js-read-article')->each(function ($dt) use(&$tanggal){
+                                            $dt->filter('.read__time')->each(function($tl) use(&$tanggal){
+                                                $tanggal[]=$tl->text();
+                                            });
                                         });
                                     });
+                                    $list_url = array_values(array_unique($list_url));
+        
+                                    $dibaca = array();
+                                    $node->filter('.most__read')->each(function($t) use(&$dibaca){
+                                        $dibaca[]= $t->text();
+                                    });
+        
+                                    $list=array(
+                                        'title'=>$title,
+                                        'url'=>$list_url,
+                                        'tanggal'=>$tanggal,
+                                        'dibaca'=>$dibaca
+                                    );
+                                    
+                                    if(count($title) == count($tanggal))
+                                    {
+                                        foreach($title as $s=>$t)
+                                        {
+                                            $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                                ->orWhere('link_artikel',$list_url[$s])
+                                                ->first();
+
+                                            if($cek == null)
+                                            {
+                                                $param = new \App\Models\Scrap\Parameter;
+                                                $param->tanggal = date('Y-m-d');
+                                                $param->jam = date('H:i:s');
+                                                $param->kanal_id = $kan->id;
+                                                $param->judul_artikel = $t;
+                                                $param->link_artikel = $list_url[$s];
+                                                $param->tanggal_publish = $tanggal[$s];
+
+                                                $simpanparam = $param->save();
+
+                                                if($simpanparam){
+                                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                        ->where('kanal_id', $kan->id)
+                                                        ->count();
+
+                                                    if($cek_kanal_parameter == 0)
+                                                    {
+                                                        $p = new \App\Models\Scrap\Kanalparameter;
+                                                        $p->parameter_id = $param->id;
+                                                        $p->kanal_id = $kan->id;
+                                                        $p->portal_id = $val->id;
+                                                        $p->save();
+                                                    }
+                                                }
+                                            }else{
+                                                $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                        ->where('kanal_id', $kan->id)
+                                                        ->count();
+                                                
+                                                if($cek_kanal_parameter == 0)
+                                                {
+                                                    $p = new \App\Models\Scrap\Kanalparameter;
+                                                    $p->parameter_id = $cek->id;
+                                                    $p->kanal_id = $kan->id;
+                                                    $p->portal_id = $val->id;
+                                                    $p->save();
+                                                }
+                                            }
+
+                                        }
+                                    }
                                 });
-                                $list_url = array_values(array_unique($list_url));
-    
-                                $dibaca = array();
-                                $node->filter('.most__read')->each(function($t) use(&$dibaca){
-                                    $dibaca[]= $t->text();
+                            }else if($kan->type == "indeks")
+                            {
+                                $title=array();
+                                $crawler->filter('a.article__link')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
                                 });
-    
+
+                                $list_url = array();
+                                $crawler->filter('a.article__link')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
+                                });
+
+                                $tanggal=array();
+                                $crawler->filter('.article__date')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
+                                });
+
+                                $subkanal=array();
+                                $crawler->filter('.article__subtitle')->each(function ($node) use(&$subkanal){
+                                    $subkanal[]=$node->text();
+                                });
+
                                 $list=array(
                                     'title'=>$title,
                                     'url'=>$list_url,
                                     'tanggal'=>$tanggal,
-                                    'dibaca'=>$dibaca
+                                    'subkanal'=>$subkanal,
+                                    'dibaca'=>array()
                                 );
-                                
-                                if(count($title) == count($tanggal))
+
+                                foreach($title as $s=>$t)
                                 {
+                                    $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
+                                        ->orWhere('link_artikel',$list_url[$s])
+                                        ->first();
+
+                                    if($cek == null)
+                                    {
+                                        $param = new \App\Models\Scrap\Parameter;
+                                        $param->tanggal = date('Y-m-d');
+                                        $param->jam = date('H:i:s');
+                                        $param->kanal_id = $kan->id;
+                                        $param->judul_artikel = $t;
+                                        $param->link_artikel = $list_url[$s];
+                                        $param->tanggal_publish = $tanggal[$s];
+
+                                        $simpanparam = $param->save();
+
+                                        if($simpanparam){
+                                            $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+
+                                            if($cek_kanal_parameter == 0)
+                                            {
+                                                $p = new \App\Models\Scrap\Kanalparameter;
+                                                $p->parameter_id = $param->id;
+                                                $p->kanal_id = $kan->id;
+                                                $p->portal_id = $val->id;
+                                                $p->save();
+                                            }
+                                        }
+                                    }else{
+                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
+                                                ->where('kanal_id', $kan->id)
+                                                ->count();
+                                        
+                                        if($cek_kanal_parameter == 0)
+                                        {
+                                            $p = new \App\Models\Scrap\Kanalparameter;
+                                            $p->parameter_id = $cek->id;
+                                            $p->kanal_id = $kan->id;
+                                            $p->portal_id = $val->id;
+                                            $p->save();
+                                        }
+                                    }
+
+                                }
+                            }
+                        }elseif($portal === "Tribunnews"){
+                            $crawler = $client->request('GET', $url);
+
+                            if($kan->type == "terpopuler")
+                            {
+                                $crawler->filter('.populer')->each(function ($node) use(&$list, &$kan, &$val){
+                                    $title=array();
+                                    $node->filter('ul > li.art-list')->each(function($t) use(&$title){
+                                        $title[]=$t->text();
+                                    });
+        
+                                    $list_url = array();
+                                    $node->filter('ul > li.art-list a')->each(function($t) use(&$list_url){
+                                        $list_url[]= $t->link()->getUri();
+                                    });
+                                    $list_url = array_values(array_unique($list_url));
+        
+                                    $tanggal = array();
+                                    $node->filter('ul > li.art-list time')->each(function($t) use(&$tanggal){
+                                        $tanggal[]= $t->attr("title");
+                                    });
+        
+                                    $list = array(
+                                        'title'=>$title,
+                                        'url'=>$list_url,
+                                        'tanggal'=>$tanggal,
+                                        'dibaca'=>array()
+                                    );
+        
                                     foreach($title as $s=>$t)
                                     {
                                         $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
@@ -791,116 +950,40 @@ class ScrapPortal extends Command
                                         }
 
                                     }
-                                }
-                            });
-                        }else if($kan->type == "indeks")
-                        {
-                            $title=array();
-                            $crawler->filter('a.article__link')->each(function ($node) use(&$title) {
-                                $title[]=$node->text();
-                            });
-
-                            $list_url = array();
-                            $crawler->filter('a.article__link')->each(function ($node) use(&$list_url){
-                                $list_url[]=$node->attr("href");
-                            });
-
-                            $tanggal=array();
-                            $crawler->filter('.article__date')->each(function ($node) use(&$tanggal){
-                                $tanggal[]=$node->text();
-                            });
-
-                            $subkanal=array();
-                            $crawler->filter('.article__subtitle')->each(function ($node) use(&$subkanal){
-                                $subkanal[]=$node->text();
-                            });
-
-                            $list=array(
-                                'title'=>$title,
-                                'url'=>$list_url,
-                                'tanggal'=>$tanggal,
-                                'subkanal'=>$subkanal,
-                                'dibaca'=>array()
-                            );
-
-                            foreach($title as $s=>$t)
+                                });
+                            }else if($kan->type == "indeks")
                             {
-                                $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                    ->orWhere('link_artikel',$list_url[$s])
-                                    ->first();
-
-                                if($cek == null)
-                                {
-                                    $param = new \App\Models\Scrap\Parameter;
-                                    $param->tanggal = date('Y-m-d');
-                                    $param->jam = date('H:i:s');
-                                    $param->kanal_id = $kan->id;
-                                    $param->judul_artikel = $t;
-                                    $param->link_artikel = $list_url[$s];
-                                    $param->tanggal_publish = $tanggal[$s];
-
-                                    $simpanparam = $param->save();
-
-                                    if($simpanparam){
-                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-
-                                        if($cek_kanal_parameter == 0)
-                                        {
-                                            $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $param->id;
-                                            $p->kanal_id = $kan->id;
-                                            $p->portal_id = $val->id;
-                                            $p->save();
-                                        }
-                                    }
-                                }else{
-                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-                                    
-                                    if($cek_kanal_parameter == 0)
-                                    {
-                                        $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $cek->id;
-                                        $p->kanal_id = $kan->id;
-                                        $p->portal_id = $val->id;
-                                        $p->save();
-                                    }
-                                }
-
-                            }
-                        }
-                    }elseif($portal === "Tribunnews"){
-                        $crawler = $client->request('GET', $url);
-
-                        if($kan->type == "terpopuler")
-                        {
-                            $crawler->filter('.populer')->each(function ($node) use(&$list, &$kan, &$val){
                                 $title=array();
-                                $node->filter('ul > li.art-list')->each(function($t) use(&$title){
-                                    $title[]=$t->text();
+                                $crawler->filter('h3.fbo > a')->each(function ($node) use(&$title) {
+                                    $title[]=$node->text();
                                 });
-    
+
                                 $list_url = array();
-                                $node->filter('ul > li.art-list a')->each(function($t) use(&$list_url){
-                                    $list_url[]= $t->link()->getUri();
+                                $crawler->filter('h3.f16 > a')->each(function ($node) use(&$list_url){
+                                    $list_url[]=$node->attr("href");
                                 });
-                                $list_url = array_values(array_unique($list_url));
-    
-                                $tanggal = array();
-                                $node->filter('ul > li.art-list time')->each(function($t) use(&$tanggal){
-                                    $tanggal[]= $t->attr("title");
+
+                                $tanggal=array();
+                                $crawler->filter('ul.lsi > li.ptb15 > .grey')->each(function ($node) use(&$tanggal){
+                                    $tanggal[]=$node->text();
                                 });
-    
-                                $list = array(
+
+                                $subkanal=array();
+                                $crawler->filter('h4.f14 > a')->each(function ($node) use(&$subkanal){
+                                    $subkanal[]=array(
+                                        'text'=>$node->text(),
+                                        'url'=>$node->attr("href")
+                                    );
+                                });
+
+                                $list=array(
                                     'title'=>$title,
                                     'url'=>$list_url,
                                     'tanggal'=>$tanggal,
+                                    'subkanal'=>$subkanal,
                                     'dibaca'=>array()
                                 );
-    
+
                                 foreach($title as $s=>$t)
                                 {
                                     $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
@@ -947,95 +1030,14 @@ class ScrapPortal extends Command
                                             $p->save();
                                         }
                                     }
-
-                                }
-                            });
-                        }else if($kan->type == "indeks")
-                        {
-                            $title=array();
-                            $crawler->filter('h3.fbo > a')->each(function ($node) use(&$title) {
-                                $title[]=$node->text();
-                            });
-
-                            $list_url = array();
-                            $crawler->filter('h3.f16 > a')->each(function ($node) use(&$list_url){
-                                $list_url[]=$node->attr("href");
-                            });
-
-                            $tanggal=array();
-                            $crawler->filter('ul.lsi > li.ptb15 > .grey')->each(function ($node) use(&$tanggal){
-                                $tanggal[]=$node->text();
-                            });
-
-                            $subkanal=array();
-                            $crawler->filter('h4.f14 > a')->each(function ($node) use(&$subkanal){
-                                $subkanal[]=array(
-                                    'text'=>$node->text(),
-                                    'url'=>$node->attr("href")
-                                );
-                            });
-
-                            $list=array(
-                                'title'=>$title,
-                                'url'=>$list_url,
-                                'tanggal'=>$tanggal,
-                                'subkanal'=>$subkanal,
-                                'dibaca'=>array()
-                            );
-
-                            foreach($title as $s=>$t)
-                            {
-                                $cek = \App\Models\Scrap\Parameter::where('judul_artikel',$t)
-                                    ->orWhere('link_artikel',$list_url[$s])
-                                    ->first();
-
-                                if($cek == null)
-                                {
-                                    $param = new \App\Models\Scrap\Parameter;
-                                    $param->tanggal = date('Y-m-d');
-                                    $param->jam = date('H:i:s');
-                                    $param->kanal_id = $kan->id;
-                                    $param->judul_artikel = $t;
-                                    $param->link_artikel = $list_url[$s];
-                                    $param->tanggal_publish = $tanggal[$s];
-
-                                    $simpanparam = $param->save();
-
-                                    if($simpanparam){
-                                        $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $param->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
-
-                                        if($cek_kanal_parameter == 0)
-                                        {
-                                            $p = new \App\Models\Scrap\Kanalparameter;
-                                            $p->parameter_id = $param->id;
-                                            $p->kanal_id = $kan->id;
-                                            $p->portal_id = $val->id;
-                                            $p->save();
-                                        }
-                                    }
-                                }else{
-                                    $cek_kanal_parameter = \App\Models\Scrap\Kanalparameter::where('parameter_id', $cek->id)
-                                            ->where('kanal_id', $kan->id)
-                                            ->count();
                                     
-                                    if($cek_kanal_parameter == 0)
-                                    {
-                                        $p = new \App\Models\Scrap\Kanalparameter;
-                                        $p->parameter_id = $cek->id;
-                                        $p->kanal_id = $kan->id;
-                                        $p->portal_id = $val->id;
-                                        $p->save();
-                                    }
                                 }
-                                
                             }
                         }
+                    }elseif($kan->type_kanal == "Video")
+                    {
+                        
                     }
-                }elseif($kan->type_kanal == "Video")
-                {
-                    
                 }
             }
         }
