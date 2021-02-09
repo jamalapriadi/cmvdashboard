@@ -41,6 +41,7 @@ class ScrapDeskripsiPortal extends Command
         $this->info('Update Deskripsi Berita');
         $parameter = \App\Models\Scrap\Parameter::whereNull('deskripsi')
             ->whereNotNull('link_artikel')
+            ->where('tanggal',date('Y-m-d'))
             ->with(
                 [
                     'kanal',
