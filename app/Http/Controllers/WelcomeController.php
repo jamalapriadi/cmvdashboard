@@ -822,4 +822,33 @@ class WelcomeController extends Controller
             'message'=>"Data berhasil disimpan"
         );
     }
+
+    public function liputan6(Request $request)
+    {
+        $url = "https://www.liputan6.com/global/indeks";
+        $client = new Client();
+        $crawler = $client->request('GET', $url);   
+
+        $title = array();
+        $crawler->filter('h4.articles--rows--item__title')->each(function($node) use(&$title){
+            // dump($node->text());
+            $title[]= $node->text();
+        });
+
+        $url = array();
+        $crawler->filter('a.articles--rows--item__title-link')->each(function($node) use(&$url){
+            $url[]= $node->attr("href");
+        });
+
+        $tanggal = array();
+        $crawler->filter('.articles--rows--item__time')->each(function($node) use(&$tanggal){
+            $tanggal[]= $node->text();
+        });
+
+        return array(
+            'title'=>$title,
+            'url'=>$url,
+            'tanggal'=>$tanggal
+        );
+    }
 }

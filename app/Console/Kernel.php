@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
         Commands\ScrapPortal::class,
         Commands\ScrapDeskripsiPortal::class,
         Commands\ScrapGoogleTrend::class,
+        Commands\ScrapLiputannam::class,
     ];
 
     /**
@@ -41,6 +42,10 @@ class Kernel extends ConsoleKernel
             ->everyFiveMinutes();
             
         $schedule->command('scrap:portal')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
+
+        $schedule->command('scrap:liputannam')
             ->timezone('Asia/Jakarta')  
             ->everyFifteenMinutes();
             
