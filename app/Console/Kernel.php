@@ -26,6 +26,9 @@ class Kernel extends ConsoleKernel
         Commands\ScrapGoogleTrend::class,
         Commands\ScrapLiputannam::class,
         Commands\ScrapTribunParameter::class,
+        Commands\ScrapInews::class,
+        Commands\ScrapOkezone::class,
+        Commands\ScrapSindo::class,
     ];
 
     /**
@@ -53,6 +56,22 @@ class Kernel extends ConsoleKernel
         $schedule->command('scrap:tribunparameter')
             ->timezone('Asia/Jakarta')  
             ->everyFifteenMinutes();
+
+        $schedule->command('scrap:inews')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
+
+        $schedule->command('scrap:sindo')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
+
+        $schedule->command('scrap:okezone')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
+
+        $schedule->command('scrap:deskripsi')
+            ->timezone('Asia/Jakarta')  
+            ->hourly();
             
         // $schedule->command('official:twitter')
         //     ->timezone('Asia/Jakarta')  
