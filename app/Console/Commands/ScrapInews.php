@@ -56,7 +56,7 @@ class ScrapInews extends Command
                     
                     $client = new Client();
                     $url = $kan->url_kanal;
-                    $crawler = $client->request('GET', $url);
+                    $crawler = $client->request('GET', $url."/".date('d-m-Y'));
                     
                     $title=array();
                     $crawler->filter('h3.title-news-update')->each(function($node) use(&$title){
