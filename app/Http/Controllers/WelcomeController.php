@@ -851,4 +851,244 @@ class WelcomeController extends Controller
             'tanggal'=>$tanggal
         );
     }
+
+    public function idn_times(Request $request)
+    {
+        $url = "https://idntimes.com/news";
+        $client = new Client();
+        $crawler = $client->request('GET', $url); 
+        
+        $title = array();
+        $crawler->filter('.box-latest h2')->each(function($node) use(&$title){
+            dump($node->text());
+        });
+
+
+        // return $title;
+    }
+
+    public function ahrefs(Request $request)
+    {
+        $token = "d9fe4a47f50fd4051ea0e1a15a0800daba4c965d";
+        $url = "https://apiv2.ahrefs.com?from=ahrefs_rank&target=ahrefs.com&mode=domain&limit=3&order_by=ahrefs_rank%3Adesc&output=json";
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $url.'&token='.$token);
+
+        // echo $response->getStatusCode(); // 200
+        // echo $response->getHeaderLine('content-type'); // 'application/json; charset=utf8'
+        // echo $response->getBody(); // '{"id": 1420053, "name": "guzzle", ...}'
+
+        $hasil = $response->getBody();
+
+        // $final = response()->json(json_decode($hasil));
+        // $final = json_decode($hasil);
+
+        return $hasil;
+    }
+
+    public function kanal_tribun()
+    {
+        $cek = \App\Models\Scrap\Kanal::where('portal_id',4)
+                ->where('bisa_scrap','N')
+                ->get();
+
+        $list = array();
+        foreach($cek as $key=>$val)
+        {
+            $list[]= array(
+                'id'=>$val->id,
+                'url'=>"https://www.tribunnews.com/".strtolower($val->kanal_name)
+            );
+        }
+
+        $artikel = array();
+        foreach($list as $key=>$val)
+        {
+            $l = array();
+
+            $parameter = \App\Models\Scrap\Parameter::where(\DB::raw("date_format(tanggal,'%Y-%m-%d')"), date('Y-m-d'))
+                    ->where('link_artikel','like','%'.$val['url'].'%')
+                    ->groupBy('link_artikel')
+                    ->get();
+
+            foreach($parameter as $k){
+                $l[]=array(
+                    'id'=>$k->id,
+                    'artikel'=>$k->link_artikel
+                );
+            }
+            $artikel[]=array(
+                'kanal_id'=>$val['id'],
+                'link'=>$val['url'],
+                'artikel'=>$l
+            );
+        }
+
+        foreach($artikel as $key=>$val)
+        {
+            foreach($val['artikel'] as $ar)
+            {
+                $cek_kanal_parameter = \DB::connection('mysql3')
+                    ->table('scrap_portal_kanal_parameter')
+                    ->where('portal_id', 4)
+                    ->where('kanal_id',$val['kanal_id'])
+                    ->where('parameter_id',$ar['id'])
+                    ->count();
+
+                if($cek_kanal_parameter == 0)
+                {
+                    \DB::connection('mysql3')
+                        ->table('scrap_portal_kanal_parameter')
+                        ->insert(
+                            [
+                                'portal_id'=>4,
+                                'kanal_id'=>$val['kanal_id'],
+                                'parameter_id'=>$ar['id'],
+                                'created_at'=>date('Y-m-d H:i:s'),
+                                'updated_at'=>date('Y-m-d H:i:s')
+                            ]
+                        );
+                }
+            }
+        }
+        
+        return $artikel;
+        $model = \DB::connection('mysql3')
+                ->select("SELECT a.* FROM scrap_portal_parameter a
+                    WHERE a.link_artikel LIKE '%tribunnews%'
+                    AND date_format(a.tanggal,'%Y-%m')='2021-02'
+                ");
+
+        $link=array();
+        foreach($model as $key=>$val){
+            //remove https://www.tribunnews.com/
+            $l = str_replace("https://www.tribunnews.com/","",$val->link_artikel);
+            $p = explode("/",$l);
+            $link[] = $p[0]; 
+            // $link[]=array(
+            //     'title'=>ucwords($p[0]),
+            //     'url_asli'=>"https://www.tribunnews.com/index-news/".$p[0],
+            //     'url'=>"https://www.tribunnews.com/".$p[0]
+            // );
+        }
+        $link = array_unique($link);
+
+
+        foreach($link as $key=>$val){
+            $cek = \App\Models\Scrap\Kanal::where('portal_id',4)
+                ->where('kanal_name', ucwords($val))
+                ->count();
+
+            if($cek == 0)
+            {
+                $new = new \App\Models\Scrap\Kanal;
+                $new->portal_id = 4;
+                $new->kanal_name = ucwords($val);
+                $new->url_kanal = "https://www.tribunnews.com/index-news/".$val;
+                $new->type_kanal = "artikel";
+                $new->home = "N";
+                $new->type = "indeks";
+                $new->bisa_scrap="N";
+                $new->insert_user = "jamal.apriadi@mncgroup.com";
+                $new->save();
+            }
+        }
+
+        return $link;
+    }
+
+    public function jam_inews(){
+        $bulan_sekarang = date('Y-m');
+
+        $sql= \DB::connection('mysql3')
+            ->select("SELECT a.*
+            FROM view_scrap_portal_parameter a
+            LEFT JOIN scrap_portal_kanal b ON b.id=a.kanal_id
+            LEFT JOIN scrap_portal_parameter c ON c.id=a.id
+            WHERE a.portal_publish IS NULL 
+            AND a.tanggal_publish LIKE '%JAM LALU%'
+            AND DATE_FORMAT(a.created_at,'%Y-%m')='$bulan_sekarang'");
+
+        $list = array();
+        foreach($sql as $key=>$val)
+        {
+            $pecah_jam = explode(" ",$val->tanggal_publish);
+            $my_date_time = date("Y-m-d H:i:s", strtotime($val->created_at."-".$pecah_jam[0]." hours"));
+
+            $list[]= array(
+                'id'=>$val->id,
+                'judul_artikel'=>$val->judul_artikel,
+                'tanggal_asli'=>$my_date_time,
+                'tanggal'=>date('Y-m-d H:i', strtotime($val->created_at))." WIB",
+                'jam'=>date('H:i:s', strtotime($val->created_at))
+                // 'jam'=>$this->scrap_jam($val->tanggal_publish)
+            );
+        }
+        // return $list;   
+
+        foreach($list as $key=>$val){
+            $sql= \DB::connection('mysql3')
+                ->table('scrap_portal_parameter')
+                ->where('id', $val['id'])
+                ->update(
+                    [
+                        'tanggal_publish'=>$val['tanggal'],
+                        // 'jam'=>$val['jam']
+                    ]
+                );
+        }
+
+        return "sukses";
+
+        // return $list;
+    }
+
+    public function scrap_jam($jam)
+    {
+        // return date('F');
+        // $jam =  "Senin, 15 Februari 2021 - 08:33:00 WIB | Bali";
+        $pecahjam = explode("|", $jam);
+        $pecahjamlagi = explode("-",$pecahjam[0]);
+
+        $tanggal = $pecahjamlagi[0];
+        $pecahtanggal = explode(",", $tanggal);
+        $jamlagi = $pecahjamlagi[1];
+
+        return $this->bulan_indo_ke_int($pecahtanggal[1], $jamlagi);
+    }
+
+    public function bulan_indo_ke_int($tanggal, $jam){
+        $pecahtanggal = explode(" ",$tanggal);
+        $bulan = $pecahtanggal[2];
+        $jam = str_replace("WIB","",$jam);
+        $pecahjam = explode(" ","".$jam);
+
+        if($bulan == "Januari"){
+            $j = "01";
+        }elseif($bulan == "Februari"){
+            $j = "02";
+        }elseif($bulan == "Maret"){
+            $j = "03";
+        }elseif($bulan == "April"){
+            $j = "04";
+        }elseif($bulan == "Mei"){
+            $j ="05";
+        }elseif($bulan == "Juni"){
+            $j = "06";
+        }elseif($bulan == "Juli"){
+            $j = "07";
+        }elseif($bulan == "Agustus"){
+            $j = "08";
+        }elseif($bulan == "September"){
+            $j = "09";
+        }elseif($bulan == "Oktober"){
+            $j = "10";
+        }elseif($bulan == "November"){
+            $j = "11";
+        }elseif($bulan == "Desember"){
+            $j = "12";
+        }
+
+        return $pecahtanggal[3]."-".$j."-".$pecahtanggal[1]." ".$pecahjam[1];
+    }
 }
