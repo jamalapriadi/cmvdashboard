@@ -89,7 +89,7 @@ class ScrapInews extends Command
                                 $param->kanal_id = $kan->id;
                                 $param->judul_artikel = $t;
                                 $param->link_artikel = $list_url[$s];
-                                $param->tanggal_publish = $tanggal[$s];
+                                $param->tanggal_publish = scrap_jam($tanggal[$s]);
                                 
                                 $simpanparam = $param->save();
                                 
@@ -129,4 +129,5 @@ class ScrapInews extends Command
             $this->info('Selesai');
         }
     }
+    
         

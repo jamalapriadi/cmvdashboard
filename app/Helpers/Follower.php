@@ -227,4 +227,53 @@ class Follower
         // echo "Is private: {$account->isPrivate()}\n";
         // echo "Is verified: {$account->isVerified()}\n";
     }
+
+    public static function scrap_jam($jam)
+    {
+        // return date('F');
+        // $jam =  "Senin, 15 Februari 2021 - 08:33:00 WIB | Bali";
+        $pecahjam = explode("|", $jam);
+        $pecahjamlagi = explode("-",$pecahjam[0]);
+
+        $tanggal = $pecahjamlagi[0];
+        $pecahtanggal = explode(",", $tanggal);
+        $jamlagi = $pecahjamlagi[1];
+
+        return $this->bulan_indo_ke_int($pecahtanggal[1], $jamlagi);
+    }
+
+    public static function bulan_indo_ke_int($tanggal, $jam){
+        $pecahtanggal = explode(" ",$tanggal);
+        $bulan = $pecahtanggal[2];
+        $jam = str_replace("WIB","",$jam);
+        $pecahjam = explode(" ","".$jam);
+
+        if($bulan == "Januari"){
+            $j = "01";
+        }elseif($bulan == "Februari"){
+            $j = "02";
+        }elseif($bulan == "Maret"){
+            $j = "03";
+        }elseif($bulan == "April"){
+            $j = "04";
+        }elseif($bulan == "Mei"){
+            $j ="05";
+        }elseif($bulan == "Juni"){
+            $j = "06";
+        }elseif($bulan == "Juli"){
+            $j = "07";
+        }elseif($bulan == "Agustus"){
+            $j = "08";
+        }elseif($bulan == "September"){
+            $j = "09";
+        }elseif($bulan == "Oktober"){
+            $j = "10";
+        }elseif($bulan == "November"){
+            $j = "11";
+        }elseif($bulan == "Desember"){
+            $j = "12";
+        }
+
+        return $pecahtanggal[3]."-".$j."-".$pecahtanggal[1]." ".$pecahjam[1];
+    }
 }
