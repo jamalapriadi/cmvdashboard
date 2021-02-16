@@ -56,7 +56,7 @@ class ScrapSindo extends Command
                         
                         $client = new Client();
                         $url = $kan->url_kanal;
-                        $crawler = $client->request('GET', $url);
+                        $crawler = $client->request('GET', $url."?t=".date('Y-m-d'));
                         
                         $title=array();
                         $crawler->filter('.indeks-title')->each(function($node) use(&$title){
