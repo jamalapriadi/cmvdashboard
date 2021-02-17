@@ -60,7 +60,7 @@ class ScrapOkezone extends Command
 
                 $title=array();
                 $list_url=array();
-                if($url=="https://celebrity.okezone.com/indeks"){
+                if($url=="https://celebrity.okezone.com/indeks/"){
                     $crawler->filter('.content-hardnews .c-celebrity a')->each(function($node) use(&$title){
                         $title[]=$node->attr('title');
                     });
