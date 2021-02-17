@@ -419,4 +419,9 @@ Route::group(['prefix'=>'scrapping'],function(){
     Route::get('deskripsi','WelcomeController@deskripsi');
     Route::get('mediakit','WelcomeController@mediakit');
     Route::get('liputan6','WelcomeController@liputan6');
+    Route::get('idn','WelcomeController@idn_times');
+    Route::get('ahrefs','WelcomeController@ahrefs');
+    Route::get('kanaltribun','WelcomeController@kanal_tribun');
+    Route::get('jam','WelcomeController@jam_inews');
+    Route::get('inews','WelcomeController@inews');
 });

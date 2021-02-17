@@ -1091,4 +1091,32 @@ class WelcomeController extends Controller
 
         return $pecahtanggal[3]."-".$j."-".$pecahtanggal[1]." ".$pecahjam[1];
     }
+
+    public function inews(Request $request)
+    {     
+        $client = new Client();
+        $url = "https://www.inews.id/indeks/sport";
+        $crawler = $client->request('GET', $url."/".date('d-m-Y'));
+        
+        $title=array();
+        $crawler->filter('h3.title-news-update')->each(function($node) use(&$title){
+            $title[]=$node->text();
+        });
+        
+        $list_url=array();
+        $crawler->filter('ul.list-unstyled li a')->each(function($node) use(&$list_url){
+            $list_url[]=$node->attr('href');
+        });
+        
+        $tanggal=array();
+        $crawler->filter('.news-excerpt div.date')->each(function($node) use(&$tanggal){
+            $tanggal[]=$node->text();
+        });
+
+        return array(
+            'title'=>$title,
+            'list_url'=>$list_url,
+            'tanggal'=>$tanggal
+        );
+    }
 }
