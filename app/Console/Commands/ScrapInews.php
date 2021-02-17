@@ -83,13 +83,22 @@ class ScrapInews extends Command
                         
                         if($cek == null)
                         {
+                            $this->info('=============== '.$tanggal[$s].' AHAHA');
+
                             $param = new \App\Models\Scrap\Parameter;
                             $param->tanggal = date('Y-m-d');
                             $param->jam = date('H:i:s');
                             $param->kanal_id = $kan->id;
                             $param->judul_artikel = $t;
                             $param->link_artikel = $list_url[$s];
-                            $param->tanggal_publish = scrap_jam($tanggal[$s]);
+
+                            if($tanggal[$s] != null)
+                            {
+                                $param->tanggal_publish = scrap_jam($tanggal[$s]);
+                            }else{
+                                $param->tanggal_publish = $tanggal[$s];
+                            }
+                            
                             
                             $simpanparam = $param->save();
                             
