@@ -44,7 +44,7 @@ class ScrapOkezone extends Command
             'kanal',
             'kanal.subkanal'
         ]
-        )->find(7);
+        )->find(8);
                 
         $this->info('Memulai');
             
