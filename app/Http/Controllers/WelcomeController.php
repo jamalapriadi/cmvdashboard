@@ -1095,7 +1095,7 @@ class WelcomeController extends Controller
     public function inews(Request $request)
     {     
         $client = new Client();
-        $url = "https://www.inews.id/indeks/sport";
+        $url = "https://www.inews.id/indeks/kalbar";
         $crawler = $client->request('GET', $url."/".date('d-m-Y'));
         
         $title=array();

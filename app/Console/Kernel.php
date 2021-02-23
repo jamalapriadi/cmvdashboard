@@ -30,6 +30,8 @@ class Kernel extends ConsoleKernel
         Commands\ScrapOkezone::class,
         Commands\ScrapSindo::class,
         Commands\ScrapDescriptionPortalInternal::class,
+        Commands\ScrapIdntimes::class,
+        
     ];
 
     /**
@@ -67,6 +69,10 @@ class Kernel extends ConsoleKernel
             ->everyFifteenMinutes();
 
         $schedule->command('scrap:okezone')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
+
+        $schedule->command('scrap:idn')
             ->timezone('Asia/Jakarta')  
             ->everyFifteenMinutes();
 
