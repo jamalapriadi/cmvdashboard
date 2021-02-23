@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         Commands\ScrapInews::class,
         Commands\ScrapOkezone::class,
         Commands\ScrapSindo::class,
+        Commands\ScrapDescriptionPortalInternal::class,
     ];
 
     /**
