@@ -24,16 +24,9 @@
         "socialiteproviders/instagram": "^3.0",
         "spatie/laravel-permission": "^3.18",
         "thujohn/twitter": "^2.2",
-<<<<<<< HEAD
-        "watson/rememberable": "^2.0",
-        "xmhafiz/fb-page-feed": "^1.1",
-        "yajra/laravel-datatables-oracle": "~9.0",
-        "weidner/goutte": "1.6"
-=======
         "weidner/goutte": "^2",
         "x-fran/g-trends": "^2.2",
         "yajra/laravel-datatables-oracle": "~9.0"
->>>>>>> d7c4870eddda216d24f8b55aef7ee6cd4897bfaf
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
