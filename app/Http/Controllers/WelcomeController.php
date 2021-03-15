@@ -53,26 +53,81 @@ class WelcomeController extends Controller
     }
 
     public function tes_facebook(){
-        $id="UC_vsErcsq56hOscPHkG-aVw";
-        // return \Follower::youtube('UC_vsErcsq56hOscPHkG-aVw');
-        $channel = \Youtube::getChannelByID($id);
+        $id="BigMoviesGTVID";
 
-        $youtube=$channel;
+        // $client = new \GuzzleHttp\Client();
+        // $request = $client->get('https://www.facebook.com/'.$id);
+        // $response = $request->getBody()->getContents();
+    
+        // $page = response()->json($response);
 
-        // return json_encode($channel);
-        if(isset($youtube->statistics)){
-            return array(
-                'subscriber'=>$youtube->statistics->subscriberCount,
-                'view_count'=>$youtube->statistics->viewCount,
-                'video_count'=>$youtube->statistics->videoCount
-            );
-        }else{
-            return array(
-                'subscriber'=>0,
-                'view_count'=>0,
-                'video_count'=>0
-            );
+        $bu=\DB::select("select a.id, a.unit_name,
+                b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
+                b.unit_sosmed_account_id
+                from business_unit a
+                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                where b.sosmed_id is not null
+                and b.status_active='Y'
+                and b.sosmed_id=2
+                limit 5");
+
+        foreach($bu as $key=>$val)
+        {
+            $id=$val->unit_sosmed_id;
+            
+            \DB::table('tarikan_sementara')
+                ->delete();
+
+            $crawler = \Goutte::request('GET', 'https://www.facebook.com/'.$val->unit_sosmed_account_id);
+            $crawler->filter('._4bl9')->each(function ($node) use($id) {
+                // print($node->text());
+                // preg_match("'(.*?) orang mengikuti ini'", $node->text(), $match);
+                // return $match;
+
+                if (strpos($node->text(), 'orang mengikuti ini') !== false) {
+                    \DB::table('tarikan_sementara')
+                        ->insert(
+                            [
+                                'unit_sosmed_id'=>$id,
+                                'tanggal'=>date('Y-m-d'),
+                                'hasil'=>$node->text(),
+                                'created_at'=>date('Y-m-d H:i:s'),
+                                'updated_at'=>date('Y-m-d H:i:s')
+                            ]
+                        );
+                }
+
+                $h=\DB::table('tarikan_sementara')->get();
+
+                if(count($h) > 0){
+                    $cektanggal=\DB::table('tarikan_sementara_final')->where('tanggal',date('Y-m-d'))
+                        ->where('unit_sosmed_id',$id)
+                        ->count();
+
+                    if($cektanggal == 0)
+                    {
+                        $fo = str_replace("orang mengikuti ini","",$h[0]->hasil);
+                        $final = str_replace(".","",$fo);
+                        
+                        \DB::table('tarikan_sementara_final')
+                            ->insert(
+                                [
+                                    'unit_sosmed_id'=>$id,
+                                    'tanggal'=>date('Y-m-d'),
+                                    'hasil'=>$final,
+                                    'created_at'=>date('Y-m-d H:i:s'),
+                                    'updated_at'=>date('Y-m-d H:i:s')
+                                ]
+                            );   
+                    }
+                }
+
+            });
+
         }
+
+        
+        return "sukses";
     }
 
     public function clear_cache(){

@@ -53,7 +53,7 @@ class OfficialOtomationFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id=1
+                and b.sosmed_id=2
                 union all
                 select a.id, a.program_name,
                 b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
@@ -62,7 +62,7 @@ class OfficialOtomationFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id=1
+                and b.sosmed_id=2
                 union all 
                 select a.id, a.unit_name,
                 b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
@@ -71,7 +71,7 @@ class OfficialOtomationFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='brand'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id=1");
+                and b.sosmed_id=2");
 
             $bar=$this->output->createProgressBar(count($bu));
 
@@ -113,15 +113,26 @@ class OfficialOtomationFollower extends Command
                     if($row->sosmed_id==2){
                         $this->info("Get Follower Account Facebook = ".$row->unit_name);
 
-                        $list[]=array(
-                            'unit_sosmed_id'=>$row->unit_sosmed_id,
-                            'tanggal'=>$sekarang,
-                            'follower'=>\Follower::facebook($row->unit_sosmed_account_id),
-                            'view_count'=>null,
-                            'video_count'=>null,
-                            'following'=>null,
-                            'post_count'=>null
-                        );
+                        // $list[]=array(
+                        //     'unit_sosmed_id'=>$row->unit_sosmed_id,
+                        //     'tanggal'=>$sekarang,
+                        //     'follower'=>\Follower::facebook($row->unit_sosmed_account_id),
+                        //     'view_count'=>null,
+                        //     'video_count'=>null,
+                        //     'following'=>null,
+                        //     'post_count'=>null
+                        // );
+
+                        $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                        $new->tanggal=$sekarang;
+                        $new->unit_sosmed_id=$row->unit_sosmed_id;
+                        $new->follower=\Follower::facebook($row->unit_sosmed_account_id);
+                        $new->view_count=null;
+                        $new->video_count=null;
+                        $new->following=null;
+                        $new->post_count=null;
+                        $new->insert_user='jamal.apriadi@mncgroup.com';
+                        $new->save();
                     }
 
                     if($row->sosmed_id==3){

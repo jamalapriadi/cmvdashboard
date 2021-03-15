@@ -408,3 +408,26 @@ Route::get('get-account','Sosmed\InstagramController@get_account');
 Route::get('cek-bahasa','Sosmed\InstagramController@cek_bahasa');
 Route::get('daftar-akun','Sosmed\InstagramController@daftar_akun');
 Route::post('daftar-akun','Sosmed\InstagramController@simpan_daftar_akun');
+
+Route::get('/goutee', function() {
+    $hasil=array();
+    /**Tag Populer */
+    // $crawler = Goutte::request('GET', 'https://detik.com');
+    // $crawler->filter('.terpopuler .list-content')->each(function ($node) {
+    //     print($node->text());
+    // });
+
+    /**Berita Terpopuler */
+    $crawler = Goutte::request('GET', 'https://detik.com');
+    $crawler->filter('.cb-mostpop .list-content')->each(function ($node) {
+        print($node->text());
+    });
+    
+    /**get facebook */
+    // $crawler = Goutte::request('GET', 'http://127.0.0.1:8000/tes-facebook');
+    // $page=$crawler->filter('._4bl9')->each(function ($node) {
+    //     print $node->text()."\n";
+    // });
+
+    return;
+});

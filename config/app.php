@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Weidner\Goutte\GoutteServiceProvider::class, 
 
         /*
          * Application Service Providers...
@@ -243,6 +244,7 @@ return [
         'Youtube' => Alaouy\Youtube\Facades\Youtube::class,
         'Follower' => App\Helpers\Follower::class, 
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Goutte' => Weidner\Goutte\GoutteFacade::class,
 
     ],
 
