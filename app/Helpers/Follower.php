@@ -1,5 +1,6 @@
 <?php 
 namespace App\Helpers;
+use Illuminate\Support\Str;
 
 class Follower
 {
@@ -49,9 +50,9 @@ class Follower
         preg_match("'alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) people follow this</div></div>'", $page, $match2);
         
         if(isset($match[1])){
-            $hasil=preg_replace('/[^0-9]/', '', substr(strip_tags(str_replace('.', '', $match[1])),15));
+            $hasil=preg_replace('/[^0-9]/', '', substr(strip_tags(Str::replaceFirst('.', '', $match[1])),15));
         }elseif(isset($match2[1])){
-            $hasi=preg_replace('/[^0-9]/', '', substr(strip_tags(str_replace('.', '', $match2[1])),15));
+            $hasi=preg_replace('/[^0-9]/', '', substr(strip_tags(Str::replaceFirst('.', '', $match2[1])),15));
         }else{
             $hasil=0;
         }
@@ -66,15 +67,15 @@ class Follower
         // //print_r($match);
         // if(isset($match[1])){
         //     $hasil=$match[1];
-        //     // print_r(str_replace('.', '', $match[1]));
+        //     // print_r(Str::replaceFirst('.', '', $match[1]));
         // }elseif(isset($match2[1])){
         //     $hasil=$match2[1];
-        //     // print_r(str_replace('.', '', $match2[1]));
+        //     // print_r(Str::replaceFirst('.', '', $match2[1]));
         // }else{
         //     $hasil=0;
         // }
     
-        // return str_replace('.', '', $hasil);
+        // return Str::replaceFirst('.', '', $hasil);
     }
 
     public static function instagram($id){
@@ -91,21 +92,28 @@ class Follower
     }
 
     public static function youtube($id){
+        \Youtube::setApiKey('AIzaSyDNI2FrJGI_nxgGGYwxqNmmlpJB54Xesm8');
         $channel = \Youtube::getChannelByID($id);
+        $activities = \Youtube::getActivitiesByChannelId($id);   
 
         $youtube=$channel;
+        $youtube_activity = $activities;
 
         if(isset($youtube->statistics)){
             return array(
                 'subscriber'=>$youtube->statistics->subscriberCount,
                 'view_count'=>$youtube->statistics->viewCount,
-                'video_count'=>$youtube->statistics->videoCount
+                'video_count'=>$youtube->statistics->videoCount,
+                'youtube_json'=>$youtube,
+                'youtube_activity'=>$youtube_activity
             );
         }else{
             return array(
                 'subscriber'=>0,
                 'view_count'=>0,
-                'video_count'=>0
+                'video_count'=>0,
+                'youtube_json'=>'',
+                'youtube_activity'=>''
             );
         }
     }
@@ -218,5 +226,54 @@ class Follower
         // echo "Number of follows: {$account->getFollowedByCount()}\n";
         // echo "Is private: {$account->isPrivate()}\n";
         // echo "Is verified: {$account->isVerified()}\n";
+    }
+
+    public static function scrap_jam($jam)
+    {
+        // return date('F');
+        // $jam =  "Senin, 15 Februari 2021 - 08:33:00 WIB | Bali";
+        $pecahjam = explode("|", $jam);
+        $pecahjamlagi = explode("-",$pecahjam[0]);
+
+        $tanggal = $pecahjamlagi[0];
+        $pecahtanggal = explode(",", $tanggal);
+        $jamlagi = $pecahjamlagi[1];
+
+        return $this->bulan_indo_ke_int($pecahtanggal[1], $jamlagi);
+    }
+
+    public static function bulan_indo_ke_int($tanggal, $jam){
+        $pecahtanggal = explode(" ",$tanggal);
+        $bulan = $pecahtanggal[2];
+        $jam = str_replace("WIB","",$jam);
+        $pecahjam = explode(" ","".$jam);
+
+        if($bulan == "Januari"){
+            $j = "01";
+        }elseif($bulan == "Februari"){
+            $j = "02";
+        }elseif($bulan == "Maret"){
+            $j = "03";
+        }elseif($bulan == "April"){
+            $j = "04";
+        }elseif($bulan == "Mei"){
+            $j ="05";
+        }elseif($bulan == "Juni"){
+            $j = "06";
+        }elseif($bulan == "Juli"){
+            $j = "07";
+        }elseif($bulan == "Agustus"){
+            $j = "08";
+        }elseif($bulan == "September"){
+            $j = "09";
+        }elseif($bulan == "Oktober"){
+            $j = "10";
+        }elseif($bulan == "November"){
+            $j = "11";
+        }elseif($bulan == "Desember"){
+            $j = "12";
+        }
+
+        return $pecahtanggal[3]."-".$j."-".$pecahtanggal[1]." ".$pecahjam[1];
     }
 }

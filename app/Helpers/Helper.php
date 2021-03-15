@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Str;
 
 function periode($date1,$date2){
     if($date1>$date2){
@@ -109,9 +110,9 @@ function facebook_follower($id){
     preg_match("'alt=\"Highlights info row image\" /></div><div class=\"_4bl9\"><div>(.*?) people follow this</div></div>'", $page, $match2);
     
     if(isset($match[1])){
-        echo(preg_replace('/[^0-9]/', '', substr(strip_tags(str_replace('.', '', $match[1])),15)));
+        echo(preg_replace('/[^0-9]/', '', substr(strip_tags(Str::replaceFirst('.', '', $match[1])),15)));
     }elseif(isset($match2[1])){
-        echo(preg_replace('/[^0-9]/', '', substr(strip_tags(str_replace('.', '', $match2[1])),15)));
+        echo(preg_replace('/[^0-9]/', '', substr(strip_tags(Str::replaceFirst('.', '', $match2[1])),15)));
     }else{
         echo 0;
     }
@@ -228,4 +229,54 @@ function hitungk($n){
     }else{
         return $n;
     }
+}
+
+function scrap_jam($jam)
+{
+    // return date('F');
+    // $jam =  "Senin, 15 Februari 2021 - 08:33:00 WIB | Bali";
+    $pecahjam = explode("|", $jam);
+    $pecahjamlagi = explode("-",$pecahjam[0]);
+
+    $tanggal = $pecahjamlagi[0];
+    $pecahtanggal = explode(",", $tanggal);
+    $jamlagi = $pecahjamlagi[1];
+
+    return bulan_indo_ke_int($pecahtanggal[1], $jamlagi);
+}
+
+function bulan_indo_ke_int($tanggal, $jam){
+    $pecahtanggal = explode(" ",$tanggal);
+    $bulan = $pecahtanggal[2];
+    $jam = str_replace("WIB","",$jam);
+    $pecahjam = explode(" ","".$jam);
+
+    if($bulan == "Januari"){
+        $j = "01";
+    }elseif($bulan == "Februari"){
+        $j = "02";
+    }elseif($bulan == "Maret"){
+        $j = "03";
+    }elseif($bulan == "April"){
+        $j = "04";
+    }elseif($bulan == "Mei"){
+        $j ="05";
+    }elseif($bulan == "Juni"){
+        $j = "06";
+    }elseif($bulan == "Juli"){
+        $j = "07";
+    }elseif($bulan == "Agustus"){
+        $j = "08";
+    }elseif($bulan == "September"){
+        $j = "09";
+    }elseif($bulan == "Oktober"){
+        $j = "10";
+    }elseif($bulan == "November"){
+        $j = "11";
+    }elseif($bulan == "Desember"){
+        $j = "12";
+    }
+
+    $final_date = date('Y-m-d H:i', strtotime($pecahtanggal[3]."-".$j."-".$pecahtanggal[1]." ".$pecahjam[1]));
+    return $final_date." WIB";
 }

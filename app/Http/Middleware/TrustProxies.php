@@ -19,6 +19,7 @@ class TrustProxies extends Middleware
      *
      * @var array
      */
+<<<<<<< HEAD
     protected $headers = [
         // Request::HEADER_FORWARDED => 'FORWARDED',
         // Request::HEADER_X_FORWARDED_FOR => 'X_FORWARDED_FOR',
@@ -26,4 +27,13 @@ class TrustProxies extends Middleware
         // Request::HEADER_X_FORWARDED_PORT => 'X_FORWARDED_PORT',
         // Request::HEADER_X_FORWARDED_PROTO => 'X_FORWARDED_PROTO',
     ];
+=======
+    // protected $headers = [
+    //     Request::HEADER_FORWARDED => 'FORWARDED',
+    //     Request::HEADER_X_FORWARDED_FOR => 'X_FORWARDED_FOR',
+    //     Request::HEADER_X_FORWARDED_HOST => 'X_FORWARDED_HOST',
+    //     Request::HEADER_X_FORWARDED_PORT => 'X_FORWARDED_PORT',
+    //     Request::HEADER_X_FORWARDED_PROTO => 'X_FORWARDED_PROTO',
+    // ];
+>>>>>>> d7c4870eddda216d24f8b55aef7ee6cd4897bfaf
 }

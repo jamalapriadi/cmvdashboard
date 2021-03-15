@@ -17,6 +17,21 @@ class Kernel extends ConsoleKernel
         Commands\UnitSosmedInstagram::class,
         Commands\ReplicateCek::class,
         Commands\InstagramInfo::class,
+        Commands\OfficialTwitterFollower::class,
+        Commands\OfficialFacebookFollower::class,
+        Commands\OfficialInstagramFollower::class, 
+        Commands\OfficialYoutubeFollower::class,
+        Commands\ScrapPortal::class,
+        Commands\ScrapDeskripsiPortal::class,
+        Commands\ScrapGoogleTrend::class,
+        Commands\ScrapLiputannam::class,
+        Commands\ScrapTribunParameter::class,
+        Commands\ScrapInews::class,
+        Commands\ScrapOkezone::class,
+        Commands\ScrapSindo::class,
+        Commands\ScrapDescriptionPortalInternal::class,
+        Commands\ScrapIdntimes::class,
+        
     ];
 
     /**
@@ -29,13 +44,61 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('official:follower')
+        $schedule->command('scrap:googletrend')
             ->timezone('Asia/Jakarta')  
-            ->dailyAt('13:00');
+            ->everyFiveMinutes();
+            
+        $schedule->command('scrap:portal')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
 
-        $schedule->command('replicate:cek')
+        $schedule->command('scrap:liputannam')
             ->timezone('Asia/Jakarta')  
-            ->everyThirtyMinutes();
+            ->everyFifteenMinutes();
+
+        $schedule->command('scrap:tribunparameter')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
+
+        $schedule->command('scrap:inews')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
+
+        $schedule->command('scrap:sindo')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
+
+        $schedule->command('scrap:okezone')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
+
+        $schedule->command('scrap:idn')
+            ->timezone('Asia/Jakarta')  
+            ->everyFifteenMinutes();
+
+        $schedule->command('scrap:deskripsi')
+            ->timezone('Asia/Jakarta')  
+            ->hourly();
+            
+        // $schedule->command('official:twitter')
+        //     ->timezone('Asia/Jakarta')  
+        //     ->dailyAt('13:00');
+
+        // $schedule->command('official:facebook')
+        //     ->timezone('Asia/Jakarta')  
+        //     ->dailyAt('13:00');
+
+        // $schedule->command('official:instagram')
+        //     ->timezone('Asia/Jakarta')  
+        //     ->dailyAt('13:00');
+
+        // $schedule->command('official:youtube')
+        //     ->timezone('Asia/Jakarta')  
+        //     ->dailyAt('13:00');
+
+        // $schedule->command('replicate:cek')
+        //     ->timezone('Asia/Jakarta')  
+        //     ->everyThirtyMinutes();
     }
 
     /**

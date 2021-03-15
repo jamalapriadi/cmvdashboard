@@ -625,7 +625,6 @@ class HomeController extends Controller
         }
 
     
-        $instagram = new \InstagramScraper\Instagram();
         $account = null;
         $medias = array();
         foreach($bu->sosmed as $row){
@@ -645,12 +644,12 @@ class HomeController extends Controller
             }
 
             if($row->sosmed_id == 3){
-                // try{
-                //     $account = $instagram->getAccount($row->unit_sosmed_name);
-                //     $medias = $instagram->getMedias($row->unit_sosmed_name, 12);
-                // }catch (\InstagramScraper\Exception\InstagramNotFoundException $e){
-
-                // }
+                $medias = \DB::select("SELECT a.* FROM unit_sosmed_ig_feed a
+                            WHERE a.tanggal = (
+                                SELECT MAX(aa.tanggal) FROM unit_sosmed_ig_feed aa 
+                                WHERE aa.id=a.id
+                            )
+                            AND a.unit_sosmed_id = ".$row->id);
             }
         }
         
@@ -849,16 +848,17 @@ class HomeController extends Controller
     
     }
     
-    public function tes_follower(){
-        // $fb = $this->facebook_count('https://www.facebook.com/digital.inspiration');
-        
-        // return array(
-        //     'share_count'=>$fb[0]->share_count,
-        //     'like_count'=>$fb[0]->like_count,
-        //     'comment_count'=>$fb[0]->comment_count
-        // );
-        
-        return facebook_follower();
+    public function tes_facebook(){
+        $id = "CNNIndonesia";
+        return $id;
+        $crawler = \Goutte::request('GET', 'https://www.facebook.com/'.$id);
+        $crawler->filter('._4bl9')->each(function ($node) use($id) {
+            print $node->text();
+            if (strpos($node->text(), 'orang mengikuti ini') !== false) {
+                
+            }
+
+        });
     }
 
     public function sosmed_jumlah_account(Request $request)

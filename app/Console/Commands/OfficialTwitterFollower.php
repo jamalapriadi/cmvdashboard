@@ -4,14 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class OfficialYoutubeFollower extends Command
+class OfficialTwitterFollower extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'official:youtube';
+    protected $signature = 'official:twitter';
 
     /**
      * The console command description.
@@ -51,7 +51,7 @@ class OfficialYoutubeFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id=4
+                and b.sosmed_id=1
                 and b.id not in (select aa.unit_sosmed_id from unit_sosmed_follower aa where aa.tanggal='$sekarang')
                 union all
                 select a.id, a.program_name,
@@ -61,7 +61,7 @@ class OfficialYoutubeFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id=4
+                and b.sosmed_id=1
                 and b.id not in (select aa.unit_sosmed_id from unit_sosmed_follower aa where aa.tanggal='$sekarang')
                 union all 
                 select a.id, a.unit_name,
@@ -71,45 +71,48 @@ class OfficialYoutubeFollower extends Command
                 left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='brand'
                 where b.sosmed_id is not null
                 and b.status_active='Y'
-                and b.sosmed_id=4
-                and b.id not in (select aa.unit_sosmed_id from unit_sosmed_follower aa where aa.tanggal='$sekarang')"
-            );
+                and b.sosmed_id=1
+                and b.id not in (select aa.unit_sosmed_id from unit_sosmed_follower aa where aa.tanggal='$sekarang')");
 
             $bar=$this->output->createProgressBar(count($bu));
 
+            $data=array();
+            $list=array();
+            $unitsosmedid=array();
+
             foreach($bu as $row){
                 if($row->unit_name != 'INEWS (4TV News)'){
+                    $this->info("Get Follower Account Twitter =  -- ".$row->unit_sosmed_name);
 
-                    if($row->sosmed_id==4){
-                        $cekfollower=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',$sekarang)
-                            ->where('unit_sosmed_id',$row->unit_sosmed_id)
-                            ->count();
+                    $cektanggal=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',date('Y-m-d'))
+                        ->where('unit_sosmed_id',$row->unit_sosmed_id)
+                        ->count();
 
-                        if($cekfollower == 0)
+                    if($cektanggal == 0)
+                    {
+                        try
                         {
-                            $this->info('ID = '.$row->id);
-                            $this->info("Youtube = ".$row->unit_name);
-                            if($row->unit_name != "MD Animation")
-                            {
-                                $yt=\Follower::youtube($row->unit_sosmed_account_id);
+                            $a=\Twitter::getUsers(['screen_name' => $row->unit_sosmed_name,'format'=>'array']);
 
-                                $new=new \App\Models\Sosmed\Unitsosmedfollower;
-                                $new->tanggal=$sekarang;
-                                $new->unit_sosmed_id=$row->unit_sosmed_id;
-                                $new->follower=$yt['subscriber'];
-                                $new->view_count=$yt['view_count'];
-                                $new->video_count=$yt['video_count'];
-                                $new->following=null;
-                                $new->post_count=null;
-                                $new->insert_user='jamal.apriadi@mncgroup.com';
-                                $new->save();
-
-                                $un_sosmed = \App\Models\Sosmed\Unitsosmed::find($row->unit_sosmed_id);
-                                $un_sosmed->youtube_json=json_encode($yt['youtube_json']);
-                                $un_sosmed->youtube_activity = json_encode($yt['youtube_activity']);
-                                $un_sosmed->save();
+                            $tw=$a['followers_count'];
+                        }
+                        catch (Exception $e)
+                        {
+                            if(Twitter::error()['code'] == 50){
+                                $tw=0;
                             }
                         }
+
+                        $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                        $new->tanggal=$sekarang;
+                        $new->unit_sosmed_id=$row->unit_sosmed_id;
+                        $new->follower=$tw;
+                        $new->view_count=null;
+                        $new->video_count=null;
+                        $new->following=null;
+                        $new->post_count=null;
+                        $new->insert_user='jamal.apriadi@mncgroup.com';
+                        $new->save();
                     }
 
                     $bar->advance();
@@ -118,7 +121,7 @@ class OfficialYoutubeFollower extends Command
             
             $bar->finish();
 
-            $this->info("yey sukses menyimpan data");
+            $this->info("Yey selesai");
 
         }else{
             $this->info("Karena ini hari minggu, libur dulu yaaa. . . . :D");

@@ -396,7 +396,6 @@ Route::group(['prefix'=>'automation'],function(){
 
 Route::get('tes-follower','WelcomeController@tes_follower');
 
-Route::get('tes-facebook','HomeController@tes_follower');
 Route::get('tes-youtube','HomeController@tes_youtube');
 
 Route::get('tes-facebook','WelcomeController@tes_facebook');
@@ -408,26 +407,22 @@ Route::get('get-account','Sosmed\InstagramController@get_account');
 Route::get('cek-bahasa','Sosmed\InstagramController@cek_bahasa');
 Route::get('daftar-akun','Sosmed\InstagramController@daftar_akun');
 Route::post('daftar-akun','Sosmed\InstagramController@simpan_daftar_akun');
+Route::get('instagram-tag','Sosmed\InstagramController@instagram_tag');
 
-Route::get('/goutee', function() {
-    $hasil=array();
-    /**Tag Populer */
-    // $crawler = Goutte::request('GET', 'https://detik.com');
-    // $crawler->filter('.terpopuler .list-content')->each(function ($node) {
-    //     print($node->text());
-    // });
-
-    /**Berita Terpopuler */
-    $crawler = Goutte::request('GET', 'https://detik.com');
-    $crawler->filter('.cb-mostpop .list-content')->each(function ($node) {
-        print($node->text());
-    });
-    
-    /**get facebook */
-    // $crawler = Goutte::request('GET', 'http://127.0.0.1:8000/tes-facebook');
-    // $page=$crawler->filter('._4bl9')->each(function ($node) {
-    //     print $node->text()."\n";
-    // });
-
-    return;
+Route::group(['prefix'=>'scrapping'],function(){
+    Route::get('detik','WelcomeController@detik');
+    Route::get('kompas','WelcomeController@kompas');
+    Route::get('tribun','WelcomeController@tribun');
+    Route::get('tag-detik','WelcomeController@tag_detik');
+    Route::get('tag-tribun','WelcomeController@tag_tribun');
+    Route::get('video-detik','WelcomeController@video_detik');
+    Route::get('index-detik','WelcomeController@index_detik');
+    Route::get('deskripsi','WelcomeController@deskripsi');
+    Route::get('mediakit','WelcomeController@mediakit');
+    Route::get('liputan6','WelcomeController@liputan6');
+    Route::get('idn','WelcomeController@idn_times');
+    Route::get('ahrefs','WelcomeController@ahrefs');
+    Route::get('kanaltribun','WelcomeController@kanal_tribun');
+    Route::get('jam','WelcomeController@jam_inews');
+    Route::get('inews','WelcomeController@inews');
 });

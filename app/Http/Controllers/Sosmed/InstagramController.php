@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
-use InstagramScraper\Instagram;
+use Phpfastcache\Helper\Psr16Adapter;
+use Psr\Http\Client\ClientInterface;
+// use InstagramScraper\Instagram;
  
 class InstagramController extends Controller
 {
@@ -32,18 +34,27 @@ class InstagramController extends Controller
     }
 
     public function cek_instagram(){
-        $id="https://www.instagram.com/hotissueindosiar/";
+        $id="https://www.instagram.com/officialrcti";
 
-        $data = file_get_contents($id);
-        return htmlspecialchars($data);
+        $instagram = new \InstagramScraper\Instagram();
+        $account = $instagram->getAccount('officialrcti');
+        
+        // Available fields
+        echo "Account info: <br>";
+        echo "Id: {$account->getId()} <br>";
+        echo "Username: {$account->getUsername()} <br>";
+        echo "Full name: {$account->getFullName()} <br>";
+        echo "Biography: {$account->getBiography()} <br>";
+        echo "Profile picture url: {$account->getProfilePicUrl()} <br>";
+        echo "External link: {$account->getExternalUrl()} <br>";
+        echo "Number of published posts: {$account->getMediaCount()} <br>";
+        echo "Number of followers: {$account->getFollowsCount()} <br>";
+        echo "Number of follows: {$account->getFollowedByCount()} <br>";
+        echo "Is private: {$account->isPrivate()} <br>";
+        echo "Is verified: {$account->isVerified()} <br>";
 
-        $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', $id);
-        return json_decode($response->getBody());
-        echo $response->getStatusCode(); // 200
-        echo $response->getHeaderLine('content-type'); // 'application/json; charset=utf8'
-        return $response->getBody(); // '{"id": 1420053, "name": "guzzle", ...}'
         return;
+
 
 
         $url = $id;
@@ -85,6 +96,7 @@ class InstagramController extends Controller
             $endimgPos = strpos($image, "/>");
             $finalImagePos = substr($result, $imgPos+19 , $endimgPos-2);
             // $output[4] = $finalImagePos;
+            $output['image'] = $finalImagePos;
 
             //allnumber follower
             $metafollower = substr($result ,$metaPosFollower,70);
@@ -251,5 +263,17 @@ class InstagramController extends Controller
         }
 
         return $data;
+    }
+
+    public function instagram_tag(Request $request)
+    {
+        $nama=$request->input('nama');
+
+        $instagram = new \InstagramScraper\Instagram();
+
+        $medias = $instagram->getMediasByTag('mmiadvolution', 20);
+        $media = $medias[0];
+
+        return $media;
     }
 }

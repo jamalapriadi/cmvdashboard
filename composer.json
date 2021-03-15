@@ -10,29 +10,38 @@
         "barryvdh/laravel-dompdf": "^0.8.2",
         "buzz/laravel-google-captcha": "^2.1",
         "fideloper/proxy": "^4.2",
-        "guzzlehttp/guzzle": "^6.5",
-        "laravel/framework": "5.8.*",
-        "laravel/passport": "^4.0",
-        "laravel/socialite": "^3.1",
-        "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.4.0",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "laravel/framework": "^8.0",
+        "laravel/helpers": "^1.4",
+        "laravel/tinker": "^2.0",
+        "laravel/ui": "^3.0",
+        "laravelcollective/html": "^6.2",
         "maatwebsite/excel": "^3.1",
+        "phpfastcache/phpfastcache": "^7.1",
         "phpoffice/phpword": "^0.14.0",
         "predis/predis": "^1.1",
-        "raiym/instagram-php-scraper": "^0.8.35",
+        "raiym/instagram-php-scraper": "^0.10.0",
         "socialiteproviders/instagram": "^3.0",
-        "spatie/laravel-permission": "^2.9",
+        "spatie/laravel-permission": "^3.18",
         "thujohn/twitter": "^2.2",
+<<<<<<< HEAD
         "watson/rememberable": "^2.0",
         "xmhafiz/fb-page-feed": "^1.1",
         "yajra/laravel-datatables-oracle": "~9.0",
         "weidner/goutte": "1.6"
+=======
+        "weidner/goutte": "^2",
+        "x-fran/g-trends": "^2.2",
+        "yajra/laravel-datatables-oracle": "~9.0"
+>>>>>>> d7c4870eddda216d24f8b55aef7ee6cd4897bfaf
     },
     "require-dev": {
+        "facade/ignition": "^2.3.6",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
-        "phpunit/phpunit": "~6.0",
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.0",
         "symfony/thanks": "^1.0"
     },
     "autoload": {

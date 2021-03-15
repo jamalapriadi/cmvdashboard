@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
+
 
 class OfficialFacebookFollower extends Command
 {
@@ -111,8 +113,8 @@ class OfficialFacebookFollower extends Command
 
                         if($cektanggal == 0)
                         {
-                            $fo = str_replace("orang mengikuti ini","",$h[0]->hasil);
-                            $final = str_replace(".","",$fo);
+                            $fo = Str::replaceFirst("orang mengikuti ini","",$h[0]->hasil);
+                            $final = Str::replaceFirst(".","",$fo);
 
                             $new=new \App\Models\Sosmed\Unitsosmedfollower;
                             $new->tanggal=date('Y-m-d');
@@ -134,6 +136,61 @@ class OfficialFacebookFollower extends Command
         }
 
         $bar->finish();
+
+        $this->info('input manual yang ga dapet');
+        
+        $bu=\DB::select("select a.id, a.unit_name,
+                b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
+                b.unit_sosmed_account_id
+                from business_unit a
+                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='corporate'
+                where b.sosmed_id is not null
+                and b.status_active='Y'
+                and b.sosmed_id=2
+                and b.id not in (select aa.unit_sosmed_id from unit_sosmed_follower aa where aa.tanggal='$sekarang')
+                union all
+                select a.id, a.program_name,
+                b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
+                b.unit_sosmed_account_id
+                from program_unit a
+                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='program'
+                where b.sosmed_id is not null
+                and b.status_active='Y'
+                and b.sosmed_id=2
+                and b.id not in (select aa.unit_sosmed_id from unit_sosmed_follower aa where aa.tanggal='$sekarang')
+                union all 
+                select a.id, a.unit_name,
+                b.id as unit_sosmed_id, b.sosmed_id, b.unit_sosmed_name, b.status_active, 
+                b.unit_sosmed_account_id
+                from business_unit a
+                left join unit_sosmed b on b.business_program_unit=a.id and b.type_sosmed='brand'
+                where b.sosmed_id is not null
+                and b.status_active='Y'
+                and b.sosmed_id=2
+                and b.id not in (select aa.unit_sosmed_id from unit_sosmed_follower aa where aa.tanggal='$sekarang')");
+
+        foreach($bu as $key=>$val)
+        {
+            $id=$val->unit_sosmed_id;
+            
+            $cektanggal=\App\Models\Sosmed\Unitsosmedfollower::where('tanggal',date('Y-m-d'))
+                            ->where('unit_sosmed_id',$id)
+                            ->count();
+
+            if($cektanggal == 0)
+            {
+                $new=new \App\Models\Sosmed\Unitsosmedfollower;
+                $new->tanggal=date('Y-m-d');
+                $new->unit_sosmed_id=$id;
+                $new->follower=0;
+                $new->view_count=null;
+                $new->video_count=null;
+                $new->following=null;
+                $new->post_count=null;
+                $new->insert_user='jamal.apriadi@mncgroup.com';
+                $new->save();
+            }
+        }
 
         
         $this->info("yey sukses menyimpan data");

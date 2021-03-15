@@ -13,7 +13,7 @@
 
 return [
     //public 
-    // 'key' => 'AIzaSyDfSTrYRY2U3JDkxntl7rc9TGMX01AjuJ4'
+    'key' => 'AIzaSyDfSTrYRY2U3JDkxntl7rc9TGMX01AjuJ4'
 
     //locall
     // 'key' => 'AIzaSyDfSTrYRY2U3JDkxntl7rc9TGMX01AjuJ4'
@@ -22,7 +22,7 @@ return [
     // 'key' => 'AIzaSyB3nRvLiwAYZj9vis_Jk7euAKTbqIWJoz4'
 
     //cronjob 2
-    'key' => 'AIzaSyDNI2FrJGI_nxgGGYwxqNmmlpJB54Xesm8'
+    // 'key' => 'AIzaSyDNI2FrJGI_nxgGGYwxqNmmlpJB54Xesm8'
 
     //cronjob 3 
     // 'key' => 'AIzaSyDrDdx49-KUzn96CXHIjy4vfyE__3ibS4c'
