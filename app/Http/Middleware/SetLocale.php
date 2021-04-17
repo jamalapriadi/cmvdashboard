@@ -18,17 +18,17 @@ class SetLocale
      */
     public function handle($request, Closure $next)
     {
-        if (Session::has('locale')) {
-            $locale = Session::get('locale', Config::get('app.locale'));
-        } else {
-            $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
+        // if (Session::has('locale')) {
+        //     $locale = Session::get('locale', Config::get('app.locale'));
+        // } else {
+        //     $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
 
-            if ($locale != 'en') {
-                $locale = 'en';
-            }
-        }
+        //     if ($locale != 'en') {
+        //         $locale = 'en';
+        //     }
+        // }
 
-        App::setLocale($locale);
+        // App::setLocale($locale);
         
         return $next($request);
     }
