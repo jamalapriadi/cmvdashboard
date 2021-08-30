@@ -505,6 +505,20 @@
                 "parser",
                 "php"
             ],
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Flexer",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-25T17:44:05+00:00"
         },
         {
@@ -3186,16 +3200,16 @@
         },
         {
             "name": "phpfastcache/phpfastcache",
-            "version": "7.1.1",
+            "version": "7.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPSocialNetwork/phpfastcache.git",
-                "reference": "43586728fae8660d5ffc5b0d105502872ee8c17c"
+                "reference": "ee5e7fc730aeef7b0e0970adc038168b4087601c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/43586728fae8660d5ffc5b0d105502872ee8c17c",
-                "reference": "43586728fae8660d5ffc5b0d105502872ee8c17c",
+                "url": "https://api.github.com/repos/PHPSocialNetwork/phpfastcache/zipball/ee5e7fc730aeef7b0e0970adc038168b4087601c",
+                "reference": "ee5e7fc730aeef7b0e0970adc038168b4087601c",
                 "shasum": ""
             },
             "require": {
@@ -3292,7 +3306,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-04-24T21:51:24+00:00"
+            "time": "2021-08-12T11:55:02+00:00"
         },
         {
             "name": "phpoffice/common",
@@ -7064,6 +7078,7 @@
                     "type": "github"
                 }
             ],
+            "abandoned": "atymic/twitter",
             "time": "2020-09-09T00:05:36+00:00"
         },
         {
